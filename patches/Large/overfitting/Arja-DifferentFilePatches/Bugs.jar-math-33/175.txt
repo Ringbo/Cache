@@ -1,0 +1,46 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-29 05:56:21.412109000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/patches_g2lc/Patch_753/patched/tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-29 06:20:28.575488400 -0500
+@@ -295,17 +295,6 @@
+             return crossed;
+         }
+ 
+-        if (!in) {
+-            // search in the cut hyperplane
+-            final Vector3D hit3D = plane.intersection(line);
+-            if (hit3D != null) {
+-                final SubHyperplane<Euclidean3D> facet = boundaryFacet(hit3D, node);
+-                if (facet != null) {
+-                    return facet;
+-                }
+-            }
+-        }
+-
+         // search in the far branch
+         return recurseFirstIntersection(far, point, line);
+ 
+@@ -327,7 +316,8 @@
+             (((SubPlane) attribute.getPlusOutside()).getRemainingRegion().checkPoint(point2D) == Location.INSIDE)) {
+             return attribute.getPlusOutside();
+         }
+-        if ((attribute.getPlusInside() != null) &&
++        setSize(getSize() / 3.0);
++		if ((attribute.getPlusInside() != null) &&
+             (((SubPlane) attribute.getPlusInside()).getRemainingRegion().checkPoint(point2D) == Location.INSIDE)) {
+             return attribute.getPlusInside();
+         }
+
+
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/Plane.java	2018-12-29 05:56:21.408109000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/patches_g2lc/Patch_753/patched/tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/Plane.java	2018-12-29 06:20:28.575488400 -0500
+@@ -358,7 +358,8 @@
+      * instance (null if the line is parallel to the instance)
+      */
+     public Vector3D intersection(final Line line) {
+-        final Vector3D direction = line.getDirection();
++        v = Vector3D.crossProduct(w, u);
++		final Vector3D direction = line.getDirection();
+         final double   dot       = w.dotProduct(direction);
+         if (FastMath.abs(dot) < 1.0e-10) {
+             return null;
+
+

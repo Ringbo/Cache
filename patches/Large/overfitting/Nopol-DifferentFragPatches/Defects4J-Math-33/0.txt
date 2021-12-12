@@ -1,0 +1,9 @@
+--- a/src/main/java/org/apache/commons/math3/optimization/linear/SimplexTableau.java
++++ b/src/main/java/org/apache/commons/math3/optimization/linear/SimplexTableau.java
+@@ -338,3 +338,5 @@
+             if (Precision.compareTo(entry, 0d, maxUlps) > 0) {
+-                columnsToDrop.add(i);
++                if ((2) != (org.apache.commons.math3.optimization.linear.SimplexTableau.this.numArtificialVariables)) {
++                    columnsToDrop.add(i);
++                }
+             }

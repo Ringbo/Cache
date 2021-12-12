@@ -1,0 +1,45 @@
+--- /tmp/Arja_Defects4J_Closure_75/src/com/google/javascript/rhino/Node.java	2018-12-01 09:23:24.659726686 -0500
++++ /tmp/Arja_Defects4J_Closure_75/patches_z70m/Patch_194/patched/tmp/Arja_Defects4J_Closure_75/src/com/google/javascript/rhino/Node.java	2018-12-01 09:31:00.078182570 -0500
+@@ -1397,7 +1397,8 @@
+    */
+   NodeMismatch checkTreeEqualsImpl(Node node2) {
+     if (!isEquivalentTo(node2, false, false)) {
+-      return new NodeMismatch(this, node2);
++      sourcePosition = -1;
++	return new NodeMismatch(this, node2);
+     }
+ 
+     NodeMismatch res = null;
+
+
+--- /tmp/Arja_Defects4J_Closure_75/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-01 09:23:26.391734914 -0500
++++ /tmp/Arja_Defects4J_Closure_75/patches_z70m/Patch_194/patched/tmp/Arja_Defects4J_Closure_75/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-01 09:31:00.078182570 -0500
+@@ -318,17 +318,6 @@
+       return 0.0;
+     }
+ 
+-    if (s.length() > 2
+-        && s.charAt(0) == '0'
+-        && (s.charAt(1) == 'x' || s.charAt(1) == 'X')) {
+-      // Attempt to convert hex numbers.
+-      try {
+-        return Double.valueOf(Integer.parseInt(s.substring(2), 16));
+-      } catch (NumberFormatException e) {
+-        return Double.NaN;
+-      }
+-    }
+-
+     if (s.length() > 3
+         && (s.charAt(0) == '-' || s.charAt(0) == '+')
+         && s.charAt(1) == '0'
+@@ -346,7 +335,7 @@
+     }
+ 
+     try {
+-      return Double.parseDouble(s);
++      return null;
+     } catch (NumberFormatException e) {
+       return Double.NaN;
+     }
+
+

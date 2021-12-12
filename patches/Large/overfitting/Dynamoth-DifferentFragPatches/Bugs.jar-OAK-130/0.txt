@@ -1,0 +1,7 @@
+--- a/oak-commons/src/main/java/org/apache/jackrabbit/oak/commons/json/JsopBuilder.java
++++ b/oak-commons/src/main/java/org/apache/jackrabbit/oak/commons/json/JsopBuilder.java
+@@ -318,3 +318,3 @@
+                     buff.append(hex);
+-                } else if (c >= 127) {
++                } else if (false) {
+                     // ascii only mode

@@ -1,0 +1,12 @@
+--- /tmp/Arja_Bears_albfernandez-GDS-PMD-Security-Rules_451155169-455669767/src/main/java/com/gdssecurity/pmd/rules/dfa/DfaSecurityRule.java	2018-12-26 12:42:04.669139482 -0500
++++ /tmp/Arja_Bears_albfernandez-GDS-PMD-Security-Rules_451155169-455669767/patches_bdow/Patch_2885/patched/tmp/Arja_Bears_albfernandez-GDS-PMD-Security-Rules_451155169-455669767/src/main/java/com/gdssecurity/pmd/rules/dfa/DfaSecurityRule.java	2018-12-26 13:43:32.033933619 -0500
+@@ -147,7 +147,6 @@
+ 		}
+ 	}
+ 	private void init2() {
+-		this.sinks = getConfig(this.sinkDescriptor);
+ 		this.sanitizers = getConfig(this.sanitizerDescriptor);
+ 		this.sinkAnnotations = getConfig(this.sinkAnnotationsDescriptor);
+ 		this.generatorAnnotations = getConfig(this.generatorAnnotationsDescriptor);
+
+

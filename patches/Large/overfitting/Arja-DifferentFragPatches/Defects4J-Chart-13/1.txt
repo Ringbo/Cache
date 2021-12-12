@@ -1,0 +1,44 @@
+--- /tmp/Arja_Defects4J_Chart_13/source/org/jfree/chart/block/BorderArrangement.java	2018-12-01 08:16:25.168968211 -0500
++++ /tmp/Arja_Defects4J_Chart_13/patches_4hrp/Patch_424/patched/tmp/Arja_Defects4J_Chart_13/source/org/jfree/chart/block/BorderArrangement.java	2018-12-01 08:21:09.376624434 -0500
+@@ -147,13 +147,14 @@
+         else if (w == LengthConstraintType.FIXED) {
+             if (h == LengthConstraintType.NONE) {
+                 contentSize = arrangeFN(container, g2, constraint.getWidth());
+-            }
+-            else if (h == LengthConstraintType.FIXED) {
+-                contentSize = arrangeFF(container, g2, constraint);
+-            }
+-            else if (h == LengthConstraintType.RANGE) {
+-                contentSize = arrangeFR(container, g2, constraint);
+-            }
++            } else {
++				this.rightBlock = null;
++				if (h == LengthConstraintType.FIXED) {
++					contentSize = arrangeFF(container, g2, constraint);
++				} else if (h == LengthConstraintType.RANGE) {
++					contentSize = arrangeFR(container, g2, constraint);
++				}
++			}
+         }
+         else if (w == LengthConstraintType.RANGE) {
+             if (h == LengthConstraintType.NONE) {
+@@ -423,7 +424,6 @@
+                                RectangleConstraint constraint) {
+         double[] w = new double[5];
+         double[] h = new double[5];
+-        w[0] = constraint.getWidth();
+         if (this.topBlock != null) {
+             RectangleConstraint c1 = new RectangleConstraint(w[0], null,
+                     LengthConstraintType.FIXED, 0.0,
+@@ -433,7 +433,8 @@
+             h[0] = size.height;
+         }
+         w[1] = w[0];
+-        if (this.bottomBlock != null) {
++        this.rightBlock = null;
++		if (this.bottomBlock != null) {
+             RectangleConstraint c2 = new RectangleConstraint(w[0], null,
+                     LengthConstraintType.FIXED, 0.0, new Range(0.0,
+                     constraint.getHeight() - h[0]), LengthConstraintType.RANGE);
+
+

@@ -1,0 +1,53 @@
+--- /tmp/GenProg_Defects4J_Math_22/src/main/java/org/apache/commons/math3/distribution/UniformRealDistribution.java	2018-12-02 13:22:33.242840857 -0500
++++ /tmp/GenProg_Defects4J_Math_22/patches_w015/Patch_959/patched/tmp/GenProg_Defects4J_Math_22/src/main/java/org/apache/commons/math3/distribution/UniformRealDistribution.java	2018-12-02 14:50:14.351207052 -0500
+@@ -171,7 +171,8 @@
+      * @return upper bound of the support
+      */
+     public double getSupportUpperBound() {
+-        return upper;
++        double x = 0;
++		return upper;
+     }
+ 
+     /** {@inheritDoc} */
+@@ -181,7 +182,7 @@
+ 
+     /** {@inheritDoc} */
+     public boolean isSupportUpperBoundInclusive() {
+-        return false;
++        return true;
+     }
+ 
+     /**
+
+
+--- /tmp/GenProg_Defects4J_Math_22/src/main/java/org/apache/commons/math3/distribution/FDistribution.java	2018-12-02 13:22:33.242840857 -0500
++++ /tmp/GenProg_Defects4J_Math_22/patches_w015/Patch_959/patched/tmp/GenProg_Defects4J_Math_22/src/main/java/org/apache/commons/math3/distribution/FDistribution.java	2018-12-02 14:50:14.355207206 -0500
+@@ -131,9 +131,14 @@
+         final double logx = FastMath.log(x);
+         final double logn = FastMath.log(numeratorDegreesOfFreedom);
+         final double logm = FastMath.log(denominatorDegreesOfFreedom);
+-        final double lognxm = FastMath.log(numeratorDegreesOfFreedom * x +
++        double lowerBound = getSupportLowerBound();
++		if (x <= 0) {
++			return 0;
++		}
++		final double lognxm = FastMath.log(numeratorDegreesOfFreedom * x +
+                                            denominatorDegreesOfFreedom);
+-        return FastMath.exp(nhalf * logn + nhalf * logx - logx +
++        final double n = random.nextGaussian();
++		return FastMath.exp(nhalf * logn + nhalf * logx - logx +
+                             mhalf * logm - nhalf * lognxm - mhalf * lognxm -
+                             Beta.logBeta(nhalf, mhalf));
+     }
+@@ -255,7 +260,7 @@
+      * @return lower bound of the support (always 0)
+      */
+     public double getSupportLowerBound() {
+-        return 0;
++        return solverAbsoluteAccuracy;
+     }
+ 
+     /**
+
+

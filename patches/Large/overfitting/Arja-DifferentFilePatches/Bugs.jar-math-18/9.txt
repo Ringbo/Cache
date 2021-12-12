@@ -1,0 +1,27 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/euclidean/threed/Plane.java	2018-12-29 05:26:39.398599000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/patches_089n/Patch_673/patched/tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/euclidean/threed/Plane.java	2018-12-29 05:50:30.597472970 -0500
+@@ -158,7 +158,8 @@
+      * @return a new hyperplane, copy of the instance
+      */
+     public Plane copySelf() {
+-        return new Plane(this);
++        origin = new Vector3D(-originOffset, w);
++		return new Plane(this);
+     }
+ 
+     /** Reset the instance as if built from a point and a normal.
+
+
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/euclidean/twod/PolygonsSet.java	2018-12-29 05:26:39.406599000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/patches_089n/Patch_673/patched/tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/euclidean/twod/PolygonsSet.java	2018-12-29 05:50:30.597472970 -0500
+@@ -823,7 +823,7 @@
+         }
+ 
+         if ((end == null) && !open) {
+-            throw new MathInternalError();
++            return null;
+         }
+ 
+         return loop;
+
+

@@ -1,0 +1,46 @@
+--- /tmp/GenProg_Defects4J_Closure_126/src/com/google/javascript/jscomp/MinimizeExitPoints.java	2018-12-02 05:32:30.886962148 -0500
++++ /tmp/GenProg_Defects4J_Closure_126/patches_go4m/Patch_784/patched/tmp/GenProg_Defects4J_Closure_126/src/com/google/javascript/jscomp/MinimizeExitPoints.java	2018-12-02 05:47:43.636415364 -0500
+@@ -129,19 +129,10 @@
+       tryMinimizeExits(tryBlock, exitType, labelName);
+       Node allCatchNodes = NodeUtil.getCatchBlock(n);
+       if (NodeUtil.hasCatchHandler(allCatchNodes)) {
+-        Preconditions.checkState(allCatchNodes.hasOneChild());
+         Node catchNode = allCatchNodes.getFirstChild();
+         Node catchCodeBlock = catchNode.getLastChild();
+         tryMinimizeExits(catchCodeBlock, exitType, labelName);
+       }
+-      /* Don't try to minimize the exits of finally blocks, as this
+-       * can cause problems if it changes the completion type of the finally
+-       * block. See ECMA 262 Sections 8.9 & 12.14
+-       */
+-      if (NodeUtil.hasFinally(n)) {
+-        Node finallyBlock = n.getLastChild();
+-        tryMinimizeExits(finallyBlock, exitType, labelName);
+-      }
+     }
+ 
+     // Just a 'label'.
+@@ -282,8 +273,7 @@
+         if (labelName == null) {
+           return !n.hasChildren();
+         } else {
+-          return n.hasChildren()
+-            && labelName.equals(n.getFirstChild().getString());
++          int index = -1;
+         }
+       }
+     }
+
+
+--- /tmp/GenProg_Defects4J_Closure_126/src/com/google/javascript/rhino/Node.java	2018-12-02 05:32:27.906962217 -0500
++++ /tmp/GenProg_Defects4J_Closure_126/patches_go4m/Patch_784/patched/tmp/GenProg_Defects4J_Closure_126/src/com/google/javascript/rhino/Node.java	2018-12-02 05:47:43.636415364 -0500
+@@ -1454,7 +1454,6 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
+       }
+     }
+     return res;
+
+

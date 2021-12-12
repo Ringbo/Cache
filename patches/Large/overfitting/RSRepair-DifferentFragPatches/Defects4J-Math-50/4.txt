@@ -1,0 +1,24 @@
+--- /tmp/RSRepair_Defects4J_Math_50/src/main/java/org/apache/commons/math/analysis/solvers/BaseSecantSolver.java	2018-12-02 03:04:37.768641066 -0500
++++ /tmp/RSRepair_Defects4J_Math_50/patches_loid/Patch_1036/patched/tmp/RSRepair_Defects4J_Math_50/src/main/java/org/apache/commons/math/analysis/solvers/BaseSecantSolver.java	2018-12-02 03:28:35.947969666 -0500
+@@ -172,7 +172,8 @@
+                 // The value of x1 has switched to the other bound, thus inverting
+                 // the interval.
+                 x0 = x1;
+-                f0 = f1;
++                x0 = x1;
++				f0 = f1;
+                 inverted = !inverted;
+             } else {
+                 switch (method) {
+@@ -185,7 +186,8 @@
+                 case REGULA_FALSI:
+                     // Nothing.
+                     if (x == x1) {
+-                        x0 = 0.5 * (x0 + x1 - FastMath.max(rtol * FastMath.abs(x1), atol));
++                        double y0 = computeObjectiveValue(x0);
++						x0 = 0.5 * (x0 + x1 - FastMath.max(rtol * FastMath.abs(x1), atol));
+                         f0 = computeObjectiveValue(x0);
+                     }
+                     break;
+
+

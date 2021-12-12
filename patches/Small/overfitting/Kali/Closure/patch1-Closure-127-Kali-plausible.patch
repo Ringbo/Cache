@@ -1,0 +1,12 @@
+--- /src/com/google/javascript/jscomp/UnreachableCodeElimination.java
++++ /src/com/google/javascript/jscomp/UnreachableCodeElimination.java
+@@ -167,7 +167,7 @@
+                 outEdges.get(0).getValue() == Branch.UNCOND);
+             Node fallThrough = computeFollowing(n);
+             Node nextCfgNode = outEdges.get(0).getDestination().getValue();
+-            if (nextCfgNode == fallThrough) {
++            if (false) {
+               removeNode(n);
+             }
+           }
+

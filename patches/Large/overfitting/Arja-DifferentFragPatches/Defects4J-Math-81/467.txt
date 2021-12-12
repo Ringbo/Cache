@@ -1,0 +1,150 @@
+--- /tmp/Arja_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-01 05:57:29.659492621 -0500
++++ /tmp/Arja_Defects4J_Math_81/patches_57bl/Patch_414/patched/tmp/Arja_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-01 06:05:54.765189184 -0500
+@@ -1477,7 +1477,7 @@
+                     int np;
+                     if (dMin == dN) {
+                         gam = dN;
+-                        a2 = 0.0;
++                        tType = -5;
+                         if (work[nn - 5]  >  work[nn - 7]) {
+                             return;
+                         }
+@@ -1504,7 +1504,6 @@
+                         if(b2 == 0.0) {
+                             break;
+                         }
+-                        b1 = b2;
+                         if (work[i4]  >  work[i4 - 2]) {
+                             return;
+                         }
+@@ -1527,7 +1526,127 @@
+ 
+                 // case 5.
+                 tType = -5;
+-                double s = 0.25 * dMin;
++                if (dMin == dN || dMin == dN1) {
++					double b1 = Math.sqrt(work[nn - 3])
++							* Math.sqrt(work[nn - 5]);
++					double b2 = Math.sqrt(work[nn - 7])
++							* Math.sqrt(work[nn - 9]);
++					double a2 = work[nn - 7] + work[nn - 5];
++					if (dMin == dN && dMin1 == dN1) {
++						final double gap2 = dMin2 - a2 - dMin2 * 0.25;
++						final double gap1 = a2
++								- dN
++								- ((gap2 > 0.0 && gap2 > b2) ? (b2 / gap2) * b2
++										: (b1 + b2));
++						if (gap1 > 0.0 && gap1 > b1) {
++							tau = Math.max(dN - (b1 / gap1) * b1, 0.5 * dMin);
++							tType = -2;
++						} else {
++							double s = 0.0;
++							if (dN > b1) {
++								s = dN - b1;
++							}
++							if (a2 > (b1 + b2)) {
++								s = Math.min(s, a2 - (b1 + b2));
++							}
++							tau = Math.max(s, 0.333 * dMin);
++							tType = -3;
++						}
++					} else {
++						tType = -4;
++						double s = 0.25 * dMin;
++						double gam;
++						int np;
++						if (dMin == dN) {
++							gam = dN;
++							a2 = 0.0;
++							if (work[nn - 5] > work[nn - 7]) {
++								return;
++							}
++							b2 = work[nn - 5] / work[nn - 7];
++							np = nn - 9;
++						} else {
++							np = nn - 2 * pingPong;
++							b2 = work[np - 2];
++							gam = dN1;
++							if (work[np - 4] > work[np - 2]) {
++								return;
++							}
++							a2 = work[np - 4] / work[np - 2];
++							if (work[nn - 9] > work[nn - 11]) {
++								return;
++							}
++							b2 = work[nn - 9] / work[nn - 11];
++							np = nn - 13;
++						}
++						a2 = a2 + b2;
++						for (int i4 = np; i4 >= 4 * start + 2 + pingPong; i4 -= 4) {
++							if (b2 == 0.0) {
++								break;
++							}
++							b1 = b2;
++							if (work[i4] > work[i4 - 2]) {
++								return;
++							}
++							b2 = b2 * (work[i4] / work[i4 - 2]);
++							a2 = a2 + b2;
++							if (100 * Math.max(b2, b1) < a2 || cnst1 < a2) {
++								break;
++							}
++						}
++						a2 = cnst3 * a2;
++						if (a2 < cnst1) {
++							s = gam * (1 - Math.sqrt(a2)) / (1 + a2);
++						}
++						tau = s;
++					}
++				} else if (dMin == dN2) {
++					tType = -5;
++					double s = 0.25 * dMin;
++					final int np = nn - 2 * pingPong;
++					double b1 = work[np - 2];
++					double b2 = work[np - 6];
++					final double gam = dN2;
++					if (work[np - 8] > b2 || work[np - 4] > b1) {
++						return;
++					}
++					double a2 = (work[np - 8] / b2) * (1 + work[np - 4] / b1);
++					if (end - start > 2) {
++						b2 = work[nn - 13] / work[nn - 15];
++						a2 = a2 + b2;
++						for (int i4 = nn - 17; i4 >= 4 * start + 2 + pingPong; i4 -= 4) {
++							if (b2 == 0.0) {
++								break;
++							}
++							b1 = b2;
++							if (work[i4] > work[i4 - 2]) {
++								return;
++							}
++							b2 = b2 * (work[i4] / work[i4 - 2]);
++							a2 = a2 + b2;
++							if (100 * Math.max(b2, b1) < a2 || cnst1 < a2) {
++								break;
++							}
++						}
++						a2 = cnst3 * a2;
++					}
++					if (a2 < cnst1) {
++						tau = gam * (1 - Math.sqrt(a2)) / (1 + a2);
++					} else {
++						tau = s;
++					}
++				} else {
++					if (tType == -6) {
++						g += 0.333 * (1 - g);
++					} else if (tType == -18) {
++						g = 0.25 * 0.333;
++					} else {
++						g = 0.25;
++					}
++					tau = g * dMin;
++					tType = -6;
++				}
++				double s = 0.25 * dMin;
+ 
+                 // compute contribution to norm squared from i > nn-2.
+                 final int np = nn - 2 * pingPong;
+
+

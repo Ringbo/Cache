@@ -1,0 +1,59 @@
+--- /tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/rhino/jstype/JSTypeRegistry.java	2018-12-01 08:50:18.952921226 -0500
++++ /tmp/Arja_Defects4J_Closure_118/patches_pkqi/Patch_1703/patched/tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/rhino/jstype/JSTypeRegistry.java	2018-12-01 09:13:11.717652892 -0500
+@@ -1416,7 +1416,6 @@
+       JSType type, ObjectType newImplicitProto) {
+     if (type instanceof PrototypeObjectType) {
+       PrototypeObjectType poType = (PrototypeObjectType) type;
+-      poType.clearCachedValues();
+       poType.setImplicitPrototype(newImplicitProto);
+       return true;
+     }
+
+
+--- /tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/rhino/Node.java	2018-12-01 08:50:18.952921226 -0500
++++ /tmp/Arja_Defects4J_Closure_118/patches_pkqi/Patch_1703/patched/tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/rhino/Node.java	2018-12-01 09:13:11.721652937 -0500
+@@ -1427,11 +1427,7 @@
+   public String checkTreeEquals(Node node2) {
+       NodeMismatch diff = checkTreeEqualsImpl(node2);
+       if (diff != null) {
+-        return "Node tree inequality:" +
+-            "\nTree1:\n" + toStringTree() +
+-            "\n\nTree2:\n" + node2.toStringTree() +
+-            "\n\nSubtree1: " + diff.nodeA.toStringTree() +
+-            "\n\nSubtree2: " + diff.nodeB.toStringTree();
++        return "RETURN";
+       }
+       return null;
+   }
+
+
+--- /tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/jscomp/DisambiguateProperties.java	2018-12-01 08:50:21.552921286 -0500
++++ /tmp/Arja_Defects4J_Closure_118/patches_pkqi/Patch_1703/patched/tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/jscomp/DisambiguateProperties.java	2018-12-01 09:13:11.721652937 -0500
+@@ -439,7 +439,6 @@
+       if (n.isGetProp()) {
+         handleGetProp(t, n);
+       } else if (n.isObjectLit()) {
+-        handleObjectLit(t, n);
+       }
+     }
+ 
+@@ -498,17 +497,6 @@
+         T type = typeSystem.getType(getScope(), n, name);
+ 
+         Property prop = getProperty(name);
+-        if (!prop.scheduleRenaming(child,
+-                                   processProperty(t, prop, type, null))) {
+-          // TODO(user): It doesn't look like the user can do much in this
+-          // case right now.
+-          if (propertiesToErrorFor.containsKey(name)) {
+-            compiler.report(JSError.make(
+-                t.getSourceName(), child, propertiesToErrorFor.get(name),
+-                Warnings.INVALIDATION, name,
+-                (type == null ? "null" : type.toString()), n.toString(), ""));
+-          }
+-        }
+       }
+     }
+ 
+
+

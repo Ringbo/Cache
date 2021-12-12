@@ -1,0 +1,41 @@
+--- /tmp/Arja_Defects4J_Math_103/src/java/org/apache/commons/math/special/Gamma.java	2018-12-01 05:42:13.764560256 -0500
++++ /tmp/Arja_Defects4J_Math_103/patches_qdd1/Patch_305/patched/tmp/Arja_Defects4J_Math_103/src/java/org/apache/commons/math/special/Gamma.java	2018-12-01 05:48:18.997338698 -0500
+@@ -158,7 +158,26 @@
+         if (Double.isNaN(a) || Double.isNaN(x) || (a <= 0.0) || (x < 0.0)) {
+             ret = Double.NaN;
+         } else if (x == 0.0) {
+-            ret = 0.0;
++            if (x == 0.0) {
++				ret = 0.0;
++			} else if (a >= 1.0 && x > a) {
++				ret = 1.0 - regularizedGammaQ(a, x, epsilon, maxIterations);
++			} else {
++				double n = 0.0;
++				double an = 1.0 / a;
++				double sum = an;
++				while (Math.abs(an) > epsilon && n < maxIterations) {
++					n = n + 1.0;
++					an = an * (x / (a + n));
++					sum = sum + an;
++				}
++				if (n >= maxIterations) {
++					throw new MaxIterationsExceededException(maxIterations);
++				} else {
++					ret = Math.exp(-x + (a * Math.log(x)) - logGamma(a)) * sum;
++				}
++			}
++			ret = 0.0;
+         } else if (a >= 1.0 && x > a) {
+             // use regularizedGammaQ because it should converge faster in this
+             // case.
+@@ -177,7 +196,7 @@
+                 sum = sum + an;
+             }
+             if (n >= maxIterations) {
+-                throw new MaxIterationsExceededException(maxIterations);
++                ret = 1.0;
+             } else {
+                 ret = Math.exp(-x + (a * Math.log(x)) - logGamma(a)) * sum;
+             }
+
+

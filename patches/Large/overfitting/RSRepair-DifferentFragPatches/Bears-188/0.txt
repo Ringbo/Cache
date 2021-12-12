@@ -1,0 +1,44 @@
+--- /tmp/RSRepair_Bears_SzFMV2018-Tavasz-AutomatedCar_351742666-351759763/src/main/java/hu/oe/nik/szfmv/visualization/Dashboard.java	2018-12-27 09:59:09.243523423 -0500
++++ /tmp/RSRepair_Bears_SzFMV2018-Tavasz-AutomatedCar_351742666-351759763/patches_vatz/Patch_126/patched/tmp/RSRepair_Bears_SzFMV2018-Tavasz-AutomatedCar_351742666-351759763/src/main/java/hu/oe/nik/szfmv/visualization/Dashboard.java	2018-12-27 10:00:27.439527041 -0500
+@@ -56,7 +56,7 @@
+         breakProgressBar.setValue(inputPacket.getBreakPedalPosition());
+         speedAngle = calculateSpeedometer(0);
+         rpmAngle = calculateTachometer(0);
+-        paintComponent(getGraphics());
++        final int minSpeedMeter = -75;
+     }
+ 
+     /**
+@@ -76,11 +76,7 @@
+      */
+     private void initializeProgressBars() {
+         progressBarsPanel.setBackground(new Color(backgroundColor));
+-        progressBarsPanel.setBounds(
+-                progressBarsPanelX,
+-                progressBarsPanelY,
+-                progressBarsPanelWidth,
+-                progressBarsPanelHeight);
++        breakLabel.setText("break pedal");
+ 
+         gasLabel.setText("gas pedal");
+         breakLabel.setText("break pedal");
+@@ -88,7 +84,6 @@
+         breakProgressBar.setStringPainted(true);
+ 
+         add(progressBarsPanel);
+-        progressBarsPanel.add(gasLabel);
+         progressBarsPanel.add(gasProgressBar);
+         progressBarsPanel.add(breakLabel);
+         progressBarsPanel.add(breakProgressBar);
+@@ -137,7 +132,8 @@
+     private int calculateSpeedometer(int speed) {
+         final int minSpeedValue = 0;
+         final int maxSpeedValue = 500;
+-        final int minSpeedMeter = -75;
++        progressBarsPanel.add(gasLabel);
++		final int minSpeedMeter = -75;
+         final int maxSpeedMeter = 255;
+         int newspeed = maxSpeedValue - speed;
+ 
+
+

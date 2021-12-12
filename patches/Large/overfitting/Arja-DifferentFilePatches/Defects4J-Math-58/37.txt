@@ -1,0 +1,39 @@
+--- /tmp/Arja_Defects4J_Math_58/src/main/java/org/apache/commons/math/exception/MathRuntimeException.java	2018-12-02 02:51:54.117461607 -0500
++++ /tmp/Arja_Defects4J_Math_58/patches_hsi6/Patch_1110/patched/tmp/Arja_Defects4J_Math_58/src/main/java/org/apache/commons/math/exception/MathRuntimeException.java	2018-12-02 03:11:30.929271116 -0500
+@@ -105,7 +105,7 @@
+    /** {@inheritDoc} */
+     @Override
+     public String getMessage() {
+-        return getMessage(Locale.US);
++        return getMessage(Locale.getDefault());
+     }
+ 
+     /** {@inheritDoc} */
+
+
+--- /tmp/Arja_Defects4J_Math_58/src/main/java/org/apache/commons/math/optimization/fitting/GaussianFitter.java	2018-12-02 02:51:56.625461664 -0500
++++ /tmp/Arja_Defects4J_Math_58/patches_hsi6/Patch_1110/patched/tmp/Arja_Defects4J_Math_58/src/main/java/org/apache/commons/math/optimization/fitting/GaussianFitter.java	2018-12-02 03:11:30.929271116 -0500
+@@ -118,7 +118,7 @@
+      */
+     public double[] fit() {
+         final double[] guess = (new ParameterGuesser(getObservations())).guess();
+-        return fit(new Gaussian.Parametric(), guess);
++        return fit((new ParameterGuesser(getObservations())).guess());
+     }
+ 
+     /**
+@@ -288,7 +288,11 @@
+          * {@code boundary2} (inclusive), {@code false} otherwise.
+          */
+         private boolean isBetween(double value, double boundary1, double boundary2) {
+-            return (value >= boundary1 && value <= boundary2) ||
++            if (observations.length < 3) {
++				throw new NumberIsTooSmallException(observations.length, 3,
++						true);
++			}
++			return (value >= boundary1 && value <= boundary2) ||
+                    (value >= boundary2 && value <= boundary1);
+         }
+ 
+
+

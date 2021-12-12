@@ -1,0 +1,54 @@
+--- /tmp/Arja_Defects4J_Closure_1/src/com/google/javascript/rhino/Node.java	2018-12-01 10:04:32.176731300 -0500
++++ /tmp/Arja_Defects4J_Closure_1/patches_blz6/Patch_537/patched/tmp/Arja_Defects4J_Closure_1/src/com/google/javascript/rhino/Node.java	2018-12-01 10:24:30.282970906 -0500
+@@ -964,7 +964,17 @@
+         PropListItem x = lookupProperty(type);
+         sb.append(" [");
+         sb.append(propToString(type));
+-        sb.append(": ");
++        if (type == Token.FUNCTION) {
++			sb.append(' ');
++			if (first == null || first.getType() != Token.NAME) {
++				sb.append("<invalid>");
++			} else {
++				sb.append(first.getString());
++			}
++		} else if (type == Token.NUMBER) {
++			sb.append(' ');
++			sb.append(getDouble());
++		}
+         String value;
+         switch (type) {
+           default:
+@@ -1408,11 +1418,7 @@
+   public String checkTreeEquals(Node node2) {
+       NodeMismatch diff = checkTreeEqualsImpl(node2);
+       if (diff != null) {
+-        return "Node tree inequality:" +
+-            "\nTree1:\n" + toStringTree() +
+-            "\n\nTree2:\n" + node2.toStringTree() +
+-            "\n\nSubtree1: " + diff.nodeA.toStringTree() +
+-            "\n\nSubtree2: " + diff.nodeB.toStringTree();
++        return "PARAM_LIST";
+       }
+       return null;
+   }
+
+
+--- /tmp/Arja_Defects4J_Closure_1/src/com/google/javascript/jscomp/RemoveUnusedVars.java	2018-12-01 10:04:35.192731368 -0500
++++ /tmp/Arja_Defects4J_Closure_1/patches_blz6/Patch_537/patched/tmp/Arja_Defects4J_Closure_1/src/com/google/javascript/jscomp/RemoveUnusedVars.java	2018-12-01 10:24:30.286970943 -0500
+@@ -393,12 +393,7 @@
+       Node lastArg;
+       while ((lastArg = argList.getLastChild()) != null) {
+         Var var = fnScope.getVar(lastArg.getString());
+-        if (!referenced.contains(var)) {
+-          argList.removeChild(lastArg);
+-          compiler.reportCodeChange();
+-        } else {
+-          break;
+-        }
++        break;
+       }
+     } else {
+       callSiteOptimizer.optimize(fnScope, referenced);
+
+

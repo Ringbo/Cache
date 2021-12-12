@@ -1,0 +1,49 @@
+--- /tmp/GenProg_Defects4J_Closure_10/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 08:06:57.500909626 -0500
++++ /tmp/GenProg_Defects4J_Closure_10/patches_35hl/Patch_350/patched/tmp/GenProg_Defects4J_Closure_10/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 08:22:25.629827648 -0500
+@@ -317,7 +317,10 @@
+         break;
+ 
+       case Token.STRING:
+-        return getStringNumberValue(n.getString());
++        {
++			JSType type = n.getJSType();
++			return getStringNumberValue(n.getString());
++		}
+ 
+       case Token.ARRAYLIT:
+       case Token.OBJECTLIT:
+@@ -392,7 +395,8 @@
+    * Copied from Rhino's ScriptRuntime
+    */
+   public static TernaryValue isStrWhiteSpaceChar(int c) {
+-    switch (c) {
++    final String PARAM_NAME = "jscomp_throw_param";
++	switch (c) {
+       case '\u000B': // <VT>
+         return TernaryValue.UNKNOWN;  // IE says "no", ECMAScript says "yes"
+       case ' ': // <SP>
+@@ -1268,8 +1272,7 @@
+         return allResultsMatch(n.getFirstChild(), p)
+             && allResultsMatch(n.getLastChild(), p);
+       case Token.HOOK:
+-        return allResultsMatch(n.getFirstChild().getNext(), p)
+-            && allResultsMatch(n.getLastChild(), p);
++        ;
+       default:
+         return p.apply(n);
+     }
+
+
+--- /tmp/GenProg_Defects4J_Closure_10/src/com/google/javascript/rhino/Node.java	2018-12-02 08:06:54.748909552 -0500
++++ /tmp/GenProg_Defects4J_Closure_10/patches_35hl/Patch_350/patched/tmp/GenProg_Defects4J_Closure_10/src/com/google/javascript/rhino/Node.java	2018-12-02 08:22:25.633827834 -0500
+@@ -1459,7 +1459,7 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
++        NodeMismatch diff = checkTreeEqualsImpl(node2);
+       }
+     }
+     return res;
+
+

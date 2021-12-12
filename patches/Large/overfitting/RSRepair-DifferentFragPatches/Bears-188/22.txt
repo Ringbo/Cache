@@ -1,0 +1,32 @@
+--- /tmp/RSRepair_Bears_SzFMV2018-Tavasz-AutomatedCar_351742666-351759763/src/main/java/hu/oe/nik/szfmv/visualization/Dashboard.java	2018-12-27 09:59:09.243523423 -0500
++++ /tmp/RSRepair_Bears_SzFMV2018-Tavasz-AutomatedCar_351742666-351759763/patches_vatz/Patch_581/patched/tmp/RSRepair_Bears_SzFMV2018-Tavasz-AutomatedCar_351742666-351759763/src/main/java/hu/oe/nik/szfmv/visualization/Dashboard.java	2018-12-27 10:03:47.999585112 -0500
+@@ -56,7 +56,6 @@
+         breakProgressBar.setValue(inputPacket.getBreakPedalPosition());
+         speedAngle = calculateSpeedometer(0);
+         rpmAngle = calculateTachometer(0);
+-        paintComponent(getGraphics());
+     }
+ 
+     /**
+@@ -121,7 +120,8 @@
+         final int minRpmValue = 0;
+         final int maxRpmValue = 10000;
+         final int minRpmMeter = -75;
+-        final int maxRpmMeter = 255;
++        final int maxSpeedMeter = 255;
++		final int maxRpmMeter = 255;
+         int newrpm = maxRpmValue - rpm;
+ 
+         return (newrpm - minRpmValue) * (maxRpmMeter - minRpmMeter) / (maxRpmValue - minRpmValue) + minRpmMeter;
+@@ -139,7 +139,8 @@
+         final int maxSpeedValue = 500;
+         final int minSpeedMeter = -75;
+         final int maxSpeedMeter = 255;
+-        int newspeed = maxSpeedValue - speed;
++        final int minRpmValue = 0;
++		int newspeed = maxSpeedValue - speed;
+ 
+         return (newspeed - minSpeedValue) * (maxSpeedMeter - minSpeedMeter)
+                 / (maxSpeedValue - minSpeedValue) + minSpeedMeter;
+
+

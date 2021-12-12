@@ -1,0 +1,56 @@
+--- /tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/jscomp/RemoveUnusedPrototypeProperties.java	2018-12-02 06:51:37.259744610 -0500
++++ /tmp/GenProg_Defects4J_Closure_67/patches_0sb3/Patch_1165/patched/tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/jscomp/RemoveUnusedPrototypeProperties.java	2018-12-02 07:06:42.696897699 -0500
+@@ -96,11 +96,6 @@
+               canRemove = true;
+             }
+           }
+-
+-          if (canRemove) {
+-            declaration.remove();
+-            changed = true;
+-          }
+         }
+ 
+         logger.fine("Removed unused prototype property: " + nameInfo.name);
+
+
+--- /tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/rhino/Node.java	2018-12-02 06:51:37.279734609 -0500
++++ /tmp/GenProg_Defects4J_Closure_67/patches_0sb3/Patch_1165/patched/tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/rhino/Node.java	2018-12-02 07:06:42.696897699 -0500
+@@ -937,14 +937,6 @@
+         sb.append(getString());
+       } else if (type == Token.FUNCTION) {
+         sb.append(' ');
+-        // In the case of JsDoc trees, the first child is often not a string
+-        // which causes exceptions to be thrown when calling toString or
+-        // toStringTree.
+-        if (first == null || first.getType() != Token.NAME) {
+-          sb.append("<invalid>");
+-        } else {
+-          sb.append(first.getString());
+-        }
+       } else if (this instanceof ScriptOrFnNode) {
+         ScriptOrFnNode sof = (ScriptOrFnNode) this;
+         if (this instanceof FunctionNode) {
+@@ -1424,7 +1416,6 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
+       }
+     }
+     return res;
+
+
+--- /tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/rhino/Token.java	2018-12-02 06:51:37.283732609 -0500
++++ /tmp/GenProg_Defects4J_Closure_67/patches_0sb3/Patch_1165/patched/tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/rhino/Token.java	2018-12-02 07:06:42.700897688 -0500
+@@ -315,7 +315,7 @@
+           case NUMBER:          return "NUMBER";
+           case STRING:          return "STRING";
+           case NULL:            return "NULL";
+-          case THIS:            return "THIS";
++          case THIS:            ;
+           case FALSE:           return "FALSE";
+           case TRUE:            return "TRUE";
+           case SHEQ:            return "SHEQ";
+
+

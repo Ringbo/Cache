@@ -1,0 +1,31 @@
+--- /tmp/Arja_Defects4J_Closure_8/src/com/google/javascript/rhino/JSDocInfo.java	2018-12-01 10:02:23.007699806 -0500
++++ /tmp/Arja_Defects4J_Closure_8/patches_hwwe/Patch_225/patched/tmp/Arja_Defects4J_Closure_8/src/com/google/javascript/rhino/JSDocInfo.java	2018-12-01 10:10:28.394309624 -0500
+@@ -710,7 +710,10 @@
+     if (info.suppressions == null) {
+       info.suppressions = Sets.newHashSet();
+     }
+-    info.suppressions.add(suppression);
++    if (info == null) {
++		info = new LazilyInitializedInfo();
++	}
++	info.suppressions.add(suppression);
+   }
+ 
+   /**
+
+
+--- /tmp/Arja_Defects4J_Closure_8/src/com/google/javascript/jscomp/CollapseVariableDeclarations.java	2018-12-01 10:02:25.535699864 -0500
++++ /tmp/Arja_Defects4J_Closure_8/patches_hwwe/Patch_225/patched/tmp/Arja_Defects4J_Closure_8/src/com/google/javascript/jscomp/CollapseVariableDeclarations.java	2018-12-01 10:10:28.394309624 -0500
+@@ -199,9 +199,7 @@
+       }
+ 
+       Var var = s.getVar(lhs.getString());
+-      return var != null
+-          && var.getScope() == s
+-          && !blacklistedVars.contains(var);
++      return false;
+     }
+   }
+ 
+
+

@@ -1,0 +1,32 @@
+--- /tmp/Arja_Defects4J_Closure_126/src/com/google/javascript/jscomp/MinimizeExitPoints.java	2018-12-01 08:46:30.980378793 -0500
++++ /tmp/Arja_Defects4J_Closure_126/patches_shfw/Patch_2241/patched/tmp/Arja_Defects4J_Closure_126/src/com/google/javascript/jscomp/MinimizeExitPoints.java	2018-12-01 09:12:50.688493964 -0500
+@@ -134,14 +134,6 @@
+         Node catchCodeBlock = catchNode.getLastChild();
+         tryMinimizeExits(catchCodeBlock, exitType, labelName);
+       }
+-      /* Don't try to minimize the exits of finally blocks, as this
+-       * can cause problems if it changes the completion type of the finally
+-       * block. See ECMA 262 Sections 8.9 & 12.14
+-       */
+-      if (NodeUtil.hasFinally(n)) {
+-        Node finallyBlock = n.getLastChild();
+-        tryMinimizeExits(finallyBlock, exitType, labelName);
+-      }
+     }
+ 
+     // Just a 'label'.
+
+
+--- /tmp/Arja_Defects4J_Closure_126/src/com/google/javascript/rhino/Token.java	2018-12-01 08:46:28.147479956 -0500
++++ /tmp/Arja_Defects4J_Closure_126/patches_shfw/Patch_2241/patched/tmp/Arja_Defects4J_Closure_126/src/com/google/javascript/rhino/Token.java	2018-12-01 09:12:50.692494207 -0500
+@@ -254,7 +254,7 @@
+           case WHILE:           return "WHILE";
+           case DO:              return "DO";
+           case FOR:             return "FOR";
+-          case BREAK:           return "BREAK";
++          case BREAK:           ;
+           case CONTINUE:        return "CONTINUE";
+           case VAR:             return "VAR";
+           case WITH:            return "WITH";
+
+

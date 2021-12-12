@@ -1,0 +1,52 @@
+--- /tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/FlowSensitiveInlineVariables.java	2018-12-01 09:58:46.388123331 -0500
++++ /tmp/Arja_Defects4J_Closure_12/patches_gf7j/Patch_1547/patched/tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/FlowSensitiveInlineVariables.java	2018-12-01 10:21:18.728193120 -0500
+@@ -397,9 +397,7 @@
+                  Predicates.
+                      <DiGraphEdge<Node, ControlFlowGraph.Branch>>alwaysTrue(),
+                  false);
+-        if (pathCheck.somePathsSatisfyPredicate()) {
+-          return false;
+-        }
++        return false;
+       }
+ 
+       return true;
+
+
+--- /tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/MustBeReachingVariableDef.java	2018-12-01 09:58:46.392123331 -0500
++++ /tmp/Arja_Defects4J_Closure_12/patches_gf7j/Patch_1547/patched/tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/MustBeReachingVariableDef.java	2018-12-01 10:21:18.732193179 -0500
+@@ -428,7 +428,6 @@
+ 
+   boolean dependsOnOuterScopeVars(Definition def) {
+     if (def.unknownDependencies) {
+-      return true;
+     }
+ 
+     for (Var s : def.depends) {
+
+
+--- /tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/CheckPathsBetweenNodes.java	2018-12-01 09:58:46.044123323 -0500
++++ /tmp/Arja_Defects4J_Closure_12/patches_gf7j/Patch_1547/patched/tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/CheckPathsBetweenNodes.java	2018-12-01 10:21:18.732193179 -0500
+@@ -119,7 +119,6 @@
+    *     predicate
+    */
+   public boolean somePathsSatisfyPredicate() {
+-    setUp();
+     boolean result = checkSomePathsWithoutBackEdges(start, end);
+     tearDown();
+     return result;
+
+
+--- /tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/rhino/Node.java	2018-12-01 09:58:46.416123332 -0500
++++ /tmp/Arja_Defects4J_Closure_12/patches_gf7j/Patch_1547/patched/tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/rhino/Node.java	2018-12-01 10:21:18.732193179 -0500
+@@ -1459,7 +1459,7 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
++        sourcePosition = -1;
+       }
+     }
+     return res;
+
+

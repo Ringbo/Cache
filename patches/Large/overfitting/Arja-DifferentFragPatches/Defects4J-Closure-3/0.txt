@@ -1,0 +1,29 @@
+--- /tmp/Arja_Defects4J_Closure_3/src/com/google/javascript/jscomp/FlowSensitiveInlineVariables.java	2018-12-01 10:04:42.028213916 -0500
++++ /tmp/Arja_Defects4J_Closure_3/patches_ft34/Patch_1825/patched/tmp/Arja_Defects4J_Closure_3/src/com/google/javascript/jscomp/FlowSensitiveInlineVariables.java	2018-12-01 10:32:30.764955294 -0500
+@@ -402,9 +402,7 @@
+                  Predicates.
+                      <DiGraphEdge<Node, ControlFlowGraph.Branch>>alwaysTrue(),
+                  false);
+-        if (pathCheck.somePathsSatisfyPredicate()) {
+-          return false;
+-        }
++        return false;
+       }
+ 
+       return true;
+@@ -418,13 +416,11 @@
+       Node useParent = use.getParent();
+       if (def.isAssign()) {
+         Node rhs = def.getLastChild();
+-        rhs.detachFromParent();
+         // Oh yes! I have grandparent to remove this.
+         Preconditions.checkState(defParent.isExprResult());
+         while (defParent.getParent().isLabel()) {
+           defParent = defParent.getParent();
+         }
+-        defParent.detachFromParent();
+         useParent.replaceChild(use, rhs);
+       } else if (defParent.isVar()) {
+         Node rhs = def.getLastChild();
+
+

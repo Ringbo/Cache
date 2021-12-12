@@ -1,0 +1,24 @@
+--- /tmp/RSRepair_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-02 08:31:50.719827596 -0500
++++ /tmp/RSRepair_Defects4J_Closure_55/patches_2m63/Patch_629/patched/tmp/RSRepair_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-02 08:44:06.812387568 -0500
+@@ -424,11 +424,6 @@
+ 
+       Node propName = getGetPropertyName(node);
+       if (propName != null) {
+-        if (propName.getType() != Token.STRING) {
+-          throw new IllegalStateException(
+-              "Expected STRING, got " + Token.name(propName.getType()));
+-        }
+-
+         return buildCallNode(FACTORY_METHOD_NAME, propName,
+                              node.getLineno(), node.getCharno());
+       } else {
+@@ -448,7 +443,6 @@
+       if (value != null &&
+           NodeUtil.isGetProp(value) &&
+           NodeUtil.isThis(value.getFirstChild())) {
+-        return value.getLastChild();
+       }
+       return null;
+     }
+
+

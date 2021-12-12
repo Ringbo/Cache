@@ -1,0 +1,25 @@
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-02 07:03:01.202376129 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_299/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-02 07:17:14.413542945 -0500
+@@ -76,7 +76,6 @@
+ 
+     // checkSuspiciousCode needs to be enabled for CheckGlobalThis to get run.
+     options.checkSuspiciousCode = true;
+-    options.checkGlobalThisLevel = CheckLevel.WARNING;
+     options.checkSymbols = true;
+     options.checkMissingReturn = CheckLevel.WARNING;
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckGlobalThis.java	2018-12-02 07:03:01.146376131 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_299/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckGlobalThis.java	2018-12-02 07:17:14.417543124 -0500
+@@ -161,8 +161,6 @@
+ 
+   private boolean shouldReportThis(Node n, Node parent) {
+     if (assignLhsChild != null) {
+-      // Always report a THIS on the left side of an assign.
+-      return true;
+     }
+ 
+     // Also report a THIS with a property access.
+
+

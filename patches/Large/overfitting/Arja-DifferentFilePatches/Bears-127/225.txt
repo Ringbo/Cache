@@ -1,0 +1,25 @@
+--- /tmp/Arja_Bears_traccar-traccar_273118899-273136493/src/org/traccar/protocol/EelinkProtocolDecoder.java	2018-12-26 12:59:39.444574687 -0500
++++ /tmp/Arja_Bears_traccar-traccar_273118899-273136493/patches_r2qe/Patch_639/patched/tmp/Arja_Bears_traccar-traccar_273118899-273136493/src/org/traccar/protocol/EelinkProtocolDecoder.java	2018-12-26 13:06:53.711009629 -0500
+@@ -129,8 +129,6 @@
+         position.setNetwork(new Network(CellTower.from(
+                 buf.readUnsignedShort(), buf.readUnsignedShort(), buf.readUnsignedShort(), buf.readUnsignedMedium())));
+ 
+-        position.setValid((buf.readUnsignedByte() & 0x01) != 0);
+-
+         if (type == MSG_GPS) {
+ 
+             if (buf.readableBytes() >= 2) {
+
+
+--- /tmp/Arja_Bears_traccar-traccar_273118899-273136493/src/org/traccar/BaseProtocol.java	2018-12-26 12:59:39.364534685 -0500
++++ /tmp/Arja_Bears_traccar-traccar_273118899-273136493/patches_r2qe/Patch_639/patched/tmp/Arja_Bears_traccar-traccar_273118899-273136493/src/org/traccar/BaseProtocol.java	2018-12-26 13:06:53.715009657 -0500
+@@ -44,7 +44,6 @@
+     }
+ 
+     public void setSupportedDataCommands(String... commands) {
+-        supportedDataCommands.addAll(Arrays.asList(commands));
+     }
+ 
+     public void setSupportedTextCommands(String... commands) {
+
+

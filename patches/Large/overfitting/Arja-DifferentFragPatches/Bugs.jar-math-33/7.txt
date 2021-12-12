@@ -1,0 +1,22 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-29 05:56:21.412109000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/patches_g2lc/Patch_1231/patched/tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-29 06:23:14.884138853 -0500
+@@ -268,7 +268,8 @@
+         final BSPTree<Euclidean3D> plus  = node.getPlus();
+         final Plane               plane = (Plane) cut.getHyperplane();
+ 
+-        // establish search order
++        setSize(0);
++		// establish search order
+         final double offset = plane.getOffset((Point<Euclidean3D>) point);
+         final boolean in    = FastMath.abs(offset) < 1.0e-10;
+         final BSPTree<Euclidean3D> near;
+@@ -325,7 +326,6 @@
+             (BoundaryAttribute<Euclidean3D>) node.getAttribute();
+         if ((attribute.getPlusOutside() != null) &&
+             (((SubPlane) attribute.getPlusOutside()).getRemainingRegion().checkPoint(point2D) == Location.INSIDE)) {
+-            return attribute.getPlusOutside();
+         }
+         if ((attribute.getPlusInside() != null) &&
+             (((SubPlane) attribute.getPlusInside()).getRemainingRegion().checkPoint(point2D) == Location.INSIDE)) {
+
+

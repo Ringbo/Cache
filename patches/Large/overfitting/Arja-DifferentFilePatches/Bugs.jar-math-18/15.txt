@@ -1,0 +1,50 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/euclidean/threed/Plane.java	2018-12-29 05:26:39.398599000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/patches_089n/Patch_1200/patched/tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/euclidean/threed/Plane.java	2018-12-29 05:55:08.014474215 -0500
+@@ -463,7 +463,8 @@
+      * @return a region covering the whole hyperplane
+      */
+     public SubPlane wholeHyperplane() {
+-        return new SubPlane(this, new PolygonsSet(tolerance));
++        origin = new Vector3D(-originOffset, w);
++		return new SubPlane(this, new PolygonsSet(tolerance));
+     }
+ 
+     /** Build a region covering the whole space.
+
+
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/euclidean/twod/PolygonsSet.java	2018-12-29 05:26:39.406599000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/patches_089n/Patch_1200/patched/tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/euclidean/twod/PolygonsSet.java	2018-12-29 05:55:08.014474215 -0500
+@@ -823,7 +823,7 @@
+         }
+ 
+         if ((end == null) && !open) {
+-            throw new MathInternalError();
++            return null;
+         }
+ 
+         return loop;
+
+
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/euclidean/oned/IntervalsSet.java	2018-12-29 05:26:39.390599000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/patches_089n/Patch_1200/patched/tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/euclidean/oned/IntervalsSet.java	2018-12-29 05:55:08.014474215 -0500
+@@ -650,10 +650,14 @@
+ 
+             } else {
+ 
+-                // the final interval is open toward infinity
+-                pending = new double[] {
+-                    getAngle(start), Double.POSITIVE_INFINITY
+-                };
++                if (end != null) {
++					pending = new double[] { getAngle(start), getAngle(end) };
++					current = end;
++				} else {
++					pending = new double[] { getAngle(start),
++							Double.POSITIVE_INFINITY };
++					current = null;
++				}
+ 
+                 // there won't be any other intervals
+                 current = null;
+
+

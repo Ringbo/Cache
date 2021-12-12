@@ -1,0 +1,108 @@
+--- /tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 05:32:20.512016874 -0500
++++ /tmp/GenProg_Defects4J_Closure_129/patches_qyo9/Patch_1718/patched/tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 06:03:35.956333096 -0500
+@@ -3162,7 +3162,7 @@
+       case Token.EXPR_RESULT:
+         return false;
+       case Token.CAST:
+-        return isExpressionResultUsed(parent);
++        ;
+       case Token.HOOK:
+       case Token.AND:
+       case Token.OR:
+
+
+--- /tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/rhino/Node.java	2018-12-02 05:32:20.528016873 -0500
++++ /tmp/GenProg_Defects4J_Closure_129/patches_qyo9/Patch_1718/patched/tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/rhino/Node.java	2018-12-02 06:03:35.960333104 -0500
+@@ -1425,11 +1425,38 @@
+   public String checkTreeEquals(Node node2) {
+       NodeMismatch diff = checkTreeEqualsImpl(node2);
+       if (diff != null) {
+-        return "Node tree inequality:" +
+-            "\nTree1:\n" + toStringTree() +
+-            "\n\nTree2:\n" + node2.toStringTree() +
+-            "\n\nSubtree1: " + diff.nodeA.toStringTree() +
+-            "\n\nSubtree2: " + diff.nodeB.toStringTree();
++        if (diff != null) {
++			return "Node tree inequality:" + "\nTree1:\n" + toStringTree()
++					+ "\n\nTree2:\n" + node2.toStringTree() + "\n\nSubtree1: "
++					+ diff.nodeA.toStringTree() + "\n\nSubtree2: "
++					+ diff.nodeB.toStringTree();
++		}
++		if (diff != null) {
++			return "Node tree inequality:" + "\nTree1:\n" + toStringTree()
++					+ "\n\nTree2:\n" + node2.toStringTree() + "\n\nSubtree1: "
++					+ diff.nodeA.toStringTree() + "\n\nSubtree2: "
++					+ diff.nodeB.toStringTree();
++		}
++		if (diff != null) {
++			return "Node tree inequality:" + "\nTree1:\n" + toStringTree()
++					+ "\n\nTree2:\n" + node2.toStringTree() + "\n\nSubtree1: "
++					+ diff.nodeA.toStringTree() + "\n\nSubtree2: "
++					+ diff.nodeB.toStringTree();
++		}
++		if (type == Token.NAME) {
++			String name = getString();
++			return name.isEmpty() ? null : name;
++		} else if (type == Token.GETPROP) {
++			String left = getFirstChild().getQualifiedName();
++			if (left == null) {
++				return null;
++			}
++			return left + "." + getLastChild().getString();
++		} else if (type == Token.THIS) {
++			return "this";
++		} else {
++			return null;
++		}
+       }
+       return null;
+   }
+@@ -1454,7 +1481,7 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
++        return null;
+       }
+     }
+     return res;
+@@ -1543,7 +1570,9 @@
+       }
+     } else if (type == Token.CALL) {
+       if (this.getBooleanProp(FREE_CALL) != node.getBooleanProp(FREE_CALL)) {
+-        return false;
++        if (compareJsType && !JSType.isEquivalent(jsType, node.getJSType())) {
++			return false;
++		}
+       }
+     }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/jscomp/CodeGenerator.java	2018-12-02 05:32:20.500016874 -0500
++++ /tmp/GenProg_Defects4J_Closure_129/patches_qyo9/Patch_1718/patched/tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/jscomp/CodeGenerator.java	2018-12-02 06:03:35.964333113 -0500
+@@ -529,7 +529,6 @@
+             || n.getBooleanProp(Node.FREE_CALL) && NodeUtil.isGet(first)) {
+           add("(0,");
+           addExpr(first, NodeUtil.precedence(Token.COMMA), Context.OTHER);
+-          add(")");
+         } else {
+           addExpr(first, NodeUtil.precedence(type), context);
+         }
+
+
+--- /tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 05:32:20.512016874 -0500
++++ /tmp/GenProg_Defects4J_Closure_129/patches_qyo9/Patch_1718/patched/tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 06:03:35.964333113 -0500
+@@ -1322,9 +1322,7 @@
+   private Node tryFoldGetElem(Node n, Node left, Node right) {
+     Preconditions.checkArgument(n.isGetElem());
+ 
+-    if (left.isObjectLit()) {
+-      return tryFoldObjectPropAccess(n, left, right);
+-    }
++    StringBuilder builder = new StringBuilder();
+ 
+     if (left.isArrayLit()) {
+       return tryFoldArrayAccess(n, left, right);
+
+

@@ -1,0 +1,13 @@
+--- /src/com/google/javascript/jscomp/TypeInference.java
++++ /src/com/google/javascript/jscomp/TypeInference.java
+@@ -1059,9 +1059,6 @@
+       JSType argType,
+       Map<TemplateType, JSType> resolvedTypes) {
+     if (paramType.isTemplateType()) {
+-      // @param {T}
+-      resolvedTemplateType(
+-          resolvedTypes, paramType.toMaybeTemplateType(), argType);
+     } else if (paramType.isUnionType()) {
+       // @param {Array.<T>|NodeList|Arguments|{length:number}}
+       UnionType unionType = paramType.toMaybeUnionType();
+

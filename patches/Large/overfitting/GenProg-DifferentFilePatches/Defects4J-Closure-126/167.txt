@@ -1,0 +1,28 @@
+--- /tmp/GenProg_Defects4J_Closure_126/src/com/google/javascript/rhino/Token.java	2018-12-02 05:32:27.906962217 -0500
++++ /tmp/GenProg_Defects4J_Closure_126/patches_go4m/Patch_1636/patched/tmp/GenProg_Defects4J_Closure_126/src/com/google/javascript/rhino/Token.java	2018-12-02 05:57:23.579551684 -0500
+@@ -226,7 +226,7 @@
+           case INSTANCEOF:      return "INSTANCEOF";
+           case ARRAYLIT:        return "ARRAYLIT";
+           case OBJECTLIT:       return "OBJECTLIT";
+-          case TRY:             return "TRY";
++          case TRY:             ;
+           case PARAM_LIST:      return "PARAM_LIST";
+           case COMMA:           return "COMMA";
+           case ASSIGN:          return "ASSIGN";
+
+
+--- /tmp/GenProg_Defects4J_Closure_126/src/com/google/javascript/jscomp/MinimizeExitPoints.java	2018-12-02 05:32:30.886962148 -0500
++++ /tmp/GenProg_Defects4J_Closure_126/patches_go4m/Patch_1636/patched/tmp/GenProg_Defects4J_Closure_126/src/com/google/javascript/jscomp/MinimizeExitPoints.java	2018-12-02 05:57:23.583551705 -0500
+@@ -139,8 +139,8 @@
+        * block. See ECMA 262 Sections 8.9 & 12.14
+        */
+       if (NodeUtil.hasFinally(n)) {
+-        Node finallyBlock = n.getLastChild();
+-        tryMinimizeExits(finallyBlock, exitType, labelName);
++        int type = n.getType();
++        StringBuilder builder = new StringBuilder();
+       }
+     }
+ 
+
+

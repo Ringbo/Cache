@@ -1,0 +1,29 @@
+--- /tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckMissingReturn.java	2018-12-01 09:32:09.991745553 -0500
++++ /tmp/Arja_Defects4J_Closure_59/patches_qxp9/Patch_1939/patched/tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckMissingReturn.java	2018-12-01 10:00:31.568409781 -0500
+@@ -159,10 +159,6 @@
+ 
+     JSType returnType = ((FunctionType) scopeType).getReturnType();
+ 
+-    if (returnType == null) {
+-      return null;
+-    }
+-
+     if (!isVoidOrUnknown(returnType)) {
+       return returnType;
+     }
+
+
+--- /tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckGlobalThis.java	2018-12-01 09:32:09.991745553 -0500
++++ /tmp/Arja_Defects4J_Closure_59/patches_qxp9/Patch_1939/patched/tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckGlobalThis.java	2018-12-01 10:00:31.572409783 -0500
+@@ -161,8 +161,7 @@
+ 
+   private boolean shouldReportThis(Node n, Node parent) {
+     if (assignLhsChild != null) {
+-      // Always report a THIS on the left side of an assign.
+-      return true;
++      return false;
+     }
+ 
+     // Also report a THIS with a property access.
+
+

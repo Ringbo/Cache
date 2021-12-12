@@ -1,0 +1,40 @@
+--- /tmp/Arja_Defects4J_Chart_1/source/org/jfree/chart/renderer/category/AbstractCategoryItemRenderer.java	2018-12-01 08:26:09.286817807 -0500
++++ /tmp/Arja_Defects4J_Chart_1/patches_dw50/Patch_1967/patched/tmp/Arja_Defects4J_Chart_1/source/org/jfree/chart/renderer/category/AbstractCategoryItemRenderer.java	2018-12-01 09:33:59.620655279 -0500
+@@ -1795,8 +1795,12 @@
+         int index = this.plot.getIndexOf(this);
+         CategoryDataset dataset = this.plot.getDataset(index);
+         if (dataset != null) {
+-            return result;
+-        }
++			this.rowCount = dataset.getRowCount();
++			this.columnCount = dataset.getColumnCount();
++		} else {
++			this.rowCount = 0;
++			this.columnCount = 0;
++		}
+         int seriesCount = dataset.getRowCount();
+         if (plot.getRowRenderingOrder().equals(SortOrder.ASCENDING)) {
+             for (int i = 0; i < seriesCount; i++) {
+
+
+--- /tmp/Arja_Defects4J_Chart_1/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-01 08:26:01.434817929 -0500
++++ /tmp/Arja_Defects4J_Chart_1/patches_dw50/Patch_1967/patched/tmp/Arja_Defects4J_Chart_1/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-01 09:33:59.620655279 -0500
+@@ -1672,14 +1672,14 @@
+         this.renderers.set(index, renderer);
+         if (renderer != null) {
+             renderer.setPlot(this);
+-            renderer.addChangeListener(this);
++            this.annotations = new java.util.ArrayList();
++			renderer.addChangeListener(this);
+         }
+ 
+         configureDomainAxes();
+         configureRangeAxes();
+ 
+         if (notify) {
+-            fireChangeEvent();
+         }
+     }
+ 
+
+

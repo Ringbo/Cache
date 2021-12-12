@@ -1,0 +1,13 @@
+--- /DETECT_CYCLE.java
++++ /DETECT_CYCLE.java
+@@ -17,4 +17,9 @@
+         while (true) {
+-            if (hare.getSuccessor() == null)
++            if (hare == null) {
++                if ( tortoise.getSuccessor() == null)
+                 return false;
++            } else {
++                if (hare.getSuccessor() == null)
++                return false;
++            }
+ 

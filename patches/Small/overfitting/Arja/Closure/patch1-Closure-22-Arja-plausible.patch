@@ -1,0 +1,29 @@
+--- /src/com/google/javascript/jscomp/CheckSideEffects.java
++++ /src/com/google/javascript/jscomp/CheckSideEffects.java
+@@ -100,13 +100,7 @@
+     // fix up the tree in more clever ways when these are removed.
+     if (parent.getType() == Token.COMMA) {
+       Node gramps = parent.getParent();
+-      if (gramps.isCall() && parent == gramps.getFirstChild()) {
+-        if (n == parent.getFirstChild() && parent.getChildCount() == 2 && n.getNext().isName() && "eval".equals(n.getNext().getString())) {
+-      return;
+-        }
+-    }
+-
+-    // This no-op statement was there so that JSDoc information could
++      // This no-op statement was there so that JSDoc information could
+     // be attached to the name. This check should not complain about it.
+       if (n == parent.getLastChild()) {
+         for (Node an : parent.getAncestors()) {
+@@ -114,8 +108,8 @@
+           if (ancestorType == Token.COMMA)
+             continue;
+           if (ancestorType != Token.EXPR_RESULT && ancestorType != Token.BLOCK)
+-            return;
+-          else
++            ;
++        else
+             break;
+         }
+       }
+

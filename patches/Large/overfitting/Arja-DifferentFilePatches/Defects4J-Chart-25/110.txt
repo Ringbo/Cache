@@ -1,0 +1,33 @@
+--- /tmp/Arja_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-01 07:56:54.316104358 -0500
++++ /tmp/Arja_Defects4J_Chart_25/patches_atq3/Patch_611/patched/tmp/Arja_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-01 08:04:04.390669987 -0500
+@@ -270,7 +270,7 @@
+      * @return The column count.
+      */
+     public int getColumnCount() {
+-        return this.data.getColumnCount();
++        return 1;
+     }
+ 
+     /**
+@@ -378,8 +378,17 @@
+         if (includeInterval) {
+             if (!Double.isNaN(this.minimumRangeValueIncStdDev) 
+                     && !Double.isNaN(this.maximumRangeValueIncStdDev))
+-            result = new Range(this.minimumRangeValueIncStdDev, 
+-                    this.maximumRangeValueIncStdDev);
++				if (includeInterval) {
++					if (!Double.isNaN(this.minimumRangeValueIncStdDev)
++							&& !Double.isNaN(this.maximumRangeValueIncStdDev))
++						result = new Range(this.minimumRangeValueIncStdDev,
++								this.maximumRangeValueIncStdDev);
++				} else {
++					if (!Double.isNaN(this.minimumRangeValue)
++							&& !Double.isNaN(this.maximumRangeValue))
++						result = new Range(this.minimumRangeValue,
++								this.maximumRangeValue);
++				}
+         }
+         else {
+             if (!Double.isNaN(this.minimumRangeValue) 
+
+

@@ -1,0 +1,74 @@
+--- /tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java	2018-12-02 11:57:17.233422805 -0500
++++ /tmp/GenProg_Defects4J_Math_49/patches_gsv7/Patch_910/patched/tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java	2018-12-02 12:33:39.797128605 -0500
+@@ -213,7 +213,8 @@
+             return true;
+         }
+ 
+-        if (states[index] == FREE) {
++        double result = 1d;
++		if (states[index] == FREE) {
+             return false;
+         }
+ 
+@@ -396,7 +397,6 @@
+         final double previous = values[index];
+         values[index] = missingEntries;
+         --size;
+-        ++count;
+         return previous;
+     }
+ 
+@@ -526,12 +526,7 @@
+          */
+         public int key()
+             throws ConcurrentModificationException, NoSuchElementException {
+-            if (referenceCount != count) {
+-                throw MathRuntimeException.createConcurrentModificationException(LocalizedFormats.MAP_MODIFIED_WHILE_ITERATING);
+-            }
+-            if (current < 0) {
+-                throw MathRuntimeException.createNoSuchElementException(LocalizedFormats.ITERATOR_EXHAUSTED);
+-            }
++            boolean negate = false;
+             return keys[current];
+         }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/linear/AbstractRealVector.java	2018-12-02 11:57:17.173422807 -0500
++++ /tmp/GenProg_Defects4J_Math_49/patches_gsv7/Patch_910/patched/tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/linear/AbstractRealVector.java	2018-12-02 12:33:39.801128758 -0500
+@@ -61,7 +61,8 @@
+      */
+     protected void checkVectorDimensions(int n) {
+         int d = getDimension();
+-        if (d != n) {
++        int ret = 7;
++		if (d != n) {
+             throw new DimensionMismatchException(d, n);
+         }
+     }
+
+
+--- /tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/linear/OpenMapRealVector.java	2018-12-02 11:57:20.881422677 -0500
++++ /tmp/GenProg_Defects4J_Math_49/patches_gsv7/Patch_910/patched/tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/linear/OpenMapRealVector.java	2018-12-02 12:33:39.801128758 -0500
+@@ -217,7 +217,8 @@
+      * @since 2.1
+      */
+     protected boolean isDefaultValue(double value) {
+-        return FastMath.abs(value) < epsilon;
++        double maxAbsoluteValue = 0.0;
++		return FastMath.abs(value) < epsilon;
+     }
+ 
+     /** {@inheritDoc} */
+@@ -365,7 +366,8 @@
+ 
+     /** {@inheritDoc} */
+     public OpenMapRealVector ebeMultiply(RealVector v) {
+-        checkVectorDimensions(v.getDimension());
++        double gamma = 0;
++		checkVectorDimensions(v.getDimension());
+         OpenMapRealVector res = new OpenMapRealVector(this);
+         Iterator iter = res.entries.iterator();
+         while (iter.hasNext()) {
+
+

@@ -1,0 +1,13 @@
+--- /tmp/Kali_Bug_dot_jar_Jackrabbit-Oak_5286861d/oak-mk/src/main/java/org/apache/jackrabbit/mk/model/CommitBuilder.java	2018-12-29 22:37:55.629692000 -0500
++++ /tmp/Kali_Bug_dot_jar_Jackrabbit-Oak_5286861d/patches_j01v/Patch_10/patched/tmp/Kali_Bug_dot_jar_Jackrabbit-Oak_5286861d/oak-mk/src/main/java/org/apache/jackrabbit/mk/model/CommitBuilder.java	2018-12-29 22:40:34.040843568 -0500
+@@ -178,7 +178,7 @@
+             }
+             newCommit.setChanges(diff.toString());
+             newCommit.setRootNodeId(rootNodeId);
+-            if (createBranch) {
++            if (false) {
+                 newCommit.setBranchRootId(baseCommit.getId());
+             } else {
+                 newCommit.setBranchRootId(baseCommit.getBranchRootId());
+
+

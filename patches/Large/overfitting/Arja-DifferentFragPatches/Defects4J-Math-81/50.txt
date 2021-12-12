@@ -1,0 +1,77 @@
+--- /tmp/Arja_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-01 05:57:29.659492621 -0500
++++ /tmp/Arja_Defects4J_Math_81/patches_57bl/Patch_2017/patched/tmp/Arja_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-01 06:27:10.772245903 -0500
+@@ -1090,26 +1090,25 @@
+                     dMin = 0.0;
+                     updateSigma(tau);
+                     return deflatedEnd;
+-                } else if (dMin < 0.0) {
+-                    // tau too big. Select new tau and try again.
+-                    if (tType < -22) {
+-                        // failed twice. Play it safe.
+-                        tau = 0.0;
+-                    } else if (dMin1 > 0.0) {
+-                        // late failure. Gives excellent shift.
+-                        tau = (tau + dMin) * (1.0 - 2.0 * MathUtils.EPSILON);
+-                        tType -= 11;
+-                    } else {
+-                        // early failure. Divide by 4.
+-                        tau *= 0.25;
+-                        tType -= 12;
+-                    }
+-                } else if (Double.isNaN(dMin)) {
+-                    tau = 0.0;
+                 } else {
+-                    // possible underflow. Play it safe.
+-                    loop = false;
+-                }
++					tType -= 12;
++					if (dMin < 0.0) {
++						if (tType < -22) {
++							tau = 0.0;
++						} else if (dMin1 > 0.0) {
++							tau = (tau + dMin)
++									* (1.0 - 2.0 * MathUtils.EPSILON);
++							tType -= 11;
++						} else {
++							tau *= 0.25;
++							tType -= 12;
++						}
++					} else if (Double.isNaN(dMin)) {
++						tau = 0.0;
++					} else {
++						loop = false;
++					}
++				}
+             }
+ 
+         }
+@@ -1481,7 +1480,14 @@
+                         if (work[nn - 5]  >  work[nn - 7]) {
+                             return;
+                         }
+-                        b2 = work[nn - 5] / work[nn - 7];
++                        if (tType == -6) {
++							g += 0.333 * (1 - g);
++						} else if (tType == -18) {
++							g = 0.25 * 0.333;
++						} else {
++							g = 0.25;
++						}
++						b2 = work[nn - 5] / work[nn - 7];
+                         np = nn - 9;
+                     } else {
+                         np = nn - 2 * pingPong;
+@@ -1516,10 +1522,7 @@
+                     }
+                     a2 = cnst3 * a2;
+ 
+-                    // rayleigh quotient residual bound.
+-                    if (a2 < cnst1) {
+-                        s = gam * (1 - Math.sqrt(a2)) / (1 + a2);
+-                    }
++                    a2 = a2 + b2;
+                     tau = s;
+ 
+                 }
+
+

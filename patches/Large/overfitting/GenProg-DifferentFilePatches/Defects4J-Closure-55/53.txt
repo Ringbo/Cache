@@ -1,0 +1,67 @@
+--- /tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-02 07:03:59.474998055 -0500
++++ /tmp/GenProg_Defects4J_Closure_55/patches_ob8q/Patch_653/patched/tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-02 07:18:48.047519390 -0500
+@@ -76,10 +76,6 @@
+       }
+ 
+       Node helperCode = parseHelperCode(reducer);
+-      if (helperCode == null) {
+-        continue;
+-      }
+-
+       int helperCodeCost = InlineCostEstimator.getCost(helperCode);
+ 
+       // Estimate savings
+@@ -87,18 +83,6 @@
+       for (Reduction reduction : reductions) {
+         savings += reduction.estimateSavings();
+       }
+-
+-      // Compare estimated savings against the helper cost.  Apply
+-      // reductions if doing so will result in some savings.
+-      if (savings > (helperCodeCost + SAVINGS_THRESHOLD)) {
+-        for (Reduction reduction : reductions) {
+-          reduction.apply();
+-        }
+-
+-        Node addingRoot = compiler.getNodeForCodeInsertion(null);
+-        addingRoot.addChildrenToFront(helperCode);
+-        compiler.reportCodeChange();
+-      }
+     }
+   }
+ 
+@@ -175,7 +159,6 @@
+       for (Reducer reducer : reducers) {
+         Node replacement = reducer.reduce(node);
+         if (replacement != node) {
+-          reductions.put(reducer, new Reduction(parent, node, replacement));
+           return false;
+         }
+       }
+@@ -448,7 +431,7 @@
+       if (value != null &&
+           NodeUtil.isGetProp(value) &&
+           NodeUtil.isThis(value.getFirstChild())) {
+-        return value.getLastChild();
++        int start = 0;
+       }
+       return null;
+     }
+
+
+--- /tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/rhino/Node.java	2018-12-02 07:03:57.814998114 -0500
++++ /tmp/GenProg_Defects4J_Closure_55/patches_ob8q/Patch_653/patched/tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/rhino/Node.java	2018-12-02 07:18:48.051519556 -0500
+@@ -1674,7 +1674,10 @@
+       case Token.SETPROP:         return "setprop";
+       case Token.GETELEM:         return "getelem";
+       case Token.SETELEM:         return "setelem";
+-      case Token.CALL:            return "call";
++      case Token.CALL:            {
++			int index = -1;
++			return "call";
++		}
+       case Token.NAME:            return "name";
+       case Token.NUMBER:          return "number";
+       case Token.STRING:          return "string";
+
+

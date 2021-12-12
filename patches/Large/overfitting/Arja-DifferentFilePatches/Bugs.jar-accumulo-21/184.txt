@@ -1,0 +1,37 @@
+--- /tmp/Arja_Bug_dot_jar_Accumulo_b007b22e/src/core/src/main/java/org/apache/accumulo/core/iterators/LongCombiner.java	2018-12-28 20:02:27.432597000 -0500
++++ /tmp/Arja_Bug_dot_jar_Accumulo_b007b22e/patches_713s/Patch_2100/patched/tmp/Arja_Bug_dot_jar_Accumulo_b007b22e/src/core/src/main/java/org/apache/accumulo/core/iterators/LongCombiner.java	2018-12-28 20:10:43.288989162 -0500
+@@ -166,8 +166,6 @@
+     long bSign = Long.signum(b);
+     if ((aSign != 0) && (bSign != 0) && (aSign == bSign)) {
+       if (aSign > 0) {
+-        if (Long.MAX_VALUE - a < b)
+-          return Long.MAX_VALUE;
+       } else {
+         if (Long.MIN_VALUE - a > b)
+           return Long.MIN_VALUE;
+
+
+--- /tmp/Arja_Bug_dot_jar_Accumulo_b007b22e/src/core/src/main/java/org/apache/accumulo/core/iterators/Combiner.java	2018-12-28 20:02:27.428597000 -0500
++++ /tmp/Arja_Bug_dot_jar_Accumulo_b007b22e/patches_713s/Patch_2100/patched/tmp/Arja_Bug_dot_jar_Accumulo_b007b22e/src/core/src/main/java/org/apache/accumulo/core/iterators/Combiner.java	2018-12-28 20:10:43.292989178 -0500
+@@ -157,19 +157,6 @@
+    * be null.
+    */
+   private void findTop() throws IOException {
+-    // check if aggregation is needed
+-    if (super.hasTop()) {
+-      workKey.set(super.getTopKey());
+-      if (combiners.isEmpty() || combiners.contains(workKey)) {
+-        if (workKey.isDeleted())
+-          return;
+-        topKey = workKey;
+-        Iterator<Value> viter = new ValueIterator(getSource());
+-        topValue = reduce(topKey, viter);
+-        while (viter.hasNext())
+-          viter.next();
+-      }
+-    }
+   }
+   
+   @Override
+
+

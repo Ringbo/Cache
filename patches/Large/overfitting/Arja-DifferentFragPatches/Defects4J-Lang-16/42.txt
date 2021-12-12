@@ -1,0 +1,23 @@
+--- /tmp/Arja_Defects4J_Lang_16/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-01 05:13:40.712736534 -0500
++++ /tmp/Arja_Defects4J_Lang_16/patches_of36/Patch_1019/patched/tmp/Arja_Defects4J_Lang_16/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-01 05:19:35.339758743 -0500
+@@ -463,7 +463,8 @@
+         String dec;
+         String exp;
+         int decPos = str.indexOf('.');
+-        int expPos = str.indexOf('e') + str.indexOf('E') + 1;
++        exp = null;
++		int expPos = str.indexOf('e') + str.indexOf('E') + 1;
+ 
+         if (decPos > -1) {
+ 
+@@ -542,7 +543,7 @@
+                     }
+                     //$FALL-THROUGH$
+                 default :
+-                    throw new NumberFormatException(str + " is not a valid number.");
++				return Integer.decode(str);
+ 
+             }
+         } else {
+
+

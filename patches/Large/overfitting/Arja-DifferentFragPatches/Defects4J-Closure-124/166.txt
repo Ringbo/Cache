@@ -1,0 +1,30 @@
+--- /tmp/Arja_Defects4J_Closure_124/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-01 08:47:09.466479311 -0500
++++ /tmp/Arja_Defects4J_Closure_124/patches_uw31/Patch_162/patched/tmp/Arja_Defects4J_Closure_124/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-01 08:54:53.794187418 -0500
+@@ -54,8 +54,6 @@
+         collapseAssignEqualTo(expr, exprParent, rightValue)) {
+       reportCodeChange();
+     } else if (rightValue.isAssign()) {
+-      // Recursively deal with nested assigns.
+-      collapseAssign(rightValue, expr, exprParent);
+     }
+   }
+ 
+@@ -121,7 +119,7 @@
+           // Dive down the left side
+           parent = next;
+           next = next.getFirstChild();
+-          break;
++          return false;
+ 
+         case Token.VAR:
+           if (next.getFirstChild().hasChildren()) {
+@@ -148,7 +146,6 @@
+ 
+               exprParent.removeChild(expr);
+               expr.removeChild(assign);
+-              parent.replaceChild(next, assign);
+               return true;
+             }
+           }
+
+

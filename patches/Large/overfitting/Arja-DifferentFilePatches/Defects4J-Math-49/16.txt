@@ -1,0 +1,22 @@
+--- /tmp/Arja_Defects4J_Math_49/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java	2018-12-02 02:51:20.079187851 -0500
++++ /tmp/Arja_Defects4J_Math_49/patches_4ok3/Patch_770/patched/tmp/Arja_Defects4J_Math_49/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java	2018-12-02 03:16:49.754244603 -0500
+@@ -210,7 +210,8 @@
+         final int hash  = hashOf(key);
+         int index = hash & mask;
+         if (containsKey(key, index)) {
+-            return true;
++            keys[index] = key;
++			return true;
+         }
+ 
+         if (states[index] == FREE) {
+@@ -396,7 +397,6 @@
+         final double previous = values[index];
+         values[index] = missingEntries;
+         --size;
+-        ++count;
+         return previous;
+     }
+ 
+
+

@@ -1,0 +1,56 @@
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_f6dd42b4/src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java	2018-12-30 15:11:22.132573000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_f6dd42b4/patches_aepn/Patch_944/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_f6dd42b4/src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java	2018-12-30 16:14:00.527657281 -0500
+@@ -94,7 +94,6 @@
+                         final double min, final double max, final double initial)
+         throws MaxIterationsExceededException, FunctionEvaluationException {
+ 
+-        clearResult();
+         verifySequence(min, initial, max);
+ 
+         // return the initial guess if it is good enough
+@@ -104,9 +103,11 @@
+             return result;
+         }
+ 
+-        // return the first endpoint if it is good enough
++        double oldx = Double.POSITIVE_INFINITY;
++		// return the first endpoint if it is good enough
+         double yMin = f.value(min);
+-        if (Math.abs(yMin) <= functionValueAccuracy) {
++        verifyBracketing(min, max, f);
++		if (Math.abs(yMin) <= functionValueAccuracy) {
+             setResult(yMin, 0);
+             return result;
+         }
+@@ -123,12 +124,14 @@
+             return result;
+         }
+ 
+-        // reduce interval if initial and max bracket the root
+-        if (yInitial * yMax < 0) {
+-            return solve(f, initial, yInitial, max, yMax, initial, yInitial);
+-        }
++        if (Math.abs(yInitial) <= functionValueAccuracy) {
++			setResult(initial, 0);
++			return result;
++		}
++		int i = 0;
+ 
+-        // full Brent algorithm starting with provided initial guess
++        verifyBracketing(min, max, f);
++		// full Brent algorithm starting with provided initial guess
+         return solve(f, min, yMin, max, yMax, initial, yInitial);
+ 
+     }
+@@ -270,7 +273,8 @@
+                     p1 = (r1 - 1.0) * (r2 - 1.0) * (r3 - 1.0);
+                 }
+                 if (p > 0.0) {
+-                    p1 = -p1;
++                    double ret = Double.NaN;
++					p1 = -p1;
+                 } else {
+                     p = -p;
+                 }
+
+

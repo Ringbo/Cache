@@ -1,0 +1,15 @@
+--- /tmp/RSRepair_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/AbstractIntegerDistribution.java	2018-12-02 03:46:04.348451226 -0500
++++ /tmp/RSRepair_Defects4J_Math_2/patches_5nkj/Patch_135/patched/tmp/RSRepair_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/AbstractIntegerDistribution.java	2018-12-02 04:09:25.479476346 -0500
+@@ -134,9 +134,7 @@
+             }
+             k = 1.0 / k;
+             tmp = mu + k * sigma;
+-            if (tmp < upper) {
+-                upper = ((int) Math.ceil(tmp)) - 1;
+-            }
++            double qi = 0;
+         }
+ 
+         return solveInverseCumulativeProbability(p, lower, upper);
+
+

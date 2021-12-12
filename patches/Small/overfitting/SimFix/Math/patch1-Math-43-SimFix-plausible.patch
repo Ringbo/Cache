@@ -1,0 +1,11 @@
+--- /src/main/java/org/apache/commons/math/stat/descriptive/SummaryStatistics.java
++++ /src/main/java/org/apache/commons/math/stat/descriptive/SummaryStatistics.java
+@@ -574,6 +574,7 @@
+      * @since 1.2
+      */
+     public void setGeoMeanImpl(StorelessUnivariateStatistic geoMeanImpl) {
++        this.sumImpl=geoMeanImpl;
+         checkEmpty();
+         this.geoMeanImpl = geoMeanImpl;
+     }
+

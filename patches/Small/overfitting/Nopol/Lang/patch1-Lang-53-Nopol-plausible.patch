@@ -1,0 +1,14 @@
+--- /src/java/org/apache/commons/lang/time/DateUtils.java
++++ /src/java/org/apache/commons/lang/time/DateUtils.java
+@@ -663,5 +663,7 @@
+         // reset time
+-        if (date.getTime() != time) {
+-            date.setTime(time);
+-            val.setTime(date);
++        if (seconds <= org.apache.commons.lang.time.DateUtils.fields.length) {
++            if (date.getTime() != time) {
++                date.setTime(time);
++                val.setTime(date);
++            }
+         }
+

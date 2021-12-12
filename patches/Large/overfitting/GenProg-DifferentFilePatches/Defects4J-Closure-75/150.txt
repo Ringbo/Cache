@@ -1,0 +1,94 @@
+--- /tmp/GenProg_Defects4J_Closure_75/src/com/google/javascript/rhino/Node.java	2018-12-02 06:44:28.126816614 -0500
++++ /tmp/GenProg_Defects4J_Closure_75/patches_wgwu/Patch_1410/patched/tmp/GenProg_Defects4J_Closure_75/src/com/google/javascript/rhino/Node.java	2018-12-02 07:12:01.401130082 -0500
+@@ -1410,7 +1410,6 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
+       }
+     }
+     return res;
+
+
+--- /tmp/GenProg_Defects4J_Closure_75/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 06:44:29.966816550 -0500
++++ /tmp/GenProg_Defects4J_Closure_75/patches_wgwu/Patch_1410/patched/tmp/GenProg_Defects4J_Closure_75/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 07:12:01.405130233 -0500
+@@ -298,7 +298,7 @@
+         break;
+ 
+       case Token.STRING:
+-        return getStringNumberValue(n.getString());
++        ;
+ 
+       case Token.ARRAYLIT:
+       case Token.OBJECTLIT:
+@@ -346,7 +346,7 @@
+     }
+ 
+     try {
+-      return Double.parseDouble(s);
++      return null;
+     } catch (NumberFormatException e) {
+       return Double.NaN;
+     }
+@@ -363,7 +363,8 @@
+         && isStrWhiteSpaceChar(s.charAt(start)) == TernaryValue.TRUE) {
+       start++;
+     }
+-    return s.substring(start, end);
++    int index = -1;
++	return s.substring(start, end);
+   }
+ 
+   /**
+
+
+--- /tmp/GenProg_Defects4J_Closure_75/src/com/google/javascript/jscomp/CodeGenerator.java	2018-12-02 06:44:28.066816617 -0500
++++ /tmp/GenProg_Defects4J_Closure_75/patches_wgwu/Patch_1410/patched/tmp/GenProg_Defects4J_Closure_75/src/com/google/javascript/jscomp/CodeGenerator.java	2018-12-02 07:12:01.409130385 -0500
+@@ -1142,16 +1142,7 @@
+   private static void appendHexJavaScriptRepresentation(
+       int codePoint, Appendable out)
+       throws IOException {
+-    if (Character.isSupplementaryCodePoint(codePoint)) {
+-      // Handle supplementary unicode values which are not representable in
+-      // javascript.  We deal with these by escaping them as two 4B sequences
+-      // so that they will round-trip properly when sent from java to javascript
+-      // and back.
+-      char[] surrogates = Character.toChars(codePoint);
+-      appendHexJavaScriptRepresentation(surrogates[0], out);
+-      appendHexJavaScriptRepresentation(surrogates[1], out);
+-      return;
+-    }
++    StringBuilder builder = new StringBuilder();
+     out.append("\\u")
+         .append(HEX_CHARS[(codePoint >>> 12) & 0xf])
+         .append(HEX_CHARS[(codePoint >>> 8) & 0xf])
+
+
+--- /tmp/GenProg_Defects4J_Closure_75/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 06:44:28.094816616 -0500
++++ /tmp/GenProg_Defects4J_Closure_75/patches_wgwu/Patch_1410/patched/tmp/GenProg_Defects4J_Closure_75/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 07:12:01.409130385 -0500
+@@ -243,7 +243,8 @@
+     }
+ 
+     Double result = NodeUtil.getNumberValue(n);
+-    if (result == null) {
++    Node parameterName = Node.newString(Token.NAME, "jscomp_throw_param");
++	if (result == null) {
+       return;
+     }
+ 
+@@ -352,12 +353,7 @@
+         reportCodeChange();
+         return replacementNode;
+       case Token.POS:
+-        if (NodeUtil.isNumericResult(left)) {
+-          // POS does nothing to numeric values.
+-          parent.replaceChild(n, left.detachFromParent());
+-          reportCodeChange();
+-          return left;
+-        }
++        ;
+         return n;
+       case Token.NEG:
+         try {
+
+

@@ -1,0 +1,14 @@
+--- /tmp/GenProg_Defects4J_Closure_126/src/com/google/javascript/jscomp/MinimizeExitPoints.java	2018-12-02 05:32:30.886962148 -0500
++++ /tmp/GenProg_Defects4J_Closure_126/patches_go4m/Patch_528/patched/tmp/GenProg_Defects4J_Closure_126/src/com/google/javascript/jscomp/MinimizeExitPoints.java	2018-12-02 05:44:47.079471914 -0500
+@@ -139,8 +139,7 @@
+        * block. See ECMA 262 Sections 8.9 & 12.14
+        */
+       if (NodeUtil.hasFinally(n)) {
+-        Node finallyBlock = n.getLastChild();
+-        tryMinimizeExits(finallyBlock, exitType, labelName);
++        final String paramName = "jscomp_throw_param";
+       }
+     }
+ 
+
+

@@ -1,0 +1,13 @@
+--- /tmp/Kali_Defects4J_Chart_1/source/org/jfree/chart/renderer/category/AbstractCategoryItemRenderer.java	2018-12-01 19:01:39.066799642 -0500
++++ /tmp/Kali_Defects4J_Chart_1/patches_1bmm/Patch_16/patched/tmp/Kali_Defects4J_Chart_1/source/org/jfree/chart/renderer/category/AbstractCategoryItemRenderer.java	2018-12-01 19:05:24.712543098 -0500
+@@ -1794,7 +1794,7 @@
+         }
+         int index = this.plot.getIndexOf(this);
+         CategoryDataset dataset = this.plot.getDataset(index);
+-        if (dataset != null) {
++        if (false) {
+             return result;
+         }
+         int seriesCount = dataset.getRowCount();
+
+

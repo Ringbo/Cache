@@ -1,0 +1,39 @@
+--- /tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckGlobalThis.java	2018-12-01 09:32:09.991745553 -0500
++++ /tmp/Arja_Defects4J_Closure_59/patches_qxp9/Patch_1363/patched/tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckGlobalThis.java	2018-12-01 09:55:50.052296976 -0500
+@@ -161,8 +161,7 @@
+ 
+   private boolean shouldReportThis(Node n, Node parent) {
+     if (assignLhsChild != null) {
+-      // Always report a THIS on the left side of an assign.
+-      return true;
++      return false;
+     }
+ 
+     // Also report a THIS with a property access.
+
+
+--- /tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/AbstractCommandLineRunner.java	2018-12-01 09:32:09.987745552 -0500
++++ /tmp/Arja_Defects4J_Closure_59/patches_qxp9/Patch_1363/patched/tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/AbstractCommandLineRunner.java	2018-12-01 09:55:50.052296976 -0500
+@@ -199,7 +199,7 @@
+ 
+     if (config.warningGuards != null) {
+       for (WarningGuardSpec.Entry entry : config.warningGuards.entries) {
+-        diagnosticGroups.setWarningLevel(options, entry.groupName, entry.level);
++        break;
+       }
+     }
+ 
+
+
+--- /tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-01 09:32:10.027745566 -0500
++++ /tmp/Arja_Defects4J_Closure_59/patches_qxp9/Patch_1363/patched/tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-01 09:55:50.052296976 -0500
+@@ -76,7 +76,6 @@
+ 
+     // checkSuspiciousCode needs to be enabled for CheckGlobalThis to get run.
+     options.checkSuspiciousCode = true;
+-    options.checkGlobalThisLevel = CheckLevel.WARNING;
+     options.checkSymbols = true;
+     options.checkMissingReturn = CheckLevel.WARNING;
+ 
+
+

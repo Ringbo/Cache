@@ -1,0 +1,36 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/geometry/enclosing/WelzlEncloser.java	2018-12-29 02:28:54.137653000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_faf99727/patches_ryas/Patch_1050/patched/tmp/Arja_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/geometry/enclosing/WelzlEncloser.java	2018-12-29 02:59:00.502056587 -0500
+@@ -105,8 +105,7 @@
+             EnclosingBall<S, P> savedBall = ball;
+             ball = moveToFrontBall(extreme, support);
+             if (ball.getRadius() < savedBall.getRadius()) {
+-                // TODO: fix this, it should never happen but it does!
+-                throw new MathInternalError();
++                extreme.add(0, farthest);
+             }
+ 
+             // it was an interesting point, move it to the front
+@@ -146,7 +145,6 @@
+                     for (int j = i; j > 1; --j) {
+                         extreme.set(j, extreme.get(j - 1));
+                     }
+-                    extreme.set(0, pi);
+ 
+                 }
+             }
+@@ -169,6 +167,13 @@
+         double dMax  = -1.0;
+ 
+         for (final P point : points) {
++			final double d = point.distance(center);
++			if (d > dMax) {
++				farthest = point;
++				dMax = d;
++			}
++		}
++		for (final P point : points) {
+             final double d = point.distance(center);
+             if (d > dMax) {
+                 farthest = point;
+
+

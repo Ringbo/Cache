@@ -1,0 +1,25 @@
+--- /tmp/Arja_Defects4J_Math_49/src/main/java/org/apache/commons/math/exception/util/LocalizedFormats.java	2018-12-02 02:51:20.027187849 -0500
++++ /tmp/Arja_Defects4J_Math_49/patches_4ok3/Patch_310/patched/tmp/Arja_Defects4J_Math_49/src/main/java/org/apache/commons/math/exception/util/LocalizedFormats.java	2018-12-02 03:10:07.729506878 -0500
+@@ -375,8 +375,6 @@
+             // do nothing here
+         }
+ 
+-        // either the locale is not supported or the resource is unknown
+-        // don't translate and fall back to using the source format
+         return sourceFormat;
+ 
+     }
+
+
+--- /tmp/Arja_Defects4J_Math_49/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java	2018-12-02 02:51:20.079187851 -0500
++++ /tmp/Arja_Defects4J_Math_49/patches_4ok3/Patch_310/patched/tmp/Arja_Defects4J_Math_49/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java	2018-12-02 03:10:07.729506878 -0500
+@@ -396,7 +396,6 @@
+         final double previous = values[index];
+         values[index] = missingEntries;
+         --size;
+-        ++count;
+         return previous;
+     }
+ 
+
+

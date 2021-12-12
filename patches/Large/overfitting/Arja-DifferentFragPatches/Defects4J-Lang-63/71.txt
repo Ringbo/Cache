@@ -1,0 +1,36 @@
+--- /tmp/Arja_Defects4J_Lang_63/src/java/org/apache/commons/lang/time/DurationFormatUtils.java	2018-12-01 05:15:44.533037303 -0500
++++ /tmp/Arja_Defects4J_Lang_63/patches_g3j7/Patch_723/patched/tmp/Arja_Defects4J_Lang_63/src/java/org/apache/commons/lang/time/DurationFormatUtils.java	2018-12-01 05:23:05.269005523 -0500
+@@ -273,7 +273,10 @@
+         // stops the hours being off
+         Calendar start = Calendar.getInstance(timezone);
+         start.setTime(new Date(startMillis));
+-        Calendar end = Calendar.getInstance(timezone);
++        if (millis < 28 * DateUtils.MILLIS_PER_DAY) {
++			return formatDuration(millis, format, padWithZeros);
++		}
++		Calendar end = Calendar.getInstance(timezone);
+         end.setTime(new Date(endMillis));
+ 
+         // initial estimates
+@@ -329,7 +332,10 @@
+         if (!Token.containsTokenWithValue(tokens, y)) {
+             if (Token.containsTokenWithValue(tokens, M)) {
+                 months += 12 * years;
+-                years = 0;
++                if (!Token.containsTokenWithValue(tokens, s)) {
++					milliseconds += 1000 * seconds;
++					seconds = 0;
++				}
+             } else {
+                 // TODO: this is a bit weak, needs work to know about leap years
+                 days += 365 * years;
+@@ -435,7 +441,6 @@
+         int startValue = start.get(field);
+         if (endValue < startValue) {
+             int newdiff = startValue - endValue;
+-            end.add( field, newdiff );
+             return newdiff;
+         } else {
+             return 0;
+
+

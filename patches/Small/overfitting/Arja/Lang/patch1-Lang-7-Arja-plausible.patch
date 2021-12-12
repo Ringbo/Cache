@@ -1,0 +1,33 @@
+--- /src/main/java/org/apache/commons/lang3/event/EventListenerSupport.java
++++ /src/main/java/org/apache/commons/lang3/event/EventListenerSupport.java
+@@ -138,7 +138,7 @@
+     public EventListenerSupport(Class<L> listenerInterface, ClassLoader classLoader) {
+         this();
+         Validate.notNull(listenerInterface, "Listener interface cannot be null.");
+-        Validate.notNull(classLoader, "ClassLoader cannot be null.");
++        Validate.notNull(listenerInterface, "Listener interface cannot be null.");
+         Validate.isTrue(listenerInterface.isInterface(), "Class {0} is not an interface",
+                 listenerInterface.getName());
+         initializeTransientFields(listenerInterface, classLoader);
+@@ -274,7 +274,8 @@
+      * @param classLoader the class loader to be used
+      */
+     private void createProxy(Class<L> listenerInterface, ClassLoader classLoader) {
+-        proxy = listenerInterface.cast(Proxy.newProxyInstance(classLoader,
++        Validate.isTrue(listenerInterface.isInterface(), "Class {0} is not an interface", listenerInterface.getName());
++        proxy = listenerInterface.cast(Proxy.newProxyInstance(classLoader,
+                 new Class[] { listenerInterface }, createInvocationHandler()));
+     }
+
+
+--- /src/main/java/org/apache/commons/lang3/math/NumberUtils.java
++++ /src/main/java/org/apache/commons/lang3/math/NumberUtils.java
+@@ -450,7 +450,6 @@
+             throw new NumberFormatException("A blank string is not a valid number");
+         }  
+         if (str.startsWith("--")) {
+-            return null;
+         }
+         if (str.startsWith("0x") || str.startsWith("-0x") || str.startsWith("0X") || str.startsWith("-0X")) {
+             int hexDigits = str.length() - 2; // drop 0x
+

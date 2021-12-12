@@ -1,0 +1,52 @@
+--- /tmp/Arja_Defects4J_Math_73/src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java	2018-12-01 06:00:09.289104123 -0500
++++ /tmp/Arja_Defects4J_Math_73/patches_pxsy/Patch_1101/patched/tmp/Arja_Defects4J_Math_73/src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java	2018-12-01 06:54:42.127192726 -0500
+@@ -116,10 +116,7 @@
+             return result;
+         }
+ 
+-        // reduce interval if min and initial bracket the root
+-        if (yInitial * yMin < 0) {
+-            return solve(f, min, yMin, initial, yInitial, min, yMin);
+-        }
++        verifySequence(min, initial, max);
+ 
+         // return the second endpoint if it is good enough
+         double yMax = f.value(max);
+@@ -128,10 +125,7 @@
+             return result;
+         }
+ 
+-        // reduce interval if initial and max bracket the root
+-        if (yInitial * yMax < 0) {
+-            return solve(f, initial, yInitial, max, yMax, initial, yInitial);
+-        }
++        verifyBracketing(min, max, f);
+ 
+ 
+         // full Brent algorithm starting with provided initial guess
+@@ -176,14 +170,16 @@
+             if (Math.abs(yMin) <= functionValueAccuracy) {
+                 setResult(min, 0);
+                 ret = min;
+-            } else if (Math.abs(yMax) <= functionValueAccuracy) {
+-                setResult(max, 0);
+-                ret = max;
+             } else {
+-                // neither value is close to zero and min and max do not bracket root.
+-                throw MathRuntimeException.createIllegalArgumentException(
+-                        NON_BRACKETING_MESSAGE, min, max, yMin, yMax);
+-            }
++				ret = min;
++				if (Math.abs(yMax) <= functionValueAccuracy) {
++					setResult(max, 0);
++					ret = max;
++				} else {
++					throw MathRuntimeException.createIllegalArgumentException(
++							NON_BRACKETING_MESSAGE, min, max, yMin, yMax);
++				}
++			}
+         } else if (sign < 0){
+             // solve using only the first endpoint as initial guess
+             ret = solve(f, min, yMin, max, yMax, min, yMin);
+
+

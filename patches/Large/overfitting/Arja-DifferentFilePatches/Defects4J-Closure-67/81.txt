@@ -1,0 +1,40 @@
+--- /tmp/Arja_Defects4J_Closure_67/src/com/google/javascript/jscomp/RemoveUnusedPrototypeProperties.java	2018-12-01 09:25:47.602554953 -0500
++++ /tmp/Arja_Defects4J_Closure_67/patches_k844/Patch_766/patched/tmp/Arja_Defects4J_Closure_67/src/com/google/javascript/jscomp/RemoveUnusedPrototypeProperties.java	2018-12-01 09:39:40.620297994 -0500
+@@ -84,21 +84,7 @@
+         for (Symbol declaration : nameInfo.getDeclarations()) {
+           boolean canRemove = false;
+ 
+-          if (specializationState == null) {
+-            canRemove = true;
+-          } else {
+-            Node specializableFunction =
+-              getSpecializableFunctionFromSymbol(declaration);
+-
+-            if (specializableFunction != null) {
+-              specializationState.reportRemovedFunction(
+-                  specializableFunction, null);
+-              canRemove = true;
+-            }
+-          }
+-
+           if (canRemove) {
+-            declaration.remove();
+             changed = true;
+           }
+         }
+
+
+--- /tmp/Arja_Defects4J_Closure_67/src/com/google/javascript/rhino/Node.java	2018-12-01 09:25:47.626555117 -0500
++++ /tmp/Arja_Defects4J_Closure_67/patches_k844/Patch_766/patched/tmp/Arja_Defects4J_Closure_67/src/com/google/javascript/rhino/Node.java	2018-12-01 09:39:40.620297994 -0500
+@@ -936,7 +936,8 @@
+         sb.append(' ');
+         sb.append(getString());
+       } else if (type == Token.FUNCTION) {
+-        sb.append(' ');
++        sb.append(Token.name(type));
++		sb.append(' ');
+         // In the case of JsDoc trees, the first child is often not a string
+         // which causes exceptions to be thrown when calling toString or
+         // toStringTree.
+
+

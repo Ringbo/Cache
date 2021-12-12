@@ -1,0 +1,14 @@
+--- /tmp/RSRepair_Defects4J_Lang_63/src/java/org/apache/commons/lang/time/DurationFormatUtils.java	2018-12-02 02:41:55.555632237 -0500
++++ /tmp/RSRepair_Defects4J_Lang_63/patches_65rr/Patch_815/patched/tmp/RSRepair_Defects4J_Lang_63/src/java/org/apache/commons/lang/time/DurationFormatUtils.java	2018-12-02 02:54:31.278969695 -0500
+@@ -436,7 +436,8 @@
+         if (endValue < startValue) {
+             int newdiff = startValue - endValue;
+             end.add( field, newdiff );
+-            return newdiff;
++            end.add(field, -1 * difference);
++			return newdiff;
+         } else {
+             return 0;
+         }
+
+

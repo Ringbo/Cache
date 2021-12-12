@@ -1,0 +1,30 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/euclidean/twod/PolygonsSet.java	2018-12-29 05:26:39.406599000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/patches_089n/Patch_1720/patched/tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/euclidean/twod/PolygonsSet.java	2018-12-29 06:00:00.723572548 -0500
+@@ -823,7 +823,7 @@
+         }
+ 
+         if ((end == null) && !open) {
+-            throw new MathInternalError();
++            return null;
+         }
+ 
+         return loop;
+
+
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/partitioning/BSPTree.java	2018-12-29 05:26:39.418600000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/patches_089n/Patch_1720/patched/tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/partitioning/BSPTree.java	2018-12-29 06:00:00.723572548 -0500
+@@ -158,7 +158,11 @@
+ 
+         final SubHyperplane<S> chopped = fitToCell(hyperplane.wholeHyperplane());
+         if (chopped == null || chopped.isEmpty()) {
+-            cut          = null;
++            if (cut != null) {
++				cut = cut.split(hyperplane).getPlus();
++				plus.chopOffMinus(hyperplane);
++				minus.chopOffMinus(hyperplane);
++			}
+             plus         = null;
+             minus        = null;
+             return false;
+
+

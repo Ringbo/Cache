@@ -1,0 +1,44 @@
+--- /tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/CollapseVariableDeclarations.java	2018-12-01 09:32:09.991745553 -0500
++++ /tmp/Arja_Defects4J_Closure_59/patches_qxp9/Patch_1921/patched/tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/CollapseVariableDeclarations.java	2018-12-01 10:00:23.716406621 -0500
+@@ -192,10 +192,6 @@
+       Node assign = n.getFirstChild();
+       Node lhs = assign.getFirstChild();
+ 
+-      if (!NodeUtil.isName(lhs)) {
+-        return false;
+-      }
+-
+       Var var = s.getVar(lhs.getString());
+       return var != null &&
+           var.getScope() == s && !blacklistedVars.contains(var);
+
+
+--- /tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-01 09:32:09.999745557 -0500
++++ /tmp/Arja_Defects4J_Closure_59/patches_qxp9/Patch_1921/patched/tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-01 10:00:23.720406623 -0500
+@@ -76,11 +76,7 @@
+   private boolean isCollapsibleValue(Node value, boolean isLValue) {
+     switch (value.getType()) {
+       case Token.GETPROP:
+-        // Do not collapse GETPROPs on arbitrary objects, because
+-        // they may be implemented  setter functions, and oftentimes
+-        // setter functions fail on native objects. This is ok for "THIS"
+-        // objects, because we assume that they are non-native.
+-        return !isLValue || value.getFirstChild().getType() == Token.THIS;
++        return false;
+ 
+       case Token.NAME:
+         return true;
+
+
+--- /tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-01 09:32:10.027745566 -0500
++++ /tmp/Arja_Defects4J_Closure_59/patches_qxp9/Patch_1921/patched/tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-01 10:00:23.720406623 -0500
+@@ -76,7 +76,6 @@
+ 
+     // checkSuspiciousCode needs to be enabled for CheckGlobalThis to get run.
+     options.checkSuspiciousCode = true;
+-    options.checkGlobalThisLevel = CheckLevel.WARNING;
+     options.checkSymbols = true;
+     options.checkMissingReturn = CheckLevel.WARNING;
+ 
+
+

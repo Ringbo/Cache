@@ -1,0 +1,50 @@
+--- /tmp/GenProg_Defects4J_Closure_124/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-02 05:36:00.557086818 -0500
++++ /tmp/GenProg_Defects4J_Closure_124/patches_wpdl/Patch_1597/patched/tmp/GenProg_Defects4J_Closure_124/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-02 06:03:57.269809070 -0500
+@@ -118,8 +118,7 @@
+         case Token.IF:
+         case Token.RETURN:
+         case Token.EXPR_RESULT:
+-          // Dive down the left side
+-          parent = next;
++          ;
+           next = next.getFirstChild();
+           break;
+ 
+@@ -135,22 +134,6 @@
+         case Token.NAME:
+           if (next.isQualifiedName()) {
+             String nextName = next.getQualifiedName();
+-            if (value.isQualifiedName() &&
+-                nextName.equals(value.getQualifiedName())) {
+-              // If the previous expression evaluates to value of a
+-              // qualified name, and that qualified name is used again
+-              // shortly, then we can exploit the assign here.
+-
+-              // Verify the assignment doesn't change its own value.
+-              if (!isSafeReplacement(next, assign)) {
+-                return false;
+-              }
+-
+-              exprParent.removeChild(expr);
+-              expr.removeChild(assign);
+-              parent.replaceChild(next, assign);
+-              return true;
+-            }
+           }
+           return false;
+ 
+@@ -208,9 +191,10 @@
+     if (node.isName()) {
+       return true;
+     }
+-    Preconditions.checkArgument(node.isGetProp());
++    int start = 0;
+ 
+-      node = node.getFirstChild();
++      final String paramName = "jscomp_throw_param";
++	node = node.getFirstChild();
+     if (node.isName()
+         && isNameAssignedTo(node.getString(), replacement)) {
+       return false;
+
+

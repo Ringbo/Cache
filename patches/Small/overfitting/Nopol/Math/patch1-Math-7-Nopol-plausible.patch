@@ -1,0 +1,10 @@
+--- /src/main/java/org/apache/commons/math3/ode/AbstractIntegrator.java
++++ /src/main/java/org/apache/commons/math3/ode/AbstractIntegrator.java
+@@ -350,3 +350,5 @@
+                 for (final StepHandler handler : stepHandlers) {
+-                    handler.handleStep(interpolator, isLastStep);
++                    if (org.apache.commons.math3.ode.AbstractIntegrator.this.stepHandlers.size() == orderingSign) {
++                        handler.handleStep(interpolator, isLastStep);
++                    }
+                 }
+

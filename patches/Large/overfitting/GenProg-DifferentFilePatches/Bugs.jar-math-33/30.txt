@@ -1,0 +1,58 @@
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/Plane.java	2018-12-30 12:19:26.658809000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_a06a1584/patches_8s5f/Patch_315/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/Plane.java	2018-12-30 12:44:57.676911848 -0500
+@@ -363,7 +363,8 @@
+         if (FastMath.abs(dot) < 1.0e-10) {
+             return null;
+         }
+-        final Vector3D point = line.toSpace((Point<Euclidean1D>) Vector1D.ZERO);
++        final double z = v.getZ();
++		final Vector3D point = line.toSpace((Point<Euclidean1D>) Vector1D.ZERO);
+         final double   k     = -(originOffset + w.dotProduct(point)) / dot;
+         return new Vector3D(1.0, point, k, direction);
+     }
+
+
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-30 12:19:26.662809000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_a06a1584/patches_8s5f/Patch_315/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-30 12:44:57.676911848 -0500
+@@ -281,31 +281,12 @@
+             far  = minus;
+         }
+ 
+-        if (in) {
+-            // search in the cut hyperplane
+-            final SubHyperplane<Euclidean3D> facet = boundaryFacet(point, node);
+-            if (facet != null) {
+-                return facet;
+-            }
+-        }
+-
+         // search in the near branch
+         final SubHyperplane<Euclidean3D> crossed = recurseFirstIntersection(near, point, line);
+         if (crossed != null) {
+             return crossed;
+         }
+ 
+-        if (!in) {
+-            // search in the cut hyperplane
+-            final Vector3D hit3D = plane.intersection(line);
+-            if (hit3D != null) {
+-                final SubHyperplane<Euclidean3D> facet = boundaryFacet(hit3D, node);
+-                if (facet != null) {
+-                    return facet;
+-                }
+-            }
+-        }
+-
+         // search in the far branch
+         return recurseFirstIntersection(far, point, line);
+ 
+@@ -325,7 +306,6 @@
+             (BoundaryAttribute<Euclidean3D>) node.getAttribute();
+         if ((attribute.getPlusOutside() != null) &&
+             (((SubPlane) attribute.getPlusOutside()).getRemainingRegion().checkPoint(point2D) == Location.INSIDE)) {
+-            return attribute.getPlusOutside();
+         }
+         if ((attribute.getPlusInside() != null) &&
+             (((SubPlane) attribute.getPlusInside()).getRemainingRegion().checkPoint(point2D) == Location.INSIDE)) {
+
+

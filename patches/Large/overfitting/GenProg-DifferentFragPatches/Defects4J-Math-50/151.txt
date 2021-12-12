@@ -1,0 +1,25 @@
+--- /tmp/GenProg_Defects4J_Math_50/src/main/java/org/apache/commons/math/analysis/solvers/BaseSecantSolver.java	2018-12-02 11:55:35.505022862 -0500
++++ /tmp/GenProg_Defects4J_Math_50/patches_sses/Patch_703/patched/tmp/GenProg_Defects4J_Math_50/src/main/java/org/apache/commons/math/analysis/solvers/BaseSecantSolver.java	2018-12-02 12:20:59.717570018 -0500
+@@ -129,7 +129,8 @@
+         // Get initial solution
+         double x0 = getMin();
+         double x1 = getMax();
+-        double f0 = computeObjectiveValue(x0);
++        final double startValue = getStartValue();
++		double f0 = computeObjectiveValue(x0);
+         double f1 = computeObjectiveValue(x1);
+ 
+         // If one of the bounds is the exact root, return it. Since these are
+@@ -185,8 +186,8 @@
+                 case REGULA_FALSI:
+                     // Nothing.
+                     if (x == x1) {
+-                        x0 = 0.5 * (x0 + x1 - FastMath.max(rtol * FastMath.abs(x1), atol));
+-                        f0 = computeObjectiveValue(x0);
++                        double y1 = computeObjectiveValue(x1);
++						f0 = computeObjectiveValue(x0);
+                     }
+                     break;
+                 default:
+
+

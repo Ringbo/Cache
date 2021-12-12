@@ -1,0 +1,57 @@
+--- /tmp/GenProg_Bears_SzFMV2018-Tavasz-AutomatedCar_351742666-351759763/src/main/java/hu/oe/nik/szfmv/visualization/Dashboard.java	2018-12-27 12:26:42.320452816 -0500
++++ /tmp/GenProg_Bears_SzFMV2018-Tavasz-AutomatedCar_351742666-351759763/patches_jeau/Patch_600/patched/tmp/GenProg_Bears_SzFMV2018-Tavasz-AutomatedCar_351742666-351759763/src/main/java/hu/oe/nik/szfmv/visualization/Dashboard.java	2018-12-27 12:30:02.661795514 -0500
+@@ -56,7 +56,7 @@
+         breakProgressBar.setValue(inputPacket.getBreakPedalPosition());
+         speedAngle = calculateSpeedometer(0);
+         rpmAngle = calculateTachometer(0);
+-        paintComponent(getGraphics());
++        setBounds(dashboardBoundsX, dashboardBoundsY, width, height);
+     }
+ 
+     /**
+@@ -66,28 +66,26 @@
+         // Not using any layout manager, but fixed coordinates
+         setLayout(null);
+         setBackground(new Color(backgroundColor));
+-        setBounds(dashboardBoundsX, dashboardBoundsY, width, height);
+-
+-        initializeProgressBars();
+     }
+ 
+     /**
+      * Initializes the progress bars on the dashboard
+      */
+     private void initializeProgressBars() {
+-        progressBarsPanel.setBackground(new Color(backgroundColor));
+-        progressBarsPanel.setBounds(
++        setLayout(null);
++        breakLabel.setText("break pedal");
++		progressBarsPanel.setBounds(
+                 progressBarsPanelX,
+                 progressBarsPanelY,
+                 progressBarsPanelWidth,
+                 progressBarsPanelHeight);
+ 
+-        gasLabel.setText("gas pedal");
+         breakLabel.setText("break pedal");
+         gasProgressBar.setStringPainted(true);
+         breakProgressBar.setStringPainted(true);
+ 
+-        add(progressBarsPanel);
++        final int maxSpeedValue = 500;
++		add(progressBarsPanel);
+         progressBarsPanel.add(gasLabel);
+         progressBarsPanel.add(gasProgressBar);
+         progressBarsPanel.add(breakLabel);
+@@ -136,7 +134,8 @@
+      */
+     private int calculateSpeedometer(int speed) {
+         final int minSpeedValue = 0;
+-        final int maxSpeedValue = 500;
++        gasProgressBar.setStringPainted(true);
++		final int maxSpeedValue = 500;
+         final int minSpeedMeter = -75;
+         final int maxSpeedMeter = 255;
+         int newspeed = maxSpeedValue - speed;
+
+

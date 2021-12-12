@@ -1,0 +1,28 @@
+--- /src/main/java/org/apache/commons/math/ode/nonstiff/EmbeddedRungeKuttaIntegrator.java
++++ /src/main/java/org/apache/commons/math/ode/nonstiff/EmbeddedRungeKuttaIntegrator.java
+@@ -291,6 +291,16 @@
+         interpolator.storeTime(stepStart + stepSize);
+         if (manager.evaluateStep(interpolator)) {
+             final double dt = manager.getEventTime() - stepStart;
++        // start of generated patch
++            if(Math.abs(dt)<=Math.ulp(stepStart)){
++              System.arraycopy(y,0,yTmp,0,y0.length);
++              stepSize=0;
++              loop=false;
++            }else {
++              stepSize=dt;
++            }
++        // end of generated patch
++        /* start of original code
+             if (Math.abs(dt) <= Math.ulp(stepStart)) {
+                 // we cannot simply truncate the step, reject the current computation
+                 // and let the loop compute another state with the truncated step.
+@@ -302,6 +312,7 @@
+                 // reject the step to match exactly the next switch time
+                 stepSize = dt;
+             }
++        end of original code*/
+         } else {
+           loop = false;
+         }
+

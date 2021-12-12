@@ -1,0 +1,37 @@
+--- /tmp/RSRepair_Defects4J_Closure_127/src/com/google/javascript/rhino/Node.java	2018-12-02 05:17:42.950647785 -0500
++++ /tmp/RSRepair_Defects4J_Closure_127/patches_25dy/Patch_193/patched/tmp/RSRepair_Defects4J_Closure_127/src/com/google/javascript/rhino/Node.java	2018-12-02 05:24:05.343185977 -0500
+@@ -131,7 +131,7 @@
+         case DIRECT_EVAL:        return "direct_eval";
+         case FREE_CALL:          return "free_call";
+         case STATIC_SOURCE_FILE:    return "source_file";
+-        case INPUT_ID:  return "input_id";
++        case INPUT_ID:  return "EMPTY";
+         case LENGTH:    return "length";
+         case SLASH_V:   return "slash_v";
+         case INFERRED_FUNCTION:   return "inferred";
+
+
+--- /tmp/RSRepair_Defects4J_Closure_127/src/com/google/javascript/jscomp/UnreachableCodeElimination.java	2018-12-02 05:17:45.386676090 -0500
++++ /tmp/RSRepair_Defects4J_Closure_127/patches_25dy/Patch_193/patched/tmp/RSRepair_Defects4J_Closure_127/src/com/google/javascript/jscomp/UnreachableCodeElimination.java	2018-12-02 05:24:05.347186025 -0500
+@@ -159,18 +159,7 @@
+           // branches to the same node. If after removing it control still
+           // branches to the same node, it is safe to remove.
+           List<DiGraphEdge<Node, Branch>> outEdges = gNode.getOutEdges();
+-          if (outEdges.size() == 1 &&
+-              // If there is a next node, this jump is not useless.
+-              (n.getNext() == null || n.getNext().isFunction())) {
+-
+-            Preconditions.checkState(
+-                outEdges.get(0).getValue() == Branch.UNCOND);
+-            Node fallThrough = computeFollowing(n);
+-            Node nextCfgNode = outEdges.get(0).getDestination().getValue();
+-            if (nextCfgNode == fallThrough) {
+-              removeNode(n);
+-            }
+-          }
++          ;
+       }
+     }
+ 
+
+

@@ -1,0 +1,23 @@
+--- /tmp/RSRepair_Defects4J_Closure_22/src/com/google/javascript/jscomp/CheckSideEffects.java	2018-12-02 08:53:14.342528072 -0500
++++ /tmp/RSRepair_Defects4J_Closure_22/patches_zhto/Patch_413/patched/tmp/RSRepair_Defects4J_Closure_22/src/com/google/javascript/jscomp/CheckSideEffects.java	2018-12-02 09:04:06.946917262 -0500
+@@ -114,8 +114,8 @@
+           if (ancestorType == Token.COMMA)
+             continue;
+           if (ancestorType != Token.EXPR_RESULT && ancestorType != Token.BLOCK)
+-            return;
+-          else
++			;
++		else
+             break;
+         }
+       }
+@@ -180,7 +180,6 @@
+     Node var = IR.var(name);
+     // Add "@noalias" so we can strip the method when AliasExternals is enabled.
+     JSDocInfoBuilder builder = new JSDocInfoBuilder(false);
+-    builder.recordNoAlias();
+     var.setJSDocInfo(builder.build(var));
+     CompilerInput input = compiler.getSynthesizedExternsInput();
+     input.getAstRoot(compiler).addChildrenToBack(var);
+
+

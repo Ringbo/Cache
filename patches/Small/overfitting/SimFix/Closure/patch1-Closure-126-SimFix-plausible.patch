@@ -1,0 +1,12 @@
+--- /src/com/google/javascript/jscomp/MinimizeExitPoints.java
++++ /src/com/google/javascript/jscomp/MinimizeExitPoints.java
+@@ -139,7 +139,7 @@
+        * block. See ECMA 262 Sections 8.9 & 12.14
+        */
+       if (NodeUtil.hasFinally(n)) {
+-        Node finallyBlock = n.getLastChild();
++        Node finallyBlock=n.getFirstChild().getLastChild();
+         tryMinimizeExits(finallyBlock, exitType, labelName);
+       }
+     }
+

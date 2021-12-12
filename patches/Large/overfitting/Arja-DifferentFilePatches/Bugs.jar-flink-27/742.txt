@@ -1,0 +1,52 @@
+--- /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/api/datastream/DataStream.java	2018-12-29 12:37:22.084563000 -0500
++++ /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/patches_stp5/Patch_363/patched/tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/api/datastream/DataStream.java	2018-12-29 12:57:03.301070174 -0500
+@@ -1230,8 +1230,6 @@
+ 		streamGraph.addOperator(returnStream.getId(), operator, getType(), outTypeInfo,
+ 				operatorName);
+ 
+-		connectGraph(inputStream, returnStream.getId(), 0);
+-		
+ 		if (iterationID != null) {
+ 			//This data stream is an input to some iteration
+ 			addIterationSource(returnStream);
+
+
+--- /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/runtime/tasks/OutputHandler.java	2018-12-29 12:37:22.188565000 -0500
++++ /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/patches_stp5/Patch_363/patched/tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/runtime/tasks/OutputHandler.java	2018-12-29 12:57:03.301070174 -0500
+@@ -137,8 +137,6 @@
+ 			Integer output = outputEdge.getTargetID();
+ 
+ 			Collector<?> outCollector = createChainedCollector(chainedConfigs.get(output));
+-
+-			wrapper.addCollector(outCollector, outputEdge);
+ 		}
+ 
+ 		if (chainedTaskConfig.isChainStart()) {
+
+
+--- /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/api/graph/StreamingJobGraphGenerator.java	2018-12-29 12:37:22.120564000 -0500
++++ /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/patches_stp5/Patch_363/patched/tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/api/graph/StreamingJobGraphGenerator.java	2018-12-29 12:57:03.305070175 -0500
+@@ -185,9 +185,6 @@
+ 
+ 				Map<Integer, StreamConfig> chainedConfs = chainedConfigs.get(startNode);
+ 
+-				if (chainedConfs == null) {
+-					chainedConfigs.put(startNode, new HashMap<Integer, StreamConfig>());
+-				}
+ 				chainedConfigs.get(startNode).put(current, config);
+ 			}
+ 
+
+
+--- /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/runtime/tasks/StreamTask.java	2018-12-29 12:37:22.188565000 -0500
++++ /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/patches_stp5/Patch_363/patched/tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/runtime/tasks/StreamTask.java	2018-12-29 12:57:03.305070175 -0500
+@@ -163,7 +163,6 @@
+ 		// We need to close them first to last, since upstream operators in the chain might emit
+ 		// elements in their close methods.
+ 		for (int i = outputHandler.chainedOperators.size()-1; i >= 0; i--) {
+-			outputHandler.chainedOperators.get(i).close();
+ 		}
+ 	}
+ 
+
+

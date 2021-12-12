@@ -1,0 +1,25 @@
+--- /tmp/Arja_Defects4J_Lang_63/src/java/org/apache/commons/lang/time/DurationFormatUtils.java	2018-12-01 05:15:44.533037303 -0500
++++ /tmp/Arja_Defects4J_Lang_63/patches_g3j7/Patch_1320/patched/tmp/Arja_Defects4J_Lang_63/src/java/org/apache/commons/lang/time/DurationFormatUtils.java	2018-12-01 05:26:54.406989689 -0500
+@@ -312,7 +312,11 @@
+             months -= 1;
+         }
+         while (months < 0) {
+-            months += 12;
++            while (minutes < 0) {
++				minutes += 60;
++				hours -= 1;
++			}
++			months += 12;
+             years -= 1;
+         }
+         milliseconds -= reduceAndCorrect(start, end, Calendar.MILLISECOND, milliseconds);
+@@ -435,7 +439,6 @@
+         int startValue = start.get(field);
+         if (endValue < startValue) {
+             int newdiff = startValue - endValue;
+-            end.add( field, newdiff );
+             return newdiff;
+         } else {
+             return 0;
+
+

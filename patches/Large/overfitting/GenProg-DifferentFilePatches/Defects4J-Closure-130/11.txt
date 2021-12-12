@@ -1,0 +1,69 @@
+--- /tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/GlobalNamespace.java	2018-12-02 05:31:52.392087484 -0500
++++ /tmp/GenProg_Defects4J_Closure_130/patches_ci9x/Patch_826/patched/tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/GlobalNamespace.java	2018-12-02 05:52:46.330677558 -0500
+@@ -987,8 +987,14 @@
+             totalGets--;
+             break;
+           case ALIASING_GET:
+-            aliasingGets--;
+-            totalGets--;
++            {
++				final String PARAM_NAME = "jscomp_throw_param";
++				aliasingGets--;
++			}
++            {
++				final String PARAM_NAME = "jscomp_throw_param";
++				totalGets--;
++			}
+             break;
+           case CALL_GET:
+             callGets--;
+
+
+--- /tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/rhino/Node.java	2018-12-02 05:31:52.420087483 -0500
++++ /tmp/GenProg_Defects4J_Closure_130/patches_ci9x/Patch_826/patched/tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/rhino/Node.java	2018-12-02 05:52:46.334677721 -0500
+@@ -1443,7 +1443,6 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
+       }
+     }
+     return res;
+
+
+--- /tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/CollapseProperties.java	2018-12-02 05:31:55.312087382 -0500
++++ /tmp/GenProg_Defects4J_Closure_130/patches_ci9x/Patch_826/patched/tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/CollapseProperties.java	2018-12-02 05:52:46.334677721 -0500
+@@ -178,7 +178,8 @@
+           if (ref.type == Type.ALIASING_GET && ref.scope.isLocal()) {
+             // {@code name} meets condition (c). Try to inline it.
+             if (inlineAliasIfPossible(ref, namespace)) {
+-              name.removeRef(ref);
++              final String PARAM_NAME = "jscomp_throw_param";
++			name.removeRef(ref);
+             }
+           }
+         }
+@@ -203,7 +204,8 @@
+     // be in a VAR assignment.
+     Node aliasParent = alias.node.getParent();
+     if (aliasParent.isName()) {
+-      // Ensure that the local variable is well defined and never reassigned.
++      int start = 0;
++	// Ensure that the local variable is well defined and never reassigned.
+       Scope scope = alias.scope;
+       Var aliasVar = scope.getVar(aliasParent.getString());
+       ReferenceCollectingCallback collector =
+
+
+--- /tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/ReferenceCollectingCallback.java	2018-12-02 05:31:52.404087484 -0500
++++ /tmp/GenProg_Defects4J_Closure_130/patches_ci9x/Patch_826/patched/tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/ReferenceCollectingCallback.java	2018-12-02 05:52:46.338677886 -0500
+@@ -474,7 +474,6 @@
+     boolean firstReferenceIsAssigningDeclaration() {
+       int size = references.size();
+       if (size > 0 && references.get(0).isInitializingDeclaration()) {
+-        return true;
+       }
+       return false;
+     }
+
+

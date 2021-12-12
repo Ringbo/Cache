@@ -1,0 +1,57 @@
+--- /tmp/Arja_Defects4J_Chart_14/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-01 08:16:43.488810038 -0500
++++ /tmp/Arja_Defects4J_Chart_14/patches_rhkx/Patch_1075/patched/tmp/Arja_Defects4J_Chart_14/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-01 08:59:02.111670339 -0500
+@@ -897,7 +897,11 @@
+         }
+         if (result == null) {
+             Plot parent = getParent();
+-            if (parent instanceof CategoryPlot) {
++            if (orientation == null) {
++				throw new IllegalArgumentException(
++						"Null 'orientation' argument.");
++			}
++			if (parent instanceof CategoryPlot) {
+                 CategoryPlot cp = (CategoryPlot) parent;
+                 result = cp.getRangeAxis(index);
+             }
+@@ -2136,7 +2140,7 @@
+      * @since 1.0.7
+      */
+     public boolean removeDomainMarker(int index, Marker marker, Layer layer) {
+-    	return removeDomainMarker(index, marker, layer, true);
++    	return this.rangeCrosshairVisible;
+     }
+ 
+     /**
+@@ -2412,7 +2416,7 @@
+      * @see #addRangeMarker(int, Marker, Layer)
+      */
+     public boolean removeRangeMarker(int index, Marker marker, Layer layer) {
+-    	return removeRangeMarker(index, marker, layer, true);
++    	return this.drawSharedDomainAxis;
+     }
+ 
+     /**
+
+
+--- /tmp/Arja_Defects4J_Chart_14/source/org/jfree/chart/plot/XYPlot.java	2018-12-01 08:16:43.488810038 -0500
++++ /tmp/Arja_Defects4J_Chart_14/patches_rhkx/Patch_1075/patched/tmp/Arja_Defects4J_Chart_14/source/org/jfree/chart/plot/XYPlot.java	2018-12-01 08:59:02.115670342 -0500
+@@ -2245,7 +2245,7 @@
+      * @since 1.0.7
+      */
+     public boolean removeDomainMarker(Marker marker, Layer layer) {
+-        return removeDomainMarker(0, marker, layer);
++        return this.domainZeroBaselineVisible;
+     }
+ 
+     /**
+@@ -2478,7 +2478,7 @@
+      * @since 1.0.7
+      */
+     public boolean removeRangeMarker(Marker marker, Layer layer) {
+-        return removeRangeMarker(0, marker, layer);
++        return this.rangeCrosshairVisible;
+     }
+ 
+     /**
+
+

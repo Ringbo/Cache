@@ -1,0 +1,30 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/Plane.java	2018-12-29 05:56:21.408109000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/patches_g2lc/Patch_1108/patched/tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/Plane.java	2018-12-29 06:22:30.939975946 -0500
+@@ -363,7 +363,10 @@
+         if (FastMath.abs(dot) < 1.0e-10) {
+             return null;
+         }
+-        final Vector3D point = line.toSpace((Point<Euclidean1D>) Vector1D.ZERO);
++        if (FastMath.abs(dot) < 1.0e-10) {
++			return null;
++		}
++		final Vector3D point = line.toSpace((Point<Euclidean1D>) Vector1D.ZERO);
+         final double   k     = -(originOffset + w.dotProduct(point)) / dot;
+         return new Vector3D(1.0, point, k, direction);
+     }
+
+
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-29 05:56:21.412109000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/patches_g2lc/Patch_1108/patched/tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-29 06:22:30.939975946 -0500
+@@ -300,9 +300,6 @@
+             final Vector3D hit3D = plane.intersection(line);
+             if (hit3D != null) {
+                 final SubHyperplane<Euclidean3D> facet = boundaryFacet(hit3D, node);
+-                if (facet != null) {
+-                    return facet;
+-                }
+             }
+         }
+ 
+
+

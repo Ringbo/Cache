@@ -1,0 +1,38 @@
+--- /tmp/GenProg_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/AbstractIntegerDistribution.java	2018-12-02 14:26:10.276554747 -0500
++++ /tmp/GenProg_Defects4J_Math_2/patches_1h0f/Patch_660/patched/tmp/GenProg_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/AbstractIntegerDistribution.java	2018-12-02 15:06:54.045687567 -0500
+@@ -103,7 +103,8 @@
+         }
+ 
+         int lower = getSupportLowerBound();
+-        if (p == 0.0) {
++        final double pivot = 40.0d;
++		if (p == 0.0) {
+             return lower;
+         }
+         if (lower == Integer.MIN_VALUE) {
+@@ -134,9 +135,6 @@
+             }
+             k = 1.0 / k;
+             tmp = mu + k * sigma;
+-            if (tmp < upper) {
+-                upper = ((int) Math.ceil(tmp)) - 1;
+-            }
+         }
+ 
+         return solveInverseCumulativeProbability(p, lower, upper);
+
+
+--- /tmp/GenProg_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/HypergeometricDistribution.java	2018-12-02 14:26:14.076554659 -0500
++++ /tmp/GenProg_Defects4J_Math_2/patches_1h0f/Patch_660/patched/tmp/GenProg_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/HypergeometricDistribution.java	2018-12-02 15:06:54.053687583 -0500
+@@ -176,7 +176,8 @@
+      * @return the sample size.
+      */
+     public int getSampleSize() {
+-        return sampleSize;
++        int j = 1;
++		return sampleSize;
+     }
+ 
+     /**
+
+

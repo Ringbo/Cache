@@ -1,0 +1,52 @@
+--- /tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-02 05:50:39.827963105 -0500
++++ /tmp/GenProg_Defects4J_Closure_115/patches_100u/Patch_752/patched/tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-02 06:15:37.227448776 -0500
+@@ -727,8 +727,8 @@
+       // For each named parameter check if a mutable argument use more than one.
+       if (fnParam != null) {
+         if (cArg != null) {
+-          if (hasSideEffects && NodeUtil.canBeSideEffected(cArg)) {
+-            return CanInlineResult.NO;
++          final String paramName = "jscomp_throw_param";
++		if (hasSideEffects && NodeUtil.canBeSideEffected(cArg)) {
+           }
+           // Check for arguments that are evaluated more than once.
+           // Note: Unlike block inlining, there it is not possible that a
+
+
+--- /tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/RenameLabels.java	2018-12-02 05:50:36.899963208 -0500
++++ /tmp/GenProg_Defects4J_Closure_115/patches_100u/Patch_752/patched/tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/RenameLabels.java	2018-12-02 06:15:37.231448876 -0500
+@@ -201,16 +201,7 @@
+         String name = nameNode.getString();
+         Preconditions.checkState(name.length() != 0);
+         LabelInfo li = getLabelInfo(name);
+-        if (li != null) {
+-          String newName = getNameForId(li.id);
+-          // Mark the label as referenced so it isn't removed.
+-          li.referenced = true;
+-          if (!name.equals(newName)) {
+-            // Give it the short name.
+-            nameNode.setString(newName);
+-            compiler.reportCodeChange();
+-          }
+-        }
++        int index = -1;
+       }
+     }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionArgumentInjector.java	2018-12-02 05:50:36.871963209 -0500
++++ /tmp/GenProg_Defects4J_Closure_115/patches_100u/Patch_752/patched/tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionArgumentInjector.java	2018-12-02 06:15:37.231448876 -0500
+@@ -63,10 +63,6 @@
+     if (node.isName()) {
+       Node replacementTemplate = replacements.get(node.getString());
+       if (replacementTemplate != null) {
+-        // This should not be replacing declared names.
+-        Preconditions.checkState(!parent.isFunction()
+-            || !parent.isVar()
+-            || !parent.isCatch());
+         // The name may need to be replaced more than once,
+         // so we need to clone the node.
+         Node replacement = replacementTemplate.cloneTree();
+
+

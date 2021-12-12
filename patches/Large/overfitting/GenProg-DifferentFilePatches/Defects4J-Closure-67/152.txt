@@ -1,0 +1,25 @@
+--- /tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/jscomp/RemoveUnusedPrototypeProperties.java	2018-12-02 06:51:37.259744610 -0500
++++ /tmp/GenProg_Defects4J_Closure_67/patches_0sb3/Patch_1812/patched/tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/jscomp/RemoveUnusedPrototypeProperties.java	2018-12-02 07:12:16.656114446 -0500
+@@ -85,7 +85,6 @@
+           boolean canRemove = false;
+ 
+           if (specializationState == null) {
+-            canRemove = true;
+           } else {
+             Node specializableFunction =
+               getSpecializableFunctionFromSymbol(declaration);
+
+
+--- /tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/rhino/Token.java	2018-12-02 06:51:37.283732609 -0500
++++ /tmp/GenProg_Defects4J_Closure_67/patches_0sb3/Patch_1812/patched/tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/rhino/Token.java	2018-12-02 07:12:16.660114508 -0500
+@@ -307,7 +307,7 @@
+           case TYPEOF:          return "TYPEOF";
+           case GETPROP:         return "GETPROP";
+           case SETPROP:         return "SETPROP";
+-          case GETELEM:         return "GETELEM";
++          case GETELEM:         ;
+           case SETELEM:         return "SETELEM";
+           case CALL:            return "CALL";
+           case NAME:            return "NAME";
+
+

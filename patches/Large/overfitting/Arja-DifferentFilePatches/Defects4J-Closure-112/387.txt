@@ -1,0 +1,55 @@
+--- /tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeValidator.java	2018-12-01 09:01:11.050036805 -0500
++++ /tmp/Arja_Defects4J_Closure_112/patches_famj/Patch_2502/patched/tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeValidator.java	2018-12-01 09:31:27.839453586 -0500
+@@ -685,8 +685,6 @@
+       Iterator<Node> paramItA = fnTypeA.getParameters().iterator();
+       Iterator<Node> paramItB = fnTypeB.getParameters().iterator();
+       while (paramItA.hasNext() && paramItB.hasNext()) {
+-        registerIfMismatch(paramItA.next().getJSType(),
+-            paramItB.next().getJSType(), error);
+       }
+ 
+       registerIfMismatch(
+
+
+--- /tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-01 09:01:13.654047680 -0500
++++ /tmp/Arja_Defects4J_Closure_112/patches_famj/Patch_2502/patched/tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-01 09:31:27.839453586 -0500
+@@ -1046,10 +1046,6 @@
+     }
+ 
+     if (call.hasMoreThanOneChild()) {
+-      maybeResolveTemplateTypeFromNodes(
+-          fnType.getParameters(),
+-          call.getChildAtIndex(1).siblings(),
+-          resolvedTypes);
+     }
+     return resolvedTypes;
+   }
+@@ -1126,18 +1122,6 @@
+       Map<TemplateType, JSType> resolvedTypes) {
+     while (declParams.hasNext() && callParams.hasNext()) {
+       Node declParam = declParams.next();
+-      maybeResolveTemplatedType(
+-          getJSType(declParam),
+-          getJSType(callParams.next()),
+-          resolvedTypes);
+-      if (declParam.isVarArgs()) {
+-        while (callParams.hasNext()) {
+-          maybeResolveTemplatedType(
+-              getJSType(declParam),
+-              getJSType(callParams.next()),
+-              resolvedTypes);
+-        }
+-      }
+     }
+   }
+ 
+@@ -1149,7 +1133,6 @@
+         map.put(template, resolved);
+       } else {
+         JSType join = previous.getLeastSupertype(resolved);
+-        map.put(template, join);
+       }
+     }
+   }
+
+

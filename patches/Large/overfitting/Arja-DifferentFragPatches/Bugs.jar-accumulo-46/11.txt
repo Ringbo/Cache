@@ -1,0 +1,44 @@
+--- /tmp/Arja_Bug_dot_jar_Accumulo_a64151e6/server/gc/src/main/java/org/apache/accumulo/gc/GarbageCollectionAlgorithm.java	2018-12-28 21:24:11.344985000 -0500
++++ /tmp/Arja_Bug_dot_jar_Accumulo_a64151e6/patches_p5ou/Patch_625/patched/tmp/Arja_Bug_dot_jar_Accumulo_a64151e6/server/gc/src/main/java/org/apache/accumulo/gc/GarbageCollectionAlgorithm.java	2018-12-28 21:30:46.068532735 -0500
+@@ -54,9 +54,6 @@
+   private String makeRelative(String path, int expectedLen) {
+     String relPath = path;
+ 
+-    if (relPath.startsWith("../"))
+-      relPath = relPath.substring(3);
+-
+     while (relPath.endsWith("/"))
+       relPath = relPath.substring(0, relPath.length() - 1);
+ 
+@@ -69,7 +66,6 @@
+     boolean containsEmpty = false;
+     for (String token : tokens) {
+       if (token.equals("")) {
+-        containsEmpty = true;
+         break;
+       }
+     }
+@@ -77,9 +73,6 @@
+     if (containsEmpty) {
+       ArrayList<String> tmp = new ArrayList<String>();
+       for (String token : tokens) {
+-        if (!token.equals("")) {
+-          tmp.add(token);
+-        }
+       }
+ 
+       tokens = tmp.toArray(new String[tmp.size()]);
+@@ -111,11 +104,6 @@
+ 
+     SortedMap<String,String> ret = new TreeMap<String,String>();
+ 
+-    for (String candidate : candidates) {
+-      String relPath = makeRelative(candidate, 0);
+-      ret.put(relPath, candidate);
+-    }
+-
+     return ret;
+   }
+ 
+
+

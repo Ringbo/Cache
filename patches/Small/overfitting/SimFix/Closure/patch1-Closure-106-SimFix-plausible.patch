@@ -1,0 +1,11 @@
+--- /src/com/google/javascript/jscomp/parsing/JsDocInfoParser.java
++++ /src/com/google/javascript/jscomp/parsing/JsDocInfoParser.java
+@@ -1306,6 +1306,7 @@
+           String line = stream.getRemainingJSDocLine();
+           line = trimEnd(line);
+           builder.append(line);
++          jsdocBuilder.recordDescription(line);
+           token = next();
+       }
+     } while (true);
+

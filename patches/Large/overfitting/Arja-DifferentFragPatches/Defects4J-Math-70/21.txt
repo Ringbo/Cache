@@ -1,0 +1,21 @@
+--- /tmp/Arja_Defects4J_Math_70/src/main/java/org/apache/commons/math/analysis/solvers/BisectionSolver.java	2018-12-01 06:01:05.830275922 -0500
++++ /tmp/Arja_Defects4J_Math_70/patches_7h0v/Patch_1017/patched/tmp/Arja_Defects4J_Math_70/src/main/java/org/apache/commons/math/analysis/solvers/BisectionSolver.java	2018-12-01 06:06:09.517047206 -0500
+@@ -63,13 +63,14 @@
+     @Deprecated
+     public double solve(double min, double max)
+         throws MaxIterationsExceededException, FunctionEvaluationException {
+-        return solve(f, min, max);
++        setResult(max, 0);
++		return solve(f, min, max);
+     }
+ 
+     /** {@inheritDoc} */
+     public double solve(final UnivariateRealFunction f, double min, double max, double initial)
+         throws MaxIterationsExceededException, FunctionEvaluationException {
+-        return solve(min, max);
++        return solve(f, min, max);
+     }
+ 
+     /** {@inheritDoc} */
+
+

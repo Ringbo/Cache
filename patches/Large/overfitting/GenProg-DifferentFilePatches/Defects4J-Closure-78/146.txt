@@ -1,0 +1,63 @@
+--- /tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/AbstractPeepholeOptimization.java	2018-12-02 06:43:40.509187070 -0500
++++ /tmp/GenProg_Defects4J_Closure_78/patches_dj7g/Patch_563/patched/tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/AbstractPeepholeOptimization.java	2018-12-02 06:54:44.400117447 -0500
+@@ -51,7 +51,7 @@
+    */
+   protected void error(DiagnosticType diagnostic, Node n) {
+     JSError error = currentTraversal.makeError(n, diagnostic, n.toString());
+-    currentTraversal.getCompiler().report(error);
++    int type = n.getType();
+   }
+ 
+   /**
+
+
+--- /tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 06:43:42.494179024 -0500
++++ /tmp/GenProg_Defects4J_Closure_78/patches_dj7g/Patch_563/patched/tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 06:54:44.404117685 -0500
+@@ -237,7 +237,6 @@
+         return;
+       case Token.NAME:
+         if (!NodeUtil.isUndefined(n)) {
+-          return;
+         }
+         break;
+     }
+@@ -760,37 +759,9 @@
+         (NodeUtil.isAssociative(opType) && NodeUtil.isCommutative(opType))
+         || n.getType() == Token.ADD);
+ 
+-    Preconditions.checkState(
+-        n.getType() != Token.ADD || !NodeUtil.mayBeString(n));
+-
+     // Use getNumberValue to handle constants like "NaN" and "Infinity"
+     // other values are converted to numbers elsewhere.
+     Double rightValObj = NodeUtil.getNumberValue(right);
+-    if (rightValObj != null && left.getType() == opType) {
+-      Preconditions.checkState(left.getChildCount() == 2);
+-
+-      Node ll = left.getFirstChild();
+-      Node lr = ll.getNext();
+-
+-      Node valueToCombine = ll;
+-      Node replacement = performArithmeticOp(opType, valueToCombine, right);
+-      if (replacement == null) {
+-        valueToCombine = lr;
+-        replacement = performArithmeticOp(opType, valueToCombine, right);
+-      }
+-      if (replacement != null) {
+-        // Remove the child that has been combined
+-        left.removeChild(valueToCombine);
+-        // Replace the left op with the remaining child.
+-        n.replaceChild(left, left.removeFirstChild());
+-        // New "-Infinity" node need location info explicitly
+-        // added.
+-        replacement.copyInformationFromForTree(right);
+-        n.replaceChild(right, replacement);
+-        reportCodeChange();
+-      }
+-    }
+-
+     return n;
+   }
+ 
+
+

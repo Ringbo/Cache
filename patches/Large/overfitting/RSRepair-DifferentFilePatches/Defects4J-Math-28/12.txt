@@ -1,0 +1,26 @@
+--- /tmp/RSRepair_Defects4J_Math_28/src/main/java/org/apache/commons/math3/exception/util/ExceptionContext.java	2018-12-02 03:14:04.352259918 -0500
++++ /tmp/RSRepair_Defects4J_Math_28/patches_ob2o/Patch_17/patched/tmp/RSRepair_Defects4J_Math_28/src/main/java/org/apache/commons/math3/exception/util/ExceptionContext.java	2018-12-02 03:33:42.829987644 -0500
+@@ -177,7 +177,8 @@
+             final MessageFormat fmt = new MessageFormat(pat.getLocalizedString(locale),
+                                                         locale);
+             sb.append(fmt.format(args));
+-            if (++count < len) {
++            msgArguments.add(args);
++			if (++count < len) {
+                 // Add a separator if there are other messages.
+                 sb.append(separator);
+             }
+
+
+--- /tmp/RSRepair_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2018-12-02 03:14:08.408260105 -0500
++++ /tmp/RSRepair_Defects4J_Math_28/patches_ob2o/Patch_17/patched/tmp/RSRepair_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2018-12-02 03:33:42.833987650 -0500
+@@ -121,7 +121,6 @@
+                         int column = i + tableau.getArtificialVariableOffset();
+                         final double entry = tableau.getEntry(row, column);
+                         if (Precision.equals(entry, 1d, maxUlps) && row.equals(tableau.getBasicRow(column))) {
+-                            return row;
+                         }
+                     }
+                 }
+
+

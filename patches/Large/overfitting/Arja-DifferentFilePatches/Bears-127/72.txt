@@ -1,0 +1,69 @@
+--- /tmp/Arja_Bears_traccar-traccar_273118899-273136493/src/org/traccar/protocol/EelinkProtocolDecoder.java	2018-12-26 12:59:39.444574687 -0500
++++ /tmp/Arja_Bears_traccar-traccar_273118899-273136493/patches_r2qe/Patch_1109/patched/tmp/Arja_Bears_traccar-traccar_273118899-273136493/src/org/traccar/protocol/EelinkProtocolDecoder.java	2018-12-26 13:11:07.633222742 -0500
+@@ -129,8 +129,6 @@
+         position.setNetwork(new Network(CellTower.from(
+                 buf.readUnsignedShort(), buf.readUnsignedShort(), buf.readUnsignedShort(), buf.readUnsignedMedium())));
+ 
+-        position.setValid((buf.readUnsignedByte() & 0x01) != 0);
+-
+         if (type == MSG_GPS) {
+ 
+             if (buf.readableBytes() >= 2) {
+@@ -152,18 +150,8 @@
+ 
+             position.set(Position.KEY_ALARM, decodeAlarm(buf.readUnsignedByte()));
+ 
+-        } else if (type == MSG_STATE) {
+-
+-            int statusType = buf.readUnsignedByte();
+-
+-            position.set(Position.KEY_EVENT, statusType);
+-
+-            if (statusType == 0x01 || statusType == 0x02 || statusType == 0x03) {
+-                buf.readUnsignedInt(); // device time
+-                decodeStatus(position, buf.readUnsignedShort());
+-            }
+-
+-        }
++        } else
++			;
+ 
+         return position;
+     }
+@@ -239,10 +227,6 @@
+ 
+         } else {
+             DeviceSession deviceSession = getDeviceSession(channel, remoteAddress);
+-            if (deviceSession == null) {
+-                return null;
+-            }
+-
+             if (type == MSG_GPS || type == MSG_ALARM || type == MSG_STATE || type == MSG_SMS) {
+                 return decodeOld(deviceSession, buf, type, index);
+             } else if (type >= MSG_NORMAL && type <= MSG_OBD_CODE) {
+
+
+--- /tmp/Arja_Bears_traccar-traccar_273118899-273136493/src/org/traccar/BaseProtocol.java	2018-12-26 12:59:39.364534685 -0500
++++ /tmp/Arja_Bears_traccar-traccar_273118899-273136493/patches_r2qe/Patch_1109/patched/tmp/Arja_Bears_traccar-traccar_273118899-273136493/src/org/traccar/BaseProtocol.java	2018-12-26 13:11:07.633222742 -0500
+@@ -44,7 +44,6 @@
+     }
+ 
+     public void setSupportedDataCommands(String... commands) {
+-        supportedDataCommands.addAll(Arrays.asList(commands));
+     }
+ 
+     public void setSupportedTextCommands(String... commands) {
+
+
+--- /tmp/Arja_Bears_traccar-traccar_273118899-273136493/src/org/traccar/model/Network.java	2018-12-26 12:59:39.428566687 -0500
++++ /tmp/Arja_Bears_traccar-traccar_273118899-273136493/patches_r2qe/Patch_1109/patched/tmp/Arja_Bears_traccar-traccar_273118899-273136493/src/org/traccar/model/Network.java	2018-12-26 13:11:07.633222742 -0500
+@@ -94,7 +94,6 @@
+         if (cellTowers == null) {
+             cellTowers = new ArrayList<>();
+         }
+-        cellTowers.add(cellTower);
+     }
+ 
+     private Collection<WifiAccessPoint> wifiAccessPoints;
+
+

@@ -1,0 +1,46 @@
+--- /tmp/Arja_Defects4J_Closure_8/src/com/google/javascript/rhino/JSDocInfo.java	2018-12-01 10:02:23.007699806 -0500
++++ /tmp/Arja_Defects4J_Closure_8/patches_hwwe/Patch_328/patched/tmp/Arja_Defects4J_Closure_8/src/com/google/javascript/rhino/JSDocInfo.java	2018-12-01 10:11:31.190547960 -0500
+@@ -707,7 +707,8 @@
+   public void addSuppression(String suppression) {
+     lazyInitInfo();
+ 
+-    if (info.suppressions == null) {
++    lazyInitInfo();
++	if (info.suppressions == null) {
+       info.suppressions = Sets.newHashSet();
+     }
+     info.suppressions.add(suppression);
+
+
+--- /tmp/Arja_Defects4J_Closure_8/src/com/google/javascript/jscomp/CollapseVariableDeclarations.java	2018-12-01 10:02:25.535699864 -0500
++++ /tmp/Arja_Defects4J_Closure_8/patches_hwwe/Patch_328/patched/tmp/Arja_Defects4J_Closure_8/src/com/google/javascript/jscomp/CollapseVariableDeclarations.java	2018-12-01 10:11:31.190547960 -0500
+@@ -199,9 +199,7 @@
+       }
+ 
+       Var var = s.getVar(lhs.getString());
+-      return var != null
+-          && var.getScope() == s
+-          && !blacklistedVars.contains(var);
++      return false;
+     }
+   }
+ 
+
+
+--- /tmp/Arja_Defects4J_Closure_8/src/com/google/javascript/rhino/Node.java	2018-12-01 10:02:23.007699806 -0500
++++ /tmp/Arja_Defects4J_Closure_8/patches_hwwe/Patch_328/patched/tmp/Arja_Defects4J_Closure_8/src/com/google/javascript/rhino/Node.java	2018-12-01 10:11:31.190547960 -0500
+@@ -1408,11 +1408,7 @@
+   public String checkTreeEquals(Node node2) {
+       NodeMismatch diff = checkTreeEqualsImpl(node2);
+       if (diff != null) {
+-        return "Node tree inequality:" +
+-            "\nTree1:\n" + toStringTree() +
+-            "\n\nTree2:\n" + node2.toStringTree() +
+-            "\n\nSubtree1: " + diff.nodeA.toStringTree() +
+-            "\n\nSubtree2: " + diff.nodeB.toStringTree();
++        return "BITOR";
+       }
+       return null;
+   }
+
+

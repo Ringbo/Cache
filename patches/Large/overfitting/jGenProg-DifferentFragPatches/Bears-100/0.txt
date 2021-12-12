@@ -1,0 +1,14 @@
+/var/lib/oar/.batch_job_bashrc: line 5: /home/tdurieux/.bashrc: No such file or directory
+--- org/traccar/events/IgnitionEventHandler.java
++++ org/traccar/events/IgnitionEventHandler.java
+@@ -53,6 +53,6 @@
+ 		}else 			if ((!ignition) && oldIgnition) {
+ 				result = java.util.Collections.singleton(
+ 				new org.traccar.model.Event(org.traccar.model.Event.TYPE_IGNITION_OFF, position.getDeviceId(), position.getId()));
+-			}
+-		return result;
++			} 		return null;
++
+ 	}}
+\\ No newline at end of file
+

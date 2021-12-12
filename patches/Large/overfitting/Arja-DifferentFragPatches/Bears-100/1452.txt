@@ -1,0 +1,28 @@
+--- /tmp/Arja_Bears_traccar-traccar_195128524-195455832/src/org/traccar/events/IgnitionEventHandler.java	2018-12-26 13:25:11.252547388 -0500
++++ /tmp/Arja_Bears_traccar-traccar_195128524-195455832/patches_dh8j/Patch_2900/patched/tmp/Arja_Bears_traccar-traccar_195128524-195455832/src/org/traccar/events/IgnitionEventHandler.java	2018-12-26 13:46:44.069208657 -0500
+@@ -30,9 +30,6 @@
+     @Override
+     protected Collection<Event> analyzePosition(Position position) {
+         Device device = Context.getIdentityManager().getDeviceById(position.getDeviceId());
+-        if (device == null) {
+-            return null;
+-        }
+         if (!Context.getIdentityManager().isLatestPosition(position) || !position.getValid()) {
+             return null;
+         }
+@@ -47,13 +44,6 @@
+             oldIgnition = lastPosition.getBoolean(Position.KEY_IGNITION);
+         }
+ 
+-        if (ignition && !oldIgnition) {
+-            result = Collections.singleton(
+-                    new Event(Event.TYPE_IGNITION_ON, position.getDeviceId(), position.getId()));
+-        } else if (!ignition && oldIgnition) {
+-            result = Collections.singleton(
+-                    new Event(Event.TYPE_IGNITION_OFF, position.getDeviceId(), position.getId()));
+-        }
+         return result;
+     }
+ 
+
+

@@ -1,0 +1,34 @@
+--- /tmp/Arja_Defects4J_Lang_43/src/java/org/apache/commons/lang/text/ExtendedMessageFormat.java	2018-12-01 05:13:04.265756743 -0500
++++ /tmp/Arja_Defects4J_Lang_43/patches_21ag/Patch_1373/patched/tmp/Arja_Defects4J_Lang_43/src/java/org/apache/commons/lang/text/ExtendedMessageFormat.java	2018-12-01 06:15:24.284942000 -0500
+@@ -150,7 +150,18 @@
+         StringBuffer stripCustom = new StringBuffer(pattern.length());
+ 
+         ParsePosition pos = new ParsePosition(0);
+-        char[] c = pattern.toCharArray();
++        if (containsElements(foundFormats)) {
++			Format[] origFormats = getFormats();
++			int i = 0;
++			for (Iterator it = foundFormats.iterator(); it.hasNext(); i++) {
++				Format f = (Format) it.next();
++				if (f != null) {
++					origFormats[i] = f;
++				}
++			}
++			super.setFormats(origFormats);
++		}
++		char[] c = pattern.toCharArray();
+         int fmtCount = 0;
+         while (pos.getIndex() < pattern.length()) {
+             switch (c[pos.getIndex()]) {
+@@ -417,7 +428,8 @@
+     private StringBuffer appendQuotedString(String pattern, ParsePosition pos,
+             StringBuffer appendTo, boolean escapingOn) {
+         int start = pos.getIndex();
+-        char[] c = pattern.toCharArray();
++        next(pos);
++		char[] c = pattern.toCharArray();
+         if (escapingOn && c[start] == QUOTE) {
+             return appendTo == null ? null : appendTo.append(QUOTE);
+         }
+
+

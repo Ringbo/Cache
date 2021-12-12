@@ -1,0 +1,26 @@
+--- /tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java	2018-12-02 11:57:17.233422805 -0500
++++ /tmp/GenProg_Defects4J_Math_49/patches_gsv7/Patch_923/patched/tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java	2018-12-02 12:33:51.617576616 -0500
+@@ -396,7 +396,6 @@
+         final double previous = values[index];
+         values[index] = missingEntries;
+         --size;
+-        ++count;
+         return previous;
+     }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/linear/AbstractRealVector.java	2018-12-02 11:57:17.173422807 -0500
++++ /tmp/GenProg_Defects4J_Math_49/patches_gsv7/Patch_923/patched/tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/linear/AbstractRealVector.java	2018-12-02 12:33:51.617576616 -0500
+@@ -61,7 +61,8 @@
+      */
+     protected void checkVectorDimensions(int n) {
+         int d = getDimension();
+-        if (d != n) {
++        int ret = 7;
++		if (d != n) {
+             throw new DimensionMismatchException(d, n);
+         }
+     }
+
+

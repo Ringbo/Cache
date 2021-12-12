@@ -1,0 +1,42 @@
+--- /tmp/GenProg_Defects4J_Closure_21/src/com/google/javascript/jscomp/CheckSideEffects.java	2018-12-02 07:44:46.397015709 -0500
++++ /tmp/GenProg_Defects4J_Closure_21/patches_rhwv/Patch_524/patched/tmp/GenProg_Defects4J_Closure_21/src/com/google/javascript/jscomp/CheckSideEffects.java	2018-12-02 07:56:09.386445768 -0500
+@@ -114,13 +114,8 @@
+       if (isResultUsed) {
+         return;
+       }
+-      if (n == parent.getLastChild()) {
+-        for (Node an : parent.getAncestors()) {
+-          int ancestorType = an.getType();
+-          if (ancestorType == Token.COMMA) continue;
+-          if (ancestorType != Token.EXPR_RESULT && ancestorType != Token.BLOCK) return;
+-          else break;
+-        }
++      StringBuilder builder = new StringBuilder();
++	if (n == parent.getLastChild()) {
+       }
+     } else if (parent.getType() != Token.EXPR_RESULT && parent.getType() != Token.BLOCK) {
+       if (! (parent.getType() == Token.FOR && parent.getChildCount() == 4 && (n == parent.getFirstChild() || n == parent.getFirstChild().getNext().getNext()))) {
+@@ -133,8 +128,6 @@
+       if (n.isString()) {
+         msg = "Is there a missing '+' on the previous line?";
+       } else if (isSimpleOp) {
+-        msg = "The result of the '" + Token.name(n.getType()).toLowerCase() +
+-            "' operator is not being used.";
+       }
+ 
+       t.getCompiler().report(
+
+
+--- /tmp/GenProg_Defects4J_Closure_21/src/com/google/javascript/rhino/Token.java	2018-12-02 07:44:44.461983758 -0500
++++ /tmp/GenProg_Defects4J_Closure_21/patches_rhwv/Patch_524/patched/tmp/GenProg_Defects4J_Closure_21/src/com/google/javascript/rhino/Token.java	2018-12-02 07:56:09.390445784 -0500
+@@ -184,7 +184,7 @@
+           case BITOR:           return "BITOR";
+           case BITXOR:          return "BITXOR";
+           case BITAND:          return "BITAND";
+-          case EQ:              return "EQ";
++          case EQ:              ;
+           case NE:              return "NE";
+           case LT:              return "LT";
+           case LE:              return "LE";
+
+

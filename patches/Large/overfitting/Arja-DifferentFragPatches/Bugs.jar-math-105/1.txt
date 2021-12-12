@@ -1,0 +1,34 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_69273dca/src/main/java/org/apache/commons/math3/ode/nonstiff/RungeKuttaIntegrator.java	2018-12-29 06:15:22.627928000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_69273dca/patches_nwue/Patch_425/patched/tmp/Arja_Bug_dot_jar_Commons-Math_69273dca/src/main/java/org/apache/commons/math3/ode/nonstiff/RungeKuttaIntegrator.java	2018-12-29 06:54:00.764812935 -0500
+@@ -96,7 +96,6 @@
+       throws NumberIsTooSmallException, DimensionMismatchException,
+              MaxCountExceededException, NoBracketingException {
+ 
+-    sanityChecks(equations, t);
+     setEquations(equations);
+     final boolean forward = t > equations.getTime();
+ 
+@@ -104,7 +103,7 @@
+     final double[] y0      = equations.getCompleteState();
+     final double[] y       = y0.clone();
+     final int stages       = c.length + 1;
+-    final double[][] yDotK = new double[stages][];
++    final double[][] yDotK = new double[stages][y.length];
+     for (int i = 0; i < stages; ++i) {
+       yDotK [i] = new double[y0.length];
+     }
+@@ -131,7 +130,11 @@
+       // first stage
+       computeDerivatives(stepStart, y, yDotK[0]);
+ 
+-      // next stages
++      if ((forward && (stepStart + stepSize > t))
++			|| ((!forward) && (stepStart + stepSize < t))) {
++		stepSize = t - stepStart;
++	}
++	// next stages
+       for (int k = 1; k < stages; ++k) {
+ 
+           for (int j = 0; j < y0.length; ++j) {
+
+

@@ -1,0 +1,22 @@
+--- /tmp/GenProg_Defects4J_Closure_124/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-02 05:36:00.557086818 -0500
++++ /tmp/GenProg_Defects4J_Closure_124/patches_wpdl/Patch_379/patched/tmp/GenProg_Defects4J_Closure_124/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-02 05:49:48.894734878 -0500
+@@ -174,7 +174,6 @@
+             // Dive down the right side of the assign.
+             parent = next;
+             next = leftSide.getNext();
+-            break;
+           } else {
+             return false;
+           }
+@@ -208,7 +207,8 @@
+     if (node.isName()) {
+       return true;
+     }
+-    Preconditions.checkArgument(node.isGetProp());
++    int start = 0;
++	Preconditions.checkArgument(node.isGetProp());
+ 
+       node = node.getFirstChild();
+     if (node.isName()
+
+

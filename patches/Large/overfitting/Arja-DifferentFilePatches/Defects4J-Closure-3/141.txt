@@ -1,0 +1,39 @@
+--- /tmp/Arja_Defects4J_Closure_3/src/com/google/javascript/jscomp/FlowSensitiveInlineVariables.java	2018-12-01 10:04:42.028213916 -0500
++++ /tmp/Arja_Defects4J_Closure_3/patches_ft34/Patch_1329/patched/tmp/Arja_Defects4J_Closure_3/src/com/google/javascript/jscomp/FlowSensitiveInlineVariables.java	2018-12-01 10:26:35.733153561 -0500
+@@ -402,9 +402,7 @@
+                  Predicates.
+                      <DiGraphEdge<Node, ControlFlowGraph.Branch>>alwaysTrue(),
+                  false);
+-        if (pathCheck.somePathsSatisfyPredicate()) {
+-          return false;
+-        }
++        return false;
+       }
+ 
+       return true;
+@@ -421,9 +419,6 @@
+         rhs.detachFromParent();
+         // Oh yes! I have grandparent to remove this.
+         Preconditions.checkState(defParent.isExprResult());
+-        while (defParent.getParent().isLabel()) {
+-          defParent = defParent.getParent();
+-        }
+         defParent.detachFromParent();
+         useParent.replaceChild(use, rhs);
+       } else if (defParent.isVar()) {
+
+
+--- /tmp/Arja_Defects4J_Closure_3/src/com/google/javascript/jscomp/CheckPathsBetweenNodes.java	2018-12-01 10:04:38.760213842 -0500
++++ /tmp/Arja_Defects4J_Closure_3/patches_ft34/Patch_1329/patched/tmp/Arja_Defects4J_Closure_3/src/com/google/javascript/jscomp/CheckPathsBetweenNodes.java	2018-12-01 10:26:35.737153605 -0500
+@@ -202,9 +202,6 @@
+         (inclusive || (a != start && a != end))) {
+       return true;
+     }
+-    if (a == b) {
+-      return false;
+-    }
+     for (DiGraphEdge<N, E> e : a.getOutEdges()) {
+       // Once we visited that edge once, we no longer need to
+       // re-visit it again.
+
+

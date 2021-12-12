@@ -1,0 +1,26 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_cc4ab51e/src/main/java/org/apache/commons/math3/distribution/SaddlePointExpansion.java	2018-12-29 05:47:46.653285000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_cc4ab51e/patches_lhtt/Patch_325/patched/tmp/Arja_Bug_dot_jar_Commons-Math_cc4ab51e/src/main/java/org/apache/commons/math3/distribution/SaddlePointExpansion.java	2018-12-29 06:25:29.806211857 -0500
+@@ -160,7 +160,10 @@
+             }
+             ret = s1;
+         } else {
+-            ret = x * FastMath.log(x / mu) + mu - x;
++            if (x <= 0) {
++				return 0;
++			}
++			ret = x * FastMath.log(x / mu) + mu - x;
+         }
+         return ret;
+     }
+@@ -178,7 +181,8 @@
+     static double logBinomialProbability(int x, int n, double p, double q) {
+         double ret;
+         if (x == 0) {
+-            if (p < 0.1) {
++            ret = Double.POSITIVE_INFINITY;
++			if (p < 0.1) {
+                 ret = -getDeviancePart(n, n * q) - n * p;
+             } else {
+                 ret = n * FastMath.log(q);
+
+

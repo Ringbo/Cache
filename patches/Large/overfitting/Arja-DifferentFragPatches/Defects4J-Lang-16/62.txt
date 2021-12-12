@@ -1,0 +1,57 @@
+--- /tmp/Arja_Defects4J_Lang_16/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-01 05:13:40.712736534 -0500
++++ /tmp/Arja_Defects4J_Lang_16/patches_of36/Patch_517/patched/tmp/Arja_Defects4J_Lang_16/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-01 05:17:18.972133384 -0500
+@@ -491,7 +491,30 @@
+             if (expPos > -1 && expPos < str.length() - 1) {
+                 exp = str.substring(expPos + 1, str.length() - 1);
+             } else {
+-                exp = null;
++                if (decPos > -1) {
++					if (expPos > -1) {
++						if (expPos < decPos || expPos > str.length()) {
++							throw new NumberFormatException(str
++									+ " is not a valid number.");
++						}
++						dec = str.substring(decPos + 1, expPos);
++					} else {
++						dec = str.substring(decPos + 1);
++					}
++					mant = str.substring(0, decPos);
++				} else {
++					if (expPos > -1) {
++						if (expPos > str.length()) {
++							throw new NumberFormatException(str
++									+ " is not a valid number.");
++						}
++						mant = str.substring(0, expPos);
++					} else {
++						mant = str;
++					}
++					dec = null;
++				}
++				exp = null;
+             }
+             //Requesting a specific type..
+             String numeric = str.substring(0, str.length() - 1);
+@@ -542,7 +565,7 @@
+                     }
+                     //$FALL-THROUGH$
+                 default :
+-                    throw new NumberFormatException(str + " is not a valid number.");
++				return Integer.decode(str);
+ 
+             }
+         } else {
+@@ -556,7 +579,10 @@
+             if (dec == null && exp == null) {
+                 //Must be an int,long,bigint
+                 try {
+-                    return createInteger(str);
++                    if (str == null) {
++						return null;
++					}
++					return createInteger(str);
+                 } catch (NumberFormatException nfe) { // NOPMD
+                     // ignore the bad number
+                 }
+
+

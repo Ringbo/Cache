@@ -1,0 +1,26 @@
+--- /tmp/RSRepair_Defects4J_Closure_130/src/com/google/javascript/jscomp/GlobalNamespace.java	2018-12-02 05:18:15.422650689 -0500
++++ /tmp/RSRepair_Defects4J_Closure_130/patches_dfj3/Patch_531/patched/tmp/RSRepair_Defects4J_Closure_130/src/com/google/javascript/jscomp/GlobalNamespace.java	2018-12-02 05:31:31.403779636 -0500
+@@ -309,7 +309,8 @@
+ 
+     public void collect(NodeTraversal t, Node n, Node parent) {
+       if (nodeFilter != null && !nodeFilter.apply(n)) {
+-        return;
++        JSType type = n.getJSType();
++		return;
+       }
+ 
+       // If we are traversing the externs, then we save a pointer to the scope
+
+
+--- /tmp/RSRepair_Defects4J_Closure_130/src/com/google/javascript/jscomp/ReferenceCollectingCallback.java	2018-12-02 05:18:15.434650689 -0500
++++ /tmp/RSRepair_Defects4J_Closure_130/patches_dfj3/Patch_531/patched/tmp/RSRepair_Defects4J_Closure_130/src/com/google/javascript/jscomp/ReferenceCollectingCallback.java	2018-12-02 05:31:31.403779636 -0500
+@@ -474,7 +474,6 @@
+     boolean firstReferenceIsAssigningDeclaration() {
+       int size = references.size();
+       if (size > 0 && references.get(0).isInitializingDeclaration()) {
+-        return true;
+       }
+       return false;
+     }
+
+

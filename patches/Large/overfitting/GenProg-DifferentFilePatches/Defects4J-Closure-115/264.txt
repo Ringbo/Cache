@@ -1,0 +1,73 @@
+--- /tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-02 05:50:39.827963105 -0500
++++ /tmp/GenProg_Defects4J_Closure_115/patches_100u/Patch_698/patched/tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-02 06:14:40.870059190 -0500
+@@ -728,7 +728,6 @@
+       if (fnParam != null) {
+         if (cArg != null) {
+           if (hasSideEffects && NodeUtil.canBeSideEffected(cArg)) {
+-            return CanInlineResult.NO;
+           }
+           // Check for arguments that are evaluated more than once.
+           // Note: Unlike block inlining, there it is not possible that a
+
+
+--- /tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/InlineFunctions.java	2018-12-02 05:50:36.879963209 -0500
++++ /tmp/GenProg_Defects4J_Closure_115/patches_100u/Patch_698/patched/tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/InlineFunctions.java	2018-12-02 06:14:40.870059190 -0500
+@@ -691,7 +691,6 @@
+         fs.setRemove(false);
+         fs.removeBlockInliningReferences();
+         if (!fs.hasReferences() || !inliningLowersCost(fs)) {
+-          return false;
+         }
+       } else {
+         return false;
+
+
+--- /tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionToBlockMutator.java	2018-12-02 05:50:36.875963209 -0500
++++ /tmp/GenProg_Defects4J_Closure_115/patches_100u/Patch_698/patched/tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionToBlockMutator.java	2018-12-02 06:14:40.874059289 -0500
+@@ -198,7 +198,8 @@
+ 
+     @Override
+     public String get() {
+-        return "JSCompiler_inline_label_" + idSupplier.get();
++        int start = 0;
++		return "JSCompiler_inline_label_" + idSupplier.get();
+     }
+   }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/rhino/Node.java	2018-12-02 05:50:37.095963201 -0500
++++ /tmp/GenProg_Defects4J_Closure_115/patches_100u/Patch_698/patched/tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/rhino/Node.java	2018-12-02 06:14:40.874059289 -0500
+@@ -1456,7 +1456,7 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
++        int slashV1 = this.getIntProp(SLASH_V);
+       }
+     }
+     return res;
+
+
+--- /tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/RenameLabels.java	2018-12-02 05:50:36.899963208 -0500
++++ /tmp/GenProg_Defects4J_Closure_115/patches_100u/Patch_698/patched/tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/RenameLabels.java	2018-12-02 06:14:40.878059386 -0500
+@@ -201,16 +201,7 @@
+         String name = nameNode.getString();
+         Preconditions.checkState(name.length() != 0);
+         LabelInfo li = getLabelInfo(name);
+-        if (li != null) {
+-          String newName = getNameForId(li.id);
+-          // Mark the label as referenced so it isn't removed.
+-          li.referenced = true;
+-          if (!name.equals(newName)) {
+-            // Give it the short name.
+-            nameNode.setString(newName);
+-            compiler.reportCodeChange();
+-          }
+-        }
++        int index = -1;
+       }
+     }
+ 
+
+

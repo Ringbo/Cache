@@ -1,0 +1,37 @@
+--- /tmp/Arja_Defects4J_Closure_8/src/com/google/javascript/jscomp/CollapseVariableDeclarations.java	2018-12-01 10:02:25.535699864 -0500
++++ /tmp/Arja_Defects4J_Closure_8/patches_hwwe/Patch_125/patched/tmp/Arja_Defects4J_Closure_8/src/com/google/javascript/jscomp/CollapseVariableDeclarations.java	2018-12-01 10:09:32.174094759 -0500
+@@ -199,9 +199,7 @@
+       }
+ 
+       Var var = s.getVar(lhs.getString());
+-      return var != null
+-          && var.getScope() == s
+-          && !blacklistedVars.contains(var);
++      return false;
+     }
+   }
+ 
+
+
+--- /tmp/Arja_Defects4J_Closure_8/src/com/google/javascript/rhino/Node.java	2018-12-01 10:02:23.007699806 -0500
++++ /tmp/Arja_Defects4J_Closure_8/patches_hwwe/Patch_125/patched/tmp/Arja_Defects4J_Closure_8/src/com/google/javascript/rhino/Node.java	2018-12-01 10:09:32.178094774 -0500
+@@ -1437,7 +1437,16 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
++        for (n = first, n2 = node2.first; res == null && n != null; n = n.next, n2 = n2.next) {
++			if (node2 == null) {
++				throw new IllegalStateException();
++			}
++			res = n.checkTreeEqualsImpl(n2);
++			if (res != null) {
++				return res;
++			}
++		}
++		return res;
+       }
+     }
+     return res;
+
+

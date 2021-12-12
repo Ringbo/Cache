@@ -1,0 +1,22 @@
+--- /tmp/RSRepair_Defects4J_Closure_126/src/com/google/javascript/jscomp/MinimizeExitPoints.java	2018-12-02 05:17:40.318586462 -0500
++++ /tmp/RSRepair_Defects4J_Closure_126/patches_76pb/Patch_163/patched/tmp/RSRepair_Defects4J_Closure_126/src/com/google/javascript/jscomp/MinimizeExitPoints.java	2018-12-02 05:23:33.107323649 -0500
+@@ -131,7 +131,8 @@
+       if (NodeUtil.hasCatchHandler(allCatchNodes)) {
+         Preconditions.checkState(allCatchNodes.hasOneChild());
+         Node catchNode = allCatchNodes.getFirstChild();
+-        Node catchCodeBlock = catchNode.getLastChild();
++        int start = 0;
++		Node catchCodeBlock = catchNode.getLastChild();
+         tryMinimizeExits(catchCodeBlock, exitType, labelName);
+       }
+       /* Don't try to minimize the exits of finally blocks, as this
+@@ -140,7 +141,6 @@
+        */
+       if (NodeUtil.hasFinally(n)) {
+         Node finallyBlock = n.getLastChild();
+-        tryMinimizeExits(finallyBlock, exitType, labelName);
+       }
+     }
+ 
+
+

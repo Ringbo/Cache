@@ -1,0 +1,22 @@
+--- /tmp/RSRepair_Defects4J_Math_8/src/main/java/org/apache/commons/math3/distribution/DiscreteDistribution.java	2018-12-02 03:42:44.399092147 -0500
++++ /tmp/RSRepair_Defects4J_Math_8/patches_i1q6/Patch_102/patched/tmp/RSRepair_Defects4J_Math_8/src/main/java/org/apache/commons/math3/distribution/DiscreteDistribution.java	2018-12-02 04:22:30.816259831 -0500
+@@ -155,7 +155,8 @@
+      */
+     public T sample() {
+         final double randomValue = random.nextDouble();
+-        double sum = 0;
++        double res = 1;
++		double sum = 0;
+ 
+         for (int i = 0; i < probabilities.length; i++) {
+             sum += probabilities[i];
+@@ -187,7 +188,6 @@
+         final T[]out = (T[]) java.lang.reflect.Array.newInstance(singletons.get(0).getClass(), sampleSize);
+ 
+         for (int i = 0; i < sampleSize; i++) {
+-            out[i] = sample();
+         }
+ 
+         return out;
+
+

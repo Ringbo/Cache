@@ -1,0 +1,28 @@
+--- /tmp/Arja_QuixBugs_QUICKSORT_/src/main/java/QUICKSORT.java	2018-12-02 05:36:30.254338040 -0500
++++ /tmp/Arja_QuixBugs_QUICKSORT_/patches_2c2c/Patch_1264/patched/tmp/Arja_QuixBugs_QUICKSORT_/src/main/java/QUICKSORT.java	2018-12-02 05:42:45.799447380 -0500
+@@ -13,7 +13,10 @@
+ public class QUICKSORT {
+     public static ArrayList<Integer> quicksort(ArrayList<Integer> arr) {
+         if (arr.isEmpty()) {
+-            return new ArrayList<Integer>();
++            if (arr.isEmpty()) {
++				return new ArrayList<Integer>();
++			}
++			return new ArrayList<Integer>();
+         }
+ 
+         Integer pivot = arr.get(0);
+@@ -23,9 +26,8 @@
+         for (Integer x : arr.subList(1, arr.size())) {
+             if (x < pivot) {
+                 lesser.add(x);
+-            } else if (x > pivot) {
+-                greater.add(x);
+-            }
++            } else
++				greater.add(x);
+         }
+         ArrayList<Integer> middle = new ArrayList<Integer>();
+         middle.add(pivot);
+
+

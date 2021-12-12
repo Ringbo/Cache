@@ -1,0 +1,36 @@
+--- /tmp/Arja_Bug_dot_jar_Accumulo_a64151e6/server/gc/src/main/java/org/apache/accumulo/gc/GarbageCollectionAlgorithm.java	2018-12-28 21:24:11.344985000 -0500
++++ /tmp/Arja_Bug_dot_jar_Accumulo_a64151e6/patches_p5ou/Patch_2743/patched/tmp/Arja_Bug_dot_jar_Accumulo_a64151e6/server/gc/src/main/java/org/apache/accumulo/gc/GarbageCollectionAlgorithm.java	2018-12-28 21:48:16.220378061 -0500
+@@ -67,19 +67,9 @@
+ 
+     // handle paths like a//b///c
+     boolean containsEmpty = false;
+-    for (String token : tokens) {
+-      if (token.equals("")) {
+-        containsEmpty = true;
+-        break;
+-      }
+-    }
+-
+     if (containsEmpty) {
+       ArrayList<String> tmp = new ArrayList<String>();
+       for (String token : tokens) {
+-        if (!token.equals("")) {
+-          tmp.add(token);
+-        }
+       }
+ 
+       tokens = tmp.toArray(new String[tmp.size()]);
+@@ -111,11 +101,6 @@
+ 
+     SortedMap<String,String> ret = new TreeMap<String,String>();
+ 
+-    for (String candidate : candidates) {
+-      String relPath = makeRelative(candidate, 0);
+-      ret.put(relPath, candidate);
+-    }
+-
+     return ret;
+   }
+ 
+
+

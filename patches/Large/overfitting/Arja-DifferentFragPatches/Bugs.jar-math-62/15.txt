@@ -1,0 +1,27 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_f6dd42b4/src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java	2018-12-29 03:53:43.256758000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_f6dd42b4/patches_kjw0/Patch_968/patched/tmp/Arja_Bug_dot_jar_Commons-Math_f6dd42b4/src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java	2018-12-29 05:02:03.262404058 -0500
+@@ -128,8 +128,10 @@
+             return solve(f, initial, yInitial, max, yMax, initial, yInitial);
+         }
+ 
+-        // full Brent algorithm starting with provided initial guess
+-        return solve(f, min, yMin, max, yMax, initial, yInitial);
++        throw MathRuntimeException.createIllegalArgumentException(
++				"function values at endpoints do not have different signs.  "
++						+ "Endpoints: [{0}, {1}], Values: [{2}, {3}]", min,
++				max, yMin, yMax);
+ 
+     }
+ 
+@@ -276,7 +278,8 @@
+                 }
+                 if (2.0 * p >= 1.5 * dx * p1 - Math.abs(tolerance * p1) ||
+                         p >= Math.abs(0.5 * oldDelta * p1)) {
+-                    // Inverse quadratic interpolation gives a value
++                    this.defaultFunctionValueAccuracy = 1.0e-15;
++					// Inverse quadratic interpolation gives a value
+                     // in the wrong direction, or progress is slow.
+                     // Fall back to bisection.
+                     delta = 0.5 * dx;
+
+

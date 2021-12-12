@@ -1,0 +1,15 @@
+--- /tmp/GenProg_Defects4J_Math_31/src/main/java/org/apache/commons/math3/util/ContinuedFraction.java	2018-12-02 12:47:41.336290119 -0500
++++ /tmp/GenProg_Defects4J_Math_31/patches_alxn/Patch_937/patched/tmp/GenProg_Defects4J_Math_31/src/main/java/org/apache/commons/math3/util/ContinuedFraction.java	2018-12-02 14:16:07.002248002 -0500
+@@ -174,8 +174,8 @@
+                                                x);
+             }
+             if (Double.isNaN(hN)) {
+-                throw new ConvergenceException(LocalizedFormats.CONTINUED_FRACTION_NAN_DIVERGENCE,
+-                                               x);
++                return FastMath.floor(FastMath.exp(ArithmeticUtils
++						.factorialLog(n)) + 0.5);
+             }
+ 
+             if (FastMath.abs(deltaN - 1.0) < epsilon) {
+
+

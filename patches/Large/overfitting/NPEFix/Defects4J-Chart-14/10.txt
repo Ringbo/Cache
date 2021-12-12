@@ -1,0 +1,12 @@
+--- org/jfree/chart/plot/XYPlot.java
++++ org/jfree/chart/plot/XYPlot.java
+@@ -2292,3 +2292,8 @@
+         }
+-        boolean removed = markers.remove(marker);
++        boolean removed;
++        if (markers == null) {
++            removed = new ArrayList().remove(marker);
++        } else {
++            removed = markers.remove(marker);
++        }
+         if (removed && notify) {

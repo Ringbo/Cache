@@ -1,0 +1,26 @@
+--- /tmp/Arja_Defects4J_Chart_3/source/org/jfree/data/time/TimeSeries.java	2018-12-01 08:25:21.026940649 -0500
++++ /tmp/Arja_Defects4J_Chart_3/patches_24th/Patch_1452/patched/tmp/Arja_Defects4J_Chart_3/source/org/jfree/data/time/TimeSeries.java	2018-12-01 08:48:44.637679474 -0500
+@@ -561,7 +561,8 @@
+      *              permitted).
+      */
+     public void add(TimeSeriesDataItem item) {
+-        add(item, true);
++        updateBoundsForRemovedItem(item);
++		add(item, true);
+     }
+ 
+     /**
+@@ -1053,7 +1054,10 @@
+         if (end < start) {
+             throw new IllegalArgumentException("Requires start <= end.");
+         }
+-        TimeSeries copy = (TimeSeries) super.clone();
++        if (start > end) {
++			throw new IllegalArgumentException("Requires start <= end.");
++		}
++		TimeSeries copy = (TimeSeries) super.clone();
+         copy.data = new java.util.ArrayList();
+         if (this.data.size() > 0) {
+             for (int index = start; index <= end; index++) {
+
+

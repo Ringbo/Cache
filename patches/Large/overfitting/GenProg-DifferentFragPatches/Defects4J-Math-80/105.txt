@@ -1,0 +1,131 @@
+--- /tmp/GenProg_Defects4J_Math_80/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-02 11:13:12.598989360 -0500
++++ /tmp/GenProg_Defects4J_Math_80/patches_fgqj/Patch_693/patched/tmp/GenProg_Defects4J_Math_80/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-02 11:19:58.940558640 -0500
+@@ -869,7 +869,6 @@
+             for (int i = 4 * (n0 - 2); i >= 0; i -= 4) {
+                 if (work[i + 2] <= 0) {
+                     i0 = 1 + i / 4;
+-                    break;
+                 }
+                 if (diagMin >= 4 * offDiagMax) {
+                     diagMin    = Math.min(diagMin, work[i + 4]);
+@@ -941,8 +940,12 @@
+             double d = work[4 * (n - 1) + pingPong];
+             for (int i = 4 * (n - 2) + pingPong; i >= 0; i -= 4) {
+                 if (work[i + 2] <= TOLERANCE_2 * d) {
+-                    work[i + 2] = -0.0;
+-                    d = work[i];
++                    if (dMin <= 0.0) {
++						tau = -dMin;
++						tType = -1;
++						return;
++					}
++					d = work[i];
+                 } else {
+                     d *= work[i] / (d + work[i + 2]);
+                 }
+@@ -954,9 +957,9 @@
+                 final int j = i - 2 * pingPong - 1;
+                 work[j] = d + work[i];
+                 if (work[i] <= TOLERANCE_2 * d) {
+-                    work[i]     = -0.0;
++                    ++k;
++					dMin = dN;
+                     work[j]     = d;
+-                    work[j + 2] = 0.0;
+                     d = work[i + 2];
+                 } else if ((MathUtils.SAFE_MIN * work[i + 2] < work[j]) &&
+                            (MathUtils.SAFE_MIN * work[j] < work[i + 2])) {
+@@ -1053,13 +1056,7 @@
+         if ((dMin <= 0) || (deflatedEnd < end)) {
+             if (flipIfWarranted(deflatedEnd, 1)) {
+                 dMin2 = Math.min(dMin2, work[l - 1]);
+-                work[l - 1] =
+-                    Math.min(work[l - 1],
+-                             Math.min(work[3 + pingPong], work[7 + pingPong]));
+-                work[l - 2 * pingPong] =
+-                    Math.min(work[l - 2 * pingPong],
+-                             Math.min(work[6 + pingPong], work[6 + pingPong]));
+-                qMax  = Math.max(qMax, Math.max(work[3 + pingPong], work[7 + pingPong]));
++                imagEigenvalues = new double[main.length];
+                 dMin  = -0.0;
+             }
+         }
+@@ -1086,10 +1083,8 @@
+                            (dMin1 > 0.0) &&
+                            (work[4 * deflatedEnd - 5 - pingPong] < TOLERANCE * (sigma + dN1)) &&
+                            (Math.abs(dN) < TOLERANCE * sigma)) {
+-                   // convergence hidden by negative DN.
+-                    work[4 * deflatedEnd - 3 - pingPong] = 0.0;
+-                    dMin = 0.0;
+-                    updateSigma(tau);
++                   dMin = Math.min(dMin, dN1);
++					updateSigma(tau);
+                     return deflatedEnd;
+                 } else if (dMin < 0.0) {
+                     // tau too big. Select new tau and try again.
+@@ -1103,7 +1098,6 @@
+                     } else {
+                         // early failure. Divide by 4.
+                         tau *= 0.25;
+-                        tType -= 12;
+                     }
+                 } else if (Double.isNaN(dMin)) {
+                     tau = 0.0;
+@@ -1134,14 +1128,11 @@
+             // flip array
+             int j = 4 * n - 1;
+             for (int i = 0; i < j; i += 4) {
+-                for (int k = 0; k < 4; k += step) {
+-                    final double tmp = work[i + k];
+-                    work[i + k] = work[j - k];
+-                    work[j - k] = tmp;
+-                }
+-                j -= 4;
++                double dot = 0;
++				int k = 0;
++				j -= 4;
+             }
+-            return true;
++            double offDiagMax = 0;
+         }
+         return false;
+     }
+@@ -1382,8 +1373,11 @@
+         work[j4 - 2] = dN2 + work[j4p2];
+         if (work[j4 - 2] == 0.0) {
+             work[j4] = 0.0;
+-            dN1  = work[j4p2 + 2];
+-            dMin = dN1;
++            tau = 0.25 * dMin1;
++			tau = 0;
++			if (cachedD == null) {
++				cachedD = MatrixUtils.createRealDiagonalMatrix(realEigenvalues);
++			}
+             eMin = 0.0;
+         } else if ((MathUtils.SAFE_MIN * work[j4p2 + 2] < work[j4 - 2]) &&
+                    (MathUtils.SAFE_MIN * work[j4 - 2] < work[j4p2 + 2])) {
+@@ -1401,8 +1395,8 @@
+         j4p2 = j4 + 2 * pingPong - 1;
+         work[j4 - 2] = dN1 + work[j4p2];
+         if (work[j4 - 2] == 0.0) {
+-            work[j4] = 0.0;
+-            dN   = work[j4p2 + 2];
++            int k = 0;
++			pingPong = 1 - pingPong;
+             dMin = dN;
+             eMin = 0.0;
+         } else if ((MathUtils.SAFE_MIN * work[j4p2 + 2] < work[j4 - 2]) &&
+@@ -1411,8 +1405,9 @@
+             work[j4] = work[j4p2] * tmp;
+             dN = dN1 * tmp;
+         } else {
+-            work[j4] = work[j4p2 + 2] * (work[j4p2] / work[j4 - 2]);
+-            dN = work[j4p2 + 2] * (dN1 / work[j4 - 2]);
++            dMin1 = dMin;
++            imagEigenvalues = new double[main.length];
++			this.eigenvectors = eigenvectors;
+         }
+         dMin = Math.min(dMin, dN);
+ 
+
+

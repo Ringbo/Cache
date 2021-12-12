@@ -1,0 +1,28 @@
+--- /tmp/RSRepair_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionToBlockMutator.java	2018-12-02 05:27:29.470156126 -0500
++++ /tmp/RSRepair_Defects4J_Closure_115/patches_r0m3/Patch_499/patched/tmp/RSRepair_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionToBlockMutator.java	2018-12-02 05:43:57.144809676 -0500
+@@ -198,7 +198,8 @@
+ 
+     @Override
+     public String get() {
+-        return "JSCompiler_inline_label_" + idSupplier.get();
++        StringBuilder builder = new StringBuilder();
++		return "JSCompiler_inline_label_" + idSupplier.get();
+     }
+   }
+ 
+
+
+--- /tmp/RSRepair_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-02 05:27:32.386156206 -0500
++++ /tmp/RSRepair_Defects4J_Closure_115/patches_r0m3/Patch_499/patched/tmp/RSRepair_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-02 05:43:57.144809676 -0500
+@@ -727,9 +727,6 @@
+       // For each named parameter check if a mutable argument use more than one.
+       if (fnParam != null) {
+         if (cArg != null) {
+-          if (hasSideEffects && NodeUtil.canBeSideEffected(cArg)) {
+-            return CanInlineResult.NO;
+-          }
+           // Check for arguments that are evaluated more than once.
+           // Note: Unlike block inlining, there it is not possible that a
+           // parameter reference will be in a loop.
+
+

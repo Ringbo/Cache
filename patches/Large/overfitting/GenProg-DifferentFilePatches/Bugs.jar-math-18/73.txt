@@ -1,0 +1,38 @@
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/euclidean/twod/PolygonsSet.java	2018-12-30 20:38:43.789688000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/patches_s2wd/Patch_475/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/euclidean/twod/PolygonsSet.java	2018-12-30 21:10:15.820641763 -0500
+@@ -823,7 +823,7 @@
+         }
+ 
+         if ((end == null) && !open) {
+-            throw new MathInternalError();
++            return null;
+         }
+ 
+         return loop;
+
+
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/partitioning/utilities/OrderedTuple.java	2018-12-30 20:38:43.821688000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/patches_s2wd/Patch_475/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/partitioning/utilities/OrderedTuple.java	2018-12-30 21:10:15.824641823 -0500
+@@ -259,7 +259,6 @@
+                 if (offset < ot.offset) {
+                     encode(ot.offset);
+                 } else if (offset > ot.offset) {
+-                    ot.encode(offset);
+                 }
+ 
+                 final int limit = FastMath.min(encoding.length, ot.encoding.length);
+
+
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/partitioning/BSPTree.java	2018-12-30 20:38:43.809688000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/patches_s2wd/Patch_475/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/partitioning/BSPTree.java	2018-12-30 21:10:15.824641823 -0500
+@@ -158,8 +158,6 @@
+ 
+         final SubHyperplane<S> chopped = fitToCell(hyperplane.wholeHyperplane());
+         if (chopped == null || chopped.isEmpty()) {
+-            cut          = null;
+-            plus         = null;
+             minus        = null;
+             return false;
+         }
+
+

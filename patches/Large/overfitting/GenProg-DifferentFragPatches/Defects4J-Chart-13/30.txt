@@ -1,0 +1,72 @@
+--- /tmp/GenProg_Defects4J_Chart_13/source/org/jfree/chart/block/BorderArrangement.java	2018-12-02 02:35:20.605941475 -0500
++++ /tmp/GenProg_Defects4J_Chart_13/patches_7fn9/Patch_223/patched/tmp/GenProg_Defects4J_Chart_13/source/org/jfree/chart/block/BorderArrangement.java	2018-12-02 02:38:29.538668393 -0500
+@@ -146,7 +146,26 @@
+         }
+         else if (w == LengthConstraintType.FIXED) {
+             if (h == LengthConstraintType.NONE) {
+-                contentSize = arrangeFN(container, g2, constraint.getWidth());
++                if (w == LengthConstraintType.FIXED) {
++					if (h == LengthConstraintType.NONE) {
++						contentSize = arrangeFN(container, g2,
++								constraint.getWidth());
++					} else if (h == LengthConstraintType.FIXED) {
++						contentSize = arrangeFF(container, g2, constraint);
++					} else if (h == LengthConstraintType.RANGE) {
++						contentSize = arrangeFR(container, g2, constraint);
++					}
++				} else if (w == LengthConstraintType.RANGE) {
++					if (h == LengthConstraintType.NONE) {
++						throw new RuntimeException("Not implemented.");
++					} else if (h == LengthConstraintType.FIXED) {
++						throw new RuntimeException("Not implemented.");
++					} else if (h == LengthConstraintType.RANGE) {
++						contentSize = arrangeRR(container,
++								constraint.getWidthRange(),
++								constraint.getHeightRange(), g2);
++					}
++				}
+             }
+             else if (h == LengthConstraintType.FIXED) {
+                 contentSize = arrangeFF(container, g2, constraint);
+@@ -289,7 +308,8 @@
+             w[1] = size.width;
+             h[1] = size.height;
+         }
+-        RectangleConstraint c2 = new RectangleConstraint(0.0,
++        Size2D s1 = arrangeNN(container, g2);
++		RectangleConstraint c2 = new RectangleConstraint(0.0,
+                 new Range(0.0, width), LengthConstraintType.RANGE,
+                 0.0, null, LengthConstraintType.NONE);
+         if (this.leftBlock != null) {
+@@ -422,8 +442,11 @@
+     protected Size2D arrangeFF(BlockContainer container, Graphics2D g2,
+                                RectangleConstraint constraint) {
+         double[] w = new double[5];
+-        double[] h = new double[5];
+-        w[0] = constraint.getWidth();
++        EntityBlockParams ebp = null;
++		double[] h = new double[5];
++        RectangleConstraint c3 = new RectangleConstraint(0.0, new Range(0.0,
++				constraint.getWidth()), LengthConstraintType.RANGE, h[2], null,
++				LengthConstraintType.FIXED);
+         if (this.topBlock != null) {
+             RectangleConstraint c1 = new RectangleConstraint(w[0], null,
+                     LengthConstraintType.FIXED, 0.0,
+@@ -441,14 +464,7 @@
+             h[1] = size.height;
+         }
+         h[2] = constraint.getHeight() - h[1] - h[0];
+-        if (this.leftBlock != null) {
+-            RectangleConstraint c3 = new RectangleConstraint(0.0,
+-                    new Range(0.0, constraint.getWidth()),
+-                    LengthConstraintType.RANGE, h[2], null,
+-                    LengthConstraintType.FIXED);
+-            Size2D size = this.leftBlock.arrange(g2, c3);
+-            w[2] = size.width;
+-        }
++        h[2] = constraint.getHeight() - h[1] - h[0];
+         h[3] = h[2];
+         if (this.rightBlock != null) {
+             RectangleConstraint c4 = new RectangleConstraint(0.0,
+
+

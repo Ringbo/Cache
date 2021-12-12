@@ -1,0 +1,33 @@
+--- /tmp/GenProg_Bears_SzFMV2018-Tavasz-AutomatedCar_351742666-351759763/src/main/java/hu/oe/nik/szfmv/visualization/Dashboard.java	2018-12-27 12:26:42.320452816 -0500
++++ /tmp/GenProg_Bears_SzFMV2018-Tavasz-AutomatedCar_351742666-351759763/patches_jeau/Patch_742/patched/tmp/GenProg_Bears_SzFMV2018-Tavasz-AutomatedCar_351742666-351759763/src/main/java/hu/oe/nik/szfmv/visualization/Dashboard.java	2018-12-27 12:30:46.790091369 -0500
+@@ -56,7 +56,6 @@
+         breakProgressBar.setValue(inputPacket.getBreakPedalPosition());
+         speedAngle = calculateSpeedometer(0);
+         rpmAngle = calculateTachometer(0);
+-        paintComponent(getGraphics());
+     }
+ 
+     /**
+@@ -84,10 +83,10 @@
+ 
+         gasLabel.setText("gas pedal");
+         breakLabel.setText("break pedal");
+-        gasProgressBar.setStringPainted(true);
+         breakProgressBar.setStringPainted(true);
+ 
+-        add(progressBarsPanel);
++        progressBarsPanel.add(breakLabel);
++		add(progressBarsPanel);
+         progressBarsPanel.add(gasLabel);
+         progressBarsPanel.add(gasProgressBar);
+         progressBarsPanel.add(breakLabel);
+@@ -100,7 +99,6 @@
+      * @param g {@link Graphics} object that can draw to the canvas
+      */
+     protected void paintComponent(Graphics g) {
+-        super.paintComponent(g);
+         g.setColor(Color.BLACK);
+         g.drawOval(speedMeterX, speedMeterY, meterWidth, meterHeight);
+         g.drawOval(tachoMeterX, tachoMeterY, meterWidth, meterHeight);
+
+

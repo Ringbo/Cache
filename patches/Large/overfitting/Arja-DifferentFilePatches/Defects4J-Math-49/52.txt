@@ -1,0 +1,14 @@
+--- /tmp/Arja_Defects4J_Math_49/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java	2018-12-02 02:51:20.079187851 -0500
++++ /tmp/Arja_Defects4J_Math_49/patches_4ok3/Patch_1692/patched/tmp/Arja_Defects4J_Math_49/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java	2018-12-02 03:31:00.355707407 -0500
+@@ -396,8 +396,7 @@
+         final double previous = values[index];
+         values[index] = missingEntries;
+         --size;
+-        ++count;
+-        return previous;
++        return -0.0;
+     }
+ 
+     /**
+
+

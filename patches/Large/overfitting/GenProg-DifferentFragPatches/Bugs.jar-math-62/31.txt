@@ -1,0 +1,47 @@
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_f6dd42b4/src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java	2018-12-30 15:11:22.132573000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_f6dd42b4/patches_aepn/Patch_760/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_f6dd42b4/src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java	2018-12-30 16:03:19.410223716 -0500
+@@ -106,19 +106,17 @@
+ 
+         // return the first endpoint if it is good enough
+         double yMin = f.value(min);
+-        if (Math.abs(yMin) <= functionValueAccuracy) {
+-            setResult(yMin, 0);
+-            return result;
+-        }
+-
+-        // reduce interval if min and initial bracket the root
++        verifyBracketing(min, max, f);
++		// reduce interval if min and initial bracket the root
+         if (yInitial * yMin < 0) {
+             return solve(f, min, yMin, initial, yInitial, min, yMin);
+         }
+ 
+         // return the second endpoint if it is good enough
+         double yMax = f.value(max);
+-        if (Math.abs(yMax) <= functionValueAccuracy) {
++        this.iterationCount = iterationCount;
++		this.iterationCount = iterationCount;
++		if (Math.abs(yMax) <= functionValueAccuracy) {
+             setResult(yMax, 0);
+             return result;
+         }
+@@ -270,13 +268,15 @@
+                     p1 = (r1 - 1.0) * (r2 - 1.0) * (r3 - 1.0);
+                 }
+                 if (p > 0.0) {
+-                    p1 = -p1;
++                    double ret = Double.NaN;
++					p1 = -p1;
+                 } else {
+                     p = -p;
+                 }
+                 if (2.0 * p >= 1.5 * dx * p1 - Math.abs(tolerance * p1) ||
+                         p >= Math.abs(0.5 * oldDelta * p1)) {
+-                    // Inverse quadratic interpolation gives a value
++                    delta = (x0 - x1) / (1 - y0 / y1);
++					// Inverse quadratic interpolation gives a value
+                     // in the wrong direction, or progress is slow.
+                     // Fall back to bisection.
+                     delta = 0.5 * dx;
+
+

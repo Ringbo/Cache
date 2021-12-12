@@ -1,0 +1,33 @@
+--- /tmp/Arja_Defects4J_Lang_16/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-01 05:13:40.712736534 -0500
++++ /tmp/Arja_Defects4J_Lang_16/patches_of36/Patch_1199/patched/tmp/Arja_Defects4J_Lang_16/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-01 05:20:27.791615065 -0500
+@@ -477,7 +477,10 @@
+             }
+             mant = str.substring(0, decPos);
+         } else {
+-            if (expPos > -1) {
++            if (str.startsWith("0x") || str.startsWith("-0x")) {
++				return createInteger(str);
++			}
++			if (expPos > -1) {
+                 if (expPos > str.length()) {
+                     throw new NumberFormatException(str + " is not a valid number.");
+                 }
+@@ -542,11 +545,14 @@
+                     }
+                     //$FALL-THROUGH$
+                 default :
+-                    throw new NumberFormatException(str + " is not a valid number.");
++				return Integer.decode(str);
+ 
+             }
+         } else {
+-            //User doesn't have a preference on the return type, so let's start
++            if (str.startsWith("0x") || str.startsWith("-0x")) {
++				return createInteger(str);
++			}
++			//User doesn't have a preference on the return type, so let's start
+             //small and go from there...
+             if (expPos > -1 && expPos < str.length() - 1) {
+                 exp = str.substring(expPos + 1, str.length());
+
+

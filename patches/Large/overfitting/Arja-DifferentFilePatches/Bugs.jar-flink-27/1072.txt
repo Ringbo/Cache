@@ -1,0 +1,37 @@
+--- /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/api/datastream/DataStream.java	2018-12-29 12:37:22.084563000 -0500
++++ /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/patches_stp5/Patch_272/patched/tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/api/datastream/DataStream.java	2018-12-29 12:54:01.080813457 -0500
+@@ -1230,8 +1230,6 @@
+ 		streamGraph.addOperator(returnStream.getId(), operator, getType(), outTypeInfo,
+ 				operatorName);
+ 
+-		connectGraph(inputStream, returnStream.getId(), 0);
+-		
+ 		if (iterationID != null) {
+ 			//This data stream is an input to some iteration
+ 			addIterationSource(returnStream);
+
+
+--- /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/api/collector/CollectorWrapper.java	2018-12-29 12:37:22.080563000 -0500
++++ /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/patches_stp5/Patch_272/patched/tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/api/collector/CollectorWrapper.java	2018-12-29 12:54:01.084813466 -0500
+@@ -31,7 +31,6 @@
+ 	}
+ 
+ 	public void addCollector(Collector<?> output, StreamEdge edge) {
+-		outputSelectorWrapper.addCollector(output, edge);
+ 	}
+ 
+ 	@Override
+
+
+--- /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/api/collector/selector/BroadcastOutputSelectorWrapper.java	2018-12-29 12:37:22.080563000 -0500
++++ /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/patches_stp5/Patch_272/patched/tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/api/collector/selector/BroadcastOutputSelectorWrapper.java	2018-12-29 12:54:01.084813466 -0500
+@@ -35,7 +35,6 @@
+ 	@SuppressWarnings("unchecked")
+ 	@Override
+ 	public void addCollector(Collector<?> output, StreamEdge edge) {
+-		outputs.add((Collector<OUT>) output);
+ 	}
+ 
+ 	@Override
+
+

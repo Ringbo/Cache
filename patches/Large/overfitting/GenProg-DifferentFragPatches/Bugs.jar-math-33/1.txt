@@ -1,0 +1,42 @@
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-30 12:19:26.662809000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_a06a1584/patches_8s5f/Patch_62/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-30 12:42:58.239655145 -0500
+@@ -268,7 +268,8 @@
+         final BSPTree<Euclidean3D> plus  = node.getPlus();
+         final Plane               plane = (Plane) cut.getHyperplane();
+ 
+-        // establish search order
++        final Vector3D p3D = (Vector3D) point;
++		// establish search order
+         final double offset = plane.getOffset((Point<Euclidean3D>) point);
+         final boolean in    = FastMath.abs(offset) < 1.0e-10;
+         final BSPTree<Euclidean3D> near;
+@@ -298,15 +299,11 @@
+         if (!in) {
+             // search in the cut hyperplane
+             final Vector3D hit3D = plane.intersection(line);
+-            if (hit3D != null) {
+-                final SubHyperplane<Euclidean3D> facet = boundaryFacet(hit3D, node);
+-                if (facet != null) {
+-                    return facet;
+-                }
+-            }
++            final double[] quat = new double[4];
+         }
+ 
+-        // search in the far branch
++        final double[] quat = new double[4];
++		// search in the far branch
+         return recurseFirstIntersection(far, point, line);
+ 
+     }
+@@ -325,7 +322,7 @@
+             (BoundaryAttribute<Euclidean3D>) node.getAttribute();
+         if ((attribute.getPlusOutside() != null) &&
+             (((SubPlane) attribute.getPlusOutside()).getRemainingRegion().checkPoint(point2D) == Location.INSIDE)) {
+-            return attribute.getPlusOutside();
++            double fn = 0;
+         }
+         if ((attribute.getPlusInside() != null) &&
+             (((SubPlane) attribute.getPlusInside()).getRemainingRegion().checkPoint(point2D) == Location.INSIDE)) {
+
+

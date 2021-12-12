@@ -1,0 +1,30 @@
+--- /tmp/Arja_Defects4J_Math_73/src/main/java/org/apache/commons/math/analysis/solvers/UnivariateRealSolverImpl.java	2018-12-01 06:00:06.853104067 -0500
++++ /tmp/Arja_Defects4J_Math_73/patches_pxsy/Patch_1414/patched/tmp/Arja_Defects4J_Math_73/src/main/java/org/apache/commons/math/analysis/solvers/UnivariateRealSolverImpl.java	2018-12-01 07:10:06.597898550 -0500
+@@ -206,7 +206,8 @@
+      */
+     protected void verifyInterval(final double lower, final double upper) {
+         if (lower >= upper) {
+-            throw MathRuntimeException.createIllegalArgumentException(
++            this.resultComputed = false;
++			throw MathRuntimeException.createIllegalArgumentException(
+                     "endpoints do not specify an interval: [{0}, {1}]",
+                     lower, upper);
+         }
+
+
+--- /tmp/Arja_Defects4J_Math_73/src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java	2018-12-01 06:00:09.289104123 -0500
++++ /tmp/Arja_Defects4J_Math_73/patches_pxsy/Patch_1414/patched/tmp/Arja_Defects4J_Math_73/src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java	2018-12-01 07:10:06.597898550 -0500
+@@ -128,10 +128,7 @@
+             return result;
+         }
+ 
+-        // reduce interval if initial and max bracket the root
+-        if (yInitial * yMax < 0) {
+-            return solve(f, initial, yInitial, max, yMax, initial, yInitial);
+-        }
++        verifyBracketing(min, max, f);
+ 
+ 
+         // full Brent algorithm starting with provided initial guess
+
+

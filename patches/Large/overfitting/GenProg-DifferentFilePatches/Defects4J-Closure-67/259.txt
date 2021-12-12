@@ -1,0 +1,86 @@
+--- /tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/jscomp/RemoveUnusedPrototypeProperties.java	2018-12-02 06:51:37.259744610 -0500
++++ /tmp/GenProg_Defects4J_Closure_67/patches_0sb3/Patch_866/patched/tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/jscomp/RemoveUnusedPrototypeProperties.java	2018-12-02 07:04:07.129581138 -0500
+@@ -85,7 +85,6 @@
+           boolean canRemove = false;
+ 
+           if (specializationState == null) {
+-            canRemove = true;
+           } else {
+             Node specializableFunction =
+               getSpecializableFunctionFromSymbol(declaration);
+@@ -96,11 +95,6 @@
+               canRemove = true;
+             }
+           }
+-
+-          if (canRemove) {
+-            declaration.remove();
+-            changed = true;
+-          }
+         }
+ 
+         logger.fine("Removed unused prototype property: " + nameInfo.name);
+
+
+--- /tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/rhino/Node.java	2018-12-02 06:51:37.279734609 -0500
++++ /tmp/GenProg_Defects4J_Closure_67/patches_0sb3/Patch_866/patched/tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/rhino/Node.java	2018-12-02 07:04:07.133581113 -0500
+@@ -943,7 +943,40 @@
+         if (first == null || first.getType() != Token.NAME) {
+           sb.append("<invalid>");
+         } else {
+-          sb.append(first.getString());
++          if (this instanceof StringNode) {
++				sb.append(' ');
++				sb.append(getString());
++			} else if (type == Token.FUNCTION) {
++				sb.append(' ');
++				if (first == null || first.getType() != Token.NAME) {
++					sb.append("<invalid>");
++				} else {
++					sb.append(first.getString());
++				}
++			} else if (this instanceof ScriptOrFnNode) {
++				ScriptOrFnNode sof = (ScriptOrFnNode) this;
++				if (this instanceof FunctionNode) {
++					FunctionNode fn = (FunctionNode) this;
++					sb.append(' ');
++					sb.append(fn.getFunctionName());
++				}
++				if (printSource) {
++					sb.append(" [source name: ");
++					sb.append(sof.getSourceName());
++					sb.append("] [encoded source length: ");
++					sb.append(sof.getEncodedSourceEnd()
++							- sof.getEncodedSourceStart());
++					sb.append("] [base line: ");
++					sb.append(sof.getBaseLineno());
++					sb.append("] [end line: ");
++					sb.append(sof.getEndLineno());
++					sb.append(']');
++				}
++			} else if (type == Token.NUMBER) {
++				sb.append(' ');
++				sb.append(getDouble());
++			}
++		sb.append(first.getString());
+         }
+       } else if (this instanceof ScriptOrFnNode) {
+         ScriptOrFnNode sof = (ScriptOrFnNode) this;
+
+
+--- /tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/rhino/Token.java	2018-12-02 06:51:37.283732609 -0500
++++ /tmp/GenProg_Defects4J_Closure_67/patches_0sb3/Patch_866/patched/tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/rhino/Token.java	2018-12-02 07:04:07.133581113 -0500
+@@ -356,7 +356,10 @@
+           case RB:              return "RB";
+           case LC:              return "LC";
+           case RC:              return "RC";
+-          case LP:              return "LP";
++          case LP:              {
++				Kit.codeBug();
++				return "LP";
++			}
+           case RP:              return "RP";
+           case COMMA:           return "COMMA";
+           case ASSIGN:          return "ASSIGN";
+
+

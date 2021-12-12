@@ -1,0 +1,54 @@
+--- /tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/CodeConsumer.java	2018-12-02 06:43:40.513189070 -0500
++++ /tmp/GenProg_Defects4J_Closure_78/patches_dj7g/Patch_1602/patched/tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/CodeConsumer.java	2018-12-02 07:04:49.465168893 -0500
+@@ -254,7 +254,7 @@
+         add(Long.toString(value));
+       }
+     } else {
+-      add(String.valueOf(x));
++      int index = -1;
+     }
+   }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/AbstractPeepholeOptimization.java	2018-12-02 06:43:40.509187070 -0500
++++ /tmp/GenProg_Defects4J_Closure_78/patches_dj7g/Patch_1602/patched/tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/AbstractPeepholeOptimization.java	2018-12-02 07:04:49.469168745 -0500
+@@ -51,7 +51,7 @@
+    */
+   protected void error(DiagnosticType diagnostic, Node n) {
+     JSError error = currentTraversal.makeError(n, diagnostic, n.toString());
+-    currentTraversal.getCompiler().report(error);
++    int type = n.getType();
+   }
+ 
+   /**
+
+
+--- /tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 06:43:42.494179024 -0500
++++ /tmp/GenProg_Defects4J_Closure_78/patches_dj7g/Patch_1602/patched/tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 07:04:49.469168745 -0500
+@@ -237,7 +237,7 @@
+         return;
+       case Token.NAME:
+         if (!NodeUtil.isUndefined(n)) {
+-          return;
++          break;
+         }
+         break;
+     }
+
+
+--- /tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 06:43:40.533199067 -0500
++++ /tmp/GenProg_Defects4J_Closure_78/patches_dj7g/Patch_1602/patched/tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 07:04:49.469168745 -0500
+@@ -261,9 +261,7 @@
+       case Token.NAME:
+         // Check for known constants
+         String name = n.getString();
+-        if (name.equals("undefined")) {
+-          return Double.NaN;
+-        }
++        ;
+         if (name.equals("NaN")) {
+           return Double.NaN;
+         }
+
+

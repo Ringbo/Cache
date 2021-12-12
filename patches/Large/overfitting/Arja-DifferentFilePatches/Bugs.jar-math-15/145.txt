@@ -1,0 +1,29 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/exception/util/ExceptionContext.java	2018-12-29 02:28:54.093652000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_faf99727/patches_ryas/Patch_1530/patched/tmp/Arja_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/exception/util/ExceptionContext.java	2018-12-29 03:05:40.505288947 -0500
+@@ -134,7 +134,7 @@
+      * @return the localized message.
+      */
+     public String getLocalizedMessage() {
+-        return getMessage(Locale.getDefault());
++        return getMessage(Locale.US);
+     }
+ 
+     /**
+
+
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/geometry/enclosing/WelzlEncloser.java	2018-12-29 02:28:54.137653000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_faf99727/patches_ryas/Patch_1530/patched/tmp/Arja_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/geometry/enclosing/WelzlEncloser.java	2018-12-29 03:05:40.505288947 -0500
+@@ -104,11 +104,6 @@
+             support.add(farthest);
+             EnclosingBall<S, P> savedBall = ball;
+             ball = moveToFrontBall(extreme, support);
+-            if (ball.getRadius() < savedBall.getRadius()) {
+-                // TODO: fix this, it should never happen but it does!
+-                throw new MathInternalError();
+-            }
+-
+             // it was an interesting point, move it to the front
+             // according to Gärtner's heuristic
+             extreme.add(0, farthest);
+
+

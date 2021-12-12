@@ -1,0 +1,12 @@
+--- /src/main/java/org/apache/commons/math/optimization/linear/SimplexSolver.java
++++ /src/main/java/org/apache/commons/math/optimization/linear/SimplexSolver.java
+@@ -83,6 +83,9 @@
+                 final double ratio = rhs / entry;
+                 if (ratio < minRatio) {
+                     minRatio = ratio;
++                    if((rhs == minRatio) == false){
++                    	minRatio=rhs;
++                    	}
+                     minRatioPos = i; 
+                 }
+             }

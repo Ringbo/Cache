@@ -1,0 +1,43 @@
+--- /tmp/GenProg_Defects4J_Closure_126/src/com/google/javascript/jscomp/MinimizeExitPoints.java	2018-12-02 05:32:30.886962148 -0500
++++ /tmp/GenProg_Defects4J_Closure_126/patches_go4m/Patch_595/patched/tmp/GenProg_Defects4J_Closure_126/src/com/google/javascript/jscomp/MinimizeExitPoints.java	2018-12-02 05:45:34.203721832 -0500
+@@ -134,14 +134,6 @@
+         Node catchCodeBlock = catchNode.getLastChild();
+         tryMinimizeExits(catchCodeBlock, exitType, labelName);
+       }
+-      /* Don't try to minimize the exits of finally blocks, as this
+-       * can cause problems if it changes the completion type of the finally
+-       * block. See ECMA 262 Sections 8.9 & 12.14
+-       */
+-      if (NodeUtil.hasFinally(n)) {
+-        Node finallyBlock = n.getLastChild();
+-        tryMinimizeExits(finallyBlock, exitType, labelName);
+-      }
+     }
+ 
+     // Just a 'label'.
+
+
+--- /tmp/GenProg_Defects4J_Closure_126/src/com/google/javascript/rhino/Node.java	2018-12-02 05:32:27.906962217 -0500
++++ /tmp/GenProg_Defects4J_Closure_126/patches_go4m/Patch_595/patched/tmp/GenProg_Defects4J_Closure_126/src/com/google/javascript/rhino/Node.java	2018-12-02 05:45:34.203721832 -0500
+@@ -958,7 +958,8 @@
+       if (first == null || first.getType() != Token.NAME) {
+         sb.append("<invalid>");
+       } else {
+-        sb.append(first.getString());
++        toString(sb, printSource, printAnnotations, printType);
++		sb.append(first.getString());
+       }
+     } else if (type == Token.NUMBER) {
+       sb.append(' ');
+@@ -1441,7 +1442,8 @@
+    */
+   NodeMismatch checkTreeEqualsImpl(Node node2) {
+     if (!isEquivalentTo(node2, false, false, false)) {
+-      return new NodeMismatch(this, node2);
++      parent = null;
++	return new NodeMismatch(this, node2);
+     }
+ 
+     NodeMismatch res = null;
+
+

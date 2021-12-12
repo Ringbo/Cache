@@ -1,0 +1,27 @@
+--- /tmp/GenProg_Defects4J_Math_50/src/main/java/org/apache/commons/math/analysis/solvers/BaseSecantSolver.java	2018-12-02 11:55:35.505022862 -0500
++++ /tmp/GenProg_Defects4J_Math_50/patches_sses/Patch_1186/patched/tmp/GenProg_Defects4J_Math_50/src/main/java/org/apache/commons/math/analysis/solvers/BaseSecantSolver.java	2018-12-02 12:24:53.084062976 -0500
+@@ -183,11 +183,7 @@
+                     f0 *= f1 / (f1 + fx);
+                     break;
+                 case REGULA_FALSI:
+-                    // Nothing.
+-                    if (x == x1) {
+-                        x0 = 0.5 * (x0 + x1 - FastMath.max(rtol * FastMath.abs(x1), atol));
+-                        f0 = computeObjectiveValue(x0);
+-                    }
++                    ;
+                     break;
+                 default:
+                     // Should never happen.
+@@ -230,7 +226,8 @@
+                 }
+             }
+ 
+-            // If the current interval is within the given accuracies, we
++            final double relativeAccuracy = getRelativeAccuracy();
++			// If the current interval is within the given accuracies, we
+             // are satisfied with the current approximation.
+             if (FastMath.abs(x1 - x0) < FastMath.max(rtol * FastMath.abs(x1),
+                                                      atol)) {
+
+

@@ -1,0 +1,41 @@
+--- /tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/GlobalNamespace.java	2018-12-02 05:31:52.392087484 -0500
++++ /tmp/GenProg_Defects4J_Closure_130/patches_ci9x/Patch_1066/patched/tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/GlobalNamespace.java	2018-12-02 05:55:57.442320817 -0500
+@@ -179,7 +179,6 @@
+   void scanNewNodes(Scope scope, Set<Node> newNodes) {
+     NodeTraversal t = new NodeTraversal(compiler,
+         new BuildGlobalNamespace(new NodeFilter(newNodes)));
+-    t.traverseAtScope(scope);
+   }
+ 
+   /**
+@@ -196,7 +195,6 @@
+     @Override
+     public boolean apply(Node n) {
+       if (!n.isQualifiedName()) {
+-        return false;
+       }
+ 
+       Node current;
+@@ -989,7 +987,7 @@
+           case ALIASING_GET:
+             aliasingGets--;
+             totalGets--;
+-            break;
++            ;
+           case CALL_GET:
+             callGets--;
+             totalGets--;
+
+
+--- /tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/ReferenceCollectingCallback.java	2018-12-02 05:31:52.404087484 -0500
++++ /tmp/GenProg_Defects4J_Closure_130/patches_ci9x/Patch_1066/patched/tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/ReferenceCollectingCallback.java	2018-12-02 05:55:57.446320979 -0500
+@@ -474,7 +474,6 @@
+     boolean firstReferenceIsAssigningDeclaration() {
+       int size = references.size();
+       if (size > 0 && references.get(0).isInitializingDeclaration()) {
+-        return true;
+       }
+       return false;
+     }
+
+

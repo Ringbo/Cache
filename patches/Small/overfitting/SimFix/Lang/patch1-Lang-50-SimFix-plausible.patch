@@ -1,0 +1,13 @@
+--- /src/java/org/apache/commons/lang/time/FastDateFormat.java
++++ /src/java/org/apache/commons/lang/time/FastDateFormat.java
+@@ -472,6 +472,9 @@
+                 locale = Locale.getDefault();
+             }
+             try {
++                if(locale!=null){
++                    key=new Pair(key,locale);
++                }
+                 SimpleDateFormat formatter = (SimpleDateFormat) DateFormat.getDateTimeInstance(dateStyle, timeStyle,
+                         locale);
+                 String pattern = formatter.toPattern();
+

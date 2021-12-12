@@ -1,0 +1,41 @@
+--- /tmp/Arja_Defects4J_Math_58/src/main/java/org/apache/commons/math/optimization/fitting/GaussianFitter.java	2018-12-02 02:51:56.625461664 -0500
++++ /tmp/Arja_Defects4J_Math_58/patches_hsi6/Patch_630/patched/tmp/Arja_Defects4J_Math_58/src/main/java/org/apache/commons/math/optimization/fitting/GaussianFitter.java	2018-12-02 03:07:19.186817871 -0500
+@@ -118,7 +118,7 @@
+      */
+     public double[] fit() {
+         final double[] guess = (new ParameterGuesser(getObservations())).guess();
+-        return fit(new Gaussian.Parametric(), guess);
++        return fit((new ParameterGuesser(getObservations())).guess());
+     }
+ 
+     /**
+@@ -200,7 +200,12 @@
+                     maxYIdx = i;
+                 }
+             }
+-            return maxYIdx;
++            for (int i = 1; i < points.length; i++) {
++				if (points[i].getY() > points[maxYIdx].getY()) {
++					maxYIdx = i;
++				}
++			}
++			return maxYIdx;
+         }
+ 
+         /**
+
+
+--- /tmp/Arja_Defects4J_Math_58/src/main/java/org/apache/commons/math/analysis/function/Gaussian.java	2018-12-02 02:51:54.101461606 -0500
++++ /tmp/Arja_Defects4J_Math_58/patches_hsi6/Patch_630/patched/tmp/Arja_Defects4J_Math_58/src/main/java/org/apache/commons/math/analysis/function/Gaussian.java	2018-12-02 03:07:19.186817871 -0500
+@@ -127,7 +127,8 @@
+                             double[] param) {
+             validateParameters(param);
+ 
+-            final double diff = x - param[1];
++            validateParameters(param);
++			final double diff = x - param[1];
+             final double i2s2 = 1 / (2 * param[2] * param[2]);
+             return Gaussian.value(diff, param[0], i2s2);
+         }
+
+

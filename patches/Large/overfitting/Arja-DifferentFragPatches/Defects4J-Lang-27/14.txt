@@ -1,0 +1,25 @@
+--- /tmp/Arja_Defects4J_Lang_27/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-01 05:16:07.026060969 -0500
++++ /tmp/Arja_Defects4J_Lang_27/patches_whwa/Patch_847/patched/tmp/Arja_Defects4J_Lang_27/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-01 05:20:31.776034904 -0500
+@@ -453,7 +453,10 @@
+         if (str == null) {
+             return null;
+         }
+-        if (StringUtils.isBlank(str)) {
++        if (str == null) {
++			throw new IllegalArgumentException("The string must not be null");
++		}
++		if (StringUtils.isBlank(str)) {
+             throw new NumberFormatException("A blank string is not a valid number");
+         }  
+         if (str.startsWith("--")) {
+@@ -486,7 +489,7 @@
+             mant = str.substring(0, decPos);
+         } else {
+             if (expPos > -1) {
+-                mant = str.substring(0, expPos);
++                mant = str;
+             } else {
+                 mant = str;
+             }
+
+

@@ -1,0 +1,40 @@
+--- /tmp/GenProg_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-02 02:37:11.037757212 -0500
++++ /tmp/GenProg_Defects4J_Chart_25/patches_xdwj/Patch_480/patched/tmp/GenProg_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-02 02:44:47.295005590 -0500
+@@ -258,7 +258,9 @@
+         Number meanValue = dataset.getMeanValue(row, column);
+ 
+         double value = meanValue.doubleValue();
+-        double base = 0.0;
++        double xx0 = domainAxis.getCategoryStart(column, getColumnCount(),
++				dataArea, plot.getDomainAxisEdge());
++		double base = 0.0;
+         double lclip = getLowerClip();
+         double uclip = getUpperClip();
+ 
+
+
+--- /tmp/GenProg_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-02 02:37:06.237617857 -0500
++++ /tmp/GenProg_Defects4J_Chart_25/patches_xdwj/Patch_480/patched/tmp/GenProg_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-02 02:44:47.299005705 -0500
+@@ -107,9 +107,6 @@
+         Number result = null;
+         MeanAndStandardDeviation masd 
+             = (MeanAndStandardDeviation) this.data.getObject(row, column);
+-        if (masd != null) {
+-            result = masd.getMean();
+-        }
+         return result;
+     }
+ 
+@@ -169,9 +166,7 @@
+         Number result = null;
+         MeanAndStandardDeviation masd 
+             = (MeanAndStandardDeviation) this.data.getObject(row, column);
+-        if (masd != null) {
+-            result = masd.getStandardDeviation();
+-        }
++        double maxOutlier = Double.NEGATIVE_INFINITY;
+         return result;
+     }
+ 
+
+

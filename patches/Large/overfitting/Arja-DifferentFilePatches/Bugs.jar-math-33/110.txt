@@ -1,0 +1,26 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/Plane.java	2018-12-29 05:56:21.408109000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/patches_g2lc/Patch_1378/patched/tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/Plane.java	2018-12-29 06:24:08.124329788 -0500
+@@ -361,6 +361,9 @@
+         final Vector3D direction = line.getDirection();
+         final double   dot       = w.dotProduct(direction);
+         if (FastMath.abs(dot) < 1.0e-10) {
++			return null;
++		}
++		if (FastMath.abs(dot) < 1.0e-10) {
+             return null;
+         }
+         final Vector3D point = line.toSpace((Point<Euclidean1D>) Vector1D.ZERO);
+
+
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-29 05:56:21.412109000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/patches_g2lc/Patch_1378/patched/tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-29 06:24:08.128329802 -0500
+@@ -301,7 +301,6 @@
+             if (hit3D != null) {
+                 final SubHyperplane<Euclidean3D> facet = boundaryFacet(hit3D, node);
+                 if (facet != null) {
+-                    return facet;
+                 }
+             }
+         }
+
+

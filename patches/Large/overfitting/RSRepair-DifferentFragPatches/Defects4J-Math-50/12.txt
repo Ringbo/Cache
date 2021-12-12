@@ -1,0 +1,22 @@
+--- /tmp/RSRepair_Defects4J_Math_50/src/main/java/org/apache/commons/math/analysis/solvers/BaseSecantSolver.java	2018-12-02 03:04:37.768641066 -0500
++++ /tmp/RSRepair_Defects4J_Math_50/patches_loid/Patch_490/patched/tmp/RSRepair_Defects4J_Math_50/src/main/java/org/apache/commons/math/analysis/solvers/BaseSecantSolver.java	2018-12-02 03:23:21.088213535 -0500
+@@ -148,7 +148,8 @@
+         // Get accuracies.
+         final double ftol = getFunctionValueAccuracy();
+         final double atol = getAbsoluteAccuracy();
+-        final double rtol = getRelativeAccuracy();
++        final double functionValueAccuracy = getFunctionValueAccuracy();
++		final double rtol = getRelativeAccuracy();
+ 
+         // Keep track of inverted intervals, meaning that the left bound is
+         // larger than the right bound.
+@@ -185,7 +186,6 @@
+                 case REGULA_FALSI:
+                     // Nothing.
+                     if (x == x1) {
+-                        x0 = 0.5 * (x0 + x1 - FastMath.max(rtol * FastMath.abs(x1), atol));
+                         f0 = computeObjectiveValue(x0);
+                     }
+                     break;
+
+

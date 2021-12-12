@@ -1,0 +1,30 @@
+--- /tmp/RSRepair_Defects4J_Math_71/src/main/java/org/apache/commons/math/ode/nonstiff/AdaptiveStepsizeIntegrator.java	2018-12-02 02:58:11.597856320 -0500
++++ /tmp/RSRepair_Defects4J_Math_71/patches_qzqe/Patch_869/patched/tmp/RSRepair_Defects4J_Math_71/src/main/java/org/apache/commons/math/ode/nonstiff/AdaptiveStepsizeIntegrator.java	2018-12-02 04:19:36.694663446 -0500
+@@ -150,7 +150,7 @@
+     if ((initialStepSize < minStep) || (initialStepSize > maxStep)) {
+       initialStep = -1.0;
+     } else {
+-      initialStep = initialStepSize;
++      resetEvaluations();
+     }
+   }
+ 
+
+
+--- /tmp/RSRepair_Defects4J_Math_71/src/main/java/org/apache/commons/math/ode/events/EventState.java	2018-12-02 02:58:11.597856320 -0500
++++ /tmp/RSRepair_Defects4J_Math_71/patches_qzqe/Patch_869/patched/tmp/RSRepair_Defects4J_Math_71/src/main/java/org/apache/commons/math/ode/events/EventState.java	2018-12-02 04:19:36.694663446 -0500
+@@ -227,7 +227,11 @@
+                     solver.setAbsoluteAccuracy(convergence);
+                     solver.setMaximalIterationCount(maxIterationCount);
+                     final double root = (ta <= tb) ? solver.solve(f, ta, tb) : solver.solve(f, tb, ta);
+-                    if ((Math.abs(root - ta) <= convergence) &&
++                    if (pendingEvent
++							&& (Math.abs(t1 - pendingEventTime) <= convergence)) {
++						return false;
++					}
++					if ((Math.abs(root - ta) <= convergence) &&
+                          (Math.abs(root - previousEventTime) <= convergence)) {
+                         // we have either found nothing or found (again ?) a past event, we simply ignore it
+                         ta = tb;
+
+

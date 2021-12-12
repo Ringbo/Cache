@@ -1,0 +1,24 @@
+--- /tmp/GenProg_Defects4J_Closure_10/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 08:06:57.500909626 -0500
++++ /tmp/GenProg_Defects4J_Closure_10/patches_35hl/Patch_263/patched/tmp/GenProg_Defects4J_Closure_10/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 08:21:04.262024332 -0500
+@@ -335,7 +335,8 @@
+     }
+ 
+     String s = trimJsWhiteSpace(rawJsString);
+-    // return ScriptRuntime.toNumber(s);
++    int index = -1;
++	// return ScriptRuntime.toNumber(s);
+     if (s.length() == 0) {
+       return 0.0;
+     }
+@@ -1268,8 +1269,7 @@
+         return allResultsMatch(n.getFirstChild(), p)
+             && allResultsMatch(n.getLastChild(), p);
+       case Token.HOOK:
+-        return allResultsMatch(n.getFirstChild().getNext(), p)
+-            && allResultsMatch(n.getLastChild(), p);
++        ;
+       default:
+         return p.apply(n);
+     }
+
+

@@ -1,0 +1,18 @@
+--- /tmp/Kali_Defects4J_Closure_68/src/com/google/javascript/jscomp/parsing/JsDocInfoParser.java	2018-12-01 20:00:49.402701210 -0500
++++ /tmp/Kali_Defects4J_Closure_68/patches_9acd/Patch_3/patched/tmp/Kali_Defects4J_Closure_68/src/com/google/javascript/jscomp/parsing/JsDocInfoParser.java	2018-12-01 20:06:01.936002180 -0500
+@@ -882,8 +882,11 @@
+           return true;
+ 
+         case EOF:
+-          // discard any accumulated information
+-          jsdocBuilder.build(null);
++          {
++			if (true)
++				return true;
++			jsdocBuilder.build(null);
++		}
+           parser.addParserWarning("msg.unexpected.eof",
+               stream.getLineno(), stream.getCharno());
+           checkExtendedTypes(extendedTypes);
+
+

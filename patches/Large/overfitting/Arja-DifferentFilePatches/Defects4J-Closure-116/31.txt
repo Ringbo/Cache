@@ -1,0 +1,38 @@
+--- /tmp/Arja_Defects4J_Closure_116/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-01 08:51:01.869149850 -0500
++++ /tmp/Arja_Defects4J_Closure_116/patches_186s/Patch_1742/patched/tmp/Arja_Defects4J_Closure_116/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-01 09:26:47.174566503 -0500
+@@ -552,7 +552,7 @@
+       // Only inline functions that return something.
+       if (block.getFirstChild().isReturn()
+           && block.getFirstChild().getFirstChild() != null) {
+-        return true;
++        return false;
+       }
+     }
+ 
+
+
+--- /tmp/Arja_Defects4J_Closure_116/src/com/google/javascript/jscomp/ExpressionDecomposer.java	2018-12-01 08:50:58.457149772 -0500
++++ /tmp/Arja_Defects4J_Closure_116/patches_186s/Patch_1742/patched/tmp/Arja_Defects4J_Closure_116/src/com/google/javascript/jscomp/ExpressionDecomposer.java	2018-12-01 09:26:47.178566521 -0500
+@@ -193,7 +193,6 @@
+       } else if (parentType == Token.CALL
+           && NodeUtil.isGet(parent.getFirstChild())) {
+         Node functionExpression = parent.getFirstChild();
+-        decomposeSubExpressions(functionExpression.getNext(), child, state);
+         // Now handle the call expression
+         if (isExpressionTreeUnsafe(functionExpression, state.sideEffects)
+             && functionExpression.getFirstChild() != grandchild) {
+
+
+--- /tmp/Arja_Defects4J_Closure_116/src/com/google/javascript/rhino/Node.java	2018-12-01 08:50:58.717149778 -0500
++++ /tmp/Arja_Defects4J_Closure_116/patches_186s/Patch_1742/patched/tmp/Arja_Defects4J_Closure_116/src/com/google/javascript/rhino/Node.java	2018-12-01 09:26:47.178566521 -0500
+@@ -1456,7 +1456,7 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
++        return null;
+       }
+     }
+     return res;
+
+

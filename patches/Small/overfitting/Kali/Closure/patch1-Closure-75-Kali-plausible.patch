@@ -1,0 +1,15 @@
+--- /src/com/google/javascript/jscomp/NodeUtil.java
++++ /src/com/google/javascript/jscomp/NodeUtil.java
+@@ -329,10 +329,7 @@
+       }
+     }
+ 
+-    if (s.length() > 3
+-        && (s.charAt(0) == '-' || s.charAt(0) == '+')
+-        && s.charAt(1) == '0'
+-        && (s.charAt(2) == 'x' || s.charAt(2) == 'X')) {
++    if (true) {
+       // hex numbers with explicit signs vary between browsers.
+       return null;
+     }
+

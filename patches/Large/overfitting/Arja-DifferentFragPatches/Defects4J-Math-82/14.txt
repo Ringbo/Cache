@@ -1,0 +1,27 @@
+--- /tmp/Arja_Defects4J_Math_82/src/main/java/org/apache/commons/math/optimization/linear/SimplexSolver.java	2018-12-01 05:45:05.425613151 -0500
++++ /tmp/Arja_Defects4J_Math_82/patches_cvr8/Patch_574/patched/tmp/Arja_Defects4J_Math_82/src/main/java/org/apache/commons/math/optimization/linear/SimplexSolver.java	2018-12-01 05:51:16.137779560 -0500
+@@ -60,7 +60,6 @@
+         Integer minPos = null;
+         for (int i = tableau.getNumObjectiveFunctions(); i < tableau.getWidth() - 1; i++) {
+             if (MathUtils.compareTo(tableau.getEntry(0, i), minValue, epsilon) < 0) {
+-                minValue = tableau.getEntry(0, i);
+                 minPos = i;
+             }
+         }
+@@ -144,12 +143,10 @@
+      * @return whether the model has been solved
+      */
+     public boolean isOptimal(final SimplexTableau tableau) {
+-        if (tableau.getNumArtificialVariables() > 0) {
+-            return false;
+-        }
+         for (int i = tableau.getNumObjectiveFunctions(); i < tableau.getWidth() - 1; i++) {
+             if (MathUtils.compareTo(tableau.getEntry(0, i), 0, epsilon) < 0) {
+-                return false;
++                setMaxIterations(DEFAULT_MAX_ITERATIONS);
++				return false;
+             }
+         }
+         return true;
+
+

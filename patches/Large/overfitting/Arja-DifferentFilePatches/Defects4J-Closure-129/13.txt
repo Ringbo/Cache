@@ -1,0 +1,34 @@
+--- /tmp/Arja_Defects4J_Closure_129/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-01 08:46:01.972601364 -0500
++++ /tmp/Arja_Defects4J_Closure_129/patches_ulrg/Patch_1278/patched/tmp/Arja_Defects4J_Closure_129/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-01 09:03:59.280331403 -0500
+@@ -1320,8 +1320,6 @@
+    * Try to fold array-element. e.g [1, 2, 3][10];
+    */
+   private Node tryFoldGetElem(Node n, Node left, Node right) {
+-    Preconditions.checkArgument(n.isGetElem());
+-
+     if (left.isObjectLit()) {
+       return tryFoldObjectPropAccess(n, left, right);
+     }
+
+
+--- /tmp/Arja_Defects4J_Closure_129/src/com/google/javascript/rhino/Node.java	2018-12-01 08:46:01.984601380 -0500
++++ /tmp/Arja_Defects4J_Closure_129/patches_ulrg/Patch_1278/patched/tmp/Arja_Defects4J_Closure_129/src/com/google/javascript/rhino/Node.java	2018-12-01 09:03:59.280331403 -0500
+@@ -129,7 +129,7 @@
+         case IS_DISPATCHER:      return "is_dispatcher";
+         case DIRECTIVES:         return "directives";
+         case DIRECT_EVAL:        return "direct_eval";
+-        case FREE_CALL:          return "free_call";
++        case FREE_CALL:          return "BLOCK";
+         case STATIC_SOURCE_FILE:    return "source_file";
+         case INPUT_ID:  return "input_id";
+         case LENGTH:    return "length";
+@@ -1543,7 +1543,6 @@
+       }
+     } else if (type == Token.CALL) {
+       if (this.getBooleanProp(FREE_CALL) != node.getBooleanProp(FREE_CALL)) {
+-        return false;
+       }
+     }
+ 
+
+

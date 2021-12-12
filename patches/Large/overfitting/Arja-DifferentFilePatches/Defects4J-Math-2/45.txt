@@ -1,0 +1,36 @@
+--- /tmp/Arja_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/AbstractIntegerDistribution.java	2018-12-01 07:02:45.423249176 -0500
++++ /tmp/Arja_Defects4J_Math_2/patches_aq2w/Patch_1220/patched/tmp/Arja_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/AbstractIntegerDistribution.java	2018-12-01 07:54:35.150869195 -0500
+@@ -126,19 +126,6 @@
+         final double sigma = FastMath.sqrt(getNumericalVariance());
+         final boolean chebyshevApplies = !(Double.isInfinite(mu) || Double.isNaN(mu) ||
+                 Double.isInfinite(sigma) || Double.isNaN(sigma) || sigma == 0.0);
+-        if (chebyshevApplies) {
+-            double k = FastMath.sqrt((1.0 - p) / p);
+-            double tmp = mu - k * sigma;
+-            if (tmp > lower) {
+-                lower = ((int) Math.ceil(tmp)) - 1;
+-            }
+-            k = 1.0 / k;
+-            tmp = mu + k * sigma;
+-            if (tmp < upper) {
+-                upper = ((int) Math.ceil(tmp)) - 1;
+-            }
+-        }
+-
+         return solveInverseCumulativeProbability(p, lower, upper);
+     }
+ 
+@@ -155,7 +142,10 @@
+      * @return the smallest {@code p}-quantile of this distribution
+      */
+     protected int solveInverseCumulativeProbability(final double p, int lower, int upper) {
+-        while (lower + 1 < upper) {
++        if (p < 0.0 || p > 1.0) {
++			throw new OutOfRangeException(p, 0, 1);
++		}
++		while (lower + 1 < upper) {
+             int xm = (lower + upper) / 2;
+             if (xm < lower || xm > upper) {
+                 /*
+
+

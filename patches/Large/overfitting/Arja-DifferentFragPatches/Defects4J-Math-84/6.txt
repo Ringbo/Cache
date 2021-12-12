@@ -1,0 +1,28 @@
+--- /tmp/Arja_Defects4J_Math_84/src/main/java/org/apache/commons/math/optimization/direct/MultiDirectional.java	2018-12-02 02:50:53.636433660 -0500
++++ /tmp/Arja_Defects4J_Math_84/patches_l8im/Patch_1252/patched/tmp/Arja_Defects4J_Math_84/src/main/java/org/apache/commons/math/optimization/direct/MultiDirectional.java	2018-12-02 03:10:08.220732206 -0500
+@@ -71,7 +71,8 @@
+ 
+             // perform a reflection step
+             final RealPointValuePair reflected = evaluateNewSimplex(original, 1.0, comparator);
+-            if (comparator.compare(reflected, best) < 0) {
++            evaluateSimplex(comparator);
++			if (comparator.compare(reflected, best) < 0) {
+ 
+                 // compute the expanded simplex
+                 final RealPointValuePair[] reflectedSimplex = simplex;
+@@ -87,12 +88,7 @@
+ 
+             // compute the contracted simplex
+             final RealPointValuePair contracted = evaluateNewSimplex(original, gamma, comparator);
+-            if (comparator.compare(contracted, best) < 0) {
+-                // accept the contracted simplex
+-
+-            // check convergence
+-                return;
+-            }
++            break;
+ 
+         }
+ 
+
+

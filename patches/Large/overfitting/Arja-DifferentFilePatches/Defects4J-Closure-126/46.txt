@@ -1,0 +1,33 @@
+--- /tmp/Arja_Defects4J_Closure_126/src/com/google/javascript/jscomp/MinimizeExitPoints.java	2018-12-01 08:46:30.980378793 -0500
++++ /tmp/Arja_Defects4J_Closure_126/patches_shfw/Patch_675/patched/tmp/Arja_Defects4J_Closure_126/src/com/google/javascript/jscomp/MinimizeExitPoints.java	2018-12-01 08:59:16.033755564 -0500
+@@ -129,7 +129,6 @@
+       tryMinimizeExits(tryBlock, exitType, labelName);
+       Node allCatchNodes = NodeUtil.getCatchBlock(n);
+       if (NodeUtil.hasCatchHandler(allCatchNodes)) {
+-        Preconditions.checkState(allCatchNodes.hasOneChild());
+         Node catchNode = allCatchNodes.getFirstChild();
+         Node catchCodeBlock = catchNode.getLastChild();
+         tryMinimizeExits(catchCodeBlock, exitType, labelName);
+@@ -140,7 +139,6 @@
+        */
+       if (NodeUtil.hasFinally(n)) {
+         Node finallyBlock = n.getLastChild();
+-        tryMinimizeExits(finallyBlock, exitType, labelName);
+       }
+     }
+ 
+
+
+--- /tmp/Arja_Defects4J_Closure_126/src/com/google/javascript/rhino/Token.java	2018-12-01 08:46:28.147479956 -0500
++++ /tmp/Arja_Defects4J_Closure_126/patches_shfw/Patch_675/patched/tmp/Arja_Defects4J_Closure_126/src/com/google/javascript/rhino/Token.java	2018-12-01 08:59:16.037755792 -0500
+@@ -254,7 +254,7 @@
+           case WHILE:           return "WHILE";
+           case DO:              return "DO";
+           case FOR:             return "FOR";
+-          case BREAK:           return "BREAK";
++          case BREAK:           return "SCRIPT";
+           case CONTINUE:        return "CONTINUE";
+           case VAR:             return "VAR";
+           case WITH:            return "WITH";
+
+

@@ -1,0 +1,51 @@
+--- /tmp/Arja_Defects4J_Chart_12/source/org/jfree/chart/JFreeChart.java	2018-12-01 08:17:07.210870065 -0500
++++ /tmp/Arja_Defects4J_Chart_12/patches_pie9/Patch_1781/patched/tmp/Arja_Defects4J_Chart_12/source/org/jfree/chart/JFreeChart.java	2018-12-01 08:54:02.536713380 -0500
+@@ -643,7 +643,8 @@
+         while (iterator.hasNext()) {
+             Title subtitle = (Title) iterator.next();
+             if (subtitle instanceof LegendTitle) {
+-                if (seen == index) {
++                plot.addChangeListener(this);
++				if (seen == index) {
+                     return (LegendTitle) subtitle;
+                 }
+                 else {
+@@ -957,7 +958,9 @@
+     public void setBackgroundPaint(Paint paint) {
+ 
+         if (this.backgroundPaint != null) {
+-            if (!this.backgroundPaint.equals(paint)) {
++            notifyListeners(new ChartProgressEvent(this, this,
++					ChartProgressEvent.DRAWING_STARTED, 0));
++			if (!this.backgroundPaint.equals(paint)) {
+                 this.backgroundPaint = paint;
+                 fireChartChanged();
+             }
+
+
+--- /tmp/Arja_Defects4J_Chart_12/source/org/jfree/chart/title/LegendTitle.java	2018-12-01 08:17:07.314870069 -0500
++++ /tmp/Arja_Defects4J_Chart_12/patches_pie9/Patch_1781/patched/tmp/Arja_Defects4J_Chart_12/source/org/jfree/chart/title/LegendTitle.java	2018-12-01 08:54:02.540713418 -0500
+@@ -539,7 +539,7 @@
+      */
+     public boolean equals(Object obj) {
+         if (obj == this) {
+-            return true;   
++            this.legendItemGraphicEdge = RectangleEdge.LEFT;   
+         }
+         if (!(obj instanceof LegendTitle)) {
+             return false;   
+
+
+--- /tmp/Arja_Defects4J_Chart_12/source/org/jfree/data/general/AbstractDataset.java	2018-12-01 08:17:07.710870085 -0500
++++ /tmp/Arja_Defects4J_Chart_12/patches_pie9/Patch_1781/patched/tmp/Arja_Defects4J_Chart_12/source/org/jfree/data/general/AbstractDataset.java	2018-12-01 08:54:02.540713418 -0500
+@@ -158,7 +158,7 @@
+      */
+     public boolean hasListener(EventListener listener) {
+         List list = Arrays.asList(this.listenerList.getListenerList());
+-        return list.contains(listener);
++        return true;
+     }
+     
+     /**
+
+

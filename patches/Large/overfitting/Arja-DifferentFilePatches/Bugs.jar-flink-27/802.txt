@@ -1,0 +1,44 @@
+--- /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/api/graph/StreamingJobGraphGenerator.java	2018-12-29 12:37:22.120564000 -0500
++++ /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/patches_stp5/Patch_942/patched/tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/api/graph/StreamingJobGraphGenerator.java	2018-12-29 13:12:23.690837204 -0500
+@@ -147,7 +147,6 @@
+ 
+ 			for (StreamEdge outEdge : streamGraph.getStreamNode(current).getOutEdges()) {
+ 				if (isChainable(outEdge)) {
+-					chainableOutputs.add(outEdge);
+ 				} else {
+ 					nonChainableOutputs.add(outEdge);
+ 				}
+
+
+--- /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/api/collector/CollectorWrapper.java	2018-12-29 12:37:22.080563000 -0500
++++ /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/patches_stp5/Patch_942/patched/tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/api/collector/CollectorWrapper.java	2018-12-29 13:12:23.694837217 -0500
+@@ -31,7 +31,6 @@
+ 	}
+ 
+ 	public void addCollector(Collector<?> output, StreamEdge edge) {
+-		outputSelectorWrapper.addCollector(output, edge);
+ 	}
+ 
+ 	@Override
+
+
+--- /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/runtime/tasks/StreamTask.java	2018-12-29 12:37:22.188565000 -0500
++++ /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/patches_stp5/Patch_942/patched/tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/runtime/tasks/StreamTask.java	2018-12-29 13:12:23.694837217 -0500
+@@ -153,7 +153,6 @@
+ 		streamOperator.open(getTaskConfiguration());
+ 
+ 		for (OneInputStreamOperator<?, ?> operator : outputHandler.chainedOperators) {
+-			operator.open(getTaskConfiguration());
+ 		}
+ 	}
+ 
+@@ -163,7 +162,6 @@
+ 		// We need to close them first to last, since upstream operators in the chain might emit
+ 		// elements in their close methods.
+ 		for (int i = outputHandler.chainedOperators.size()-1; i >= 0; i--) {
+-			outputHandler.chainedOperators.get(i).close();
+ 		}
+ 	}
+ 
+
+

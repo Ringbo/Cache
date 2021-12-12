@@ -1,0 +1,25 @@
+--- /tmp/Arja_Defects4J_Lang_7/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-01 05:41:40.203962304 -0500
++++ /tmp/Arja_Defects4J_Lang_7/patches_nbfi/Patch_1080/patched/tmp/Arja_Defects4J_Lang_7/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-01 05:48:02.834075020 -0500
+@@ -450,7 +450,6 @@
+             throw new NumberFormatException("A blank string is not a valid number");
+         }  
+         if (str.startsWith("--")) {
+-            return null;
+         }
+         if (str.startsWith("0x") || str.startsWith("-0x") || str.startsWith("0X") || str.startsWith("-0X")) {
+             int hexDigits = str.length() - 2; // drop 0x
+@@ -540,7 +539,11 @@
+                         // ignore the bad number
+                     }
+                     try {
+-                        return createBigDecimal(numeric);
++                        if (str == null) {
++							throw new IllegalArgumentException(
++									"The string must not be null");
++						}
++						return createBigDecimal(numeric);
+                     } catch (NumberFormatException e) { // NOPMD
+                         // ignore the bad number
+                     }
+
+

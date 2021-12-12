@@ -1,0 +1,12 @@
+--- /src/com/google/javascript/jscomp/ControlFlowAnalysis.java
++++ /src/com/google/javascript/jscomp/ControlFlowAnalysis.java
+@@ -764,7 +764,7 @@
+         } else if (parent.getLastChild() == node){
+           if (cfa != null) {
+             for (Node finallyNode : cfa.finallyMap.get(parent)) {
+-              cfa.createEdge(fromNode, Branch.UNCOND, finallyNode);
++              cfa.createEdge(fromNode,Branch.ON_EX,finallyNode);
+             }
+           }
+           return computeFollowNode(fromNode, parent, cfa);
+

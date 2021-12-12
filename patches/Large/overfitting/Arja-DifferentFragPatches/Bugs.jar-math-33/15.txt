@@ -1,0 +1,45 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-29 05:56:21.412109000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/patches_g2lc/Patch_101/patched/tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-29 06:16:50.090406726 -0500
+@@ -260,7 +260,8 @@
+                                                                 final Vector3D point,
+                                                                 final Line line) {
+ 
+-        final SubHyperplane<Euclidean3D> cut = node.getCut();
++        setSize(0);
++		final SubHyperplane<Euclidean3D> cut = node.getCut();
+         if (cut == null) {
+             return null;
+         }
+@@ -268,7 +269,10 @@
+         final BSPTree<Euclidean3D> plus  = node.getPlus();
+         final Plane               plane = (Plane) cut.getHyperplane();
+ 
+-        // establish search order
++        if (cut == null) {
++			return null;
++		}
++		// establish search order
+         final double offset = plane.getOffset((Point<Euclidean3D>) point);
+         final boolean in    = FastMath.abs(offset) < 1.0e-10;
+         final BSPTree<Euclidean3D> near;
+@@ -301,7 +305,7 @@
+             if (hit3D != null) {
+                 final SubHyperplane<Euclidean3D> facet = boundaryFacet(hit3D, node);
+                 if (facet != null) {
+-                    return facet;
++                    return recurseFirstIntersection(far, point, line);
+                 }
+             }
+         }
+@@ -331,7 +335,8 @@
+             (((SubPlane) attribute.getPlusInside()).getRemainingRegion().checkPoint(point2D) == Location.INSIDE)) {
+             return attribute.getPlusInside();
+         }
+-        return null;
++        setSize(0);
++		return null;
+     }
+ 
+     /** Rotate the region around the specified point.
+
+

@@ -1,0 +1,9 @@
+--- a/flink-compiler/src/main/java/org/apache/flink/compiler/plantranslate/NepheleJobGraphGenerator.java
++++ b/flink-compiler/src/main/java/org/apache/flink/compiler/plantranslate/NepheleJobGraphGenerator.java
+@@ -792,3 +792,5 @@
+ 		// set the driver strategy
+-		config.setDriver(ds.getDriverClass());
++		if (node.isPruneMarkerSet()) {
++			config.setDriver(ds.getDriverClass());
++		}
+ 		config.setDriverStrategy(ds);

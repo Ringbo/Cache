@@ -1,0 +1,57 @@
+--- /tmp/Arja_Defects4J_Closure_130/src/com/google/javascript/rhino/Node.java	2018-12-01 08:45:43.193585573 -0500
++++ /tmp/Arja_Defects4J_Closure_130/patches_yo25/Patch_1350/patched/tmp/Arja_Defects4J_Closure_130/src/com/google/javascript/rhino/Node.java	2018-12-01 09:03:49.173819711 -0500
+@@ -1430,7 +1430,8 @@
+    */
+   NodeMismatch checkTreeEqualsImpl(Node node2) {
+     if (!isEquivalentTo(node2, false, false)) {
+-      return new NodeMismatch(this, node2);
++      this.sourcePosition = sourcePosition;
++	return new NodeMismatch(this, node2);
+     }
+ 
+     NodeMismatch res = null;
+@@ -1443,7 +1444,6 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
+       }
+     }
+     return res;
+
+
+--- /tmp/Arja_Defects4J_Closure_130/src/com/google/javascript/jscomp/CollapseProperties.java	2018-12-01 08:45:45.845585512 -0500
++++ /tmp/Arja_Defects4J_Closure_130/patches_yo25/Patch_1350/patched/tmp/Arja_Defects4J_Closure_130/src/com/google/javascript/jscomp/CollapseProperties.java	2018-12-01 09:03:49.177819796 -0500
+@@ -213,30 +213,6 @@
+       (new NodeTraversal(compiler, collector)).traverseAtScope(scope);
+ 
+       ReferenceCollection aliasRefs = collector.getReferences(aliasVar);
+-      if (aliasRefs.isWellDefined()
+-          && aliasRefs.firstReferenceIsAssigningDeclaration()
+-          && aliasRefs.isAssignedOnceInLifetime()) {
+-        // The alias is well-formed, so do the inlining now.
+-        int size = aliasRefs.references.size();
+-        Set<Node> newNodes = Sets.newHashSetWithExpectedSize(size - 1);
+-        for (int i = 1; i < size; i++) {
+-          ReferenceCollectingCallback.Reference aliasRef =
+-              aliasRefs.references.get(i);
+-
+-          Node newNode = alias.node.cloneTree();
+-          aliasRef.getParent().replaceChild(aliasRef.getNode(), newNode);
+-          newNodes.add(newNode);
+-        }
+-
+-        // just set the original alias to null.
+-        aliasParent.replaceChild(alias.node, IR.nullNode());
+-        compiler.reportCodeChange();
+-
+-        // Inlining the variable may have introduced new references
+-        // to descendants of {@code name}. So those need to be collected now.
+-        namespace.scanNewNodes(alias.scope, newNodes);
+-        return true;
+-      }
+     }
+ 
+     return false;
+
+

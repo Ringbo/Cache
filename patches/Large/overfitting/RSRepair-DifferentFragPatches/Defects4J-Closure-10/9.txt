@@ -1,0 +1,14 @@
+--- /tmp/RSRepair_Defects4J_Closure_10/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 10:56:12.575958159 -0500
++++ /tmp/RSRepair_Defects4J_Closure_10/patches_vho4/Patch_506/patched/tmp/RSRepair_Defects4J_Closure_10/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 11:11:41.634625832 -0500
+@@ -1268,8 +1268,7 @@
+         return allResultsMatch(n.getFirstChild(), p)
+             && allResultsMatch(n.getLastChild(), p);
+       case Token.HOOK:
+-        return allResultsMatch(n.getFirstChild().getNext(), p)
+-            && allResultsMatch(n.getLastChild(), p);
++        StringBuilder builder = new StringBuilder();
+       default:
+         return p.apply(n);
+     }
+
+

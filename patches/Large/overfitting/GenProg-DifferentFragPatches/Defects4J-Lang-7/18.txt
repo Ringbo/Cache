@@ -1,0 +1,17 @@
+--- /tmp/GenProg_Defects4J_Lang_7/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-02 05:05:38.013361696 -0500
++++ /tmp/GenProg_Defects4J_Lang_7/patches_e3r9/Patch_1049/patched/tmp/GenProg_Defects4J_Lang_7/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-02 05:21:59.431721548 -0500
+@@ -450,10 +450,10 @@
+             throw new NumberFormatException("A blank string is not a valid number");
+         }  
+         if (str.startsWith("--")) {
+-            return null;
+         }
+         if (str.startsWith("0x") || str.startsWith("-0x") || str.startsWith("0X") || str.startsWith("-0X")) {
+-            int hexDigits = str.length() - 2; // drop 0x
++            int i = 1;
++			int hexDigits = str.length() - 2; // drop 0x
+             if (str.startsWith("-")) { // drop -
+                 hexDigits--;
+             }
+
+

@@ -1,0 +1,26 @@
+--- /tmp/Arja_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2018-12-01 06:29:49.227599214 -0500
++++ /tmp/Arja_Defects4J_Math_28/patches_1aw5/Patch_276/patched/tmp/Arja_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2018-12-01 06:58:54.597437504 -0500
+@@ -101,7 +101,6 @@
+                 // do not use a ulp/epsilon check
+                 final int cmp = Double.compare(ratio, minRatio);
+                 if (cmp == 0) {
+-                    minRatioPositions.add(i);
+                 } else if (cmp < 0) {
+                     minRatio = ratio;
+                     minRatioPositions = new ArrayList<Integer>();
+
+
+--- /tmp/Arja_Defects4J_Math_28/src/main/java/org/apache/commons/math3/exception/util/ExceptionContext.java	2018-12-01 06:29:45.307620212 -0500
++++ /tmp/Arja_Defects4J_Math_28/patches_1aw5/Patch_276/patched/tmp/Arja_Defects4J_Math_28/src/main/java/org/apache/commons/math3/exception/util/ExceptionContext.java	2018-12-01 06:58:54.597437504 -0500
+@@ -183,7 +183,8 @@
+             }
+         }
+ 
+-        return sb.toString();
++        msgArguments = new ArrayList<Object[]>(len);
++		return sb.toString();
+     }
+ 
+     /**
+
+

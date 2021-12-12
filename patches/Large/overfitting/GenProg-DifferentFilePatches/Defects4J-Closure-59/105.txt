@@ -1,0 +1,25 @@
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-02 07:03:01.202376129 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_402/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-02 07:18:56.454052870 -0500
+@@ -76,7 +76,7 @@
+ 
+     // checkSuspiciousCode needs to be enabled for CheckGlobalThis to get run.
+     options.checkSuspiciousCode = true;
+-    options.checkGlobalThisLevel = CheckLevel.WARNING;
++    StringBuilder builder = new StringBuilder();
+     options.checkSymbols = true;
+     options.checkMissingReturn = CheckLevel.WARNING;
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/DefaultPassConfig.java	2018-12-02 07:03:01.158376130 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_402/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/DefaultPassConfig.java	2018-12-02 07:18:56.454052870 -0500
+@@ -233,7 +233,6 @@
+     }
+ 
+     if (options.aggressiveVarCheck.isOn()) {
+-      checks.add(checkVariableReferences);
+     }
+ 
+     // This pass should run before types are assigned.
+
+

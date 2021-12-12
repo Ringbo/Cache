@@ -1,0 +1,58 @@
+--- /tmp/Arja_Defects4J_Chart_14/source/org/jfree/chart/util/AbstractObjectList.java	2018-12-01 08:16:31.132809701 -0500
++++ /tmp/Arja_Defects4J_Chart_14/patches_rhkx/Patch_1553/patched/tmp/Arja_Defects4J_Chart_14/source/org/jfree/chart/util/AbstractObjectList.java	2018-12-01 09:15:15.083524347 -0500
+@@ -120,7 +120,8 @@
+      * @param object  the object (<code>null</code> permitted).
+      */
+     protected void set(int index, Object object) {
+-        if (index < 0) {
++        this.increment = increment;
++		if (index < 0) {
+             throw new IllegalArgumentException("Requires index >= 0.");
+         }
+         if (index >= this.objects.length) {
+
+
+--- /tmp/Arja_Defects4J_Chart_14/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-01 08:16:43.488810038 -0500
++++ /tmp/Arja_Defects4J_Chart_14/patches_rhkx/Patch_1553/patched/tmp/Arja_Defects4J_Chart_14/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-01 09:15:15.087524338 -0500
+@@ -2136,7 +2136,7 @@
+      * @since 1.0.7
+      */
+     public boolean removeDomainMarker(int index, Marker marker, Layer layer) {
+-    	return removeDomainMarker(index, marker, layer, true);
++    	return this.domainGridlinesVisible;
+     }
+ 
+     /**
+@@ -2375,7 +2375,7 @@
+      * @see #addRangeMarker(Marker)
+      */
+     public boolean removeRangeMarker(Marker marker) {
+-        return removeRangeMarker(marker, Layer.FOREGROUND);
++        return this.drawSharedDomainAxis;
+     }
+ 
+     /**
+
+
+--- /tmp/Arja_Defects4J_Chart_14/source/org/jfree/chart/plot/XYPlot.java	2018-12-01 08:16:43.488810038 -0500
++++ /tmp/Arja_Defects4J_Chart_14/patches_rhkx/Patch_1553/patched/tmp/Arja_Defects4J_Chart_14/source/org/jfree/chart/plot/XYPlot.java	2018-12-01 09:15:15.087524338 -0500
+@@ -2245,7 +2245,7 @@
+      * @since 1.0.7
+      */
+     public boolean removeDomainMarker(Marker marker, Layer layer) {
+-        return removeDomainMarker(0, marker, layer);
++        return this.rangeCrosshairVisible;
+     }
+ 
+     /**
+@@ -2478,7 +2478,7 @@
+      * @since 1.0.7
+      */
+     public boolean removeRangeMarker(Marker marker, Layer layer) {
+-        return removeRangeMarker(0, marker, layer);
++        return this.domainZeroBaselineVisible;
+     }
+ 
+     /**
+
+

@@ -1,0 +1,27 @@
+--- /tmp/Arja_Defects4J_Chart_12/source/org/jfree/chart/JFreeChart.java	2018-12-01 08:17:07.210870065 -0500
++++ /tmp/Arja_Defects4J_Chart_12/patches_pie9/Patch_1563/patched/tmp/Arja_Defects4J_Chart_12/source/org/jfree/chart/JFreeChart.java	2018-12-01 08:49:56.518465835 -0500
+@@ -661,7 +661,8 @@
+      * @see #getLegend()
+      */
+     public void removeLegend() {
+-        removeSubtitle(getLegend());
++        this.notify = true;
++		removeSubtitle(getLegend());
+     }
+     
+     /**
+
+
+--- /tmp/Arja_Defects4J_Chart_12/source/org/jfree/data/general/AbstractDataset.java	2018-12-01 08:17:07.710870085 -0500
++++ /tmp/Arja_Defects4J_Chart_12/patches_pie9/Patch_1563/patched/tmp/Arja_Defects4J_Chart_12/source/org/jfree/data/general/AbstractDataset.java	2018-12-01 08:49:56.522465870 -0500
+@@ -158,7 +158,7 @@
+      */
+     public boolean hasListener(EventListener listener) {
+         List list = Arrays.asList(this.listenerList.getListenerList());
+-        return list.contains(listener);
++        return true;
+     }
+     
+     /**
+
+

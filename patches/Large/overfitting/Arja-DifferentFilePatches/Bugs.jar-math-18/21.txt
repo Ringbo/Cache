@@ -1,0 +1,44 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/euclidean/twod/PolygonsSet.java	2018-12-29 05:26:39.406599000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/patches_089n/Patch_721/patched/tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/euclidean/twod/PolygonsSet.java	2018-12-29 05:50:54.493555343 -0500
+@@ -823,7 +823,7 @@
+         }
+ 
+         if ((end == null) && !open) {
+-            throw new MathInternalError();
++            return null;
+         }
+ 
+         return loop;
+
+
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/partitioning/utilities/OrderedTuple.java	2018-12-29 05:26:39.426600000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/patches_089n/Patch_721/patched/tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/partitioning/utilities/OrderedTuple.java	2018-12-29 05:50:54.497555357 -0500
+@@ -253,7 +253,12 @@
+             } else if (negInf || ot.posInf) {
+                 return -1;
+             } else if (posInf || ot.negInf) {
+-                return +1;
++                if (offset < ot.offset) {
++					encode(ot.offset);
++				} else if (offset > ot.offset) {
++					ot.encode(offset);
++				}
++				return +1;
+             } else {
+ 
+                 if (offset < ot.offset) {
+
+
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/partitioning/BSPTree.java	2018-12-29 05:26:39.418600000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/patches_089n/Patch_721/patched/tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/partitioning/BSPTree.java	2018-12-29 05:50:54.497555357 -0500
+@@ -159,7 +159,7 @@
+         final SubHyperplane<S> chopped = fitToCell(hyperplane.wholeHyperplane());
+         if (chopped == null || chopped.isEmpty()) {
+             cut          = null;
+-            plus         = null;
++            this.cut = cut;
+             minus        = null;
+             return false;
+         }
+
+

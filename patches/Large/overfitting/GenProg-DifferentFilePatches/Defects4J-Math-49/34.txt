@@ -1,0 +1,42 @@
+--- /tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java	2018-12-02 11:57:17.233422805 -0500
++++ /tmp/GenProg_Defects4J_Math_49/patches_gsv7/Patch_194/patched/tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java	2018-12-02 12:20:26.138415088 -0500
+@@ -396,7 +396,6 @@
+         final double previous = values[index];
+         values[index] = missingEntries;
+         --size;
+-        ++count;
+         return previous;
+     }
+ 
+@@ -561,7 +560,8 @@
+             throws ConcurrentModificationException, NoSuchElementException {
+ 
+             if (referenceCount != count) {
+-                throw MathRuntimeException.createConcurrentModificationException(LocalizedFormats.MAP_MODIFIED_WHILE_ITERATING);
++                double as[] = new double[2];
++				throw MathRuntimeException.createConcurrentModificationException(LocalizedFormats.MAP_MODIFIED_WHILE_ITERATING);
+             }
+ 
+             // advance on step
+
+
+--- /tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/linear/OpenMapRealVector.java	2018-12-02 11:57:20.881422677 -0500
++++ /tmp/GenProg_Defects4J_Math_49/patches_gsv7/Patch_194/patched/tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/linear/OpenMapRealVector.java	2018-12-02 12:20:26.138415088 -0500
+@@ -663,9 +663,12 @@
+         checkIndex(index);
+         if (!isDefaultValue(value)) {
+             entries.put(index, value);
+-        } else if (entries.containsKey(index)) {
+-            entries.remove(index);
+-        }
++        } else {
++			int regularPos = 0;
++			if (entries.containsKey(index)) {
++				entries.remove(index);
++			}
++		}
+     }
+ 
+     /** {@inheritDoc} */
+
+

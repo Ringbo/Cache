@@ -1,0 +1,78 @@
+--- /tmp/Arja_Defects4J_Closure_67/src/com/google/javascript/jscomp/RemoveUnusedPrototypeProperties.java	2018-12-01 09:25:47.602554953 -0500
++++ /tmp/Arja_Defects4J_Closure_67/patches_k844/Patch_74/patched/tmp/Arja_Defects4J_Closure_67/src/com/google/javascript/jscomp/RemoveUnusedPrototypeProperties.java	2018-12-01 09:30:59.304700640 -0500
+@@ -85,7 +85,6 @@
+           boolean canRemove = false;
+ 
+           if (specializationState == null) {
+-            canRemove = true;
+           } else {
+             Node specializableFunction =
+               getSpecializableFunctionFromSymbol(declaration);
+
+
+--- /tmp/Arja_Defects4J_Closure_67/src/com/google/javascript/rhino/Node.java	2018-12-01 09:25:47.626555117 -0500
++++ /tmp/Arja_Defects4J_Closure_67/patches_k844/Patch_74/patched/tmp/Arja_Defects4J_Closure_67/src/com/google/javascript/rhino/Node.java	2018-12-01 09:30:59.308700668 -0500
+@@ -936,14 +936,20 @@
+         sb.append(' ');
+         sb.append(getString());
+       } else if (type == Token.FUNCTION) {
+-        sb.append(' ');
+         // In the case of JsDoc trees, the first child is often not a string
+         // which causes exceptions to be thrown when calling toString or
+         // toStringTree.
+         if (first == null || first.getType() != Token.NAME) {
+           sb.append("<invalid>");
+         } else {
+-          sb.append(first.getString());
++          if (jsType != null) {
++				String jsTypeString = jsType.toString();
++				if (jsTypeString != null) {
++					sb.append(" : ");
++					sb.append(jsTypeString);
++				}
++			}
++		sb.append(first.getString());
+         }
+       } else if (this instanceof ScriptOrFnNode) {
+         ScriptOrFnNode sof = (ScriptOrFnNode) this;
+@@ -1024,7 +1030,37 @@
+               if (obj != null) {
+                 value = obj.toString();
+               } else {
+-                value = String.valueOf(x.intValue);
++                if (type == Token.FUNCTION) {
++					sb.append(' ');
++					if (first == null || first.getType() != Token.NAME) {
++						sb.append("<invalid>");
++					} else {
++						sb.append(first.getString());
++					}
++				} else if (this instanceof ScriptOrFnNode) {
++					ScriptOrFnNode sof = (ScriptOrFnNode) this;
++					if (this instanceof FunctionNode) {
++						FunctionNode fn = (FunctionNode) this;
++						sb.append(' ');
++						sb.append(fn.getFunctionName());
++					}
++					if (printSource) {
++						sb.append(" [source name: ");
++						sb.append(sof.getSourceName());
++						sb.append("] [encoded source length: ");
++						sb.append(sof.getEncodedSourceEnd()
++								- sof.getEncodedSourceStart());
++						sb.append("] [base line: ");
++						sb.append(sof.getBaseLineno());
++						sb.append("] [end line: ");
++						sb.append(sof.getEndLineno());
++						sb.append(']');
++					}
++				} else if (type == Token.NUMBER) {
++					sb.append(' ');
++					sb.append(getDouble());
++				}
++				value = String.valueOf(x.intValue);
+               }
+               break;
+           }
+
+

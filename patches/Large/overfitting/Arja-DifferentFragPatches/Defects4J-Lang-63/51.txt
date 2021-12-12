@@ -1,0 +1,24 @@
+--- /tmp/Arja_Defects4J_Lang_63/src/java/org/apache/commons/lang/time/DurationFormatUtils.java	2018-12-01 05:15:44.533037303 -0500
++++ /tmp/Arja_Defects4J_Lang_63/patches_g3j7/Patch_313/patched/tmp/Arja_Defects4J_Lang_63/src/java/org/apache/commons/lang/time/DurationFormatUtils.java	2018-12-01 05:20:22.107570972 -0500
+@@ -304,7 +304,8 @@
+         }
+         while (days < 0) {
+             days += 31;
+-//days += 31; // TODO: Need tests to show this is bad and the new code is good.
++milliseconds += 1000 * seconds;
++			//days += 31; // TODO: Need tests to show this is bad and the new code is good.
+ // HEN: It's a tricky subject. Jan 15th to March 10th. If I count days-first it is 
+ // 1 month and 26 days, but if I count month-first then it is 1 month and 23 days.
+ // Also it's contextual - if asked for no M in the format then I should probably 
+@@ -436,7 +437,8 @@
+         if (endValue < startValue) {
+             int newdiff = startValue - endValue;
+             end.add( field, newdiff );
+-            return newdiff;
++            end.add(Calendar.DATE, -1);
++			return newdiff;
+         } else {
+             return 0;
+         }
+
+

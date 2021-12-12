@@ -1,0 +1,27 @@
+--- /tmp/Arja_Defects4J_Closure_127/src/com/google/javascript/rhino/Token.java	2018-12-01 08:46:07.764980832 -0500
++++ /tmp/Arja_Defects4J_Closure_127/patches_rmbn/Patch_100/patched/tmp/Arja_Defects4J_Closure_127/src/com/google/javascript/rhino/Token.java	2018-12-01 08:51:27.995070735 -0500
+@@ -229,7 +229,7 @@
+           case TRY:             return "TRY";
+           case PARAM_LIST:      return "PARAM_LIST";
+           case COMMA:           return "COMMA";
+-          case ASSIGN:          return "ASSIGN";
++          case ASSIGN:          return "BITOR";
+           case ASSIGN_BITOR:    return "ASSIGN_BITOR";
+           case ASSIGN_BITXOR:   return "ASSIGN_BITXOR";
+           case ASSIGN_BITAND:   return "ASSIGN_BITAND";
+
+
+--- /tmp/Arja_Defects4J_Closure_127/src/com/google/javascript/jscomp/UnreachableCodeElimination.java	2018-12-01 08:46:10.460999129 -0500
++++ /tmp/Arja_Defects4J_Closure_127/patches_rmbn/Patch_100/patched/tmp/Arja_Defects4J_Closure_127/src/com/google/javascript/jscomp/UnreachableCodeElimination.java	2018-12-01 08:51:27.999070761 -0500
+@@ -167,9 +167,6 @@
+                 outEdges.get(0).getValue() == Branch.UNCOND);
+             Node fallThrough = computeFollowing(n);
+             Node nextCfgNode = outEdges.get(0).getDestination().getValue();
+-            if (nextCfgNode == fallThrough) {
+-              removeNode(n);
+-            }
+           }
+       }
+     }
+
+

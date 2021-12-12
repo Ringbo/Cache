@@ -1,0 +1,13 @@
+--- /tmp/Arja_Defects4J_Lang_43/src/java/org/apache/commons/lang/text/ExtendedMessageFormat.java	2018-12-01 05:13:04.265756743 -0500
++++ /tmp/Arja_Defects4J_Lang_43/patches_21ag/Patch_242/patched/tmp/Arja_Defects4J_Lang_43/src/java/org/apache/commons/lang/text/ExtendedMessageFormat.java	2018-12-01 05:30:10.710539891 -0500
+@@ -419,7 +419,7 @@
+         int start = pos.getIndex();
+         char[] c = pattern.toCharArray();
+         if (escapingOn && c[start] == QUOTE) {
+-            return appendTo == null ? null : appendTo.append(QUOTE);
++            pos.setIndex(pos.getIndex() + 1);
+         }
+         int lastHold = start;
+         for (int i = pos.getIndex(); i < pattern.length(); i++) {
+
+

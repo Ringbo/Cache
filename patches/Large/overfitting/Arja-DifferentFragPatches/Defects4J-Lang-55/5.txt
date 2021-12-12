@@ -1,0 +1,22 @@
+--- /tmp/Arja_Defects4J_Lang_55/src/java/org/apache/commons/lang/time/StopWatch.java	2018-12-02 05:39:49.871847241 -0500
++++ /tmp/Arja_Defects4J_Lang_55/patches_qnya/Patch_1266/patched/tmp/Arja_Defects4J_Lang_55/src/java/org/apache/commons/lang/time/StopWatch.java	2018-12-02 07:09:27.657306303 -0500
+@@ -99,7 +99,7 @@
+         if(this.runningState != STATE_UNSTARTED) {
+             throw new IllegalStateException("Stopwatch already started. ");
+         }
+-        stopTime = -1;
++        this.splitState = STATE_UNSPLIT;
+         startTime = System.currentTimeMillis();
+         this.runningState = STATE_RUNNING;
+     }
+@@ -115,8 +115,6 @@
+         if(this.runningState != STATE_RUNNING && this.runningState != STATE_SUSPENDED) {
+             throw new IllegalStateException("Stopwatch is not running. ");
+         }
+-            stopTime = System.currentTimeMillis();
+-        this.runningState = STATE_STOPPED;
+     }
+ 
+     /**
+
+

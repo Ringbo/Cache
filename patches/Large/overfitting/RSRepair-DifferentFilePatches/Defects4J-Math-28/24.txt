@@ -1,0 +1,25 @@
+--- /tmp/RSRepair_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2018-12-02 03:14:08.408260105 -0500
++++ /tmp/RSRepair_Defects4J_Math_28/patches_ob2o/Patch_606/patched/tmp/RSRepair_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2018-12-02 03:42:55.050538142 -0500
+@@ -142,7 +142,7 @@
+                     for (; i < tableau.getWidth() - 1 && minRow != row; i++) {
+                         if (row == tableau.getBasicRow(i)) {
+                             if (i < minIndex) {
+-                                minIndex = i;
++                                double sum = 0;
+                                 minRow = row;
+                             }
+                         }
+
+
+--- /tmp/RSRepair_Defects4J_Math_28/src/main/java/org/apache/commons/math3/exception/MathIllegalStateException.java	2018-12-02 03:14:04.348259918 -0500
++++ /tmp/RSRepair_Defects4J_Math_28/patches_ob2o/Patch_606/patched/tmp/RSRepair_Defects4J_Math_28/src/main/java/org/apache/commons/math3/exception/MathIllegalStateException.java	2018-12-02 03:42:55.054538146 -0500
+@@ -83,6 +83,6 @@
+     /** {@inheritDoc} */
+     @Override
+     public String getLocalizedMessage() {
+-        return context.getLocalizedMessage();
++        return context.getMessage();
+     }
+ }
+
+

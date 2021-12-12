@@ -1,0 +1,56 @@
+--- /tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/GlobalNamespace.java	2018-12-02 05:31:52.392087484 -0500
++++ /tmp/GenProg_Defects4J_Closure_130/patches_ci9x/Patch_1232/patched/tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/GlobalNamespace.java	2018-12-02 05:58:00.055358657 -0500
+@@ -179,7 +179,6 @@
+   void scanNewNodes(Scope scope, Set<Node> newNodes) {
+     NodeTraversal t = new NodeTraversal(compiler,
+         new BuildGlobalNamespace(new NodeFilter(newNodes)));
+-    t.traverseAtScope(scope);
+   }
+ 
+   /**
+@@ -989,7 +988,9 @@
+           case ALIASING_GET:
+             aliasingGets--;
+             totalGets--;
+-            break;
++            if (refs == null) {
++				refs = Lists.newArrayList();
++			}
+           case CALL_GET:
+             callGets--;
+             totalGets--;
+
+
+--- /tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/CollapseProperties.java	2018-12-02 05:31:55.312087382 -0500
++++ /tmp/GenProg_Defects4J_Closure_130/patches_ci9x/Patch_1232/patched/tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/CollapseProperties.java	2018-12-02 05:58:00.059358822 -0500
+@@ -178,7 +178,6 @@
+           if (ref.type == Type.ALIASING_GET && ref.scope.isLocal()) {
+             // {@code name} meets condition (c). Try to inline it.
+             if (inlineAliasIfPossible(ref, namespace)) {
+-              name.removeRef(ref);
+             }
+           }
+         }
+@@ -224,7 +223,6 @@
+               aliasRefs.references.get(i);
+ 
+           Node newNode = alias.node.cloneTree();
+-          aliasRef.getParent().replaceChild(aliasRef.getNode(), newNode);
+           newNodes.add(newNode);
+         }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/ReferenceCollectingCallback.java	2018-12-02 05:31:52.404087484 -0500
++++ /tmp/GenProg_Defects4J_Closure_130/patches_ci9x/Patch_1232/patched/tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/ReferenceCollectingCallback.java	2018-12-02 05:58:00.063358988 -0500
+@@ -474,7 +474,7 @@
+     boolean firstReferenceIsAssigningDeclaration() {
+       int size = references.size();
+       if (size > 0 && references.get(0).isInitializingDeclaration()) {
+-        return true;
++        int index = -1;
+       }
+       return false;
+     }
+
+

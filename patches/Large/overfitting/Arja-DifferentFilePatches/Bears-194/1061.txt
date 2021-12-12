@@ -1,0 +1,31 @@
+--- /tmp/Arja_Bears_albfernandez-GDS-PMD-Security-Rules_451155169-455669767/src/main/java/com/gdssecurity/pmd/rules/BaseSecurityRule.java	2018-12-26 12:42:04.669139482 -0500
++++ /tmp/Arja_Bears_albfernandez-GDS-PMD-Security-Rules_451155169-455669767/patches_bdow/Patch_987/patched/tmp/Arja_Bears_albfernandez-GDS-PMD-Security-Rules_451155169-455669767/src/main/java/com/gdssecurity/pmd/rules/BaseSecurityRule.java	2018-12-26 13:03:35.958632044 -0500
+@@ -118,9 +118,6 @@
+ 		Set<String> ret = new HashSet<String>();
+ 		List<String> props = getProperty(descriptor);
+ 		for (String value: props) {
+-			if (!StringUtils.isBlank(value)) {
+-				ret.add(value.trim());
+-			}
+ 		}
+ 		
+ 		return ret;
+
+
+--- /tmp/Arja_Bears_albfernandez-GDS-PMD-Security-Rules_451155169-455669767/src/main/java/com/gdssecurity/pmd/rules/dfa/DfaSecurityRule.java	2018-12-26 12:42:04.669139482 -0500
++++ /tmp/Arja_Bears_albfernandez-GDS-PMD-Security-Rules_451155169-455669767/patches_bdow/Patch_987/patched/tmp/Arja_Bears_albfernandez-GDS-PMD-Security-Rules_451155169-455669767/src/main/java/com/gdssecurity/pmd/rules/dfa/DfaSecurityRule.java	2018-12-26 13:03:35.962632075 -0500
+@@ -142,12 +142,10 @@
+ 	protected void init() {
+ 		super.init();
+ 		if (!this.initialized) {
+-			init2();
+ 			this.initialized = true;
+ 		}
+ 	}
+ 	private void init2() {
+-		this.sinks = getConfig(this.sinkDescriptor);
+ 		this.sanitizers = getConfig(this.sanitizerDescriptor);
+ 		this.sinkAnnotations = getConfig(this.sinkAnnotationsDescriptor);
+ 		this.generatorAnnotations = getConfig(this.generatorAnnotationsDescriptor);
+
+

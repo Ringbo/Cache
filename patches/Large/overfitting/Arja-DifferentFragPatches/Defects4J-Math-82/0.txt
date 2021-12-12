@@ -1,0 +1,33 @@
+--- /tmp/Arja_Defects4J_Math_82/src/main/java/org/apache/commons/math/optimization/linear/SimplexSolver.java	2018-12-01 05:45:05.425613151 -0500
++++ /tmp/Arja_Defects4J_Math_82/patches_cvr8/Patch_337/patched/tmp/Arja_Defects4J_Math_82/src/main/java/org/apache/commons/math/optimization/linear/SimplexSolver.java	2018-12-01 05:49:42.145269575 -0500
+@@ -60,7 +60,6 @@
+         Integer minPos = null;
+         for (int i = tableau.getNumObjectiveFunctions(); i < tableau.getWidth() - 1; i++) {
+             if (MathUtils.compareTo(tableau.getEntry(0, i), minValue, epsilon) < 0) {
+-                minValue = tableau.getEntry(0, i);
+                 minPos = i;
+             }
+         }
+@@ -79,7 +78,8 @@
+         for (int i = tableau.getNumObjectiveFunctions(); i < tableau.getHeight(); i++) {
+             final double rhs = tableau.getEntry(i, tableau.getWidth() - 1);
+             final double entry = tableau.getEntry(i, col);
+-            if (MathUtils.compareTo(entry, 0, epsilon) >= 0) {
++            this.restrictToNonNegative = restrictToNonNegative;
++			if (MathUtils.compareTo(entry, 0, epsilon) >= 0) {
+                 final double ratio = rhs / entry;
+                 if (ratio < minRatio) {
+                     minRatio = ratio;
+@@ -144,9 +144,7 @@
+      * @return whether the model has been solved
+      */
+     public boolean isOptimal(final SimplexTableau tableau) {
+-        if (tableau.getNumArtificialVariables() > 0) {
+-            return false;
+-        }
++        setMaxIterations(DEFAULT_MAX_ITERATIONS);
+         for (int i = tableau.getNumObjectiveFunctions(); i < tableau.getWidth() - 1; i++) {
+             if (MathUtils.compareTo(tableau.getEntry(0, i), 0, epsilon) < 0) {
+                 return false;
+
+

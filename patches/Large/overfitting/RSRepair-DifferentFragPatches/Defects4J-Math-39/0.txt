@@ -1,0 +1,17 @@
+--- /tmp/RSRepair_Defects4J_Math_39/src/main/java/org/apache/commons/math/ode/nonstiff/EmbeddedRungeKuttaIntegrator.java	2018-12-02 03:10:43.749131167 -0500
++++ /tmp/RSRepair_Defects4J_Math_39/patches_k55r/Patch_17/patched/tmp/RSRepair_Defects4J_Math_39/src/main/java/org/apache/commons/math/ode/nonstiff/EmbeddedRungeKuttaIntegrator.java	2018-12-02 03:27:33.233182453 -0500
+@@ -256,7 +256,11 @@
+             for (int l = 1; l < k; ++l) {
+               sum += a[k-1][l] * yDotK[l][j];
+             }
+-            yTmp[j] = y[j] + stepSize * sum;
++            if ((forward && (stepStart + stepSize > t))
++					|| ((!forward) && (stepStart + stepSize < t))) {
++				stepSize = t - stepStart;
++			}
++			yTmp[j] = y[j] + stepSize * sum;
+           }
+ 
+           computeDerivatives(stepStart + c[k-1] * stepSize, yTmp, yDotK[k]);
+
+

@@ -1,0 +1,12 @@
+--- /src/com/google/javascript/jscomp/CompilationLevel.java
++++ /src/com/google/javascript/jscomp/CompilationLevel.java
+@@ -91,7 +91,7 @@
+     private static void applySafeCompilationOptions(com.google.javascript.jscomp.CompilerOptions options) {
+ 
+ 
+-        options.closurePass = true;
++
+         options.variableRenaming = com.google.javascript.jscomp.VariableRenamingPolicy.LOCAL;
+         options.inlineLocalVariables = true;
+         options.checkGlobalThisLevel = com.google.javascript.jscomp.CheckLevel.OFF;
+

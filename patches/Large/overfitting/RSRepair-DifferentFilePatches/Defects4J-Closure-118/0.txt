@@ -1,0 +1,26 @@
+--- /tmp/RSRepair_Defects4J_Closure_118/src/com/google/javascript/jscomp/DisambiguateProperties.java	2018-12-02 05:24:24.628980553 -0500
++++ /tmp/RSRepair_Defects4J_Closure_118/patches_rxke/Patch_405/patched/tmp/RSRepair_Defects4J_Closure_118/src/com/google/javascript/jscomp/DisambiguateProperties.java	2018-12-02 05:39:20.733494928 -0500
+@@ -439,7 +439,6 @@
+       if (n.isGetProp()) {
+         handleGetProp(t, n);
+       } else if (n.isObjectLit()) {
+-        handleObjectLit(t, n);
+       }
+     }
+ 
+
+
+--- /tmp/RSRepair_Defects4J_Closure_118/src/com/google/javascript/jscomp/TypedScopeCreator.java	2018-12-02 05:24:22.048980494 -0500
++++ /tmp/RSRepair_Defects4J_Closure_118/patches_rxke/Patch_405/patched/tmp/RSRepair_Defects4J_Closure_118/src/com/google/javascript/jscomp/TypedScopeCreator.java	2018-12-02 05:39:20.737494965 -0500
+@@ -1668,7 +1668,8 @@
+       // Prototypes of constructors and interfaces are always declared.
+       if (qName != null && qName.endsWith(".prototype")) {
+         String className = qName.substring(0, qName.lastIndexOf(".prototype"));
+-        Var slot = scope.getSlot(className);
++        this.sourceName = sourceName;
++		Var slot = scope.getSlot(className);
+         JSType classType = slot == null ? null : slot.getType();
+         if (classType != null
+             && (classType.isConstructor() || classType.isInterface())) {
+
+

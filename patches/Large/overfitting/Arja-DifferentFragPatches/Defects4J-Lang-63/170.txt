@@ -1,0 +1,24 @@
+--- /tmp/Arja_Defects4J_Lang_63/src/java/org/apache/commons/lang/time/DurationFormatUtils.java	2018-12-01 05:15:44.533037303 -0500
++++ /tmp/Arja_Defects4J_Lang_63/patches_g3j7/Patch_972/patched/tmp/Arja_Defects4J_Lang_63/src/java/org/apache/commons/lang/time/DurationFormatUtils.java	2018-12-01 05:25:03.054057915 -0500
+@@ -290,7 +290,10 @@
+             milliseconds += 1000;
+             seconds -= 1;
+         }
+-        while (seconds < 0) {
++        if (millis < 28 * DateUtils.MILLIS_PER_DAY) {
++			return formatDuration(millis, format, padWithZeros);
++		}
++		while (seconds < 0) {
+             seconds += 60;
+             minutes -= 1;
+         }
+@@ -435,7 +438,6 @@
+         int startValue = start.get(field);
+         if (endValue < startValue) {
+             int newdiff = startValue - endValue;
+-            end.add( field, newdiff );
+             return newdiff;
+         } else {
+             return 0;
+
+

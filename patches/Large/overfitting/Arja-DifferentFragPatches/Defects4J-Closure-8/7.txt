@@ -1,0 +1,31 @@
+--- /tmp/Arja_Defects4J_Closure_8/src/com/google/javascript/jscomp/CollapseVariableDeclarations.java	2018-12-01 10:02:25.535699864 -0500
++++ /tmp/Arja_Defects4J_Closure_8/patches_hwwe/Patch_266/patched/tmp/Arja_Defects4J_Closure_8/src/com/google/javascript/jscomp/CollapseVariableDeclarations.java	2018-12-01 10:10:54.998410789 -0500
+@@ -199,9 +199,7 @@
+       }
+ 
+       Var var = s.getVar(lhs.getString());
+-      return var != null
+-          && var.getScope() == s
+-          && !blacklistedVars.contains(var);
++      return false;
+     }
+   }
+ 
+@@ -231,14 +229,13 @@
+           Node rhs = assign.getLastChild();
+           lhs.addChildToBack(rhs.detachFromParent());
+           var.addChildToBack(lhs.detachFromParent());
+-          redeclaration = true;
++          break;
+         }
+         n = next;
+       }
+ 
+       if (redeclaration) {
+         JSDocInfo info = new JSDocInfo();
+-        info.addSuppression("duplicate");
+         var.setJSDocInfo(info);
+       }
+     }
+
+

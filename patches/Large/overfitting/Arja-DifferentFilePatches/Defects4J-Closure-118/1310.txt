@@ -1,0 +1,46 @@
+--- /tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/jscomp/CodeGenerator.java	2018-12-01 08:50:18.936921226 -0500
++++ /tmp/Arja_Defects4J_Closure_118/patches_pkqi/Patch_1651/patched/tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/jscomp/CodeGenerator.java	2018-12-01 09:12:47.773378169 -0500
+@@ -655,7 +655,7 @@
+       case Token.STRING_KEY:
+         Preconditions.checkState(
+             childCount == 1, "Object lit key must have 1 child");
+-        addJsString(n);
++        ;
+         break;
+ 
+       case Token.STRING:
+
+
+--- /tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/jscomp/DisambiguateProperties.java	2018-12-01 08:50:21.552921286 -0500
++++ /tmp/Arja_Defects4J_Closure_118/patches_pkqi/Patch_1651/patched/tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/jscomp/DisambiguateProperties.java	2018-12-01 09:12:47.773378169 -0500
+@@ -488,28 +488,6 @@
+      * Processes a OBJECTLIT node.
+      */
+     private void handleObjectLit(NodeTraversal t, Node n) {
+-      for (Node child = n.getFirstChild();
+-          child != null;
+-          child = child.getNext()) {
+-        // Maybe STRING, GET, SET
+-
+-        // We should never see a mix of numbers and strings.
+-        String name = child.getString();
+-        T type = typeSystem.getType(getScope(), n, name);
+-
+-        Property prop = getProperty(name);
+-        if (!prop.scheduleRenaming(child,
+-                                   processProperty(t, prop, type, null))) {
+-          // TODO(user): It doesn't look like the user can do much in this
+-          // case right now.
+-          if (propertiesToErrorFor.containsKey(name)) {
+-            compiler.report(JSError.make(
+-                t.getSourceName(), child, propertiesToErrorFor.get(name),
+-                Warnings.INVALIDATION, name,
+-                (type == null ? "null" : type.toString()), n.toString(), ""));
+-          }
+-        }
+-      }
+     }
+ 
+     private void printErrorLocations(List<String> errors, JSType t) {
+
+

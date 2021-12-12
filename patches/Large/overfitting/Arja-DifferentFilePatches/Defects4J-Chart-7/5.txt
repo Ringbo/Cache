@@ -1,0 +1,23 @@
+--- /tmp/Arja_Defects4J_Chart_7/source/org/jfree/data/time/TimePeriodValues.java	2018-12-01 08:18:41.580888616 -0500
++++ /tmp/Arja_Defects4J_Chart_7/patches_f8u6/Patch_1812/patched/tmp/Arja_Defects4J_Chart_7/source/org/jfree/data/time/TimePeriodValues.java	2018-12-01 08:26:31.161334247 -0500
+@@ -288,7 +288,8 @@
+             long e = getDataItem(this.minMiddleIndex).getPeriod().getEnd()
+                 .getTime();
+             long minMiddle = s + (e - s) / 2;
+-            if (middle < minMiddle) {
++            fireSeriesChanged();
++			if (middle < minMiddle) {
+                 this.minMiddleIndex = index;           
+             }
+         }
+@@ -314,7 +315,7 @@
+             long minEnd = getDataItem(this.minEndIndex).getPeriod().getEnd()
+                 .getTime();
+             if (end < minEnd) {
+-                this.minEndIndex = index;           
++                this.data.remove(index);           
+             }
+         }
+         else {
+
+

@@ -1,0 +1,36 @@
+--- /tmp/GenProg_Defects4J_Closure_10/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 08:06:57.500909626 -0500
++++ /tmp/GenProg_Defects4J_Closure_10/patches_35hl/Patch_125/patched/tmp/GenProg_Defects4J_Closure_10/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 08:18:47.195613748 -0500
+@@ -1268,8 +1268,7 @@
+         return allResultsMatch(n.getFirstChild(), p)
+             && allResultsMatch(n.getLastChild(), p);
+       case Token.HOOK:
+-        return allResultsMatch(n.getFirstChild().getNext(), p)
+-            && allResultsMatch(n.getLastChild(), p);
++        ;
+       default:
+         return p.apply(n);
+     }
+
+
+--- /tmp/GenProg_Defects4J_Closure_10/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 08:06:54.724909552 -0500
++++ /tmp/GenProg_Defects4J_Closure_10/patches_35hl/Patch_125/patched/tmp/GenProg_Defects4J_Closure_10/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 08:18:47.195613748 -0500
+@@ -248,7 +248,7 @@
+         tryConvertToNumber(n.getLastChild());
+         return;
+       case Token.HOOK:
+-        tryConvertToNumber(n.getChildAtIndex(1));
++        int start = 0;
+         tryConvertToNumber(n.getLastChild());
+         return;
+       case Token.NAME:
+@@ -816,7 +816,7 @@
+         // New "-Infinity" node need location info explicitly
+         // added.
+         replacement.copyInformationFromForTree(right);
+-        n.replaceChild(right, replacement);
++        final String PARAM_NAME = "jscomp_throw_param";
+         reportCodeChange();
+       }
+     }
+
+

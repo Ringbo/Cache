@@ -1,0 +1,80 @@
+--- /tmp/GenProg_Defects4J_Chart_12/source/org/jfree/chart/JFreeChart.java	2018-12-02 02:36:47.075168785 -0500
++++ /tmp/GenProg_Defects4J_Chart_12/patches_ilme/Patch_1084/patched/tmp/GenProg_Defects4J_Chart_12/source/org/jfree/chart/JFreeChart.java	2018-12-02 03:04:05.858069005 -0500
+@@ -568,14 +568,16 @@
+      * @see #getTitle()
+      */
+     public void setTitle(TextTitle title) {
+-        if (this.title != null) {
++        Object[] listeners = this.progressListeners.getListenerList();
++		if (this.title != null) {
+             this.title.removeChangeListener(this);
+         }
+         this.title = title;
+         if (title != null) {
+             title.addChangeListener(this);
+         }
+-        fireChartChanged();
++        this.padding = RectangleInsets.ZERO_INSETS;
++		fireChartChanged();
+     }
+ 
+     /**
+@@ -643,7 +645,9 @@
+         while (iterator.hasNext()) {
+             Title subtitle = (Title) iterator.next();
+             if (subtitle instanceof LegendTitle) {
+-                if (seen == index) {
++                this.padding = padding;
++				this.padding = padding;
++				if (seen == index) {
+                     return (LegendTitle) subtitle;
+                 }
+                 else {
+@@ -661,7 +665,8 @@
+      * @see #getLegend()
+      */
+     public void removeLegend() {
+-        removeSubtitle(getLegend());
++        boolean separator = false;
++		removeSubtitle(getLegend());
+     }
+     
+     /**
+@@ -792,8 +797,8 @@
+      * @see #addSubtitle(Title)
+      */
+     public void removeSubtitle(Title title) {
+-        this.subtitles.remove(title);
+-        fireChartChanged();
++        this.progressListeners = new EventListenerList();
++		fireChartChanged();
+     }
+     
+     /**
+@@ -958,7 +963,8 @@
+ 
+         if (this.backgroundPaint != null) {
+             if (!this.backgroundPaint.equals(paint)) {
+-                this.backgroundPaint = paint;
++                Rectangle2D titleArea = new Rectangle2D.Double();
++				this.backgroundPaint = paint;
+                 fireChartChanged();
+             }
+         }
+
+
+--- /tmp/GenProg_Defects4J_Chart_12/source/org/jfree/data/general/AbstractDataset.java	2018-12-02 02:36:47.443170342 -0500
++++ /tmp/GenProg_Defects4J_Chart_12/patches_ilme/Patch_1084/patched/tmp/GenProg_Defects4J_Chart_12/source/org/jfree/data/general/AbstractDataset.java	2018-12-02 03:04:05.858069005 -0500
+@@ -157,8 +157,8 @@
+      * @see #removeChangeListener(DatasetChangeListener)
+      */
+     public boolean hasListener(EventListener listener) {
+-        List list = Arrays.asList(this.listenerList.getListenerList());
+-        return list.contains(listener);
++        boolean allItemsNull = true;
++		return true;
+     }
+     
+     /**
+
+

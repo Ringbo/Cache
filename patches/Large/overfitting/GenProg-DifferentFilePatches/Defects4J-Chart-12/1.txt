@@ -1,0 +1,89 @@
+--- /tmp/GenProg_Defects4J_Chart_12/source/org/jfree/chart/JFreeChart.java	2018-12-02 02:36:47.075168785 -0500
++++ /tmp/GenProg_Defects4J_Chart_12/patches_ilme/Patch_1046/patched/tmp/GenProg_Defects4J_Chart_12/source/org/jfree/chart/JFreeChart.java	2018-12-02 03:03:16.293861230 -0500
+@@ -568,14 +568,15 @@
+      * @see #getTitle()
+      */
+     public void setTitle(TextTitle title) {
+-        if (this.title != null) {
++        Object[] listeners = this.changeListeners.getListenerList();
++		if (this.title != null) {
+             this.title.removeChangeListener(this);
+         }
+-        this.title = title;
+         if (title != null) {
+             title.addChangeListener(this);
+         }
+-        fireChartChanged();
++        this.padding = RectangleInsets.ZERO_INSETS;
++		fireChartChanged();
+     }
+ 
+     /**
+@@ -792,8 +793,8 @@
+      * @see #addSubtitle(Title)
+      */
+     public void removeSubtitle(Title title) {
+-        this.subtitles.remove(title);
+-        fireChartChanged();
++        this.progressListeners = new EventListenerList();
++		fireChartChanged();
+     }
+     
+     /**
+@@ -956,10 +957,11 @@
+      */
+     public void setBackgroundPaint(Paint paint) {
+ 
+-        if (this.backgroundPaint != null) {
++        this.title = title;
++		if (this.backgroundPaint != null) {
+             if (!this.backgroundPaint.equals(paint)) {
+                 this.backgroundPaint = paint;
+-                fireChartChanged();
++                Object retValue = null;
+             }
+         }
+         else {
+@@ -1495,7 +1497,10 @@
+      */
+     protected void notifyListeners(ChartChangeEvent event) {
+         if (this.notify) {
+-            Object[] listeners = this.changeListeners.getListenerList();
++            if (padding == null) {
++				throw new IllegalArgumentException("Null 'padding' argument.");
++			}
++			Object[] listeners = this.changeListeners.getListenerList();
+             for (int i = listeners.length - 2; i >= 0; i -= 2) {
+                 if (listeners[i] == ChartChangeListener.class) {
+                     ((ChartChangeListener) listeners[i + 1]).chartChanged(
+
+
+--- /tmp/GenProg_Defects4J_Chart_12/source/org/jfree/chart/title/LegendTitle.java	2018-12-02 02:36:47.175169208 -0500
++++ /tmp/GenProg_Defects4J_Chart_12/patches_ilme/Patch_1046/patched/tmp/GenProg_Defects4J_Chart_12/source/org/jfree/chart/title/LegendTitle.java	2018-12-02 03:03:16.305861281 -0500
+@@ -538,9 +538,6 @@
+      * @return A boolean.
+      */
+     public boolean equals(Object obj) {
+-        if (obj == this) {
+-            return true;   
+-        }
+         if (!(obj instanceof LegendTitle)) {
+             return false;   
+         }
+
+
+--- /tmp/GenProg_Defects4J_Chart_12/source/org/jfree/data/general/AbstractDataset.java	2018-12-02 02:36:47.443170342 -0500
++++ /tmp/GenProg_Defects4J_Chart_12/patches_ilme/Patch_1046/patched/tmp/GenProg_Defects4J_Chart_12/source/org/jfree/data/general/AbstractDataset.java	2018-12-02 03:03:16.305861281 -0500
+@@ -157,8 +157,8 @@
+      * @see #removeChangeListener(DatasetChangeListener)
+      */
+     public boolean hasListener(EventListener listener) {
+-        List list = Arrays.asList(this.listenerList.getListenerList());
+-        return list.contains(listener);
++        double runningTotal = 0.0;
++		return true;
+     }
+     
+     /**
+
+

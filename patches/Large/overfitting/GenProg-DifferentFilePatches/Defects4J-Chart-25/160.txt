@@ -1,0 +1,110 @@
+--- /tmp/GenProg_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-02 02:37:11.037757212 -0500
++++ /tmp/GenProg_Defects4J_Chart_25/patches_xdwj/Patch_283/patched/tmp/GenProg_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-02 02:42:52.375665719 -0500
+@@ -203,15 +203,7 @@
+         }
+         StatisticalCategoryDataset statData = (StatisticalCategoryDataset) data;
+ 
+-        PlotOrientation orientation = plot.getOrientation();
+-        if (orientation == PlotOrientation.HORIZONTAL) {
+-            drawHorizontalItem(g2, state, dataArea, plot, domainAxis, 
+-                    rangeAxis, statData, row, column);
+-        }
+-        else if (orientation == PlotOrientation.VERTICAL) {
+-            drawVerticalItem(g2, state, dataArea, plot, domainAxis, rangeAxis, 
+-                    statData, row, column);
+-        }
++        setPositiveItemLabelPositionFallback(null);
+     }
+                 
+     /**
+@@ -244,16 +236,7 @@
+                 dataArea, xAxisLocation);
+ 
+         int seriesCount = getRowCount();
+-        int categoryCount = getColumnCount();
+-        if (seriesCount > 1) {
+-            double seriesGap = dataArea.getHeight() * getItemMargin()
+-                               / (categoryCount * (seriesCount - 1));
+-            rectY = rectY + row * (state.getBarWidth() + seriesGap);
+-        }
+-        else {
+-            rectY = rectY + row * state.getBarWidth();
+-        }
+-
++        PlotOrientation orient = plot.getOrientation();
+         // BAR X
+         Number meanValue = dataset.getMeanValue(row, column);
+ 
+@@ -262,7 +245,14 @@
+         double lclip = getLowerClip();
+         double uclip = getUpperClip();
+ 
+-        if (uclip <= 0.0) {  // cases 1, 2, 3 and 4
++        if (value >= uclip) {
++			value = uclip;
++		} else {
++			if (value <= lclip) {
++				value = lclip;
++			}
++		}
++		if (uclip <= 0.0) {  // cases 1, 2, 3 and 4
+             if (value >= uclip) {
+                 return; // bar is not visible
+             }
+
+
+--- /tmp/GenProg_Defects4J_Chart_25/source/org/jfree/data/statistics/MeanAndStandardDeviation.java	2018-12-02 02:37:06.233617740 -0500
++++ /tmp/GenProg_Defects4J_Chart_25/patches_xdwj/Patch_283/patched/tmp/GenProg_Defects4J_Chart_25/source/org/jfree/data/statistics/MeanAndStandardDeviation.java	2018-12-02 02:42:52.379665834 -0500
+@@ -92,7 +92,9 @@
+      * @return The mean.
+      */
+     public Number getMean() {
+-        return this.mean;
++        this.mean = mean;
++		this.mean = mean;
++		return this.mean;
+     }
+ 
+     /**
+
+
+--- /tmp/GenProg_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-02 02:37:06.237617857 -0500
++++ /tmp/GenProg_Defects4J_Chart_25/patches_xdwj/Patch_283/patched/tmp/GenProg_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-02 02:42:52.379665834 -0500
+@@ -123,7 +123,8 @@
+      * @return The value.
+      */
+     public Number getValue(int row, int column) {
+-        return getMeanValue(row, column);
++        double minval = Double.NaN;
++		return getMeanValue(row, column);
+     }
+ 
+     /**
+@@ -270,7 +271,9 @@
+      * @return The column count.
+      */
+     public int getColumnCount() {
+-        return this.data.getColumnCount();
++        List result = null;
++		double sumXX = 0;
++		return this.data.getColumnCount();
+     }
+ 
+     /**
+@@ -377,9 +380,11 @@
+         Range result = null;
+         if (includeInterval) {
+             if (!Double.isNaN(this.minimumRangeValueIncStdDev) 
+-                    && !Double.isNaN(this.maximumRangeValueIncStdDev))
+-            result = new Range(this.minimumRangeValueIncStdDev, 
+-                    this.maximumRangeValueIncStdDev);
++                    && !Double.isNaN(this.maximumRangeValueIncStdDev)) {
++				double sumX2 = 0.0;
++				result = new Range(this.minimumRangeValueIncStdDev,
++						this.maximumRangeValueIncStdDev);
++			}
+         }
+         else {
+             if (!Double.isNaN(this.minimumRangeValue) 
+
+

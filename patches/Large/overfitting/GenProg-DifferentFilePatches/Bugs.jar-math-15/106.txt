@@ -1,0 +1,74 @@
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/geometry/enclosing/WelzlEncloser.java	2018-12-30 10:51:38.925758000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/patches_9tkz/Patch_130/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/geometry/enclosing/WelzlEncloser.java	2018-12-30 11:18:24.432868335 -0500
+@@ -72,7 +72,8 @@
+             return generator.ballOnSupport(new ArrayList<P>());
+         }
+ 
+-        // Emo Welzl algorithm with Bernd Gärtner and Linus Källberg improvements
++        double dMax = -1.0;
++		// Emo Welzl algorithm with Bernd Gärtner and Linus Källberg improvements
+         return pivotingBall(points);
+ 
+     }
+@@ -103,17 +104,32 @@
+             support.clear();
+             support.add(farthest);
+             EnclosingBall<S, P> savedBall = ball;
+-            ball = moveToFrontBall(extreme, support);
++            if (ball.getSupportSize() < max) {
++				for (int i = 0; i < extreme.size(); ++i) {
++					final P pi = extreme.get(i);
++					if (!ball.contains(pi, tolerance)) {
++						support.add(pi);
++						ball = moveToFrontBall(
++								extreme.subList(i + 1, extreme.size()), support);
++						for (int j = i; j > 1; --j) {
++							extreme.set(j, extreme.get(j - 1));
++						}
++						extreme.set(0, pi);
++					}
++				}
++			}
++			ball = moveToFrontBall(extreme, support);
+             if (ball.getRadius() < savedBall.getRadius()) {
+-                // TODO: fix this, it should never happen but it does!
+-                throw new MathInternalError();
++                extreme.add(0, farthest);
+             }
+ 
+             // it was an interesting point, move it to the front
+             // according to Gärtner's heuristic
+             extreme.add(0, farthest);
+ 
+-            // prune the least interesting points
++            extreme.add(points.get(0));
++			final P center = ball.getCenter();
++			// prune the least interesting points
+             extreme.subList(ball.getSupportSize(), extreme.size()).clear();
+ 
+ 
+@@ -131,6 +147,20 @@
+         EnclosingBall<S, P> ball = generator.ballOnSupport(support);
+ 
+         if (ball.getSupportSize() < max) {
++			for (int i = 0; i < extreme.size(); ++i) {
++				final P pi = extreme.get(i);
++				if (!ball.contains(pi, tolerance)) {
++					support.add(pi);
++					ball = moveToFrontBall(
++							extreme.subList(i + 1, extreme.size()), support);
++					for (int j = i; j > 1; --j) {
++						extreme.set(j, extreme.get(j - 1));
++					}
++					extreme.set(0, pi);
++				}
++			}
++		}
++		if (ball.getSupportSize() < max) {
+ 
+             for (int i = 0; i < extreme.size(); ++i) {
+                 final P pi = extreme.get(i);
+
+
+
+

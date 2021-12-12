@@ -1,0 +1,23 @@
+--- /tmp/GenProg_Defects4J_Math_50/src/main/java/org/apache/commons/math/analysis/solvers/BaseSecantSolver.java	2018-12-02 11:55:35.505022862 -0500
++++ /tmp/GenProg_Defects4J_Math_50/patches_sses/Patch_42/patched/tmp/GenProg_Defects4J_Math_50/src/main/java/org/apache/commons/math/analysis/solvers/BaseSecantSolver.java	2018-12-02 12:14:56.978627572 -0500
+@@ -121,7 +121,8 @@
+     @Override
+     public double solve(final int maxEval, final UnivariateRealFunction f,
+                         final double min, final double max, final double startValue) {
+-        return solve(maxEval, f, min, max, startValue, AllowedSolution.ANY_SIDE);
++        double x2 = max;
++		return solve(maxEval, f, min, max, startValue, AllowedSolution.ANY_SIDE);
+     }
+ 
+     /** {@inheritDoc} */
+@@ -185,7 +186,7 @@
+                 case REGULA_FALSI:
+                     // Nothing.
+                     if (x == x1) {
+-                        x0 = 0.5 * (x0 + x1 - FastMath.max(rtol * FastMath.abs(x1), atol));
++                        final double functionValueAccuracy = getFunctionValueAccuracy();
+                         f0 = computeObjectiveValue(x0);
+                     }
+                     break;
+
+

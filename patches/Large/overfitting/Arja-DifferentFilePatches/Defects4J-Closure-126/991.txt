@@ -1,0 +1,37 @@
+--- /tmp/Arja_Defects4J_Closure_126/src/com/google/javascript/jscomp/MinimizeExitPoints.java	2018-12-01 08:46:30.980378793 -0500
++++ /tmp/Arja_Defects4J_Closure_126/patches_shfw/Patch_1460/patched/tmp/Arja_Defects4J_Closure_126/src/com/google/javascript/jscomp/MinimizeExitPoints.java	2018-12-01 09:06:09.067212045 -0500
+@@ -109,7 +109,6 @@
+     if (matchingExitNode(n, exitType, labelName)) {
+       NodeUtil.removeChild(n.getParent(), n);
+       compiler.reportCodeChange();
+-      return;
+     }
+ 
+     // Just an 'if'.
+@@ -140,7 +139,6 @@
+        */
+       if (NodeUtil.hasFinally(n)) {
+         Node finallyBlock = n.getLastChild();
+-        tryMinimizeExits(finallyBlock, exitType, labelName);
+       }
+     }
+ 
+
+
+--- /tmp/Arja_Defects4J_Closure_126/src/com/google/javascript/rhino/Node.java	2018-12-01 08:46:28.147479956 -0500
++++ /tmp/Arja_Defects4J_Closure_126/patches_shfw/Patch_1460/patched/tmp/Arja_Defects4J_Closure_126/src/com/google/javascript/rhino/Node.java	2018-12-01 09:06:09.071212303 -0500
+@@ -1425,11 +1425,7 @@
+   public String checkTreeEquals(Node node2) {
+       NodeMismatch diff = checkTreeEqualsImpl(node2);
+       if (diff != null) {
+-        return "Node tree inequality:" +
+-            "\nTree1:\n" + toStringTree() +
+-            "\n\nTree2:\n" + node2.toStringTree() +
+-            "\n\nSubtree1: " + diff.nodeA.toStringTree() +
+-            "\n\nSubtree2: " + diff.nodeB.toStringTree();
++        return "EMPTY";
+       }
+       return null;
+   }
+
+

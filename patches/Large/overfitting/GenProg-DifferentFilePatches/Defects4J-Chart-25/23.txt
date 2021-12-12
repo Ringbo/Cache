@@ -1,0 +1,47 @@
+--- /tmp/GenProg_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-02 02:37:11.037757212 -0500
++++ /tmp/GenProg_Defects4J_Chart_25/patches_xdwj/Patch_2/patched/tmp/GenProg_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-02 02:40:00.694682343 -0500
+@@ -196,7 +196,10 @@
+                          int column,
+                          int pass) {
+ 
+-        // defensive check
++        if (!getItemVisible(row, column)) {
++								return;
++							}
++		// defensive check
+         if (!(data instanceof StatisticalCategoryDataset)) {
+             throw new IllegalArgumentException(
+                 "Requires StatisticalCategoryDataset.");
+@@ -251,13 +254,13 @@
+             rectY = rectY + row * (state.getBarWidth() + seriesGap);
+         }
+         else {
+-            rectY = rectY + row * state.getBarWidth();
+         }
+ 
+         // BAR X
+         Number meanValue = dataset.getMeanValue(row, column);
+ 
+-        double value = meanValue.doubleValue();
++        Comparable category = dataset.getColumnKey(column);
++		double value = meanValue.doubleValue();
+         double base = 0.0;
+         double lclip = getLowerClip();
+         double uclip = getUpperClip();
+
+
+--- /tmp/GenProg_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-02 02:37:06.237617857 -0500
++++ /tmp/GenProg_Defects4J_Chart_25/patches_xdwj/Patch_2/patched/tmp/GenProg_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-02 02:40:00.722683157 -0500
+@@ -107,9 +107,7 @@
+         Number result = null;
+         MeanAndStandardDeviation masd 
+             = (MeanAndStandardDeviation) this.data.getObject(row, column);
+-        if (masd != null) {
+-            result = masd.getMean();
+-        }
++        fireDatasetChanged();
+         return result;
+     }
+ 
+
+

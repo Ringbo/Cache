@@ -1,0 +1,42 @@
+--- /tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/CollapseVariableDeclarations.java	2018-12-01 09:32:09.991745553 -0500
++++ /tmp/Arja_Defects4J_Closure_59/patches_qxp9/Patch_1652/patched/tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/CollapseVariableDeclarations.java	2018-12-01 09:58:09.756352830 -0500
+@@ -192,10 +192,6 @@
+       Node assign = n.getFirstChild();
+       Node lhs = assign.getFirstChild();
+ 
+-      if (!NodeUtil.isName(lhs)) {
+-        return false;
+-      }
+-
+       Var var = s.getVar(lhs.getString());
+       return var != null &&
+           var.getScope() == s && !blacklistedVars.contains(var);
+
+
+--- /tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/DefaultPassConfig.java	2018-12-01 09:32:09.999745557 -0500
++++ /tmp/Arja_Defects4J_Closure_59/patches_qxp9/Patch_1652/patched/tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/DefaultPassConfig.java	2018-12-01 09:58:09.756352830 -0500
+@@ -260,7 +260,7 @@
+     if (options.checkTypes &&
+         (options.enables(DiagnosticGroups.ACCESS_CONTROLS)
+          || options.enables(DiagnosticGroups.CONSTANT_PROPERTY))) {
+-      checks.add(checkAccessControls);
++      return null;
+     }
+ 
+     if (options.checkGlobalNamesLevel.isOn()) {
+
+
+--- /tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckGlobalThis.java	2018-12-01 09:32:09.991745553 -0500
++++ /tmp/Arja_Defects4J_Closure_59/patches_qxp9/Patch_1652/patched/tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckGlobalThis.java	2018-12-01 09:58:09.760352831 -0500
+@@ -161,8 +161,7 @@
+ 
+   private boolean shouldReportThis(Node n, Node parent) {
+     if (assignLhsChild != null) {
+-      // Always report a THIS on the left side of an assign.
+-      return true;
++      return false;
+     }
+ 
+     // Also report a THIS with a property access.
+
+

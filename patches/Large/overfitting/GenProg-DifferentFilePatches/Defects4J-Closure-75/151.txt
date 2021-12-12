@@ -1,0 +1,53 @@
+--- /tmp/GenProg_Defects4J_Closure_75/src/com/google/javascript/rhino/Token.java	2018-12-02 06:44:28.130816614 -0500
++++ /tmp/GenProg_Defects4J_Closure_75/patches_wgwu/Patch_172/patched/tmp/GenProg_Defects4J_Closure_75/src/com/google/javascript/rhino/Token.java	2018-12-02 06:55:08.994755572 -0500
+@@ -298,7 +298,10 @@
+           case MUL:             return "MUL";
+           case DIV:             return "DIV";
+           case MOD:             return "MOD";
+-          case NOT:             return "NOT";
++          case NOT:             {
++				Node pn = null;
++				return "NOT";
++			}
+           case BITNOT:          return "BITNOT";
+           case POS:             return "POS";
+           case NEG:             return "NEG";
+
+
+--- /tmp/GenProg_Defects4J_Closure_75/src/com/google/javascript/rhino/Node.java	2018-12-02 06:44:28.126816614 -0500
++++ /tmp/GenProg_Defects4J_Closure_75/patches_wgwu/Patch_172/patched/tmp/GenProg_Defects4J_Closure_75/src/com/google/javascript/rhino/Node.java	2018-12-02 06:55:08.998755721 -0500
+@@ -1410,7 +1410,6 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
+       }
+     }
+     return res;
+
+
+--- /tmp/GenProg_Defects4J_Closure_75/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 06:44:29.966816550 -0500
++++ /tmp/GenProg_Defects4J_Closure_75/patches_wgwu/Patch_172/patched/tmp/GenProg_Defects4J_Closure_75/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 06:55:09.002755870 -0500
+@@ -298,7 +298,10 @@
+         break;
+ 
+       case Token.STRING:
+-        return getStringNumberValue(n.getString());
++        {
++			JSType type = n.getJSType();
++			return getStringNumberValue(n.getString());
++		}
+ 
+       case Token.ARRAYLIT:
+       case Token.OBJECTLIT:
+@@ -346,7 +349,7 @@
+     }
+ 
+     try {
+-      return Double.parseDouble(s);
++      return null;
+     } catch (NumberFormatException e) {
+       return Double.NaN;
+     }
+
+

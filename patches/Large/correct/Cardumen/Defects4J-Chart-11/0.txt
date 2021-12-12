@@ -1,0 +1,13 @@
+/var/lib/oar/.batch_job_bashrc: line 5: /home/tdurieux/.bashrc: No such file or directory
+--- org/jfree/chart/util/ShapeUtilities.java
++++ org/jfree/chart/util/ShapeUtilities.java
+@@ -271,7 +271,7 @@
+ 		if ((p1.getWindingRule()) != (p2.getWindingRule())) {
+ 			return false;
+ 		}
+-		java.awt.geom.PathIterator iterator1 = p1.getPathIterator(null);
++		java.awt.geom.PathIterator iterator1 = p2.getPathIterator(null);
+ 		java.awt.geom.PathIterator iterator2 = p1.getPathIterator(null);
+ 		double[] d1 = new double[6];
+ 		double[] d2 = new double[6];
+

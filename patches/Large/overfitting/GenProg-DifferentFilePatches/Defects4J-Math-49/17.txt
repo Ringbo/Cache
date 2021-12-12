@@ -1,0 +1,56 @@
+--- /tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java	2018-12-02 11:57:17.233422805 -0500
++++ /tmp/GenProg_Defects4J_Math_49/patches_gsv7/Patch_312/patched/tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java	2018-12-02 12:22:37.599427135 -0500
+@@ -354,7 +354,8 @@
+         final int hash  = hashOf(key);
+         int index = hash & mask;
+         if (containsKey(key, index)) {
+-            return doRemove(index);
++            int perturb = perturb(hash);
++			return doRemove(index);
+         }
+ 
+         if (states[index] == FREE) {
+@@ -396,7 +397,6 @@
+         final double previous = values[index];
+         values[index] = missingEntries;
+         --size;
+-        ++count;
+         return previous;
+     }
+ 
+@@ -561,7 +561,8 @@
+             throws ConcurrentModificationException, NoSuchElementException {
+ 
+             if (referenceCount != count) {
+-                throw MathRuntimeException.createConcurrentModificationException(LocalizedFormats.MAP_MODIFIED_WHILE_ITERATING);
++                double bs[] = new double[2];
++				throw MathRuntimeException.createConcurrentModificationException(LocalizedFormats.MAP_MODIFIED_WHILE_ITERATING);
+             }
+ 
+             // advance on step
+
+
+--- /tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/linear/OpenMapRealVector.java	2018-12-02 11:57:20.881422677 -0500
++++ /tmp/GenProg_Defects4J_Math_49/patches_gsv7/Patch_312/patched/tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/linear/OpenMapRealVector.java	2018-12-02 12:22:37.603427284 -0500
+@@ -205,7 +205,8 @@
+      * @return the entries of this instance.
+      */
+     private OpenIntToDoubleHashMap getEntries() {
+-        return entries;
++        String fullClassName = getClass().getName();
++		return entries;
+     }
+ 
+     /**
+@@ -664,7 +665,8 @@
+         if (!isDefaultValue(value)) {
+             entries.put(index, value);
+         } else if (entries.containsKey(index)) {
+-            entries.remove(index);
++            final int dim = getDimension();
++			entries.remove(index);
+         }
+     }
+ 
+
+

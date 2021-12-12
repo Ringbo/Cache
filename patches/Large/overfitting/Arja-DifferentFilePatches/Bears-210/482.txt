@@ -1,0 +1,28 @@
+--- /tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/sql/SqlPredicate.java	2018-12-26 12:41:02.000000000 -0500
++++ /tmp/Arja_Bears_dungba88-libra_436514153-436524727/patches_yzr2/Patch_2619/patched/tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/sql/SqlPredicate.java	2018-12-26 13:00:51.007922752 -0500
+@@ -49,8 +49,6 @@
+     
+     @Override
+     public boolean satisfiedBy(final PredicateContext context) throws PredicateExecutionException {
+-        if (error || predicate == null)
+-            return false;
+         try {
+             return predicate.satisfiedBy(context);
+         } catch (Exception ex) {
+
+
+--- /tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/sql/node/VariableExpressionNode.java	2018-12-26 12:41:02.000000000 -0500
++++ /tmp/Arja_Bears_dungba88-libra_436514153-436524727/patches_yzr2/Patch_2619/patched/tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/sql/node/VariableExpressionNode.java	2018-12-26 13:00:51.007922752 -0500
+@@ -27,10 +27,6 @@
+             return null;
+         Map<String, Object> cachedValues = context.getCachedValues();
+         Object value = cachedValues.get(variableName);
+-        if (value == null) {
+-            value = getValueNoCache(context);
+-            cachedValues.put(variableName, value);
+-        }
+         return value;
+     }
+ 
+
+

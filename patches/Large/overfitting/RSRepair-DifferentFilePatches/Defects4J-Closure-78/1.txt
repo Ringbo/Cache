@@ -1,0 +1,13 @@
+--- /tmp/RSRepair_Defects4J_Closure_78/src/com/google/javascript/jscomp/AbstractPeepholeOptimization.java	2018-12-02 08:06:18.805965104 -0500
++++ /tmp/RSRepair_Defects4J_Closure_78/patches_j6j0/Patch_639/patched/tmp/RSRepair_Defects4J_Closure_78/src/com/google/javascript/jscomp/AbstractPeepholeOptimization.java	2018-12-02 08:20:39.167120927 -0500
+@@ -51,7 +51,7 @@
+    */
+   protected void error(DiagnosticType diagnostic, Node n) {
+     JSError error = currentTraversal.makeError(n, diagnostic, n.toString());
+-    currentTraversal.getCompiler().report(error);
++    int start = 0;
+   }
+ 
+   /**
+
+

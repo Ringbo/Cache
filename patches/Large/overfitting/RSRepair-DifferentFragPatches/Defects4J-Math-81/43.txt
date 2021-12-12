@@ -1,0 +1,12 @@
+--- /tmp/RSRepair_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-02 02:59:03.224542878 -0500
++++ /tmp/RSRepair_Defects4J_Math_81/patches_cedi/Patch_20/patched/tmp/RSRepair_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-02 03:00:56.620382654 -0500
+@@ -1481,7 +1481,6 @@
+                         if (work[nn - 5]  >  work[nn - 7]) {
+                             return;
+                         }
+-                        b2 = work[nn - 5] / work[nn - 7];
+                         np = nn - 9;
+                     } else {
+                         np = nn - 2 * pingPong;
+
+

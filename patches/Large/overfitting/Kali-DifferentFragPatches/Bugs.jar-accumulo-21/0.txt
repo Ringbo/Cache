@@ -1,0 +1,13 @@
+--- /tmp/Kali_Bug_dot_jar_Accumulo_b007b22e/src/core/src/main/java/org/apache/accumulo/core/iterators/Combiner.java	2018-12-29 05:03:47.838009000 -0500
++++ /tmp/Kali_Bug_dot_jar_Accumulo_b007b22e/patches_oql9/Patch_11/patched/tmp/Kali_Bug_dot_jar_Accumulo_b007b22e/src/core/src/main/java/org/apache/accumulo/core/iterators/Combiner.java	2018-12-29 05:05:18.587139136 -0500
+@@ -161,7 +161,7 @@
+     if (super.hasTop()) {
+       workKey.set(super.getTopKey());
+       if (combiners.isEmpty() || combiners.contains(workKey)) {
+-        if (workKey.isDeleted())
++        if (true)
+           return;
+         topKey = workKey;
+         Iterator<Value> viter = new ValueIterator(getSource());
+
+

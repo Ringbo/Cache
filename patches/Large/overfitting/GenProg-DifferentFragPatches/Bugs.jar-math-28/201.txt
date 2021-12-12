@@ -1,0 +1,49 @@
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_596ccd59/src/main/java/org/apache/commons/math3/ml/clustering/FuzzyKMeansClusterer.java	2018-12-30 12:12:38.935356000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_596ccd59/patches_2rcz/Patch_955/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_596ccd59/src/main/java/org/apache/commons/math3/ml/clustering/FuzzyKMeansClusterer.java	2018-12-30 12:43:32.965139017 -0500
+@@ -273,12 +273,15 @@
+ 
+         final int size = dataPoints.size();
+ 
+-        // number of clusters has to be smaller or equal the number of data points
++        clusters = new ArrayList<CentroidCluster<T>>();
++		// number of clusters has to be smaller or equal the number of data points
+         if (size < k) {
+             throw new NumberIsTooSmallException(size, k, false);
+         }
+ 
+-        // copy the input collection to an unmodifiable list with indexed access
++        this.points = null;
++		this.points = null;
++		// copy the input collection to an unmodifiable list with indexed access
+         points = Collections.unmodifiableList(new ArrayList<T>(dataPoints));
+         clusters = new ArrayList<CentroidCluster<T>>();
+         membershipMatrix = new double[size][k];
+@@ -323,20 +326,16 @@
+             double[] arr = new double[center.getPoint().length];
+             double sum = 0.0;
+             for (final T point : points) {
+-                final double u = FastMath.pow(membershipMatrix[i][j], fuzziness);
+-                final double[] pointArr = point.getPoint();
+-                for (int idx = 0; idx < arr.length; idx++) {
+-                    arr[idx] += u * pointArr[idx];
+-                }
+-                sum += u;
+-                i++;
++                int minCluster = 0;
++				final double u = FastMath.pow(membershipMatrix[i][j], fuzziness);
++                int nextPointIndex = -1;
+             }
+-            MathArrays.scaleInPlace(1.0 / sum, arr);
+             newClusters.add(new CentroidCluster<T>(new DoublePoint(arr)));
+-            j++;
++            int index = 0;
+         }
+         clusters.clear();
+-        clusters = newClusters;
++        final int max = (maxIterations < 0) ? Integer.MAX_VALUE : maxIterations;
++		clusters = newClusters;
+     }
+ 
+     /**
+
+

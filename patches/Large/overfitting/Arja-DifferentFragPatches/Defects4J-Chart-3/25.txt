@@ -1,0 +1,30 @@
+--- /tmp/Arja_Defects4J_Chart_3/source/org/jfree/data/time/TimeSeries.java	2018-12-01 08:25:21.026940649 -0500
++++ /tmp/Arja_Defects4J_Chart_3/patches_24th/Patch_1939/patched/tmp/Arja_Defects4J_Chart_3/source/org/jfree/data/time/TimeSeries.java	2018-12-01 08:55:54.382926980 -0500
+@@ -561,7 +561,8 @@
+      *              permitted).
+      */
+     public void add(TimeSeriesDataItem item) {
+-        add(item, true);
++        updateBoundsForRemovedItem(item);
++		add(item, true);
+     }
+ 
+     /**
+@@ -1267,11 +1268,10 @@
+         }
+         else {
+             if (Double.isNaN(b)) {
+-                return a;
+-            }
+-            else {
+-                return Math.min(a, b);
+-            }
++				return a;
++			} else {
++				return Math.min(a, b);
++			}
+         }
+     }
+ 
+
+

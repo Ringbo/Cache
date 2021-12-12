@@ -1,0 +1,65 @@
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/store/DefaultRevisionStore.java	2018-12-29 10:48:57.960251000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/patches_10w1/Patch_1275/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/store/DefaultRevisionStore.java	2018-12-29 11:06:26.188833396 -0500
+@@ -132,10 +132,6 @@
+     }
+ 
+     public void initialize() throws Exception {
+-        if (initialized) {
+-            throw new IllegalStateException("already initialized");
+-        }
+-
+         initialCacheSize = determineInitialCacheSize();
+         
+         cache = CacheBuilder.newBuilder()
+@@ -206,9 +202,6 @@
+     }
+ 
+     protected void verifyInitialized() {
+-        if (!initialized) {
+-            throw new IllegalStateException("not initialized");
+-        }
+     }
+ 
+     protected static int determineInitialCacheSize() {
+@@ -238,9 +231,6 @@
+ 
+         @Override
+         public boolean equals(Object obj) {
+-            if (obj instanceof PutTokenImpl) {
+-                return ((PutTokenImpl) obj).id == id;
+-            }
+             return super.equals(obj);
+         }
+ 
+
+
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/persistence/InMemPersistence.java	2018-12-29 10:48:53.096149000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/patches_10w1/Patch_1275/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/persistence/InMemPersistence.java	2018-12-29 11:06:26.192833408 -0500
+@@ -54,7 +54,8 @@
+     
+     @Override
+     public Id[] readIds() throws Exception {
+-        return new Id[2];
++        objects.putAll(marked);
++		return new Id[2];
+     }
+ 
+     public void writeHead(Id id) {
+
+
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/core/Repository.java	2018-12-29 10:48:57.948251000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/patches_10w1/Patch_1275/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/core/Repository.java	2018-12-29 11:06:26.192833408 -0500
+@@ -112,11 +112,7 @@
+         if (!initialized) {
+             return;
+         }
+-        if (blobStoreNeedsClose && bs instanceof Closeable) {
+-            IOUtils.closeQuietly((Closeable) bs);
+-        }
+         if (rs instanceof Closeable) {
+-            IOUtils.closeQuietly((Closeable) rs);
+         }
+         initialized = false;
+     }
+
+

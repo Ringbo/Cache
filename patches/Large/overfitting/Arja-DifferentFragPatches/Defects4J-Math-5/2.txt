@@ -1,0 +1,25 @@
+--- /tmp/Arja_Defects4J_Math_5/src/main/java/org/apache/commons/math3/complex/Complex.java	2018-12-01 07:01:09.709772458 -0500
++++ /tmp/Arja_Defects4J_Math_5/patches_22ad/Patch_681/patched/tmp/Arja_Defects4J_Math_5/src/main/java/org/apache/commons/math3/complex/Complex.java	2018-12-01 07:48:28.921113447 -0500
+@@ -302,7 +302,7 @@
+         }
+ 
+         if (real == 0.0 && imaginary == 0.0) {
+-            return NaN;
++            return INF;
+         }
+ 
+         if (isInfinite) {
+@@ -342,7 +342,10 @@
+         }
+         if (other instanceof Complex){
+             Complex c = (Complex)other;
+-            if (c.isNaN) {
++            if (this == other) {
++				return true;
++			}
++			if (c.isNaN) {
+                 return isNaN;
+             } else {
+                 return (real == c.real) && (imaginary == c.imaginary);
+
+

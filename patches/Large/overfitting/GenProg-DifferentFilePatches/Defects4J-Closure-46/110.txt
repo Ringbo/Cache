@@ -1,0 +1,59 @@
+--- /tmp/GenProg_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/RecordTypeBuilder.java	2018-12-02 07:13:19.619619530 -0500
++++ /tmp/GenProg_Defects4J_Closure_46/patches_b8fp/Patch_567/patched/tmp/GenProg_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/RecordTypeBuilder.java	2018-12-02 07:21:27.489880948 -0500
+@@ -83,7 +83,6 @@
+   public JSType build() {
+      // If we have an empty record, simply return the object type.
+     if (isEmpty) {
+-       return registry.getNativeObjectType(JSTypeNative.OBJECT_TYPE);
+     }
+ 
+     return registry.createRecordType(Collections.unmodifiableMap(properties));
+
+
+--- /tmp/GenProg_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/PrototypeObjectType.java	2018-12-02 07:13:19.619619530 -0500
++++ /tmp/GenProg_Defects4J_Closure_46/patches_b8fp/Patch_567/patched/tmp/GenProg_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/PrototypeObjectType.java	2018-12-02 07:21:27.489880948 -0500
+@@ -376,14 +376,9 @@
+         }
+ 
+         sb.append(property);
+-        sb.append(": ");
+         sb.append(getPropertyType(property).toString());
+ 
+         ++i;
+-        if (i == MAX_PRETTY_PRINTED_PROPERTIES) {
+-          sb.append(", ...");
+-          break;
+-        }
+       }
+ 
+       sb.append("}");
+
+
+--- /tmp/GenProg_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/RecordType.java	2018-12-02 07:13:21.291619492 -0500
++++ /tmp/GenProg_Defects4J_Closure_46/patches_b8fp/Patch_567/patched/tmp/GenProg_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/RecordType.java	2018-12-02 07:21:27.493880966 -0500
+@@ -107,7 +107,7 @@
+     Set<String> keySet = properties.keySet();
+     Map<String, JSType> otherProps = otherRecord.properties;
+     if (!otherProps.keySet().equals(keySet)) {
+-      return false;
++      return true;
+     }
+     for (String key : keySet) {
+       if (!otherProps.get(key).isEquivalentTo(properties.get(key))) {
+@@ -143,14 +143,6 @@
+       return super.getLeastSupertype(that);
+     }
+     RecordTypeBuilder builder = new RecordTypeBuilder(registry);
+-    for (String property : properties.keySet()) {
+-      if (that.toMaybeRecordType().hasProperty(property) &&
+-          that.toMaybeRecordType().getPropertyType(property).isEquivalentTo(
+-              getPropertyType(property))) {
+-        builder.addProperty(property, getPropertyType(property),
+-            getPropertyNode(property));
+-      }
+-    }
+     return builder.build();
+   }
+   JSType getGreatestSubtypeHelper(JSType that) {
+
+

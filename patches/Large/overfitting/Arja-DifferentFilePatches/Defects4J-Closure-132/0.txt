@@ -1,0 +1,56 @@
+--- /tmp/Arja_Defects4J_Closure_132/src/com/google/javascript/rhino/Node.java	2018-12-01 08:47:12.836609632 -0500
++++ /tmp/Arja_Defects4J_Closure_132/patches_y19z/Patch_527/patched/tmp/Arja_Defects4J_Closure_132/src/com/google/javascript/rhino/Node.java	2018-12-01 08:59:17.769201373 -0500
+@@ -1443,7 +1443,7 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
++        return null;
+       }
+     }
+     return res;
+
+
+--- /tmp/Arja_Defects4J_Closure_132/src/com/google/javascript/rhino/Token.java	2018-12-01 08:47:12.836609632 -0500
++++ /tmp/Arja_Defects4J_Closure_132/patches_y19z/Patch_527/patched/tmp/Arja_Defects4J_Closure_132/src/com/google/javascript/rhino/Token.java	2018-12-01 08:59:17.769201373 -0500
+@@ -218,7 +218,7 @@
+           case THIS:            return "THIS";
+           case FALSE:           return "FALSE";
+           case TRUE:            return "TRUE";
+-          case SHEQ:            return "SHEQ";
++          case SHEQ:            return "EMPTY";
+           case SHNE:            return "SHNE";
+           case REGEXP:          return "REGEXP";
+           case THROW:           return "THROW";
+@@ -229,7 +229,7 @@
+           case TRY:             return "TRY";
+           case PARAM_LIST:      return "PARAM_LIST";
+           case COMMA:           return "COMMA";
+-          case ASSIGN:          return "ASSIGN";
++          case ASSIGN:          ;
+           case ASSIGN_BITOR:    return "ASSIGN_BITOR";
+           case ASSIGN_BITXOR:   return "ASSIGN_BITXOR";
+           case ASSIGN_BITAND:   return "ASSIGN_BITAND";
+@@ -245,7 +245,7 @@
+           case OR:              return "OR";
+           case AND:             return "AND";
+           case INC:             return "INC";
+-          case DEC:             return "DEC";
++          case DEC:             ;
+           case FUNCTION:        return "FUNCTION";
+           case IF:              return "IF";
+           case SWITCH:          return "SWITCH";
+
+
+--- /tmp/Arja_Defects4J_Closure_132/src/com/google/javascript/rhino/IR.java	2018-12-01 08:47:12.600609744 -0500
++++ /tmp/Arja_Defects4J_Closure_132/patches_y19z/Patch_527/patched/tmp/Arja_Defects4J_Closure_132/src/com/google/javascript/rhino/IR.java	2018-12-01 08:59:17.769201373 -0500
+@@ -339,7 +339,6 @@
+ 
+   public static Node hook(Node cond, Node trueval, Node falseval) {
+     Preconditions.checkState(mayBeExpression(cond));
+-    Preconditions.checkState(mayBeExpression(trueval));
+     Preconditions.checkState(mayBeExpression(falseval));
+     return new Node(Token.HOOK, cond, trueval, falseval);
+   }
+
+

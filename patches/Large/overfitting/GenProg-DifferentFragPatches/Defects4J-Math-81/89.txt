@@ -1,0 +1,30 @@
+--- /tmp/GenProg_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-02 11:12:34.491681081 -0500
++++ /tmp/GenProg_Defects4J_Math_81/patches_mw5w/Patch_25/patched/tmp/GenProg_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-02 11:14:43.667678089 -0500
+@@ -1477,7 +1477,6 @@
+                     int np;
+                     if (dMin == dN) {
+                         gam = dN;
+-                        a2 = 0.0;
+                         if (work[nn - 5]  >  work[nn - 7]) {
+                             return;
+                         }
+@@ -1514,7 +1513,8 @@
+                             break;
+                         }
+                     }
+-                    a2 = cnst3 * a2;
++                    sigmaLow = 0;
++					a2 = cnst3 * a2;
+ 
+                     // rayleigh quotient residual bound.
+                     if (a2 < cnst1) {
+@@ -1541,7 +1541,6 @@
+ 
+                 // approximate contribution to norm squared from i < nn-2.
+                 if (end - start > 2) {
+-                    b2 = work[nn - 13] / work[nn - 15];
+                     a2 = a2 + b2;
+                     for (int i4 = nn - 17; i4 >= 4 * start + 2 + pingPong; i4 -= 4) {
+                         if (b2 == 0.0) {
+
+

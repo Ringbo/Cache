@@ -1,0 +1,12 @@
+--- /source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java
++++ /source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java
+@@ -208,7 +208,7 @@
+             drawHorizontalItem(g2, state, dataArea, plot, domainAxis, 
+                     rangeAxis, statData, row, column);
+         }
+-        else if (orientation == PlotOrientation.VERTICAL) {
++        if (orientation == PlotOrientation.HORIZONTAL) {
+             drawVerticalItem(g2, state, dataArea, plot, domainAxis, rangeAxis, 
+                     statData, row, column);
+         }
+

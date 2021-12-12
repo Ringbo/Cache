@@ -1,0 +1,9 @@
+--- a/src/java/org/apache/commons/lang/time/DateUtils.java
++++ b/src/java/org/apache/commons/lang/time/DateUtils.java
+@@ -665,3 +665,5 @@
+             date.setTime(time);
+-            val.setTime(date);
++            if (seconds <= org.apache.commons.lang.time.DateUtils.fields.length) {
++                val.setTime(date);
++            }
+         }

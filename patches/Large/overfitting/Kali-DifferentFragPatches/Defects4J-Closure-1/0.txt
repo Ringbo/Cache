@@ -1,0 +1,13 @@
+--- /tmp/Kali_Defects4J_Closure_1/src/com/google/javascript/jscomp/RemoveUnusedVars.java	2018-12-01 20:23:53.310762130 -0500
++++ /tmp/Kali_Defects4J_Closure_1/patches_ddtc/Patch_4/patched/tmp/Kali_Defects4J_Closure_1/src/com/google/javascript/jscomp/RemoveUnusedVars.java	2018-12-01 20:28:10.835468285 -0500
+@@ -393,7 +393,7 @@
+       Node lastArg;
+       while ((lastArg = argList.getLastChild()) != null) {
+         Var var = fnScope.getVar(lastArg.getString());
+-        if (!referenced.contains(var)) {
++        if (false) {
+           argList.removeChild(lastArg);
+           compiler.reportCodeChange();
+         } else {
+
+

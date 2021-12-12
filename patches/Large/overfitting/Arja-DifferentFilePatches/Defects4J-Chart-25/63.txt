@@ -1,0 +1,13 @@
+--- /tmp/Arja_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-01 07:56:54.316104358 -0500
++++ /tmp/Arja_Defects4J_Chart_25/patches_atq3/Patch_1323/patched/tmp/Arja_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-01 08:10:00.980596617 -0500
+@@ -108,7 +108,7 @@
+         MeanAndStandardDeviation masd 
+             = (MeanAndStandardDeviation) this.data.getObject(row, column);
+         if (masd != null) {
+-            result = masd.getMean();
++            this.minimumRangeValueIncStdDev = Double.NaN;
+         }
+         return result;
+     }
+
+

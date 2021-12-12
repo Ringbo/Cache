@@ -1,0 +1,44 @@
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/oak-mk/src/main/java/org/apache/jackrabbit/mk/persistence/H2Persistence.java	2018-12-29 07:24:47.986294000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/patches_s7ag/Patch_2116/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/oak-mk/src/main/java/org/apache/jackrabbit/mk/persistence/H2Persistence.java	2018-12-29 08:12:49.993922702 -0500
+@@ -88,7 +88,8 @@
+     }
+ 
+     public Id[] readIds() throws Exception {
+-        Id lastCommitId = null;
++        gcStart = System.currentTimeMillis();
++		Id lastCommitId = null;
+         Id headId = readHead();
+         if (headId != null) {
+             lastCommitId = readLastCommitId();
+
+
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/oak-mk/src/main/java/org/apache/jackrabbit/mk/model/CommitBuilder.java	2018-12-29 07:26:38.080559000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/patches_s7ag/Patch_2116/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/oak-mk/src/main/java/org/apache/jackrabbit/mk/model/CommitBuilder.java	2018-12-29 08:12:49.997922714 -0500
+@@ -178,11 +178,6 @@
+             }
+             newCommit.setChanges(diff.toString());
+             newCommit.setRootNodeId(rootNodeId);
+-            if (createBranch) {
+-                newCommit.setBranchRootId(baseCommit.getId());
+-            } else {
+-                newCommit.setBranchRootId(baseCommit.getBranchRootId());
+-            }
+             newRevId = store.putCommit(token, newCommit);
+         }
+ 
+
+
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/oak-mk/src/main/java/org/apache/jackrabbit/mk/core/MicroKernelImpl.java	2018-12-29 07:26:38.072559000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/patches_s7ag/Patch_2116/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/oak-mk/src/main/java/org/apache/jackrabbit/mk/core/MicroKernelImpl.java	2018-12-29 08:12:49.997922714 -0500
+@@ -103,9 +103,6 @@
+     }
+ 
+     public String getHeadRevision() throws MicroKernelException {
+-        if (rep == null) {
+-            throw new IllegalStateException("this instance has already been disposed");
+-        }
+         return getHeadRevisionId().toString();
+     }
+ 
+
+

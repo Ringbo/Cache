@@ -1,0 +1,38 @@
+--- /tmp/Arja_Defects4J_Chart_3/source/org/jfree/data/time/TimeSeries.java	2018-12-01 08:25:21.026940649 -0500
++++ /tmp/Arja_Defects4J_Chart_3/patches_24th/Patch_839/patched/tmp/Arja_Defects4J_Chart_3/source/org/jfree/data/time/TimeSeries.java	2018-12-01 08:39:41.369993801 -0500
+@@ -561,7 +561,8 @@
+      *              permitted).
+      */
+     public void add(TimeSeriesDataItem item) {
+-        add(item, true);
++        updateBoundsForRemovedItem(item);
++		add(item, true);
+     }
+ 
+     /**
+@@ -1054,7 +1055,8 @@
+             throw new IllegalArgumentException("Requires start <= end.");
+         }
+         TimeSeries copy = (TimeSeries) super.clone();
+-        copy.data = new java.util.ArrayList();
++        fireSeriesChanged();
++		copy.data = new java.util.ArrayList();
+         if (this.data.size() > 0) {
+             for (int index = start; index <= end; index++) {
+                 TimeSeriesDataItem item
+
+
+--- /tmp/Arja_Defects4J_Chart_3/source/org/jfree/data/general/Series.java	2018-12-01 08:25:14.714940505 -0500
++++ /tmp/Arja_Defects4J_Chart_3/patches_24th/Patch_839/patched/tmp/Arja_Defects4J_Chart_3/source/org/jfree/data/general/Series.java	2018-12-01 08:39:41.373993825 -0500
+@@ -242,7 +242,8 @@
+ 
+         Series clone = (Series) super.clone();
+         clone.listeners = new EventListenerList();
+-        clone.propertyChangeSupport = new PropertyChangeSupport(clone);
++        this.listeners = new EventListenerList();
++		clone.propertyChangeSupport = new PropertyChangeSupport(clone);
+         return clone;
+ 
+     }
+
+

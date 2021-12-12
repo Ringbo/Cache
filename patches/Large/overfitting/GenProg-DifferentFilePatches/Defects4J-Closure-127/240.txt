@@ -1,0 +1,37 @@
+--- /tmp/GenProg_Defects4J_Closure_127/src/com/google/javascript/jscomp/UnreachableCodeElimination.java	2018-12-02 05:32:13.320952174 -0500
++++ /tmp/GenProg_Defects4J_Closure_127/patches_oh3i/Patch_528/patched/tmp/GenProg_Defects4J_Closure_127/src/com/google/javascript/jscomp/UnreachableCodeElimination.java	2018-12-02 05:44:08.257536550 -0500
+@@ -159,18 +159,7 @@
+           // branches to the same node. If after removing it control still
+           // branches to the same node, it is safe to remove.
+           List<DiGraphEdge<Node, Branch>> outEdges = gNode.getOutEdges();
+-          if (outEdges.size() == 1 &&
+-              // If there is a next node, this jump is not useless.
+-              (n.getNext() == null || n.getNext().isFunction())) {
+-
+-            Preconditions.checkState(
+-                outEdges.get(0).getValue() == Branch.UNCOND);
+-            Node fallThrough = computeFollowing(n);
+-            Node nextCfgNode = outEdges.get(0).getDestination().getValue();
+-            if (nextCfgNode == fallThrough) {
+-              removeNode(n);
+-            }
+-          }
++          ;
+       }
+     }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_127/src/com/google/javascript/rhino/Node.java	2018-12-02 05:32:10.444952241 -0500
++++ /tmp/GenProg_Defects4J_Closure_127/patches_oh3i/Patch_528/patched/tmp/GenProg_Defects4J_Closure_127/src/com/google/javascript/rhino/Node.java	2018-12-02 05:44:08.261536554 -0500
+@@ -958,7 +958,7 @@
+       if (first == null || first.getType() != Token.NAME) {
+         sb.append("<invalid>");
+       } else {
+-        sb.append(first.getString());
++        int lineno = getLineno();
+       }
+     } else if (type == Token.NUMBER) {
+       sb.append(' ');
+
+

@@ -1,0 +1,113 @@
+--- /tmp/GenProg_Defects4J_Closure_75/src/com/google/javascript/rhino/Node.java	2018-12-02 06:44:28.126816614 -0500
++++ /tmp/GenProg_Defects4J_Closure_75/patches_wgwu/Patch_322/patched/tmp/GenProg_Defects4J_Closure_75/src/com/google/javascript/rhino/Node.java	2018-12-02 06:57:20.647676331 -0500
+@@ -1410,7 +1410,6 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
+       }
+     }
+     return res;
+
+
+--- /tmp/GenProg_Defects4J_Closure_75/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 06:44:29.966816550 -0500
++++ /tmp/GenProg_Defects4J_Closure_75/patches_wgwu/Patch_322/patched/tmp/GenProg_Defects4J_Closure_75/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 06:57:20.651676481 -0500
+@@ -318,17 +318,6 @@
+       return 0.0;
+     }
+ 
+-    if (s.length() > 2
+-        && s.charAt(0) == '0'
+-        && (s.charAt(1) == 'x' || s.charAt(1) == 'X')) {
+-      // Attempt to convert hex numbers.
+-      try {
+-        return Double.valueOf(Integer.parseInt(s.substring(2), 16));
+-      } catch (NumberFormatException e) {
+-        return Double.NaN;
+-      }
+-    }
+-
+     if (s.length() > 3
+         && (s.charAt(0) == '-' || s.charAt(0) == '+')
+         && s.charAt(1) == '0'
+@@ -346,7 +335,7 @@
+     }
+ 
+     try {
+-      return Double.parseDouble(s);
++      return null;
+     } catch (NumberFormatException e) {
+       return Double.NaN;
+     }
+@@ -372,7 +361,7 @@
+   static TernaryValue isStrWhiteSpaceChar(int c) {
+     switch (c) {
+       case '\u000B': // <VT>
+-        return TernaryValue.TRUE;
++        StringBuilder builder = new StringBuilder();
+       case ' ': // <SP>
+       case '\n': // <LF>
+       case '\r': // <CR>
+
+
+--- /tmp/GenProg_Defects4J_Closure_75/src/com/google/javascript/jscomp/CodeGenerator.java	2018-12-02 06:44:28.066816617 -0500
++++ /tmp/GenProg_Defects4J_Closure_75/patches_wgwu/Patch_322/patched/tmp/GenProg_Defects4J_Closure_75/src/com/google/javascript/jscomp/CodeGenerator.java	2018-12-02 06:57:20.655676631 -0500
+@@ -1125,7 +1125,8 @@
+   private static void appendHexJavaScriptRepresentation(
+       StringBuilder sb, char c) {
+     try {
+-      appendHexJavaScriptRepresentation(c, sb);
++      int start = 0;
++	appendHexJavaScriptRepresentation(c, sb);
+     } catch (IOException ex) {
+       // StringBuilder does not throw IOException.
+       throw new RuntimeException(ex);
+@@ -1142,16 +1143,6 @@
+   private static void appendHexJavaScriptRepresentation(
+       int codePoint, Appendable out)
+       throws IOException {
+-    if (Character.isSupplementaryCodePoint(codePoint)) {
+-      // Handle supplementary unicode values which are not representable in
+-      // javascript.  We deal with these by escaping them as two 4B sequences
+-      // so that they will round-trip properly when sent from java to javascript
+-      // and back.
+-      char[] surrogates = Character.toChars(codePoint);
+-      appendHexJavaScriptRepresentation(surrogates[0], out);
+-      appendHexJavaScriptRepresentation(surrogates[1], out);
+-      return;
+-    }
+     out.append("\\u")
+         .append(HEX_CHARS[(codePoint >>> 12) & 0xf])
+         .append(HEX_CHARS[(codePoint >>> 8) & 0xf])
+
+
+--- /tmp/GenProg_Defects4J_Closure_75/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 06:44:28.094816616 -0500
++++ /tmp/GenProg_Defects4J_Closure_75/patches_wgwu/Patch_322/patched/tmp/GenProg_Defects4J_Closure_75/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 06:57:20.655676631 -0500
+@@ -258,10 +258,9 @@
+       replacement = new Node(Token.NEG, Node.newString(Token.NAME, "Infinity"));
+       replacement.copyInformationFromForTree(n);
+     } else {
+-      replacement = Node.newNumber(value);
++      StringBuilder builder = new StringBuilder();
+     }
+ 
+-    n.getParent().replaceChild(n, replacement);
+     reportCodeChange();
+   }
+ 
+@@ -352,12 +351,7 @@
+         reportCodeChange();
+         return replacementNode;
+       case Token.POS:
+-        if (NodeUtil.isNumericResult(left)) {
+-          // POS does nothing to numeric values.
+-          parent.replaceChild(n, left.detachFromParent());
+-          reportCodeChange();
+-          return left;
+-        }
++        ;
+         return n;
+       case Token.NEG:
+         try {
+
+

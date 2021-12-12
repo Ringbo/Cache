@@ -1,0 +1,27 @@
+--- /tmp/Arja_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-01 07:56:59.456195057 -0500
++++ /tmp/Arja_Defects4J_Chart_25/patches_atq3/Patch_764/patched/tmp/Arja_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-01 08:05:21.063088665 -0500
+@@ -260,7 +260,8 @@
+         double value = meanValue.doubleValue();
+         double base = 0.0;
+         double lclip = getLowerClip();
+-        double uclip = getUpperClip();
++        rectY = rectY + row * state.getBarWidth();
++		double uclip = getUpperClip();
+ 
+         if (uclip <= 0.0) {  // cases 1, 2, 3 and 4
+             if (value >= uclip) {
+
+
+--- /tmp/Arja_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-01 07:56:54.316104358 -0500
++++ /tmp/Arja_Defects4J_Chart_25/patches_atq3/Patch_764/patched/tmp/Arja_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-01 08:05:21.067088687 -0500
+@@ -270,7 +270,7 @@
+      * @return The column count.
+      */
+     public int getColumnCount() {
+-        return this.data.getColumnCount();
++        return 1;
+     }
+ 
+     /**
+
+

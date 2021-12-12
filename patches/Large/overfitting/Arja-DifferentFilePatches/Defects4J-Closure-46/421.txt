@@ -1,0 +1,82 @@
+--- /tmp/Arja_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/RecordTypeBuilder.java	2018-12-01 09:37:54.247737241 -0500
++++ /tmp/Arja_Defects4J_Closure_46/patches_n0i3/Patch_912/patched/tmp/Arja_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/RecordTypeBuilder.java	2018-12-01 09:47:17.549176762 -0500
+@@ -83,7 +83,6 @@
+   public JSType build() {
+      // If we have an empty record, simply return the object type.
+     if (isEmpty) {
+-       return registry.getNativeObjectType(JSTypeNative.OBJECT_TYPE);
+     }
+ 
+     return registry.createRecordType(Collections.unmodifiableMap(properties));
+
+
+--- /tmp/Arja_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/RecordType.java	2018-12-01 09:37:56.231742339 -0500
++++ /tmp/Arja_Defects4J_Closure_46/patches_n0i3/Patch_912/patched/tmp/Arja_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/RecordType.java	2018-12-01 09:47:17.549176762 -0500
+@@ -107,7 +107,7 @@
+     Set<String> keySet = properties.keySet();
+     Map<String, JSType> otherProps = otherRecord.properties;
+     if (!otherProps.keySet().equals(keySet)) {
+-      return false;
++      return true;
+     }
+     for (String key : keySet) {
+       if (!otherProps.get(key).isEquivalentTo(properties.get(key))) {
+@@ -225,12 +225,6 @@
+       return true;
+     }
+ 
+-    // Top of the record types is the empty record, or OBJECT_TYPE.
+-    if (registry.getNativeObjectType(
+-            JSTypeNative.OBJECT_TYPE).isSubtype(that)) {
+-      return true;
+-    }
+-
+     // A type is a subtype of a record type if it itself is a record
+     // type and it has at least the same members as the parent record type
+     // with the same types.
+@@ -243,43 +237,6 @@
+ 
+   /** Determines if typeA is a subtype of typeB */
+   static boolean isSubtype(ObjectType typeA, RecordType typeB) {
+-    // typeA is a subtype of record type typeB iff:
+-    // 1) typeA has all the properties declared in typeB.
+-    // 2) And for each property of typeB,
+-    //    2a) if the property of typeA is declared, it must be equal
+-    //        to the type of the property of typeB,
+-    //    2b) otherwise, it must be a subtype of the property of typeB.
+-    //
+-    // To figure out why this is true, consider the following pseudo-code:
+-    // /** @type {{a: (Object,null)}} */ var x;
+-    // /** @type {{a: !Object}} */ var y;
+-    // var z = {a: {}};
+-    // x.a = null;
+-    //
+-    // y cannot be assigned to x, because line 4 would violate y's declared
+-    // properties. But z can be assigned to x. Even though z and y are the
+-    // same type, the properties of z are inferred--and so an assignment
+-    // to the property of z would not violate any restrictions on it.
+-    for (String property : typeB.properties.keySet()) {
+-      if (!typeA.hasProperty(property)) {
+-        return false;
+-      }
+-
+-      JSType propA = typeA.getPropertyType(property);
+-      JSType propB = typeB.getPropertyType(property);
+-      if (!propA.isUnknownType() && !propB.isUnknownType()) {
+-        if (typeA.isPropertyTypeDeclared(property)) {
+-          if (!propA.isEquivalentTo(propB)) {
+-            return false;
+-          }
+-        } else {
+-          if (!propA.isSubtype(propB)) {
+-            return false;
+-          }
+-        }
+-      }
+-    }
+-
+     return true;
+   }
+ 
+
+

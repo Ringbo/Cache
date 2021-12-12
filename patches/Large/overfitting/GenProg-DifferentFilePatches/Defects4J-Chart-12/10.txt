@@ -1,0 +1,14 @@
+--- /tmp/GenProg_Defects4J_Chart_12/source/org/jfree/data/general/AbstractDataset.java	2018-12-02 02:36:47.443170342 -0500
++++ /tmp/GenProg_Defects4J_Chart_12/patches_ilme/Patch_1123/patched/tmp/GenProg_Defects4J_Chart_12/source/org/jfree/data/general/AbstractDataset.java	2018-12-02 03:04:53.402268259 -0500
+@@ -157,8 +157,7 @@
+      * @see #removeChangeListener(DatasetChangeListener)
+      */
+     public boolean hasListener(EventListener listener) {
+-        List list = Arrays.asList(this.listenerList.getListenerList());
+-        return list.contains(listener);
++        return true;
+     }
+     
+     /**
+
+

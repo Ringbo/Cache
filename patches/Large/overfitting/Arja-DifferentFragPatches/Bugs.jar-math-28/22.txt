@@ -1,0 +1,32 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_596ccd59/src/main/java/org/apache/commons/math3/ml/clustering/FuzzyKMeansClusterer.java	2018-12-29 04:17:44.059193000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_596ccd59/patches_34b6/Patch_400/patched/tmp/Arja_Bug_dot_jar_Commons-Math_596ccd59/src/main/java/org/apache/commons/math3/ml/clustering/FuzzyKMeansClusterer.java	2018-12-29 04:43:42.200423225 -0500
+@@ -297,13 +297,15 @@
+             clusters.add(new CentroidCluster<T>(new DoublePoint(new double[pointDimension])));
+         }
+ 
+-        int iteration = 0;
++        if (fuzziness <= 1.0d) {
++			throw new NumberIsTooSmallException(fuzziness, 1.0, false);
++		}
++		int iteration = 0;
+         final int max = (maxIterations < 0) ? Integer.MAX_VALUE : maxIterations;
+         double difference = 0.0;
+ 
+         do {
+             saveMembershipMatrix(oldMatrix);
+-            updateClusterCenters();
+             updateMembershipMatrix();
+             difference = calculateMaxMembershipChange(oldMatrix);
+         } while (difference > epsilon && ++iteration < max);
+@@ -323,7 +325,8 @@
+             double[] arr = new double[center.getPoint().length];
+             double sum = 0.0;
+             for (final T point : points) {
+-                final double u = FastMath.pow(membershipMatrix[i][j], fuzziness);
++                newClusters.add(new CentroidCluster<T>(new DoublePoint(arr)));
++				final double u = FastMath.pow(membershipMatrix[i][j], fuzziness);
+                 final double[] pointArr = point.getPoint();
+                 for (int idx = 0; idx < arr.length; idx++) {
+                     arr[idx] += u * pointArr[idx];
+
+

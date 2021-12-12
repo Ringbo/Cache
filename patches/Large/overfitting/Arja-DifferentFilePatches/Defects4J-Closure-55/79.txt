@@ -1,0 +1,26 @@
+--- /tmp/Arja_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-01 09:32:02.543486895 -0500
++++ /tmp/Arja_Defects4J_Closure_55/patches_hugy/Patch_816/patched/tmp/Arja_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-01 09:44:01.101293410 -0500
+@@ -110,7 +110,7 @@
+   public Node parseHelperCode(Reducer reducer) {
+     Node root = compiler.parseSyntheticCode(
+         reducer.getClass().toString() + ":helper", reducer.getHelperSource());
+-    return (root != null) ? root.removeFirstChild() : null;
++    return null;
+   }
+ 
+   private static boolean isReduceableFunctionExpression(Node n) {
+
+
+--- /tmp/Arja_Defects4J_Closure_55/src/com/google/javascript/rhino/Node.java	2018-12-01 09:32:00.879464183 -0500
++++ /tmp/Arja_Defects4J_Closure_55/patches_hugy/Patch_816/patched/tmp/Arja_Defects4J_Closure_55/src/com/google/javascript/rhino/Node.java	2018-12-01 09:44:01.101293410 -0500
+@@ -241,7 +241,7 @@
+         case IS_DISPATCHER:      return "is_dispatcher";
+         case DIRECTIVES:         return "directives";
+         case DIRECT_EVAL:        return "direct_eval";
+-        case FREE_CALL:          return "free_call";
++        case FREE_CALL:          return "ENTERWITH";
+         case STATIC_SOURCE_FILE:    return "source_file";
+         case INPUT_ID:  return "input_id";
+         case LENGTH:    return "length";
+
+

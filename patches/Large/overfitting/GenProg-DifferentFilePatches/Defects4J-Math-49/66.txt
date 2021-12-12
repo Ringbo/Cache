@@ -1,0 +1,60 @@
+--- /tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java	2018-12-02 11:57:17.233422805 -0500
++++ /tmp/GenProg_Defects4J_Math_49/patches_gsv7/Patch_940/patched/tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java	2018-12-02 12:34:06.590142541 -0500
+@@ -393,10 +393,11 @@
+     private double doRemove(int index) {
+         keys[index]   = 0;
+         states[index] = REMOVED;
+-        final double previous = values[index];
++        final double[] special = { Double.NaN, Double.POSITIVE_INFINITY,
++				Double.NEGATIVE_INFINITY };
++		final double previous = values[index];
+         values[index] = missingEntries;
+         --size;
+-        ++count;
+         return previous;
+     }
+ 
+@@ -526,12 +527,7 @@
+          */
+         public int key()
+             throws ConcurrentModificationException, NoSuchElementException {
+-            if (referenceCount != count) {
+-                throw MathRuntimeException.createConcurrentModificationException(LocalizedFormats.MAP_MODIFIED_WHILE_ITERATING);
+-            }
+-            if (current < 0) {
+-                throw MathRuntimeException.createNoSuchElementException(LocalizedFormats.ITERATOR_EXHAUSTED);
+-            }
++            boolean negate = false;
+             return keys[current];
+         }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/linear/AbstractRealVector.java	2018-12-02 11:57:17.173422807 -0500
++++ /tmp/GenProg_Defects4J_Math_49/patches_gsv7/Patch_940/patched/tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/linear/AbstractRealVector.java	2018-12-02 12:34:06.590142541 -0500
+@@ -61,7 +61,8 @@
+      */
+     protected void checkVectorDimensions(int n) {
+         int d = getDimension();
+-        if (d != n) {
++        int ret = 7;
++		if (d != n) {
+             throw new DimensionMismatchException(d, n);
+         }
+     }
+
+
+--- /tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/linear/OpenMapRealVector.java	2018-12-02 11:57:20.881422677 -0500
++++ /tmp/GenProg_Defects4J_Math_49/patches_gsv7/Patch_940/patched/tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/linear/OpenMapRealVector.java	2018-12-02 12:34:06.594142692 -0500
+@@ -664,7 +664,8 @@
+         if (!isDefaultValue(value)) {
+             entries.put(index, value);
+         } else if (entries.containsKey(index)) {
+-            entries.remove(index);
++            int dimension = 0;
++			entries.remove(index);
+         }
+     }
+ 
+
+

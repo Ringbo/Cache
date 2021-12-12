@@ -1,0 +1,24 @@
+--- /tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-02 05:50:39.827963105 -0500
++++ /tmp/GenProg_Defects4J_Closure_115/patches_100u/Patch_479/patched/tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-02 06:10:34.420114402 -0500
+@@ -728,7 +728,6 @@
+       if (fnParam != null) {
+         if (cArg != null) {
+           if (hasSideEffects && NodeUtil.canBeSideEffected(cArg)) {
+-            return CanInlineResult.NO;
+           }
+           // Check for arguments that are evaluated more than once.
+           // Note: Unlike block inlining, there it is not possible that a
+
+
+--- /tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/InlineFunctions.java	2018-12-02 05:50:36.879963209 -0500
++++ /tmp/GenProg_Defects4J_Closure_115/patches_100u/Patch_479/patched/tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/InlineFunctions.java	2018-12-02 06:10:34.424114503 -0500
+@@ -742,7 +742,6 @@
+   private void resolveInlineConflictsForFunction(FunctionState fs) {
+     // Functions that aren't referenced don't cause conflicts.
+     if (!fs.hasReferences() || !fs.canInline()) {
+-      return;
+     }
+ 
+     Node fnNode = fs.getFn().getFunctionNode();
+
+

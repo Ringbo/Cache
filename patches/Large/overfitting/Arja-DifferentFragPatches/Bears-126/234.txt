@@ -1,0 +1,15 @@
+--- /tmp/Arja_Bears_traccar-traccar_269449386-269490884/src/org/traccar/protocol/Gt06ProtocolDecoder.java	2018-12-26 12:59:55.417117909 -0500
++++ /tmp/Arja_Bears_traccar-traccar_269449386-269490884/patches_7puj/Patch_2050/patched/tmp/Arja_Bears_traccar-traccar_269449386-269490884/src/org/traccar/protocol/Gt06ProtocolDecoder.java	2018-12-26 13:20:29.258752432 -0500
+@@ -181,10 +181,6 @@
+             position.set(Position.KEY_IGNITION, BitUtil.check(flags, 15));
+         }
+ 
+-        if (length > 0) {
+-            buf.skipBytes(length - 12); // skip reserved
+-        }
+-
+         return true;
+     }
+ 
+
+

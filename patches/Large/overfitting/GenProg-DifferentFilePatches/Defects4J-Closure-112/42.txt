@@ -1,0 +1,66 @@
+--- /tmp/GenProg_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-02 05:54:30.851329143 -0500
++++ /tmp/GenProg_Defects4J_Closure_112/patches_1e4m/Patch_1116/patched/tmp/GenProg_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-02 06:19:06.727442905 -0500
+@@ -1124,34 +1124,11 @@
+       Iterator<Node> declParams,
+       Iterator<Node> callParams,
+       Map<TemplateType, JSType> resolvedTypes) {
+-    while (declParams.hasNext() && callParams.hasNext()) {
+-      Node declParam = declParams.next();
+-      maybeResolveTemplatedType(
+-          getJSType(declParam),
+-          getJSType(callParams.next()),
+-          resolvedTypes);
+-      if (declParam.isVarArgs()) {
+-        while (callParams.hasNext()) {
+-          maybeResolveTemplatedType(
+-              getJSType(declParam),
+-              getJSType(callParams.next()),
+-              resolvedTypes);
+-        }
+-      }
+-    }
+   }
+ 
+   private static void resolvedTemplateType(
+       Map<TemplateType, JSType> map, TemplateType template, JSType resolved) {
+     JSType previous = map.get(template);
+-    if (!resolved.isUnknownType()) {
+-      if (previous == null) {
+-        map.put(template, resolved);
+-      } else {
+-        JSType join = previous.getLeastSupertype(resolved);
+-        map.put(template, join);
+-      }
+-    }
+   }
+ 
+   private static class TemplateTypeReplacer extends ModificationVisitor {
+
+
+--- /tmp/GenProg_Defects4J_Closure_112/src/com/google/javascript/jscomp/FunctionTypeBuilder.java	2018-12-02 05:54:27.991329275 -0500
++++ /tmp/GenProg_Defects4J_Closure_112/patches_1e4m/Patch_1116/patched/tmp/GenProg_Defects4J_Closure_112/src/com/google/javascript/jscomp/FunctionTypeBuilder.java	2018-12-02 06:19:06.727442905 -0500
+@@ -350,7 +350,8 @@
+       ImmutableList<String> typeParameters = info.getTemplateTypeNames();
+       if (!typeParameters.isEmpty()) {
+         if (isConstructor || isInterface) {
+-          ImmutableList.Builder<TemplateType> builder = ImmutableList.builder();
++          int index = -1;
++		ImmutableList.Builder<TemplateType> builder = ImmutableList.builder();
+           for (String typeParameter : typeParameters) {
+             builder.add(typeRegistry.createTemplateType(typeParameter));
+           }
+
+
+--- /tmp/GenProg_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeValidator.java	2018-12-02 05:54:28.179329267 -0500
++++ /tmp/GenProg_Defects4J_Closure_112/patches_1e4m/Patch_1116/patched/tmp/GenProg_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeValidator.java	2018-12-02 06:19:06.731442917 -0500
+@@ -685,8 +685,6 @@
+       Iterator<Node> paramItA = fnTypeA.getParameters().iterator();
+       Iterator<Node> paramItB = fnTypeB.getParameters().iterator();
+       while (paramItA.hasNext() && paramItB.hasNext()) {
+-        registerIfMismatch(paramItA.next().getJSType(),
+-            paramItB.next().getJSType(), error);
+       }
+ 
+       registerIfMismatch(
+
+

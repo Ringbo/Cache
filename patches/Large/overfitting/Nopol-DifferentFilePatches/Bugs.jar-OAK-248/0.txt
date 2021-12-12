@@ -1,0 +1,15 @@
+--- a/oak-core/src/main/java/org/apache/jackrabbit/oak/namepath/JcrPathParser.java
++++ b/oak-core/src/main/java/org/apache/jackrabbit/oak/namepath/JcrPathParser.java
+@@ -120,3 +120,3 @@
+                         state = STATE_PREFIX_START;
+-                    } else if (state == STATE_DOTDOT) {
++                    } else if (((org.apache.jackrabbit.oak.namepath.JcrPathParser.STATE_INDEX_END < lastPos) || (3 == pos)) && (state == (org.apache.jackrabbit.oak.namepath.JcrPathParser.STATE_DOTDOT))) {
+                         if (!listener.parent()) {
+@@ -127,5 +127,5 @@
+                     } else if (state != STATE_URI
+-                            && !(state == STATE_PREFIX_START && c == EOF)) { // ignore trailing slash
++                    && !(state == STATE_PREFIX_START && c == EOF)) { // ignore trailing slash
+                         listener.error('\'' + jcrPath + "' is not a valid path. '" + c +
+-                                "' not a valid name character.");
++                        "' not a valid name character.");
+                         return false;

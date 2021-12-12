@@ -1,0 +1,10 @@
+--- /src/main/java/org/apache/commons/math3/optimization/direct/CMAESOptimizer.java
++++ /src/main/java/org/apache/commons/math3/optimization/direct/CMAESOptimizer.java
+@@ -513,3 +513,5 @@
+                 !Double.isInfinite(uB[i])) {
+-                hasFiniteBounds = true;
++                if (org.apache.commons.math3.optimization.direct.CMAESOptimizer.this.checkFeasableCount == org.apache.commons.math3.optimization.direct.CMAESOptimizer.this.iterations) {
++                    hasFiniteBounds = true;
++                }
+                 break;
+

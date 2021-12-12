@@ -1,0 +1,33 @@
+--- /tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckGlobalThis.java	2018-12-01 09:32:09.991745553 -0500
++++ /tmp/Arja_Defects4J_Closure_59/patches_qxp9/Patch_56/patched/tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckGlobalThis.java	2018-12-01 09:39:24.723910910 -0500
+@@ -161,8 +161,7 @@
+ 
+   private boolean shouldReportThis(Node n, Node parent) {
+     if (assignLhsChild != null) {
+-      // Always report a THIS on the left side of an assign.
+-      return true;
++      return false;
+     }
+ 
+     // Also report a THIS with a property access.
+
+
+--- /tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-01 09:32:10.027745566 -0500
++++ /tmp/Arja_Defects4J_Closure_59/patches_qxp9/Patch_56/patched/tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-01 09:39:24.727910911 -0500
+@@ -78,14 +78,6 @@
+     options.checkSuspiciousCode = true;
+     options.checkGlobalThisLevel = CheckLevel.WARNING;
+     options.checkSymbols = true;
+-    options.checkMissingReturn = CheckLevel.WARNING;
+-
+-    // checkTypes has the side-effect of asserting that the
+-    // correct number of arguments are passed to a function.
+-    // Because the CodingConvention used with the web service does not provide a
+-    // way for optional arguments to be specified, these warnings may result in
+-    // false positives.
+-    options.checkTypes = true;
+     options.checkGlobalNamesLevel = CheckLevel.WARNING;
+     options.aggressiveVarCheck = CheckLevel.WARNING;
+     options.setWarningLevel(
+
+

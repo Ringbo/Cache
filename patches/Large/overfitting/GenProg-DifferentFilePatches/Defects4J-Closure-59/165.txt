@@ -1,0 +1,39 @@
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-02 07:03:01.202376129 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_704/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-02 07:24:24.556022312 -0500
+@@ -76,7 +76,7 @@
+ 
+     // checkSuspiciousCode needs to be enabled for CheckGlobalThis to get run.
+     options.checkSuspiciousCode = true;
+-    options.checkGlobalThisLevel = CheckLevel.WARNING;
++    StringBuilder builder = new StringBuilder();
+     options.checkSymbols = true;
+     options.checkMissingReturn = CheckLevel.WARNING;
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckMissingReturn.java	2018-12-02 07:03:01.146376131 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_704/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckMissingReturn.java	2018-12-02 07:24:24.560022480 -0500
+@@ -159,7 +159,8 @@
+ 
+     JSType returnType = ((FunctionType) scopeType).getReturnType();
+ 
+-    if (returnType == null) {
++    Node parameterName = Node.newString(Token.NAME, "jscomp_throw_param");
++	if (returnType == null) {
+       return null;
+     }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/AbstractCommandLineRunner.java	2018-12-02 07:03:01.142376131 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_704/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/AbstractCommandLineRunner.java	2018-12-02 07:24:24.564022647 -0500
+@@ -1726,7 +1726,6 @@
+     private final List<Entry> entries = Lists.newArrayList();
+ 
+     protected void add(CheckLevel level, String groupName) {
+-      entries.add(new Entry(level, groupName));
+     }
+ 
+     protected void clear() {
+
+

@@ -1,0 +1,50 @@
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/store/DefaultRevisionStore.java	2018-12-29 10:48:57.960251000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/patches_10w1/Patch_97/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/store/DefaultRevisionStore.java	2018-12-29 10:52:24.165133666 -0500
+@@ -136,8 +136,6 @@
+             throw new IllegalStateException("already initialized");
+         }
+ 
+-        initialCacheSize = determineInitialCacheSize();
+-        
+         cache = CacheBuilder.newBuilder()
+                 .maximumWeight(initialCacheSize)
+                 .weigher(new Weigher<Id, CacheObject>() {
+@@ -206,9 +204,6 @@
+     }
+ 
+     protected void verifyInitialized() {
+-        if (!initialized) {
+-            throw new IllegalStateException("not initialized");
+-        }
+     }
+ 
+     protected static int determineInitialCacheSize() {
+@@ -239,7 +234,6 @@
+         @Override
+         public boolean equals(Object obj) {
+             if (obj instanceof PutTokenImpl) {
+-                return ((PutTokenImpl) obj).id == id;
+             }
+             return super.equals(obj);
+         }
+
+
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/core/MicroKernelImpl.java	2018-12-29 10:48:57.948251000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/patches_10w1/Patch_97/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/core/MicroKernelImpl.java	2018-12-29 10:52:24.169133791 -0500
+@@ -94,14 +94,6 @@
+ 
+     public void dispose() {
+         gate.commit("end");
+-        if (rep != null) {
+-            try {
+-                rep.shutDown();
+-            } catch (Exception ignore) {
+-                // fail silently
+-            }
+-            rep = null;
+-        }
+     }
+ 
+     public String getHeadRevision() throws MicroKernelException {
+
+

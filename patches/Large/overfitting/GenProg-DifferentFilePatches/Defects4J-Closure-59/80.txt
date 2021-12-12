@@ -1,0 +1,38 @@
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-02 07:03:01.202376129 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_1138/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-02 07:32:04.544360817 -0500
+@@ -76,7 +76,7 @@
+ 
+     // checkSuspiciousCode needs to be enabled for CheckGlobalThis to get run.
+     options.checkSuspiciousCode = true;
+-    options.checkGlobalThisLevel = CheckLevel.WARNING;
++    StringBuilder builder = new StringBuilder();
+     options.checkSymbols = true;
+     options.checkMissingReturn = CheckLevel.WARNING;
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/PrintStreamErrorManager.java	2018-12-02 07:03:01.182376130 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_1138/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/PrintStreamErrorManager.java	2018-12-02 07:32:04.548360990 -0500
+@@ -68,8 +68,6 @@
+         (summaryDetailLevel >= 1 && getErrorCount() + getWarningCount() > 0) ||
+         (summaryDetailLevel >= 2 && getTypedPercent() > 0.0)) {
+       if (getTypedPercent() > 0.0) {
+-        stream.format("%d error(s), %d warning(s), %.1f%% typed%n",
+-            getErrorCount(), getWarningCount(), getTypedPercent());
+       } else {
+         stream.format("%d error(s), %d warning(s)%n", getErrorCount(),
+             getWarningCount());
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/CommandLineRunner.java	2018-12-02 07:03:01.150376131 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_1138/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/CommandLineRunner.java	2018-12-02 07:32:04.548360990 -0500
+@@ -438,7 +438,6 @@
+       @Override public Class getType() { return proxy.getType(); }
+ 
+       @Override public void addValue(Object value) throws CmdLineException {
+-        proxy.addValue((String) value);
+         warningGuardSpec.add(level, (String) value);
+       }
+     }
+
+

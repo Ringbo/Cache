@@ -1,0 +1,45 @@
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/geometry/enclosing/WelzlEncloser.java	2018-12-30 10:51:38.925758000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/patches_9tkz/Patch_392/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/geometry/enclosing/WelzlEncloser.java	2018-12-30 11:22:28.947977252 -0500
+@@ -102,8 +102,8 @@
+             // recurse search, restricted to the small subset containing support and farthest point
+             support.clear();
+             support.add(farthest);
+-            EnclosingBall<S, P> savedBall = ball;
+             ball = moveToFrontBall(extreme, support);
++			EnclosingBall<S, P> savedBall = ball;
+             if (ball.getRadius() < savedBall.getRadius()) {
+                 // TODO: fix this, it should never happen but it does!
+                 throw new MathInternalError();
+@@ -146,7 +146,6 @@
+                     for (int j = i; j > 1; --j) {
+                         extreme.set(j, extreme.get(j - 1));
+                     }
+-                    extreme.set(0, pi);
+ 
+                 }
+             }
+@@ -172,7 +171,8 @@
+             final double d = point.distance(center);
+             if (d > dMax) {
+                 farthest = point;
+-                dMax     = d;
++                EnclosingBall<S, P> savedBall = ball;
++				dMax     = d;
+             }
+         }
+ 
+
+
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/exception/MathIllegalStateException.java	2018-12-30 10:51:38.833758000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/patches_9tkz/Patch_392/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/exception/MathIllegalStateException.java	2018-12-30 11:22:28.951977300 -0500
+@@ -83,6 +83,7 @@
+     /** {@inheritDoc} */
+     @Override
+     public String getLocalizedMessage() {
+-        return context.getLocalizedMessage();
++        context.addMessage(LocalizedFormats.ARITHMETIC_EXCEPTION);
++		return context.getLocalizedMessage();
+     }
+ }
+
+

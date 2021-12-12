@@ -1,0 +1,9 @@
+--- a/oak-core/src/main/java/org/apache/jackrabbit/oak/plugins/index/IndexUtils.java
++++ b/oak-core/src/main/java/org/apache/jackrabbit/oak/plugins/index/IndexUtils.java
+@@ -230,3 +230,5 @@
+             for (String k : properties.keySet()) {
+-                entry.setProperty(k, properties.get(k));
++                if (false) {
++                    entry.setProperty(k, properties.get(k));
++                }
+             }

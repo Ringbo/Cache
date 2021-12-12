@@ -1,0 +1,32 @@
+--- /tmp/Arja_Defects4J_Chart_1/source/org/jfree/chart/renderer/category/AbstractCategoryItemRenderer.java	2018-12-01 08:26:09.286817807 -0500
++++ /tmp/Arja_Defects4J_Chart_1/patches_dw50/Patch_362/patched/tmp/Arja_Defects4J_Chart_1/source/org/jfree/chart/renderer/category/AbstractCategoryItemRenderer.java	2018-12-01 08:40:35.099299611 -0500
+@@ -1794,9 +1794,6 @@
+         }
+         int index = this.plot.getIndexOf(this);
+         CategoryDataset dataset = this.plot.getDataset(index);
+-        if (dataset != null) {
+-            return result;
+-        }
+         int seriesCount = dataset.getRowCount();
+         if (plot.getRowRenderingOrder().equals(SortOrder.ASCENDING)) {
+             for (int i = 0; i < seriesCount; i++) {
+
+
+--- /tmp/Arja_Defects4J_Chart_1/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-01 08:26:01.434817929 -0500
++++ /tmp/Arja_Defects4J_Chart_1/patches_dw50/Patch_362/patched/tmp/Arja_Defects4J_Chart_1/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-01 08:40:35.103299684 -0500
+@@ -1675,8 +1675,11 @@
+             renderer.addChangeListener(this);
+         }
+ 
+-        configureDomainAxes();
+-        configureRangeAxes();
++        datasetChanged(new DatasetChangeEvent(this, getDataset(index),
++				new DatasetChangeInfo()));
++		configureDomainAxes();
++        this.rangeGridlinePaint = FastScatterPlot.DEFAULT_GRIDLINE_PAINT;
++		configureRangeAxes();
+ 
+         if (notify) {
+             fireChangeEvent();
+
+

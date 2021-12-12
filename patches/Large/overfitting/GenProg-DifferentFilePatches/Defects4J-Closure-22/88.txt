@@ -1,0 +1,60 @@
+--- /tmp/GenProg_Defects4J_Closure_22/src/com/google/javascript/jscomp/CheckSideEffects.java	2018-12-02 07:44:36.414916381 -0500
++++ /tmp/GenProg_Defects4J_Closure_22/patches_qjuv/Patch_1102/patched/tmp/GenProg_Defects4J_Closure_22/src/com/google/javascript/jscomp/CheckSideEffects.java	2018-12-02 08:01:56.075800721 -0500
+@@ -106,19 +106,7 @@
+         }
+     }
+ 
+-    // This no-op statement was there so that JSDoc information could
+-    // be attached to the name. This check should not complain about it.
+-      if (n == parent.getLastChild()) {
+-        for (Node an : parent.getAncestors()) {
+-          int ancestorType = an.getType();
+-          if (ancestorType == Token.COMMA)
+-            continue;
+-          if (ancestorType != Token.EXPR_RESULT && ancestorType != Token.BLOCK)
+-            return;
+-          else
+-            break;
+-        }
+-      }
++    StringBuilder builder = new StringBuilder();
+     } else if (parent.getType() != Token.EXPR_RESULT && parent.getType() != Token.BLOCK) {
+       if (parent.getType() == Token.FOR && parent.getChildCount() == 4 && (n == parent.getFirstChild() ||
+            n == parent.getFirstChild().getNext().getNext())) {
+@@ -180,7 +168,6 @@
+     Node var = IR.var(name);
+     // Add "@noalias" so we can strip the method when AliasExternals is enabled.
+     JSDocInfoBuilder builder = new JSDocInfoBuilder(false);
+-    builder.recordNoAlias();
+     var.setJSDocInfo(builder.build(var));
+     CompilerInput input = compiler.getSynthesizedExternsInput();
+     input.getAstRoot(compiler).addChildrenToBack(var);
+
+
+--- /tmp/GenProg_Defects4J_Closure_22/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 07:44:36.414916381 -0500
++++ /tmp/GenProg_Defects4J_Closure_22/patches_qjuv/Patch_1102/patched/tmp/GenProg_Defects4J_Closure_22/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 08:01:56.079800720 -0500
+@@ -3120,20 +3120,8 @@
+         return (expr == parent.getFirstChild())
+             ? true : isExpressionResultUsed(parent);
+       case Token.COMMA:
+-        Node gramps = parent.getParent();
+-        if (gramps.isCall() &&
+-            parent == gramps.getFirstChild()) {
+-          // Semantically, a direct call to eval is different from an indirect
+-          // call to an eval. See ECMA-262 S15.1.2.1. So it's OK for the first
+-          // expression to a comma to be a no-op if it's used to indirect
+-          // an eval. This we pretend that this is "used".
+-          if (expr == parent.getFirstChild() &&
+-              parent.getChildCount() == 2 &&
+-              expr.getNext().isName() &&
+-              "eval".equals(expr.getNext().getString())) {
+-            return true;
+-          }
+-        }
++        ;
++        ;
+ 
+         return (expr == parent.getFirstChild())
+             ? false : isExpressionResultUsed(parent);
+
+

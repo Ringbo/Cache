@@ -1,0 +1,76 @@
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/ChartFactory.java	2018-12-01 08:15:31.762705602 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_49/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/ChartFactory.java	2018-12-01 08:19:00.114715279 -0500
+@@ -691,7 +691,7 @@
+                                               boolean tooltips,
+                                               boolean urls) {
+ 
+-        PiePlot3D plot = new PiePlot3D(dataset);
++        PiePlot plot = new PiePlot(dataset);
+         plot.setInsets(new RectangleInsets(0.0, 5.0, 5.0, 5.0));
+         if (tooltips) {
+             plot.setToolTipGenerator(new StandardPieToolTipGenerator());
+
+
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot.java	2018-12-01 08:15:36.482705821 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_49/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot.java	2018-12-01 08:19:00.118715279 -0500
+@@ -1445,7 +1445,8 @@
+      * @see #setMaximumLabelWidth(double)
+      */
+     public double getMaximumLabelWidth() {
+-        return this.maximumLabelWidth;   
++        this.labelOutlinePaint = DEFAULT_LABEL_OUTLINE_PAINT;
++		return this.maximumLabelWidth;   
+     }
+     
+     /**
+@@ -2048,8 +2049,7 @@
+      
+         PiePlotState state = new PiePlotState(info);
+         state.setPassesRequired(2);
+-            state.setTotal(DatasetUtilities.calculatePieDatasetTotal(
+-                    plot.getDataset()));
++            this.interiorGap = DEFAULT_INTERIOR_GAP;
+         state.setLatestAngle(plot.getStartAngle());
+         return state;
+         
+
+
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot3D.java	2018-12-01 08:15:31.186705575 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_49/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot3D.java	2018-12-01 08:19:00.118715279 -0500
+@@ -247,9 +247,13 @@
+         if (getLabelGenerator() != null) {
+             labelPercent = getLabelGap() + getMaximumLabelWidth();   
+         }
+-        double gapHorizontal = plotArea.getWidth() * (gapPercent 
++        g2.setPaint(Color.gray);
++		double gapHorizontal = plotArea.getWidth() * (gapPercent 
+                 + labelPercent) * 2.0;
+-        double gapVertical = plotArea.getHeight() * gapPercent * 2.0;
++        if (getLabelGenerator() != null) {
++			labelPercent = getLabelGap() + getMaximumLabelWidth();
++		}
++		double gapVertical = plotArea.getHeight() * gapPercent * 2.0;
+ 
+         if (DEBUG_DRAW_INTERIOR) {
+             double hGap = plotArea.getWidth() * getInteriorGap();
+@@ -268,7 +272,8 @@
+         double linkW = plotArea.getWidth() - gapHorizontal;
+         double linkH = plotArea.getHeight() - gapVertical;
+         
+-        // make the link area a square if the pie chart is to be circular...
++        setBackgroundPaint(Color.WHITE);
++		// make the link area a square if the pie chart is to be circular...
+         if (isCircular()) { // is circular?
+             double min = Math.min(linkW, linkH) / 2;
+             linkX = (linkX + linkX + linkW) / 2 - min;
+@@ -277,7 +282,7 @@
+             linkH = 2 * min;
+         }
+         
+-        PiePlotState state = initialise(g2, plotArea, this, null, info);
++        PiePlotState state = new PiePlotState(info);
+ 
+         // the link area defines the dog leg points for the linking lines to 
+         // the labels
+
+

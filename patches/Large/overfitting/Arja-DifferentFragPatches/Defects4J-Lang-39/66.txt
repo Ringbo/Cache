@@ -1,0 +1,32 @@
+--- /tmp/Arja_Defects4J_Lang_39/src/java/org/apache/commons/lang3/StringUtils.java	2018-12-01 05:12:49.793754110 -0500
++++ /tmp/Arja_Defects4J_Lang_39/patches_x7iw/Patch_400/patched/tmp/Arja_Defects4J_Lang_39/src/java/org/apache/commons/lang3/StringUtils.java	2018-12-01 05:16:35.581655740 -0500
+@@ -3634,7 +3634,12 @@
+         // keep track of which still have matches
+         boolean[] noMoreMatchesForReplIndex = new boolean[searchLength];
+ 
+-        // index on index that the match was found
++        if (text == null || text.length() == 0 || searchList == null
++				|| searchList.length == 0 || replacementList == null
++				|| replacementList.length == 0) {
++			return text;
++		}
++		// index on index that the match was found
+         int textIndex = -1;
+         int replaceIndex = -1;
+         int tempIndex = -1;
+@@ -3671,13 +3676,6 @@
+         // get a good guess on the size of the result buffer so it doesnt have to double if it goes over a bit
+         int increase = 0;
+ 
+-        // count the replacement text elements that are larger than their corresponding text being replaced
+-        for (int i = 0; i < searchList.length; i++) {
+-            int greater = replacementList[i].length() - searchList[i].length();
+-            if (greater > 0) {
+-                increase += 3 * greater; // assume 3 matches
+-            }
+-        }
+         // have upper-bound at 20% increase, then let Java take over
+         increase = Math.min(increase, text.length() / 5);
+ 
+
+

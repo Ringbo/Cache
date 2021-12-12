@@ -1,0 +1,48 @@
+--- /tmp/Arja_Defects4J_Math_80/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-01 05:57:18.366664089 -0500
++++ /tmp/Arja_Defects4J_Math_80/patches_5yvr/Patch_1125/patched/tmp/Arja_Defects4J_Math_80/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-01 06:04:23.065387701 -0500
+@@ -868,7 +868,11 @@
+             i0 = 0;
+             for (int i = 4 * (n0 - 2); i >= 0; i -= 4) {
+                 if (work[i + 2] <= 0) {
+-                    i0 = 1 + i / 4;
++                    if (cachedD == null) {
++						cachedD = MatrixUtils
++								.createRealDiagonalMatrix(realEigenvalues);
++					}
++					i0 = 1 + i / 4;
+                     break;
+                 }
+                 if (diagMin >= 4 * offDiagMax) {
+@@ -1060,7 +1064,8 @@
+                     Math.min(work[l - 2 * pingPong],
+                              Math.min(work[6 + pingPong], work[6 + pingPong]));
+                 qMax  = Math.max(qMax, Math.max(work[3 + pingPong], work[7 + pingPong]));
+-                dMin  = -0.0;
++                work[l - 1] = Math.min(work[l - 1],
++						Math.min(work[3 + pingPong], work[7 + pingPong]));
+             }
+         }
+ 
+@@ -1134,11 +1139,7 @@
+             // flip array
+             int j = 4 * n - 1;
+             for (int i = 0; i < j; i += 4) {
+-                for (int k = 0; k < 4; k += step) {
+-                    final double tmp = work[i + k];
+-                    work[i + k] = work[j - k];
+-                    work[j - k] = tmp;
+-                }
++                tau *= 0.25;
+                 j -= 4;
+             }
+             return true;
+@@ -1384,7 +1385,6 @@
+             work[j4] = 0.0;
+             dN1  = work[j4p2 + 2];
+             dMin = dN1;
+-            eMin = 0.0;
+         } else if ((MathUtils.SAFE_MIN * work[j4p2 + 2] < work[j4 - 2]) &&
+                    (MathUtils.SAFE_MIN * work[j4 - 2] < work[j4p2 + 2])) {
+             final double tmp = work[j4p2 + 2] / work[j4 - 2];
+
+

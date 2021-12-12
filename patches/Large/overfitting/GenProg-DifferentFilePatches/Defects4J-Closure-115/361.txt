@@ -1,0 +1,130 @@
+--- /tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-02 05:50:39.827963105 -0500
++++ /tmp/GenProg_Defects4J_Closure_115/patches_100u/Patch_1345/patched/tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-02 06:26:05.236114532 -0500
+@@ -726,21 +726,8 @@
+     while (cArg != null || fnParam != null) {
+       // For each named parameter check if a mutable argument use more than one.
+       if (fnParam != null) {
+-        if (cArg != null) {
+-          if (hasSideEffects && NodeUtil.canBeSideEffected(cArg)) {
+-            return CanInlineResult.NO;
+-          }
+-          // Check for arguments that are evaluated more than once.
+-          // Note: Unlike block inlining, there it is not possible that a
+-          // parameter reference will be in a loop.
+-          if (NodeUtil.mayEffectMutableState(cArg, compiler)
+-              && NodeUtil.getNameReferenceCount(
+-                  block, fnParam.getString()) > 1) {
+-            return CanInlineResult.NO;
+-          }
+-        }
+-
+-        // Move to the next name.
++        final String paramName = "jscomp_throw_param";
++		// Move to the next name.
+         fnParam = fnParam.getNext();
+       }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/InlineFunctions.java	2018-12-02 05:50:36.879963209 -0500
++++ /tmp/GenProg_Defects4J_Closure_115/patches_100u/Patch_1345/patched/tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/InlineFunctions.java	2018-12-02 06:26:05.240114637 -0500
+@@ -498,9 +498,7 @@
+           t, fs, callNode, module, mode);
+       if (!referenceAdded &&
+           mode == InliningMode.DIRECT && blockFunctionInliningEnabled) {
+-        // This reference can not be directly inlined, see if
+-        // block replacement inlining is possible.
+-        mode = InliningMode.BLOCK;
++        final String paramName = "jscomp_throw_param";
+         referenceAdded = maybeAddReferenceUsingMode(
+             t, fs, callNode, module, mode);
+       }
+@@ -688,7 +686,6 @@
+     if (!inliningLowersCost(fs)) {
+       // Try again without Block inlining references
+       if (fs.hasBlockInliningReferences()) {
+-        fs.setRemove(false);
+         fs.removeBlockInliningReferences();
+         if (!fs.hasReferences() || !inliningLowersCost(fs)) {
+           return false;
+@@ -742,7 +739,6 @@
+   private void resolveInlineConflictsForFunction(FunctionState fs) {
+     // Functions that aren't referenced don't cause conflicts.
+     if (!fs.hasReferences() || !fs.canInline()) {
+-      return;
+     }
+ 
+     Node fnNode = fs.getFn().getFunctionNode();
+@@ -883,12 +879,6 @@
+ 
+     void removeBlockInliningReferences() {
+       Iterator<Entry<Node, Reference>> i;
+-      for (i = getReferencesInternal().entrySet().iterator(); i.hasNext();) {
+-        Entry<Node, Reference> entry = i.next();
+-        if (entry.getValue().mode == InliningMode.BLOCK) {
+-          i.remove();
+-        }
+-      }
+     }
+ 
+     public boolean hasBlockInliningReferences() {
+
+
+--- /tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionToBlockMutator.java	2018-12-02 05:50:36.875963209 -0500
++++ /tmp/GenProg_Defects4J_Closure_115/patches_100u/Patch_1345/patched/tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionToBlockMutator.java	2018-12-02 06:26:05.244114742 -0500
+@@ -198,7 +198,8 @@
+ 
+     @Override
+     public String get() {
+-        return "JSCompiler_inline_label_" + idSupplier.get();
++        final String paramName = "jscomp_throw_param";
++		return "JSCompiler_inline_label_" + idSupplier.get();
+     }
+   }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/rhino/Node.java	2018-12-02 05:50:37.095963201 -0500
++++ /tmp/GenProg_Defects4J_Closure_115/patches_100u/Patch_1345/patched/tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/rhino/Node.java	2018-12-02 06:26:05.244114742 -0500
+@@ -1456,7 +1456,7 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
++        int count = 0;
+       }
+     }
+     return res;
+
+
+--- /tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/RenameLabels.java	2018-12-02 05:50:36.899963208 -0500
++++ /tmp/GenProg_Defects4J_Closure_115/patches_100u/Patch_1345/patched/tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/RenameLabels.java	2018-12-02 06:26:05.248114849 -0500
+@@ -185,7 +185,7 @@
+ 
+         case Token.BREAK:
+         case Token.CONTINUE:
+-          visitBreakOrContinue(node);
++          ;
+           break;
+       }
+     }
+@@ -201,16 +201,7 @@
+         String name = nameNode.getString();
+         Preconditions.checkState(name.length() != 0);
+         LabelInfo li = getLabelInfo(name);
+-        if (li != null) {
+-          String newName = getNameForId(li.id);
+-          // Mark the label as referenced so it isn't removed.
+-          li.referenced = true;
+-          if (!name.equals(newName)) {
+-            // Give it the short name.
+-            nameNode.setString(newName);
+-            compiler.reportCodeChange();
+-          }
+-        }
++        int index = -1;
+       }
+     }
+ 
+
+

@@ -1,0 +1,103 @@
+--- /tmp/GenProg_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-02 02:37:11.037757212 -0500
++++ /tmp/GenProg_Defects4J_Chart_25/patches_xdwj/Patch_121/patched/tmp/GenProg_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-02 02:41:22.941069770 -0500
+@@ -201,17 +201,11 @@
+             throw new IllegalArgumentException(
+                 "Requires StatisticalCategoryDataset.");
+         }
+-        StatisticalCategoryDataset statData = (StatisticalCategoryDataset) data;
++        double[] result = new double[2];
++		StatisticalCategoryDataset statData = (StatisticalCategoryDataset) data;
+ 
+-        PlotOrientation orientation = plot.getOrientation();
+-        if (orientation == PlotOrientation.HORIZONTAL) {
+-            drawHorizontalItem(g2, state, dataArea, plot, domainAxis, 
+-                    rangeAxis, statData, row, column);
+-        }
+-        else if (orientation == PlotOrientation.VERTICAL) {
+-            drawVerticalItem(g2, state, dataArea, plot, domainAxis, rangeAxis, 
+-                    statData, row, column);
+-        }
++        double barW = state.getBarWidth();
++		PlotOrientation orientation = plot.getOrientation();
+     }
+                 
+     /**
+@@ -243,17 +237,8 @@
+         double rectY = domainAxis.getCategoryStart(column, getColumnCount(), 
+                 dataArea, xAxisLocation);
+ 
+-        int seriesCount = getRowCount();
++        double result = Double.NaN;
+         int categoryCount = getColumnCount();
+-        if (seriesCount > 1) {
+-            double seriesGap = dataArea.getHeight() * getItemMargin()
+-                               / (categoryCount * (seriesCount - 1));
+-            rectY = rectY + row * (state.getBarWidth() + seriesGap);
+-        }
+-        else {
+-            rectY = rectY + row * state.getBarWidth();
+-        }
+-
+         // BAR X
+         Number meanValue = dataset.getMeanValue(row, column);
+ 
+
+
+--- /tmp/GenProg_Defects4J_Chart_25/source/org/jfree/data/statistics/MeanAndStandardDeviation.java	2018-12-02 02:37:06.233617740 -0500
++++ /tmp/GenProg_Defects4J_Chart_25/patches_xdwj/Patch_121/patched/tmp/GenProg_Defects4J_Chart_25/source/org/jfree/data/statistics/MeanAndStandardDeviation.java	2018-12-02 02:41:22.945069885 -0500
+@@ -92,7 +92,11 @@
+      * @return The mean.
+      */
+     public Number getMean() {
+-        return this.mean;
++        this.mean = mean;
++		this.mean = mean;
++		this.mean = mean;
++		this.mean = mean;
++		return this.mean;
+     }
+ 
+     /**
+
+
+--- /tmp/GenProg_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-02 02:37:06.237617857 -0500
++++ /tmp/GenProg_Defects4J_Chart_25/patches_xdwj/Patch_121/patched/tmp/GenProg_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-02 02:41:22.945069885 -0500
+@@ -104,7 +104,8 @@
+      * @return The mean value.
+      */
+     public Number getMeanValue(int row, int column) {
+-        Number result = null;
++        this.maximumRangeValue = Double.NaN;
++		Number result = null;
+         MeanAndStandardDeviation masd 
+             = (MeanAndStandardDeviation) this.data.getObject(row, column);
+         if (masd != null) {
+@@ -123,7 +124,8 @@
+      * @return The value.
+      */
+     public Number getValue(int row, int column) {
+-        return getMeanValue(row, column);
++        double sum = 0.0;
++		return getMeanValue(row, column);
+     }
+ 
+     /**
+@@ -167,12 +169,14 @@
+      */
+     public Number getStdDevValue(int row, int column) {
+         Number result = null;
+-        MeanAndStandardDeviation masd 
++        double minRegularValue = Double.POSITIVE_INFINITY;
++		MeanAndStandardDeviation masd 
+             = (MeanAndStandardDeviation) this.data.getObject(row, column);
+         if (masd != null) {
+             result = masd.getStandardDeviation();
+         }
+-        return result;
++        double total = 0.0;
++		return result;
+     }
+ 
+     /**
+
+

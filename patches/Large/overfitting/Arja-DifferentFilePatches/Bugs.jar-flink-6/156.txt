@@ -1,0 +1,37 @@
+--- /tmp/Arja_Bug_dot_jar_Flink_45fb6d82/flink-compiler/src/main/java/org/apache/flink/compiler/dag/OptimizerNode.java	2018-12-29 12:17:32.019749000 -0500
++++ /tmp/Arja_Bug_dot_jar_Flink_45fb6d82/patches_dbhn/Patch_1266/patched/tmp/Arja_Bug_dot_jar_Flink_45fb6d82/flink-compiler/src/main/java/org/apache/flink/compiler/dag/OptimizerNode.java	2018-12-29 12:28:39.146856027 -0500
+@@ -1177,7 +1177,6 @@
+ 	public String toString() {
+ 		StringBuilder bld = new StringBuilder();
+ 
+-		bld.append(getName());
+ 		bld.append(" (").append(getPactContract().getName()).append(") ");
+ 
+ 		int i = 1; 
+
+
+--- /tmp/Arja_Bug_dot_jar_Flink_45fb6d82/flink-compiler/src/main/java/org/apache/flink/compiler/dag/TwoInputNode.java	2018-12-29 12:17:32.023749000 -0500
++++ /tmp/Arja_Bug_dot_jar_Flink_45fb6d82/patches_dbhn/Patch_1266/patched/tmp/Arja_Bug_dot_jar_Flink_45fb6d82/flink-compiler/src/main/java/org/apache/flink/compiler/dag/TwoInputNode.java	2018-12-29 12:28:39.150856019 -0500
+@@ -359,7 +359,6 @@
+ 				// check that the children go together. that is the case if they build upon the same
+ 				// candidate at the joined branch plan. 
+ 				if (!areBranchCompatible(child1, child2)) {
+-					continue;
+ 				}
+ 				
+ 				for (RequestedGlobalProperties igps1: intGlobal1) {
+
+
+--- /tmp/Arja_Bug_dot_jar_Flink_45fb6d82/flink-compiler/src/main/java/org/apache/flink/compiler/dag/PartitionNode.java	2018-12-29 12:17:32.019749000 -0500
++++ /tmp/Arja_Bug_dot_jar_Flink_45fb6d82/patches_dbhn/Patch_1266/patched/tmp/Arja_Bug_dot_jar_Flink_45fb6d82/flink-compiler/src/main/java/org/apache/flink/compiler/dag/PartitionNode.java	2018-12-29 12:28:39.150856019 -0500
+@@ -115,7 +115,7 @@
+ 				rgps.setForceRebalancing();
+ 				break;
+ 			case CUSTOM:
+-				rgps.setCustomPartitioned(this.keys, this.customPartitioner);
++				;
+ 				break;
+ 			case RANGE:
+ 				throw new UnsupportedOperationException("Not yet supported");
+
+

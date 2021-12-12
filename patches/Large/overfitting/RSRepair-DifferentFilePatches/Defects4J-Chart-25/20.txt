@@ -1,0 +1,15 @@
+--- /tmp/RSRepair_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-02 04:25:51.535091490 -0500
++++ /tmp/RSRepair_Defects4J_Chart_25/patches_l19u/Patch_291/patched/tmp/RSRepair_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-02 04:30:57.688253129 -0500
+@@ -107,9 +107,7 @@
+         Number result = null;
+         MeanAndStandardDeviation masd 
+             = (MeanAndStandardDeviation) this.data.getObject(row, column);
+-        if (masd != null) {
+-            result = masd.getMean();
+-        }
++        this.minimumRangeValueIncStdDev = Double.NaN;
+         return result;
+     }
+ 
+
+

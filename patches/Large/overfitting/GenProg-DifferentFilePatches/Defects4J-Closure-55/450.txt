@@ -1,0 +1,274 @@
+--- /tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-02 07:03:59.474998055 -0500
++++ /tmp/GenProg_Defects4J_Closure_55/patches_ob8q/Patch_41/patched/tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-02 07:12:04.887214921 -0500
+@@ -84,10 +84,6 @@
+ 
+       // Estimate savings
+       int savings = 0;
+-      for (Reduction reduction : reductions) {
+-        savings += reduction.estimateSavings();
+-      }
+-
+       // Compare estimated savings against the helper cost.  Apply
+       // reductions if doing so will result in some savings.
+       if (savings > (helperCodeCost + SAVINGS_THRESHOLD)) {
+@@ -175,7 +171,6 @@
+       for (Reducer reducer : reducers) {
+         Node replacement = reducer.reduce(node);
+         if (replacement != node) {
+-          reductions.put(reducer, new Reduction(parent, node, replacement));
+           return false;
+         }
+       }
+
+
+--- /tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/rhino/Node.java	2018-12-02 07:03:57.814998114 -0500
++++ /tmp/GenProg_Defects4J_Closure_55/patches_ob8q/Patch_41/patched/tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/rhino/Node.java	2018-12-02 07:12:04.891214988 -0500
+@@ -1674,7 +1674,245 @@
+       case Token.SETPROP:         return "setprop";
+       case Token.GETELEM:         return "getelem";
+       case Token.SETELEM:         return "setelem";
+-      case Token.CALL:            return "call";
++      case Token.CALL:            {
++			switch (token) {
++			case Token.ERROR:
++				return "error";
++			case Token.EOF:
++				return "eof";
++			case Token.EOL:
++				return "eol";
++			case Token.ENTERWITH:
++				return "enterwith";
++			case Token.LEAVEWITH:
++				return "leavewith";
++			case Token.RETURN:
++				return "return";
++			case Token.GOTO:
++				return "goto";
++			case Token.IFEQ:
++				return "ifeq";
++			case Token.IFNE:
++				return "ifne";
++			case Token.SETNAME:
++				return "setname";
++			case Token.BITOR:
++				return "bitor";
++			case Token.BITXOR:
++				return "bitxor";
++			case Token.BITAND:
++				return "bitand";
++			case Token.EQ:
++				return "eq";
++			case Token.NE:
++				return "ne";
++			case Token.LT:
++				return "lt";
++			case Token.LE:
++				return "le";
++			case Token.GT:
++				return "gt";
++			case Token.GE:
++				return "ge";
++			case Token.LSH:
++				return "lsh";
++			case Token.RSH:
++				return "rsh";
++			case Token.URSH:
++				return "ursh";
++			case Token.ADD:
++				return "add";
++			case Token.SUB:
++				return "sub";
++			case Token.MUL:
++				return "mul";
++			case Token.DIV:
++				return "div";
++			case Token.MOD:
++				return "mod";
++			case Token.BITNOT:
++				return "bitnot";
++			case Token.NEG:
++				return "neg";
++			case Token.NEW:
++				return "new";
++			case Token.DELPROP:
++				return "delprop";
++			case Token.TYPEOF:
++				return "typeof";
++			case Token.GETPROP:
++				return "getprop";
++			case Token.SETPROP:
++				return "setprop";
++			case Token.GETELEM:
++				return "getelem";
++			case Token.SETELEM:
++				return "setelem";
++			case Token.CALL:
++				return "call";
++			case Token.NAME:
++				return "name";
++			case Token.NUMBER:
++				return "number";
++			case Token.STRING:
++				return "string";
++			case Token.NULL:
++				return "null";
++			case Token.THIS:
++				return "this";
++			case Token.FALSE:
++				return "false";
++			case Token.TRUE:
++				return "true";
++			case Token.SHEQ:
++				return "sheq";
++			case Token.SHNE:
++				return "shne";
++			case Token.REGEXP:
++				return "regexp";
++			case Token.POS:
++				return "pos";
++			case Token.BINDNAME:
++				return "bindname";
++			case Token.THROW:
++				return "throw";
++			case Token.IN:
++				return "in";
++			case Token.INSTANCEOF:
++				return "instanceof";
++			case Token.GETVAR:
++				return "getvar";
++			case Token.SETVAR:
++				return "setvar";
++			case Token.TRY:
++				return "try";
++			case Token.TYPEOFNAME:
++				return "typeofname";
++			case Token.THISFN:
++				return "thisfn";
++			case Token.SEMI:
++				return "semi";
++			case Token.LB:
++				return "lb";
++			case Token.RB:
++				return "rb";
++			case Token.LC:
++				return "lc";
++			case Token.RC:
++				return "rc";
++			case Token.LP:
++				return "lp";
++			case Token.RP:
++				return "rp";
++			case Token.COMMA:
++				return "comma";
++			case Token.ASSIGN:
++				return "assign";
++			case Token.ASSIGN_BITOR:
++				return "assign_bitor";
++			case Token.ASSIGN_BITXOR:
++				return "assign_bitxor";
++			case Token.ASSIGN_BITAND:
++				return "assign_bitand";
++			case Token.ASSIGN_LSH:
++				return "assign_lsh";
++			case Token.ASSIGN_RSH:
++				return "assign_rsh";
++			case Token.ASSIGN_URSH:
++				return "assign_ursh";
++			case Token.ASSIGN_ADD:
++				return "assign_add";
++			case Token.ASSIGN_SUB:
++				return "assign_sub";
++			case Token.ASSIGN_MUL:
++				return "assign_mul";
++			case Token.ASSIGN_DIV:
++				return "assign_div";
++			case Token.ASSIGN_MOD:
++				return "assign_mod";
++			case Token.HOOK:
++				return "hook";
++			case Token.COLON:
++				return "colon";
++			case Token.OR:
++				return "or";
++			case Token.AND:
++				return "and";
++			case Token.INC:
++				return "inc";
++			case Token.DEC:
++				return "dec";
++			case Token.DOT:
++				return "dot";
++			case Token.FUNCTION:
++				return "function";
++			case Token.EXPORT:
++				return "export";
++			case Token.IMPORT:
++				return "import";
++			case Token.IF:
++				return "if";
++			case Token.ELSE:
++				return "else";
++			case Token.SWITCH:
++				return "switch";
++			case Token.CASE:
++				return "case";
++			case Token.DEFAULT:
++				return "default";
++			case Token.WHILE:
++				return "while";
++			case Token.DO:
++				return "do";
++			case Token.FOR:
++				return "for";
++			case Token.BREAK:
++				return "break";
++			case Token.CONTINUE:
++				return "continue";
++			case Token.VAR:
++				return "var";
++			case Token.WITH:
++				return "with";
++			case Token.CATCH:
++				return "catch";
++			case Token.FINALLY:
++				return "finally";
++			case Token.RESERVED:
++				return "reserved";
++			case Token.NOT:
++				return "not";
++			case Token.VOID:
++				return "void";
++			case Token.BLOCK:
++				return "block";
++			case Token.ARRAYLIT:
++				return "arraylit";
++			case Token.OBJECTLIT:
++				return "objectlit";
++			case Token.LABEL:
++				return "label";
++			case Token.TARGET:
++				return "target";
++			case Token.LOOP:
++				return "loop";
++			case Token.EXPR_VOID:
++				return "expr_void";
++			case Token.EXPR_RESULT:
++				return "expr_result";
++			case Token.JSR:
++				return "jsr";
++			case Token.SCRIPT:
++				return "script";
++			case Token.EMPTY:
++				return "empty";
++			case Token.GET_REF:
++				return "get_ref";
++			case Token.REF_SPECIAL:
++				return "ref_special";
++			}
++			return "call";
++		}
+       case Token.NAME:            return "name";
+       case Token.NUMBER:          return "number";
+       case Token.STRING:          return "string";
+
+

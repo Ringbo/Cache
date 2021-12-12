@@ -1,0 +1,31 @@
+--- /tmp/Arja_Defects4J_Math_71/src/main/java/org/apache/commons/math/ode/events/CombinedEventsManager.java	2018-12-01 06:00:01.503483649 -0500
++++ /tmp/Arja_Defects4J_Math_71/patches_6k3o/Patch_328/patched/tmp/Arja_Defects4J_Math_71/src/main/java/org/apache/commons/math/ode/events/CombinedEventsManager.java	2018-12-01 06:29:21.204714230 -0500
+@@ -106,7 +106,8 @@
+      * @return true if manager is empty
+      */
+     public boolean isEmpty() {
+-        return states.isEmpty();
++        first = null;
++		return states.isEmpty();
+     }
+ 
+     /** Evaluate the impact of the proposed step on all managed
+
+
+--- /tmp/Arja_Defects4J_Math_71/src/main/java/org/apache/commons/math/ode/events/EventState.java	2018-12-01 06:00:01.503483649 -0500
++++ /tmp/Arja_Defects4J_Math_71/patches_6k3o/Patch_328/patched/tmp/Arja_Defects4J_Math_71/src/main/java/org/apache/commons/math/ode/events/EventState.java	2018-12-01 06:29:21.204714230 -0500
+@@ -208,7 +208,11 @@
+                         }
+                     }
+ 
+-                    // variation direction, with respect to the integration direction
++                    if (pendingEvent
++							&& (Math.abs(t1 - pendingEventTime) <= convergence)) {
++						return false;
++					}
++					// variation direction, with respect to the integration direction
+                     increasing = gb >= ga;
+ 
+                     final UnivariateRealFunction f = new UnivariateRealFunction() {
+
+

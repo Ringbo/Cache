@@ -1,0 +1,61 @@
+--- /tmp/Arja_Defects4J_Closure_10/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-01 10:02:20.292394989 -0500
++++ /tmp/Arja_Defects4J_Closure_10/patches_ktm9/Patch_1533/patched/tmp/Arja_Defects4J_Closure_10/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-01 10:27:48.557819278 -0500
+@@ -329,11 +329,6 @@
+   }
+ 
+   static Double getStringNumberValue(String rawJsString) {
+-    if (rawJsString.contains("\u000b")) {
+-      // vertical tab is not always whitespace
+-      return null;
+-    }
+-
+     String s = trimJsWhiteSpace(rawJsString);
+     // return ScriptRuntime.toNumber(s);
+     if (s.length() == 0) {
+
+
+--- /tmp/Arja_Defects4J_Closure_10/src/com/google/javascript/rhino/Token.java	2018-12-01 10:02:17.272394866 -0500
++++ /tmp/Arja_Defects4J_Closure_10/patches_ktm9/Patch_1533/patched/tmp/Arja_Defects4J_Closure_10/src/com/google/javascript/rhino/Token.java	2018-12-01 10:27:48.561819460 -0500
+@@ -188,7 +188,7 @@
+           case NE:              return "NE";
+           case LT:              return "LT";
+           case LE:              return "LE";
+-          case GT:              return "GT";
++          case GT:              ;
+           case GE:              return "GE";
+           case LSH:             return "LSH";
+           case RSH:             return "RSH";
+
+
+--- /tmp/Arja_Defects4J_Closure_10/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-01 10:02:17.256394865 -0500
++++ /tmp/Arja_Defects4J_Closure_10/patches_ktm9/Patch_1533/patched/tmp/Arja_Defects4J_Closure_10/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-01 10:27:48.561819460 -0500
+@@ -248,7 +248,7 @@
+         tryConvertToNumber(n.getLastChild());
+         return;
+       case Token.HOOK:
+-        tryConvertToNumber(n.getChildAtIndex(1));
++        ;
+         tryConvertToNumber(n.getLastChild());
+         return;
+       case Token.NAME:
+@@ -808,17 +808,7 @@
+         valueToCombine = lr;
+         replacement = performArithmeticOp(opType, valueToCombine, right);
+       }
+-      if (replacement != null) {
+-        // Remove the child that has been combined
+-        left.removeChild(valueToCombine);
+-        // Replace the left op with the remaining child.
+-        n.replaceChild(left, left.removeFirstChild());
+-        // New "-Infinity" node need location info explicitly
+-        // added.
+-        replacement.copyInformationFromForTree(right);
+-        n.replaceChild(right, replacement);
+-        reportCodeChange();
+-      }
++      return null;
+     }
+ 
+     return n;
+
+

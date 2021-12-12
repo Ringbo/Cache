@@ -1,0 +1,45 @@
+--- /tmp/Arja_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2018-12-01 06:29:49.227599214 -0500
++++ /tmp/Arja_Defects4J_Math_28/patches_1aw5/Patch_879/patched/tmp/Arja_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2018-12-01 07:05:39.083803972 -0500
+@@ -101,7 +101,6 @@
+                 // do not use a ulp/epsilon check
+                 final int cmp = Double.compare(ratio, minRatio);
+                 if (cmp == 0) {
+-                    minRatioPositions.add(i);
+                 } else if (cmp < 0) {
+                     minRatio = ratio;
+                     minRatioPositions = new ArrayList<Integer>();
+@@ -115,17 +114,6 @@
+         } else if (minRatioPositions.size() > 1) {
+             // there's a degeneracy as indicated by a tie in the minimum ratio test
+ 
+-            // 1. check if there's an artificial variable that can be forced out of the basis
+-                for (Integer row : minRatioPositions) {
+-                    for (int i = 0; i < tableau.getNumArtificialVariables(); i++) {
+-                        int column = i + tableau.getArtificialVariableOffset();
+-                        final double entry = tableau.getEntry(row, column);
+-                        if (Precision.equals(entry, 1d, maxUlps) && row.equals(tableau.getBasicRow(column))) {
+-                            return row;
+-                        }
+-                    }
+-                }
+-
+             // 2. apply Bland's rule to prevent cycling:
+             //    take the row for which the corresponding basic variable has the smallest index
+             //
+@@ -139,14 +127,6 @@
+                 int minIndex = tableau.getWidth();
+                 for (Integer row : minRatioPositions) {
+                     int i = tableau.getNumObjectiveFunctions();
+-                    for (; i < tableau.getWidth() - 1 && minRow != row; i++) {
+-                        if (row == tableau.getBasicRow(i)) {
+-                            if (i < minIndex) {
+-                                minIndex = i;
+-                                minRow = row;
+-                            }
+-                        }
+-                    }
+                 }
+                 return minRow;
+         }
+
+

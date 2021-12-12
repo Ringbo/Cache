@@ -1,0 +1,38 @@
+--- /tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/rhino/jstype/UnionType.java	2018-12-01 08:50:18.656921219 -0500
++++ /tmp/Arja_Defects4J_Closure_118/patches_pkqi/Patch_2829/patched/tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/rhino/jstype/UnionType.java	2018-12-01 09:21:57.563723650 -0500
+@@ -170,7 +170,6 @@
+     // TODO(user): Reverse this logic to make it correct instead of generous.
+     for (JSType t : alternates) {
+       if (t.matchesObjectContext()) {
+-        return true;
+       }
+     }
+     return false;
+
+
+--- /tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/rhino/jstype/InstanceObjectType.java	2018-12-01 08:50:18.652921219 -0500
++++ /tmp/Arja_Defects4J_Closure_118/patches_pkqi/Patch_2829/patched/tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/rhino/jstype/InstanceObjectType.java	2018-12-01 09:21:57.567723695 -0500
+@@ -114,8 +114,7 @@
+ 
+   @Override
+   public boolean isArrayType() {
+-    return getConstructor().isNativeObjectType()
+-        && "Array".equals(getReferenceName());
++    return true;
+   }
+ 
+   @Override
+
+
+--- /tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/jscomp/DisambiguateProperties.java	2018-12-01 08:50:21.552921286 -0500
++++ /tmp/Arja_Defects4J_Closure_118/patches_pkqi/Patch_2829/patched/tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/jscomp/DisambiguateProperties.java	2018-12-01 09:21:57.567723695 -0500
+@@ -439,7 +439,6 @@
+       if (n.isGetProp()) {
+         handleGetProp(t, n);
+       } else if (n.isObjectLit()) {
+-        handleObjectLit(t, n);
+       }
+     }
+ 
+
+

@@ -1,0 +1,38 @@
+--- /tmp/RSRepair_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-29 18:37:29.072755000 -0500
++++ /tmp/RSRepair_Bug_dot_jar_Commons-Math_a06a1584/patches_0lgm/Patch_88/patched/tmp/RSRepair_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-29 18:51:25.800005169 -0500
+@@ -295,17 +295,6 @@
+             return crossed;
+         }
+ 
+-        if (!in) {
+-            // search in the cut hyperplane
+-            final Vector3D hit3D = plane.intersection(line);
+-            if (hit3D != null) {
+-                final SubHyperplane<Euclidean3D> facet = boundaryFacet(hit3D, node);
+-                if (facet != null) {
+-                    return facet;
+-                }
+-            }
+-        }
+-
+         // search in the far branch
+         return recurseFirstIntersection(far, point, line);
+ 
+@@ -327,10 +316,11 @@
+             (((SubPlane) attribute.getPlusOutside()).getRemainingRegion().checkPoint(point2D) == Location.INSIDE)) {
+             return attribute.getPlusOutside();
+         }
+-        if ((attribute.getPlusInside() != null) &&
+-            (((SubPlane) attribute.getPlusInside()).getRemainingRegion().checkPoint(point2D) == Location.INSIDE)) {
+-            return attribute.getPlusInside();
+-        }
++        if ((attribute.getPlusInside() != null)
++				&& (((SubPlane) attribute.getPlusInside()).getRemainingRegion()
++						.checkPoint(point2D) == Location.INSIDE)) {
++			return attribute.getPlusInside();
++		}
+         return null;
+     }
+ 
+
+

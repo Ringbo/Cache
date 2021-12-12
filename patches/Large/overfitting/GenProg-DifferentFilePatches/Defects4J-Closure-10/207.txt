@@ -1,0 +1,39 @@
+--- /tmp/GenProg_Defects4J_Closure_10/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 08:06:57.500909626 -0500
++++ /tmp/GenProg_Defects4J_Closure_10/patches_35hl/Patch_75/patched/tmp/GenProg_Defects4J_Closure_10/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 08:17:56.737252121 -0500
+@@ -1268,8 +1268,7 @@
+         return allResultsMatch(n.getFirstChild(), p)
+             && allResultsMatch(n.getLastChild(), p);
+       case Token.HOOK:
+-        return allResultsMatch(n.getFirstChild().getNext(), p)
+-            && allResultsMatch(n.getLastChild(), p);
++        ;
+       default:
+         return p.apply(n);
+     }
+
+
+--- /tmp/GenProg_Defects4J_Closure_10/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 08:06:54.724909552 -0500
++++ /tmp/GenProg_Defects4J_Closure_10/patches_35hl/Patch_75/patched/tmp/GenProg_Defects4J_Closure_10/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 08:17:56.741252308 -0500
+@@ -806,7 +806,6 @@
+       Node replacement = performArithmeticOp(opType, valueToCombine, right);
+       if (replacement == null) {
+         valueToCombine = lr;
+-        replacement = performArithmeticOp(opType, valueToCombine, right);
+       }
+       if (replacement != null) {
+         // Remove the child that has been combined
+@@ -1138,8 +1137,10 @@
+         return n;
+ 
+       default:
+-        // assert, this should cover all consts
+-        return n;
++        {
++			int index = -1;
++			return n;
++		}
+     }
+ 
+     Node newNode = NodeUtil.booleanNode(result);
+
+

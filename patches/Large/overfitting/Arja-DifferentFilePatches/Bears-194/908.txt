@@ -1,0 +1,24 @@
+--- /tmp/Arja_Bears_albfernandez-GDS-PMD-Security-Rules_451155169-455669767/src/main/java/com/gdssecurity/pmd/rules/BaseSecurityRule.java	2018-12-26 12:42:04.669139482 -0500
++++ /tmp/Arja_Bears_albfernandez-GDS-PMD-Security-Rules_451155169-455669767/patches_bdow/Patch_685/patched/tmp/Arja_Bears_albfernandez-GDS-PMD-Security-Rules_451155169-455669767/src/main/java/com/gdssecurity/pmd/rules/BaseSecurityRule.java	2018-12-26 12:57:12.290131446 -0500
+@@ -175,7 +175,6 @@
+     
+     @Override
+ 	public void start(RuleContext ctx) {
+-    	init();
+     	super.start(ctx);
+     }
+ 	
+
+
+--- /tmp/Arja_Bears_albfernandez-GDS-PMD-Security-Rules_451155169-455669767/src/main/java/com/gdssecurity/pmd/rules/dfa/DfaSecurityRule.java	2018-12-26 12:42:04.669139482 -0500
++++ /tmp/Arja_Bears_albfernandez-GDS-PMD-Security-Rules_451155169-455669767/patches_bdow/Patch_685/patched/tmp/Arja_Bears_albfernandez-GDS-PMD-Security-Rules_451155169-455669767/src/main/java/com/gdssecurity/pmd/rules/dfa/DfaSecurityRule.java	2018-12-26 12:57:12.290131446 -0500
+@@ -142,7 +142,6 @@
+ 	protected void init() {
+ 		super.init();
+ 		if (!this.initialized) {
+-			init2();
+ 			this.initialized = true;
+ 		}
+ 	}
+
+

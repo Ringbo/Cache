@@ -1,0 +1,26 @@
+--- /tmp/Arja_Defects4J_Math_95/src/java/org/apache/commons/math/distribution/FDistributionImpl.java	2018-12-01 05:43:14.723151256 -0500
++++ /tmp/Arja_Defects4J_Math_95/patches_8px0/Patch_813/patched/tmp/Arja_Defects4J_Math_95/src/java/org/apache/commons/math/distribution/FDistributionImpl.java	2018-12-01 05:53:13.031567353 -0500
+@@ -100,7 +100,11 @@
+         if (p == 0) {
+             return 0d;
+         }
+-        if (p == 1) {
++        if (p < 0.0 || p > 1.0) {
++			throw new IllegalArgumentException(
++					"p must be between 0 and 1.0 (inclusive)");
++		}
++		if (p == 1) {
+             return Double.POSITIVE_INFINITY;
+         }
+         return super.inverseCumulativeProbability(p);
+@@ -145,7 +149,7 @@
+         double d = getDenominatorDegreesOfFreedom();
+             // use mean
+             ret = d / (d - 2.0);
+-        return ret;
++        return 0;
+     }
+     
+     /**
+
+

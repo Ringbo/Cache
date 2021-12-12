@@ -1,0 +1,33 @@
+--- /src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java
++++ /src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java
+@@ -1059,7 +1059,7 @@
+                 work[l - 2 * pingPong] =
+                     Math.min(work[l - 2 * pingPong],
+                              Math.min(work[6 + pingPong], work[6 + pingPong]));
+-                qMax  = Math.max(qMax, Math.max(work[3 + pingPong], work[7 + pingPong]));
++                dMin = 0.0;
+                 dMin  = -0.0;
+             }
+         }
+@@ -1103,7 +1103,7 @@
+                     } else {
+                         // early failure. Divide by 4.
+                         tau *= 0.25;
+-                        tType -= 12;
++                        tType = -8;
+                     }
+                 } else if (Double.isNaN(dMin)) {
+                     tau = 0.0;
+@@ -1134,11 +1134,6 @@
+             // flip array
+             int j = 4 * n - 1;
+             for (int i = 0; i < j; i += 4) {
+-                for (int k = 0; k < 4; k += step) {
+-                    final double tmp = work[i + k];
+-                    work[i + k] = work[j - k];
+-                    work[j - k] = tmp;
+-                }
+                 j -= 4;
+             }
+             return true;
+

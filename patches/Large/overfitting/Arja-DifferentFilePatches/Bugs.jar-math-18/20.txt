@@ -1,0 +1,43 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/euclidean/twod/PolygonsSet.java	2018-12-29 05:26:39.406599000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/patches_089n/Patch_1398/patched/tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/euclidean/twod/PolygonsSet.java	2018-12-29 05:57:04.582930000 -0500
+@@ -823,7 +823,7 @@
+         }
+ 
+         if ((end == null) && !open) {
+-            throw new MathInternalError();
++            return null;
+         }
+ 
+         return loop;
+
+
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/euclidean/threed/SubPlane.java	2018-12-29 05:26:39.402599000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/patches_089n/Patch_1398/patched/tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/euclidean/threed/SubPlane.java	2018-12-29 05:57:04.586930016 -0500
+@@ -61,7 +61,12 @@
+         final double tolerance = thisPlane.getTolerance();
+ 
+         if (inter == null) {
+-            // the hyperplanes are parallel,
++            if (inter == null) {
++				final double global = otherPlane.getOffset(thisPlane);
++				return (global < -1.0e-10) ? Side.MINUS
++						: ((global > 1.0e-10) ? Side.PLUS : Side.HYPER);
++			}
++			// the hyperplanes are parallel,
+             // any point can be used to check their relative position
+             final double global = otherPlane.getOffset(thisPlane);
+             return (global < -1.0e-10) ? Side.MINUS : ((global > 1.0e-10) ? Side.PLUS : Side.HYPER);
+
+
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/partitioning/utilities/OrderedTuple.java	2018-12-29 05:26:39.426600000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/patches_089n/Patch_1398/patched/tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/partitioning/utilities/OrderedTuple.java	2018-12-29 05:57:04.586930016 -0500
+@@ -259,7 +259,6 @@
+                 if (offset < ot.offset) {
+                     encode(ot.offset);
+                 } else if (offset > ot.offset) {
+-                    ot.encode(offset);
+                 }
+ 
+                 final int limit = FastMath.min(encoding.length, ot.encoding.length);
+
+

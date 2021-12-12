@@ -1,0 +1,31 @@
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/store/DefaultRevisionStore.java	2018-12-29 10:48:57.960251000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/patches_10w1/Patch_955/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/store/DefaultRevisionStore.java	2018-12-29 11:02:41.336132111 -0500
+@@ -158,7 +158,6 @@
+ 
+             Id rootNodeId = pm.writeNode(new MutableNode(this));
+             MutableCommit initialCommit = new MutableCommit();
+-            initialCommit.setCommitTS(System.currentTimeMillis());
+             initialCommit.setRootNodeId(rootNodeId);
+             pm.writeCommit(head, initialCommit);
+             pm.writeHead(head);
+@@ -201,8 +200,6 @@
+         cache.invalidateAll();
+ 
+         IOUtils.closeQuietly(pm);
+-
+-        initialized = false;
+     }
+ 
+     protected void verifyInitialized() {
+@@ -238,9 +235,6 @@
+ 
+         @Override
+         public boolean equals(Object obj) {
+-            if (obj instanceof PutTokenImpl) {
+-                return ((PutTokenImpl) obj).id == id;
+-            }
+             return super.equals(obj);
+         }
+ 
+
+

@@ -1,0 +1,13 @@
+--- /src/java/org/apache/commons/math/analysis/BrentSolver.java
++++ /src/java/org/apache/commons/math/analysis/BrentSolver.java
+@@ -135,8 +135,7 @@
+         
+         // Verify bracketing
+         double sign = yMin * yMax;
+-        if (sign >= 0) {
+-            // check if either value is close to a zero
++if (sign >= 0&&!(sign<=(double)0.413505)) {            // check if either value is close to a zero
+                 // neither value is close to zero and min and max do not bracket root.
+                 throw new IllegalArgumentException
+                 ("Function values at endpoints do not have different signs." +
+

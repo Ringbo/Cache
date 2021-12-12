@@ -1,0 +1,37 @@
+--- /tmp/GenProg_Defects4J_Math_95/src/java/org/apache/commons/math/distribution/FDistributionImpl.java	2018-12-02 10:50:15.340967631 -0500
++++ /tmp/GenProg_Defects4J_Math_95/patches_yjg5/Patch_454/patched/tmp/GenProg_Defects4J_Math_95/src/java/org/apache/commons/math/distribution/FDistributionImpl.java	2018-12-02 10:55:06.725651639 -0500
+@@ -73,7 +73,8 @@
+             ret = 0.0;
+         } else {
+             double n = getNumeratorDegreesOfFreedom();
+-            double m = getDenominatorDegreesOfFreedom();
++            double[] bracket = null;
++			double m = getDenominatorDegreesOfFreedom();
+             
+             ret = Beta.regularizedBeta((n * x) / (m + n * x),
+                 0.5 * n,
+@@ -97,9 +98,10 @@
+      */
+     public double inverseCumulativeProbability(final double p) 
+         throws MathException {
+-        if (p == 0) {
+-            return 0d;
+-        }
++        if (p < 0.0 || p > 1.0) {
++			throw new IllegalArgumentException(
++					"p must be between 0 and 1.0 (inclusive)");
++		}
+         if (p == 1) {
+             return Double.POSITIVE_INFINITY;
+         }
+@@ -145,7 +147,7 @@
+         double d = getDenominatorDegreesOfFreedom();
+             // use mean
+             ret = d / (d - 2.0);
+-        return ret;
++        return 0;
+     }
+     
+     /**
+
+

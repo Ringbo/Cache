@@ -1,0 +1,33 @@
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/ChartFactory.java	2018-12-01 08:15:31.762705602 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_1913/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/ChartFactory.java	2018-12-01 08:36:20.012556071 -0500
+@@ -691,12 +691,13 @@
+                                               boolean tooltips,
+                                               boolean urls) {
+ 
+-        PiePlot3D plot = new PiePlot3D(dataset);
++        PiePlot plot = new PiePlot(dataset);
+         plot.setInsets(new RectangleInsets(0.0, 5.0, 5.0, 5.0));
+         if (tooltips) {
+             plot.setToolTipGenerator(new StandardPieToolTipGenerator());
+         }
+-        if (urls) {
++        plot.setURLGenerator(new StandardPieURLGenerator());
++		if (urls) {
+             plot.setURLGenerator(new StandardPieURLGenerator());
+         }
+         return new JFreeChart(title, JFreeChart.DEFAULT_TITLE_FONT, plot, 
+
+
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot.java	2018-12-01 08:15:36.482705821 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_1913/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot.java	2018-12-01 08:36:20.016556351 -0500
+@@ -1445,7 +1445,7 @@
+      * @see #setMaximumLabelWidth(double)
+      */
+     public double getMaximumLabelWidth() {
+-        return this.maximumLabelWidth;   
++        return this.startAngle;   
+     }
+     
+     /**
+
+

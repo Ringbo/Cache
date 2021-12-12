@@ -1,0 +1,21 @@
+--- /tmp/RSRepair_Defects4J_Math_39/src/main/java/org/apache/commons/math/ode/nonstiff/EmbeddedRungeKuttaIntegrator.java	2018-12-02 03:10:43.749131167 -0500
++++ /tmp/RSRepair_Defects4J_Math_39/patches_k55r/Patch_690/patched/tmp/RSRepair_Defects4J_Math_39/src/main/java/org/apache/commons/math/ode/nonstiff/EmbeddedRungeKuttaIntegrator.java	2018-12-02 04:05:08.403495773 -0500
+@@ -248,7 +248,15 @@
+ 
+         stepSize = hNew;
+ 
+-        // next stages
++        if (!isLastStep) {
++			interpolator.storeTime(stepStart);
++			final double nextT = stepStart + stepSize;
++			final boolean nextIsLast = forward ? (nextT >= t) : (nextT <= t);
++			if (nextIsLast) {
++				stepSize = t - stepStart;
++			}
++		}
++		// next stages
+         for (int k = 1; k < stages; ++k) {
+ 
+           for (int j = 0; j < y0.length; ++j) {
+
+

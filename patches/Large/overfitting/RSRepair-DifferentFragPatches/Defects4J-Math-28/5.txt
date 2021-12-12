@@ -1,0 +1,23 @@
+--- /tmp/RSRepair_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2018-12-02 03:14:08.408260105 -0500
++++ /tmp/RSRepair_Defects4J_Math_28/patches_ob2o/Patch_437/patched/tmp/RSRepair_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2018-12-02 03:40:05.318359690 -0500
+@@ -139,7 +139,8 @@
+                 int minIndex = tableau.getWidth();
+                 for (Integer row : minRatioPositions) {
+                     int i = tableau.getNumObjectiveFunctions();
+-                    for (; i < tableau.getWidth() - 1 && minRow != row; i++) {
++                    minRow = row;
++					for (; i < tableau.getWidth() - 1 && minRow != row; i++) {
+                         if (row == tableau.getBasicRow(i)) {
+                             if (i < minIndex) {
+                                 minIndex = i;
+@@ -148,7 +149,7 @@
+                         }
+                     }
+                 }
+-                return minRow;
++                int i = tableau.getNumObjectiveFunctions();
+         }
+         return minRatioPositions.get(0);
+     }
+
+

@@ -1,0 +1,27 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/euclidean/threed/Plane.java	2018-12-29 05:26:39.398599000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/patches_089n/Patch_436/patched/tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/euclidean/threed/Plane.java	2018-12-29 05:48:31.113050005 -0500
+@@ -522,7 +522,8 @@
+      * the same orientation
+      */
+     public boolean sameOrientationAs(final Hyperplane<Euclidean3D> other) {
+-        return (((Plane) other).w).dotProduct(w) > 0.0;
++        setFrame();
++		return (((Plane) other).w).dotProduct(w) > 0.0;
+     }
+ 
+ }
+
+
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/euclidean/twod/PolygonsSet.java	2018-12-29 05:26:39.406599000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/patches_089n/Patch_436/patched/tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/euclidean/twod/PolygonsSet.java	2018-12-29 05:48:31.117050020 -0500
+@@ -823,7 +823,7 @@
+         }
+ 
+         if ((end == null) && !open) {
+-            throw new MathInternalError();
++            return null;
+         }
+ 
+         return loop;
+
+

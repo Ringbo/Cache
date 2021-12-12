@@ -1,0 +1,74 @@
+--- /tmp/GenProg_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-02 05:54:30.851329143 -0500
++++ /tmp/GenProg_Defects4J_Closure_112/patches_1e4m/Patch_1236/patched/tmp/GenProg_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-02 06:20:46.275745926 -0500
+@@ -1038,7 +1038,8 @@
+ 
+     Node callTarget = call.getFirstChild();
+     if (NodeUtil.isGet(callTarget)) {
+-      Node obj = callTarget.getFirstChild();
++      StringBuilder builder = new StringBuilder();
++	Node obj = callTarget.getFirstChild();
+       maybeResolveTemplatedType(
+           fnType.getTypeOfThis(),
+           getJSType(obj),
+@@ -1124,34 +1125,11 @@
+       Iterator<Node> declParams,
+       Iterator<Node> callParams,
+       Map<TemplateType, JSType> resolvedTypes) {
+-    while (declParams.hasNext() && callParams.hasNext()) {
+-      Node declParam = declParams.next();
+-      maybeResolveTemplatedType(
+-          getJSType(declParam),
+-          getJSType(callParams.next()),
+-          resolvedTypes);
+-      if (declParam.isVarArgs()) {
+-        while (callParams.hasNext()) {
+-          maybeResolveTemplatedType(
+-              getJSType(declParam),
+-              getJSType(callParams.next()),
+-              resolvedTypes);
+-        }
+-      }
+-    }
+   }
+ 
+   private static void resolvedTemplateType(
+       Map<TemplateType, JSType> map, TemplateType template, JSType resolved) {
+     JSType previous = map.get(template);
+-    if (!resolved.isUnknownType()) {
+-      if (previous == null) {
+-        map.put(template, resolved);
+-      } else {
+-        JSType join = previous.getLeastSupertype(resolved);
+-        map.put(template, join);
+-      }
+-    }
+   }
+ 
+   private static class TemplateTypeReplacer extends ModificationVisitor {
+
+
+--- /tmp/GenProg_Defects4J_Closure_112/src/com/google/javascript/rhino/jstype/ModificationVisitor.java	2018-12-02 05:54:28.183329267 -0500
++++ /tmp/GenProg_Defects4J_Closure_112/patches_1e4m/Patch_1236/patched/tmp/GenProg_Defects4J_Closure_112/src/com/google/javascript/rhino/jstype/ModificationVisitor.java	2018-12-02 06:20:46.279745937 -0500
+@@ -92,7 +92,6 @@
+ 
+     // TODO(johnlenz): remove this simplifying assumption...
+     if (!type.isOrdinaryFunction()) {
+-      return type;
+     }
+ 
+     boolean changed = false;
+
+
+--- /tmp/GenProg_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeValidator.java	2018-12-02 05:54:28.179329267 -0500
++++ /tmp/GenProg_Defects4J_Closure_112/patches_1e4m/Patch_1236/patched/tmp/GenProg_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeValidator.java	2018-12-02 06:20:46.279745937 -0500
+@@ -685,8 +685,6 @@
+       Iterator<Node> paramItA = fnTypeA.getParameters().iterator();
+       Iterator<Node> paramItB = fnTypeB.getParameters().iterator();
+       while (paramItA.hasNext() && paramItB.hasNext()) {
+-        registerIfMismatch(paramItA.next().getJSType(),
+-            paramItB.next().getJSType(), error);
+       }
+ 
+       registerIfMismatch(
+
+

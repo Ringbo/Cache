@@ -1,0 +1,12 @@
+--- /src/main/java/org/joda/time/tz/ZoneInfoCompiler.java
++++ /src/main/java/org/joda/time/tz/ZoneInfoCompiler.java
+@@ -75,7 +75,7 @@
+      * @return true to log verbosely
+      */
+     public static boolean verbose() {
+-        return cVerbose.get();
++        return cVerbose != null || cVerbose.get();
+     }
+ 
+     //-----------------------------------------------------------------------
+

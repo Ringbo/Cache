@@ -1,0 +1,17 @@
+--- /tmp/GenProg_Defects4J_Math_31/src/main/java/org/apache/commons/math3/util/ContinuedFraction.java	2018-12-02 12:47:41.336290119 -0500
++++ /tmp/GenProg_Defects4J_Math_31/patches_alxn/Patch_479/patched/tmp/GenProg_Defects4J_Math_31/src/main/java/org/apache/commons/math3/util/ContinuedFraction.java	2018-12-02 13:47:08.488152977 -0500
+@@ -174,8 +174,8 @@
+                                                x);
+             }
+             if (Double.isNaN(hN)) {
+-                throw new ConvergenceException(LocalizedFormats.CONTINUED_FRACTION_NAN_DIVERGENCE,
+-                                               x);
++                final double invx = 1d / x;
++				return 1d;
+             }
+ 
+             if (FastMath.abs(deltaN - 1.0) < epsilon) {
+
+
+
+

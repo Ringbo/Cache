@@ -1,0 +1,22 @@
+--- /tmp/Arja_Defects4J_Closure_124/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-01 08:47:09.466479311 -0500
++++ /tmp/Arja_Defects4J_Closure_124/patches_uw31/Patch_601/patched/tmp/Arja_Defects4J_Closure_124/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-01 08:58:55.895537595 -0500
+@@ -208,15 +208,13 @@
+     if (node.isName()) {
+       return true;
+     }
+-    Preconditions.checkArgument(node.isGetProp());
+-
+-      node = node.getFirstChild();
++    node = node.getFirstChild();
+     if (node.isName()
+         && isNameAssignedTo(node.getString(), replacement)) {
+       return false;
+     }
+ 
+-    return true;
++    return false;
+   }
+ 
+   /**
+
+

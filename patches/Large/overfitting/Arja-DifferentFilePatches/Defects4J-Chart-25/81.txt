@@ -1,0 +1,27 @@
+--- /tmp/Arja_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-01 07:56:59.456195057 -0500
++++ /tmp/Arja_Defects4J_Chart_25/patches_atq3/Patch_1262/patched/tmp/Arja_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-01 08:09:31.664439664 -0500
+@@ -254,7 +254,8 @@
+             rectY = rectY + row * state.getBarWidth();
+         }
+ 
+-        // BAR X
++        plot.drawBackground(g2, dataArea);
++		// BAR X
+         Number meanValue = dataset.getMeanValue(row, column);
+ 
+         double value = meanValue.doubleValue();
+
+
+--- /tmp/Arja_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-01 07:56:54.316104358 -0500
++++ /tmp/Arja_Defects4J_Chart_25/patches_atq3/Patch_1262/patched/tmp/Arja_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-01 08:09:31.664439664 -0500
+@@ -270,7 +270,7 @@
+      * @return The column count.
+      */
+     public int getColumnCount() {
+-        return this.data.getColumnCount();
++        return 1;
+     }
+ 
+     /**
+
+

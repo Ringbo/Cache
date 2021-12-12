@@ -1,0 +1,39 @@
+--- /tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/sql/antlr/SqlParser.java	2018-12-26 12:41:02.000000000 -0500
++++ /tmp/Arja_Bears_dungba88-libra_436514153-436524727/patches_yzr2/Patch_907/patched/tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/sql/antlr/SqlParser.java	2018-12-26 12:48:56.502448828 -0500
+@@ -812,7 +812,6 @@
+ 				_localctx = new VariableExprContext(_localctx);
+ 				_ctx = _localctx;
+ 				_prevctx = _localctx;
+-				setState(88);
+ 				match(VARIABLE);
+ 				}
+ 				break;
+
+
+--- /tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/sql/SqlVisitor.java	2018-12-26 12:41:02.000000000 -0500
++++ /tmp/Arja_Bears_dungba88-libra_436514153-436524727/patches_yzr2/Patch_907/patched/tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/sql/SqlVisitor.java	2018-12-26 12:48:56.506448860 -0500
+@@ -121,7 +121,6 @@
+     @Override
+     public ExpressionNode visitVariableExpr(final SqlParser.VariableExprContext ctx) {
+         VariableExpressionNode node = new VariableExpressionNode();
+-        node.setVariableName(ctx.getText());
+         return node;
+     }
+ 
+
+
+--- /tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/sql/node/VariableExpressionNode.java	2018-12-26 12:41:02.000000000 -0500
++++ /tmp/Arja_Bears_dungba88-libra_436514153-436524727/patches_yzr2/Patch_907/patched/tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/sql/node/VariableExpressionNode.java	2018-12-26 12:48:56.506448860 -0500
+@@ -27,10 +27,6 @@
+             return null;
+         Map<String, Object> cachedValues = context.getCachedValues();
+         Object value = cachedValues.get(variableName);
+-        if (value == null) {
+-            value = getValueNoCache(context);
+-            cachedValues.put(variableName, value);
+-        }
+         return value;
+     }
+ 
+
+

@@ -1,0 +1,25 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_596ccd59/src/main/java/org/apache/commons/math3/ml/clustering/FuzzyKMeansClusterer.java	2018-12-29 04:17:44.059193000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_596ccd59/patches_34b6/Patch_1012/patched/tmp/Arja_Bug_dot_jar_Commons-Math_596ccd59/src/main/java/org/apache/commons/math3/ml/clustering/FuzzyKMeansClusterer.java	2018-12-29 04:47:43.025035755 -0500
+@@ -284,11 +284,6 @@
+         membershipMatrix = new double[size][k];
+         final double[][] oldMatrix = new double[size][k];
+ 
+-        // if no points are provided, return an empty list of clusters
+-        if (size == 0) {
+-            return clusters;
+-        }
+-
+         initializeMembershipMatrix();
+ 
+         // there is at least one point
+@@ -303,7 +298,7 @@
+ 
+         do {
+             saveMembershipMatrix(oldMatrix);
+-            updateClusterCenters();
++            difference = calculateMaxMembershipChange(oldMatrix);
+             updateMembershipMatrix();
+             difference = calculateMaxMembershipChange(oldMatrix);
+         } while (difference > epsilon && ++iteration < max);
+
+

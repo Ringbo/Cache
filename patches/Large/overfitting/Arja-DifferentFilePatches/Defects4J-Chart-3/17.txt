@@ -1,0 +1,38 @@
+--- /tmp/Arja_Defects4J_Chart_3/source/org/jfree/data/time/TimeSeries.java	2018-12-01 08:25:21.026940649 -0500
++++ /tmp/Arja_Defects4J_Chart_3/patches_24th/Patch_685/patched/tmp/Arja_Defects4J_Chart_3/source/org/jfree/data/time/TimeSeries.java	2018-12-01 08:37:34.538176553 -0500
+@@ -561,7 +561,8 @@
+      *              permitted).
+      */
+     public void add(TimeSeriesDataItem item) {
+-        add(item, true);
++        item = (TimeSeriesDataItem) item.clone();
++		add(item, true);
+     }
+ 
+     /**
+@@ -882,7 +883,8 @@
+                 this.data.remove(0);
+                 removed = true;
+             }
+-            if (removed) {
++            findBoundsByIteration();
++			if (removed) {
+                 findBoundsByIteration();
+                 if (notify) {
+                     fireSeriesChanged();
+
+
+--- /tmp/Arja_Defects4J_Chart_3/source/org/jfree/data/general/Series.java	2018-12-01 08:25:14.714940505 -0500
++++ /tmp/Arja_Defects4J_Chart_3/patches_24th/Patch_685/patched/tmp/Arja_Defects4J_Chart_3/source/org/jfree/data/general/Series.java	2018-12-01 08:37:34.538176553 -0500
+@@ -241,7 +241,8 @@
+     public Object clone() throws CloneNotSupportedException {
+ 
+         Series clone = (Series) super.clone();
+-        clone.listeners = new EventListenerList();
++        this.key = key;
++		clone.listeners = new EventListenerList();
+         clone.propertyChangeSupport = new PropertyChangeSupport(clone);
+         return clone;
+ 
+
+

@@ -1,0 +1,58 @@
+--- /tmp/GenProg_Defects4J_Closure_124/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-02 05:36:00.557086818 -0500
++++ /tmp/GenProg_Defects4J_Closure_124/patches_wpdl/Patch_1881/patched/tmp/GenProg_Defects4J_Closure_124/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-02 06:07:33.529767875 -0500
+@@ -54,8 +54,6 @@
+         collapseAssignEqualTo(expr, exprParent, rightValue)) {
+       reportCodeChange();
+     } else if (rightValue.isAssign()) {
+-      // Recursively deal with nested assigns.
+-      collapseAssign(rightValue, expr, exprParent);
+     }
+   }
+ 
+@@ -121,7 +119,10 @@
+           // Dive down the left side
+           parent = next;
+           next = next.getFirstChild();
+-          break;
++          {
++			StringBuilder builder = new StringBuilder();
++			break;
++		}
+ 
+         case Token.VAR:
+           if (next.getFirstChild().hasChildren()) {
+@@ -135,22 +136,6 @@
+         case Token.NAME:
+           if (next.isQualifiedName()) {
+             String nextName = next.getQualifiedName();
+-            if (value.isQualifiedName() &&
+-                nextName.equals(value.getQualifiedName())) {
+-              // If the previous expression evaluates to value of a
+-              // qualified name, and that qualified name is used again
+-              // shortly, then we can exploit the assign here.
+-
+-              // Verify the assignment doesn't change its own value.
+-              if (!isSafeReplacement(next, assign)) {
+-                return false;
+-              }
+-
+-              exprParent.removeChild(expr);
+-              expr.removeChild(assign);
+-              parent.replaceChild(next, assign);
+-              return true;
+-            }
+           }
+           return false;
+ 
+@@ -210,8 +195,7 @@
+     }
+     Preconditions.checkArgument(node.isGetProp());
+ 
+-      node = node.getFirstChild();
+-    if (node.isName()
++      if (node.isName()
+         && isNameAssignedTo(node.getString(), replacement)) {
+       return false;
+     }
+
+

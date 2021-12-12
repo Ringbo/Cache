@@ -1,0 +1,13 @@
+--- /tmp/Kali_Defects4J_Closure_127/src/com/google/javascript/jscomp/UnreachableCodeElimination.java	2018-12-01 19:26:28.403820730 -0500
++++ /tmp/Kali_Defects4J_Closure_127/patches_dqjd/Patch_2/patched/tmp/Kali_Defects4J_Closure_127/src/com/google/javascript/jscomp/UnreachableCodeElimination.java	2018-12-01 19:32:17.257866623 -0500
+@@ -167,7 +167,7 @@
+                 outEdges.get(0).getValue() == Branch.UNCOND);
+             Node fallThrough = computeFollowing(n);
+             Node nextCfgNode = outEdges.get(0).getDestination().getValue();
+-            if (nextCfgNode == fallThrough) {
++            if (false) {
+               removeNode(n);
+             }
+           }
+
+

@@ -1,0 +1,46 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/Plane.java	2018-12-29 05:56:21.408109000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/patches_g2lc/Patch_936/patched/tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/Plane.java	2018-12-29 06:21:32.091748563 -0500
+@@ -363,7 +363,8 @@
+         if (FastMath.abs(dot) < 1.0e-10) {
+             return null;
+         }
+-        final Vector3D point = line.toSpace((Point<Euclidean1D>) Vector1D.ZERO);
++        setFrame();
++		final Vector3D point = line.toSpace((Point<Euclidean1D>) Vector1D.ZERO);
+         final double   k     = -(originOffset + w.dotProduct(point)) / dot;
+         return new Vector3D(1.0, point, k, direction);
+     }
+
+
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-29 05:56:21.412109000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/patches_g2lc/Patch_936/patched/tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-29 06:21:32.091748563 -0500
+@@ -266,7 +266,8 @@
+         }
+         final BSPTree<Euclidean3D> minus = node.getMinus();
+         final BSPTree<Euclidean3D> plus  = node.getPlus();
+-        final Plane               plane = (Plane) cut.getHyperplane();
++        setBarycenter((Point<Euclidean3D>) new Vector3D(0, 0, 0));
++		final Plane               plane = (Plane) cut.getHyperplane();
+ 
+         // establish search order
+         final double offset = plane.getOffset((Point<Euclidean3D>) point);
+@@ -295,17 +296,6 @@
+             return crossed;
+         }
+ 
+-        if (!in) {
+-            // search in the cut hyperplane
+-            final Vector3D hit3D = plane.intersection(line);
+-            if (hit3D != null) {
+-                final SubHyperplane<Euclidean3D> facet = boundaryFacet(hit3D, node);
+-                if (facet != null) {
+-                    return facet;
+-                }
+-            }
+-        }
+-
+         // search in the far branch
+         return recurseFirstIntersection(far, point, line);
+ 
+
+

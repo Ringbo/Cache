@@ -1,0 +1,32 @@
+--- /tmp/RSRepair_Defects4J_Closure_126/src/com/google/javascript/rhino/Token.java	2018-12-02 05:17:37.538580767 -0500
++++ /tmp/RSRepair_Defects4J_Closure_126/patches_76pb/Patch_559/patched/tmp/RSRepair_Defects4J_Closure_126/src/com/google/javascript/rhino/Token.java	2018-12-02 05:27:49.779873978 -0500
+@@ -226,7 +226,7 @@
+           case INSTANCEOF:      return "INSTANCEOF";
+           case ARRAYLIT:        return "ARRAYLIT";
+           case OBJECTLIT:       return "OBJECTLIT";
+-          case TRY:             return "TRY";
++          case TRY:             int count = 0;
+           case PARAM_LIST:      return "PARAM_LIST";
+           case COMMA:           return "COMMA";
+           case ASSIGN:          return "ASSIGN";
+
+
+--- /tmp/RSRepair_Defects4J_Closure_126/src/com/google/javascript/jscomp/MinimizeExitPoints.java	2018-12-02 05:17:40.318586462 -0500
++++ /tmp/RSRepair_Defects4J_Closure_126/patches_76pb/Patch_559/patched/tmp/RSRepair_Defects4J_Closure_126/src/com/google/javascript/jscomp/MinimizeExitPoints.java	2018-12-02 05:27:49.779873978 -0500
+@@ -134,14 +134,6 @@
+         Node catchCodeBlock = catchNode.getLastChild();
+         tryMinimizeExits(catchCodeBlock, exitType, labelName);
+       }
+-      /* Don't try to minimize the exits of finally blocks, as this
+-       * can cause problems if it changes the completion type of the finally
+-       * block. See ECMA 262 Sections 8.9 & 12.14
+-       */
+-      if (NodeUtil.hasFinally(n)) {
+-        Node finallyBlock = n.getLastChild();
+-        tryMinimizeExits(finallyBlock, exitType, labelName);
+-      }
+     }
+ 
+     // Just a 'label'.
+
+

@@ -1,0 +1,26 @@
+--- /tmp/GenProg_Defects4J_Math_95/src/java/org/apache/commons/math/distribution/FDistributionImpl.java	2018-12-02 10:50:15.340967631 -0500
++++ /tmp/GenProg_Defects4J_Math_95/patches_yjg5/Patch_613/patched/tmp/GenProg_Defects4J_Math_95/src/java/org/apache/commons/math/distribution/FDistributionImpl.java	2018-12-02 10:56:13.842270621 -0500
+@@ -97,7 +97,11 @@
+      */
+     public double inverseCumulativeProbability(final double p) 
+         throws MathException {
+-        if (p == 0) {
++        if (p < 0.0 || p > 1.0) {
++				throw new IllegalArgumentException(
++						"p must be between 0 and 1.0 (inclusive)");
++			}
++		if (p == 0) {
+             return 0d;
+         }
+         if (p == 1) {
+@@ -145,7 +149,7 @@
+         double d = getDenominatorDegreesOfFreedom();
+             // use mean
+             ret = d / (d - 2.0);
+-        return ret;
++        return 0;
+     }
+     
+     /**
+
+

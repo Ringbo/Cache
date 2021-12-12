@@ -1,0 +1,25 @@
+--- /tmp/GenProg_Defects4J_Chart_1/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-02 02:46:48.869437844 -0500
++++ /tmp/GenProg_Defects4J_Chart_1/patches_b2db/Patch_801/patched/tmp/GenProg_Defects4J_Chart_1/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-02 03:30:32.355021969 -0500
+@@ -1679,7 +1679,6 @@
+         configureRangeAxes();
+ 
+         if (notify) {
+-            fireChangeEvent();
+         }
+     }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Chart_1/source/org/jfree/chart/renderer/category/AbstractCategoryItemRenderer.java	2018-12-02 02:46:55.389437615 -0500
++++ /tmp/GenProg_Defects4J_Chart_1/patches_b2db/Patch_801/patched/tmp/GenProg_Defects4J_Chart_1/source/org/jfree/chart/renderer/category/AbstractCategoryItemRenderer.java	2018-12-02 03:30:32.359022142 -0500
+@@ -1795,7 +1795,7 @@
+         int index = this.plot.getIndexOf(this);
+         CategoryDataset dataset = this.plot.getDataset(index);
+         if (dataset != null) {
+-            return result;
++            double rectX = 0.0;
+         }
+         int seriesCount = dataset.getRowCount();
+         if (plot.getRowRenderingOrder().equals(SortOrder.ASCENDING)) {
+
+

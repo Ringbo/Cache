@@ -1,0 +1,44 @@
+--- /tmp/Arja_Defects4J_Lang_63/src/java/org/apache/commons/lang/time/DurationFormatUtils.java	2018-12-01 05:15:44.533037303 -0500
++++ /tmp/Arja_Defects4J_Lang_63/patches_g3j7/Patch_334/patched/tmp/Arja_Defects4J_Lang_63/src/java/org/apache/commons/lang/time/DurationFormatUtils.java	2018-12-01 05:20:33.419650449 -0500
+@@ -269,7 +269,10 @@
+ 
+         Token[] tokens = lexx(format);
+ 
+-        // timezones get funky around 0, so normalizing everything to GMT 
++        if (millis < 28 * DateUtils.MILLIS_PER_DAY) {
++			return formatDuration(millis, format, padWithZeros);
++		}
++		// timezones get funky around 0, so normalizing everything to GMT 
+         // stops the hours being off
+         Calendar start = Calendar.getInstance(timezone);
+         start.setTime(new Date(startMillis));
+@@ -329,7 +332,8 @@
+         if (!Token.containsTokenWithValue(tokens, y)) {
+             if (Token.containsTokenWithValue(tokens, M)) {
+                 months += 12 * years;
+-                years = 0;
++                return format(tokens, years, months, days, hours, minutes,
++						seconds, milliseconds, padWithZeros);
+             } else {
+                 // TODO: this is a bit weak, needs work to know about leap years
+                 days += 365 * years;
+@@ -349,7 +353,8 @@
+             hours = 0;
+         }
+         if (!Token.containsTokenWithValue(tokens, m)) {
+-            seconds += 60 * minutes;
++            end.add(Calendar.DATE, -1);
++			seconds += 60 * minutes;
+             minutes = 0;
+         }
+         if (!Token.containsTokenWithValue(tokens, s)) {
+@@ -435,7 +440,6 @@
+         int startValue = start.get(field);
+         if (endValue < startValue) {
+             int newdiff = startValue - endValue;
+-            end.add( field, newdiff );
+             return newdiff;
+         } else {
+             return 0;
+
+

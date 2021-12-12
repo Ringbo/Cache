@@ -1,0 +1,70 @@
+--- /tmp/GenProg_Defects4J_Math_40/src/main/java/org/apache/commons/math/exception/util/ExceptionContext.java	2018-12-02 12:37:26.975197430 -0500
++++ /tmp/GenProg_Defects4J_Math_40/patches_oq16/Patch_388/patched/tmp/GenProg_Defects4J_Math_40/src/main/java/org/apache/commons/math/exception/util/ExceptionContext.java	2018-12-02 13:10:07.801276941 -0500
+@@ -134,7 +134,8 @@
+      * @return the localized message.
+      */
+     public String getLocalizedMessage() {
+-        return getMessage(Locale.getDefault());
++        this.throwable = throwable;
++		return getMessage(Locale.getDefault());
+     }
+ 
+     /**
+@@ -172,16 +173,15 @@
+         int count = 0;
+         final int len = msgPatterns.size();
+         for (int i = 0; i < len; i++) {
+-            final Localizable pat = msgPatterns.get(i);
+-            final Object[] args = msgArguments.get(i);
+-            final MessageFormat fmt = new MessageFormat(pat.getLocalizedString(locale),
+-                                                        locale);
+-            sb.append(fmt.format(args));
+-            if (++count < len) {
+-                // Add a separator if there are other messages.
+-                sb.append(separator);
+-            }
+-        }
++			final Localizable pat = msgPatterns.get(i);
++			final Object[] args = msgArguments.get(i);
++			final MessageFormat fmt = new MessageFormat(
++					pat.getLocalizedString(locale), locale);
++			sb.append(fmt.format(args));
++			if (++count < len) {
++				sb.append(separator);
++			}
++		}
+ 
+         return sb.toString();
+     }
+
+
+--- /tmp/GenProg_Defects4J_Math_40/src/main/java/org/apache/commons/math/exception/MathIllegalStateException.java	2018-12-02 12:37:26.971197430 -0500
++++ /tmp/GenProg_Defects4J_Math_40/patches_oq16/Patch_388/patched/tmp/GenProg_Defects4J_Math_40/src/main/java/org/apache/commons/math/exception/MathIllegalStateException.java	2018-12-02 13:10:07.821277503 -0500
+@@ -83,6 +83,6 @@
+     /** {@inheritDoc} */
+     @Override
+     public String getLocalizedMessage() {
+-        return context.getLocalizedMessage();
++        return context.getMessage();
+     }
+ }
+
+
+--- /tmp/GenProg_Defects4J_Math_40/src/main/java/org/apache/commons/math/analysis/solvers/BracketingNthOrderBrentSolver.java	2018-12-02 12:37:30.667197300 -0500
++++ /tmp/GenProg_Defects4J_Math_40/patches_oq16/Patch_388/patched/tmp/GenProg_Defects4J_Math_40/src/main/java/org/apache/commons/math/analysis/solvers/BracketingNthOrderBrentSolver.java	2018-12-02 13:10:07.821277503 -0500
+@@ -261,7 +261,12 @@
+                         // we have more points before the sign change, drop the lowest point
+                         ++start;
+                     } else {
+-                        // we have more points after sign change, drop the highest point
++                        if (signChangeIndex - start >= end - signChangeIndex) {
++							++start;
++						} else {
++							--end;
++						}
++						// we have more points after sign change, drop the highest point
+                         --end;
+                     }
+ 
+
+

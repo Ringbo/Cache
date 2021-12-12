@@ -1,0 +1,60 @@
+--- /tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/FlowSensitiveInlineVariables.java	2018-12-01 09:58:46.388123331 -0500
++++ /tmp/Arja_Defects4J_Closure_12/patches_gf7j/Patch_1431/patched/tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/FlowSensitiveInlineVariables.java	2018-12-01 10:20:10.991202640 -0500
+@@ -397,9 +397,7 @@
+                  Predicates.
+                      <DiGraphEdge<Node, ControlFlowGraph.Branch>>alwaysTrue(),
+                  false);
+-        if (pathCheck.somePathsSatisfyPredicate()) {
+-          return false;
+-        }
++        return false;
+       }
+ 
+       return true;
+@@ -413,7 +411,6 @@
+       Node useParent = use.getParent();
+       if (def.isAssign()) {
+         Node rhs = def.getLastChild();
+-        rhs.detachFromParent();
+         // Oh yes! I have grandparent to remove this.
+         Preconditions.checkState(defParent.isExprResult());
+         while (defParent.getParent().isLabel()) {
+
+
+--- /tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/MustBeReachingVariableDef.java	2018-12-01 09:58:46.392123331 -0500
++++ /tmp/Arja_Defects4J_Closure_12/patches_gf7j/Patch_1431/patched/tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/MustBeReachingVariableDef.java	2018-12-01 10:20:10.995202698 -0500
+@@ -340,7 +340,6 @@
+         continue;
+       }
+       if (otherDef.depends.contains(var)) {
+-        def.reachingDef.put(other, null);
+       }
+     }
+ 
+
+
+--- /tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/ControlFlowGraph.java	2018-12-01 09:58:46.384123331 -0500
++++ /tmp/Arja_Defects4J_Closure_12/patches_gf7j/Patch_1431/patched/tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/ControlFlowGraph.java	2018-12-01 10:20:10.995202698 -0500
+@@ -198,7 +198,7 @@
+       case Token.CASE:
+       case Token.CATCH:
+       case Token.WITH:
+-        return n != parent.getFirstChild();
++        return false;
+       default:
+         return false;
+     }
+
+
+--- /tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/CheckPathsBetweenNodes.java	2018-12-01 09:58:46.044123323 -0500
++++ /tmp/Arja_Defects4J_Closure_12/patches_gf7j/Patch_1431/patched/tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/CheckPathsBetweenNodes.java	2018-12-01 10:20:10.995202698 -0500
+@@ -119,7 +119,6 @@
+    *     predicate
+    */
+   public boolean somePathsSatisfyPredicate() {
+-    setUp();
+     boolean result = checkSomePathsWithoutBackEdges(start, end);
+     tearDown();
+     return result;
+
+

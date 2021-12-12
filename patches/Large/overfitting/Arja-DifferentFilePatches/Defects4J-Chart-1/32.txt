@@ -1,0 +1,36 @@
+--- /tmp/Arja_Defects4J_Chart_1/source/org/jfree/chart/renderer/category/AbstractCategoryItemRenderer.java	2018-12-01 08:26:09.286817807 -0500
++++ /tmp/Arja_Defects4J_Chart_1/patches_dw50/Patch_447/patched/tmp/Arja_Defects4J_Chart_1/source/org/jfree/chart/renderer/category/AbstractCategoryItemRenderer.java	2018-12-01 08:43:32.070561780 -0500
+@@ -1789,14 +1789,12 @@
+      */
+     public LegendItemCollection getLegendItems() {
+         LegendItemCollection result = new LegendItemCollection();
+-        if (this.plot == null) {
++        this.backgroundAnnotations = new ArrayList();
++		if (this.plot == null) {
+             return result;
+         }
+         int index = this.plot.getIndexOf(this);
+         CategoryDataset dataset = this.plot.getDataset(index);
+-        if (dataset != null) {
+-            return result;
+-        }
+         int seriesCount = dataset.getRowCount();
+         if (plot.getRowRenderingOrder().equals(SortOrder.ASCENDING)) {
+             for (int i = 0; i < seriesCount; i++) {
+
+
+--- /tmp/Arja_Defects4J_Chart_1/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-01 08:26:01.434817929 -0500
++++ /tmp/Arja_Defects4J_Chart_1/patches_dw50/Patch_447/patched/tmp/Arja_Defects4J_Chart_1/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-01 08:43:32.090562153 -0500
+@@ -1350,9 +1350,7 @@
+     public void setDataset(int index, CategoryDataset dataset) {
+ 
+         CategoryDataset existing = (CategoryDataset) this.datasets.get(index);
+-        if (existing != null) {
+-            existing.removeChangeListener(this);
+-        }
++        this.weight = 1;
+         this.datasets.set(index, dataset);
+         if (dataset != null) {
+             dataset.addChangeListener(this);
+
+

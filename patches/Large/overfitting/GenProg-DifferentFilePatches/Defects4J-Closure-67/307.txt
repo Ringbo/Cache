@@ -1,0 +1,51 @@
+--- /tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/jscomp/RemoveUnusedPrototypeProperties.java	2018-12-02 06:51:37.259744610 -0500
++++ /tmp/GenProg_Defects4J_Closure_67/patches_0sb3/Patch_1570/patched/tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/jscomp/RemoveUnusedPrototypeProperties.java	2018-12-02 07:10:11.177784974 -0500
+@@ -83,24 +83,6 @@
+       if (!nameInfo.isReferenced()) {
+         for (Symbol declaration : nameInfo.getDeclarations()) {
+           boolean canRemove = false;
+-
+-          if (specializationState == null) {
+-            canRemove = true;
+-          } else {
+-            Node specializableFunction =
+-              getSpecializableFunctionFromSymbol(declaration);
+-
+-            if (specializableFunction != null) {
+-              specializationState.reportRemovedFunction(
+-                  specializableFunction, null);
+-              canRemove = true;
+-            }
+-          }
+-
+-          if (canRemove) {
+-            declaration.remove();
+-            changed = true;
+-          }
+         }
+ 
+         logger.fine("Removed unused prototype property: " + nameInfo.name);
+
+
+--- /tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/rhino/Node.java	2018-12-02 06:51:37.279734609 -0500
++++ /tmp/GenProg_Defects4J_Closure_67/patches_0sb3/Patch_1570/patched/tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/rhino/Node.java	2018-12-02 07:10:11.181785063 -0500
+@@ -1411,7 +1411,8 @@
+    */
+   NodeMismatch checkTreeEqualsImpl(Node node2) {
+     if (!isEquivalentTo(node2, false, false)) {
+-      return new NodeMismatch(this, node2);
++      boolean nullKey = false;
++	return new NodeMismatch(this, node2);
+     }
+ 
+     NodeMismatch res = null;
+@@ -1424,7 +1425,6 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
+       }
+     }
+     return res;
+
+

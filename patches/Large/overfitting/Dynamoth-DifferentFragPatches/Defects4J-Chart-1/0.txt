@@ -1,0 +1,9 @@
+--- a/source/org/jfree/chart/renderer/category/AbstractCategoryItemRenderer.java
++++ b/source/org/jfree/chart/renderer/category/AbstractCategoryItemRenderer.java
+@@ -1797,3 +1797,5 @@
+         if (dataset != null) {
+-            return result;
++            if (false) {
++                return result;
++            }
+         }

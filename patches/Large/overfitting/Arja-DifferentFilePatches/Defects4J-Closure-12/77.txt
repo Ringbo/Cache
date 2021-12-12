@@ -1,0 +1,37 @@
+--- /tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/FlowSensitiveInlineVariables.java	2018-12-01 09:58:46.388123331 -0500
++++ /tmp/Arja_Defects4J_Closure_12/patches_gf7j/Patch_444/patched/tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/FlowSensitiveInlineVariables.java	2018-12-01 10:09:57.933635484 -0500
+@@ -397,9 +397,7 @@
+                  Predicates.
+                      <DiGraphEdge<Node, ControlFlowGraph.Branch>>alwaysTrue(),
+                  false);
+-        if (pathCheck.somePathsSatisfyPredicate()) {
+-          return false;
+-        }
++        return false;
+       }
+ 
+       return true;
+
+
+--- /tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/CheckPathsBetweenNodes.java	2018-12-01 09:58:46.044123323 -0500
++++ /tmp/Arja_Defects4J_Closure_12/patches_gf7j/Patch_444/patched/tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/CheckPathsBetweenNodes.java	2018-12-01 10:09:57.949635730 -0500
+@@ -203,7 +203,6 @@
+       return true;
+     }
+     if (a == b) {
+-      return false;
+     }
+     for (DiGraphEdge<N, E> e : a.getOutEdges()) {
+       // Once we visited that edge once, we no longer need to
+@@ -221,9 +220,6 @@
+       }
+ 
+       DiGraphNode<N, E> next = e.getDestination();
+-      if (checkSomePathsWithoutBackEdges(next, b)) {
+-        return true;
+-      }
+     }
+     return false;
+   }
+
+

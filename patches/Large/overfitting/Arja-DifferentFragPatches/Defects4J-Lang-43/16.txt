@@ -1,0 +1,28 @@
+--- /tmp/Arja_Defects4J_Lang_43/src/java/org/apache/commons/lang/text/ExtendedMessageFormat.java	2018-12-01 05:13:04.265756743 -0500
++++ /tmp/Arja_Defects4J_Lang_43/patches_21ag/Patch_1484/patched/tmp/Arja_Defects4J_Lang_43/src/java/org/apache/commons/lang/text/ExtendedMessageFormat.java	2018-12-01 06:19:36.714192143 -0500
+@@ -146,7 +146,12 @@
+             return;
+         }
+         ArrayList foundFormats = new ArrayList();
+-        ArrayList foundDescriptions = new ArrayList();
++        if (registry == null) {
++			super.applyPattern(pattern);
++			toPattern = super.toPattern();
++			return;
++		}
++		ArrayList foundDescriptions = new ArrayList();
+         StringBuffer stripCustom = new StringBuffer(pattern.length());
+ 
+         ParsePosition pos = new ParsePosition(0);
+@@ -417,7 +422,8 @@
+     private StringBuffer appendQuotedString(String pattern, ParsePosition pos,
+             StringBuffer appendTo, boolean escapingOn) {
+         int start = pos.getIndex();
+-        char[] c = pattern.toCharArray();
++        next(pos);
++		char[] c = pattern.toCharArray();
+         if (escapingOn && c[start] == QUOTE) {
+             return appendTo == null ? null : appendTo.append(QUOTE);
+         }
+
+

@@ -1,0 +1,27 @@
+--- /tmp/RSRepair_Defects4J_Closure_130/src/com/google/javascript/jscomp/CollapseProperties.java	2018-12-02 05:18:18.314650755 -0500
++++ /tmp/RSRepair_Defects4J_Closure_130/patches_dfj3/Patch_194/patched/tmp/RSRepair_Defects4J_Closure_130/src/com/google/javascript/jscomp/CollapseProperties.java	2018-12-02 05:27:07.957459849 -0500
+@@ -230,8 +230,6 @@
+ 
+         // just set the original alias to null.
+         aliasParent.replaceChild(alias.node, IR.nullNode());
+-        compiler.reportCodeChange();
+-
+         // Inlining the variable may have introduced new references
+         // to descendants of {@code name}. So those need to be collected now.
+         namespace.scanNewNodes(alias.scope, newNodes);
+
+
+--- /tmp/RSRepair_Defects4J_Closure_130/src/com/google/javascript/jscomp/ReferenceCollectingCallback.java	2018-12-02 05:18:15.434650689 -0500
++++ /tmp/RSRepair_Defects4J_Closure_130/patches_dfj3/Patch_194/patched/tmp/RSRepair_Defects4J_Closure_130/src/com/google/javascript/jscomp/ReferenceCollectingCallback.java	2018-12-02 05:27:07.957459849 -0500
+@@ -473,9 +473,6 @@
+ 
+     boolean firstReferenceIsAssigningDeclaration() {
+       int size = references.size();
+-      if (size > 0 && references.get(0).isInitializingDeclaration()) {
+-        return true;
+-      }
+       return false;
+     }
+   }
+
+

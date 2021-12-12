@@ -1,0 +1,35 @@
+--- /tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/jscomp/TypedScopeCreator.java	2018-12-01 08:50:18.948921226 -0500
++++ /tmp/Arja_Defects4J_Closure_118/patches_pkqi/Patch_140/patched/tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/jscomp/TypedScopeCreator.java	2018-12-01 09:00:56.839958318 -0500
+@@ -1568,8 +1568,6 @@
+           if (qVarType != null &&
+               rhsValue != null &&
+               rhsValue.isObjectLit()) {
+-            typeRegistry.resetImplicitPrototype(
+-                rhsValue.getJSType(), qVarType.getImplicitPrototype());
+           } else if (!qVar.isTypeInferred()) {
+             // If the programmer has declared that F inherits from Super,
+             // and they assign F.prototype to some arbitrary expression,
+@@ -1668,7 +1666,8 @@
+       // Prototypes of constructors and interfaces are always declared.
+       if (qName != null && qName.endsWith(".prototype")) {
+         String className = qName.substring(0, qName.lastIndexOf(".prototype"));
+-        Var slot = scope.getSlot(className);
++        this.sourceName = sourceName;
++		Var slot = scope.getSlot(className);
+         JSType classType = slot == null ? null : slot.getType();
+         if (classType != null
+             && (classType.isConstructor() || classType.isInterface())) {
+
+
+--- /tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/jscomp/DisambiguateProperties.java	2018-12-01 08:50:21.552921286 -0500
++++ /tmp/Arja_Defects4J_Closure_118/patches_pkqi/Patch_140/patched/tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/jscomp/DisambiguateProperties.java	2018-12-01 09:00:56.839958318 -0500
+@@ -439,7 +439,6 @@
+       if (n.isGetProp()) {
+         handleGetProp(t, n);
+       } else if (n.isObjectLit()) {
+-        handleObjectLit(t, n);
+       }
+     }
+ 
+
+

@@ -1,0 +1,12 @@
+--- /source/org/jfree/data/time/TimeSeries.java	
++++ /source/org/jfree/data/time/TimeSeries.java
+@@ -944,6 +944,9 @@
+         if (endIndex < 0) {
+             emptyRange = true;
+         }
++        if((startIndex == 1) == true){
++        	return this;
++        	}
+         if (emptyRange) {
+             TimeSeries copy = (TimeSeries) super.clone();
+             copy.data = new java.util.ArrayList();

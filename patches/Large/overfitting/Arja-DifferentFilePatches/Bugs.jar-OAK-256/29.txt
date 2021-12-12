@@ -1,0 +1,33 @@
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/store/DefaultRevisionStore.java	2018-12-29 10:48:57.960251000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/patches_10w1/Patch_565/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/store/DefaultRevisionStore.java	2018-12-29 10:58:15.175336926 -0500
+@@ -132,10 +132,6 @@
+     }
+ 
+     public void initialize() throws Exception {
+-        if (initialized) {
+-            throw new IllegalStateException("already initialized");
+-        }
+-
+         initialCacheSize = determineInitialCacheSize();
+         
+         cache = CacheBuilder.newBuilder()
+@@ -149,7 +145,6 @@
+ 
+         // make sure we've got a HEAD commit
+         Id[] ids = pm.readIds();
+-        head = ids[0];
+         if (head == null || head.getBytes().length == 0) {
+             // assume virgin repository
+             byte[] rawHead = Id.fromLong(commitCounter.incrementAndGet())
+@@ -238,9 +233,6 @@
+ 
+         @Override
+         public boolean equals(Object obj) {
+-            if (obj instanceof PutTokenImpl) {
+-                return ((PutTokenImpl) obj).id == id;
+-            }
+             return super.equals(obj);
+         }
+ 
+
+

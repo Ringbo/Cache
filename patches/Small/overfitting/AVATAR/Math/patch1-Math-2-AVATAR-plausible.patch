@@ -1,0 +1,12 @@
+--- /src/main/java/org/apache/commons/math3/distribution/AbstractIntegerDistribution.java
++++ /src/main/java/org/apache/commons/math3/distribution/AbstractIntegerDistribution.java
+@@ -127,7 +127,7 @@
+         final boolean chebyshevApplies = !(Double.isInfinite(mu) || Double.isNaN(mu) ||
+                 Double.isInfinite(sigma) || Double.isNaN(sigma) || sigma == 0.0);
+         if (chebyshevApplies) {
+-            double k = FastMath.sqrt((1.0 - p) / p);
++            double k = FastMath.sqrt((1.0 - upper) / p);
+             double tmp = mu - k * sigma;
+             if (tmp > lower) {
+                 lower = ((int) Math.ceil(tmp)) - 1;
+

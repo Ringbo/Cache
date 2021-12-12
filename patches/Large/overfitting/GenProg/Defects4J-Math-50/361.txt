@@ -1,0 +1,38 @@
+--- /tmp/GenProg_Defects4J_Math_50/src/main/java/org/apache/commons/math/analysis/solvers/BaseSecantSolver.java	2018-12-02 11:55:35.505022862 -0500
++++ /tmp/GenProg_Defects4J_Math_50/patches_sses/Patch_1110/patched/tmp/GenProg_Defects4J_Math_50/src/main/java/org/apache/commons/math/analysis/solvers/BaseSecantSolver.java	2018-12-02 12:24:18.091059967 -0500
+@@ -185,8 +185,31 @@
+                 case REGULA_FALSI:
+                     // Nothing.
+                     if (x == x1) {
+-                        x0 = 0.5 * (x0 + x1 - FastMath.max(rtol * FastMath.abs(x1), atol));
+-                        f0 = computeObjectiveValue(x0);
++                        if (f1 * fx < 0) {
++							x0 = x1;
++							f0 = f1;
++							inverted = !inverted;
++						} else {
++							switch (method) {
++							case ILLINOIS:
++								f0 *= 0.5;
++								break;
++							case PEGASUS:
++								f0 *= f1 / (f1 + fx);
++								break;
++							case REGULA_FALSI:
++								if (x == x1) {
++									x0 = 0.5 * (x0 + x1 - FastMath.max(rtol
++											* FastMath.abs(x1), atol));
++									f0 = computeObjectiveValue(x0);
++								}
++								break;
++							default:
++								throw new MathInternalError();
++							}
++						}
++                        f0 = f1;
++						f0 = computeObjectiveValue(x0);
+                     }
+                     break;
+                 default:
+
+

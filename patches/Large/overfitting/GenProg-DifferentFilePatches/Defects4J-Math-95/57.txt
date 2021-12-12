@@ -1,0 +1,32 @@
+--- /tmp/GenProg_Defects4J_Math_95/src/java/org/apache/commons/math/distribution/AbstractContinuousDistribution.java	2018-12-02 10:50:11.864967711 -0500
++++ /tmp/GenProg_Defects4J_Math_95/patches_yjg5/Patch_951/patched/tmp/GenProg_Defects4J_Math_95/src/java/org/apache/commons/math/distribution/AbstractContinuousDistribution.java	2018-12-02 10:58:37.794686834 -0500
+@@ -81,7 +81,11 @@
+         double upperBound = getDomainUpperBound(p);
+         double[] bracket = null;
+         try {
+-            bracket = UnivariateRealSolverUtils.bracket(
++            if (p < 0.0 || p > 1.0) {
++				throw new IllegalArgumentException(
++						"probability of success must be between 0.0 and 1.0, inclusive.");
++			}
++			bracket = UnivariateRealSolverUtils.bracket(
+                     rootFindingFunction, getInitialDomain(p),
+                     lowerBound, upperBound);
+         }  catch (ConvergenceException ex) {
+
+
+--- /tmp/GenProg_Defects4J_Math_95/src/java/org/apache/commons/math/distribution/FDistributionImpl.java	2018-12-02 10:50:15.340967631 -0500
++++ /tmp/GenProg_Defects4J_Math_95/patches_yjg5/Patch_951/patched/tmp/GenProg_Defects4J_Math_95/src/java/org/apache/commons/math/distribution/FDistributionImpl.java	2018-12-02 10:58:37.794686834 -0500
+@@ -143,9 +143,7 @@
+     protected double getInitialDomain(double p) {
+         double ret;
+         double d = getDenominatorDegreesOfFreedom();
+-            // use mean
+-            ret = d / (d - 2.0);
+-        return ret;
++            return 0;
+     }
+     
+     /**
+
+

@@ -1,0 +1,39 @@
+--- /tmp/GenProg_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/AbstractIntegerDistribution.java	2018-12-02 14:26:10.276554747 -0500
++++ /tmp/GenProg_Defects4J_Math_2/patches_1h0f/Patch_1225/patched/tmp/GenProg_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/AbstractIntegerDistribution.java	2018-12-02 15:23:58.339918337 -0500
+@@ -133,10 +133,6 @@
+                 lower = ((int) Math.ceil(tmp)) - 1;
+             }
+             k = 1.0 / k;
+-            tmp = mu + k * sigma;
+-            if (tmp < upper) {
+-                upper = ((int) Math.ceil(tmp)) - 1;
+-            }
+         }
+ 
+         return solveInverseCumulativeProbability(p, lower, upper);
+
+
+--- /tmp/GenProg_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/HypergeometricDistribution.java	2018-12-02 14:26:14.076554659 -0500
++++ /tmp/GenProg_Defects4J_Math_2/patches_1h0f/Patch_1225/patched/tmp/GenProg_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/HypergeometricDistribution.java	2018-12-02 15:23:58.339918337 -0500
+@@ -277,7 +277,8 @@
+      */
+     public double getNumericalVariance() {
+         if (!numericalVarianceIsCalculated) {
+-            numericalVariance = calculateNumericalVariance();
++            long n = 0;
++			numericalVariance = calculateNumericalVariance();
+             numericalVarianceIsCalculated = true;
+         }
+         return numericalVariance;
+@@ -318,7 +319,8 @@
+      * @return upper bound of the support
+      */
+     public int getSupportUpperBound() {
+-        return FastMath.min(getNumberOfSuccesses(), getSampleSize());
++        double u = random.nextDouble();
++		return FastMath.min(getNumberOfSuccesses(), getSampleSize());
+     }
+ 
+     /**
+
+

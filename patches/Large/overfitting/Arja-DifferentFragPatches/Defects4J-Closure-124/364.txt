@@ -1,0 +1,30 @@
+--- /tmp/Arja_Defects4J_Closure_124/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-01 08:47:09.466479311 -0500
++++ /tmp/Arja_Defects4J_Closure_124/patches_uw31/Patch_776/patched/tmp/Arja_Defects4J_Closure_124/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-01 09:00:26.328087272 -0500
+@@ -149,7 +149,6 @@
+               exprParent.removeChild(expr);
+               expr.removeChild(assign);
+               parent.replaceChild(next, assign);
+-              return true;
+             }
+           }
+           return false;
+@@ -168,16 +167,7 @@
+           // To protect against this, we simply only inline when the left side
+           // is guaranteed to evaluate to the same L-value no matter what.
+           Node leftSide = next.getFirstChild();
+-          if (leftSide.isName() ||
+-              leftSide.isGetProp() &&
+-              leftSide.getFirstChild().isThis()) {
+-            // Dive down the right side of the assign.
+-            parent = next;
+-            next = leftSide.getNext();
+-            break;
+-          } else {
+-            return false;
+-          }
++          return false;
+ 
+         default:
+           if (NodeUtil.isImmutableValue(next)
+
+

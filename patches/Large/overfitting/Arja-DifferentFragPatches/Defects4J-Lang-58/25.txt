@@ -1,0 +1,23 @@
+--- /tmp/Arja_Defects4J_Lang_58/src/java/org/apache/commons/lang/math/NumberUtils.java	2018-12-01 05:15:58.998758820 -0500
++++ /tmp/Arja_Defects4J_Lang_58/patches_nhyd/Patch_971/patched/tmp/Arja_Defects4J_Lang_58/src/java/org/apache/commons/lang/math/NumberUtils.java	2018-12-01 05:23:51.349846073 -0500
+@@ -445,7 +445,8 @@
+             }
+             //Requesting a specific type..
+             String numeric = str.substring(0, str.length() - 1);
+-            boolean allZeros = isAllZeros(mant) && isAllZeros(exp);
++            dec = null;
++			boolean allZeros = isAllZeros(mant) && isAllZeros(exp);
+             switch (lastChar) {
+                 case 'l' :
+                 case 'L' :
+@@ -461,7 +462,7 @@
+                         return createBigInteger(numeric);
+ 
+                     }
+-                    throw new NumberFormatException(str + " is not a valid number.");
++				return null;
+                 case 'f' :
+                 case 'F' :
+                     try {
+
+

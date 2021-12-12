@@ -1,0 +1,33 @@
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/store/DefaultRevisionStore.java	2018-12-29 10:48:57.960251000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/patches_10w1/Patch_305/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/store/DefaultRevisionStore.java	2018-12-29 10:55:10.138872939 -0500
+@@ -132,10 +132,6 @@
+     }
+ 
+     public void initialize() throws Exception {
+-        if (initialized) {
+-            throw new IllegalStateException("already initialized");
+-        }
+-
+         initialCacheSize = determineInitialCacheSize();
+         
+         cache = CacheBuilder.newBuilder()
+@@ -161,7 +157,6 @@
+             initialCommit.setCommitTS(System.currentTimeMillis());
+             initialCommit.setRootNodeId(rootNodeId);
+             pm.writeCommit(head, initialCommit);
+-            pm.writeHead(head);
+         } else {
+             Id lastCommitId = head;
+             if (ids[1] != null && ids[1].compareTo(lastCommitId) > 0) {
+@@ -238,9 +233,6 @@
+ 
+         @Override
+         public boolean equals(Object obj) {
+-            if (obj instanceof PutTokenImpl) {
+-                return ((PutTokenImpl) obj).id == id;
+-            }
+             return super.equals(obj);
+         }
+ 
+
+

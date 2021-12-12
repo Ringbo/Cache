@@ -1,0 +1,30 @@
+--- /tmp/Arja_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/HypergeometricDistribution.java	2018-12-01 07:02:49.219241695 -0500
++++ /tmp/Arja_Defects4J_Math_2/patches_aq2w/Patch_488/patched/tmp/Arja_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/HypergeometricDistribution.java	2018-12-01 07:34:59.314223082 -0500
+@@ -305,8 +305,8 @@
+      * @return lower bound of the support
+      */
+     public int getSupportLowerBound() {
+-        return FastMath.max(0,
+-                            getSampleSize() + getNumberOfSuccesses() - getPopulationSize());
++        return FastMath.max(0, getSampleSize() + getNumberOfSuccesses()
++				- getPopulationSize());
+     }
+ 
+     /**
+
+
+--- /tmp/Arja_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/AbstractIntegerDistribution.java	2018-12-01 07:02:45.423249176 -0500
++++ /tmp/Arja_Defects4J_Math_2/patches_aq2w/Patch_488/patched/tmp/Arja_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/AbstractIntegerDistribution.java	2018-12-01 07:34:59.314223082 -0500
+@@ -133,10 +133,6 @@
+                 lower = ((int) Math.ceil(tmp)) - 1;
+             }
+             k = 1.0 / k;
+-            tmp = mu + k * sigma;
+-            if (tmp < upper) {
+-                upper = ((int) Math.ceil(tmp)) - 1;
+-            }
+         }
+ 
+         return solveInverseCumulativeProbability(p, lower, upper);
+
+

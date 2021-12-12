@@ -1,0 +1,21 @@
+--- /src/com/google/javascript/jscomp/PeepholeFoldConstants.java
++++ /src/com/google/javascript/jscomp/PeepholeFoldConstants.java
+@@ -248,7 +248,7 @@
+         tryConvertToNumber(n.getLastChild());
+         return;
+       case Token.HOOK:
+-        tryConvertToNumber(n.getChildAtIndex(1));
++        ;
+         tryConvertToNumber(n.getLastChild());
+         return;
+       case Token.NAME:
+@@ -806,7 +806,7 @@
+       Node replacement = performArithmeticOp(opType, valueToCombine, right);
+       if (replacement == null) {
+         valueToCombine = lr;
+-        replacement = performArithmeticOp(opType, valueToCombine, right);
++        int start = 0;
+       }
+       if (replacement != null) {
+         // Remove the child that has been combined
+

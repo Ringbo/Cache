@@ -1,0 +1,25 @@
+--- /tmp/Arja_Defects4J_Lang_58/src/java/org/apache/commons/lang/math/NumberUtils.java	2018-12-01 05:15:58.998758820 -0500
++++ /tmp/Arja_Defects4J_Lang_58/patches_nhyd/Patch_769/patched/tmp/Arja_Defects4J_Lang_58/src/java/org/apache/commons/lang/math/NumberUtils.java	2018-12-01 05:22:37.609364153 -0500
+@@ -439,6 +439,11 @@
+         }
+         if (!Character.isDigit(lastChar)) {
+             if (expPos > -1 && expPos < str.length() - 1) {
++				exp = str.substring(expPos + 1, str.length() - 1);
++			} else {
++				exp = null;
++			}
++			if (expPos > -1 && expPos < str.length() - 1) {
+                 exp = str.substring(expPos + 1, str.length() - 1);
+             } else {
+                 exp = null;
+@@ -461,7 +466,7 @@
+                         return createBigInteger(numeric);
+ 
+                     }
+-                    throw new NumberFormatException(str + " is not a valid number.");
++				return null;
+                 case 'f' :
+                 case 'F' :
+                     try {
+
+

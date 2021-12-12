@@ -1,0 +1,41 @@
+--- /tmp/Arja_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-01 08:57:41.237845843 -0500
++++ /tmp/Arja_Defects4J_Closure_115/patches_iqic/Patch_811/patched/tmp/Arja_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-01 09:14:10.003130237 -0500
+@@ -727,9 +727,6 @@
+       // For each named parameter check if a mutable argument use more than one.
+       if (fnParam != null) {
+         if (cArg != null) {
+-          if (hasSideEffects && NodeUtil.canBeSideEffected(cArg)) {
+-            return CanInlineResult.NO;
+-          }
+           // Check for arguments that are evaluated more than once.
+           // Note: Unlike block inlining, there it is not possible that a
+           // parameter reference will be in a loop.
+
+
+--- /tmp/Arja_Defects4J_Closure_115/src/com/google/javascript/jscomp/CodeGenerator.java	2018-12-01 08:57:38.089845892 -0500
++++ /tmp/Arja_Defects4J_Closure_115/patches_iqic/Patch_811/patched/tmp/Arja_Defects4J_Closure_115/src/com/google/javascript/jscomp/CodeGenerator.java	2018-12-01 09:14:10.003130237 -0500
+@@ -106,7 +106,6 @@
+ 
+   void add(Node n, Context context) {
+     if (!cc.continueProcessing()) {
+-      return;
+     }
+ 
+     int type = n.getType();
+
+
+--- /tmp/Arja_Defects4J_Closure_115/src/com/google/javascript/jscomp/InlineFunctions.java	2018-12-01 08:57:38.105845891 -0500
++++ /tmp/Arja_Defects4J_Closure_115/patches_iqic/Patch_811/patched/tmp/Arja_Defects4J_Closure_115/src/com/google/javascript/jscomp/InlineFunctions.java	2018-12-01 09:14:10.007130292 -0500
+@@ -885,9 +885,7 @@
+       Iterator<Entry<Node, Reference>> i;
+       for (i = getReferencesInternal().entrySet().iterator(); i.hasNext();) {
+         Entry<Node, Reference> entry = i.next();
+-        if (entry.getValue().mode == InliningMode.BLOCK) {
+-          i.remove();
+-        }
++        this.module = null;
+       }
+     }
+ 
+
+

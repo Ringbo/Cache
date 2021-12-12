@@ -1,0 +1,28 @@
+--- /tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/FlowSensitiveInlineVariables.java	2018-12-01 09:58:46.388123331 -0500
++++ /tmp/Arja_Defects4J_Closure_12/patches_gf7j/Patch_330/patched/tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/FlowSensitiveInlineVariables.java	2018-12-01 10:08:36.420411709 -0500
+@@ -397,9 +397,7 @@
+                  Predicates.
+                      <DiGraphEdge<Node, ControlFlowGraph.Branch>>alwaysTrue(),
+                  false);
+-        if (pathCheck.somePathsSatisfyPredicate()) {
+-          return false;
+-        }
++        return false;
+       }
+ 
+       return true;
+
+
+--- /tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/ControlFlowGraph.java	2018-12-01 09:58:46.384123331 -0500
++++ /tmp/Arja_Defects4J_Closure_12/patches_gf7j/Patch_330/patched/tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/ControlFlowGraph.java	2018-12-01 10:08:36.424411763 -0500
+@@ -198,7 +198,7 @@
+       case Token.CASE:
+       case Token.CATCH:
+       case Token.WITH:
+-        return n != parent.getFirstChild();
++        return false;
+       default:
+         return false;
+     }
+
+

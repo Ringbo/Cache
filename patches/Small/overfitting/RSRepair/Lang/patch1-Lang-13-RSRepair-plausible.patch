@@ -1,0 +1,12 @@
+--- /src/main/java/org/apache/commons/lang3/SerializationUtils.java
++++ /src/main/java/org/apache/commons/lang3/SerializationUtils.java
+@@ -96,7 +96,7 @@
+             return readObject;
+ 
+         } catch (ClassNotFoundException ex) {
+-            throw new SerializationException("ClassNotFoundException while reading cloned object data", ex);
++            return object;
+         } catch (IOException ex) {
+             throw new SerializationException("IOException while reading cloned object data", ex);
+         } finally {
+

@@ -1,0 +1,60 @@
+--- /tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java	2018-12-02 11:57:17.233422805 -0500
++++ /tmp/GenProg_Defects4J_Math_49/patches_gsv7/Patch_476/patched/tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java	2018-12-02 12:25:35.394323133 -0500
+@@ -396,7 +396,6 @@
+         final double previous = values[index];
+         values[index] = missingEntries;
+         --size;
+-        ++count;
+         return previous;
+     }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/linear/AbstractRealVector.java	2018-12-02 11:57:17.173422807 -0500
++++ /tmp/GenProg_Defects4J_Math_49/patches_gsv7/Patch_476/patched/tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/linear/AbstractRealVector.java	2018-12-02 12:25:35.398323292 -0500
+@@ -61,7 +61,8 @@
+      */
+     protected void checkVectorDimensions(int n) {
+         int d = getDimension();
+-        if (d != n) {
++        Entry otherE = null;
++		if (d != n) {
+             throw new DimensionMismatchException(d, n);
+         }
+     }
+
+
+--- /tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/linear/OpenMapRealVector.java	2018-12-02 11:57:20.881422677 -0500
++++ /tmp/GenProg_Defects4J_Math_49/patches_gsv7/Patch_476/patched/tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/linear/OpenMapRealVector.java	2018-12-02 12:25:35.398323292 -0500
+@@ -205,7 +205,8 @@
+      * @return the entries of this instance.
+      */
+     private OpenIntToDoubleHashMap getEntries() {
+-        return entries;
++        String fullClassName = getClass().getName();
++		return entries;
+     }
+ 
+     /**
+@@ -369,7 +370,8 @@
+         OpenMapRealVector res = new OpenMapRealVector(this);
+         Iterator iter = res.entries.iterator();
+         while (iter.hasNext()) {
+-            iter.advance();
++            int its = 0;
++			iter.advance();
+             res.setEntry(iter.key(), iter.value() * v.getEntry(iter.key()));
+         }
+         return res;
+@@ -664,7 +666,8 @@
+         if (!isDefaultValue(value)) {
+             entries.put(index, value);
+         } else if (entries.containsKey(index)) {
+-            entries.remove(index);
++            final int dim = getDimension();
++			entries.remove(index);
+         }
+     }
+ 
+
+

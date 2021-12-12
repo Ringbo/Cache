@@ -1,0 +1,38 @@
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/exception/util/ExceptionContext.java	2018-12-30 20:38:43.677688000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/patches_s2wd/Patch_279/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/exception/util/ExceptionContext.java	2018-12-30 21:07:45.150425288 -0500
+@@ -125,7 +125,7 @@
+      * @return the message.
+      */
+     public String getMessage() {
+-        return getMessage(Locale.US);
++        return getMessage(Locale.getDefault());
+     }
+ 
+     /**
+
+
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/euclidean/twod/PolygonsSet.java	2018-12-30 20:38:43.789688000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/patches_s2wd/Patch_279/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/euclidean/twod/PolygonsSet.java	2018-12-30 21:07:45.150425288 -0500
+@@ -823,7 +823,7 @@
+         }
+ 
+         if ((end == null) && !open) {
+-            throw new MathInternalError();
++            return null;
+         }
+ 
+         return loop;
+
+
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/partitioning/BSPTree.java	2018-12-30 20:38:43.809688000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/patches_s2wd/Patch_279/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/partitioning/BSPTree.java	2018-12-30 21:07:45.154425348 -0500
+@@ -158,7 +158,6 @@
+ 
+         final SubHyperplane<S> chopped = fitToCell(hyperplane.wholeHyperplane());
+         if (chopped == null || chopped.isEmpty()) {
+-            cut          = null;
+             plus         = null;
+             minus        = null;
+             return false;
+
+

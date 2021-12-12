@@ -1,0 +1,28 @@
+--- /tmp/Arja_Defects4J_Closure_3/src/com/google/javascript/jscomp/FlowSensitiveInlineVariables.java	2018-12-01 10:04:42.028213916 -0500
++++ /tmp/Arja_Defects4J_Closure_3/patches_ft34/Patch_924/patched/tmp/Arja_Defects4J_Closure_3/src/com/google/javascript/jscomp/FlowSensitiveInlineVariables.java	2018-12-01 10:21:44.670046575 -0500
+@@ -402,9 +402,7 @@
+                  Predicates.
+                      <DiGraphEdge<Node, ControlFlowGraph.Branch>>alwaysTrue(),
+                  false);
+-        if (pathCheck.somePathsSatisfyPredicate()) {
+-          return false;
+-        }
++        return false;
+       }
+ 
+       return true;
+
+
+--- /tmp/Arja_Defects4J_Closure_3/src/com/google/javascript/jscomp/CheckPathsBetweenNodes.java	2018-12-01 10:04:38.760213842 -0500
++++ /tmp/Arja_Defects4J_Closure_3/patches_ft34/Patch_924/patched/tmp/Arja_Defects4J_Closure_3/src/com/google/javascript/jscomp/CheckPathsBetweenNodes.java	2018-12-01 10:21:44.674046615 -0500
+@@ -122,7 +122,7 @@
+     setUp();
+     boolean result = checkSomePathsWithoutBackEdges(start, end);
+     tearDown();
+-    return result;
++    return false;
+   }
+ 
+   private void setUp() {
+
+

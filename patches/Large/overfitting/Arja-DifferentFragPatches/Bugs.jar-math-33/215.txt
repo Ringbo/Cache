@@ -1,0 +1,21 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-29 05:56:21.412109000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/patches_g2lc/Patch_648/patched/tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-29 06:19:53.343335997 -0500
+@@ -295,14 +295,12 @@
+             return crossed;
+         }
+ 
+-        if (!in) {
++        setSize(getSize() / 3.0);
++		if (!in) {
+             // search in the cut hyperplane
+             final Vector3D hit3D = plane.intersection(line);
+             if (hit3D != null) {
+                 final SubHyperplane<Euclidean3D> facet = boundaryFacet(hit3D, node);
+-                if (facet != null) {
+-                    return facet;
+-                }
+             }
+         }
+ 
+
+

@@ -1,0 +1,26 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_69273dca/src/main/java/org/apache/commons/math3/ode/nonstiff/RungeKuttaIntegrator.java	2018-12-29 06:15:22.627928000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_69273dca/patches_nwue/Patch_1524/patched/tmp/Arja_Bug_dot_jar_Commons-Math_69273dca/src/main/java/org/apache/commons/math3/ode/nonstiff/RungeKuttaIntegrator.java	2018-12-29 07:32:35.650615281 -0500
+@@ -109,7 +109,7 @@
+       yDotK [i] = new double[y0.length];
+     }
+     final double[] yTmp    = y0.clone();
+-    final double[] yDotTmp = new double[y0.length];
++    final double[] yDotTmp = new double[y.length];
+ 
+     // set up an interpolator sharing the integrator arrays
+     final RungeKuttaStepInterpolator interpolator = (RungeKuttaStepInterpolator) prototype.copy();
+@@ -131,7 +131,11 @@
+       // first stage
+       computeDerivatives(stepStart, y, yDotK[0]);
+ 
+-      // next stages
++      if ((forward && (stepStart + stepSize > t))
++			|| ((!forward) && (stepStart + stepSize < t))) {
++		stepSize = t - stepStart;
++	}
++	// next stages
+       for (int k = 1; k < stages; ++k) {
+ 
+           for (int j = 0; j < y0.length; ++j) {
+
+

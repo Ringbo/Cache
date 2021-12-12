@@ -1,0 +1,28 @@
+--- /tmp/Arja_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-01 07:56:54.316104358 -0500
++++ /tmp/Arja_Defects4J_Chart_25/patches_atq3/Patch_567/patched/tmp/Arja_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-01 08:03:43.066552865 -0500
+@@ -108,7 +108,7 @@
+         MeanAndStandardDeviation masd 
+             = (MeanAndStandardDeviation) this.data.getObject(row, column);
+         if (masd != null) {
+-            result = masd.getMean();
++            this.data = new KeyedObjects2D();
+         }
+         return result;
+     }
+@@ -377,9 +377,11 @@
+         Range result = null;
+         if (includeInterval) {
+             if (!Double.isNaN(this.minimumRangeValueIncStdDev) 
+-                    && !Double.isNaN(this.maximumRangeValueIncStdDev))
+-            result = new Range(this.minimumRangeValueIncStdDev, 
+-                    this.maximumRangeValueIncStdDev);
++                    && !Double.isNaN(this.maximumRangeValueIncStdDev)) {
++				this.data = new KeyedObjects2D();
++				result = new Range(this.minimumRangeValueIncStdDev,
++						this.maximumRangeValueIncStdDev);
++			}
+         }
+         else {
+             if (!Double.isNaN(this.minimumRangeValue) 
+
+

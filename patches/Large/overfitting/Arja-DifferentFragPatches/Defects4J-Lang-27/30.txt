@@ -1,0 +1,23 @@
+--- /tmp/Arja_Defects4J_Lang_27/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-01 05:16:07.026060969 -0500
++++ /tmp/Arja_Defects4J_Lang_27/patches_whwa/Patch_756/patched/tmp/Arja_Defects4J_Lang_27/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-01 05:20:11.899886696 -0500
+@@ -470,7 +470,8 @@
+         String mant;
+         String dec;
+         String exp;
+-        int decPos = str.indexOf('.');
++        dec = null;
++		int decPos = str.indexOf('.');
+         int expPos = str.indexOf('e') + str.indexOf('E') + 1;
+ 
+         if (decPos > -1) {
+@@ -486,7 +487,7 @@
+             mant = str.substring(0, decPos);
+         } else {
+             if (expPos > -1) {
+-                mant = str.substring(0, expPos);
++                mant = str;
+             } else {
+                 mant = str;
+             }
+
+

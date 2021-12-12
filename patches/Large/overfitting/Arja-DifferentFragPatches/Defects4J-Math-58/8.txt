@@ -1,0 +1,30 @@
+--- /tmp/Arja_Defects4J_Math_58/src/main/java/org/apache/commons/math/optimization/fitting/GaussianFitter.java	2018-12-02 02:51:56.625461664 -0500
++++ /tmp/Arja_Defects4J_Math_58/patches_hsi6/Patch_850/patched/tmp/Arja_Defects4J_Math_58/src/main/java/org/apache/commons/math/optimization/fitting/GaussianFitter.java	2018-12-02 03:09:08.506175288 -0500
+@@ -118,7 +118,7 @@
+      */
+     public double[] fit() {
+         final double[] guess = (new ParameterGuesser(getObservations())).guess();
+-        return fit(new Gaussian.Parametric(), guess);
++        return fit((new ParameterGuesser(getObservations())).guess());
+     }
+ 
+     /**
+@@ -166,12 +166,14 @@
+          * @return the guessed parameters: norm, mean and sigma.
+          */
+         private double[] basicGuess(WeightedObservedPoint[] points) {
+-            Arrays.sort(points, createWeightedObservedPointComparator());
+             double[] params = new double[3];
+ 
+             int maxYIdx = findMaxY(points);
+             params[0] = points[maxYIdx].getY();
+-            params[1] = points[maxYIdx].getX();
++            if (observations == null) {
++				throw new NullArgumentException(LocalizedFormats.INPUT_ARRAY);
++			}
++			params[1] = points[maxYIdx].getX();
+ 
+             double fwhmApprox;
+             try {
+
+

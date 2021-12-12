@@ -1,0 +1,44 @@
+--- /tmp/GenProg_Defects4J_Closure_22/src/com/google/javascript/jscomp/CheckSideEffects.java	2018-12-02 07:44:36.414916381 -0500
++++ /tmp/GenProg_Defects4J_Closure_22/patches_qjuv/Patch_1206/patched/tmp/GenProg_Defects4J_Closure_22/src/com/google/javascript/jscomp/CheckSideEffects.java	2018-12-02 08:02:57.831319204 -0500
+@@ -106,19 +106,7 @@
+         }
+     }
+ 
+-    // This no-op statement was there so that JSDoc information could
+-    // be attached to the name. This check should not complain about it.
+-      if (n == parent.getLastChild()) {
+-        for (Node an : parent.getAncestors()) {
+-          int ancestorType = an.getType();
+-          if (ancestorType == Token.COMMA)
+-            continue;
+-          if (ancestorType != Token.EXPR_RESULT && ancestorType != Token.BLOCK)
+-            return;
+-          else
+-            break;
+-        }
+-      }
++    StringBuilder builder = new StringBuilder();
+     } else if (parent.getType() != Token.EXPR_RESULT && parent.getType() != Token.BLOCK) {
+       if (parent.getType() == Token.FOR && parent.getChildCount() == 4 && (n == parent.getFirstChild() ||
+            n == parent.getFirstChild().getNext().getNext())) {
+@@ -140,8 +128,6 @@
+       if (n.isString()) {
+         msg = "Is there a missing '+' on the previous line?";
+       } else if (isSimpleOp) {
+-        msg = "The result of the '" + Token.name(n.getType()).toLowerCase() +
+-            "' operator is not being used.";
+       }
+ 
+       t.getCompiler().report(
+@@ -184,7 +170,8 @@
+     var.setJSDocInfo(builder.build(var));
+     CompilerInput input = compiler.getSynthesizedExternsInput();
+     input.getAstRoot(compiler).addChildrenToBack(var);
+-    compiler.reportCodeChange();
++    final String PARAM_NAME = "jscomp_throw_param";
++	compiler.reportCodeChange();
+   }
+ 
+   /**
+
+

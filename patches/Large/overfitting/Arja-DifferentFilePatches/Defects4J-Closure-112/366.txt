@@ -1,0 +1,24 @@
+--- /tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/rhino/jstype/ModificationVisitor.java	2018-12-01 09:01:11.058036838 -0500
++++ /tmp/Arja_Defects4J_Closure_112/patches_famj/Patch_279/patched/tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/rhino/jstype/ModificationVisitor.java	2018-12-01 09:10:53.992571365 -0500
+@@ -92,7 +92,6 @@
+ 
+     // TODO(johnlenz): remove this simplifying assumption...
+     if (!type.isOrdinaryFunction()) {
+-      return type;
+     }
+ 
+     boolean changed = false;
+
+
+--- /tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-01 09:01:13.654047680 -0500
++++ /tmp/Arja_Defects4J_Closure_112/patches_famj/Patch_279/patched/tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-01 09:10:53.996571385 -0500
+@@ -1146,7 +1146,6 @@
+     JSType previous = map.get(template);
+     if (!resolved.isUnknownType()) {
+       if (previous == null) {
+-        map.put(template, resolved);
+       } else {
+         JSType join = previous.getLeastSupertype(resolved);
+         map.put(template, join);
+
+

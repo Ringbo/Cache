@@ -1,0 +1,37 @@
+--- /tmp/Arja_Defects4J_Closure_67/src/com/google/javascript/jscomp/RemoveUnusedPrototypeProperties.java	2018-12-01 09:25:47.602554953 -0500
++++ /tmp/Arja_Defects4J_Closure_67/patches_k844/Patch_359/patched/tmp/Arja_Defects4J_Closure_67/src/com/google/javascript/jscomp/RemoveUnusedPrototypeProperties.java	2018-12-01 09:33:19.789668770 -0500
+@@ -84,19 +84,6 @@
+         for (Symbol declaration : nameInfo.getDeclarations()) {
+           boolean canRemove = false;
+ 
+-          if (specializationState == null) {
+-            canRemove = true;
+-          } else {
+-            Node specializableFunction =
+-              getSpecializableFunctionFromSymbol(declaration);
+-
+-            if (specializableFunction != null) {
+-              specializationState.reportRemovedFunction(
+-                  specializableFunction, null);
+-              canRemove = true;
+-            }
+-          }
+-
+           if (canRemove) {
+             declaration.remove();
+             changed = true;
+
+
+--- /tmp/Arja_Defects4J_Closure_67/src/com/google/javascript/rhino/Token.java	2018-12-01 09:25:47.626555117 -0500
++++ /tmp/Arja_Defects4J_Closure_67/patches_k844/Patch_359/patched/tmp/Arja_Defects4J_Closure_67/src/com/google/javascript/rhino/Token.java	2018-12-01 09:33:19.789668770 -0500
+@@ -307,7 +307,7 @@
+           case TYPEOF:          return "TYPEOF";
+           case GETPROP:         return "GETPROP";
+           case SETPROP:         return "SETPROP";
+-          case GETELEM:         return "GETELEM";
++          case GETELEM:         ;
+           case SETELEM:         return "SETELEM";
+           case CALL:            return "CALL";
+           case NAME:            return "NAME";
+
+

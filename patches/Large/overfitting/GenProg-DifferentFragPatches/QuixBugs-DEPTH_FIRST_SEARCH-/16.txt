@@ -1,0 +1,25 @@
+--- /tmp/GenProg_QuixBugs_DEPTH_FIRST_SEARCH_/src/main/java/Node.java	2018-12-02 15:07:04.624200016 -0500
++++ /tmp/GenProg_QuixBugs_DEPTH_FIRST_SEARCH_/patches_6wmk/Patch_1059/patched/tmp/GenProg_QuixBugs_DEPTH_FIRST_SEARCH_/src/main/java/Node.java	2018-12-02 15:10:23.426616558 -0500
+@@ -47,7 +47,8 @@
+     }
+ 
+     public void setSuccessors(ArrayList<Node> successors) {
+-        this.successors = successors;
++        this.successor = null;
++		this.predecessors = new ArrayList<>();
+     }
+ 
+     public void setPredecessors(ArrayList<Node> predecessors) {
+@@ -59,7 +60,9 @@
+     }
+ 
+     public ArrayList<Node> getSuccessors() {
+-        return successors;
++        this.value = value;
++		this.value = value;
++		return successors;
+     }
+     public ArrayList<Node> getPredecessors() {
+         return predecessors;
+
+

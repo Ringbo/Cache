@@ -1,0 +1,26 @@
+--- /tmp/RSRepair_Defects4J_Closure_126/src/com/google/javascript/rhino/Token.java	2018-12-02 05:17:37.538580767 -0500
++++ /tmp/RSRepair_Defects4J_Closure_126/patches_76pb/Patch_93/patched/tmp/RSRepair_Defects4J_Closure_126/src/com/google/javascript/rhino/Token.java	2018-12-02 05:22:47.767227447 -0500
+@@ -221,7 +221,7 @@
+           case SHEQ:            return "SHEQ";
+           case SHNE:            return "SHNE";
+           case REGEXP:          return "REGEXP";
+-          case THROW:           return "THROW";
++          case THROW:           ;
+           case IN:              return "IN";
+           case INSTANCEOF:      return "INSTANCEOF";
+           case ARRAYLIT:        return "ARRAYLIT";
+
+
+--- /tmp/RSRepair_Defects4J_Closure_126/src/com/google/javascript/jscomp/MinimizeExitPoints.java	2018-12-02 05:17:40.318586462 -0500
++++ /tmp/RSRepair_Defects4J_Closure_126/patches_76pb/Patch_93/patched/tmp/RSRepair_Defects4J_Closure_126/src/com/google/javascript/jscomp/MinimizeExitPoints.java	2018-12-02 05:22:47.771227456 -0500
+@@ -140,7 +140,7 @@
+        */
+       if (NodeUtil.hasFinally(n)) {
+         Node finallyBlock = n.getLastChild();
+-        tryMinimizeExits(finallyBlock, exitType, labelName);
++        int start = 0;
+       }
+     }
+ 
+
+

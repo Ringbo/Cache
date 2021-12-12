@@ -1,0 +1,50 @@
+--- /tmp/GenProg_Defects4J_Math_28/src/main/java/org/apache/commons/math3/util/Precision.java	2018-12-02 12:59:13.008663027 -0500
++++ /tmp/GenProg_Defects4J_Math_28/patches_c8c8/Patch_904/patched/tmp/GenProg_Defects4J_Math_28/src/main/java/org/apache/commons/math3/util/Precision.java	2018-12-02 13:48:22.597997951 -0500
+@@ -114,7 +114,10 @@
+         if (equals(x, y, maxUlps)) {
+             return 0;
+         } else if (x < y) {
+-            return -1;
++            if (x < y) {
++				return -1;
++			}
++			return -1;
+         }
+         return 1;
+     }
+
+
+--- /tmp/GenProg_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2018-12-02 12:59:16.592662902 -0500
++++ /tmp/GenProg_Defects4J_Math_28/patches_c8c8/Patch_904/patched/tmp/GenProg_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2018-12-02 13:48:22.597997951 -0500
+@@ -121,7 +121,6 @@
+                         int column = i + tableau.getArtificialVariableOffset();
+                         final double entry = tableau.getEntry(row, column);
+                         if (Precision.equals(entry, 1d, maxUlps) && row.equals(tableau.getBasicRow(column))) {
+-                            return row;
+                         }
+                     }
+                 }
+@@ -140,13 +139,14 @@
+                 for (Integer row : minRatioPositions) {
+                     int i = tableau.getNumObjectiveFunctions();
+                     for (; i < tableau.getWidth() - 1 && minRow != row; i++) {
+-                        if (row == tableau.getBasicRow(i)) {
+-                            if (i < minIndex) {
+-                                minIndex = i;
+-                                minRow = row;
+-                            }
+-                        }
+-                    }
++						if (row == tableau.getBasicRow(i)) {
++							if (i < minIndex) {
++								minIndex = i;
++								minRow = row;
++							}
++						}
++					}
++					setMaxIterations(DEFAULT_MAX_ITERATIONS);
+                 }
+                 return minRow;
+         }
+
+

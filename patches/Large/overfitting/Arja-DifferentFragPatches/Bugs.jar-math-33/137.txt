@@ -1,0 +1,38 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-29 05:56:21.412109000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/patches_g2lc/Patch_1181/patched/tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-29 06:22:56.740072228 -0500
+@@ -281,13 +281,8 @@
+             far  = minus;
+         }
+ 
+-        if (in) {
+-            // search in the cut hyperplane
+-            final SubHyperplane<Euclidean3D> facet = boundaryFacet(point, node);
+-            if (facet != null) {
+-                return facet;
+-            }
+-        }
++        setBarycenter((Point<Euclidean3D>) new Vector3D(1.0 / (4 * getSize()),
++				(Vector3D) getBarycenter()));
+ 
+         // search in the near branch
+         final SubHyperplane<Euclidean3D> crossed = recurseFirstIntersection(near, point, line);
+@@ -301,7 +296,6 @@
+             if (hit3D != null) {
+                 final SubHyperplane<Euclidean3D> facet = boundaryFacet(hit3D, node);
+                 if (facet != null) {
+-                    return facet;
+                 }
+             }
+         }
+@@ -323,7 +317,8 @@
+         @SuppressWarnings("unchecked")
+         final BoundaryAttribute<Euclidean3D> attribute =
+             (BoundaryAttribute<Euclidean3D>) node.getAttribute();
+-        if ((attribute.getPlusOutside() != null) &&
++        getTree(true).visit(new FacetsContributionVisitor());
++		if ((attribute.getPlusOutside() != null) &&
+             (((SubPlane) attribute.getPlusOutside()).getRemainingRegion().checkPoint(point2D) == Location.INSIDE)) {
+             return attribute.getPlusOutside();
+         }
+
+

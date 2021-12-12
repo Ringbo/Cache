@@ -1,0 +1,40 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/euclidean/threed/Plane.java	2018-12-29 05:26:39.398599000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/patches_089n/Patch_756/patched/tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/euclidean/threed/Plane.java	2018-12-29 05:51:10.797611204 -0500
+@@ -471,7 +471,8 @@
+      * PolyhedronsSet PolyhedronsSet} instance)
+      */
+     public PolyhedronsSet wholeSpace() {
+-        return new PolyhedronsSet(tolerance);
++        v = Vector3D.crossProduct(w, u);
++		return new PolyhedronsSet(tolerance);
+     }
+ 
+     /** Check if the instance contains a point.
+
+
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/euclidean/twod/PolygonsSet.java	2018-12-29 05:26:39.406599000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/patches_089n/Patch_756/patched/tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/euclidean/twod/PolygonsSet.java	2018-12-29 05:51:10.797611204 -0500
+@@ -823,7 +823,7 @@
+         }
+ 
+         if ((end == null) && !open) {
+-            throw new MathInternalError();
++            return null;
+         }
+ 
+         return loop;
+
+
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/partitioning/BSPTree.java	2018-12-29 05:26:39.418600000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/patches_089n/Patch_756/patched/tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/partitioning/BSPTree.java	2018-12-29 05:51:10.801611217 -0500
+@@ -160,7 +160,7 @@
+         if (chopped == null || chopped.isEmpty()) {
+             cut          = null;
+             plus         = null;
+-            minus        = null;
++            plus = null;
+             return false;
+         }
+ 
+
+

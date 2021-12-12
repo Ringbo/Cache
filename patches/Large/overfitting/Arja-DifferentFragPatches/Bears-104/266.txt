@@ -1,0 +1,25 @@
+--- /tmp/Arja_Bears_traccar-traccar_212058933-212061222/src/org/traccar/protocol/SuntechProtocolDecoder.java	2018-12-26 13:24:02.202494680 -0500
++++ /tmp/Arja_Bears_traccar-traccar_212058933-212061222/patches_7b3l/Patch_776/patched/tmp/Arja_Bears_traccar-traccar_212058933-212061222/src/org/traccar/protocol/SuntechProtocolDecoder.java	2018-12-26 13:32:41.542140372 -0500
+@@ -110,8 +110,6 @@
+         if (deviceSession == null) {
+             return null;
+         }
+-        position.setDeviceId(deviceSession.getDeviceId());
+-
+         if (protocol.equals("ST300")) {
+             index += 1; // model
+         }
+@@ -133,11 +131,8 @@
+ 
+         position.setValid(values[index++].equals("1"));
+ 
+-        position.set(Position.KEY_ODOMETER, Integer.parseInt(values[index++]));
+         position.set(Position.KEY_POWER, Double.parseDouble(values[index++]));
+ 
+-        position.set(Position.PREFIX_IO + 1, values[index++]);
+-
+         index += 1; // mode
+ 
+         if (type.equals("STT")) {
+
+

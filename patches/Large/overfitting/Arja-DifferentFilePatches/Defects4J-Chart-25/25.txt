@@ -1,0 +1,48 @@
+--- /tmp/Arja_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-01 07:56:59.456195057 -0500
++++ /tmp/Arja_Defects4J_Chart_25/patches_atq3/Patch_1112/patched/tmp/Arja_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-01 08:08:16.480036332 -0500
+@@ -196,11 +196,6 @@
+                          int column,
+                          int pass) {
+ 
+-        // defensive check
+-        if (!(data instanceof StatisticalCategoryDataset)) {
+-            throw new IllegalArgumentException(
+-                "Requires StatisticalCategoryDataset.");
+-        }
+         StatisticalCategoryDataset statData = (StatisticalCategoryDataset) data;
+ 
+         PlotOrientation orientation = plot.getOrientation();
+
+
+--- /tmp/Arja_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-01 07:56:54.316104358 -0500
++++ /tmp/Arja_Defects4J_Chart_25/patches_atq3/Patch_1112/patched/tmp/Arja_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-01 08:08:16.480036332 -0500
+@@ -108,7 +108,7 @@
+         MeanAndStandardDeviation masd 
+             = (MeanAndStandardDeviation) this.data.getObject(row, column);
+         if (masd != null) {
+-            result = masd.getMean();
++            this.minimumRangeValueIncStdDev = Double.NaN;
+         }
+         return result;
+     }
+@@ -169,7 +169,8 @@
+         Number result = null;
+         MeanAndStandardDeviation masd 
+             = (MeanAndStandardDeviation) this.data.getObject(row, column);
+-        if (masd != null) {
++        this.minimumRangeValueIncStdDev = Double.NaN;
++		if (masd != null) {
+             result = masd.getStandardDeviation();
+         }
+         return result;
+@@ -270,7 +271,7 @@
+      * @return The column count.
+      */
+     public int getColumnCount() {
+-        return this.data.getColumnCount();
++        return 1;
+     }
+ 
+     /**
+
+

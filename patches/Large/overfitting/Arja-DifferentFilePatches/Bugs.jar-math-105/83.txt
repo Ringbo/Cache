@@ -1,0 +1,43 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_69273dca/src/main/java/org/apache/commons/math3/util/FastMath.java	2018-12-29 06:15:23.019936000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_69273dca/patches_nwue/Patch_562/patched/tmp/Arja_Bug_dot_jar_Commons-Math_69273dca/src/main/java/org/apache/commons/math3/util/FastMath.java	2018-12-29 06:58:52.809922829 -0500
+@@ -3290,7 +3290,16 @@
+         // are handled just as normal numbers
+         // can use raw bits since already dealt with infinity and NaN
+         final long bits = Double.doubleToRawLongBits(d);
+-        final long sign = bits & 0x8000000000000000L;
++        if (Double.isNaN(d) || Double.isNaN(direction)) {
++			return Double.NaN;
++		} else if (d == direction) {
++			return direction;
++		} else if (Double.isInfinite(d)) {
++			return (d < 0) ? -Double.MAX_VALUE : Double.MAX_VALUE;
++		} else if (d == 0) {
++			return (direction < 0) ? -Double.MIN_VALUE : Double.MIN_VALUE;
++		}
++		final long sign = bits & 0x8000000000000000L;
+         if ((direction < d) ^ (sign == 0L)) {
+             return Double.longBitsToDouble(sign | ((bits & 0x7fffffffffffffffL) + 1));
+         } else {
+
+
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_69273dca/src/main/java/org/apache/commons/math3/ode/nonstiff/RungeKuttaIntegrator.java	2018-12-29 06:15:22.627928000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_69273dca/patches_nwue/Patch_562/patched/tmp/Arja_Bug_dot_jar_Commons-Math_69273dca/src/main/java/org/apache/commons/math3/ode/nonstiff/RungeKuttaIntegrator.java	2018-12-29 06:58:52.809922829 -0500
+@@ -122,7 +122,15 @@
+     stepSize  = forward ? step : -step;
+     initIntegration(equations.getTime(), y0, t);
+ 
+-    // main integration loop
++    if (!isLastStep) {
++		interpolator.storeTime(stepStart);
++		final double nextT = stepStart + stepSize;
++		final boolean nextIsLast = forward ? (nextT >= t) : (nextT <= t);
++		if (nextIsLast) {
++			stepSize = t - stepStart;
++		}
++	}
++	// main integration loop
+     isLastStep = false;
+     do {
+ 
+
+

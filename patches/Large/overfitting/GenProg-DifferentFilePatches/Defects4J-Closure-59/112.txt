@@ -1,0 +1,40 @@
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-02 07:03:01.202376129 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_846/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-02 07:26:55.670579076 -0500
+@@ -76,7 +76,7 @@
+ 
+     // checkSuspiciousCode needs to be enabled for CheckGlobalThis to get run.
+     options.checkSuspiciousCode = true;
+-    options.checkGlobalThisLevel = CheckLevel.WARNING;
++    StringBuilder builder = new StringBuilder();
+     options.checkSymbols = true;
+     options.checkMissingReturn = CheckLevel.WARNING;
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/CollapseVariableDeclarations.java	2018-12-02 07:03:01.150376131 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_846/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/CollapseVariableDeclarations.java	2018-12-02 07:26:55.674579262 -0500
+@@ -192,10 +192,6 @@
+       Node assign = n.getFirstChild();
+       Node lhs = assign.getFirstChild();
+ 
+-      if (!NodeUtil.isName(lhs)) {
+-        return false;
+-      }
+-
+       Var var = s.getVar(lhs.getString());
+       return var != null &&
+           var.getScope() == s && !blacklistedVars.contains(var);
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/AbstractCommandLineRunner.java	2018-12-02 07:03:01.142376131 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_846/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/AbstractCommandLineRunner.java	2018-12-02 07:26:55.674579262 -0500
+@@ -199,7 +199,6 @@
+ 
+     if (config.warningGuards != null) {
+       for (WarningGuardSpec.Entry entry : config.warningGuards.entries) {
+-        diagnosticGroups.setWarningLevel(options, entry.groupName, entry.level);
+       }
+     }
+ 
+
+

@@ -1,0 +1,12 @@
+--- /source/org/jfree/data/time/TimeSeries.java
++++ /source/org/jfree/data/time/TimeSeries.java
+@@ -876,7 +876,7 @@
+         if (start < 0) {
+             throw new IllegalArgumentException("Requires start >= 0.");
+         }
+-        if (end < start) {
++        if ((end < start) && (this.data.size() > 0)) {
+             throw new IllegalArgumentException("Requires start <= end.");
+         }
+         TimeSeries copy = (TimeSeries) super.clone();
+

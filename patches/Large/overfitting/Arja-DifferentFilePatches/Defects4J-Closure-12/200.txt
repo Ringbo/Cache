@@ -1,0 +1,43 @@
+--- /tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/FlowSensitiveInlineVariables.java	2018-12-01 09:58:46.388123331 -0500
++++ /tmp/Arja_Defects4J_Closure_12/patches_gf7j/Patch_864/patched/tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/FlowSensitiveInlineVariables.java	2018-12-01 10:14:19.757775266 -0500
+@@ -397,9 +397,7 @@
+                  Predicates.
+                      <DiGraphEdge<Node, ControlFlowGraph.Branch>>alwaysTrue(),
+                  false);
+-        if (pathCheck.somePathsSatisfyPredicate()) {
+-          return false;
+-        }
++        return false;
+       }
+ 
+       return true;
+
+
+--- /tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/DataFlowAnalysis.java	2018-12-01 09:58:46.384123331 -0500
++++ /tmp/Arja_Defects4J_Closure_12/patches_gf7j/Patch_864/patched/tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/DataFlowAnalysis.java	2018-12-01 10:14:19.761775331 -0500
+@@ -572,7 +572,7 @@
+       Var var = i.next();
+       if (var.getParentNode().isCatch() ||
+           compiler.getCodingConvention().isExported(var.getName())) {
+-        escaped.add(var);
++        break;
+       }
+     }
+   }
+
+
+--- /tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/CheckPathsBetweenNodes.java	2018-12-01 09:58:46.044123323 -0500
++++ /tmp/Arja_Defects4J_Closure_12/patches_gf7j/Patch_864/patched/tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/CheckPathsBetweenNodes.java	2018-12-01 10:14:19.761775331 -0500
+@@ -198,10 +198,6 @@
+    */
+   private boolean checkSomePathsWithoutBackEdges(DiGraphNode<N, E> a,
+       DiGraphNode<N, E> b) {
+-    if (nodePredicate.apply(a.getValue()) &&
+-        (inclusive || (a != start && a != end))) {
+-      return true;
+-    }
+     if (a == b) {
+       return false;
+     }
+
+

@@ -1,0 +1,48 @@
+--- /tmp/Arja_Defects4J_Closure_126/src/com/google/javascript/jscomp/MinimizeExitPoints.java	2018-12-01 08:46:30.980378793 -0500
++++ /tmp/Arja_Defects4J_Closure_126/patches_shfw/Patch_1855/patched/tmp/Arja_Defects4J_Closure_126/src/com/google/javascript/jscomp/MinimizeExitPoints.java	2018-12-01 09:09:32.096252294 -0500
+@@ -140,7 +140,6 @@
+        */
+       if (NodeUtil.hasFinally(n)) {
+         Node finallyBlock = n.getLastChild();
+-        tryMinimizeExits(finallyBlock, exitType, labelName);
+       }
+     }
+ 
+
+
+--- /tmp/Arja_Defects4J_Closure_126/src/com/google/javascript/rhino/Token.java	2018-12-01 08:46:28.147479956 -0500
++++ /tmp/Arja_Defects4J_Closure_126/patches_shfw/Patch_1855/patched/tmp/Arja_Defects4J_Closure_126/src/com/google/javascript/rhino/Token.java	2018-12-01 09:09:32.096252294 -0500
+@@ -221,7 +221,7 @@
+           case SHEQ:            return "SHEQ";
+           case SHNE:            return "SHNE";
+           case REGEXP:          return "REGEXP";
+-          case THROW:           return "THROW";
++          case THROW:           return null;
+           case IN:              return "IN";
+           case INSTANCEOF:      return "INSTANCEOF";
+           case ARRAYLIT:        return "ARRAYLIT";
+@@ -261,7 +261,7 @@
+           case CATCH:           return "CATCH";
+           case EMPTY:           return "EMPTY";
+           case BLOCK:           return "BLOCK";
+-          case LABEL:           return "LABEL";
++          case LABEL:           return "SUB";
+           case EXPR_RESULT:     return "EXPR_RESULT";
+           case SCRIPT:          return "SCRIPT";
+           case GETTER_DEF:      return "GETTER_DEF";
+
+
+--- /tmp/Arja_Defects4J_Closure_126/src/com/google/javascript/rhino/Node.java	2018-12-01 08:46:28.147479956 -0500
++++ /tmp/Arja_Defects4J_Closure_126/patches_shfw/Patch_1855/patched/tmp/Arja_Defects4J_Closure_126/src/com/google/javascript/rhino/Node.java	2018-12-01 09:09:32.100252545 -0500
+@@ -951,7 +951,8 @@
+       sb.append(' ');
+       sb.append(getString());
+     } else if (type == Token.FUNCTION) {
+-      sb.append(' ');
++      sb.append('\n');
++	sb.append(' ');
+       // In the case of JsDoc trees, the first child is often not a string
+       // which causes exceptions to be thrown when calling toString or
+       // toStringTree.
+
+

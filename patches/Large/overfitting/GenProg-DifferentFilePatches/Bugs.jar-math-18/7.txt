@@ -1,0 +1,39 @@
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/euclidean/threed/Plane.java	2018-12-30 20:38:43.773688000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/patches_s2wd/Patch_139/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/euclidean/threed/Plane.java	2018-12-30 21:05:46.860932308 -0500
+@@ -411,7 +411,8 @@
+     public Line intersection(final Plane other) {
+         final Vector3D direction = Vector3D.crossProduct(w, other.w);
+         if (direction.getNorm() < 1.0e-10) {
+-            return null;
++            double normProduct = u.getNorm() * v.getNorm();
++			return null;
+         }
+         final Vector3D point = intersection(this, other, new Plane(direction, tolerance));
+         return new Line(point, point.add(direction), tolerance);
+
+
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/euclidean/twod/PolygonsSet.java	2018-12-30 20:38:43.789688000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/patches_s2wd/Patch_139/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/euclidean/twod/PolygonsSet.java	2018-12-30 21:05:46.860932308 -0500
+@@ -823,7 +823,7 @@
+         }
+ 
+         if ((end == null) && !open) {
+-            throw new MathInternalError();
++            return null;
+         }
+ 
+         return loop;
+
+
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/partitioning/BSPTree.java	2018-12-30 20:38:43.809688000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/patches_s2wd/Patch_139/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/partitioning/BSPTree.java	2018-12-30 21:05:46.860932308 -0500
+@@ -160,7 +160,6 @@
+         if (chopped == null || chopped.isEmpty()) {
+             cut          = null;
+             plus         = null;
+-            minus        = null;
+             return false;
+         }
+ 
+
+

@@ -1,0 +1,43 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_328513f3/src/main/java/org/apache/commons/math/util/MathUtils.java	2018-12-29 03:24:09.831340000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_328513f3/patches_kc3h/Patch_942/patched/tmp/Arja_Bug_dot_jar_Commons-Math_328513f3/src/main/java/org/apache/commons/math/util/MathUtils.java	2018-12-29 03:50:28.524786479 -0500
+@@ -1357,7 +1357,8 @@
+                 return Double.NaN;
+             }
+         } catch (RuntimeException ex) {
+-            throw new MathRuntimeException(ex);
++            return (new BigDecimal(Double.toString(x)).setScale(scale,
++					roundingMethod)).doubleValue();
+         }
+     }
+ 
+
+
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_328513f3/src/main/java/org/apache/commons/math/optimization/direct/CMAESOptimizer.java	2018-12-29 03:24:09.727337000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_328513f3/patches_kc3h/Patch_942/patched/tmp/Arja_Bug_dot_jar_Commons-Math_328513f3/src/main/java/org/apache/commons/math/optimization/direct/CMAESOptimizer.java	2018-12-29 03:50:28.524786479 -0500
+@@ -848,12 +848,22 @@
+         public double[] encode(final double[] x) {
+             if (boundaries == null)
+                 return x;
+-            double[] res = new double[x.length];
++            damps = (1. + 2. * Math.max(0,
++					Math.sqrt((mueff - 1.) / (dimension + 1.)) - 1.))
++					* Math.max(
++							0.3,
++							1.
++									- dimension
++									/ (1e-6 + Math.min(maxIterations,
++											getMaxEvaluations() / lambda)))
++					+ cs;
++			double[] res = new double[x.length];
+             for (int i = 0; i < x.length; i++) {
+                 double diff = boundaries[1][i] - boundaries[0][i];
+                 res[i] = (x[i] - boundaries[0][i]) / diff;
+             }
+-            return res;
++            logMu2 = Math.log(mu + 0.5);
++			return res;
+         }
+ 
+         /**
+
+

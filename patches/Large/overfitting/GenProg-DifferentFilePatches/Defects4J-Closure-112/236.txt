@@ -1,0 +1,38 @@
+--- /tmp/GenProg_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-02 05:54:30.851329143 -0500
++++ /tmp/GenProg_Defects4J_Closure_112/patches_1e4m/Patch_799/patched/tmp/GenProg_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-02 06:13:46.210510189 -0500
+@@ -1124,21 +1124,6 @@
+       Iterator<Node> declParams,
+       Iterator<Node> callParams,
+       Map<TemplateType, JSType> resolvedTypes) {
+-    while (declParams.hasNext() && callParams.hasNext()) {
+-      Node declParam = declParams.next();
+-      maybeResolveTemplatedType(
+-          getJSType(declParam),
+-          getJSType(callParams.next()),
+-          resolvedTypes);
+-      if (declParam.isVarArgs()) {
+-        while (callParams.hasNext()) {
+-          maybeResolveTemplatedType(
+-              getJSType(declParam),
+-              getJSType(callParams.next()),
+-              resolvedTypes);
+-        }
+-      }
+-    }
+   }
+ 
+   private static void resolvedTemplateType(
+
+
+--- /tmp/GenProg_Defects4J_Closure_112/src/com/google/javascript/rhino/jstype/JSType.java	2018-12-02 05:54:28.183329267 -0500
++++ /tmp/GenProg_Defects4J_Closure_112/patches_1e4m/Patch_799/patched/tmp/GenProg_Defects4J_Closure_112/src/com/google/javascript/rhino/jstype/JSType.java	2018-12-02 06:13:46.214510199 -0500
+@@ -618,7 +618,6 @@
+     }
+ 
+     if (isTemplateType() && that.isTemplateType()) {
+-      return this == that;
+     }
+ 
+     // Unbox other proxies.
+
+

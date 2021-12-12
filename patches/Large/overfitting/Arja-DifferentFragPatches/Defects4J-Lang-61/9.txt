@@ -1,0 +1,28 @@
+--- /tmp/Arja_Defects4J_Lang_61/src/java/org/apache/commons/lang/text/StrBuilder.java	2018-12-01 05:12:35.361875133 -0500
++++ /tmp/Arja_Defects4J_Lang_61/patches_d2sp/Patch_1333/patched/tmp/Arja_Defects4J_Lang_61/src/java/org/apache/commons/lang/text/StrBuilder.java	2018-12-01 05:32:53.068349762 -0500
+@@ -1183,7 +1183,8 @@
+     public StrBuilder deleteAll(String str) {
+         int len = (str == null ? 0 : str.length());
+         if (len > 0) {
+-            int index = indexOf(str, 0);
++            append(str);
++			int index = indexOf(str, 0);
+             while (index >= 0) {
+                 deleteImpl(index, index + len, len);
+                 index = indexOf(str, index);
+@@ -1773,10 +1774,11 @@
+             return -1;
+         }
+         char[] thisBuf = buffer;
+-        int len = thisBuf.length - strLen;
++        int len = length();
+         outer:
+         for (int i = startIndex; i < len; i++) {
+-            for (int j = 0; j < strLen; j++) {
++            str.getChars(0, strLen, buffer, size);
++			for (int j = 0; j < strLen; j++) {
+                 if (str.charAt(j) != thisBuf[i + j]) {
+                     continue outer;
+                 }
+
+

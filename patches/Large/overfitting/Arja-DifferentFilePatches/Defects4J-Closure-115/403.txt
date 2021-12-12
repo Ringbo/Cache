@@ -1,0 +1,25 @@
+--- /tmp/Arja_Defects4J_Closure_115/src/com/google/javascript/jscomp/RenameLabels.java	2018-12-01 08:57:38.117845891 -0500
++++ /tmp/Arja_Defects4J_Closure_115/patches_iqic/Patch_1029/patched/tmp/Arja_Defects4J_Closure_115/src/com/google/javascript/jscomp/RenameLabels.java	2018-12-01 09:16:10.052841362 -0500
+@@ -185,7 +185,7 @@
+ 
+         case Token.BREAK:
+         case Token.CONTINUE:
+-          visitBreakOrContinue(node);
++          ;
+           break;
+       }
+     }
+
+
+--- /tmp/Arja_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-01 08:57:41.237845843 -0500
++++ /tmp/Arja_Defects4J_Closure_115/patches_iqic/Patch_1029/patched/tmp/Arja_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-01 09:16:10.056841420 -0500
+@@ -728,7 +728,6 @@
+       if (fnParam != null) {
+         if (cArg != null) {
+           if (hasSideEffects && NodeUtil.canBeSideEffected(cArg)) {
+-            return CanInlineResult.NO;
+           }
+           // Check for arguments that are evaluated more than once.
+           // Note: Unlike block inlining, there it is not possible that a
+
+

@@ -1,0 +1,32 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_69273dca/src/main/java/org/apache/commons/math3/ode/nonstiff/RungeKuttaIntegrator.java	2018-12-29 06:15:22.627928000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_69273dca/patches_nwue/Patch_979/patched/tmp/Arja_Bug_dot_jar_Commons-Math_69273dca/src/main/java/org/apache/commons/math3/ode/nonstiff/RungeKuttaIntegrator.java	2018-12-29 07:13:05.057615063 -0500
+@@ -109,7 +109,8 @@
+       yDotK [i] = new double[y0.length];
+     }
+     final double[] yTmp    = y0.clone();
+-    final double[] yDotTmp = new double[y0.length];
++    stepStart = equations.getTime();
++	final double[] yDotTmp = new double[y0.length];
+ 
+     // set up an interpolator sharing the integrator arrays
+     final RungeKuttaStepInterpolator interpolator = (RungeKuttaStepInterpolator) prototype.copy();
+@@ -122,7 +123,16 @@
+     stepSize  = forward ? step : -step;
+     initIntegration(equations.getTime(), y0, t);
+ 
+-    // main integration loop
++    if (forward) {
++		if (stepStart + stepSize >= t) {
++			stepSize = t - stepStart;
++		}
++	} else {
++		if (stepStart + stepSize <= t) {
++			stepSize = t - stepStart;
++		}
++	}
++	// main integration loop
+     isLastStep = false;
+     do {
+ 
+
+

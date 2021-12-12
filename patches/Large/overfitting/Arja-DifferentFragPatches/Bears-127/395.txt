@@ -1,0 +1,40 @@
+--- /tmp/Arja_Bears_traccar-traccar_273118899-273136493/src/org/traccar/protocol/EelinkProtocolDecoder.java	2018-12-26 12:59:39.444574687 -0500
++++ /tmp/Arja_Bears_traccar-traccar_273118899-273136493/patches_r2qe/Patch_1102/patched/tmp/Arja_Bears_traccar-traccar_273118899-273136493/src/org/traccar/protocol/EelinkProtocolDecoder.java	2018-12-26 13:11:04.209192060 -0500
+@@ -56,14 +56,6 @@
+     public static final int MSG_CAMERA_DATA = 0x1F;
+ 
+     private void sendResponse(Channel channel, int type, int index) {
+-        if (channel != null) {
+-            ChannelBuffer response = ChannelBuffers.buffer(7);
+-            response.writeByte(0x67); response.writeByte(0x67); // header
+-            response.writeByte(type);
+-            response.writeShort(2); // length
+-            response.writeShort(index);
+-            channel.write(response);
+-        }
+     }
+ 
+     private String decodeAlarm(Short value) {
+@@ -152,18 +144,8 @@
+ 
+             position.set(Position.KEY_ALARM, decodeAlarm(buf.readUnsignedByte()));
+ 
+-        } else if (type == MSG_STATE) {
+-
+-            int statusType = buf.readUnsignedByte();
+-
+-            position.set(Position.KEY_EVENT, statusType);
+-
+-            if (statusType == 0x01 || statusType == 0x02 || statusType == 0x03) {
+-                buf.readUnsignedInt(); // device time
+-                decodeStatus(position, buf.readUnsignedShort());
+-            }
+-
+-        }
++        } else
++			;
+ 
+         return position;
+     }
+
+

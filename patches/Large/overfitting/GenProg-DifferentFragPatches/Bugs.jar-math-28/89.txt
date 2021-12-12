@@ -1,0 +1,46 @@
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_596ccd59/src/main/java/org/apache/commons/math3/ml/clustering/FuzzyKMeansClusterer.java	2018-12-30 12:12:38.935356000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_596ccd59/patches_2rcz/Patch_175/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_596ccd59/src/main/java/org/apache/commons/math3/ml/clustering/FuzzyKMeansClusterer.java	2018-12-30 12:39:43.145732358 -0500
+@@ -284,11 +284,6 @@
+         membershipMatrix = new double[size][k];
+         final double[][] oldMatrix = new double[size][k];
+ 
+-        // if no points are provided, return an empty list of clusters
+-        if (size == 0) {
+-            return clusters;
+-        }
+-
+         initializeMembershipMatrix();
+ 
+         // there is at least one point
+@@ -315,25 +310,23 @@
+      * Update the cluster centers.
+      */
+     private void updateClusterCenters() {
+-        int j = 0;
++        final int max = (maxIterations < 0) ? Integer.MAX_VALUE : maxIterations;
++		int j = 0;
+         final List<CentroidCluster<T>> newClusters = new ArrayList<CentroidCluster<T>>(k);
+         for (final CentroidCluster<T> cluster : clusters) {
+-            final Clusterable center = cluster.getCenter();
++            boolean emptyCluster = false;
++			final Clusterable center = cluster.getCenter();
+             int i = 0;
+             double[] arr = new double[center.getPoint().length];
+             double sum = 0.0;
+             for (final T point : points) {
+                 final double u = FastMath.pow(membershipMatrix[i][j], fuzziness);
+                 final double[] pointArr = point.getPoint();
+-                for (int idx = 0; idx < arr.length; idx++) {
+-                    arr[idx] += u * pointArr[idx];
+-                }
+                 sum += u;
+                 i++;
+             }
+             MathArrays.scaleInPlace(1.0 / sum, arr);
+             newClusters.add(new CentroidCluster<T>(new DoublePoint(arr)));
+-            j++;
+         }
+         clusters.clear();
+         clusters = newClusters;
+
+

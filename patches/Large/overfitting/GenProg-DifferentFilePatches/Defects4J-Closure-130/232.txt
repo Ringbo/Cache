@@ -1,0 +1,47 @@
+--- /tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/GlobalNamespace.java	2018-12-02 05:31:52.392087484 -0500
++++ /tmp/GenProg_Defects4J_Closure_130/patches_ci9x/Patch_1536/patched/tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/GlobalNamespace.java	2018-12-02 06:02:01.145446003 -0500
+@@ -196,7 +196,6 @@
+     @Override
+     public boolean apply(Node n) {
+       if (!n.isQualifiedName()) {
+-        return false;
+       }
+ 
+       Node current;
+@@ -989,7 +988,7 @@
+           case ALIASING_GET:
+             aliasingGets--;
+             totalGets--;
+-            break;
++            ;
+           case CALL_GET:
+             callGets--;
+             totalGets--;
+
+
+--- /tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/CollapseProperties.java	2018-12-02 05:31:55.312087382 -0500
++++ /tmp/GenProg_Defects4J_Closure_130/patches_ci9x/Patch_1536/patched/tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/CollapseProperties.java	2018-12-02 06:02:01.149446177 -0500
+@@ -224,7 +224,6 @@
+               aliasRefs.references.get(i);
+ 
+           Node newNode = alias.node.cloneTree();
+-          aliasRef.getParent().replaceChild(aliasRef.getNode(), newNode);
+           newNodes.add(newNode);
+         }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/ReferenceCollectingCallback.java	2018-12-02 05:31:52.404087484 -0500
++++ /tmp/GenProg_Defects4J_Closure_130/patches_ci9x/Patch_1536/patched/tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/ReferenceCollectingCallback.java	2018-12-02 06:02:01.149446177 -0500
+@@ -473,9 +473,6 @@
+ 
+     boolean firstReferenceIsAssigningDeclaration() {
+       int size = references.size();
+-      if (size > 0 && references.get(0).isInitializingDeclaration()) {
+-        return true;
+-      }
+       return false;
+     }
+   }
+
+

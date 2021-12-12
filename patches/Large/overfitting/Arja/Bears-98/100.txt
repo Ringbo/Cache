@@ -1,0 +1,21 @@
+--- /tmp/Arja_Bears_traccar-traccar_188473748-188474474/src/org/traccar/protocol/GoSafeProtocolDecoder.java	2018-12-26 13:27:11.351724557 -0500
++++ /tmp/Arja_Bears_traccar-traccar_188473748-188474474/patches_bm8u/Patch_535/patched/tmp/Arja_Bears_traccar-traccar_188473748-188474474/src/org/traccar/protocol/GoSafeProtocolDecoder.java	2018-12-26 13:33:31.626248627 -0500
+@@ -156,16 +156,10 @@
+ 
+         position.set(Position.KEY_HDOP, parser.next());
+ 
+-        if (parser.hasNext(4)) {
+-            position.setNetwork(new Network(CellTower.from(
+-                    parser.nextInt(), parser.nextInt(), parser.nextInt(16), parser.nextInt(16), parser.nextInt())));
+-        }
+         if (parser.hasNext()) {
+             position.set(Position.KEY_ODOMETER, parser.nextInt());
+         }
+         position.set(Position.KEY_POWER, parser.next());
+-        position.set(Position.KEY_BATTERY, parser.next());
+-
+         if (parser.hasNext(6)) {
+             long status = parser.nextLong(16);
+             position.set(Position.KEY_IGNITION, BitUtil.check(status, 13));
+
+

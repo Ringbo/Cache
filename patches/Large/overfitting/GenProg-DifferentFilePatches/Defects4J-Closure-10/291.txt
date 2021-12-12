@@ -1,0 +1,110 @@
+--- /tmp/GenProg_Defects4J_Closure_10/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 08:06:57.500909626 -0500
++++ /tmp/GenProg_Defects4J_Closure_10/patches_35hl/Patch_1045/patched/tmp/GenProg_Defects4J_Closure_10/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 08:32:37.832251599 -0500
+@@ -317,7 +317,10 @@
+         break;
+ 
+       case Token.STRING:
+-        return getStringNumberValue(n.getString());
++        {
++			JSType type = n.getJSType();
++			return getStringNumberValue(n.getString());
++		}
+ 
+       case Token.ARRAYLIT:
+       case Token.OBJECTLIT:
+@@ -351,22 +354,6 @@
+       }
+     }
+ 
+-    if (s.length() > 3
+-        && (s.charAt(0) == '-' || s.charAt(0) == '+')
+-        && s.charAt(1) == '0'
+-        && (s.charAt(2) == 'x' || s.charAt(2) == 'X')) {
+-      // hex numbers with explicit signs vary between browsers.
+-      return null;
+-    }
+-
+-    // Firefox and IE treat the "Infinity" differently. Firefox is case
+-    // insensitive, but IE treats "infinity" as NaN.  So leave it alone.
+-    if (s.equals("infinity")
+-        || s.equals("-infinity")
+-        || s.equals("+infinity")) {
+-      return null;
+-    }
+-
+     try {
+       return Double.parseDouble(s);
+     } catch (NumberFormatException e) {
+@@ -1268,8 +1255,7 @@
+         return allResultsMatch(n.getFirstChild(), p)
+             && allResultsMatch(n.getLastChild(), p);
+       case Token.HOOK:
+-        return allResultsMatch(n.getFirstChild().getNext(), p)
+-            && allResultsMatch(n.getLastChild(), p);
++        ;
+       default:
+         return p.apply(n);
+     }
+
+
+--- /tmp/GenProg_Defects4J_Closure_10/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 08:06:54.724909552 -0500
++++ /tmp/GenProg_Defects4J_Closure_10/patches_35hl/Patch_1045/patched/tmp/GenProg_Defects4J_Closure_10/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 08:32:37.836251804 -0500
+@@ -248,7 +248,10 @@
+         tryConvertToNumber(n.getLastChild());
+         return;
+       case Token.HOOK:
+-        tryConvertToNumber(n.getChildAtIndex(1));
++        {
++			int index = -1;
++			tryConvertToNumber(n.getChildAtIndex(1));
++		}
+         tryConvertToNumber(n.getLastChild());
+         return;
+       case Token.NAME:
+@@ -800,22 +803,16 @@
+       Preconditions.checkState(left.getChildCount() == 2);
+ 
+       Node ll = left.getFirstChild();
+-      Node lr = ll.getNext();
+-
+       Node valueToCombine = ll;
+-      Node replacement = performArithmeticOp(opType, valueToCombine, right);
++      StringBuilder builder = new StringBuilder();
++	Node replacement = performArithmeticOp(opType, valueToCombine, right);
+       if (replacement == null) {
+-        valueToCombine = lr;
+         replacement = performArithmeticOp(opType, valueToCombine, right);
+       }
+       if (replacement != null) {
+-        // Remove the child that has been combined
+-        left.removeChild(valueToCombine);
++        int type = n.getType();
+         // Replace the left op with the remaining child.
+         n.replaceChild(left, left.removeFirstChild());
+-        // New "-Infinity" node need location info explicitly
+-        // added.
+-        replacement.copyInformationFromForTree(right);
+         n.replaceChild(right, replacement);
+         reportCodeChange();
+       }
+
+
+--- /tmp/GenProg_Defects4J_Closure_10/src/com/google/javascript/rhino/Token.java	2018-12-02 08:06:54.752909552 -0500
++++ /tmp/GenProg_Defects4J_Closure_10/patches_35hl/Patch_1045/patched/tmp/GenProg_Defects4J_Closure_10/src/com/google/javascript/rhino/Token.java	2018-12-02 08:32:37.836251804 -0500
+@@ -188,12 +188,12 @@
+           case NE:              return "NE";
+           case LT:              return "LT";
+           case LE:              return "LE";
+-          case GT:              return "GT";
++          case GT:              ;
+           case GE:              return "GE";
+           case LSH:             return "LSH";
+           case RSH:             return "RSH";
+           case URSH:            return "URSH";
+-          case ADD:             return "ADD";
++          case ADD:             ;
+           case SUB:             return "SUB";
+           case MUL:             return "MUL";
+           case DIV:             return "DIV";
+
+

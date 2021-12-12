@@ -1,0 +1,118 @@
+--- /tmp/GenProg_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-02 02:37:11.037757212 -0500
++++ /tmp/GenProg_Defects4J_Chart_25/patches_xdwj/Patch_673/patched/tmp/GenProg_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-02 02:46:27.693923972 -0500
+@@ -201,17 +201,13 @@
+             throw new IllegalArgumentException(
+                 "Requires StatisticalCategoryDataset.");
+         }
+-        StatisticalCategoryDataset statData = (StatisticalCategoryDataset) data;
++        g2.setStroke(plot.getRangeGridlineStroke());
++		g2.setStroke(plot.getRangeGridlineStroke());
++		g2.setStroke(plot.getRangeGridlineStroke());
++		g2.setStroke(plot.getRangeGridlineStroke());
++		Stroke itemStroke = getItemStroke(row, column);
+ 
+         PlotOrientation orientation = plot.getOrientation();
+-        if (orientation == PlotOrientation.HORIZONTAL) {
+-            drawHorizontalItem(g2, state, dataArea, plot, domainAxis, 
+-                    rangeAxis, statData, row, column);
+-        }
+-        else if (orientation == PlotOrientation.VERTICAL) {
+-            drawVerticalItem(g2, state, dataArea, plot, domainAxis, rangeAxis, 
+-                    statData, row, column);
+-        }
+     }
+                 
+     /**
+@@ -245,14 +241,8 @@
+ 
+         int seriesCount = getRowCount();
+         int categoryCount = getColumnCount();
+-        if (seriesCount > 1) {
+-            double seriesGap = dataArea.getHeight() * getItemMargin()
+-                               / (categoryCount * (seriesCount - 1));
+-            rectY = rectY + row * (state.getBarWidth() + seriesGap);
+-        }
+-        else {
+-            rectY = rectY + row * state.getBarWidth();
+-        }
++        double xx2 = domainAxis.getCategoryEnd(column, getColumnCount(),
++				dataArea, plot.getDomainAxisEdge());
+ 
+         // BAR X
+         Number meanValue = dataset.getMeanValue(row, column);
+@@ -260,7 +250,14 @@
+         double value = meanValue.doubleValue();
+         double base = 0.0;
+         double lclip = getLowerClip();
+-        double uclip = getUpperClip();
++        if (seriesCount > 1) {
++			double seriesGap = dataArea.getHeight() * getItemMargin()
++					/ (categoryCount * (seriesCount - 1));
++			rectY = rectY + row * (state.getBarWidth() + seriesGap);
++		} else {
++			rectY = rectY + row * state.getBarWidth();
++		}
++		double uclip = getUpperClip();
+ 
+         if (uclip <= 0.0) {  // cases 1, 2, 3 and 4
+             if (value >= uclip) {
+
+
+--- /tmp/GenProg_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-02 02:37:06.237617857 -0500
++++ /tmp/GenProg_Defects4J_Chart_25/patches_xdwj/Patch_673/patched/tmp/GenProg_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-02 02:46:27.697924088 -0500
+@@ -107,9 +107,6 @@
+         Number result = null;
+         MeanAndStandardDeviation masd 
+             = (MeanAndStandardDeviation) this.data.getObject(row, column);
+-        if (masd != null) {
+-            result = masd.getMean();
+-        }
+         return result;
+     }
+ 
+@@ -123,7 +120,8 @@
+      * @return The value.
+      */
+     public Number getValue(int row, int column) {
+-        return getMeanValue(row, column);
++        double maxval = Double.NaN;
++		return getMeanValue(row, column);
+     }
+ 
+     /**
+@@ -170,7 +168,7 @@
+         MeanAndStandardDeviation masd 
+             = (MeanAndStandardDeviation) this.data.getObject(row, column);
+         if (masd != null) {
+-            result = masd.getStandardDeviation();
++            double max = -Double.MAX_VALUE;
+         }
+         return result;
+     }
+@@ -243,7 +241,8 @@
+      * @return The row key.
+      */
+     public Comparable getRowKey(int row) {
+-        return this.data.getRowKey(row);
++        double x = 0.0;
++		return this.data.getRowKey(row);
+     }
+ 
+     /**
+@@ -377,9 +376,11 @@
+         Range result = null;
+         if (includeInterval) {
+             if (!Double.isNaN(this.minimumRangeValueIncStdDev) 
+-                    && !Double.isNaN(this.maximumRangeValueIncStdDev))
+-            result = new Range(this.minimumRangeValueIncStdDev, 
+-                    this.maximumRangeValueIncStdDev);
++                    && !Double.isNaN(this.maximumRangeValueIncStdDev)) {
++				double maxOutlier = Double.NEGATIVE_INFINITY;
++				result = new Range(this.minimumRangeValueIncStdDev,
++						this.maximumRangeValueIncStdDev);
++			}
+         }
+         else {
+             if (!Double.isNaN(this.minimumRangeValue) 
+
+

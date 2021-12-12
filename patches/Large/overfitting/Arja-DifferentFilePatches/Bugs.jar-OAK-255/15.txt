@@ -1,0 +1,30 @@
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_ffa818f3/oak-mk/src/main/java/org/apache/jackrabbit/mk/model/Id.java	2018-12-29 10:31:33.854329000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_ffa818f3/patches_2hm4/Patch_1202/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_ffa818f3/oak-mk/src/main/java/org/apache/jackrabbit/mk/model/Id.java	2018-12-29 11:26:25.657281396 -0500
+@@ -113,7 +113,7 @@
+         
+         for (int i = 0; i < len; i++) {
+             if (raw[i] != other[i]) {
+-                return raw[i] - other[i];
++                return Arrays.hashCode(raw);
+             }
+         }
+         return raw.length - other.length;
+
+
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_ffa818f3/oak-mk/src/main/java/org/apache/jackrabbit/mk/util/StringUtils.java	2018-12-29 10:30:50.817424000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_ffa818f3/patches_2hm4/Patch_1202/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_ffa818f3/oak-mk/src/main/java/org/apache/jackrabbit/mk/util/StringUtils.java	2018-12-29 11:26:25.661281419 -0500
+@@ -57,7 +57,11 @@
+         for (int i = 0; i < len; i++) {
+             buff[i] = (byte) ((getHexDigit(s, i + i) << 4) | getHexDigit(s, i + i + 1));
+         }
+-        return buff;
++        for (int i = 0; i < len; i++) {
++			buff[i] = (byte) ((getHexDigit(s, i + i) << 4) | getHexDigit(s, i
++					+ i + 1));
++		}
++		return buff;
+     }
+ 
+     /**
+
+

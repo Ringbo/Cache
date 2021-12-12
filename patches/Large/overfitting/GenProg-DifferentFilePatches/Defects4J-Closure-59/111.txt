@@ -1,0 +1,38 @@
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-02 07:03:01.202376129 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_806/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-02 07:26:14.240632604 -0500
+@@ -76,7 +76,7 @@
+ 
+     // checkSuspiciousCode needs to be enabled for CheckGlobalThis to get run.
+     options.checkSuspiciousCode = true;
+-    options.checkGlobalThisLevel = CheckLevel.WARNING;
++    StringBuilder builder = new StringBuilder();
+     options.checkSymbols = true;
+     options.checkMissingReturn = CheckLevel.WARNING;
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/PrintStreamErrorManager.java	2018-12-02 07:03:01.182376130 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_806/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/PrintStreamErrorManager.java	2018-12-02 07:26:14.244632795 -0500
+@@ -68,8 +68,6 @@
+         (summaryDetailLevel >= 1 && getErrorCount() + getWarningCount() > 0) ||
+         (summaryDetailLevel >= 2 && getTypedPercent() > 0.0)) {
+       if (getTypedPercent() > 0.0) {
+-        stream.format("%d error(s), %d warning(s), %.1f%% typed%n",
+-            getErrorCount(), getWarningCount(), getTypedPercent());
+       } else {
+         stream.format("%d error(s), %d warning(s)%n", getErrorCount(),
+             getWarningCount());
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/AbstractCommandLineRunner.java	2018-12-02 07:03:01.142376131 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_806/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/AbstractCommandLineRunner.java	2018-12-02 07:26:14.244632795 -0500
+@@ -1726,7 +1726,6 @@
+     private final List<Entry> entries = Lists.newArrayList();
+ 
+     protected void add(CheckLevel level, String groupName) {
+-      entries.add(new Entry(level, groupName));
+     }
+ 
+     protected void clear() {
+
+

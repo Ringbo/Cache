@@ -1,0 +1,22 @@
+--- /src/com/google/javascript/jscomp/AstChangeProxy.java
++++ /src/com/google/javascript/jscomp/AstChangeProxy.java
+@@ -117,7 +117,6 @@
+       parent.replaceChild(node, block);
+     } else {
+       for (Node newChild : replacements) {
+-        newChild.copyInformationFrom(node);
+         parent.addChildBefore(newChild, node);
+       }
+       parent.removeChild(node);
+
+
+--- /src/com/google/javascript/jscomp/NameAnalyzer.java
++++ /src/com/google/javascript/jscomp/NameAnalyzer.java
+@@ -1608,7 +1608,6 @@
+       }
+ 
+       if (parent.isAssign()) {
+-        return scopes.get(parent);
+       }
+     }
+

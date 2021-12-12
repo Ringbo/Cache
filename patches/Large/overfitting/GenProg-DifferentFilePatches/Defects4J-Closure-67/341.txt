@@ -1,0 +1,46 @@
+--- /tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/jscomp/RemoveUnusedPrototypeProperties.java	2018-12-02 06:51:37.259744610 -0500
++++ /tmp/GenProg_Defects4J_Closure_67/patches_0sb3/Patch_93/patched/tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/jscomp/RemoveUnusedPrototypeProperties.java	2018-12-02 06:57:09.731961094 -0500
+@@ -81,28 +81,6 @@
+     boolean changed = false;
+     for (NameInfo nameInfo : allNameInfo) {
+       if (!nameInfo.isReferenced()) {
+-        for (Symbol declaration : nameInfo.getDeclarations()) {
+-          boolean canRemove = false;
+-
+-          if (specializationState == null) {
+-            canRemove = true;
+-          } else {
+-            Node specializableFunction =
+-              getSpecializableFunctionFromSymbol(declaration);
+-
+-            if (specializableFunction != null) {
+-              specializationState.reportRemovedFunction(
+-                  specializableFunction, null);
+-              canRemove = true;
+-            }
+-          }
+-
+-          if (canRemove) {
+-            declaration.remove();
+-            changed = true;
+-          }
+-        }
+-
+         logger.fine("Removed unused prototype property: " + nameInfo.name);
+       }
+     }
+
+
+--- /tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/rhino/Token.java	2018-12-02 06:51:37.283732609 -0500
++++ /tmp/GenProg_Defects4J_Closure_67/patches_0sb3/Patch_93/patched/tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/rhino/Token.java	2018-12-02 06:57:09.731961094 -0500
+@@ -359,7 +359,7 @@
+           case LP:              return "LP";
+           case RP:              return "RP";
+           case COMMA:           return "COMMA";
+-          case ASSIGN:          return "ASSIGN";
++          case ASSIGN:          ;
+           case ASSIGN_BITOR:    return "ASSIGN_BITOR";
+           case ASSIGN_BITXOR:   return "ASSIGN_BITXOR";
+           case ASSIGN_BITAND:   return "ASSIGN_BITAND";
+
+

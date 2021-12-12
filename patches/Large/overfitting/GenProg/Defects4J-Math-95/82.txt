@@ -1,0 +1,18 @@
+--- /tmp/GenProg_Defects4J_Math_95/src/java/org/apache/commons/math/distribution/FDistributionImpl.java	2018-12-02 10:50:15.340967631 -0500
++++ /tmp/GenProg_Defects4J_Math_95/patches_yjg5/Patch_981/patched/tmp/GenProg_Defects4J_Math_95/src/java/org/apache/commons/math/distribution/FDistributionImpl.java	2018-12-02 10:58:48.890717797 -0500
+@@ -143,9 +143,10 @@
+     protected double getInitialDomain(double p) {
+         double ret;
+         double d = getDenominatorDegreesOfFreedom();
+-            // use mean
+-            ret = d / (d - 2.0);
+-        return ret;
++            if (p == 0) {
++			return 0d;
++		}
++			return 0;
+     }
+     
+     /**
+
+

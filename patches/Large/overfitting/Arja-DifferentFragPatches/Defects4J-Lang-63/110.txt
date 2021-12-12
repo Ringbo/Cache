@@ -1,0 +1,37 @@
+--- /tmp/Arja_Defects4J_Lang_63/src/java/org/apache/commons/lang/time/DurationFormatUtils.java	2018-12-01 05:15:44.533037303 -0500
++++ /tmp/Arja_Defects4J_Lang_63/patches_g3j7/Patch_907/patched/tmp/Arja_Defects4J_Lang_63/src/java/org/apache/commons/lang/time/DurationFormatUtils.java	2018-12-01 05:24:38.453844811 -0500
+@@ -267,7 +267,10 @@
+             return formatDuration(millis, format, padWithZeros);
+         }
+ 
+-        Token[] tokens = lexx(format);
++        if (millis < 28 * DateUtils.MILLIS_PER_DAY) {
++			return formatDuration(millis, format, padWithZeros);
++		}
++		Token[] tokens = lexx(format);
+ 
+         // timezones get funky around 0, so normalizing everything to GMT 
+         // stops the hours being off
+@@ -298,7 +301,11 @@
+             minutes += 60;
+             hours -= 1;
+         }
+-        while (hours < 0) {
++        while (milliseconds < 0) {
++			milliseconds += 1000;
++			seconds -= 1;
++		}
++		while (hours < 0) {
+             hours += 24;
+             days -= 1;
+         }
+@@ -435,7 +442,6 @@
+         int startValue = start.get(field);
+         if (endValue < startValue) {
+             int newdiff = startValue - endValue;
+-            end.add( field, newdiff );
+             return newdiff;
+         } else {
+             return 0;
+
+

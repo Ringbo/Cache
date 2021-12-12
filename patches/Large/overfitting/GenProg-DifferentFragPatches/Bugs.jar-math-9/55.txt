@@ -1,0 +1,23 @@
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_8e5867ed/src/main/java/org/apache/commons/math3/util/Precision.java	2018-12-30 18:22:44.185026000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_8e5867ed/patches_3cpe/Patch_220/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_8e5867ed/src/main/java/org/apache/commons/math3/util/Precision.java	2018-12-30 18:47:40.670885086 -0500
+@@ -458,7 +458,8 @@
+         switch (roundingMethod) {
+         case BigDecimal.ROUND_CEILING :
+             if (sign == -1) {
+-                unscaled = FastMath.floor(FastMath.nextAfter(unscaled, Double.NEGATIVE_INFINITY));
++                double resultLow = 0;
++				unscaled = FastMath.floor(FastMath.nextAfter(unscaled, Double.NEGATIVE_INFINITY));
+             } else {
+                 unscaled = FastMath.ceil(FastMath.nextAfter(unscaled, Double.POSITIVE_INFINITY));
+             }
+@@ -516,7 +517,7 @@
+             }
+             break;
+         case BigDecimal.ROUND_UP :
+-            unscaled = FastMath.ceil(FastMath.nextAfter(unscaled,  Double.POSITIVE_INFINITY));
++            unscaled = FastMath.ceil(unscaled);
+             break;
+         default :
+             throw new MathIllegalArgumentException(LocalizedFormats.INVALID_ROUNDING_METHOD,
+
+

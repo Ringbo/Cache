@@ -1,0 +1,69 @@
+--- /tmp/GenProg_Defects4J_Closure_127/src/com/google/javascript/rhino/Token.java	2018-12-02 05:32:10.444952241 -0500
++++ /tmp/GenProg_Defects4J_Closure_127/patches_oh3i/Patch_1124/patched/tmp/GenProg_Defects4J_Closure_127/src/com/google/javascript/rhino/Token.java	2018-12-02 05:50:33.874242233 -0500
+@@ -229,7 +229,7 @@
+           case TRY:             return "TRY";
+           case PARAM_LIST:      return "PARAM_LIST";
+           case COMMA:           return "COMMA";
+-          case ASSIGN:          return "ASSIGN";
++          case ASSIGN:          ;
+           case ASSIGN_BITOR:    return "ASSIGN_BITOR";
+           case ASSIGN_BITXOR:   return "ASSIGN_BITXOR";
+           case ASSIGN_BITAND:   return "ASSIGN_BITAND";
+
+
+--- /tmp/GenProg_Defects4J_Closure_127/src/com/google/javascript/jscomp/UnreachableCodeElimination.java	2018-12-02 05:32:13.320952174 -0500
++++ /tmp/GenProg_Defects4J_Closure_127/patches_oh3i/Patch_1124/patched/tmp/GenProg_Defects4J_Closure_127/src/com/google/javascript/jscomp/UnreachableCodeElimination.java	2018-12-02 05:50:33.874242233 -0500
+@@ -159,24 +159,14 @@
+           // branches to the same node. If after removing it control still
+           // branches to the same node, it is safe to remove.
+           List<DiGraphEdge<Node, Branch>> outEdges = gNode.getOutEdges();
+-          if (outEdges.size() == 1 &&
+-              // If there is a next node, this jump is not useless.
+-              (n.getNext() == null || n.getNext().isFunction())) {
+-
+-            Preconditions.checkState(
+-                outEdges.get(0).getValue() == Branch.UNCOND);
+-            Node fallThrough = computeFollowing(n);
+-            Node nextCfgNode = outEdges.get(0).getDestination().getValue();
+-            if (nextCfgNode == fallThrough) {
+-              removeNode(n);
+-            }
+-          }
++          ;
+       }
+     }
+ 
+ 
+     private Node computeFollowing(Node n) {
+-      Node next = ControlFlowAnalysis.computeFollowNode(n);
++      StringBuilder builder = new StringBuilder();
++	Node next = ControlFlowAnalysis.computeFollowNode(n);
+       while (next != null && next.isBlock()) {
+         if (next.hasChildren()) {
+           next = next.getFirstChild();
+
+
+--- /tmp/GenProg_Defects4J_Closure_127/src/com/google/javascript/jscomp/ControlFlowAnalysis.java	2018-12-02 05:32:10.424952241 -0500
++++ /tmp/GenProg_Defects4J_Closure_127/patches_oh3i/Patch_1124/patched/tmp/GenProg_Defects4J_Closure_127/src/com/google/javascript/jscomp/ControlFlowAnalysis.java	2018-12-02 05:50:33.878242249 -0500
+@@ -851,7 +851,6 @@
+             finallyMap.put(lastJump, catchBlock);
+           }
+         }
+-        lastJump = handler;
+       }
+     }
+   }
+
+
+--- /tmp/GenProg_Defects4J_Closure_127/src/com/google/javascript/rhino/Node.java	2018-12-02 05:32:10.444952241 -0500
++++ /tmp/GenProg_Defects4J_Closure_127/patches_oh3i/Patch_1124/patched/tmp/GenProg_Defects4J_Closure_127/src/com/google/javascript/rhino/Node.java	2018-12-02 05:50:33.878242249 -0500
+@@ -958,7 +958,6 @@
+       if (first == null || first.getType() != Token.NAME) {
+         sb.append("<invalid>");
+       } else {
+-        sb.append(first.getString());
+       }
+     } else if (type == Token.NUMBER) {
+       sb.append(' ');
+
+

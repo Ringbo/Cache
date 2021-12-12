@@ -1,0 +1,28 @@
+--- /tmp/Arja_Defects4J_Closure_75/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-01 09:23:26.391734914 -0500
++++ /tmp/Arja_Defects4J_Closure_75/patches_z70m/Patch_691/patched/tmp/Arja_Defects4J_Closure_75/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-01 09:35:41.783705365 -0500
+@@ -298,7 +298,7 @@
+         break;
+ 
+       case Token.STRING:
+-        return getStringNumberValue(n.getString());
++        return null;
+ 
+       case Token.ARRAYLIT:
+       case Token.OBJECTLIT:
+@@ -337,14 +337,6 @@
+       return null;
+     }
+ 
+-    // FireFox and IE treat the "Infinity" differently. FireFox is case
+-    // insensitive, but IE treats "infinity" as NaN.  So leave it alone.
+-    if (s.equals("infinity")
+-        || s.equals("-infinity")
+-        || s.equals("+infinity")) {
+-      return null;
+-    }
+-
+     try {
+       return Double.parseDouble(s);
+     } catch (NumberFormatException e) {
+
+

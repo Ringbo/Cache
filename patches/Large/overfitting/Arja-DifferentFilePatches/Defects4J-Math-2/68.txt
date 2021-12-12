@@ -1,0 +1,32 @@
+--- /tmp/Arja_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/HypergeometricDistribution.java	2018-12-01 07:02:49.219241695 -0500
++++ /tmp/Arja_Defects4J_Math_2/patches_aq2w/Patch_1686/patched/tmp/Arja_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/HypergeometricDistribution.java	2018-12-01 08:07:34.917006965 -0500
+@@ -176,7 +176,11 @@
+      * @return the sample size.
+      */
+     public int getSampleSize() {
+-        return sampleSize;
++        if (numberOfSuccesses < 0) {
++			throw new NotPositiveException(
++					LocalizedFormats.NUMBER_OF_SUCCESSES, numberOfSuccesses);
++		}
++		return sampleSize;
+     }
+ 
+     /**
+
+
+--- /tmp/Arja_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/AbstractIntegerDistribution.java	2018-12-01 07:02:45.423249176 -0500
++++ /tmp/Arja_Defects4J_Math_2/patches_aq2w/Patch_1686/patched/tmp/Arja_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/AbstractIntegerDistribution.java	2018-12-01 08:07:34.921006956 -0500
+@@ -134,9 +134,7 @@
+             }
+             k = 1.0 / k;
+             tmp = mu + k * sigma;
+-            if (tmp < upper) {
+-                upper = ((int) Math.ceil(tmp)) - 1;
+-            }
++            lower -= 1;
+         }
+ 
+         return solveInverseCumulativeProbability(p, lower, upper);
+
+

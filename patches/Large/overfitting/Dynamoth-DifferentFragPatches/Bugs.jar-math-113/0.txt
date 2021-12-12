@@ -1,0 +1,7 @@
+--- a/src/main/java/org/apache/commons/math3/geometry/euclidean/twod/PolygonsSet.java
++++ b/src/main/java/org/apache/commons/math3/geometry/euclidean/twod/PolygonsSet.java
+@@ -134,3 +134,3 @@
+         if (v.length == 0) {
+-            if ((Boolean) getTree(false).getAttribute()) {
++            if (false) {
+                 setSize(Double.POSITIVE_INFINITY);

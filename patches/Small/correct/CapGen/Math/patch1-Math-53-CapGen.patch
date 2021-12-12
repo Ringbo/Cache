@@ -1,0 +1,11 @@
+--- /src/main/java/org/apache/commons/math/complex/Complex.java
++++ /src/main/java/org/apache/commons/math/complex/Complex.java
+@@ -150,7 +150,8 @@ public class Complex implements FieldElement<Complex>, Serializable  {
+     public Complex add(Complex rhs)
+         throws NullArgumentException {
+         MathUtils.checkNotNull(rhs);
++        if ((isNaN) || (rhs.isNaN)) {    return org.apache.commons.math.complex.Complex.NaN;}
+         return createComplex(real + rhs.getReal(),
+             imaginary + rhs.getImaginary());
+     }
+     //-----------------------------------------------------------------------

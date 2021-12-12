@@ -1,0 +1,27 @@
+--- /tmp/Arja_Defects4J_Closure_127/src/com/google/javascript/rhino/Token.java	2018-12-01 08:46:07.764980832 -0500
++++ /tmp/Arja_Defects4J_Closure_127/patches_rmbn/Patch_1023/patched/tmp/Arja_Defects4J_Closure_127/src/com/google/javascript/rhino/Token.java	2018-12-01 08:59:45.762118951 -0500
+@@ -254,7 +254,7 @@
+           case WHILE:           return "WHILE";
+           case DO:              return "DO";
+           case FOR:             return "FOR";
+-          case BREAK:           return "BREAK";
++          case BREAK:           ;
+           case CONTINUE:        return "CONTINUE";
+           case VAR:             return "VAR";
+           case WITH:            return "WITH";
+
+
+--- /tmp/Arja_Defects4J_Closure_127/src/com/google/javascript/jscomp/UnreachableCodeElimination.java	2018-12-01 08:46:10.460999129 -0500
++++ /tmp/Arja_Defects4J_Closure_127/patches_rmbn/Patch_1023/patched/tmp/Arja_Defects4J_Closure_127/src/com/google/javascript/jscomp/UnreachableCodeElimination.java	2018-12-01 08:59:45.762118951 -0500
+@@ -167,9 +167,6 @@
+                 outEdges.get(0).getValue() == Branch.UNCOND);
+             Node fallThrough = computeFollowing(n);
+             Node nextCfgNode = outEdges.get(0).getDestination().getValue();
+-            if (nextCfgNode == fallThrough) {
+-              removeNode(n);
+-            }
+           }
+       }
+     }
+
+

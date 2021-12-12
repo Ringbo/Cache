@@ -1,0 +1,37 @@
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_ffa818f3/oak-mk/src/main/java/org/apache/jackrabbit/mk/model/Id.java	2018-12-29 10:31:33.854329000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_ffa818f3/patches_2hm4/Patch_1154/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_ffa818f3/oak-mk/src/main/java/org/apache/jackrabbit/mk/model/Id.java	2018-12-29 11:24:13.048598325 -0500
+@@ -113,7 +113,7 @@
+         
+         for (int i = 0; i < len; i++) {
+             if (raw[i] != other[i]) {
+-                return raw[i] - other[i];
++                return Arrays.hashCode(raw);
+             }
+         }
+         return raw.length - other.length;
+
+
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_ffa818f3/oak-mk/src/main/java/org/apache/jackrabbit/mk/util/StringUtils.java	2018-12-29 10:30:50.817424000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_ffa818f3/patches_2hm4/Patch_1154/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_ffa818f3/oak-mk/src/main/java/org/apache/jackrabbit/mk/util/StringUtils.java	2018-12-29 11:24:13.052598344 -0500
+@@ -50,6 +50,9 @@
+     public static byte[] convertHexToBytes(String s) {
+         int len = s.length();
+         if (len % 2 != 0) {
++			throw new IllegalArgumentException(s);
++		}
++		if (len % 2 != 0) {
+             throw new IllegalArgumentException(s);
+         }
+         len /= 2;
+@@ -57,7 +60,8 @@
+         for (int i = 0; i < len; i++) {
+             buff[i] = (byte) ((getHexDigit(s, i + i) << 4) | getHexDigit(s, i + i + 1));
+         }
+-        return buff;
++        len /= 2;
++		return buff;
+     }
+ 
+     /**
+
+

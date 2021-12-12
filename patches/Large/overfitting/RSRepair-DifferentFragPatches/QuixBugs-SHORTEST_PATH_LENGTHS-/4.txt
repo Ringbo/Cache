@@ -1,0 +1,13 @@
+--- /tmp/RSRepair_QuixBugs_SHORTEST_PATH_LENGTHS_/src/main/java/SHORTEST_PATH_LENGTHS.java	2018-12-02 12:31:10.452838352 -0500
++++ /tmp/RSRepair_QuixBugs_SHORTEST_PATH_LENGTHS_/patches_s07s/Patch_34/patched/tmp/RSRepair_QuixBugs_SHORTEST_PATH_LENGTHS_/src/main/java/SHORTEST_PATH_LENGTHS.java	2018-12-02 12:31:22.656811359 -0500
+@@ -25,7 +25,7 @@
+                 else if (length_by_edge.containsKey(edge) ) {
+                     length_by_path.put(edge, length_by_edge.get(edge));
+                 } else {
+-                    length_by_path.put(edge, INF);
++                    return length_by_path;
+                 }
+             }
+         }
+
+

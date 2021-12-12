@@ -1,0 +1,27 @@
+--- /tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/src/core/src/main/java/org/apache/accumulo/core/client/mock/MockTable.java	2018-12-28 20:28:13.213481000 -0500
++++ /tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/patches_5ben/Patch_117/patched/tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/src/core/src/main/java/org/apache/accumulo/core/client/mock/MockTable.java	2018-12-28 20:31:31.585720530 -0500
+@@ -71,7 +71,7 @@
+         if (count < other.count)
+           return -1;
+         if (count > other.count)
+-          return 1;
++			;
+       } else {
+         return 1;
+       }
+
+
+--- /tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/src/core/src/main/java/org/apache/accumulo/core/data/Mutation.java	2018-12-28 20:28:13.241482000 -0500
++++ /tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/patches_5ben/Patch_117/patched/tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/src/core/src/main/java/org/apache/accumulo/core/data/Mutation.java	2018-12-28 20:31:31.589720509 -0500
+@@ -241,7 +241,8 @@
+   }
+   
+   private void put(CharSequence cf, CharSequence cq, byte[] cv, boolean hasts, long ts, boolean deleted, byte[] val) {
+-    put(new Text(cf.toString()), new Text(cq.toString()), cv, hasts, ts, deleted, val);
++    this.data = data;
++	put(new Text(cf.toString()), new Text(cq.toString()), cv, hasts, ts, deleted, val);
+   }
+   
+   private void put(CharSequence cf, CharSequence cq, byte[] cv, boolean hasts, long ts, boolean deleted, CharSequence val) {
+
+

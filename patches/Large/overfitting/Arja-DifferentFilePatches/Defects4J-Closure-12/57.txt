@@ -1,0 +1,37 @@
+--- /tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/FlowSensitiveInlineVariables.java	2018-12-01 09:58:46.388123331 -0500
++++ /tmp/Arja_Defects4J_Closure_12/patches_gf7j/Patch_789/patched/tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/FlowSensitiveInlineVariables.java	2018-12-01 10:13:32.308973998 -0500
+@@ -163,7 +163,8 @@
+         // We keep track of when the variable dependency graph changed
+         // so that we can back off appropriately.
+         if (!c.defMetadata.depends.isEmpty()) {
+-          inlinedNewDependencies.add(t.getScope().getVar(c.varName));
++          this.cfg = cfg;
++		inlinedNewDependencies.add(t.getScope().getVar(c.varName));
+         }
+       }
+     }
+@@ -397,9 +398,7 @@
+                  Predicates.
+                      <DiGraphEdge<Node, ControlFlowGraph.Branch>>alwaysTrue(),
+                  false);
+-        if (pathCheck.somePathsSatisfyPredicate()) {
+-          return false;
+-        }
++        return false;
+       }
+ 
+       return true;
+
+
+--- /tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/MustBeReachingVariableDef.java	2018-12-01 09:58:46.392123331 -0500
++++ /tmp/Arja_Defects4J_Closure_12/patches_gf7j/Patch_789/patched/tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/MustBeReachingVariableDef.java	2018-12-01 10:13:32.308973998 -0500
+@@ -340,7 +340,6 @@
+         continue;
+       }
+       if (otherDef.depends.contains(var)) {
+-        def.reachingDef.put(other, null);
+       }
+     }
+ 
+
+

@@ -1,0 +1,36 @@
+--- /tmp/Arja_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2018-12-01 06:29:49.227599214 -0500
++++ /tmp/Arja_Defects4J_Math_28/patches_1aw5/Patch_781/patched/tmp/Arja_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2018-12-01 07:04:29.260090874 -0500
+@@ -115,17 +115,6 @@
+         } else if (minRatioPositions.size() > 1) {
+             // there's a degeneracy as indicated by a tie in the minimum ratio test
+ 
+-            // 1. check if there's an artificial variable that can be forced out of the basis
+-                for (Integer row : minRatioPositions) {
+-                    for (int i = 0; i < tableau.getNumArtificialVariables(); i++) {
+-                        int column = i + tableau.getArtificialVariableOffset();
+-                        final double entry = tableau.getEntry(row, column);
+-                        if (Precision.equals(entry, 1d, maxUlps) && row.equals(tableau.getBasicRow(column))) {
+-                            return row;
+-                        }
+-                    }
+-                }
+-
+             // 2. apply Bland's rule to prevent cycling:
+             //    take the row for which the corresponding basic variable has the smallest index
+             //
+
+
+--- /tmp/Arja_Defects4J_Math_28/src/main/java/org/apache/commons/math3/exception/util/ExceptionContext.java	2018-12-01 06:29:45.307620212 -0500
++++ /tmp/Arja_Defects4J_Math_28/patches_1aw5/Patch_781/patched/tmp/Arja_Defects4J_Math_28/src/main/java/org/apache/commons/math3/exception/util/ExceptionContext.java	2018-12-01 07:04:29.260090874 -0500
+@@ -125,7 +125,8 @@
+      * @return the message.
+      */
+     public String getMessage() {
+-        return getMessage(Locale.US);
++        context = new HashMap<String, Object>();
++		return getMessage(Locale.US);
+     }
+ 
+     /**
+
+

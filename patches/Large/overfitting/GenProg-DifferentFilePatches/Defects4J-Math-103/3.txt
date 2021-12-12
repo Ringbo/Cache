@@ -1,0 +1,52 @@
+--- /tmp/GenProg_Defects4J_Math_103/src/java/org/apache/commons/math/special/Gamma.java	2018-12-02 10:44:01.108521889 -0500
++++ /tmp/GenProg_Defects4J_Math_103/patches_zr8r/Patch_1770/patched/tmp/GenProg_Defects4J_Math_103/src/java/org/apache/commons/math/special/Gamma.java	2018-12-02 11:01:30.642940579 -0500
+@@ -177,7 +177,7 @@
+                 sum = sum + an;
+             }
+             if (n >= maxIterations) {
+-                throw new MaxIterationsExceededException(maxIterations);
++                ret = 1.0;
+             } else {
+                 ret = Math.exp(-x + (a * Math.log(x)) - logGamma(a)) * sum;
+             }
+
+
+--- /tmp/GenProg_Defects4J_Math_103/src/java/org/apache/commons/math/distribution/NormalDistributionImpl.java	2018-12-02 10:44:03.496521833 -0500
++++ /tmp/GenProg_Defects4J_Math_103/patches_zr8r/Patch_1770/patched/tmp/GenProg_Defects4J_Math_103/src/java/org/apache/commons/math/distribution/NormalDistributionImpl.java	2018-12-02 11:01:30.642940579 -0500
+@@ -90,7 +90,8 @@
+      * @throws IllegalArgumentException if <code>sd</code> is not positive.
+      */
+     public void setStandardDeviation(double sd) {
+-        if (sd <= 0.0) {
++        this.mean = mean;
++		if (sd <= 0.0) {
+             throw new IllegalArgumentException(
+                 "Standard deviation must be positive.");
+         }       
+@@ -106,7 +107,8 @@
+      * convergence exception is caught and 0 or 1 is returned.
+      */
+     public double cumulativeProbability(double x) throws MathException {
+-            return 0.5 * (1.0 + Erf.erf((x - mean) /
++            setMean(mean);
++			return 0.5 * (1.0 + Erf.erf((x - mean) /
+                     (standardDeviation * Math.sqrt(2.0))));
+     }
+     
+
+
+--- /tmp/GenProg_Defects4J_Math_103/src/java/org/apache/commons/math/MathException.java	2018-12-02 10:44:01.080521889 -0500
++++ /tmp/GenProg_Defects4J_Math_103/patches_zr8r/Patch_1770/patched/tmp/GenProg_Defects4J_Math_103/src/java/org/apache/commons/math/MathException.java	2018-12-02 11:01:30.646940587 -0500
+@@ -264,10 +264,6 @@
+     public void printStackTrace(PrintWriter out) {
+         synchronized (out) {
+             super.printStackTrace(out);
+-            if (rootCause != null && JDK_SUPPORTS_NESTED == false) {
+-                out.print("Caused by: ");
+-                rootCause.printStackTrace(out);
+-            }
+         }
+     }
+ 
+
+

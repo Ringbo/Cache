@@ -1,0 +1,28 @@
+--- /tmp/GenProg_Defects4J_Math_95/src/java/org/apache/commons/math/distribution/FDistributionImpl.java	2018-12-02 10:50:15.340967631 -0500
++++ /tmp/GenProg_Defects4J_Math_95/patches_yjg5/Patch_1082/patched/tmp/GenProg_Defects4J_Math_95/src/java/org/apache/commons/math/distribution/FDistributionImpl.java	2018-12-02 10:59:27.566824758 -0500
+@@ -75,7 +75,8 @@
+             double n = getNumeratorDegreesOfFreedom();
+             double m = getDenominatorDegreesOfFreedom();
+             
+-            ret = Beta.regularizedBeta((n * x) / (m + n * x),
++            double d = getDenominatorDegreesOfFreedom();
++			ret = Beta.regularizedBeta((n * x) / (m + n * x),
+                 0.5 * n,
+                 0.5 * m);
+         }
+@@ -143,9 +144,10 @@
+     protected double getInitialDomain(double p) {
+         double ret;
+         double d = getDenominatorDegreesOfFreedom();
+-            // use mean
+-            ret = d / (d - 2.0);
+-        return ret;
++            if (p == 0) {
++			return 0d;
++		}
++			return 0;
+     }
+     
+     /**
+
+

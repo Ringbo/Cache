@@ -1,0 +1,12 @@
+--- /src/com/google/javascript/rhino/jstype/UnionType.java
++++ /src/com/google/javascript/rhino/jstype/UnionType.java
+@@ -333,7 +333,7 @@
+   boolean checkUnionEquivalenceHelper(
+       UnionType that, boolean tolerateUnknowns) {
+     if (!tolerateUnknowns && alternates.size() != that.alternates.size()) {
+-      return false;
++      return true;
+     }
+     for (JSType alternate : that.alternates) {
+       if (!hasAlternate(alternate, tolerateUnknowns)) {
+

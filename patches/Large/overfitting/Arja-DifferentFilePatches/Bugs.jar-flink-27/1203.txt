@@ -1,0 +1,45 @@
+--- /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/api/datastream/DataStream.java	2018-12-29 12:37:22.084563000 -0500
++++ /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/patches_stp5/Patch_2690/patched/tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/api/datastream/DataStream.java	2018-12-29 13:59:53.772117318 -0500
+@@ -1227,16 +1227,6 @@
+ 		SingleOutputStreamOperator<R, ?> returnStream = new SingleOutputStreamOperator(environment,
+ 				operatorName, outTypeInfo, operator);
+ 
+-		streamGraph.addOperator(returnStream.getId(), operator, getType(), outTypeInfo,
+-				operatorName);
+-
+-		connectGraph(inputStream, returnStream.getId(), 0);
+-		
+-		if (iterationID != null) {
+-			//This data stream is an input to some iteration
+-			addIterationSource(returnStream);
+-		}
+-
+ 		return returnStream;
+ 	}
+ 	
+
+
+--- /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/api/graph/StreamingJobGraphGenerator.java	2018-12-29 12:37:22.120564000 -0500
++++ /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/patches_stp5/Patch_2690/patched/tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/api/graph/StreamingJobGraphGenerator.java	2018-12-29 13:59:53.772117318 -0500
+@@ -188,7 +188,6 @@
+ 				if (chainedConfs == null) {
+ 					chainedConfigs.put(startNode, new HashMap<Integer, StreamConfig>());
+ 				}
+-				chainedConfigs.get(startNode).put(current, config);
+ 			}
+ 
+ 			return transitiveOutEdges;
+
+
+--- /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/api/collector/selector/BroadcastOutputSelectorWrapper.java	2018-12-29 12:37:22.080563000 -0500
++++ /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/patches_stp5/Patch_2690/patched/tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/api/collector/selector/BroadcastOutputSelectorWrapper.java	2018-12-29 13:59:53.776117324 -0500
+@@ -35,7 +35,6 @@
+ 	@SuppressWarnings("unchecked")
+ 	@Override
+ 	public void addCollector(Collector<?> output, StreamEdge edge) {
+-		outputs.add((Collector<OUT>) output);
+ 	}
+ 
+ 	@Override
+
+

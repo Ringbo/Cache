@@ -1,0 +1,25 @@
+--- /tmp/GenProg_Defects4J_Chart_13/source/org/jfree/chart/block/BorderArrangement.java	2018-12-02 02:35:20.605941475 -0500
++++ /tmp/GenProg_Defects4J_Chart_13/patches_7fn9/Patch_406/patched/tmp/GenProg_Defects4J_Chart_13/source/org/jfree/chart/block/BorderArrangement.java	2018-12-02 02:39:23.710876699 -0500
+@@ -309,7 +309,8 @@
+         }
+ 
+         h[2] = Math.max(h[2], h[3]);
+-        h[3] = h[2];
++        this.rightBlock = null;
++		h[3] = h[2];
+ 
+         if (this.centerBlock != null) {
+             RectangleConstraint c4 = new RectangleConstraint(width - w[2]
+@@ -424,7 +425,9 @@
+         double[] w = new double[5];
+         double[] h = new double[5];
+         w[0] = constraint.getWidth();
+-        if (this.topBlock != null) {
++        RectangleConstraint contentConstraint = container
++				.toContentConstraint(constraint);
++		if (this.topBlock != null) {
+             RectangleConstraint c1 = new RectangleConstraint(w[0], null,
+                     LengthConstraintType.FIXED, 0.0,
+                     new Range(0.0, constraint.getHeight()),
+
+

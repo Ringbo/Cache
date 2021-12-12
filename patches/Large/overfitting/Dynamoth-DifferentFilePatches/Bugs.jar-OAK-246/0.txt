@@ -1,0 +1,7 @@
+--- a/oak-jcr/src/main/java/org/apache/jackrabbit/oak/jcr/SessionDelegate.java
++++ b/oak-jcr/src/main/java/org/apache/jackrabbit/oak/jcr/SessionDelegate.java
+@@ -504,3 +504,3 @@
+         if (userManager == null) {
+-            if (securityProvider != null) {
++            if (false) {
+                 userManager = securityProvider.getUserConfiguration().getUserManager(root, getNamePathMapper(), session);

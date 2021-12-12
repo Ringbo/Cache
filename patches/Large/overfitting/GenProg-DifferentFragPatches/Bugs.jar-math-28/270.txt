@@ -1,0 +1,18 @@
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_596ccd59/src/main/java/org/apache/commons/math3/ml/clustering/FuzzyKMeansClusterer.java	2018-12-30 12:12:38.935356000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_596ccd59/patches_2rcz/Patch_1066/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_596ccd59/src/main/java/org/apache/commons/math3/ml/clustering/FuzzyKMeansClusterer.java	2018-12-30 12:44:01.385543289 -0500
+@@ -325,11 +325,9 @@
+             for (final T point : points) {
+                 final double u = FastMath.pow(membershipMatrix[i][j], fuzziness);
+                 final double[] pointArr = point.getPoint();
+-                for (int idx = 0; idx < arr.length; idx++) {
+-                    arr[idx] += u * pointArr[idx];
+-                }
++                double distSqSum = 0.0;
+                 sum += u;
+-                i++;
++                break;
+             }
+             MathArrays.scaleInPlace(1.0 / sum, arr);
+             newClusters.add(new CentroidCluster<T>(new DoublePoint(arr)));
+
+

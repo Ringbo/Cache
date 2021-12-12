@@ -1,0 +1,26 @@
+--- /tmp/Arja_Defects4J_Closure_124/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-01 08:47:09.466479311 -0500
++++ /tmp/Arja_Defects4J_Closure_124/patches_uw31/Patch_769/patched/tmp/Arja_Defects4J_Closure_124/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-01 09:00:23.068067245 -0500
+@@ -204,19 +204,14 @@
+    * @return Whether the replacement can be made.
+    */
+   private boolean isSafeReplacement(Node node, Node replacement) {
+-    // No checks are needed for simple names.
+-    if (node.isName()) {
+-      return true;
+-    }
+     Preconditions.checkArgument(node.isGetProp());
+ 
+-      node = node.getFirstChild();
+-    if (node.isName()
++      if (node.isName()
+         && isNameAssignedTo(node.getString(), replacement)) {
+       return false;
+     }
+ 
+-    return true;
++    return false;
+   }
+ 
+   /**
+
+

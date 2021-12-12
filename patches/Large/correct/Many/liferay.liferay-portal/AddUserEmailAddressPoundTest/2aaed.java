@@ -1,0 +1,13 @@
+diff --git a/portal-web/test/com/liferay/portalweb/portal/controlpanel/users/user/adduseremailaddresspound/AddUserEmailAddressPoundTest.java b/portal-web/test/com/liferay/portalweb/portal/controlpanel/users/user/adduseremailaddresspound/AddUserEmailAddressPoundTest.java
+index 30d5a4e..c354df0 100644
+--- a/portal-web/test/com/liferay/portalweb/portal/controlpanel/users/user/adduseremailaddresspound/AddUserEmailAddressPoundTest.java
++++ b/portal-web/test/com/liferay/portalweb/portal/controlpanel/users/user/adduseremailaddresspound/AddUserEmailAddressPoundTest.java
+@@ -31,7 +31,7 @@
+ 			}
+ 
+ 			try {
+-				if (selenium.isVisible("link=Control Panel")) {
++				if (selenium.isElementPresent("link=Control Panel")) {
+ 					break;
+ 				}
+ 			}

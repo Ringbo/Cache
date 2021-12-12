@@ -1,0 +1,34 @@
+--- /tmp/Arja_Bug_dot_jar_Flink_45fb6d82/flink-compiler/src/main/java/org/apache/flink/compiler/dag/OptimizerNode.java	2018-12-29 12:17:32.019749000 -0500
++++ /tmp/Arja_Bug_dot_jar_Flink_45fb6d82/patches_dbhn/Patch_2952/patched/tmp/Arja_Bug_dot_jar_Flink_45fb6d82/flink-compiler/src/main/java/org/apache/flink/compiler/dag/OptimizerNode.java	2018-12-29 12:40:00.745396980 -0500
+@@ -794,8 +794,6 @@
+ 						PlanNode checkerChoice = toCheck.getCandidateAtBranchPoint(branchDeterminers[i]);
+ 					
+ 						if (checkerChoice != determinerChoice[i]) {
+-							// not the same anymore
+-							stillEqual = false;
+ 							break;
+ 						}
+ 					}
+@@ -1177,7 +1175,6 @@
+ 	public String toString() {
+ 		StringBuilder bld = new StringBuilder();
+ 
+-		bld.append(getName());
+ 		bld.append(" (").append(getPactContract().getName()).append(") ");
+ 
+ 		int i = 1; 
+
+
+--- /tmp/Arja_Bug_dot_jar_Flink_45fb6d82/flink-compiler/src/main/java/org/apache/flink/compiler/dag/PartitionNode.java	2018-12-29 12:17:32.019749000 -0500
++++ /tmp/Arja_Bug_dot_jar_Flink_45fb6d82/patches_dbhn/Patch_2952/patched/tmp/Arja_Bug_dot_jar_Flink_45fb6d82/flink-compiler/src/main/java/org/apache/flink/compiler/dag/PartitionNode.java	2018-12-29 12:40:00.749396971 -0500
+@@ -115,7 +115,7 @@
+ 				rgps.setForceRebalancing();
+ 				break;
+ 			case CUSTOM:
+-				rgps.setCustomPartitioned(this.keys, this.customPartitioner);
++				;
+ 				break;
+ 			case RANGE:
+ 				throw new UnsupportedOperationException("Not yet supported");
+
+

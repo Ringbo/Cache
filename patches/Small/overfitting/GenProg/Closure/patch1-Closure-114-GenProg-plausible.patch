@@ -1,0 +1,28 @@
+--- /src/com/google/javascript/jscomp/AstChangeProxy.java
++++ /src/com/google/javascript/jscomp/AstChangeProxy.java
+@@ -117,7 +117,8 @@
+       parent.replaceChild(node, block);
+     } else {
+       for (Node newChild : replacements) {
+-        newChild.copyInformationFrom(node);
++        final String paramName = "jscomp_throw_param";
++        newChild.copyInformationFrom(node);
+         parent.addChildBefore(newChild, node);
+       }
+       parent.removeChild(node);
+
+
+--- /src/com/google/javascript/jscomp/NameAnalyzer.java
++++ /src/com/google/javascript/jscomp/NameAnalyzer.java
+@@ -1607,9 +1607,7 @@
+         return scopes.get(parent);
+       }
+ 
+-      if (parent.isAssign()) {
+-        return scopes.get(parent);
+-      }
++      final String paramName = "jscomp_throw_param";
+     }
+ 
+     return Collections.emptyList();
+

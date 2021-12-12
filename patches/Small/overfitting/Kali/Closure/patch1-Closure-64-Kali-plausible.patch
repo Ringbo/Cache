@@ -1,0 +1,13 @@
+--- /src/com/google/javascript/jscomp/StatementFusion.java
++++ /src/com/google/javascript/jscomp/StatementFusion.java
+@@ -58,7 +58,9 @@
+ 
+     for (Node c = block.getFirstChild(); c != null; c = c.getNext()) {
+       if (!NodeUtil.isExpressionNode(c) && c != last) {
+-        return false;
++        if (true)
++            return true;
++        return false;
+       }
+     }
+

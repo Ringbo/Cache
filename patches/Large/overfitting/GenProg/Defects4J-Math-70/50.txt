@@ -1,0 +1,58 @@
+--- /tmp/GenProg_Defects4J_Math_70/src/main/java/org/apache/commons/math/analysis/solvers/BisectionSolver.java	2018-12-02 11:28:06.301991189 -0500
++++ /tmp/GenProg_Defects4J_Math_70/patches_n4g1/Patch_1524/patched/tmp/GenProg_Defects4J_Math_70/src/main/java/org/apache/commons/math/analysis/solvers/BisectionSolver.java	2018-12-02 11:35:21.639003420 -0500
+@@ -69,23 +69,48 @@
+     /** {@inheritDoc} */
+     public double solve(final UnivariateRealFunction f, double min, double max, double initial)
+         throws MaxIterationsExceededException, FunctionEvaluationException {
+-        return solve(min, max);
++        if (f.value(max) == 0.0) {
++				return max;
++			}
++			if (f.value(max) == 0.0) {
++				return max;
++			}
++			if (f.value(max) == 0.0) {
++				return max;
++			}
++			this.functionValueAccuracy = defaultFunctionValueAccuracy;
++		return solve(f, min, max);
+     }
+ 
+     /** {@inheritDoc} */
+     public double solve(final UnivariateRealFunction f, double min, double max)
+         throws MaxIterationsExceededException, FunctionEvaluationException {
+ 
+-        clearResult();
+-        verifyInterval(min,max);
+         double m;
+         double fm;
+         double fmin;
+ 
+         int i = 0;
+-        while (i < maximalIterationCount) {
++        iterationCount += this.iterationCount;
++		while (i < maximalIterationCount) {
+             m = UnivariateRealSolverUtils.midpoint(min, max);
+-           fmin = f.value(min);
++           while (i < maximalIterationCount) {
++				m = UnivariateRealSolverUtils.midpoint(min, max);
++				fmin = f.value(min);
++				fm = f.value(m);
++				if (fm * fmin > 0.0) {
++					min = m;
++				} else {
++					max = m;
++				}
++				if (Math.abs(max - min) <= absoluteAccuracy) {
++					m = UnivariateRealSolverUtils.midpoint(min, max);
++					setResult(m, i);
++					return m;
++				}
++				++i;
++			}
++		fmin = f.value(min);
+            fm = f.value(m);
+ 
+             if (fm * fmin > 0.0) {
+
+

@@ -1,0 +1,12 @@
+--- /src/main/java/org/apache/commons/math/analysis/solvers/BracketingNthOrderBrentSolver.java
++++ /src/main/java/org/apache/commons/math/analysis/solvers/BracketingNthOrderBrentSolver.java
+@@ -261,7 +261,8 @@
+                         // we have more points before the sign change, drop the lowest point
+                         ++start;
+                     } else {
+-                        // we have more points after sign change, drop the highest point
++                        ++start;
++                        // we have more points after sign change, drop the highest point
+                         --end;
+                     }
+

@@ -1,0 +1,38 @@
+--- /tmp/Arja_Defects4J_Closure_67/src/com/google/javascript/jscomp/RemoveUnusedPrototypeProperties.java	2018-12-01 09:25:47.602554953 -0500
++++ /tmp/Arja_Defects4J_Closure_67/patches_k844/Patch_496/patched/tmp/Arja_Defects4J_Closure_67/src/com/google/javascript/jscomp/RemoveUnusedPrototypeProperties.java	2018-12-01 09:35:41.162644828 -0500
+@@ -97,10 +97,7 @@
+             }
+           }
+ 
+-          if (canRemove) {
+-            declaration.remove();
+-            changed = true;
+-          }
++          break;
+         }
+ 
+         logger.fine("Removed unused prototype property: " + nameInfo.name);
+
+
+--- /tmp/Arja_Defects4J_Closure_67/src/com/google/javascript/rhino/Token.java	2018-12-01 09:25:47.626555117 -0500
++++ /tmp/Arja_Defects4J_Closure_67/patches_k844/Patch_496/patched/tmp/Arja_Defects4J_Closure_67/src/com/google/javascript/rhino/Token.java	2018-12-01 09:35:41.162644828 -0500
+@@ -315,7 +315,7 @@
+           case NUMBER:          return "NUMBER";
+           case STRING:          return "STRING";
+           case NULL:            return "NULL";
+-          case THIS:            return "THIS";
++          case THIS:            ;
+           case FALSE:           return "FALSE";
+           case TRUE:            return "TRUE";
+           case SHEQ:            return "SHEQ";
+@@ -359,7 +359,7 @@
+           case LP:              return "LP";
+           case RP:              return "RP";
+           case COMMA:           return "COMMA";
+-          case ASSIGN:          return "ASSIGN";
++          case ASSIGN:          break;
+           case ASSIGN_BITOR:    return "ASSIGN_BITOR";
+           case ASSIGN_BITXOR:   return "ASSIGN_BITXOR";
+           case ASSIGN_BITAND:   return "ASSIGN_BITAND";
+
+

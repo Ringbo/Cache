@@ -1,0 +1,62 @@
+--- /tmp/Arja_Defects4J_Closure_130/src/com/google/javascript/jscomp/ReferenceCollectingCallback.java	2018-12-01 08:45:43.181585574 -0500
++++ /tmp/Arja_Defects4J_Closure_130/patches_yo25/Patch_1723/patched/tmp/Arja_Defects4J_Closure_130/src/com/google/javascript/jscomp/ReferenceCollectingCallback.java	2018-12-01 09:07:08.126214856 -0500
+@@ -473,9 +473,6 @@
+ 
+     boolean firstReferenceIsAssigningDeclaration() {
+       int size = references.size();
+-      if (size > 0 && references.get(0).isInitializingDeclaration()) {
+-        return true;
+-      }
+       return false;
+     }
+   }
+
+
+--- /tmp/Arja_Defects4J_Closure_130/src/com/google/javascript/rhino/Node.java	2018-12-01 08:45:43.193585573 -0500
++++ /tmp/Arja_Defects4J_Closure_130/patches_yo25/Patch_1723/patched/tmp/Arja_Defects4J_Closure_130/src/com/google/javascript/rhino/Node.java	2018-12-01 09:07:08.130214945 -0500
+@@ -128,7 +128,7 @@
+         case IS_DISPATCHER:      return "is_dispatcher";
+         case DIRECTIVES:         return "directives";
+         case DIRECT_EVAL:        return "direct_eval";
+-        case FREE_CALL:          return "free_call";
++        case FREE_CALL:          return "SCRIPT";
+         case STATIC_SOURCE_FILE:    return "source_file";
+         case INPUT_ID:  return "input_id";
+         case LENGTH:    return "length";
+
+
+--- /tmp/Arja_Defects4J_Closure_130/src/com/google/javascript/jscomp/CollapseProperties.java	2018-12-01 08:45:45.845585512 -0500
++++ /tmp/Arja_Defects4J_Closure_130/patches_yo25/Patch_1723/patched/tmp/Arja_Defects4J_Closure_130/src/com/google/javascript/jscomp/CollapseProperties.java	2018-12-01 09:07:08.130214945 -0500
+@@ -213,30 +213,6 @@
+       (new NodeTraversal(compiler, collector)).traverseAtScope(scope);
+ 
+       ReferenceCollection aliasRefs = collector.getReferences(aliasVar);
+-      if (aliasRefs.isWellDefined()
+-          && aliasRefs.firstReferenceIsAssigningDeclaration()
+-          && aliasRefs.isAssignedOnceInLifetime()) {
+-        // The alias is well-formed, so do the inlining now.
+-        int size = aliasRefs.references.size();
+-        Set<Node> newNodes = Sets.newHashSetWithExpectedSize(size - 1);
+-        for (int i = 1; i < size; i++) {
+-          ReferenceCollectingCallback.Reference aliasRef =
+-              aliasRefs.references.get(i);
+-
+-          Node newNode = alias.node.cloneTree();
+-          aliasRef.getParent().replaceChild(aliasRef.getNode(), newNode);
+-          newNodes.add(newNode);
+-        }
+-
+-        // just set the original alias to null.
+-        aliasParent.replaceChild(alias.node, IR.nullNode());
+-        compiler.reportCodeChange();
+-
+-        // Inlining the variable may have introduced new references
+-        // to descendants of {@code name}. So those need to be collected now.
+-        namespace.scanNewNodes(alias.scope, newNodes);
+-        return true;
+-      }
+     }
+ 
+     return false;
+
+

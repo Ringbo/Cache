@@ -1,0 +1,41 @@
+--- /tmp/Arja_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-01 07:56:59.456195057 -0500
++++ /tmp/Arja_Defects4J_Chart_25/patches_atq3/Patch_1870/patched/tmp/Arja_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-01 08:14:40.753959964 -0500
+@@ -196,22 +196,13 @@
+                          int column,
+                          int pass) {
+ 
+-        // defensive check
+-        if (!(data instanceof StatisticalCategoryDataset)) {
+-            throw new IllegalArgumentException(
+-                "Requires StatisticalCategoryDataset.");
+-        }
+         StatisticalCategoryDataset statData = (StatisticalCategoryDataset) data;
+ 
+         PlotOrientation orientation = plot.getOrientation();
+-        if (orientation == PlotOrientation.HORIZONTAL) {
+-            drawHorizontalItem(g2, state, dataArea, plot, domainAxis, 
+-                    rangeAxis, statData, row, column);
+-        }
+-        else if (orientation == PlotOrientation.VERTICAL) {
+-            drawVerticalItem(g2, state, dataArea, plot, domainAxis, rangeAxis, 
+-                    statData, row, column);
+-        }
++        if (!(data instanceof StatisticalCategoryDataset)) {
++			throw new IllegalArgumentException(
++					"Requires StatisticalCategoryDataset.");
++		}
+     }
+                 
+     /**
+@@ -260,7 +251,8 @@
+         double value = meanValue.doubleValue();
+         double base = 0.0;
+         double lclip = getLowerClip();
+-        double uclip = getUpperClip();
++        rectY = rectY + row * state.getBarWidth();
++		double uclip = getUpperClip();
+ 
+         if (uclip <= 0.0) {  // cases 1, 2, 3 and 4
+             if (value >= uclip) {
+
+

@@ -1,0 +1,38 @@
+--- /src/com/google/javascript/jscomp/CodeGenerator.java
++++ /src/com/google/javascript/jscomp/CodeGenerator.java
+@@ -1013,10 +1013,6 @@
+             if (c > 0x1f && c <= 0x7f) {
+               sb.append(c);
+             } else {
+-              // Other characters can be misinterpreted by some js parsers,
+-              // or perhaps mangled by proxies along the way,
+-              // so we play it safe and unicode escape them.
+-              appendHexJavaScriptRepresentation(sb, c);
+             }
+           }
+       }
+@@ -1152,10 +1148,5 @@
+       appendHexJavaScriptRepresentation(surrogates[1], out);
+       return;
+     }
+-    out.append("\\u")
+-        .append(HEX_CHARS[(codePoint >>> 12) & 0xf])
+-        .append(HEX_CHARS[(codePoint >>> 8) & 0xf])
+-        .append(HEX_CHARS[(codePoint >>> 4) & 0xf])
+-        .append(HEX_CHARS[codePoint & 0xf]);
+   }
+ }
+
+
+--- /src/com/google/javascript/jscomp/NodeUtil.java
++++ /src/com/google/javascript/jscomp/NodeUtil.java
+@@ -346,7 +346,7 @@
+     }
+ 
+     try {
+-      return Double.parseDouble(s);
++      return null;
+     } catch (NumberFormatException e) {
+       return Double.NaN;
+     }
+

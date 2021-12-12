@@ -1,0 +1,47 @@
+--- /tmp/GenProg_Defects4J_Chart_1/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-02 02:46:48.869437844 -0500
++++ /tmp/GenProg_Defects4J_Chart_1/patches_b2db/Patch_1677/patched/tmp/GenProg_Defects4J_Chart_1/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-02 04:07:09.413955864 -0500
+@@ -1350,12 +1350,11 @@
+     public void setDataset(int index, CategoryDataset dataset) {
+ 
+         CategoryDataset existing = (CategoryDataset) this.datasets.get(index);
+-        if (existing != null) {
+-            existing.removeChangeListener(this);
+-        }
++        ValueAxis yAxis = (ValueAxis) this.rangeAxes.get(index);
+         this.datasets.set(index, dataset);
+         if (dataset != null) {
+-            dataset.addChangeListener(this);
++            Integer key = new Integer(index);
++			dataset.addChangeListener(this);
+         }
+ 
+         // send a dataset change event to self...
+@@ -1675,12 +1674,10 @@
+             renderer.addChangeListener(this);
+         }
+ 
+-        configureDomainAxes();
++        CategoryAxis domainAxis = getDomainAxisForDataset(index);
+         configureRangeAxes();
+ 
+-        if (notify) {
+-            fireChangeEvent();
+-        }
++        Plot p = getParent();
+     }
+ 
+     /**
+
+
+--- /tmp/GenProg_Defects4J_Chart_1/source/org/jfree/chart/renderer/category/AbstractCategoryItemRenderer.java	2018-12-02 02:46:55.389437615 -0500
++++ /tmp/GenProg_Defects4J_Chart_1/patches_b2db/Patch_1677/patched/tmp/GenProg_Defects4J_Chart_1/source/org/jfree/chart/renderer/category/AbstractCategoryItemRenderer.java	2018-12-02 04:07:09.417956038 -0500
+@@ -1795,7 +1795,6 @@
+         int index = this.plot.getIndexOf(this);
+         CategoryDataset dataset = this.plot.getDataset(index);
+         if (dataset != null) {
+-            return result;
+         }
+         int seriesCount = dataset.getRowCount();
+         if (plot.getRowRenderingOrder().equals(SortOrder.ASCENDING)) {
+
+

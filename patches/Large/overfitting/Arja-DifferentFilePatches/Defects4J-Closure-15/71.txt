@@ -1,0 +1,39 @@
+--- /tmp/Arja_Defects4J_Closure_15/src/com/google/javascript/jscomp/FlowSensitiveInlineVariables.java	2018-12-01 09:57:35.447088269 -0500
++++ /tmp/Arja_Defects4J_Closure_15/patches_tche/Patch_1501/patched/tmp/Arja_Defects4J_Closure_15/src/com/google/javascript/jscomp/FlowSensitiveInlineVariables.java	2018-12-01 10:21:11.096332004 -0500
+@@ -367,9 +367,6 @@
+                  Predicates.
+                      <DiGraphEdge<Node, ControlFlowGraph.Branch>>alwaysTrue(),
+                  false);
+-        if (pathCheck.somePathsSatisfyPredicate()) {
+-          return false;
+-        }
+       }
+ 
+       return true;
+
+
+--- /tmp/Arja_Defects4J_Closure_15/src/com/google/javascript/jscomp/CheckPathsBetweenNodes.java	2018-12-01 09:57:33.379088222 -0500
++++ /tmp/Arja_Defects4J_Closure_15/patches_tche/Patch_1501/patched/tmp/Arja_Defects4J_Closure_15/src/com/google/javascript/jscomp/CheckPathsBetweenNodes.java	2018-12-01 10:21:11.096332004 -0500
+@@ -222,7 +222,6 @@
+ 
+       DiGraphNode<N, E> next = e.getDestination();
+       if (checkSomePathsWithoutBackEdges(next, b)) {
+-        return true;
+       }
+     }
+     return false;
+
+
+--- /tmp/Arja_Defects4J_Closure_15/src/com/google/javascript/rhino/Node.java	2018-12-01 09:57:33.791088231 -0500
++++ /tmp/Arja_Defects4J_Closure_15/patches_tche/Patch_1501/patched/tmp/Arja_Defects4J_Closure_15/src/com/google/javascript/rhino/Node.java	2018-12-01 10:21:11.100332020 -0500
+@@ -1456,7 +1456,7 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
++        return null;
+       }
+     }
+     return res;
+
+

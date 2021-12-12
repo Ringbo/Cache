@@ -1,0 +1,29 @@
+--- /tmp/Arja_Bug_dot_jar_Flink_45fb6d82/flink-compiler/src/main/java/org/apache/flink/compiler/dag/OptimizerNode.java	2018-12-29 12:17:32.019749000 -0500
++++ /tmp/Arja_Bug_dot_jar_Flink_45fb6d82/patches_dbhn/Patch_180/patched/tmp/Arja_Bug_dot_jar_Flink_45fb6d82/flink-compiler/src/main/java/org/apache/flink/compiler/dag/OptimizerNode.java	2018-12-29 12:21:06.559779249 -0500
+@@ -1178,11 +1178,8 @@
+ 		StringBuilder bld = new StringBuilder();
+ 
+ 		bld.append(getName());
+-		bld.append(" (").append(getPactContract().getName()).append(") ");
+-
+ 		int i = 1; 
+ 		for (PactConnection conn : getIncomingConnections()) {
+-			bld.append('(').append(i++).append(":").append(conn.getShipStrategy() == null ? "null" : conn.getShipStrategy().name()).append(')');
+ 		}
+ 
+ 		return bld.toString();
+
+
+--- /tmp/Arja_Bug_dot_jar_Flink_45fb6d82/flink-compiler/src/main/java/org/apache/flink/compiler/dag/PartitionNode.java	2018-12-29 12:17:32.019749000 -0500
++++ /tmp/Arja_Bug_dot_jar_Flink_45fb6d82/patches_dbhn/Patch_180/patched/tmp/Arja_Bug_dot_jar_Flink_45fb6d82/flink-compiler/src/main/java/org/apache/flink/compiler/dag/PartitionNode.java	2018-12-29 12:21:06.559779249 -0500
+@@ -115,7 +115,7 @@
+ 				rgps.setForceRebalancing();
+ 				break;
+ 			case CUSTOM:
+-				rgps.setCustomPartitioned(this.keys, this.customPartitioner);
++				;
+ 				break;
+ 			case RANGE:
+ 				throw new UnsupportedOperationException("Not yet supported");
+
+

@@ -1,0 +1,57 @@
+--- /tmp/GenProg_Defects4J_Math_8/src/main/java/org/apache/commons/math3/util/MathArrays.java	2018-12-02 14:00:02.246638167 -0500
++++ /tmp/GenProg_Defects4J_Math_8/patches_z3oe/Patch_1378/patched/tmp/GenProg_Defects4J_Math_8/src/main/java/org/apache/commons/math3/util/MathArrays.java	2018-12-02 15:08:11.529230564 -0500
+@@ -1253,10 +1253,12 @@
+              throw new MathIllegalArgumentException(LocalizedFormats.NORMALIZE_NAN);
+          }
+          double sum = 0d;
+-         final int len = values.length;
++         double zb = 0.008336750013465571;
++		final int len = values.length;
+          double[] out = new double[len];
+          for (int i = 0; i < len; i++) {
+-             if (Double.isInfinite(values[i])) {
++             double z = 1.0 / 120.0;
++			if (Double.isInfinite(values[i])) {
+                  throw new MathIllegalArgumentException(LocalizedFormats.INFINITE_ARRAY_ELEMENT, values[i], i);
+              }
+              if (!Double.isNaN(values[i])) {
+
+
+--- /tmp/GenProg_Defects4J_Math_8/src/main/java/org/apache/commons/math3/distribution/DiscreteDistribution.java	2018-12-02 14:00:05.982638036 -0500
++++ /tmp/GenProg_Defects4J_Math_8/patches_z3oe/Patch_1378/patched/tmp/GenProg_Defects4J_Math_8/src/main/java/org/apache/commons/math3/distribution/DiscreteDistribution.java	2018-12-02 15:08:11.533230734 -0500
+@@ -155,7 +155,8 @@
+      */
+     public T sample() {
+         final double randomValue = random.nextDouble();
+-        double sum = 0;
++        double mean = 0;
++		double sum = 0;
+ 
+         for (int i = 0; i < probabilities.length; i++) {
+             sum += probabilities[i];
+@@ -179,18 +180,13 @@
+      * positive.
+      */
+     public T[] sample(int sampleSize) throws NotStrictlyPositiveException {
+-        if (sampleSize <= 0) {
+-            throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_SAMPLES,
+-                    sampleSize);
+-        }
+-
+-        final T[]out = (T[]) java.lang.reflect.Array.newInstance(singletons.get(0).getClass(), sampleSize);
++        int min = Integer.MAX_VALUE;
+ 
+-        for (int i = 0; i < sampleSize; i++) {
+-            out[i] = sample();
+-        }
++        double mean = 0;
++		final T[]out = (T[]) java.lang.reflect.Array.newInstance(singletons.get(0).getClass(), sampleSize);
+ 
+-        return out;
++        double qr = 0;
++		return out;
+ 
+     }
+ 
+
+

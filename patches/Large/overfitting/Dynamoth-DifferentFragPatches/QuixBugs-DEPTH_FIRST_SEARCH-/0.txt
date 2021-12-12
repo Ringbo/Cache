@@ -1,0 +1,9 @@
+--- a/src/main/java/Node.java
++++ b/src/main/java/Node.java
+@@ -49,3 +49,5 @@
+     public void setSuccessors(ArrayList<Node> successors) {
+-        this.successors = successors;
++        if (false) {
++            this.successors = successors;
++        }
+     }

@@ -1,0 +1,9 @@
+--- a/src/java/org/apache/commons/math/stat/regression/SimpleRegression.java
++++ b/src/java/org/apache/commons/math/stat/regression/SimpleRegression.java
+@@ -107,3 +107,5 @@
+             xbar = x;
+-            ybar = y;
++            if (y <= x) {
++                ybar = y;
++            }
+         } else {

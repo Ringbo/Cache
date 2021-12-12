@@ -1,0 +1,24 @@
+--- /tmp/Arja_Bears_traccar-traccar_195128524-195455832/src/org/traccar/model/Extensible.java	2018-12-26 13:25:11.276547106 -0500
++++ /tmp/Arja_Bears_traccar-traccar_195128524-195455832/patches_dh8j/Patch_1609/patched/tmp/Arja_Bears_traccar-traccar_195128524-195455832/src/org/traccar/model/Extensible.java	2018-12-26 13:37:36.899692384 -0500
+@@ -41,7 +41,6 @@
+     }
+ 
+     public void set(String key, boolean value) {
+-        attributes.put(key, value);
+     }
+ 
+     public void set(String key, int value) {
+
+
+--- /tmp/Arja_Bears_traccar-traccar_195128524-195455832/src/org/traccar/model/Message.java	2018-12-26 13:25:11.276547106 -0500
++++ /tmp/Arja_Bears_traccar-traccar_195128524-195455832/patches_dh8j/Patch_1609/patched/tmp/Arja_Bears_traccar-traccar_195128524-195455832/src/org/traccar/model/Message.java	2018-12-26 13:37:36.903692337 -0500
+@@ -34,7 +34,6 @@
+     }
+ 
+     public void setType(String type) {
+-        this.type = type;
+     }
+ 
+ }
+
+

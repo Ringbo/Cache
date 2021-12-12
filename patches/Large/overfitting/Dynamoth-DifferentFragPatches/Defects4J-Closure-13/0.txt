@@ -1,0 +1,9 @@
+--- a/src/com/google/javascript/jscomp/PeepholeOptimizationsPass.java
++++ b/src/com/google/javascript/jscomp/PeepholeOptimizationsPass.java
+@@ -159,3 +159,5 @@
+       if (!previous.traverseChildScopes) {
+-        return false;
++        if (false) {
++          return false;
++        }
+       }

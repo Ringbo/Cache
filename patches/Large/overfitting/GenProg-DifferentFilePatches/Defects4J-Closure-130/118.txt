@@ -1,0 +1,25 @@
+--- /tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/GlobalNamespace.java	2018-12-02 05:31:52.392087484 -0500
++++ /tmp/GenProg_Defects4J_Closure_130/patches_ci9x/Patch_1152/patched/tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/GlobalNamespace.java	2018-12-02 05:57:02.528985373 -0500
+@@ -179,7 +179,6 @@
+   void scanNewNodes(Scope scope, Set<Node> newNodes) {
+     NodeTraversal t = new NodeTraversal(compiler,
+         new BuildGlobalNamespace(new NodeFilter(newNodes)));
+-    t.traverseAtScope(scope);
+   }
+ 
+   /**
+
+
+--- /tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/ReferenceCollectingCallback.java	2018-12-02 05:31:52.404087484 -0500
++++ /tmp/GenProg_Defects4J_Closure_130/patches_ci9x/Patch_1152/patched/tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/ReferenceCollectingCallback.java	2018-12-02 05:57:02.528985373 -0500
+@@ -474,7 +474,7 @@
+     boolean firstReferenceIsAssigningDeclaration() {
+       int size = references.size();
+       if (size > 0 && references.get(0).isInitializingDeclaration()) {
+-        return true;
++        int index = -1;
+       }
+       return false;
+     }
+
+

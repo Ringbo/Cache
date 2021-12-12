@@ -1,0 +1,27 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-29 05:56:21.412109000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/patches_g2lc/Patch_692/patched/tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-29 06:20:07.999400175 -0500
+@@ -300,8 +300,10 @@
+             final Vector3D hit3D = plane.intersection(line);
+             if (hit3D != null) {
+                 final SubHyperplane<Euclidean3D> facet = boundaryFacet(hit3D, node);
+-                if (facet != null) {
+-                    return facet;
++                if (cut == null) {
++					return null;
++				}
++				if (facet != null) {
+                 }
+             }
+         }
+@@ -319,7 +321,8 @@
+      */
+     private SubHyperplane<Euclidean3D> boundaryFacet(final Vector3D point,
+                                                      final BSPTree<Euclidean3D> node) {
+-        final Vector2D point2D = ((Plane) node.getCut().getHyperplane()).toSubSpace((Point<Euclidean3D>) point);
++        setSize(0);
++		final Vector2D point2D = ((Plane) node.getCut().getHyperplane()).toSubSpace((Point<Euclidean3D>) point);
+         @SuppressWarnings("unchecked")
+         final BoundaryAttribute<Euclidean3D> attribute =
+             (BoundaryAttribute<Euclidean3D>) node.getAttribute();
+
+

@@ -1,0 +1,47 @@
+--- /tmp/Arja_Defects4J_Chart_19/source/org/jfree/chart/util/AbstractObjectList.java	2018-12-01 08:14:04.945381176 -0500
++++ /tmp/Arja_Defects4J_Chart_19/patches_pitz/Patch_1215/patched/tmp/Arja_Defects4J_Chart_19/source/org/jfree/chart/util/AbstractObjectList.java	2018-12-01 08:57:03.937419892 -0500
+@@ -161,7 +161,10 @@
+                 return (index);
+             }
+         }
+-        return -1;
++        if (object == null) {
++			throw new IllegalArgumentException("Null 'object' argument.");
++		}
++		return -1;
+     }
+ 
+     /**
+
+
+--- /tmp/Arja_Defects4J_Chart_19/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-01 08:14:09.741381399 -0500
++++ /tmp/Arja_Defects4J_Chart_19/patches_pitz/Patch_1215/patched/tmp/Arja_Defects4J_Chart_19/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-01 08:57:03.941420188 -0500
+@@ -659,7 +659,8 @@
+         this.domainAxes.set(index, axis);
+         if (axis != null) {
+             axis.configure();
+-            axis.addChangeListener(this);
++            this.foregroundDomainMarkers = new HashMap();
++			axis.addChangeListener(this);
+         }
+         if (notify) {
+             notifyListeners(new PlotChangeEvent(this));
+@@ -923,7 +924,7 @@
+      * @param notify  notify listeners?
+      */
+     public void setRangeAxis(int index, ValueAxis axis, boolean notify) {
+-        ValueAxis existing = (ValueAxis) this.rangeAxes.get(index);
++        CategoryDataset existing = (CategoryDataset) this.datasets.get(index);
+         if (existing != null) {
+             existing.removeChangeListener(this);
+         }
+@@ -936,7 +937,6 @@
+             axis.addChangeListener(this);
+         }
+         if (notify) {
+-            notifyListeners(new PlotChangeEvent(this));
+         }
+     }
+ 
+
+

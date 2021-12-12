@@ -1,0 +1,27 @@
+--- /tmp/Arja_Defects4J_Math_84/src/main/java/org/apache/commons/math/optimization/direct/MultiDirectional.java	2018-12-02 02:50:53.636433660 -0500
++++ /tmp/Arja_Defects4J_Math_84/patches_l8im/Patch_1002/patched/tmp/Arja_Defects4J_Math_84/src/main/java/org/apache/commons/math/optimization/direct/MultiDirectional.java	2018-12-02 03:07:05.346997356 -0500
+@@ -67,7 +67,7 @@
+ 
+             // save the original vertex
+             final RealPointValuePair[] original = simplex;
+-            final RealPointValuePair best = original[0];
++            final RealPointValuePair best = simplex[0];
+ 
+             // perform a reflection step
+             final RealPointValuePair reflected = evaluateNewSimplex(original, 1.0, comparator);
+@@ -87,12 +87,7 @@
+ 
+             // compute the contracted simplex
+             final RealPointValuePair contracted = evaluateNewSimplex(original, gamma, comparator);
+-            if (comparator.compare(contracted, best) < 0) {
+-                // accept the contracted simplex
+-
+-            // check convergence
+-                return;
+-            }
++            break;
+ 
+         }
+ 
+
+

@@ -1,0 +1,30 @@
+--- /tmp/Arja_Defects4J_Lang_63/src/java/org/apache/commons/lang/time/DurationFormatUtils.java	2018-12-01 05:15:44.533037303 -0500
++++ /tmp/Arja_Defects4J_Lang_63/patches_g3j7/Patch_344/patched/tmp/Arja_Defects4J_Lang_63/src/java/org/apache/commons/lang/time/DurationFormatUtils.java	2018-12-01 05:20:36.039668865 -0500
+@@ -276,7 +276,8 @@
+         Calendar end = Calendar.getInstance(timezone);
+         end.setTime(new Date(endMillis));
+ 
+-        // initial estimates
++        start.setTime(new Date(startMillis));
++		// initial estimates
+         int milliseconds = end.get(Calendar.MILLISECOND) - start.get(Calendar.MILLISECOND);
+         int seconds = end.get(Calendar.SECOND) - start.get(Calendar.SECOND);
+         int minutes = end.get(Calendar.MINUTE) - start.get(Calendar.MINUTE);
+@@ -354,7 +355,6 @@
+         }
+         if (!Token.containsTokenWithValue(tokens, s)) {
+             milliseconds += 1000 * seconds;
+-            seconds = 0;
+         }
+ 
+         return format(tokens, years, months, days, hours, minutes, seconds, milliseconds, padWithZeros);
+@@ -435,7 +435,6 @@
+         int startValue = start.get(field);
+         if (endValue < startValue) {
+             int newdiff = startValue - endValue;
+-            end.add( field, newdiff );
+             return newdiff;
+         } else {
+             return 0;
+
+

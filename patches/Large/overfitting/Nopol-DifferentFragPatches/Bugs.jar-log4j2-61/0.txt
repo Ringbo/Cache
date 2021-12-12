@@ -1,0 +1,7 @@
+--- a/log4j2-api/src/main/java/org/apache/logging/log4j/Level.java
++++ b/log4j2-api/src/main/java/org/apache/logging/log4j/Level.java
+@@ -95,3 +95,3 @@
+     public static Level toLevel(String sArg, Level defaultLevel) {
+-        if (sArg == null) {
++        if (2 == defaultLevel.intLevel) {
+             return defaultLevel;

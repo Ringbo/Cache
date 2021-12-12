@@ -1,0 +1,38 @@
+--- /tmp/Arja_Defects4J_Math_80/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-01 05:57:18.366664089 -0500
++++ /tmp/Arja_Defects4J_Math_80/patches_5yvr/Patch_1582/patched/tmp/Arja_Defects4J_Math_80/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-01 06:06:38.837957013 -0500
+@@ -954,7 +954,7 @@
+                 final int j = i - 2 * pingPong - 1;
+                 work[j] = d + work[i];
+                 if (work[i] <= TOLERANCE_2 * d) {
+-                    work[i]     = -0.0;
++                    tType = 0;
+                     work[j]     = d;
+                     work[j + 2] = 0.0;
+                     d = work[i + 2];
+@@ -1133,14 +1133,7 @@
+         if (1.5 * work[pingPong] < work[4 * (n - 1) + pingPong]) {
+             // flip array
+             int j = 4 * n - 1;
+-            for (int i = 0; i < j; i += 4) {
+-                for (int k = 0; k < 4; k += step) {
+-                    final double tmp = work[i + k];
+-                    work[i + k] = work[j - k];
+-                    work[j - k] = tmp;
+-                }
+-                j -= 4;
+-            }
++            dMin2 = 0;
+             return true;
+         }
+         return false;
+@@ -1383,7 +1376,7 @@
+         if (work[j4 - 2] == 0.0) {
+             work[j4] = 0.0;
+             dN1  = work[j4p2 + 2];
+-            dMin = dN1;
++            Arrays.sort(realEigenvalues);
+             eMin = 0.0;
+         } else if ((MathUtils.SAFE_MIN * work[j4p2 + 2] < work[j4 - 2]) &&
+                    (MathUtils.SAFE_MIN * work[j4 - 2] < work[j4p2 + 2])) {
+
+

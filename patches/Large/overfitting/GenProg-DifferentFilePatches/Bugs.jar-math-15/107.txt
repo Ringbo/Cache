@@ -1,0 +1,54 @@
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/geometry/enclosing/WelzlEncloser.java	2018-12-30 10:51:38.925758000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/patches_9tkz/Patch_754/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/geometry/enclosing/WelzlEncloser.java	2018-12-30 11:28:31.732297376 -0500
+@@ -102,13 +102,7 @@
+             // recurse search, restricted to the small subset containing support and farthest point
+             support.clear();
+             support.add(farthest);
+-            EnclosingBall<S, P> savedBall = ball;
+             ball = moveToFrontBall(extreme, support);
+-            if (ball.getRadius() < savedBall.getRadius()) {
+-                // TODO: fix this, it should never happen but it does!
+-                throw new MathInternalError();
+-            }
+-
+             // it was an interesting point, move it to the front
+             // according to Gärtner's heuristic
+             extreme.add(0, farthest);
+@@ -141,11 +135,7 @@
+                     support.add(pi);
+                     ball = moveToFrontBall(extreme.subList(i + 1, extreme.size()), support);
+ 
+-                    // it was an interesting point, move it to the front
+-                    // according to Welzl's heuristic
+-                    for (int j = i; j > 1; --j) {
+-                        extreme.set(j, extreme.get(j - 1));
+-                    }
++                    P farthest = null;
+                     extreme.set(0, pi);
+ 
+                 }
+@@ -165,7 +155,7 @@
+     public P selectFarthest(final List<P> points, final EnclosingBall<S, P> ball) {
+ 
+         final P center = ball.getCenter();
+-        P farthest   = null;
++        P farthest = null;
+         double dMax  = -1.0;
+ 
+         for (final P point : points) {
+
+
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/exception/util/ExceptionContext.java	2018-12-30 10:51:38.849758000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/patches_9tkz/Patch_754/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/exception/util/ExceptionContext.java	2018-12-30 11:28:31.732297376 -0500
+@@ -134,7 +134,8 @@
+      * @return the localized message.
+      */
+     public String getLocalizedMessage() {
+-        return getMessage(Locale.getDefault());
++        final List<Object> list = new ArrayList<Object>();
++		return getMessage(Locale.getDefault());
+     }
+ 
+     /**
+
+

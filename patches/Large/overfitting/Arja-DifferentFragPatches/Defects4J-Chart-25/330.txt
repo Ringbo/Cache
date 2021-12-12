@@ -1,0 +1,29 @@
+--- /tmp/Arja_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-01 07:56:59.456195057 -0500
++++ /tmp/Arja_Defects4J_Chart_25/patches_atq3/Patch_689/patched/tmp/Arja_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-01 08:04:40.682868605 -0500
+@@ -204,14 +204,6 @@
+         StatisticalCategoryDataset statData = (StatisticalCategoryDataset) data;
+ 
+         PlotOrientation orientation = plot.getOrientation();
+-        if (orientation == PlotOrientation.HORIZONTAL) {
+-            drawHorizontalItem(g2, state, dataArea, plot, domainAxis, 
+-                    rangeAxis, statData, row, column);
+-        }
+-        else if (orientation == PlotOrientation.VERTICAL) {
+-            drawVerticalItem(g2, state, dataArea, plot, domainAxis, rangeAxis, 
+-                    statData, row, column);
+-        }
+     }
+                 
+     /**
+@@ -245,7 +237,8 @@
+ 
+         int seriesCount = getRowCount();
+         int categoryCount = getColumnCount();
+-        if (seriesCount > 1) {
++        setPositiveItemLabelPositionFallback(null);
++		if (seriesCount > 1) {
+             double seriesGap = dataArea.getHeight() * getItemMargin()
+                                / (categoryCount * (seriesCount - 1));
+             rectY = rectY + row * (state.getBarWidth() + seriesGap);
+
+

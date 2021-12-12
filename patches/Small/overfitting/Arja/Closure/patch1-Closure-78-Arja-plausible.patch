@@ -1,0 +1,34 @@
+--- /src/com/google/javascript/jscomp/PeepholeFoldConstants.java
++++ /src/com/google/javascript/jscomp/PeepholeFoldConstants.java
+@@ -655,7 +655,7 @@
+       reportCodeChange();
+       return result;
+     }
+-    return n;
++    return null;
+   }
+ 
+   /**
+@@ -760,9 +760,6 @@
+         (NodeUtil.isAssociative(opType) && NodeUtil.isCommutative(opType))
+         || n.getType() == Token.ADD);
+ 
+-    Preconditions.checkState(
+-        n.getType() != Token.ADD || !NodeUtil.mayBeString(n));
+-
+     // Use getNumberValue to handle constants like "NaN" and "Infinity"
+     // other values are converted to numbers elsewhere.
+     Double rightValObj = NodeUtil.getNumberValue(right);
+
+
+--- /src/com/google/javascript/jscomp/AbstractPeepholeOptimization.java
++++ /src/com/google/javascript/jscomp/AbstractPeepholeOptimization.java
+@@ -51,7 +51,6 @@
+    */
+   protected void error(DiagnosticType diagnostic, Node n) {
+     JSError error = currentTraversal.makeError(n, diagnostic, n.toString());
+-    currentTraversal.getCompiler().report(error);
+   }
+ 
+   /**
+

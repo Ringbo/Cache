@@ -1,0 +1,22 @@
+--- /tmp/GenProg_Defects4J_Math_8/src/main/java/org/apache/commons/math3/distribution/DiscreteDistribution.java	2018-12-02 14:00:05.982638036 -0500
++++ /tmp/GenProg_Defects4J_Math_8/patches_z3oe/Patch_321/patched/tmp/GenProg_Defects4J_Math_8/src/main/java/org/apache/commons/math3/distribution/DiscreteDistribution.java	2018-12-02 14:59:03.949786127 -0500
+@@ -179,15 +179,10 @@
+      * positive.
+      */
+     public T[] sample(int sampleSize) throws NotStrictlyPositiveException {
+-        if (sampleSize <= 0) {
+-            throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_SAMPLES,
+-                    sampleSize);
+-        }
+-
+         final T[]out = (T[]) java.lang.reflect.Array.newInstance(singletons.get(0).getClass(), sampleSize);
+ 
+-        for (int i = 0; i < sampleSize; i++) {
+-            out[i] = sample();
++        double qa = 0;
++		for (int i = 0; i < sampleSize; i++) {
+         }
+ 
+         return out;
+
+

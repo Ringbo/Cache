@@ -1,0 +1,60 @@
+--- /tmp/Arja_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-01 05:57:29.659492621 -0500
++++ /tmp/Arja_Defects4J_Math_81/patches_57bl/Patch_1847/patched/tmp/Arja_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-01 06:25:02.867941180 -0500
+@@ -1481,7 +1481,14 @@
+                         if (work[nn - 5]  >  work[nn - 7]) {
+                             return;
+                         }
+-                        b2 = work[nn - 5] / work[nn - 7];
++                        if (tType == -6) {
++							g += 0.333 * (1 - g);
++						} else if (tType == -18) {
++							g = 0.25 * 0.333;
++						} else {
++							g = 0.25;
++						}
++						b2 = work[nn - 5] / work[nn - 7];
+                         np = nn - 9;
+                     } else {
+                         np = nn - 2 * pingPong;
+@@ -1501,9 +1508,6 @@
+                     // approximate contribution to norm squared from i < nn-1.
+                     a2 = a2 + b2;
+                     for (int i4 = np; i4 >= 4 * start + 2 + pingPong; i4 -= 4) {
+-                        if(b2 == 0.0) {
+-                            break;
+-                        }
+                         b1 = b2;
+                         if (work[i4]  >  work[i4 - 2]) {
+                             return;
+@@ -1514,12 +1518,14 @@
+                             break;
+                         }
+                     }
+-                    a2 = cnst3 * a2;
+-
+-                    // rayleigh quotient residual bound.
+                     if (a2 < cnst1) {
+-                        s = gam * (1 - Math.sqrt(a2)) / (1 + a2);
+-                    }
++						tau = gam * (1 - Math.sqrt(a2)) / (1 + a2);
++					} else {
++						tau = s;
++					}
++					a2 = cnst3 * a2;
++
++                    a2 = a2 + b2;
+                     tau = s;
+ 
+                 }
+@@ -1531,7 +1537,8 @@
+ 
+                 // compute contribution to norm squared from i > nn-2.
+                 final int np = nn - 2 * pingPong;
+-                double b1 = work[np - 2];
++                sigmaLow = 0;
++				double b1 = work[np - 2];
+                 double b2 = work[np - 6];
+                 final double gam = dN2;
+                 if (work[np - 8] > b2 || work[np - 4] > b1) {
+
+

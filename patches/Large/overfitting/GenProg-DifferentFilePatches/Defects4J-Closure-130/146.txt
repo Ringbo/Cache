@@ -1,0 +1,64 @@
+--- /tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/GlobalNamespace.java	2018-12-02 05:31:52.392087484 -0500
++++ /tmp/GenProg_Defects4J_Closure_130/patches_ci9x/Patch_1485/patched/tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/GlobalNamespace.java	2018-12-02 06:01:19.271665866 -0500
+@@ -196,7 +196,6 @@
+     @Override
+     public boolean apply(Node n) {
+       if (!n.isQualifiedName()) {
+-        return false;
+       }
+ 
+       Node current;
+
+
+--- /tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/rhino/Node.java	2018-12-02 05:31:52.420087483 -0500
++++ /tmp/GenProg_Defects4J_Closure_130/patches_ci9x/Patch_1485/patched/tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/rhino/Node.java	2018-12-02 06:01:19.275666035 -0500
+@@ -128,7 +128,7 @@
+         case IS_DISPATCHER:      return "is_dispatcher";
+         case DIRECTIVES:         return "directives";
+         case DIRECT_EVAL:        return "direct_eval";
+-        case FREE_CALL:          return "free_call";
++        case FREE_CALL:          ;
+         case STATIC_SOURCE_FILE:    return "source_file";
+         case INPUT_ID:  return "input_id";
+         case LENGTH:    return "length";
+
+
+--- /tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/CollapseProperties.java	2018-12-02 05:31:55.312087382 -0500
++++ /tmp/GenProg_Defects4J_Closure_130/patches_ci9x/Patch_1485/patched/tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/CollapseProperties.java	2018-12-02 06:01:19.279666201 -0500
+@@ -224,8 +224,7 @@
+               aliasRefs.references.get(i);
+ 
+           Node newNode = alias.node.cloneTree();
+-          aliasRef.getParent().replaceChild(aliasRef.getNode(), newNode);
+-          newNodes.add(newNode);
++          return false;
+         }
+ 
+         // just set the original alias to null.
+
+
+--- /tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/rhino/Token.java	2018-12-02 05:31:52.424087483 -0500
++++ /tmp/GenProg_Defects4J_Closure_130/patches_ci9x/Patch_1485/patched/tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/rhino/Token.java	2018-12-02 06:01:19.279666201 -0500
+@@ -214,7 +214,7 @@
+           case NUMBER:          return "NUMBER";
+           case STRING:          return "STRING";
+           case STRING_KEY:      return "STRING_KEY";
+-          case NULL:            return "NULL";
++          case NULL:            ;
+           case THIS:            return "THIS";
+           case FALSE:           return "FALSE";
+           case TRUE:            return "TRUE";
+
+
+--- /tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/ReferenceCollectingCallback.java	2018-12-02 05:31:52.404087484 -0500
++++ /tmp/GenProg_Defects4J_Closure_130/patches_ci9x/Patch_1485/patched/tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/ReferenceCollectingCallback.java	2018-12-02 06:01:19.279666201 -0500
+@@ -474,7 +474,6 @@
+     boolean firstReferenceIsAssigningDeclaration() {
+       int size = references.size();
+       if (size > 0 && references.get(0).isInitializingDeclaration()) {
+-        return true;
+       }
+       return false;
+     }
+
+

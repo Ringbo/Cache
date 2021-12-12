@@ -1,0 +1,12 @@
+--- /src/main/java/org/joda/time/field/FieldUtils.java
++++ /src/main/java/org/joda/time/field/FieldUtils.java
+@@ -135,7 +135,7 @@
+     public static long safeMultiply(long val1, int val2) {
+         switch (val2) {
+             case -1:
+-                return -val1;
++if (val1==Long.MIN_VALUE){throw new ArithmeticException();}                return -val1;
+             case 0:
+                 return 0L;
+             case 1:
+

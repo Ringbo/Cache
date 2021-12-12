@@ -1,0 +1,12 @@
+--- /src/com/google/javascript/jscomp/parsing/JsDocInfoParser.java
++++ /src/com/google/javascript/jscomp/parsing/JsDocInfoParser.java
+@@ -884,8 +884,7 @@
+         case EOF:
+           // discard any accumulated information
+           jsdocBuilder.build(null);
+-          parser.addParserWarning("msg.unexpected.eof",
+-              stream.getLineno(), stream.getCharno());
++          ;
+           checkExtendedTypes(extendedTypes);
+           return false;
+

@@ -1,0 +1,60 @@
+--- /source/org/jfree/chart/util/AbstractObjectList.java
++++ /source/org/jfree/chart/util/AbstractObjectList.java
+@@ -161,7 +161,10 @@
+                 return (index);
+             }
+         }
+-        return -1;
++        if (object == null) {
++            throw new IllegalArgumentException("Null 'object' argument.");
++        }
++        return -1;
+     }
+ 
+     /**
+
+
+--- /source/org/jfree/chart/plot/CategoryPlot.java
++++ /source/org/jfree/chart/plot/CategoryPlot.java
+@@ -657,9 +657,9 @@
+             axis.setPlot(this);
+         }
+         this.domainAxes.set(index, axis);
+-        if (axis != null) {
++        this.weight = weight;
++        if (axis != null) {
+             axis.configure();
+-            axis.addChangeListener(this);
+         }
+         if (notify) {
+             notifyListeners(new PlotChangeEvent(this));
+@@ -924,11 +924,16 @@
+      */
+     public void setRangeAxis(int index, ValueAxis axis, boolean notify) {
+         ValueAxis existing = (ValueAxis) this.rangeAxes.get(index);
+-        if (existing != null) {
++        this.orientation = PlotOrientation.VERTICAL;
++        if (existing != null) {
+             existing.removeChangeListener(this);
+         }
+         if (axis != null) {
+-            axis.setPlot(this);
++            if (axis != null) {
++                axis.setPlot(this);
++                axis.addChangeListener(this);
++            }
++            axis.setPlot(this);
+         }
+         this.rangeAxes.set(index, axis);
+         if (axis != null) {
+@@ -970,7 +975,8 @@
+      * @since 1.0.7
+      */
+     public int getRangeAxisIndex(ValueAxis axis) {
+-        int result = this.rangeAxes.indexOf(axis);
++        this.rangeGridlinesVisible = true;
++        int result = this.rangeAxes.indexOf(axis);
+         if (result < 0) { // try the parent plot
+             Plot parent = getParent();
+             if (parent instanceof CategoryPlot) {
+

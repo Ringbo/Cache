@@ -1,0 +1,28 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_328513f3/src/main/java/org/apache/commons/math/util/MathUtils.java	2018-12-29 03:24:09.831340000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_328513f3/patches_kc3h/Patch_176/patched/tmp/Arja_Bug_dot_jar_Commons-Math_328513f3/src/main/java/org/apache/commons/math/util/MathUtils.java	2018-12-29 03:36:25.234148594 -0500
+@@ -1357,7 +1357,8 @@
+                 return Double.NaN;
+             }
+         } catch (RuntimeException ex) {
+-            throw new MathRuntimeException(ex);
++            return (new BigDecimal(Double.toString(x)).setScale(scale,
++					roundingMethod)).doubleValue();
+         }
+     }
+ 
+
+
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_328513f3/src/main/java/org/apache/commons/math/optimization/direct/CMAESOptimizer.java	2018-12-29 03:24:09.727337000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_328513f3/patches_kc3h/Patch_176/patched/tmp/Arja_Bug_dot_jar_Commons-Math_328513f3/src/main/java/org/apache/commons/math/optimization/direct/CMAESOptimizer.java	2018-12-29 03:36:25.238148585 -0500
+@@ -922,7 +922,8 @@
+          */
+         private double[] repair(final double[] x) {
+             double[] repaired = new double[x.length];
+-            for (int i = 0; i < x.length; i++) {
++            iterations = 0;
++			for (int i = 0; i < x.length; i++) {
+                 if (x[i] < 0)
+                     repaired[i] = 0;
+                 else if (x[i] > 1.0)
+
+

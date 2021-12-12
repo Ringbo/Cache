@@ -1,0 +1,31 @@
+--- /tmp/Arja_Bears_SzFMV2018-Tavasz-AutomatedCar_351742666-351759763/src/main/java/hu/oe/nik/szfmv/visualization/Dashboard.java	2018-12-26 12:44:43.911927988 -0500
++++ /tmp/Arja_Bears_SzFMV2018-Tavasz-AutomatedCar_351742666-351759763/patches_ezo9/Patch_1549/patched/tmp/Arja_Bears_SzFMV2018-Tavasz-AutomatedCar_351742666-351759763/src/main/java/hu/oe/nik/szfmv/visualization/Dashboard.java	2018-12-26 12:54:21.229105582 -0500
+@@ -56,7 +56,6 @@
+         breakProgressBar.setValue(inputPacket.getBreakPedalPosition());
+         speedAngle = calculateSpeedometer(0);
+         rpmAngle = calculateTachometer(0);
+-        paintComponent(getGraphics());
+     }
+ 
+     /**
+@@ -66,8 +65,6 @@
+         // Not using any layout manager, but fixed coordinates
+         setLayout(null);
+         setBackground(new Color(backgroundColor));
+-        setBounds(dashboardBoundsX, dashboardBoundsY, width, height);
+-
+         initializeProgressBars();
+     }
+ 
+@@ -118,7 +115,8 @@
+      * @return      The mapped value between [-75, 255] interval.
+      */
+     private int calculateTachometer(int rpm) {
+-        final int minRpmValue = 0;
++        setLayout(null);
++		final int minRpmValue = 0;
+         final int maxRpmValue = 10000;
+         final int minRpmMeter = -75;
+         final int maxRpmMeter = 255;
+
+

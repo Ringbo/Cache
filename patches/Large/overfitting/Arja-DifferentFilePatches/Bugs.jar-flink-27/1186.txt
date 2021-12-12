@@ -1,0 +1,36 @@
+--- /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/api/collector/CollectorWrapper.java	2018-12-29 12:37:22.080563000 -0500
++++ /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/patches_stp5/Patch_2266/patched/tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/api/collector/CollectorWrapper.java	2018-12-29 13:48:55.675294143 -0500
+@@ -31,7 +31,6 @@
+ 	}
+ 
+ 	public void addCollector(Collector<?> output, StreamEdge edge) {
+-		outputSelectorWrapper.addCollector(output, edge);
+ 	}
+ 
+ 	@Override
+
+
+--- /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/api/collector/selector/BroadcastOutputSelectorWrapper.java	2018-12-29 12:37:22.080563000 -0500
++++ /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/patches_stp5/Patch_2266/patched/tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/api/collector/selector/BroadcastOutputSelectorWrapper.java	2018-12-29 13:48:55.679294153 -0500
+@@ -35,7 +35,6 @@
+ 	@SuppressWarnings("unchecked")
+ 	@Override
+ 	public void addCollector(Collector<?> output, StreamEdge edge) {
+-		outputs.add((Collector<OUT>) output);
+ 	}
+ 
+ 	@Override
+
+
+--- /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/runtime/tasks/StreamTask.java	2018-12-29 12:37:22.188565000 -0500
++++ /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/patches_stp5/Patch_2266/patched/tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/runtime/tasks/StreamTask.java	2018-12-29 13:48:55.679294153 -0500
+@@ -153,7 +153,6 @@
+ 		streamOperator.open(getTaskConfiguration());
+ 
+ 		for (OneInputStreamOperator<?, ?> operator : outputHandler.chainedOperators) {
+-			operator.open(getTaskConfiguration());
+ 		}
+ 	}
+ 
+
+

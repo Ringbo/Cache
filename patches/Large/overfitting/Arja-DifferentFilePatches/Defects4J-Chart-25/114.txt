@@ -1,0 +1,26 @@
+--- /tmp/Arja_Defects4J_Chart_25/source/org/jfree/data/statistics/MeanAndStandardDeviation.java	2018-12-01 07:56:54.316104358 -0500
++++ /tmp/Arja_Defects4J_Chart_25/patches_atq3/Patch_543/patched/tmp/Arja_Defects4J_Chart_25/source/org/jfree/data/statistics/MeanAndStandardDeviation.java	2018-12-01 08:03:28.102470473 -0500
+@@ -92,7 +92,7 @@
+      * @return The mean.
+      */
+     public Number getMean() {
+-        return this.mean;
++        return null;
+     }
+ 
+     /**
+
+
+--- /tmp/Arja_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-01 07:56:54.316104358 -0500
++++ /tmp/Arja_Defects4J_Chart_25/patches_atq3/Patch_543/patched/tmp/Arja_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-01 08:03:28.102470473 -0500
+@@ -270,7 +270,7 @@
+      * @return The column count.
+      */
+     public int getColumnCount() {
+-        return this.data.getColumnCount();
++        return 1;
+     }
+ 
+     /**
+
+

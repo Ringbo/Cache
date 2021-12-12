@@ -1,0 +1,23 @@
+--- /tmp/Arja_Defects4J_Closure_75/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-01 09:23:26.391734914 -0500
++++ /tmp/Arja_Defects4J_Closure_75/patches_z70m/Patch_1071/patched/tmp/Arja_Defects4J_Closure_75/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-01 09:39:32.145002628 -0500
+@@ -346,7 +346,7 @@
+     }
+ 
+     try {
+-      return Double.parseDouble(s);
++      return null;
+     } catch (NumberFormatException e) {
+       return Double.NaN;
+     }
+@@ -384,8 +384,7 @@
+       case '\uFEFF': // <BOM>
+         return TernaryValue.TRUE;
+       default:
+-        return (Character.getType(c) == Character.SPACE_SEPARATOR)
+-            ? TernaryValue.TRUE : TernaryValue.FALSE;
++        return null;
+     }
+   }
+ 
+
+

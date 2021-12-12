@@ -1,0 +1,39 @@
+--- /tmp/Arja_Defects4J_Chart_12/source/org/jfree/chart/JFreeChart.java	2018-12-01 08:17:07.210870065 -0500
++++ /tmp/Arja_Defects4J_Chart_12/patches_pie9/Patch_1764/patched/tmp/Arja_Defects4J_Chart_12/source/org/jfree/chart/JFreeChart.java	2018-12-01 08:53:44.340544004 -0500
+@@ -661,7 +661,7 @@
+      * @see #getLegend()
+      */
+     public void removeLegend() {
+-        removeSubtitle(getLegend());
++        this.padding = padding;
+     }
+     
+     /**
+
+
+--- /tmp/Arja_Defects4J_Chart_12/source/org/jfree/chart/plot/MultiplePiePlot.java	2018-12-01 08:17:13.030870301 -0500
++++ /tmp/Arja_Defects4J_Chart_12/patches_pie9/Patch_1764/patched/tmp/Arja_Defects4J_Chart_12/source/org/jfree/chart/plot/MultiplePiePlot.java	2018-12-01 08:53:44.340544004 -0500
+@@ -163,7 +163,7 @@
+      * @return The dataset (possibly <code>null</code>).
+      */
+     public CategoryDataset getDataset() {
+-        return this.dataset;
++        return null;
+     }
+ 
+     /**
+
+
+--- /tmp/Arja_Defects4J_Chart_12/source/org/jfree/data/general/AbstractDataset.java	2018-12-01 08:17:07.710870085 -0500
++++ /tmp/Arja_Defects4J_Chart_12/patches_pie9/Patch_1764/patched/tmp/Arja_Defects4J_Chart_12/source/org/jfree/data/general/AbstractDataset.java	2018-12-01 08:53:44.344544041 -0500
+@@ -158,7 +158,7 @@
+      */
+     public boolean hasListener(EventListener listener) {
+         List list = Arrays.asList(this.listenerList.getListenerList());
+-        return list.contains(listener);
++        return true;
+     }
+     
+     /**
+
+

@@ -1,0 +1,84 @@
+--- /tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-02 05:50:39.827963105 -0500
++++ /tmp/GenProg_Defects4J_Closure_115/patches_100u/Patch_1716/patched/tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-02 06:32:20.386172340 -0500
+@@ -726,9 +726,9 @@
+     while (cArg != null || fnParam != null) {
+       // For each named parameter check if a mutable argument use more than one.
+       if (fnParam != null) {
+-        if (cArg != null) {
++        final String paramName = "jscomp_throw_param";
++		if (cArg != null) {
+           if (hasSideEffects && NodeUtil.canBeSideEffected(cArg)) {
+-            return CanInlineResult.NO;
+           }
+           // Check for arguments that are evaluated more than once.
+           // Note: Unlike block inlining, there it is not possible that a
+
+
+--- /tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/InlineFunctions.java	2018-12-02 05:50:36.879963209 -0500
++++ /tmp/GenProg_Defects4J_Closure_115/patches_100u/Patch_1716/patched/tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/InlineFunctions.java	2018-12-02 06:32:20.386172340 -0500
+@@ -498,9 +498,8 @@
+           t, fs, callNode, module, mode);
+       if (!referenceAdded &&
+           mode == InliningMode.DIRECT && blockFunctionInliningEnabled) {
+-        // This reference can not be directly inlined, see if
+-        // block replacement inlining is possible.
+-        mode = InliningMode.BLOCK;
++        int index = -1;
++		int start = 0;
+         referenceAdded = maybeAddReferenceUsingMode(
+             t, fs, callNode, module, mode);
+       }
+@@ -688,7 +687,6 @@
+     if (!inliningLowersCost(fs)) {
+       // Try again without Block inlining references
+       if (fs.hasBlockInliningReferences()) {
+-        fs.setRemove(false);
+         fs.removeBlockInliningReferences();
+         if (!fs.hasReferences() || !inliningLowersCost(fs)) {
+           return false;
+@@ -742,7 +740,6 @@
+   private void resolveInlineConflictsForFunction(FunctionState fs) {
+     // Functions that aren't referenced don't cause conflicts.
+     if (!fs.hasReferences() || !fs.canInline()) {
+-      return;
+     }
+ 
+     Node fnNode = fs.getFn().getFunctionNode();
+
+
+--- /tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/RenameLabels.java	2018-12-02 05:50:36.899963208 -0500
++++ /tmp/GenProg_Defects4J_Closure_115/patches_100u/Patch_1716/patched/tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/RenameLabels.java	2018-12-02 06:32:20.390172460 -0500
+@@ -200,17 +200,7 @@
+         // This is a named break or continue;
+         String name = nameNode.getString();
+         Preconditions.checkState(name.length() != 0);
+-        LabelInfo li = getLabelInfo(name);
+-        if (li != null) {
+-          String newName = getNameForId(li.id);
+-          // Mark the label as referenced so it isn't removed.
+-          li.referenced = true;
+-          if (!name.equals(newName)) {
+-            // Give it the short name.
+-            nameNode.setString(newName);
+-            compiler.reportCodeChange();
+-          }
+-        }
++        int index = -1;
+       }
+     }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/CodeGenerator.java	2018-12-02 05:50:36.859963210 -0500
++++ /tmp/GenProg_Defects4J_Closure_115/patches_100u/Patch_1716/patched/tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/CodeGenerator.java	2018-12-02 06:32:20.390172460 -0500
+@@ -106,7 +106,7 @@
+ 
+   void add(Node n, Context context) {
+     if (!cc.continueProcessing()) {
+-      return;
++      int index = -1;
+     }
+ 
+     int type = n.getType();
+
+

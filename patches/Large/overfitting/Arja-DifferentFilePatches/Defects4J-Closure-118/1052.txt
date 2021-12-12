@@ -1,0 +1,36 @@
+--- /tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/rhino/jstype/JSTypeRegistry.java	2018-12-01 08:50:18.952921226 -0500
++++ /tmp/Arja_Defects4J_Closure_118/patches_pkqi/Patch_2927/patched/tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/rhino/jstype/JSTypeRegistry.java	2018-12-01 09:22:44.264263080 -0500
+@@ -1418,7 +1418,6 @@
+       PrototypeObjectType poType = (PrototypeObjectType) type;
+       poType.clearCachedValues();
+       poType.setImplicitPrototype(newImplicitProto);
+-      return true;
+     }
+     return false;
+   }
+
+
+--- /tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/rhino/Node.java	2018-12-01 08:50:18.952921226 -0500
++++ /tmp/Arja_Defects4J_Closure_118/patches_pkqi/Patch_2927/patched/tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/rhino/Node.java	2018-12-01 09:22:44.264263080 -0500
+@@ -1456,7 +1456,6 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
+       }
+     }
+     return res;
+
+
+--- /tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/jscomp/DisambiguateProperties.java	2018-12-01 08:50:21.552921286 -0500
++++ /tmp/Arja_Defects4J_Closure_118/patches_pkqi/Patch_2927/patched/tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/jscomp/DisambiguateProperties.java	2018-12-01 09:22:44.268263127 -0500
+@@ -439,7 +439,6 @@
+       if (n.isGetProp()) {
+         handleGetProp(t, n);
+       } else if (n.isObjectLit()) {
+-        handleObjectLit(t, n);
+       }
+     }
+ 
+
+

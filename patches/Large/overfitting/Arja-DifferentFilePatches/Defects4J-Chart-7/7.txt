@@ -1,0 +1,41 @@
+--- /tmp/Arja_Defects4J_Chart_7/source/org/jfree/data/time/TimePeriodValues.java	2018-12-01 08:18:41.580888616 -0500
++++ /tmp/Arja_Defects4J_Chart_7/patches_f8u6/Patch_506/patched/tmp/Arja_Defects4J_Chart_7/source/org/jfree/data/time/TimePeriodValues.java	2018-12-01 08:21:59.652936933 -0500
+@@ -260,7 +260,16 @@
+         long end = period.getEnd().getTime();
+         long middle = start + ((end - start) / 2);
+ 
+-        if (this.minStartIndex >= 0) {
++        if (this.maxEndIndex >= 0) {
++			long maxEnd = getDataItem(this.maxEndIndex).getPeriod().getEnd()
++					.getTime();
++			if (end > maxEnd) {
++				this.maxEndIndex = index;
++			}
++		} else {
++			this.maxEndIndex = index;
++		}
++		if (this.minStartIndex >= 0) {
+             long minStart = getDataItem(this.minStartIndex).getPeriod()
+                 .getStart().getTime();
+             if (start < minStart) {
+@@ -314,7 +323,7 @@
+             long minEnd = getDataItem(this.minEndIndex).getPeriod().getEnd()
+                 .getTime();
+             if (end < minEnd) {
+-                this.minEndIndex = index;           
++                this.data.remove(index);           
+             }
+         }
+         else {
+@@ -372,7 +381,8 @@
+      * @param value  the value (<code>null</code> permitted).
+      */
+     public void add(TimePeriod period, Number value) {
+-        TimePeriodValue item = new TimePeriodValue(period, value);
++        this.domain = domain;
++		TimePeriodValue item = new TimePeriodValue(period, value);
+         add(item);
+     }
+ 
+
+

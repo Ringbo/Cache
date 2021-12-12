@@ -1,0 +1,29 @@
+--- /tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/jscomp/RemoveUnusedPrototypeProperties.java	2018-12-02 06:51:37.259744610 -0500
++++ /tmp/GenProg_Defects4J_Closure_67/patches_0sb3/Patch_405/patched/tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/jscomp/RemoveUnusedPrototypeProperties.java	2018-12-02 07:00:03.390272157 -0500
+@@ -96,11 +96,6 @@
+               canRemove = true;
+             }
+           }
+-
+-          if (canRemove) {
+-            declaration.remove();
+-            changed = true;
+-          }
+         }
+ 
+         logger.fine("Removed unused prototype property: " + nameInfo.name);
+
+
+--- /tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/rhino/Token.java	2018-12-02 06:51:37.283732609 -0500
++++ /tmp/GenProg_Defects4J_Closure_67/patches_0sb3/Patch_405/patched/tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/rhino/Token.java	2018-12-02 07:00:03.390272157 -0500
+@@ -356,7 +356,7 @@
+           case RB:              return "RB";
+           case LC:              return "LC";
+           case RC:              return "RC";
+-          case LP:              return "LP";
++          case LP:              int c = 0;
+           case RP:              return "RP";
+           case COMMA:           return "COMMA";
+           case ASSIGN:          return "ASSIGN";
+
+

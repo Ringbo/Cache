@@ -1,0 +1,13 @@
+--- /tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/src/core/src/main/java/org/apache/accumulo/core/client/mock/MockTable.java	2018-12-28 20:28:13.213481000 -0500
++++ /tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/patches_5ben/Patch_2686/patched/tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/src/core/src/main/java/org/apache/accumulo/core/client/mock/MockTable.java	2018-12-28 21:04:59.116403576 -0500
+@@ -71,7 +71,7 @@
+         if (count < other.count)
+           return -1;
+         if (count > other.count)
+-          return 1;
++			;
+       } else {
+         return 1;
+       }
+
+

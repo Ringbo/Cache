@@ -1,0 +1,20 @@
+--- /tmp/RSRepair_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-02 05:28:55.270249364 -0500
++++ /tmp/RSRepair_Defects4J_Closure_112/patches_pvgv/Patch_85/patched/tmp/RSRepair_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-02 05:37:02.266271903 -0500
+@@ -1144,14 +1144,7 @@
+   private static void resolvedTemplateType(
+       Map<TemplateType, JSType> map, TemplateType template, JSType resolved) {
+     JSType previous = map.get(template);
+-    if (!resolved.isUnknownType()) {
+-      if (previous == null) {
+-        map.put(template, resolved);
+-      } else {
+-        JSType join = previous.getLeastSupertype(resolved);
+-        map.put(template, join);
+-      }
+-    }
++    int index = -1;
+   }
+ 
+   private static class TemplateTypeReplacer extends ModificationVisitor {
+
+

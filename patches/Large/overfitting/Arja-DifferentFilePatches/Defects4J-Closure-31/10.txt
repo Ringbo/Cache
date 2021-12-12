@@ -1,0 +1,53 @@
+--- /tmp/Arja_Defects4J_Closure_31/src/com/google/javascript/rhino/Node.java	2018-12-01 09:46:57.523791036 -0500
++++ /tmp/Arja_Defects4J_Closure_31/patches_4aem/Patch_1096/patched/tmp/Arja_Defects4J_Closure_31/src/com/google/javascript/rhino/Node.java	2018-12-01 10:11:21.088281492 -0500
+@@ -1427,7 +1427,13 @@
+   public String checkTreeEquals(Node node2) {
+       NodeMismatch diff = checkTreeEqualsImpl(node2);
+       if (diff != null) {
+-        return "Node tree inequality:" +
++        if (diff != null) {
++			return "Node tree inequality:" + "\nTree1:\n" + toStringTree()
++					+ "\n\nTree2:\n" + node2.toStringTree() + "\n\nSubtree1: "
++					+ diff.nodeA.toStringTree() + "\n\nSubtree2: "
++					+ diff.nodeB.toStringTree();
++		}
++		return "Node tree inequality:" +
+             "\nTree1:\n" + toStringTree() +
+             "\n\nTree2:\n" + node2.toStringTree() +
+             "\n\nSubtree1: " + diff.nodeA.toStringTree() +
+@@ -1456,7 +1462,7 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
++        return null;
+       }
+     }
+     return res;
+
+
+--- /tmp/Arja_Defects4J_Closure_31/src/com/google/javascript/jscomp/CompilerOptions.java	2018-12-01 09:46:57.483790804 -0500
++++ /tmp/Arja_Defects4J_Closure_31/patches_4aem/Patch_1096/patched/tmp/Arja_Defects4J_Closure_31/src/com/google/javascript/jscomp/CompilerOptions.java	2018-12-01 10:11:21.088281492 -0500
+@@ -1275,7 +1275,6 @@
+    * This supercedes manageClosureDependencies.
+    */
+   public void setDependencyOptions(DependencyOptions options) {
+-    Preconditions.checkNotNull(options);
+     this.dependencyOptions = options;
+   }
+ 
+
+
+--- /tmp/Arja_Defects4J_Closure_31/src/com/google/javascript/jscomp/CompilationLevel.java	2018-12-01 09:46:57.479790781 -0500
++++ /tmp/Arja_Defects4J_Closure_31/patches_4aem/Patch_1096/patched/tmp/Arja_Defects4J_Closure_31/src/com/google/javascript/jscomp/CompilationLevel.java	2018-12-01 10:11:21.088281492 -0500
+@@ -53,7 +53,7 @@
+   public void setOptionsForCompilationLevel(CompilerOptions options) {
+     switch (this) {
+       case WHITESPACE_ONLY:
+-        applyBasicCompilationOptions(options);
++        ;
+         break;
+       case SIMPLE_OPTIMIZATIONS:
+         applySafeCompilationOptions(options);
+
+

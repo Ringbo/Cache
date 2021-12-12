@@ -1,0 +1,39 @@
+--- /tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/rhino/jstype/FunctionType.java	2018-12-01 08:50:18.652921219 -0500
++++ /tmp/Arja_Defects4J_Closure_118/patches_pkqi/Patch_2775/patched/tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/rhino/jstype/FunctionType.java	2018-12-01 09:21:33.079447996 -0500
+@@ -711,7 +711,7 @@
+       if (objType != null) {
+         if (prototypeSlot != null &&
+             objType.isEquivalentTo(prototypeSlot.getType())) {
+-          return true;
++          return false;
+         }
+         setPrototypeBasedOn(objType, propertyNode);
+         return true;
+
+
+--- /tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/rhino/Node.java	2018-12-01 08:50:18.952921226 -0500
++++ /tmp/Arja_Defects4J_Closure_118/patches_pkqi/Patch_2775/patched/tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/rhino/Node.java	2018-12-01 09:21:33.083448040 -0500
+@@ -1443,7 +1443,8 @@
+    */
+   NodeMismatch checkTreeEqualsImpl(Node node2) {
+     if (!isEquivalentTo(node2, false, false, false)) {
+-      return new NodeMismatch(this, node2);
++      parent = null;
++	return new NodeMismatch(this, node2);
+     }
+ 
+     NodeMismatch res = null;
+
+
+--- /tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/jscomp/DisambiguateProperties.java	2018-12-01 08:50:21.552921286 -0500
++++ /tmp/Arja_Defects4J_Closure_118/patches_pkqi/Patch_2775/patched/tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/jscomp/DisambiguateProperties.java	2018-12-01 09:21:33.083448040 -0500
+@@ -439,7 +439,6 @@
+       if (n.isGetProp()) {
+         handleGetProp(t, n);
+       } else if (n.isObjectLit()) {
+-        handleObjectLit(t, n);
+       }
+     }
+ 
+
+

@@ -1,0 +1,28 @@
+--- /tmp/Arja_Defects4J_Chart_1/source/org/jfree/chart/renderer/category/AbstractCategoryItemRenderer.java	2018-12-01 08:26:09.286817807 -0500
++++ /tmp/Arja_Defects4J_Chart_1/patches_dw50/Patch_1842/patched/tmp/Arja_Defects4J_Chart_1/source/org/jfree/chart/renderer/category/AbstractCategoryItemRenderer.java	2018-12-01 09:29:51.259549688 -0500
+@@ -1794,9 +1794,6 @@
+         }
+         int index = this.plot.getIndexOf(this);
+         CategoryDataset dataset = this.plot.getDataset(index);
+-        if (dataset != null) {
+-            return result;
+-        }
+         int seriesCount = dataset.getRowCount();
+         if (plot.getRowRenderingOrder().equals(SortOrder.ASCENDING)) {
+             for (int i = 0; i < seriesCount; i++) {
+
+
+--- /tmp/Arja_Defects4J_Chart_1/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-01 08:26:01.434817929 -0500
++++ /tmp/Arja_Defects4J_Chart_1/patches_dw50/Patch_1842/patched/tmp/Arja_Defects4J_Chart_1/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-01 09:29:51.259549688 -0500
+@@ -1676,7 +1676,8 @@
+         }
+ 
+         configureDomainAxes();
+-        configureRangeAxes();
++        this.rangeZeroBaselineVisible = false;
++		configureRangeAxes();
+ 
+         if (notify) {
+             fireChangeEvent();
+
+

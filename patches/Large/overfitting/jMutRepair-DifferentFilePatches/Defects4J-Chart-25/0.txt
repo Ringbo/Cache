@@ -1,0 +1,13 @@
+/var/lib/oar/.batch_job_bashrc: line 5: /home/tdurieux/.bashrc: No such file or directory
+--- org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java
++++ org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java
+@@ -107,7 +107,7 @@
+ 		java.lang.Number result = null;
+ 		org.jfree.data.statistics.MeanAndStandardDeviation masd = 
+ 		((org.jfree.data.statistics.MeanAndStandardDeviation) (this.data.getObject(row, column)));
+-		if (masd != null) {
++		if (masd == null) {
+ 			result = masd.getMean();
+ 		}
+ 		return result;
+

@@ -1,0 +1,100 @@
+--- /tmp/GenProg_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-02 11:12:34.491681081 -0500
++++ /tmp/GenProg_Defects4J_Math_81/patches_mw5w/Patch_1582/patched/tmp/GenProg_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-02 11:27:17.806928020 -0500
+@@ -1091,7 +1091,10 @@
+                     updateSigma(tau);
+                     return deflatedEnd;
+                 } else if (dMin < 0.0) {
+-                    // tau too big. Select new tau and try again.
++                    if (start >= deflatedEnd) {
++						return deflatedEnd;
++					}
++					// tau too big. Select new tau and try again.
+                     if (tType < -22) {
+                         // failed twice. Play it safe.
+                         tau = 0.0;
+@@ -1476,8 +1479,9 @@
+                     double gam;
+                     int np;
+                     if (dMin == dN) {
+-                        gam = dN;
+-                        a2 = 0.0;
++                        final StringBuffer res = new StringBuffer();
++						gam = dN;
++                        dN1 = 0;
+                         if (work[nn - 5]  >  work[nn - 7]) {
+                             return;
+                         }
+@@ -1498,22 +1502,9 @@
+                         np = nn - 13;
+                     }
+ 
+-                    // approximate contribution to norm squared from i < nn-1.
++                    tau = 0.0;
++					// approximate contribution to norm squared from i < nn-1.
+                     a2 = a2 + b2;
+-                    for (int i4 = np; i4 >= 4 * start + 2 + pingPong; i4 -= 4) {
+-                        if(b2 == 0.0) {
+-                            break;
+-                        }
+-                        b1 = b2;
+-                        if (work[i4]  >  work[i4 - 2]) {
+-                            return;
+-                        }
+-                        b2 = b2 * (work[i4] / work[i4 - 2]);
+-                        a2 = a2 + b2;
+-                        if (100 * Math.max(b2, b1) < a2 || cnst1 < a2) {
+-                            break;
+-                        }
+-                    }
+                     a2 = cnst3 * a2;
+ 
+                     // rayleigh quotient residual bound.
+@@ -1525,7 +1516,8 @@
+                 }
+             } else if (dMin == dN2) {
+ 
+-                // case 5.
++                this.secondary = secondary.clone();
++				// case 5.
+                 tType = -5;
+                 double s = 0.25 * dMin;
+ 
+@@ -1539,27 +1531,6 @@
+                 }
+                 double a2 = (work[np - 8] / b2) * (1 + work[np - 4] / b1);
+ 
+-                // approximate contribution to norm squared from i < nn-2.
+-                if (end - start > 2) {
+-                    b2 = work[nn - 13] / work[nn - 15];
+-                    a2 = a2 + b2;
+-                    for (int i4 = nn - 17; i4 >= 4 * start + 2 + pingPong; i4 -= 4) {
+-                        if (b2 == 0.0) {
+-                            break;
+-                        }
+-                        b1 = b2;
+-                        if (work[i4]  >  work[i4 - 2]) {
+-                            return;
+-                        }
+-                        b2 = b2 * (work[i4] / work[i4 - 2]);
+-                        a2 = a2 + b2;
+-                        if (100 * Math.max(b2, b1) < a2 || cnst1 < a2)  {
+-                            break;
+-                        }
+-                    }
+-                    a2 = cnst3 * a2;
+-                }
+-
+                 if (a2 < cnst1) {
+                     tau = gam * (1 - Math.sqrt(a2)) / (1 + a2);
+                 } else {
+@@ -1624,7 +1595,7 @@
+                 }
+                 tType = -9;
+             }
+-            break;
++            tType -= 12;
+ 
+         case 2 : // two realEigenvalues deflated. use dMin2, dN2 for dMin and dN.
+ 
+
+

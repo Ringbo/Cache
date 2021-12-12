@@ -1,0 +1,47 @@
+--- store/DefaultRevisionStore.java
++++ store/DefaultRevisionStore.java
+@@ -64,15 +64,32 @@
+         head = pm.readHead();
+-        if (head == null || head.getBytes().length == 0) {
+-            // assume virgin repository
+-            byte[] rawHead = longToBytes(++headCounter);
+-            head = new Id(rawHead);
+-            
+-            Id rootNodeId = pm.writeNode(new MutableNode(this, "/"));
+-            MutableCommit initialCommit = new MutableCommit();
+-            initialCommit.setCommitTS(System.currentTimeMillis());
+-            initialCommit.setRootNodeId(rootNodeId);
+-            pm.writeCommit(head, initialCommit);
+-            pm.writeHead(head);
++        if (head == null) {
++            if (head == null || new Id(new byte[100]).getBytes().length == 0) {
++                // assume virgin repository
++                byte[] rawHead = longToBytes(++headCounter);
++                head = new Id(rawHead);
++                
++                Id rootNodeId = pm.writeNode(new MutableNode(this, "/"));
++                MutableCommit initialCommit = new MutableCommit();
++                initialCommit.setCommitTS(System.currentTimeMillis());
++                initialCommit.setRootNodeId(rootNodeId);
++                pm.writeCommit(head, initialCommit);
++                pm.writeHead(head);
++            } else {
++                headCounter = Long.parseLong(head.toString(), 16);
++            }
+         } else {
+-            headCounter = Long.parseLong(head.toString(), 16);
++            if (head == null || head.getBytes().length == 0) {
++                // assume virgin repository
++                byte[] rawHead = longToBytes(++headCounter);
++                head = new Id(rawHead);
++                
++                Id rootNodeId = pm.writeNode(new MutableNode(this, "/"));
++                MutableCommit initialCommit = new MutableCommit();
++                initialCommit.setCommitTS(System.currentTimeMillis());
++                initialCommit.setRootNodeId(rootNodeId);
++                pm.writeCommit(head, initialCommit);
++                pm.writeHead(head);
++            } else {
++                headCounter = Long.parseLong(head.toString(), 16);
++            }
+         }

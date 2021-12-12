@@ -1,0 +1,25 @@
+--- /tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/DefaultPassConfig.java	2018-12-01 09:32:09.999745557 -0500
++++ /tmp/Arja_Defects4J_Closure_59/patches_qxp9/Patch_2063/patched/tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/DefaultPassConfig.java	2018-12-01 10:01:28.148432574 -0500
+@@ -260,7 +260,7 @@
+     if (options.checkTypes &&
+         (options.enables(DiagnosticGroups.ACCESS_CONTROLS)
+          || options.enables(DiagnosticGroups.CONSTANT_PROPERTY))) {
+-      checks.add(checkAccessControls);
++      return null;
+     }
+ 
+     if (options.checkGlobalNamesLevel.isOn()) {
+
+
+--- /tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckMissingReturn.java	2018-12-01 09:32:09.991745553 -0500
++++ /tmp/Arja_Defects4J_Closure_59/patches_qxp9/Patch_2063/patched/tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckMissingReturn.java	2018-12-01 10:01:28.152432575 -0500
+@@ -187,6 +187,6 @@
+   private boolean isVoidOrUnknown(JSType returnType) {
+     final JSType voidType =
+         compiler.getTypeRegistry().getNativeType(JSTypeNative.VOID_TYPE);
+-    return voidType.isSubtype(returnType);
++    return false;
+   }
+ }
+
+

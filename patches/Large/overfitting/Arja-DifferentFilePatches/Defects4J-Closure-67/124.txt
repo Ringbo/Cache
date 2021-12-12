@@ -1,0 +1,37 @@
+--- /tmp/Arja_Defects4J_Closure_67/src/com/google/javascript/jscomp/RemoveUnusedPrototypeProperties.java	2018-12-01 09:25:47.602554953 -0500
++++ /tmp/Arja_Defects4J_Closure_67/patches_k844/Patch_216/patched/tmp/Arja_Defects4J_Closure_67/src/com/google/javascript/jscomp/RemoveUnusedPrototypeProperties.java	2018-12-01 09:32:08.725178544 -0500
+@@ -84,19 +84,6 @@
+         for (Symbol declaration : nameInfo.getDeclarations()) {
+           boolean canRemove = false;
+ 
+-          if (specializationState == null) {
+-            canRemove = true;
+-          } else {
+-            Node specializableFunction =
+-              getSpecializableFunctionFromSymbol(declaration);
+-
+-            if (specializableFunction != null) {
+-              specializationState.reportRemovedFunction(
+-                  specializableFunction, null);
+-              canRemove = true;
+-            }
+-          }
+-
+           if (canRemove) {
+             declaration.remove();
+             changed = true;
+
+
+--- /tmp/Arja_Defects4J_Closure_67/src/com/google/javascript/rhino/Node.java	2018-12-01 09:25:47.626555117 -0500
++++ /tmp/Arja_Defects4J_Closure_67/patches_k844/Patch_216/patched/tmp/Arja_Defects4J_Closure_67/src/com/google/javascript/rhino/Node.java	2018-12-01 09:32:08.725178544 -0500
+@@ -218,7 +218,7 @@
+         case QUOTED_PROP:        return "quoted";
+         case OPT_ARG_NAME:       return "opt_arg";
+ 
+-        case SYNTHETIC_BLOCK_PROP: return "synthetic";
++        case SYNTHETIC_BLOCK_PROP: ;
+         case EMPTY_BLOCK:        return "empty_block";
+         case ORIGINALNAME_PROP:  return "originalname";
+         case SIDE_EFFECT_FLAGS:  return "side_effect_flags";
+
+

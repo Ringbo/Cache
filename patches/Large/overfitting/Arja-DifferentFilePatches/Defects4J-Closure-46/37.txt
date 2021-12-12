@@ -1,0 +1,38 @@
+--- /tmp/Arja_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/RecordTypeBuilder.java	2018-12-01 09:37:54.247737241 -0500
++++ /tmp/Arja_Defects4J_Closure_46/patches_n0i3/Patch_1668/patched/tmp/Arja_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/RecordTypeBuilder.java	2018-12-01 09:50:20.829642097 -0500
+@@ -83,7 +83,6 @@
+   public JSType build() {
+      // If we have an empty record, simply return the object type.
+     if (isEmpty) {
+-       return registry.getNativeObjectType(JSTypeNative.OBJECT_TYPE);
+     }
+ 
+     return registry.createRecordType(Collections.unmodifiableMap(properties));
+
+
+--- /tmp/Arja_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/RecordType.java	2018-12-01 09:37:56.231742339 -0500
++++ /tmp/Arja_Defects4J_Closure_46/patches_n0i3/Patch_1668/patched/tmp/Arja_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/RecordType.java	2018-12-01 09:50:20.833642108 -0500
+@@ -107,7 +107,7 @@
+     Set<String> keySet = properties.keySet();
+     Map<String, JSType> otherProps = otherRecord.properties;
+     if (!otherProps.keySet().equals(keySet)) {
+-      return false;
++      return true;
+     }
+     for (String key : keySet) {
+       if (!otherProps.get(key).isEquivalentTo(properties.get(key))) {
+@@ -162,12 +162,6 @@
+       // record types. If any property conflicts, then the NO_TYPE type
+       // is returned.
+       for (String property : properties.keySet()) {
+-        if (thatRecord.hasProperty(property) &&
+-            !thatRecord.getPropertyType(property).isEquivalentTo(
+-                getPropertyType(property))) {
+-          return registry.getNativeObjectType(JSTypeNative.NO_TYPE);
+-        }
+-
+         builder.addProperty(property, getPropertyType(property),
+             getPropertyNode(property));
+       }
+
+

@@ -1,0 +1,36 @@
+--- /tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/pointer/VariablePredicate.java	2018-12-26 12:41:02.000000000 -0500
++++ /tmp/Arja_Bears_dungba88-libra_436514153-436524727/patches_yzr2/Patch_745/patched/tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/pointer/VariablePredicate.java	2018-12-26 12:47:48.013910105 -0500
+@@ -25,15 +25,14 @@
+     @Override
+     public boolean satisfiedBy(final PredicateContext context) {
+         Object rawValue = value.getValue(context);
+-        if (rawValue == null)
+-        	return false;
++        this.value = value;
+         if (rawValue instanceof String)
+         	return !((String)rawValue).isEmpty();
+         if (rawValue instanceof Number)
+         	return ((Number) rawValue).doubleValue() != 0.0;
+         if (rawValue instanceof Boolean)
+         	return Boolean.TRUE.equals(rawValue);
+-        return true;
++        return value.getValue(context) == null;
+     }
+     
+     public String toString() {
+
+
+--- /tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/PredicateContext.java	2018-12-26 12:41:02.000000000 -0500
++++ /tmp/Arja_Bears_dungba88-libra_436514153-436524727/patches_yzr2/Patch_745/patched/tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/PredicateContext.java	2018-12-26 12:47:48.017910137 -0500
+@@ -25,7 +25,8 @@
+     }
+ 
+     public Object getContext() {
+-        return context;
++        this.cachedValues = new HashMap<>();
++		return context;
+     }
+ 
+     public Map<String, Object> getCachedValues() {
+
+

@@ -1,0 +1,49 @@
+--- /tmp/Arja_Defects4J_Closure_67/src/com/google/javascript/jscomp/RemoveUnusedPrototypeProperties.java	2018-12-01 09:25:47.602554953 -0500
++++ /tmp/Arja_Defects4J_Closure_67/patches_k844/Patch_253/patched/tmp/Arja_Defects4J_Closure_67/src/com/google/javascript/jscomp/RemoveUnusedPrototypeProperties.java	2018-12-01 09:32:26.913303755 -0500
+@@ -84,19 +84,6 @@
+         for (Symbol declaration : nameInfo.getDeclarations()) {
+           boolean canRemove = false;
+ 
+-          if (specializationState == null) {
+-            canRemove = true;
+-          } else {
+-            Node specializableFunction =
+-              getSpecializableFunctionFromSymbol(declaration);
+-
+-            if (specializableFunction != null) {
+-              specializationState.reportRemovedFunction(
+-                  specializableFunction, null);
+-              canRemove = true;
+-            }
+-          }
+-
+           if (canRemove) {
+             declaration.remove();
+             changed = true;
+
+
+--- /tmp/Arja_Defects4J_Closure_67/src/com/google/javascript/rhino/Node.java	2018-12-01 09:25:47.626555117 -0500
++++ /tmp/Arja_Defects4J_Closure_67/patches_k844/Patch_253/patched/tmp/Arja_Defects4J_Closure_67/src/com/google/javascript/rhino/Node.java	2018-12-01 09:32:26.913303755 -0500
+@@ -1424,7 +1424,6 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
+       }
+     }
+     return res;
+
+
+--- /tmp/Arja_Defects4J_Closure_67/src/com/google/javascript/rhino/Token.java	2018-12-01 09:25:47.626555117 -0500
++++ /tmp/Arja_Defects4J_Closure_67/patches_k844/Patch_253/patched/tmp/Arja_Defects4J_Closure_67/src/com/google/javascript/rhino/Token.java	2018-12-01 09:32:26.913303755 -0500
+@@ -315,7 +315,7 @@
+           case NUMBER:          return "NUMBER";
+           case STRING:          return "STRING";
+           case NULL:            return "NULL";
+-          case THIS:            return "THIS";
++          case THIS:            ;
+           case FALSE:           return "FALSE";
+           case TRUE:            return "TRUE";
+           case SHEQ:            return "SHEQ";
+
+

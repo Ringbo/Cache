@@ -1,0 +1,23 @@
+--- /tmp/Arja_Defects4J_Chart_7/source/org/jfree/data/time/TimePeriodValues.java	2018-12-01 08:18:41.580888616 -0500
++++ /tmp/Arja_Defects4J_Chart_7/patches_f8u6/Patch_1496/patched/tmp/Arja_Defects4J_Chart_7/source/org/jfree/data/time/TimePeriodValues.java	2018-12-01 08:25:25.077250432 -0500
+@@ -275,7 +275,8 @@
+             long maxStart = getDataItem(this.maxStartIndex).getPeriod()
+                 .getStart().getTime();
+             if (start > maxStart) {
+-                this.maxStartIndex = index;           
++                this.minEndIndex = -1;
++				this.maxStartIndex = index;           
+             }
+         }
+         else {
+@@ -314,7 +315,7 @@
+             long minEnd = getDataItem(this.minEndIndex).getPeriod().getEnd()
+                 .getTime();
+             if (end < minEnd) {
+-                this.minEndIndex = index;           
++                this.data.remove(index);           
+             }
+         }
+         else {
+
+

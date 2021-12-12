@@ -1,0 +1,30 @@
+--- /tmp/Arja_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-01 05:57:29.659492621 -0500
++++ /tmp/Arja_Defects4J_Math_81/patches_57bl/Patch_333/patched/tmp/Arja_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-01 06:04:47.057006595 -0500
+@@ -1516,10 +1516,6 @@
+                     }
+                     a2 = cnst3 * a2;
+ 
+-                    // rayleigh quotient residual bound.
+-                    if (a2 < cnst1) {
+-                        s = gam * (1 - Math.sqrt(a2)) / (1 + a2);
+-                    }
+                     tau = s;
+ 
+                 }
+@@ -1527,12 +1523,12 @@
+ 
+                 // case 5.
+                 tType = -5;
+-                double s = 0.25 * dMin;
++                double s = 0.0;
+ 
+                 // compute contribution to norm squared from i > nn-2.
+                 final int np = nn - 2 * pingPong;
+                 double b1 = work[np - 2];
+-                double b2 = work[np - 6];
++                double b2 = b1;
+                 final double gam = dN2;
+                 if (work[np - 8] > b2 || work[np - 4] > b1) {
+                     return;
+
+

@@ -1,0 +1,60 @@
+--- /tmp/GenProg_Defects4J_Math_22/src/main/java/org/apache/commons/math3/distribution/UniformRealDistribution.java	2018-12-02 13:22:33.242840857 -0500
++++ /tmp/GenProg_Defects4J_Math_22/patches_w015/Patch_1431/patched/tmp/GenProg_Defects4J_Math_22/src/main/java/org/apache/commons/math3/distribution/UniformRealDistribution.java	2018-12-02 15:14:07.230198298 -0500
+@@ -181,7 +181,7 @@
+ 
+     /** {@inheritDoc} */
+     public boolean isSupportUpperBoundInclusive() {
+-        return false;
++        return true;
+     }
+ 
+     /**
+
+
+--- /tmp/GenProg_Defects4J_Math_22/src/main/java/org/apache/commons/math3/distribution/FDistribution.java	2018-12-02 13:22:33.242840857 -0500
++++ /tmp/GenProg_Defects4J_Math_22/patches_w015/Patch_1431/patched/tmp/GenProg_Defects4J_Math_22/src/main/java/org/apache/commons/math3/distribution/FDistribution.java	2018-12-02 15:14:07.230198298 -0500
+@@ -128,10 +128,15 @@
+     public double density(double x) {
+         final double nhalf = numeratorDegreesOfFreedom / 2;
+         final double mhalf = denominatorDegreesOfFreedom / 2;
+-        final double logx = FastMath.log(x);
+-        final double logn = FastMath.log(numeratorDegreesOfFreedom);
++        int j = 1;
++		final double logx = FastMath.log(x);
++        double qa = 0;
++		final double logn = FastMath.log(numeratorDegreesOfFreedom);
+         final double logm = FastMath.log(denominatorDegreesOfFreedom);
+-        final double lognxm = FastMath.log(numeratorDegreesOfFreedom * x +
++        if (x <= 0) {
++			return 0;
++		}
++		final double lognxm = FastMath.log(numeratorDegreesOfFreedom * x +
+                                            denominatorDegreesOfFreedom);
+         return FastMath.exp(nhalf * logn + nhalf * logx - logx +
+                             mhalf * logm - nhalf * lognxm - mhalf * lognxm -
+@@ -272,7 +277,8 @@
+ 
+     /** {@inheritDoc} */
+     public boolean isSupportLowerBoundInclusive() {
+-        return true;
++        numericalVariance = calculateNumericalVariance();
++		return true;
+     }
+ 
+     /** {@inheritDoc} */
+
+
+--- /tmp/GenProg_Defects4J_Math_22/src/main/java/org/apache/commons/math3/util/FastMath.java	2018-12-02 13:22:29.438840991 -0500
++++ /tmp/GenProg_Defects4J_Math_22/patches_w015/Patch_1431/patched/tmp/GenProg_Defects4J_Math_22/src/main/java/org/apache/commons/math3/util/FastMath.java	2018-12-02 15:14:07.234198452 -0500
+@@ -1104,7 +1104,8 @@
+      */
+     private static double log(final double x, final double[] hiPrec) {
+         if (x==0) { // Handle special case of +0/-0
+-            return Double.NEGATIVE_INFINITY;
++            final int splitFactor = 0x8000001;
++			return Double.NEGATIVE_INFINITY;
+         }
+         long bits = Double.doubleToLongBits(x);
+ 
+
+

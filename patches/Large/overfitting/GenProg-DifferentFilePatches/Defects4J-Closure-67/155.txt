@@ -1,0 +1,25 @@
+--- /tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/jscomp/RemoveUnusedPrototypeProperties.java	2018-12-02 06:51:37.259744610 -0500
++++ /tmp/GenProg_Defects4J_Closure_67/patches_0sb3/Patch_79/patched/tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/jscomp/RemoveUnusedPrototypeProperties.java	2018-12-02 06:57:01.687876861 -0500
+@@ -85,7 +85,7 @@
+           boolean canRemove = false;
+ 
+           if (specializationState == null) {
+-            canRemove = true;
++            int index = -1;
+           } else {
+             Node specializableFunction =
+               getSpecializableFunctionFromSymbol(declaration);
+
+
+--- /tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/rhino/Node.java	2018-12-02 06:51:37.279734609 -0500
++++ /tmp/GenProg_Defects4J_Closure_67/patches_0sb3/Patch_79/patched/tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/rhino/Node.java	2018-12-02 06:57:01.691876904 -0500
+@@ -1424,7 +1424,6 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
+       }
+     }
+     return res;
+
+

@@ -1,0 +1,13 @@
+--- /tmp/Arja_QuixBugs_SHORTEST_PATH_LENGTHS_/src/main/java/SHORTEST_PATH_LENGTHS.java	2018-12-02 05:37:15.107933759 -0500
++++ /tmp/Arja_QuixBugs_SHORTEST_PATH_LENGTHS_/patches_r4jx/Patch_729/patched/tmp/Arja_QuixBugs_SHORTEST_PATH_LENGTHS_/src/main/java/SHORTEST_PATH_LENGTHS.java	2018-12-02 05:39:20.836733169 -0500
+@@ -23,7 +23,7 @@
+                     length_by_path.put(edge, 0);
+                 }
+                 else if (length_by_edge.containsKey(edge) ) {
+-                    length_by_path.put(edge, length_by_edge.get(edge));
++                    return length_by_path;
+                 } else {
+                     length_by_path.put(edge, INF);
+                 }
+
+

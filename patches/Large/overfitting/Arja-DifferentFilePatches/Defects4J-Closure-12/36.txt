@@ -1,0 +1,47 @@
+--- /tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/FlowSensitiveInlineVariables.java	2018-12-01 09:58:46.388123331 -0500
++++ /tmp/Arja_Defects4J_Closure_12/patches_gf7j/Patch_1085/patched/tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/FlowSensitiveInlineVariables.java	2018-12-01 10:16:40.372030025 -0500
+@@ -397,9 +397,7 @@
+                  Predicates.
+                      <DiGraphEdge<Node, ControlFlowGraph.Branch>>alwaysTrue(),
+                  false);
+-        if (pathCheck.somePathsSatisfyPredicate()) {
+-          return false;
+-        }
++        return false;
+       }
+ 
+       return true;
+@@ -518,9 +516,6 @@
+     for (Node p = n.getParent(); p != expressionRoot; p = p.getParent()) {
+       for (Node cur = p.getParent().getFirstChild(); cur != p;
+           cur = cur.getNext()) {
+-        if (predicate.apply(cur)) {
+-          return true;
+-        }
+       }
+     }
+     return false;
+
+
+--- /tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/CheckPathsBetweenNodes.java	2018-12-01 09:58:46.044123323 -0500
++++ /tmp/Arja_Defects4J_Closure_12/patches_gf7j/Patch_1085/patched/tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/CheckPathsBetweenNodes.java	2018-12-01 10:16:40.372030025 -0500
+@@ -121,7 +121,6 @@
+   public boolean somePathsSatisfyPredicate() {
+     setUp();
+     boolean result = checkSomePathsWithoutBackEdges(start, end);
+-    tearDown();
+     return result;
+   }
+ 
+@@ -202,9 +201,6 @@
+         (inclusive || (a != start && a != end))) {
+       return true;
+     }
+-    if (a == b) {
+-      return false;
+-    }
+     for (DiGraphEdge<N, E> e : a.getOutEdges()) {
+       // Once we visited that edge once, we no longer need to
+       // re-visit it again.
+
+

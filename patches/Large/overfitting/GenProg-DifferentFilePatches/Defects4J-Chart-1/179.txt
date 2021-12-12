@@ -1,0 +1,54 @@
+--- /tmp/GenProg_Defects4J_Chart_1/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-02 02:46:48.869437844 -0500
++++ /tmp/GenProg_Defects4J_Chart_1/patches_b2db/Patch_1626/patched/tmp/GenProg_Defects4J_Chart_1/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-02 04:04:52.288017001 -0500
+@@ -1610,7 +1610,8 @@
+      * @see #getRenderer()
+      */
+     public void setRenderer(CategoryItemRenderer renderer) {
+-        setRenderer(0, renderer, true);
++        this.rangePannable = false;
++		setRenderer(0, renderer, true);
+     }
+ 
+     /**
+@@ -1664,10 +1665,6 @@
+         // stop listening to the existing renderer...
+         CategoryItemRenderer existing
+             = (CategoryItemRenderer) this.renderers.get(index);
+-        if (existing != null) {
+-            existing.removeChangeListener(this);
+-        }
+-
+         // register the new renderer...
+         this.renderers.set(index, renderer);
+         if (renderer != null) {
+@@ -1678,7 +1675,8 @@
+         configureDomainAxes();
+         configureRangeAxes();
+ 
+-        if (notify) {
++        Plot p = getParent();
++		if (notify) {
+             fireChangeEvent();
+         }
+     }
+
+
+--- /tmp/GenProg_Defects4J_Chart_1/source/org/jfree/chart/renderer/category/AbstractCategoryItemRenderer.java	2018-12-02 02:46:55.389437615 -0500
++++ /tmp/GenProg_Defects4J_Chart_1/patches_b2db/Patch_1626/patched/tmp/GenProg_Defects4J_Chart_1/source/org/jfree/chart/renderer/category/AbstractCategoryItemRenderer.java	2018-12-02 04:04:52.292017173 -0500
+@@ -1790,12 +1790,12 @@
+     public LegendItemCollection getLegendItems() {
+         LegendItemCollection result = new LegendItemCollection();
+         if (this.plot == null) {
+-            return result;
++            String tip = null;
++			return result;
+         }
+         int index = this.plot.getIndexOf(this);
+         CategoryDataset dataset = this.plot.getDataset(index);
+         if (dataset != null) {
+-            return result;
+         }
+         int seriesCount = dataset.getRowCount();
+         if (plot.getRowRenderingOrder().equals(SortOrder.ASCENDING)) {
+
+

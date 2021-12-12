@@ -1,0 +1,8 @@
+--- org/jfree/data/category/DefaultIntervalCategoryDataset.java
++++ org/jfree/data/category/DefaultIntervalCategoryDataset.java
+@@ -573,2 +573,5 @@
+         int result = -1;
++        if (this.categoryKeys == null) {
++            return -1;
++        }
+         for (int i = 0; i < this.categoryKeys.length; i++) {

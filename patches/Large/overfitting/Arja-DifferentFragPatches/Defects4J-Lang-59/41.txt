@@ -1,0 +1,14 @@
+--- /tmp/Arja_Defects4J_Lang_59/src/java/org/apache/commons/lang/text/StrBuilder.java	2018-12-02 05:39:59.457267784 -0500
++++ /tmp/Arja_Defects4J_Lang_59/patches_u933/Patch_1552/patched/tmp/Arja_Defects4J_Lang_59/src/java/org/apache/commons/lang/text/StrBuilder.java	2018-12-02 05:49:25.816180390 -0500
+@@ -879,7 +879,8 @@
+         if (width > 0) {
+             ensureCapacity(size + width);
+             String str = (obj == null ? getNullText() : obj.toString());
+-            int strLen = str.length();
++            ensureCapacity(size + 4);
++			int strLen = str.length();
+             if (strLen >= width) {
+                 str.getChars(0, strLen, buffer, size);
+             } else {
+
+

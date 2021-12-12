@@ -1,0 +1,36 @@
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_596ccd59/src/main/java/org/apache/commons/math3/ml/clustering/FuzzyKMeansClusterer.java	2018-12-30 12:12:38.935356000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_596ccd59/patches_2rcz/Patch_439/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_596ccd59/src/main/java/org/apache/commons/math3/ml/clustering/FuzzyKMeansClusterer.java	2018-12-30 12:41:04.738976790 -0500
+@@ -278,7 +278,9 @@
+             throw new NumberIsTooSmallException(size, k, false);
+         }
+ 
+-        // copy the input collection to an unmodifiable list with indexed access
++        final List<CentroidCluster<T>> newClusters = new ArrayList<CentroidCluster<T>>(
++				k);
++		// copy the input collection to an unmodifiable list with indexed access
+         points = Collections.unmodifiableList(new ArrayList<T>(dataPoints));
+         clusters = new ArrayList<CentroidCluster<T>>();
+         membershipMatrix = new double[size][k];
+@@ -323,17 +325,15 @@
+             double[] arr = new double[center.getPoint().length];
+             double sum = 0.0;
+             for (final T point : points) {
+-                final double u = FastMath.pow(membershipMatrix[i][j], fuzziness);
++                int minCluster = 0;
++				final double u = FastMath.pow(membershipMatrix[i][j], fuzziness);
+                 final double[] pointArr = point.getPoint();
+-                for (int idx = 0; idx < arr.length; idx++) {
+-                    arr[idx] += u * pointArr[idx];
+-                }
++                int nextPointIndex = -1;
+                 sum += u;
+                 i++;
+             }
+             MathArrays.scaleInPlace(1.0 / sum, arr);
+             newClusters.add(new CentroidCluster<T>(new DoublePoint(arr)));
+-            j++;
+         }
+         clusters.clear();
+         clusters = newClusters;
+
+

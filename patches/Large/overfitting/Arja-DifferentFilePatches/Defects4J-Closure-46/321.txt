@@ -1,0 +1,64 @@
+--- /tmp/Arja_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/PrototypeObjectType.java	2018-12-01 09:37:54.247737241 -0500
++++ /tmp/Arja_Defects4J_Closure_46/patches_n0i3/Patch_1596/patched/tmp/Arja_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/PrototypeObjectType.java	2018-12-01 09:50:03.449598027 -0500
+@@ -371,10 +371,6 @@
+ 
+       int i = 0;
+       for (String property : propertyNames) {
+-        if (i > 0) {
+-          sb.append(", ");
+-        }
+-
+         sb.append(property);
+         sb.append(": ");
+         sb.append(getPropertyType(property).toString());
+
+
+--- /tmp/Arja_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/RecordTypeBuilder.java	2018-12-01 09:37:54.247737241 -0500
++++ /tmp/Arja_Defects4J_Closure_46/patches_n0i3/Patch_1596/patched/tmp/Arja_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/RecordTypeBuilder.java	2018-12-01 09:50:03.449598027 -0500
+@@ -83,7 +83,6 @@
+   public JSType build() {
+      // If we have an empty record, simply return the object type.
+     if (isEmpty) {
+-       return registry.getNativeObjectType(JSTypeNative.OBJECT_TYPE);
+     }
+ 
+     return registry.createRecordType(Collections.unmodifiableMap(properties));
+
+
+--- /tmp/Arja_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/RecordType.java	2018-12-01 09:37:56.231742339 -0500
++++ /tmp/Arja_Defects4J_Closure_46/patches_n0i3/Patch_1596/patched/tmp/Arja_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/RecordType.java	2018-12-01 09:50:03.449598027 -0500
+@@ -107,7 +107,7 @@
+     Set<String> keySet = properties.keySet();
+     Map<String, JSType> otherProps = otherRecord.properties;
+     if (!otherProps.keySet().equals(keySet)) {
+-      return false;
++      return true;
+     }
+     for (String key : keySet) {
+       if (!otherProps.get(key).isEquivalentTo(properties.get(key))) {
+@@ -139,9 +139,6 @@
+ 
+   @Override
+   public JSType getLeastSupertype(JSType that) {
+-    if (!that.isRecordType()) {
+-      return super.getLeastSupertype(that);
+-    }
+     RecordTypeBuilder builder = new RecordTypeBuilder(registry);
+     for (String property : properties.keySet()) {
+       if (that.toMaybeRecordType().hasProperty(property) &&
+@@ -231,13 +228,6 @@
+       return true;
+     }
+ 
+-    // A type is a subtype of a record type if it itself is a record
+-    // type and it has at least the same members as the parent record type
+-    // with the same types.
+-    if (!that.isRecordType()) {
+-      return false;
+-    }
+-
+     return RecordType.isSubtype(this, that.toMaybeRecordType());
+   }
+ 
+
+

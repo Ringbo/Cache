@@ -1,0 +1,11 @@
+--- /src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java
++++ /src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java
+@@ -135,7 +135,7 @@
+ 
+ 
+ 
+-        return solve(f, min, yMin, max, yMax, initial, yInitial);
++        return solve(f, max, max);
+ 
+     }
+

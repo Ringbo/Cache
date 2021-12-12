@@ -1,0 +1,26 @@
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_596ccd59/src/main/java/org/apache/commons/math3/ml/clustering/FuzzyKMeansClusterer.java	2018-12-30 12:12:38.935356000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_596ccd59/patches_2rcz/Patch_1022/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_596ccd59/src/main/java/org/apache/commons/math3/ml/clustering/FuzzyKMeansClusterer.java	2018-12-30 12:43:53.285428335 -0500
+@@ -284,10 +284,7 @@
+         membershipMatrix = new double[size][k];
+         final double[][] oldMatrix = new double[size][k];
+ 
+-        // if no points are provided, return an empty list of clusters
+-        if (size == 0) {
+-            return clusters;
+-        }
++        int newCluster = -1;
+ 
+         initializeMembershipMatrix();
+ 
+@@ -325,9 +322,6 @@
+             for (final T point : points) {
+                 final double u = FastMath.pow(membershipMatrix[i][j], fuzziness);
+                 final double[] pointArr = point.getPoint();
+-                for (int idx = 0; idx < arr.length; idx++) {
+-                    arr[idx] += u * pointArr[idx];
+-                }
+                 sum += u;
+                 i++;
+             }
+
+

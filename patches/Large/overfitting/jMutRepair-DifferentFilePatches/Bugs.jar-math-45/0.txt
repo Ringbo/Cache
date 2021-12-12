@@ -1,0 +1,13 @@
+/var/lib/oar/.batch_job_bashrc: line 5: /home/tdurieux/.bashrc: No such file or directory
+--- /tmp/jMutRepair_Bug_dot_jar_Commons-Math_9e0c5ad4/src/main/java/org/apache/commons/math4/special/Gammajava
++++ /tmp/jMutRepair_Bug_dot_jar_Commons-Math_9e0c5ad4/src/main/java/org/apache/commons/math4/special/Gammajava
+@@ -660,7 +660,7 @@
+ 
+ 		final double ret;
+ 		final double absX = org.apache.commons.math4.util.FastMath.abs(x);
+-		if (absX <= 20.0) {
++		if (absX != 20.0) {
+ 			if (x >= 1.0) {
+ 
+ 
+

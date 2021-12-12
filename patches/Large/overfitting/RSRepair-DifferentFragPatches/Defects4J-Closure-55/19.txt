@@ -1,0 +1,12 @@
+--- /tmp/RSRepair_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-02 08:31:50.719827596 -0500
++++ /tmp/RSRepair_Defects4J_Closure_55/patches_2m63/Patch_91/patched/tmp/RSRepair_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-02 08:37:57.382193327 -0500
+@@ -448,7 +448,6 @@
+       if (value != null &&
+           NodeUtil.isGetProp(value) &&
+           NodeUtil.isThis(value.getFirstChild())) {
+-        return value.getLastChild();
+       }
+       return null;
+     }
+
+

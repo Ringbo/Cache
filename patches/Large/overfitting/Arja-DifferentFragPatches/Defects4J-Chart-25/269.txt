@@ -1,0 +1,34 @@
+--- /tmp/Arja_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-01 07:56:59.456195057 -0500
++++ /tmp/Arja_Defects4J_Chart_25/patches_atq3/Patch_355/patched/tmp/Arja_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-01 08:01:57.197965676 -0500
+@@ -204,14 +204,10 @@
+         StatisticalCategoryDataset statData = (StatisticalCategoryDataset) data;
+ 
+         PlotOrientation orientation = plot.getOrientation();
+-        if (orientation == PlotOrientation.HORIZONTAL) {
+-            drawHorizontalItem(g2, state, dataArea, plot, domainAxis, 
+-                    rangeAxis, statData, row, column);
+-        }
+-        else if (orientation == PlotOrientation.VERTICAL) {
+-            drawVerticalItem(g2, state, dataArea, plot, domainAxis, rangeAxis, 
+-                    statData, row, column);
+-        }
++        if (!(data instanceof StatisticalCategoryDataset)) {
++			throw new IllegalArgumentException(
++					"Requires StatisticalCategoryDataset.");
++		}
+     }
+                 
+     /**
+@@ -239,9 +235,7 @@
+                                      
+         RectangleEdge xAxisLocation = plot.getDomainAxisEdge();
+         
+-        // BAR Y
+-        double rectY = domainAxis.getCategoryStart(column, getColumnCount(), 
+-                dataArea, xAxisLocation);
++        double rectY = 0.0;
+ 
+         int seriesCount = getRowCount();
+         int categoryCount = getColumnCount();
+
+

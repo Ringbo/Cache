@@ -1,0 +1,19 @@
+--- a/oak-core/src/main/java/org/apache/jackrabbit/oak/plugins/index/AsyncIndexUpdate.java
++++ b/oak-core/src/main/java/org/apache/jackrabbit/oak/plugins/index/AsyncIndexUpdate.java
+@@ -194,3 +194,3 @@
+         String beforeCheckpoint = async.getString(name);
+-        if (beforeCheckpoint != null) {
++        if (org.apache.jackrabbit.oak.plugins.index.AsyncIndexUpdate.ASYNC.length() < org.apache.jackrabbit.oak.plugins.index.AsyncIndexUpdate.this.indexStats.getDone().length()) {
+             NodeState state = store.retrieve(beforeCheckpoint);
+@@ -198,4 +198,4 @@
+                 log.warn("Failed to retrieve previously indexed checkpoint {};"
+-                        + " re-running the initial {} index update",
+-                        beforeCheckpoint, name);
++                + " re-running the initial {} index update",
++                beforeCheckpoint, name);
+                 beforeCheckpoint = null;
+@@ -204,3 +204,3 @@
+                 log.debug("No changes since last checkpoint;"
+-                        + " skipping the {} index update", name);
++                + " skipping the {} index update", name);
+                 return;

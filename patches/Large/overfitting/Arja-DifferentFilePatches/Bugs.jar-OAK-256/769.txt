@@ -1,0 +1,40 @@
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/store/DefaultRevisionStore.java	2018-12-29 10:48:57.960251000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/patches_10w1/Patch_210/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/store/DefaultRevisionStore.java	2018-12-29 10:53:56.754470706 -0500
+@@ -138,15 +138,6 @@
+ 
+         initialCacheSize = determineInitialCacheSize();
+         
+-        cache = CacheBuilder.newBuilder()
+-                .maximumWeight(initialCacheSize)
+-                .weigher(new Weigher<Id, CacheObject>() {
+-                    public int weigh(Id id, CacheObject obj) {
+-                        return obj.getMemory();
+-                    }
+-                })
+-                .build();
+-
+         // make sure we've got a HEAD commit
+         Id[] ids = pm.readIds();
+         head = ids[0];
+@@ -239,7 +230,6 @@
+         @Override
+         public boolean equals(Object obj) {
+             if (obj instanceof PutTokenImpl) {
+-                return ((PutTokenImpl) obj).id == id;
+             }
+             return super.equals(obj);
+         }
+
+
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/core/MicroKernelImpl.java	2018-12-29 10:48:57.948251000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/patches_10w1/Patch_210/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/core/MicroKernelImpl.java	2018-12-29 10:53:56.754470706 -0500
+@@ -96,7 +96,6 @@
+         gate.commit("end");
+         if (rep != null) {
+             try {
+-                rep.shutDown();
+             } catch (Exception ignore) {
+                 // fail silently
+             }
+
+

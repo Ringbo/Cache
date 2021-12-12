@@ -1,0 +1,27 @@
+--- /tmp/Arja_Defects4J_Math_49/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java	2018-12-02 02:51:20.079187851 -0500
++++ /tmp/Arja_Defects4J_Math_49/patches_4ok3/Patch_279/patched/tmp/Arja_Defects4J_Math_49/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java	2018-12-02 03:09:43.597460123 -0500
+@@ -394,9 +394,10 @@
+         keys[index]   = 0;
+         states[index] = REMOVED;
+         final double previous = values[index];
+-        values[index] = missingEntries;
++        if (states[index] == FULL) {
++			return changeIndexSign(index);
++		}
+         --size;
+-        ++count;
+         return previous;
+     }
+ 
+@@ -529,9 +530,6 @@
+             if (referenceCount != count) {
+                 throw MathRuntimeException.createConcurrentModificationException(LocalizedFormats.MAP_MODIFIED_WHILE_ITERATING);
+             }
+-            if (current < 0) {
+-                throw MathRuntimeException.createNoSuchElementException(LocalizedFormats.ITERATOR_EXHAUSTED);
+-            }
+             return keys[current];
+         }
+ 
+
+

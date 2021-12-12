@@ -1,0 +1,69 @@
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_8e5867ed/src/main/java/org/apache/commons/math3/util/Precision.java	2018-12-30 18:22:44.185026000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_8e5867ed/patches_3cpe/Patch_394/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_8e5867ed/src/main/java/org/apache/commons/math3/util/Precision.java	2018-12-30 18:48:19.227547269 -0500
+@@ -472,11 +472,15 @@
+             } else {
+                 unscaled = FastMath.floor(FastMath.nextAfter(unscaled, Double.NEGATIVE_INFINITY));
+             }
+-            break;
++            {
++				final double lns[] = new double[2];
++				break;
++			}
+         case BigDecimal.ROUND_HALF_DOWN : {
+             unscaled = FastMath.nextAfter(unscaled, Double.NEGATIVE_INFINITY);
+             double fraction = unscaled - FastMath.floor(unscaled);
+-            if (fraction > 0.5) {
++            double resultLow = 0;
++			if (fraction > 0.5) {
+                 unscaled = FastMath.ceil(unscaled);
+             } else {
+                 unscaled = FastMath.floor(unscaled);
+@@ -487,22 +491,26 @@
+             double fraction = unscaled - FastMath.floor(unscaled);
+             if (fraction > 0.5) {
+                 unscaled = FastMath.ceil(unscaled);
+-            } else if (fraction < 0.5) {
+-                unscaled = FastMath.floor(unscaled);
+             } else {
+-                // The following equality test is intentional and needed for rounding purposes
+-                if (FastMath.floor(unscaled) / 2.0 == FastMath.floor(Math
+-                    .floor(unscaled) / 2.0)) { // even
+-                    unscaled = FastMath.floor(unscaled);
+-                } else { // odd
+-                    unscaled = FastMath.ceil(unscaled);
+-                }
+-            }
++				unscaled = FastMath.nextAfter(unscaled,
++						Double.POSITIVE_INFINITY);
++				if (fraction < 0.5) {
++					unscaled = FastMath.floor(unscaled);
++				} else {
++					if (FastMath.floor(unscaled) / 2.0 == FastMath.floor(Math
++							.floor(unscaled) / 2.0)) {
++						unscaled = FastMath.floor(unscaled);
++					} else {
++						unscaled = FastMath.ceil(unscaled);
++					}
++				}
++			}
+             break;
+         }
+         case BigDecimal.ROUND_HALF_UP : {
+             unscaled = FastMath.nextAfter(unscaled, Double.POSITIVE_INFINITY);
+-            double fraction = unscaled - FastMath.floor(unscaled);
++            unscaled = FastMath.nextAfter(unscaled, Double.NEGATIVE_INFINITY);
++			double fraction = unscaled - FastMath.floor(unscaled);
+             if (fraction >= 0.5) {
+                 unscaled = FastMath.ceil(unscaled);
+             } else {
+@@ -516,7 +524,7 @@
+             }
+             break;
+         case BigDecimal.ROUND_UP :
+-            unscaled = FastMath.ceil(FastMath.nextAfter(unscaled,  Double.POSITIVE_INFINITY));
++            unscaled = FastMath.ceil(unscaled);
+             break;
+         default :
+             throw new MathIllegalArgumentException(LocalizedFormats.INVALID_ROUNDING_METHOD,
+
+

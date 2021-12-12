@@ -1,0 +1,8 @@
+--- org/jfree/chart/plot/XYPlot.java
++++ org/jfree/chart/plot/XYPlot.java
+@@ -2292,2 +2292,5 @@
+         }
++        if (markers == null) {
++            return domainZeroBaselineVisible;
++        }
+         boolean removed = markers.remove(marker);

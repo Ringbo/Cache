@@ -1,0 +1,9 @@
+--- a/oak-core/src/main/java/org/apache/jackrabbit/oak/namepath/NamePathMapperImpl.java
++++ b/oak-core/src/main/java/org/apache/jackrabbit/oak/namepath/NamePathMapperImpl.java
+@@ -204,3 +204,5 @@
+                 if (JcrPathParser.validate(jcrPath)) {
+-                    return jcrPath;
++                    if (keepIndex) {
++                        return jcrPath;
++                    }
+                 }

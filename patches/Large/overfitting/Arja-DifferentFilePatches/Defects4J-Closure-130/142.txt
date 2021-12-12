@@ -1,0 +1,34 @@
+--- /tmp/Arja_Defects4J_Closure_130/src/com/google/javascript/jscomp/ReferenceCollectingCallback.java	2018-12-01 08:45:43.181585574 -0500
++++ /tmp/Arja_Defects4J_Closure_130/patches_yo25/Patch_186/patched/tmp/Arja_Defects4J_Closure_130/src/com/google/javascript/jscomp/ReferenceCollectingCallback.java	2018-12-01 08:53:33.548658764 -0500
+@@ -473,9 +473,6 @@
+ 
+     boolean firstReferenceIsAssigningDeclaration() {
+       int size = references.size();
+-      if (size > 0 && references.get(0).isInitializingDeclaration()) {
+-        return true;
+-      }
+       return false;
+     }
+   }
+
+
+--- /tmp/Arja_Defects4J_Closure_130/src/com/google/javascript/jscomp/CollapseProperties.java	2018-12-01 08:45:45.845585512 -0500
++++ /tmp/Arja_Defects4J_Closure_130/patches_yo25/Patch_186/patched/tmp/Arja_Defects4J_Closure_130/src/com/google/javascript/jscomp/CollapseProperties.java	2018-12-01 08:53:33.552658858 -0500
+@@ -219,15 +219,6 @@
+         // The alias is well-formed, so do the inlining now.
+         int size = aliasRefs.references.size();
+         Set<Node> newNodes = Sets.newHashSetWithExpectedSize(size - 1);
+-        for (int i = 1; i < size; i++) {
+-          ReferenceCollectingCallback.Reference aliasRef =
+-              aliasRefs.references.get(i);
+-
+-          Node newNode = alias.node.cloneTree();
+-          aliasRef.getParent().replaceChild(aliasRef.getNode(), newNode);
+-          newNodes.add(newNode);
+-        }
+-
+         // just set the original alias to null.
+         aliasParent.replaceChild(alias.node, IR.nullNode());
+         compiler.reportCodeChange();
+
+

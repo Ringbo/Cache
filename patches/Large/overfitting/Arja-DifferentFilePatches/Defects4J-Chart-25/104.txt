@@ -1,0 +1,26 @@
+--- /tmp/Arja_Defects4J_Chart_25/source/org/jfree/data/statistics/MeanAndStandardDeviation.java	2018-12-01 07:56:54.316104358 -0500
++++ /tmp/Arja_Defects4J_Chart_25/patches_atq3/Patch_59/patched/tmp/Arja_Defects4J_Chart_25/source/org/jfree/data/statistics/MeanAndStandardDeviation.java	2018-12-01 07:59:34.601749383 -0500
+@@ -92,7 +92,7 @@
+      * @return The mean.
+      */
+     public Number getMean() {
+-        return this.mean;
++        return this.standardDeviation;
+     }
+ 
+     /**
+
+
+--- /tmp/Arja_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-01 07:56:54.316104358 -0500
++++ /tmp/Arja_Defects4J_Chart_25/patches_atq3/Patch_59/patched/tmp/Arja_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-01 07:59:34.605749376 -0500
+@@ -108,7 +108,7 @@
+         MeanAndStandardDeviation masd 
+             = (MeanAndStandardDeviation) this.data.getObject(row, column);
+         if (masd != null) {
+-            result = masd.getMean();
++            return null;
+         }
+         return result;
+     }
+
+

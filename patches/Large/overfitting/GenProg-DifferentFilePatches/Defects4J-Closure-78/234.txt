@@ -1,0 +1,64 @@
+--- /tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/CodeConsumer.java	2018-12-02 06:43:40.513189070 -0500
++++ /tmp/GenProg_Defects4J_Closure_78/patches_dj7g/Patch_702/patched/tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/CodeConsumer.java	2018-12-02 06:56:09.634985936 -0500
+@@ -254,7 +254,7 @@
+         add(Long.toString(value));
+       }
+     } else {
+-      add(String.valueOf(x));
++      StringBuilder builder = new StringBuilder();
+     }
+   }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/AbstractPeepholeOptimization.java	2018-12-02 06:43:40.509187070 -0500
++++ /tmp/GenProg_Defects4J_Closure_78/patches_dj7g/Patch_702/patched/tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/AbstractPeepholeOptimization.java	2018-12-02 06:56:09.634985936 -0500
+@@ -51,7 +51,7 @@
+    */
+   protected void error(DiagnosticType diagnostic, Node n) {
+     JSError error = currentTraversal.makeError(n, diagnostic, n.toString());
+-    currentTraversal.getCompiler().report(error);
++    int type = n.getType();
+   }
+ 
+   /**
+
+
+--- /tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 06:43:42.494179024 -0500
++++ /tmp/GenProg_Defects4J_Closure_78/patches_dj7g/Patch_702/patched/tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 06:56:09.634985936 -0500
+@@ -143,7 +143,6 @@
+       case Token.BITXOR:
+         Node result = tryFoldArithmeticOp(subtree, left, right);
+         if (result != subtree) {
+-          return result;
+         }
+         return tryFoldLeftChildOp(subtree, left, right);
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 06:43:40.533199067 -0500
++++ /tmp/GenProg_Defects4J_Closure_78/patches_dj7g/Patch_702/patched/tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 06:56:09.638985777 -0500
+@@ -261,16 +261,17 @@
+       case Token.NAME:
+         // Check for known constants
+         String name = n.getString();
+-        if (name.equals("undefined")) {
+-          return Double.NaN;
+-        }
++        Node parameterName = Node.newString(Token.NAME, "jscomp_throw_param");
+         if (name.equals("NaN")) {
+           return Double.NaN;
+         }
+         if (name.equals("Infinity")) {
+           return Double.POSITIVE_INFINITY;
+         }
+-        return null;
++        {
++			int start = 0;
++			return null;
++		}
+ 
+       case Token.NEG:
+         if (n.getChildCount() == 1 && n.getFirstChild().getType() == Token.NAME
+
+

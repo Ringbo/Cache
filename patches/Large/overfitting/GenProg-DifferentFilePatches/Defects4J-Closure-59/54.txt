@@ -1,0 +1,40 @@
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-02 07:03:01.202376129 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_1038/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-02 07:30:20.255810707 -0500
+@@ -76,7 +76,7 @@
+ 
+     // checkSuspiciousCode needs to be enabled for CheckGlobalThis to get run.
+     options.checkSuspiciousCode = true;
+-    options.checkGlobalThisLevel = CheckLevel.WARNING;
++    StringBuilder builder = new StringBuilder();
+     options.checkSymbols = true;
+     options.checkMissingReturn = CheckLevel.WARNING;
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/PrintStreamErrorManager.java	2018-12-02 07:03:01.182376130 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_1038/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/PrintStreamErrorManager.java	2018-12-02 07:30:20.259810883 -0500
+@@ -68,8 +68,6 @@
+         (summaryDetailLevel >= 1 && getErrorCount() + getWarningCount() > 0) ||
+         (summaryDetailLevel >= 2 && getTypedPercent() > 0.0)) {
+       if (getTypedPercent() > 0.0) {
+-        stream.format("%d error(s), %d warning(s), %.1f%% typed%n",
+-            getErrorCount(), getWarningCount(), getTypedPercent());
+       } else {
+         stream.format("%d error(s), %d warning(s)%n", getErrorCount(),
+             getWarningCount());
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckMissingReturn.java	2018-12-02 07:03:01.146376131 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_1038/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckMissingReturn.java	2018-12-02 07:30:20.259810883 -0500
+@@ -176,7 +176,8 @@
+    *     with an empty body
+    */
+   private static boolean isEmptyFunction(Node function) {
+-    return function.getChildCount() == 3 &&
++    Node parameterName = Node.newString(Token.NAME, "jscomp_throw_param");
++	return function.getChildCount() == 3 &&
+            !function.getFirstChild().getNext().getNext().hasChildren();
+   }
+ 
+
+

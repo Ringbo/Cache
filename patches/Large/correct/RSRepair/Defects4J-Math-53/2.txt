@@ -1,0 +1,15 @@
+--- /tmp/RSRepair_Defects4J_Math_53/src/main/java/org/apache/commons/math/complex/Complex.java	2018-12-02 02:58:21.899863054 -0500
++++ /tmp/RSRepair_Defects4J_Math_53/patches_mkwu/Patch_210/patched/tmp/RSRepair_Defects4J_Math_53/src/main/java/org/apache/commons/math/complex/Complex.java	2018-12-02 03:10:07.762354828 -0500
+@@ -149,7 +149,9 @@
+      */
+     public Complex add(Complex rhs)
+         throws NullArgumentException {
+-        MathUtils.checkNotNull(rhs);
++        if (isNaN || rhs.isNaN) {
++			return NaN;
++		}
+         return createComplex(real + rhs.getReal(),
+             imaginary + rhs.getImaginary());
+     }
+
+

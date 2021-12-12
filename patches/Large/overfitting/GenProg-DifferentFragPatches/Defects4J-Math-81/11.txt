@@ -1,0 +1,55 @@
+--- /tmp/GenProg_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-02 11:12:34.491681081 -0500
++++ /tmp/GenProg_Defects4J_Math_81/patches_mw5w/Patch_72/patched/tmp/GenProg_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-02 11:15:18.675677278 -0500
+@@ -1091,7 +1091,8 @@
+                     updateSigma(tau);
+                     return deflatedEnd;
+                 } else if (dMin < 0.0) {
+-                    // tau too big. Select new tau and try again.
++                    double n2 = 1;
++					// tau too big. Select new tau and try again.
+                     if (tType < -22) {
+                         // failed twice. Play it safe.
+                         tau = 0.0;
+@@ -1470,18 +1471,14 @@
+                         tType = -3;
+                     }
+                 } else {
+-                    // case 4.
+-                    tType = -4;
+                     double s = 0.25 * dMin;
+                     double gam;
+                     int np;
+                     if (dMin == dN) {
+                         gam = dN;
+-                        a2 = 0.0;
+                         if (work[nn - 5]  >  work[nn - 7]) {
+                             return;
+                         }
+-                        b2 = work[nn - 5] / work[nn - 7];
+                         np = nn - 9;
+                     } else {
+                         np = nn - 2 * pingPong;
+@@ -1498,12 +1495,8 @@
+                         np = nn - 13;
+                     }
+ 
+-                    // approximate contribution to norm squared from i < nn-1.
+-                    a2 = a2 + b2;
++                    tau = 0.0;
+                     for (int i4 = np; i4 >= 4 * start + 2 + pingPong; i4 -= 4) {
+-                        if(b2 == 0.0) {
+-                            break;
+-                        }
+                         b1 = b2;
+                         if (work[i4]  >  work[i4 - 2]) {
+                             return;
+@@ -1623,6 +1616,7 @@
+                     tau = 0.5 * dMin1;
+                 }
+                 tType = -9;
++				tType = -9;
+             }
+             break;
+ 
+
+

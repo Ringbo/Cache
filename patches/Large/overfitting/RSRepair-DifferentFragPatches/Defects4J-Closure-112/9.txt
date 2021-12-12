@@ -1,0 +1,13 @@
+--- /tmp/RSRepair_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-02 05:28:55.270249364 -0500
++++ /tmp/RSRepair_Defects4J_Closure_112/patches_pvgv/Patch_188/patched/tmp/RSRepair_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-02 05:39:23.818279094 -0500
+@@ -1146,7 +1146,7 @@
+     JSType previous = map.get(template);
+     if (!resolved.isUnknownType()) {
+       if (previous == null) {
+-        map.put(template, resolved);
++        StringBuilder builder = new StringBuilder();
+       } else {
+         JSType join = previous.getLeastSupertype(resolved);
+         map.put(template, join);
+
+

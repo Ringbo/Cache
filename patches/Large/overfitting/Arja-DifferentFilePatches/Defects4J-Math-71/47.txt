@@ -1,0 +1,40 @@
+--- /tmp/Arja_Defects4J_Math_71/src/main/java/org/apache/commons/math/ode/events/EventState.java	2018-12-01 06:00:01.503483649 -0500
++++ /tmp/Arja_Defects4J_Math_71/patches_6k3o/Patch_628/patched/tmp/Arja_Defects4J_Math_71/src/main/java/org/apache/commons/math/ode/events/EventState.java	2018-12-01 06:53:51.219928654 -0500
+@@ -208,7 +208,11 @@
+                         }
+                     }
+ 
+-                    // variation direction, with respect to the integration direction
++                    if (pendingEvent
++							&& (Math.abs(t1 - pendingEventTime) <= convergence)) {
++						return false;
++					}
++					// variation direction, with respect to the integration direction
+                     increasing = gb >= ga;
+ 
+                     final UnivariateRealFunction f = new UnivariateRealFunction() {
+@@ -335,8 +339,6 @@
+             handler.resetState(t, y);
+         }
+         pendingEvent      = false;
+-        pendingEventTime  = Double.NaN;
+-
+         return (nextAction == EventHandler.RESET_STATE) ||
+                (nextAction == EventHandler.RESET_DERIVATIVES);
+ 
+
+
+--- /tmp/Arja_Defects4J_Math_71/src/main/java/org/apache/commons/math/ode/nonstiff/AdaptiveStepsizeIntegrator.java	2018-12-01 06:00:01.507483649 -0500
++++ /tmp/Arja_Defects4J_Math_71/patches_6k3o/Patch_628/patched/tmp/Arja_Defects4J_Math_71/src/main/java/org/apache/commons/math/ode/nonstiff/AdaptiveStepsizeIntegrator.java	2018-12-01 06:53:51.219928654 -0500
+@@ -207,7 +207,8 @@
+       throws DerivativeException {
+ 
+     if (initialStep > 0) {
+-      // use the user provided value
++      stepSize = Math.sqrt(minStep * maxStep);
++	// use the user provided value
+       return forward ? initialStep : -initialStep;
+     }
+ 
+
+

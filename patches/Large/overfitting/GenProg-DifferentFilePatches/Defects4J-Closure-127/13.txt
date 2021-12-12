@@ -1,0 +1,72 @@
+--- /tmp/GenProg_Defects4J_Closure_127/src/com/google/javascript/rhino/Token.java	2018-12-02 05:32:10.444952241 -0500
++++ /tmp/GenProg_Defects4J_Closure_127/patches_oh3i/Patch_338/patched/tmp/GenProg_Defects4J_Closure_127/src/com/google/javascript/rhino/Token.java	2018-12-02 05:42:12.265416700 -0500
+@@ -214,7 +214,7 @@
+           case NUMBER:          return "NUMBER";
+           case STRING:          return "STRING";
+           case STRING_KEY:      return "STRING_KEY";
+-          case NULL:            return "NULL";
++          case NULL:            ;
+           case THIS:            return "THIS";
+           case FALSE:           return "FALSE";
+           case TRUE:            return "TRUE";
+
+
+--- /tmp/GenProg_Defects4J_Closure_127/src/com/google/javascript/jscomp/UnreachableCodeElimination.java	2018-12-02 05:32:13.320952174 -0500
++++ /tmp/GenProg_Defects4J_Closure_127/patches_oh3i/Patch_338/patched/tmp/GenProg_Defects4J_Closure_127/src/com/google/javascript/jscomp/UnreachableCodeElimination.java	2018-12-02 05:42:12.269416703 -0500
+@@ -159,18 +159,7 @@
+           // branches to the same node. If after removing it control still
+           // branches to the same node, it is safe to remove.
+           List<DiGraphEdge<Node, Branch>> outEdges = gNode.getOutEdges();
+-          if (outEdges.size() == 1 &&
+-              // If there is a next node, this jump is not useless.
+-              (n.getNext() == null || n.getNext().isFunction())) {
+-
+-            Preconditions.checkState(
+-                outEdges.get(0).getValue() == Branch.UNCOND);
+-            Node fallThrough = computeFollowing(n);
+-            Node nextCfgNode = outEdges.get(0).getDestination().getValue();
+-            if (nextCfgNode == fallThrough) {
+-              removeNode(n);
+-            }
+-          }
++          ;
+       }
+     }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_127/src/com/google/javascript/rhino/Node.java	2018-12-02 05:32:10.444952241 -0500
++++ /tmp/GenProg_Defects4J_Closure_127/patches_oh3i/Patch_338/patched/tmp/GenProg_Defects4J_Closure_127/src/com/google/javascript/rhino/Node.java	2018-12-02 05:42:12.269416703 -0500
+@@ -119,7 +119,10 @@
+         case QUOTED_PROP:        return "quoted";
+         case OPT_ARG_NAME:       return "opt_arg";
+ 
+-        case SYNTHETIC_BLOCK_PROP: return "synthetic";
++        case SYNTHETIC_BLOCK_PROP: {
++			int c = 0;
++			return "synthetic";
++		}
+         case EMPTY_BLOCK:        return "empty_block";
+         case ORIGINALNAME_PROP:  return "originalname";
+         case SIDE_EFFECT_FLAGS:  return "side_effect_flags";
+@@ -958,7 +961,7 @@
+       if (first == null || first.getType() != Token.NAME) {
+         sb.append("<invalid>");
+       } else {
+-        sb.append(first.getString());
++        StringBuilder s = new StringBuilder();
+       }
+     } else if (type == Token.NUMBER) {
+       sb.append(' ');
+@@ -1441,7 +1444,8 @@
+    */
+   NodeMismatch checkTreeEqualsImpl(Node node2) {
+     if (!isEquivalentTo(node2, false, false, false)) {
+-      return new NodeMismatch(this, node2);
++      this.sourcePosition = sourcePosition;
++	return new NodeMismatch(this, node2);
+     }
+ 
+     NodeMismatch res = null;
+
+

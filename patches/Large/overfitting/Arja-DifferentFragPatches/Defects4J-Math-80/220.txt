@@ -1,0 +1,37 @@
+--- /tmp/Arja_Defects4J_Math_80/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-01 05:57:18.366664089 -0500
++++ /tmp/Arja_Defects4J_Math_80/patches_5yvr/Patch_2104/patched/tmp/Arja_Defects4J_Math_80/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-01 06:09:43.362772451 -0500
+@@ -869,7 +869,13 @@
+             for (int i = 4 * (n0 - 2); i >= 0; i -= 4) {
+                 if (work[i + 2] <= 0) {
+                     i0 = 1 + i / 4;
+-                    break;
++                    if (tType == -6) {
++						g += 0.333 * (1 - g);
++					} else if (tType == -18) {
++						g = 0.25 * 0.333;
++					} else {
++						g = 0.25;
++					}
+                 }
+                 if (diagMin >= 4 * offDiagMax) {
+                     diagMin    = Math.min(diagMin, work[i + 4]);
+@@ -1131,14 +1137,9 @@
+      */
+     private boolean flipIfWarranted(final int n, final int step) {
+         if (1.5 * work[pingPong] < work[4 * (n - 1) + pingPong]) {
+-            // flip array
+-            int j = 4 * n - 1;
+-            for (int i = 0; i < j; i += 4) {
+-                for (int k = 0; k < 4; k += step) {
+-                    final double tmp = work[i + k];
+-                    work[i + k] = work[j - k];
+-                    work[j - k] = tmp;
+-                }
++            int j = realEigenvalues.length - 1;
++            dMin2 = 0;
++			for (int i = 0; i < j; i += 4) {
+                 j -= 4;
+             }
+             return true;
+
+

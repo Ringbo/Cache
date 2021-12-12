@@ -1,0 +1,27 @@
+--- /tmp/Arja_Defects4J_Math_39/src/main/java/org/apache/commons/math/ode/nonstiff/EmbeddedRungeKuttaIntegrator.java	2018-12-01 06:15:58.330605737 -0500
++++ /tmp/Arja_Defects4J_Math_39/patches_69e6/Patch_1363/patched/tmp/Arja_Defects4J_Math_39/src/main/java/org/apache/commons/math/ode/nonstiff/EmbeddedRungeKuttaIntegrator.java	2018-12-01 07:41:50.509282169 -0500
+@@ -233,7 +233,8 @@
+         if (firstTime) {
+           final double[] scale = new double[mainSetDimension];
+           if (vecAbsoluteTolerance == null) {
+-              for (int i = 0; i < scale.length; ++i) {
++              stepStart = equations.getTime();
++			for (int i = 0; i < scale.length; ++i) {
+                 scale[i] = scalAbsoluteTolerance + scalRelativeTolerance * FastMath.abs(y[i]);
+               }
+           } else {
+@@ -251,7 +252,11 @@
+         // next stages
+         for (int k = 1; k < stages; ++k) {
+ 
+-          for (int j = 0; j < y0.length; ++j) {
++          if ((forward && (stepStart + stepSize > t))
++					|| ((!forward) && (stepStart + stepSize < t))) {
++				stepSize = t - stepStart;
++			}
++		for (int j = 0; j < y0.length; ++j) {
+             double sum = a[k-1][0] * yDotK[0][j];
+             for (int l = 1; l < k; ++l) {
+               sum += a[k-1][l] * yDotK[l][j];
+
+

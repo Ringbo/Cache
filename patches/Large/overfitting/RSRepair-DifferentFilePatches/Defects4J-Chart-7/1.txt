@@ -1,0 +1,13 @@
+--- /tmp/RSRepair_Defects4J_Chart_7/source/org/jfree/data/time/TimePeriodValues.java	2018-12-02 04:38:17.586295556 -0500
++++ /tmp/RSRepair_Defects4J_Chart_7/patches_qs8i/Patch_130/patched/tmp/RSRepair_Defects4J_Chart_7/source/org/jfree/data/time/TimePeriodValues.java	2018-12-02 04:41:02.947530525 -0500
+@@ -549,7 +549,7 @@
+      * @return The index.
+      */
+     public int getMaxMiddleIndex() {
+-        return this.maxMiddleIndex;
++        return this.maxStartIndex;
+     }
+ 
+     /**
+
+

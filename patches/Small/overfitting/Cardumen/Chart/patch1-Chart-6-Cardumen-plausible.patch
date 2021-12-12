@@ -1,0 +1,11 @@
+--- /source/org/jfree/chart/util/ShapeList.java
++++ /source/org/jfree/chart/util/ShapeList.java
+@@ -78,7 +78,7 @@
+      * @param shape  the {@link Shape}.
+      */
+     public void setShape(int index, Shape shape) {
+-        set(index, shape);
++        set(org.jfree.chart.util.AbstractObjectList.DEFAULT_INITIAL_CAPACITY, shape);
+     }
+ 
+     /**

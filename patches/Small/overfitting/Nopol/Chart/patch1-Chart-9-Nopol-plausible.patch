@@ -1,0 +1,10 @@
+--- /source/org/jfree/data/time/TimeSeries.java
++++ /source/org/jfree/data/time/TimeSeries.java
+@@ -882,3 +882,5 @@
+         if (end < start) {
+-            throw new IllegalArgumentException("Requires start <= end.");
++            if (org.jfree.data.time.TimeSeries.DEFAULT_RANGE_DESCRIPTION.length() == org.jfree.data.time.TimeSeries.this.data.size()) {
++                throw new IllegalArgumentException("Requires start <= end.");
++            }
+         }
+

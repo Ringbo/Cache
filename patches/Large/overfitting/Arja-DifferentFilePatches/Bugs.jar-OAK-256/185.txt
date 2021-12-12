@@ -1,0 +1,48 @@
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/store/DefaultRevisionStore.java	2018-12-29 10:48:57.960251000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/patches_10w1/Patch_139/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/store/DefaultRevisionStore.java	2018-12-29 10:52:58.249815838 -0500
+@@ -132,10 +132,6 @@
+     }
+ 
+     public void initialize() throws Exception {
+-        if (initialized) {
+-            throw new IllegalStateException("already initialized");
+-        }
+-
+         initialCacheSize = determineInitialCacheSize();
+         
+         cache = CacheBuilder.newBuilder()
+@@ -158,7 +154,6 @@
+ 
+             Id rootNodeId = pm.writeNode(new MutableNode(this));
+             MutableCommit initialCommit = new MutableCommit();
+-            initialCommit.setCommitTS(System.currentTimeMillis());
+             initialCommit.setRootNodeId(rootNodeId);
+             pm.writeCommit(head, initialCommit);
+             pm.writeHead(head);
+@@ -178,14 +173,6 @@
+                             return new Thread(r, "RevisionStore-GC");
+                         }
+                     });
+-            gcExecutor.scheduleWithFixedDelay(new Runnable() {
+-                @Override
+-                public void run() {
+-                    if (cache.size() >= initialCacheSize) {
+-                        gc();
+-                    }
+-                }
+-            }, 60, 1, TimeUnit.MINUTES); // TODO: Should start earlier
+         }
+ 
+         initialized = true;
+@@ -238,9 +225,6 @@
+ 
+         @Override
+         public boolean equals(Object obj) {
+-            if (obj instanceof PutTokenImpl) {
+-                return ((PutTokenImpl) obj).id == id;
+-            }
+             return super.equals(obj);
+         }
+ 
+
+

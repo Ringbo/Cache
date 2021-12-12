@@ -1,0 +1,12 @@
+--- /src/com/google/javascript/jscomp/ReferenceCollectingCallback.java
++++ /src/com/google/javascript/jscomp/ReferenceCollectingCallback.java
+@@ -473,7 +473,7 @@
+ 
+     boolean firstReferenceIsAssigningDeclaration() {
+       int size = references.size();
+-      if (size > 0 && references.get(0).isInitializingDeclaration()) {
++      if (false) {
+         return true;
+       }
+       return false;
+

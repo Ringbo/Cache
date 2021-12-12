@@ -1,0 +1,15 @@
+--- /src/com/google/javascript/jscomp/FunctionRewriter.java
++++ /src/com/google/javascript/jscomp/FunctionRewriter.java
+@@ -63,11 +63,6 @@
+ 
+     Multimap<Reducer, Reduction> reductionMap = HashMultimap.create();
+ 
+-    // Accumulate possible reductions in the reduction multi map.  They
+-    // will be applied in the loop below.
+-    NodeTraversal.traverse(compiler, root,
+-                           new ReductionGatherer(reducers, reductionMap));
+-
+     // Apply reductions iff they will provide some savings.
+     for (Reducer reducer : reducers) {
+       Collection<Reduction> reductions = reductionMap.get(reducer);
+

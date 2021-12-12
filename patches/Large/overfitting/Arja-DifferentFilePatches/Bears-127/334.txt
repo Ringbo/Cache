@@ -1,0 +1,27 @@
+--- /tmp/Arja_Bears_traccar-traccar_273118899-273136493/src/org/traccar/protocol/EelinkProtocolDecoder.java	2018-12-26 12:59:39.444574687 -0500
++++ /tmp/Arja_Bears_traccar-traccar_273118899-273136493/patches_r2qe/Patch_2431/patched/tmp/Arja_Bears_traccar-traccar_273118899-273136493/src/org/traccar/protocol/EelinkProtocolDecoder.java	2018-12-26 13:23:15.695302653 -0500
+@@ -159,7 +159,6 @@
+             position.set(Position.KEY_EVENT, statusType);
+ 
+             if (statusType == 0x01 || statusType == 0x02 || statusType == 0x03) {
+-                buf.readUnsignedInt(); // device time
+                 decodeStatus(position, buf.readUnsignedShort());
+             }
+ 
+
+
+--- /tmp/Arja_Bears_traccar-traccar_273118899-273136493/src/org/traccar/model/Network.java	2018-12-26 12:59:39.428566687 -0500
++++ /tmp/Arja_Bears_traccar-traccar_273118899-273136493/patches_r2qe/Patch_2431/patched/tmp/Arja_Bears_traccar-traccar_273118899-273136493/src/org/traccar/model/Network.java	2018-12-26 13:23:15.699302688 -0500
+@@ -91,10 +91,6 @@
+     }
+ 
+     public void addCellTower(CellTower cellTower) {
+-        if (cellTowers == null) {
+-            cellTowers = new ArrayList<>();
+-        }
+-        cellTowers.add(cellTower);
+     }
+ 
+     private Collection<WifiAccessPoint> wifiAccessPoints;
+
+

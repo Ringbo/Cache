@@ -1,0 +1,23 @@
+--- /tmp/Arja_Defects4J_Lang_63/src/java/org/apache/commons/lang/time/DurationFormatUtils.java	2018-12-01 05:15:44.533037303 -0500
++++ /tmp/Arja_Defects4J_Lang_63/patches_g3j7/Patch_1015/patched/tmp/Arja_Defects4J_Lang_63/src/java/org/apache/commons/lang/time/DurationFormatUtils.java	2018-12-01 05:25:15.090161097 -0500
+@@ -328,7 +328,9 @@
+         // number of months and get the real count and not just 0->11.
+         if (!Token.containsTokenWithValue(tokens, y)) {
+             if (Token.containsTokenWithValue(tokens, M)) {
+-                months += 12 * years;
++                days -= reduceAndCorrect(start, end, Calendar.DAY_OF_MONTH,
++						days);
++				months += 12 * years;
+                 years = 0;
+             } else {
+                 // TODO: this is a bit weak, needs work to know about leap years
+@@ -435,7 +437,6 @@
+         int startValue = start.get(field);
+         if (endValue < startValue) {
+             int newdiff = startValue - endValue;
+-            end.add( field, newdiff );
+             return newdiff;
+         } else {
+             return 0;
+
+

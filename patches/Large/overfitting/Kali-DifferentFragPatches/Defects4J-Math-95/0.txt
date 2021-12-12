@@ -1,0 +1,15 @@
+--- /tmp/Kali_Defects4J_Math_95/src/java/org/apache/commons/math/distribution/FDistributionImpl.java	2018-12-01 16:37:45.439471652 -0500
++++ /tmp/Kali_Defects4J_Math_95/patches_wycb/Patch_25/patched/tmp/Kali_Defects4J_Math_95/src/java/org/apache/commons/math/distribution/FDistributionImpl.java	2018-12-01 16:38:55.571474896 -0500
+@@ -142,7 +142,9 @@
+      */
+     protected double getInitialDomain(double p) {
+         double ret;
+-        double d = getDenominatorDegreesOfFreedom();
++        if (true)
++			return 0;
++		double d = getDenominatorDegreesOfFreedom();
+             // use mean
+             ret = d / (d - 2.0);
+         return ret;
+
+

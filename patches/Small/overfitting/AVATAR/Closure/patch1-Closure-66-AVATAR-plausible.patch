@@ -1,0 +1,12 @@
+--- /src/com/google/javascript/jscomp/TypeCheck.java
++++ /src/com/google/javascript/jscomp/TypeCheck.java
+@@ -1910,7 +1910,7 @@
+    * @return a number between 0.0 and 100.0
+    */
+   double getTypedPercent() {
+-    int total = nullCount + unknownCount + typedCount;
++    int total = this.noTypeCheckSection + unknownCount + typedCount;
+     if (total == 0) {
+       return 0.0;
+     } else {
+

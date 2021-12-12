@@ -1,0 +1,68 @@
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/ChartFactory.java	2018-12-01 08:15:31.762705602 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_1019/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/ChartFactory.java	2018-12-01 08:28:01.654064905 -0500
+@@ -699,8 +699,8 @@
+         if (urls) {
+             plot.setURLGenerator(new StandardPieURLGenerator());
+         }
+-        return new JFreeChart(title, JFreeChart.DEFAULT_TITLE_FONT, plot, 
+-                legend);
++        return new JFreeChart(title, JFreeChart.DEFAULT_TITLE_FONT, plot,
++				legend);
+ 
+     }
+ 
+
+
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot.java	2018-12-01 08:15:36.482705821 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_1019/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot.java	2018-12-01 08:28:01.658065183 -0500
+@@ -667,7 +667,8 @@
+      * @see #setInteriorGap(double)
+      */
+     public double getInteriorGap() {
+-        return this.interiorGap;
++        this.ignoreZeroValues = false;
++		return this.interiorGap;
+     }
+ 
+     /**
+
+
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot3D.java	2018-12-01 08:15:31.186705575 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_1019/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot3D.java	2018-12-01 08:28:01.662065459 -0500
+@@ -231,14 +231,17 @@
+         insets.trim(plotArea);
+ 
+         Rectangle2D originalPlotArea = (Rectangle2D) plotArea.clone();
+-        if (info != null) {
++        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
++				getForegroundAlpha()));
++		if (info != null) {
+             info.setPlotArea(plotArea);
+             info.setDataArea(plotArea);
+         }
+ 
+         drawBackground(g2, plotArea);
+ 
+-        Shape savedClip = g2.getClip();
++        setBackgroundPaint(Color.WHITE);
++		Shape savedClip = g2.getClip();
+         g2.clip(plotArea);
+ 
+         // adjust the plot area by the interior spacing value
+@@ -268,7 +271,13 @@
+         double linkW = plotArea.getWidth() - gapHorizontal;
+         double linkH = plotArea.getHeight() - gapVertical;
+         
+-        // make the link area a square if the pie chart is to be circular...
++        if (DatasetUtilities.isEmptyOrNull(getDataset())) {
++			drawNoDataMessage(g2, plotArea);
++			g2.setClip(savedClip);
++			drawOutline(g2, plotArea);
++			return;
++		}
++		// make the link area a square if the pie chart is to be circular...
+         if (isCircular()) { // is circular?
+             double min = Math.min(linkW, linkH) / 2;
+             linkX = (linkX + linkX + linkW) / 2 - min;
+
+

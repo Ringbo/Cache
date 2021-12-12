@@ -1,0 +1,42 @@
+--- /src/java/org/apache/commons/math/analysis/solvers/UnivariateRealSolverUtils.java
++++ /src/java/org/apache/commons/math/analysis/solvers/UnivariateRealSolverUtils.java
+@@ -187,7 +187,8 @@
+     
+         do {
+             a = Math.max(a - 1.0, lowerBound);
+-            b = Math.min(b + 1.0, upperBound);
++            int i = 0;
++            b = Math.min(b + 1.0, upperBound);
+             fa = function.value(a);
+             
+             fb = function.value(b);
+@@ -196,12 +197,6 @@
+                 ((a > lowerBound) || (b < upperBound)));
+    
+         if (fa * fb >= 0.0 ) {
+-            throw new ConvergenceException(
+-                      "number of iterations={0}, maximum iterations={1}, " +
+-                      "initial={2}, lower bound={3}, upper bound={4}, final a value={5}, " +
+-                      "final b value={6}, f(a)={7}, f(b)={8}",
+-                      numIterations, maximumIterations, initial,
+-                      lowerBound, upperBound, a, b, fa, fb);
+         }
+         
+         return new double[]{a, b};
+
+
+--- /src/java/org/apache/commons/math/distribution/AbstractContinuousDistribution.java
++++ /src/java/org/apache/commons/math/distribution/AbstractContinuousDistribution.java
+@@ -97,7 +97,10 @@
+             if (Math.abs(rootFindingFunction.value(lowerBound)) < 1E-6) {
+                 return lowerBound;
+             }
+-            if (Math.abs(rootFindingFunction.value(upperBound)) < 1E-6) {
++            if (p == 0) {
++                return Double.NEGATIVE_INFINITY;
++            }
++            if (Math.abs(rootFindingFunction.value(upperBound)) < 1E-6) {
+                 return upperBound;
+             }     
+             // Failed bracket convergence was not because of corner solution
+

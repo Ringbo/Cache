@@ -1,0 +1,8 @@
+--- internal/invocation/ArgumentsProcessor.java
++++ internal/invocation/ArgumentsProcessor.java
+@@ -21,2 +21,5 @@
+     public static Object[] expandVarArgs(final boolean isVarArgs, final Object[] args) {
++        if (args[args.length - 1] == null) {
++            args[args.length - 1] = isVarArgs;
++        }
+         if (!isVarArgs || new ArrayUtils().isEmpty(args) || args[args.length - 1] != null && !args[args.length - 1].getClass().isArray()) {

@@ -1,0 +1,40 @@
+--- /tmp/Arja_Defects4J_Closure_127/src/com/google/javascript/rhino/Token.java	2018-12-01 08:46:07.764980832 -0500
++++ /tmp/Arja_Defects4J_Closure_127/patches_rmbn/Patch_369/patched/tmp/Arja_Defects4J_Closure_127/src/com/google/javascript/rhino/Token.java	2018-12-01 08:53:47.339941689 -0500
+@@ -210,7 +210,7 @@
+           case GETELEM:         return "GETELEM";
+           case CALL:            return "CALL";
+           case NAME:            return "NAME";
+-          case LABEL_NAME:      return "LABEL_NAME";
++          case LABEL_NAME:      ;
+           case NUMBER:          return "NUMBER";
+           case STRING:          return "STRING";
+           case STRING_KEY:      return "STRING_KEY";
+
+
+--- /tmp/Arja_Defects4J_Closure_127/src/com/google/javascript/rhino/Node.java	2018-12-01 08:46:07.764980832 -0500
++++ /tmp/Arja_Defects4J_Closure_127/patches_rmbn/Patch_369/patched/tmp/Arja_Defects4J_Closure_127/src/com/google/javascript/rhino/Node.java	2018-12-01 08:53:47.343941714 -0500
+@@ -958,7 +958,7 @@
+       if (first == null || first.getType() != Token.NAME) {
+         sb.append("<invalid>");
+       } else {
+-        sb.append(first.getString());
++        sb.append(Token.name(type));
+       }
+     } else if (type == Token.NUMBER) {
+       sb.append(' ');
+
+
+--- /tmp/Arja_Defects4J_Closure_127/src/com/google/javascript/jscomp/UnreachableCodeElimination.java	2018-12-01 08:46:10.460999129 -0500
++++ /tmp/Arja_Defects4J_Closure_127/patches_rmbn/Patch_369/patched/tmp/Arja_Defects4J_Closure_127/src/com/google/javascript/jscomp/UnreachableCodeElimination.java	2018-12-01 08:53:47.343941714 -0500
+@@ -167,9 +167,6 @@
+                 outEdges.get(0).getValue() == Branch.UNCOND);
+             Node fallThrough = computeFollowing(n);
+             Node nextCfgNode = outEdges.get(0).getDestination().getValue();
+-            if (nextCfgNode == fallThrough) {
+-              removeNode(n);
+-            }
+           }
+       }
+     }
+
+

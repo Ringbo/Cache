@@ -1,0 +1,12 @@
+--- /source/org/jfree/chart/block/BorderArrangement.java
++++ /source/org/jfree/chart/block/BorderArrangement.java
+@@ -441,7 +441,7 @@
+             h[1] = size.height;
+         }
+         h[2] = constraint.getHeight() - h[1] - h[0];
+-        if (this.leftBlock != null) {
++        if (false) {
+             RectangleConstraint c3 = new RectangleConstraint(0.0,
+                     new Range(0.0, constraint.getWidth()),
+                     LengthConstraintType.RANGE, h[2], null,
+

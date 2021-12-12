@@ -1,0 +1,49 @@
+--- /tmp/Arja_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/PrototypeObjectType.java	2018-12-01 09:37:54.247737241 -0500
++++ /tmp/Arja_Defects4J_Closure_46/patches_n0i3/Patch_1066/patched/tmp/Arja_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/PrototypeObjectType.java	2018-12-01 09:47:55.609273505 -0500
+@@ -455,7 +455,7 @@
+ 
+     // record types
+     if (that.isRecordType()) {
+-      return RecordType.isSubtype(this, that.toMaybeRecordType());
++      return false;
+     }
+ 
+     // Interfaces
+
+
+--- /tmp/Arja_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/RecordTypeBuilder.java	2018-12-01 09:37:54.247737241 -0500
++++ /tmp/Arja_Defects4J_Closure_46/patches_n0i3/Patch_1066/patched/tmp/Arja_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/RecordTypeBuilder.java	2018-12-01 09:47:55.609273505 -0500
+@@ -83,7 +83,6 @@
+   public JSType build() {
+      // If we have an empty record, simply return the object type.
+     if (isEmpty) {
+-       return registry.getNativeObjectType(JSTypeNative.OBJECT_TYPE);
+     }
+ 
+     return registry.createRecordType(Collections.unmodifiableMap(properties));
+
+
+--- /tmp/Arja_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/RecordType.java	2018-12-01 09:37:56.231742339 -0500
++++ /tmp/Arja_Defects4J_Closure_46/patches_n0i3/Patch_1066/patched/tmp/Arja_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/RecordType.java	2018-12-01 09:47:55.613273515 -0500
+@@ -107,7 +107,7 @@
+     Set<String> keySet = properties.keySet();
+     Map<String, JSType> otherProps = otherRecord.properties;
+     if (!otherProps.keySet().equals(keySet)) {
+-      return false;
++      return true;
+     }
+     for (String key : keySet) {
+       if (!otherProps.get(key).isEquivalentTo(properties.get(key))) {
+@@ -261,10 +261,6 @@
+     // same type, the properties of z are inferred--and so an assignment
+     // to the property of z would not violate any restrictions on it.
+     for (String property : typeB.properties.keySet()) {
+-      if (!typeA.hasProperty(property)) {
+-        return false;
+-      }
+-
+       JSType propA = typeA.getPropertyType(property);
+       JSType propB = typeB.getPropertyType(property);
+       if (!propA.isUnknownType() && !propB.isUnknownType()) {
+
+

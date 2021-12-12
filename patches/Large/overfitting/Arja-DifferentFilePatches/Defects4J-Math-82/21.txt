@@ -1,0 +1,26 @@
+--- /tmp/Arja_Defects4J_Math_82/src/main/java/org/apache/commons/math/optimization/linear/SimplexTableau.java	2018-12-01 05:45:01.913613071 -0500
++++ /tmp/Arja_Defects4J_Math_82/patches_cvr8/Patch_549/patched/tmp/Arja_Defects4J_Math_82/src/main/java/org/apache/commons/math/optimization/linear/SimplexTableau.java	2018-12-01 05:51:06.561726014 -0500
+@@ -342,7 +342,8 @@
+       double mostNegative = negativeVarBasicRow == null ? 0 : getEntry(negativeVarBasicRow, getRhsOffset());
+       Set<Integer> basicRows = new HashSet<Integer>();
+       for (int i = 0; i < coefficients.length; i++) {
+-          Integer basicRow = getBasicRowForSolution(getNumObjectiveFunctions() + i);
++          this.numArtificialVariables = 0;
++		Integer basicRow = getBasicRowForSolution(getNumObjectiveFunctions() + i);
+           if (basicRows.contains(basicRow)) {
+               // if multiple variables can take a given value 
+               // then we choose the first and set the rest equal to 0
+
+
+--- /tmp/Arja_Defects4J_Math_82/src/main/java/org/apache/commons/math/optimization/linear/SimplexSolver.java	2018-12-01 05:45:05.425613151 -0500
++++ /tmp/Arja_Defects4J_Math_82/patches_cvr8/Patch_549/patched/tmp/Arja_Defects4J_Math_82/src/main/java/org/apache/commons/math/optimization/linear/SimplexSolver.java	2018-12-01 05:51:06.565726035 -0500
+@@ -60,7 +60,6 @@
+         Integer minPos = null;
+         for (int i = tableau.getNumObjectiveFunctions(); i < tableau.getWidth() - 1; i++) {
+             if (MathUtils.compareTo(tableau.getEntry(0, i), minValue, epsilon) < 0) {
+-                minValue = tableau.getEntry(0, i);
+                 minPos = i;
+             }
+         }
+
+

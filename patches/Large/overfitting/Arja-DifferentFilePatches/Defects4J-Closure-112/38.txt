@@ -1,0 +1,20 @@
+--- /tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/rhino/jstype/ModificationVisitor.java	2018-12-01 09:01:11.058036838 -0500
++++ /tmp/Arja_Defects4J_Closure_112/patches_famj/Patch_2491/patched/tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/rhino/jstype/ModificationVisitor.java	2018-12-01 09:31:22.111419258 -0500
+@@ -106,7 +106,6 @@
+     JSType beforeReturn = type.getReturnType();
+     JSType afterReturn = beforeReturn.visit(this);
+     if (beforeReturn != afterReturn) {
+-      changed = true;
+     }
+ 
+     FunctionParamBuilder paramBuilder = new FunctionParamBuilder(registry);
+@@ -114,7 +113,6 @@
+       JSType beforeParamType = paramNode.getJSType();
+       JSType afterParamType = beforeParamType.visit(this);
+       if (beforeParamType != afterParamType) {
+-        changed = true;
+       }
+       if (paramNode.isOptionalArg()) {
+         paramBuilder.addOptionalParams(afterParamType);
+
+

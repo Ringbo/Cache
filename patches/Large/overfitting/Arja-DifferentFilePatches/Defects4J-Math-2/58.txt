@@ -1,0 +1,36 @@
+--- /tmp/Arja_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/HypergeometricDistribution.java	2018-12-01 07:02:49.219241695 -0500
++++ /tmp/Arja_Defects4J_Math_2/patches_aq2w/Patch_113/patched/tmp/Arja_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/HypergeometricDistribution.java	2018-12-01 07:26:04.643601237 -0500
+@@ -289,7 +289,12 @@
+      * @return the variance of this distribution
+      */
+     protected double calculateNumericalVariance() {
+-        final double N = getPopulationSize();
++        if (sampleSize > populationSize) {
++			throw new NumberIsTooLargeException(
++					LocalizedFormats.SAMPLE_SIZE_LARGER_THAN_POPULATION_SIZE,
++					sampleSize, populationSize, true);
++		}
++		final double N = getPopulationSize();
+         final double m = getNumberOfSuccesses();
+         final double n = getSampleSize();
+         return (n * m * (N - n) * (N - m)) / (N * N * (N - 1));
+
+
+--- /tmp/Arja_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/AbstractIntegerDistribution.java	2018-12-01 07:02:45.423249176 -0500
++++ /tmp/Arja_Defects4J_Math_2/patches_aq2w/Patch_113/patched/tmp/Arja_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/AbstractIntegerDistribution.java	2018-12-01 07:26:04.643601237 -0500
+@@ -134,9 +134,10 @@
+             }
+             k = 1.0 / k;
+             tmp = mu + k * sigma;
+-            if (tmp < upper) {
+-                upper = ((int) Math.ceil(tmp)) - 1;
+-            }
++            if (p <= 0 || p > 1) {
++				throw new OutOfRangeException(
++						LocalizedFormats.OUT_OF_RANGE_LEFT, p, 0, 1);
++			}
+         }
+ 
+         return solveInverseCumulativeProbability(p, lower, upper);
+
+

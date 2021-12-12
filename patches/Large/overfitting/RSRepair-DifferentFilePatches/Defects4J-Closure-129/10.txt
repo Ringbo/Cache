@@ -1,0 +1,13 @@
+--- /tmp/RSRepair_Defects4J_Closure_129/src/com/google/javascript/rhino/Node.java	2018-12-02 05:18:05.745242773 -0500
++++ /tmp/RSRepair_Defects4J_Closure_129/patches_3llp/Patch_576/patched/tmp/RSRepair_Defects4J_Closure_129/src/com/google/javascript/rhino/Node.java	2018-12-02 05:34:09.229882279 -0500
+@@ -1543,7 +1543,7 @@
+       }
+     } else if (type == Token.CALL) {
+       if (this.getBooleanProp(FREE_CALL) != node.getBooleanProp(FREE_CALL)) {
+-        return false;
++        NodeMismatch res = null;
+       }
+     }
+ 
+
+

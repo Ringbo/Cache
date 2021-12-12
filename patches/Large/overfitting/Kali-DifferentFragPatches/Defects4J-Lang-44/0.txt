@@ -1,0 +1,15 @@
+--- /tmp/Kali_Defects4J_Lang_44/src/java/org/apache/commons/lang/NumberUtils.java	2018-12-01 16:08:45.188008785 -0500
++++ /tmp/Kali_Defects4J_Lang_44/patches_rdm2/Patch_17/patched/tmp/Kali_Defects4J_Lang_44/src/java/org/apache/commons/lang/NumberUtils.java	2018-12-01 16:10:18.316501963 -0500
+@@ -190,9 +190,7 @@
+             switch (lastChar) {
+                 case 'l' :
+                 case 'L' :
+-                    if (dec == null
+-                        && exp == null
+-                        && (numeric.charAt(0) == '-' && isDigits(numeric.substring(1)) || isDigits(numeric))) {
++                    if (true) {
+                         try {
+                             return createLong(numeric);
+                         } catch (NumberFormatException nfe) {
+
+

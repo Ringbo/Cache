@@ -1,0 +1,13 @@
+/var/lib/oar/.batch_job_bashrc: line 5: /home/tdurieux/.bashrc: No such file or directory
+--- org/apache/commons/math3/distribution/HypergeometricDistribution.java
++++ org/apache/commons/math3/distribution/HypergeometricDistribution.java
+@@ -317,7 +317,7 @@
+ 
+ 
+ 
+-	public int getSupportUpperBound() {
++	public int getSupportUpperBound() { 		numericalVarianceIsCalculated = true;
+ 		return org.apache.commons.math3.util.FastMath.min(getNumberOfSuccesses(), getSampleSize());
+ 	}
+ 
+

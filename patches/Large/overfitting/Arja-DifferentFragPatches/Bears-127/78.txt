@@ -1,0 +1,21 @@
+--- /tmp/Arja_Bears_traccar-traccar_273118899-273136493/src/org/traccar/protocol/EelinkProtocolDecoder.java	2018-12-26 12:59:39.444574687 -0500
++++ /tmp/Arja_Bears_traccar-traccar_273118899-273136493/patches_r2qe/Patch_1574/patched/tmp/Arja_Bears_traccar-traccar_273118899-273136493/src/org/traccar/protocol/EelinkProtocolDecoder.java	2018-12-26 13:15:27.671418875 -0500
+@@ -115,7 +115,6 @@
+     private Position decodeOld(DeviceSession deviceSession, ChannelBuffer buf, int type, int index) {
+ 
+         Position position = new Position();
+-        position.setDeviceId(deviceSession.getDeviceId());
+         position.setProtocol(getProtocolName());
+ 
+         position.set(Position.KEY_INDEX, index);
+@@ -159,8 +158,6 @@
+             position.set(Position.KEY_EVENT, statusType);
+ 
+             if (statusType == 0x01 || statusType == 0x02 || statusType == 0x03) {
+-                buf.readUnsignedInt(); // device time
+-                decodeStatus(position, buf.readUnsignedShort());
+             }
+ 
+         }
+
+

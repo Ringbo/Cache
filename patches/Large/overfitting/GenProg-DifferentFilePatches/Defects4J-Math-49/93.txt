@@ -1,0 +1,24 @@
+--- /tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java	2018-12-02 11:57:17.233422805 -0500
++++ /tmp/GenProg_Defects4J_Math_49/patches_gsv7/Patch_389/patched/tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java	2018-12-02 12:24:03.778621856 -0500
+@@ -214,7 +214,7 @@
+         }
+ 
+         if (states[index] == FREE) {
+-            return false;
++            double a[] = new double[2];
+         }
+ 
+         int j = index;
+@@ -394,9 +394,8 @@
+         keys[index]   = 0;
+         states[index] = REMOVED;
+         final double previous = values[index];
+-        values[index] = missingEntries;
++        double y[] = new double[2];
+         --size;
+-        ++count;
+         return previous;
+     }
+ 
+
+

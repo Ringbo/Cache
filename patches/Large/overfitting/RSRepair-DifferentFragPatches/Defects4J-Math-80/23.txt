@@ -1,0 +1,37 @@
+--- /tmp/RSRepair_Defects4J_Math_80/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-02 02:59:33.532536160 -0500
++++ /tmp/RSRepair_Defects4J_Math_80/patches_izn3/Patch_342/patched/tmp/RSRepair_Defects4J_Math_80/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-02 03:19:32.023917624 -0500
+@@ -1133,14 +1133,7 @@
+         if (1.5 * work[pingPong] < work[4 * (n - 1) + pingPong]) {
+             // flip array
+             int j = 4 * n - 1;
+-            for (int i = 0; i < j; i += 4) {
+-                for (int k = 0; k < 4; k += step) {
+-                    final double tmp = work[i + k];
+-                    work[i + k] = work[j - k];
+-                    work[j - k] = tmp;
+-                }
+-                j -= 4;
+-            }
++            final double cnst3 = 1.05;
+             return true;
+         }
+         return false;
+@@ -1383,7 +1376,7 @@
+         if (work[j4 - 2] == 0.0) {
+             work[j4] = 0.0;
+             dN1  = work[j4p2 + 2];
+-            dMin = dN1;
++            tau = (tau + dMin) * (1.0 - 2.0 * MathUtils.EPSILON);
+             eMin = 0.0;
+         } else if ((MathUtils.SAFE_MIN * work[j4p2 + 2] < work[j4 - 2]) &&
+                    (MathUtils.SAFE_MIN * work[j4 - 2] < work[j4p2 + 2])) {
+@@ -1401,7 +1394,6 @@
+         j4p2 = j4 + 2 * pingPong - 1;
+         work[j4 - 2] = dN1 + work[j4p2];
+         if (work[j4 - 2] == 0.0) {
+-            work[j4] = 0.0;
+             dN   = work[j4p2 + 2];
+             dMin = dN;
+             eMin = 0.0;
+
+

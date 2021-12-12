@@ -1,0 +1,26 @@
+--- /tmp/Arja_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/AbstractIntegerDistribution.java	2018-12-01 07:02:45.423249176 -0500
++++ /tmp/Arja_Defects4J_Math_2/patches_aq2w/Patch_816/patched/tmp/Arja_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/AbstractIntegerDistribution.java	2018-12-01 07:43:35.284677657 -0500
+@@ -106,7 +106,10 @@
+         if (p == 0.0) {
+             return lower;
+         }
+-        if (lower == Integer.MIN_VALUE) {
++        if (p < 0.0 || p > 1.0) {
++			throw new OutOfRangeException(p, 0, 1);
++		}
++		if (lower == Integer.MIN_VALUE) {
+             if (checkedCumulativeProbability(lower) >= p) {
+                 return lower;
+             }
+@@ -134,9 +137,6 @@
+             }
+             k = 1.0 / k;
+             tmp = mu + k * sigma;
+-            if (tmp < upper) {
+-                upper = ((int) Math.ceil(tmp)) - 1;
+-            }
+         }
+ 
+         return solveInverseCumulativeProbability(p, lower, upper);
+
+

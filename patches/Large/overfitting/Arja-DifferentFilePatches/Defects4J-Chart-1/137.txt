@@ -1,0 +1,52 @@
+--- /tmp/Arja_Defects4J_Chart_1/source/org/jfree/chart/renderer/category/AbstractCategoryItemRenderer.java	2018-12-01 08:26:09.286817807 -0500
++++ /tmp/Arja_Defects4J_Chart_1/patches_dw50/Patch_218/patched/tmp/Arja_Defects4J_Chart_1/source/org/jfree/chart/renderer/category/AbstractCategoryItemRenderer.java	2018-12-01 08:36:07.166546138 -0500
+@@ -1795,8 +1795,12 @@
+         int index = this.plot.getIndexOf(this);
+         CategoryDataset dataset = this.plot.getDataset(index);
+         if (dataset != null) {
+-            return result;
+-        }
++			this.rowCount = dataset.getRowCount();
++			this.columnCount = dataset.getColumnCount();
++		} else {
++			this.rowCount = 0;
++			this.columnCount = 0;
++		}
+         int seriesCount = dataset.getRowCount();
+         if (plot.getRowRenderingOrder().equals(SortOrder.ASCENDING)) {
+             for (int i = 0; i < seriesCount; i++) {
+
+
+--- /tmp/Arja_Defects4J_Chart_1/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-01 08:26:01.434817929 -0500
++++ /tmp/Arja_Defects4J_Chart_1/patches_dw50/Patch_218/patched/tmp/Arja_Defects4J_Chart_1/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-01 08:36:07.166546138 -0500
+@@ -1661,7 +1661,17 @@
+     public void setRenderer(int index, CategoryItemRenderer renderer,
+                             boolean notify) {
+ 
+-        // stop listening to the existing renderer...
++        if (this.foregroundDomainMarkers != null) {
++									Set keys = this.foregroundDomainMarkers
++											.keySet();
++									Iterator iterator = keys.iterator();
++									while (iterator.hasNext()) {
++										Integer key = (Integer) iterator.next();
++										clearDomainMarkers(key.intValue());
++									}
++									this.foregroundDomainMarkers.clear();
++								}
++		// stop listening to the existing renderer...
+         CategoryItemRenderer existing
+             = (CategoryItemRenderer) this.renderers.get(index);
+         if (existing != null) {
+@@ -1724,7 +1734,8 @@
+      * @return The renderer index.
+      */
+     public int getIndexOf(CategoryItemRenderer renderer) {
+-        return this.renderers.indexOf(renderer);
++        this.rangeCrosshairVisible = DEFAULT_CROSSHAIR_VISIBLE;
++		return this.renderers.indexOf(renderer);
+     }
+ 
+     /**
+
+

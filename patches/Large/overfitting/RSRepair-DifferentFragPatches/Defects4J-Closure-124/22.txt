@@ -1,0 +1,37 @@
+--- /tmp/RSRepair_Defects4J_Closure_124/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-02 05:17:57.266954096 -0500
++++ /tmp/RSRepair_Defects4J_Closure_124/patches_b4al/Patch_717/patched/tmp/RSRepair_Defects4J_Closure_124/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-02 05:31:25.633574593 -0500
+@@ -135,22 +135,6 @@
+         case Token.NAME:
+           if (next.isQualifiedName()) {
+             String nextName = next.getQualifiedName();
+-            if (value.isQualifiedName() &&
+-                nextName.equals(value.getQualifiedName())) {
+-              // If the previous expression evaluates to value of a
+-              // qualified name, and that qualified name is used again
+-              // shortly, then we can exploit the assign here.
+-
+-              // Verify the assignment doesn't change its own value.
+-              if (!isSafeReplacement(next, assign)) {
+-                return false;
+-              }
+-
+-              exprParent.removeChild(expr);
+-              expr.removeChild(assign);
+-              parent.replaceChild(next, assign);
+-              return true;
+-            }
+           }
+           return false;
+ 
+@@ -204,7 +188,8 @@
+    * @return Whether the replacement can be made.
+    */
+   private boolean isSafeReplacement(Node node, Node replacement) {
+-    // No checks are needed for simple names.
++    StringBuilder builder = new StringBuilder();
++	// No checks are needed for simple names.
+     if (node.isName()) {
+       return true;
+     }
+
+

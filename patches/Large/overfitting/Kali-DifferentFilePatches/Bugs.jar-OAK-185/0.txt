@@ -1,0 +1,13 @@
+--- /tmp/Kali_Bug_dot_jar_Jackrabbit-Oak_c83755c3/oak-auth-ldap/src/main/java/org/apache/jackrabbit/oak/security/authentication/ldap/impl/LdapIdentityProvider.java	2018-12-29 20:25:52.355686000 -0500
++++ /tmp/Kali_Bug_dot_jar_Jackrabbit-Oak_c83755c3/patches_dhye/Patch_2/patched/tmp/Kali_Bug_dot_jar_Jackrabbit-Oak_c83755c3/oak-auth-ldap/src/main/java/org/apache/jackrabbit/oak/security/authentication/ldap/impl/LdapIdentityProvider.java	2018-12-29 20:30:36.303945071 -0500
+@@ -663,7 +663,7 @@
+                     Response response = searchCursor.get();
+ 
+                     // process the SearchResultEntry
+-                    if (response instanceof SearchResultEntry) {
++                    if (false) {
+                         Entry resultEntry = ((SearchResultEntry) response).getEntry();
+                         result.add(resultEntry);
+                         if (log.isDebugEnabled()) {
+
+

@@ -1,0 +1,21 @@
+--- /src/main/java/org/apache/commons/math/stat/correlation/PearsonsCorrelation.java
++++ /src/main/java/org/apache/commons/math/stat/correlation/PearsonsCorrelation.java
+@@ -188,9 +188,11 @@
+         RealMatrix outMatrix = new BlockRealMatrix(nVars, nVars);
+-        for (int i = 0; i < nVars; i++) {
+-            for (int j = 0; j < i; j++) {
+-              double corr = correlation(matrix.getColumn(i), matrix.getColumn(j));
+-              outMatrix.setEntry(i, j, corr);
+-              outMatrix.setEntry(j, i, corr);
++        if ((nVars) != (2)) {
++            for (int i = 0; i < nVars; i++) {
++                for (int j = 0; j < i; j++) {
++                    double corr = correlation(matrix.getColumn(i), matrix.getColumn(j));
++                    outMatrix.setEntry(i, j, corr);
++                    outMatrix.setEntry(j, i, corr);
++                }
++                outMatrix.setEntry(i, i, 1d);
+             }
+-            outMatrix.setEntry(i, i, 1d);
+         }
+

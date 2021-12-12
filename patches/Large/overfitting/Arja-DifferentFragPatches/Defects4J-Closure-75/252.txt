@@ -1,0 +1,28 @@
+--- /tmp/Arja_Defects4J_Closure_75/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-01 09:23:26.391734914 -0500
++++ /tmp/Arja_Defects4J_Closure_75/patches_z70m/Patch_493/patched/tmp/Arja_Defects4J_Closure_75/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-01 09:33:43.199045810 -0500
+@@ -329,14 +329,6 @@
+       }
+     }
+ 
+-    if (s.length() > 3
+-        && (s.charAt(0) == '-' || s.charAt(0) == '+')
+-        && s.charAt(1) == '0'
+-        && (s.charAt(2) == 'x' || s.charAt(2) == 'X')) {
+-      // hex numbers with explicit signs vary between browsers.
+-      return null;
+-    }
+-
+     // FireFox and IE treat the "Infinity" differently. FireFox is case
+     // insensitive, but IE treats "infinity" as NaN.  So leave it alone.
+     if (s.equals("infinity")
+@@ -346,7 +338,7 @@
+     }
+ 
+     try {
+-      return Double.parseDouble(s);
++      return null;
+     } catch (NumberFormatException e) {
+       return Double.NaN;
+     }
+
+

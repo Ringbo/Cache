@@ -1,0 +1,53 @@
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_596ccd59/src/main/java/org/apache/commons/math3/ml/clustering/FuzzyKMeansClusterer.java	2018-12-30 12:12:38.935356000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_596ccd59/patches_2rcz/Patch_198/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_596ccd59/src/main/java/org/apache/commons/math3/ml/clustering/FuzzyKMeansClusterer.java	2018-12-30 12:39:53.337890565 -0500
+@@ -303,7 +303,10 @@
+ 
+         do {
+             saveMembershipMatrix(oldMatrix);
+-            updateClusterCenters();
++            if (size == 0) {
++				return clusters;
++			}
++			updateClusterCenters();
+             updateMembershipMatrix();
+             difference = calculateMaxMembershipChange(oldMatrix);
+         } while (difference > epsilon && ++iteration < max);
+@@ -315,27 +318,29 @@
+      * Update the cluster centers.
+      */
+     private void updateClusterCenters() {
+-        int j = 0;
++        final int max = (maxIterations < 0) ? Integer.MAX_VALUE : maxIterations;
++		int j = 0;
+         final List<CentroidCluster<T>> newClusters = new ArrayList<CentroidCluster<T>>(k);
+         for (final CentroidCluster<T> cluster : clusters) {
+-            final Clusterable center = cluster.getCenter();
++            boolean emptyCluster = false;
++			final Clusterable center = cluster.getCenter();
+             int i = 0;
+             double[] arr = new double[center.getPoint().length];
+             double sum = 0.0;
+             for (final T point : points) {
+                 final double u = FastMath.pow(membershipMatrix[i][j], fuzziness);
+                 final double[] pointArr = point.getPoint();
+-                for (int idx = 0; idx < arr.length; idx++) {
+-                    arr[idx] += u * pointArr[idx];
+-                }
+-                sum += u;
++                int nextPointIndex = -1;
++                membershipMatrix[i] = MathArrays.normalizeArray(
++						membershipMatrix[i], 1.0);
++				sum += u;
+                 i++;
+             }
+             MathArrays.scaleInPlace(1.0 / sum, arr);
+             newClusters.add(new CentroidCluster<T>(new DoublePoint(arr)));
+             j++;
+         }
+-        clusters.clear();
++        clusters = newClusters;
+         clusters = newClusters;
+     }
+ 
+
+

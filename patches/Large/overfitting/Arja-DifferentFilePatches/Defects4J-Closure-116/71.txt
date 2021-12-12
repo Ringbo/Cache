@@ -1,0 +1,37 @@
+--- /tmp/Arja_Defects4J_Closure_116/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-01 08:51:01.869149850 -0500
++++ /tmp/Arja_Defects4J_Closure_116/patches_186s/Patch_1414/patched/tmp/Arja_Defects4J_Closure_116/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-01 09:21:45.757190149 -0500
+@@ -552,7 +552,6 @@
+       // Only inline functions that return something.
+       if (block.getFirstChild().isReturn()
+           && block.getFirstChild().getFirstChild() != null) {
+-        return true;
+       }
+     }
+ 
+
+
+--- /tmp/Arja_Defects4J_Closure_116/src/com/google/javascript/jscomp/PureFunctionIdentifier.java	2018-12-01 08:50:58.477149772 -0500
++++ /tmp/Arja_Defects4J_Closure_116/patches_186s/Patch_1414/patched/tmp/Arja_Defects4J_Closure_116/src/com/google/javascript/jscomp/PureFunctionIdentifier.java	2018-12-01 09:21:45.757190149 -0500
+@@ -500,7 +500,6 @@
+         if (param &&
+             !sideEffectInfo.blacklisted.contains(v) &&
+             sideEffectInfo.taintedLocals.contains(v)) {
+-          sideEffectInfo.setTaintsArguments();
+           continue;
+         }
+ 
+
+
+--- /tmp/Arja_Defects4J_Closure_116/src/com/google/javascript/rhino/Node.java	2018-12-01 08:50:58.717149778 -0500
++++ /tmp/Arja_Defects4J_Closure_116/patches_186s/Patch_1414/patched/tmp/Arja_Defects4J_Closure_116/src/com/google/javascript/rhino/Node.java	2018-12-01 09:21:45.761190165 -0500
+@@ -1456,7 +1456,7 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
++        return null;
+       }
+     }
+     return res;
+
+

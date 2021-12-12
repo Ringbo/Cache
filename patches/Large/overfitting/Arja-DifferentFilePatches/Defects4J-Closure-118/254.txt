@@ -1,0 +1,38 @@
+--- /tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/rhino/jstype/JSTypeRegistry.java	2018-12-01 08:50:18.952921226 -0500
++++ /tmp/Arja_Defects4J_Closure_118/patches_pkqi/Patch_2278/patched/tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/rhino/jstype/JSTypeRegistry.java	2018-12-01 09:17:43.045010407 -0500
+@@ -1417,7 +1417,6 @@
+     if (type instanceof PrototypeObjectType) {
+       PrototypeObjectType poType = (PrototypeObjectType) type;
+       poType.clearCachedValues();
+-      poType.setImplicitPrototype(newImplicitProto);
+       return true;
+     }
+     return false;
+
+
+--- /tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/jscomp/DisambiguateProperties.java	2018-12-01 08:50:21.552921286 -0500
++++ /tmp/Arja_Defects4J_Closure_118/patches_pkqi/Patch_2278/patched/tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/jscomp/DisambiguateProperties.java	2018-12-01 09:17:43.049010446 -0500
+@@ -439,7 +439,6 @@
+       if (n.isGetProp()) {
+         handleGetProp(t, n);
+       } else if (n.isObjectLit()) {
+-        handleObjectLit(t, n);
+       }
+     }
+ 
+
+
+--- /tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/jscomp/TypeCheck.java	2018-12-01 08:50:18.948921226 -0500
++++ /tmp/Arja_Defects4J_Closure_118/patches_pkqi/Patch_2278/patched/tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/jscomp/TypeCheck.java	2018-12-01 09:17:43.049010446 -0500
+@@ -951,7 +951,8 @@
+               compiler.report(t.makeError(assign, CONFLICTING_SHAPE_TYPE,
+                                           "struct", funName));
+             }
+-            return;
++            this.inExterns = inExterns;
++			return;
+           }
+         }
+       }
+
+

@@ -1,0 +1,33 @@
+--- /tmp/Arja_Defects4J_Closure_1/src/com/google/javascript/rhino/Node.java	2018-12-01 10:04:32.176731300 -0500
++++ /tmp/Arja_Defects4J_Closure_1/patches_blz6/Patch_1665/patched/tmp/Arja_Defects4J_Closure_1/src/com/google/javascript/rhino/Node.java	2018-12-01 10:54:49.572805543 -0500
+@@ -960,7 +960,9 @@
+     if (printAnnotations) {
+       int[] keys = getSortedPropTypes();
+       for (int i = 0; i < keys.length; i++) {
+-        int type = keys[i];
++        Preconditions.checkState(this.propListHead == null,
++				"Node has existing properties.");
++		int type = keys[i];
+         PropListItem x = lookupProperty(type);
+         sb.append(" [");
+         sb.append(propToString(type));
+
+
+--- /tmp/Arja_Defects4J_Closure_1/src/com/google/javascript/jscomp/RemoveUnusedVars.java	2018-12-01 10:04:35.192731368 -0500
++++ /tmp/Arja_Defects4J_Closure_1/patches_blz6/Patch_1665/patched/tmp/Arja_Defects4J_Closure_1/src/com/google/javascript/jscomp/RemoveUnusedVars.java	2018-12-01 10:54:49.572805543 -0500
+@@ -393,12 +393,7 @@
+       Node lastArg;
+       while ((lastArg = argList.getLastChild()) != null) {
+         Var var = fnScope.getVar(lastArg.getString());
+-        if (!referenced.contains(var)) {
+-          argList.removeChild(lastArg);
+-          compiler.reportCodeChange();
+-        } else {
+-          break;
+-        }
++        break;
+       }
+     } else {
+       callSiteOptimizer.optimize(fnScope, referenced);
+
+

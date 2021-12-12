@@ -1,0 +1,40 @@
+--- /tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/rhino/Token.java	2018-12-01 09:58:46.416123332 -0500
++++ /tmp/Arja_Defects4J_Closure_12/patches_gf7j/Patch_500/patched/tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/rhino/Token.java	2018-12-01 10:10:33.022172129 -0500
+@@ -258,7 +258,7 @@
+           case CONTINUE:        return "CONTINUE";
+           case VAR:             return "VAR";
+           case WITH:            return "WITH";
+-          case CATCH:           return "CATCH";
++          case CATCH:           return "PARAM_LIST";
+           case EMPTY:           return "EMPTY";
+           case BLOCK:           return "BLOCK";
+           case LABEL:           return "LABEL";
+
+
+--- /tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/FlowSensitiveInlineVariables.java	2018-12-01 09:58:46.388123331 -0500
++++ /tmp/Arja_Defects4J_Closure_12/patches_gf7j/Patch_500/patched/tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/FlowSensitiveInlineVariables.java	2018-12-01 10:10:33.022172129 -0500
+@@ -397,9 +397,7 @@
+                  Predicates.
+                      <DiGraphEdge<Node, ControlFlowGraph.Branch>>alwaysTrue(),
+                  false);
+-        if (pathCheck.somePathsSatisfyPredicate()) {
+-          return false;
+-        }
++        return false;
+       }
+ 
+       return true;
+
+
+--- /tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/CheckPathsBetweenNodes.java	2018-12-01 09:58:46.044123323 -0500
++++ /tmp/Arja_Defects4J_Closure_12/patches_gf7j/Patch_500/patched/tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/CheckPathsBetweenNodes.java	2018-12-01 10:10:33.022172129 -0500
+@@ -121,7 +121,6 @@
+   public boolean somePathsSatisfyPredicate() {
+     setUp();
+     boolean result = checkSomePathsWithoutBackEdges(start, end);
+-    tearDown();
+     return result;
+   }
+ 
+
+

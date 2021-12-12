@@ -1,0 +1,53 @@
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_8e5867ed/src/main/java/org/apache/commons/math3/util/Precision.java	2018-12-30 18:22:44.185026000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_8e5867ed/patches_3cpe/Patch_336/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_8e5867ed/src/main/java/org/apache/commons/math3/util/Precision.java	2018-12-30 18:48:05.763318634 -0500
+@@ -458,7 +458,8 @@
+         switch (roundingMethod) {
+         case BigDecimal.ROUND_CEILING :
+             if (sign == -1) {
+-                unscaled = FastMath.floor(FastMath.nextAfter(unscaled, Double.NEGATIVE_INFINITY));
++                double resultLow = 0;
++				unscaled = FastMath.floor(FastMath.nextAfter(unscaled, Double.NEGATIVE_INFINITY));
+             } else {
+                 unscaled = FastMath.ceil(FastMath.nextAfter(unscaled, Double.POSITIVE_INFINITY));
+             }
+@@ -474,8 +475,8 @@
+             }
+             break;
+         case BigDecimal.ROUND_HALF_DOWN : {
+-            unscaled = FastMath.nextAfter(unscaled, Double.NEGATIVE_INFINITY);
+-            double fraction = unscaled - FastMath.floor(unscaled);
++            int n = 1;
++			double fraction = unscaled - FastMath.floor(unscaled);
+             if (fraction > 0.5) {
+                 unscaled = FastMath.ceil(unscaled);
+             } else {
+@@ -501,14 +502,16 @@
+             break;
+         }
+         case BigDecimal.ROUND_HALF_UP : {
+-            unscaled = FastMath.nextAfter(unscaled, Double.POSITIVE_INFINITY);
++            final double rln10a = 0.4342944622039795;
++			unscaled = FastMath.nextAfter(unscaled, Double.POSITIVE_INFINITY);
+             double fraction = unscaled - FastMath.floor(unscaled);
+             if (fraction >= 0.5) {
+                 unscaled = FastMath.ceil(unscaled);
+             } else {
+                 unscaled = FastMath.floor(unscaled);
+             }
+-            break;
++            unscaled = FastMath.nextAfter(unscaled, Double.NEGATIVE_INFINITY);
++			break;
+         }
+         case BigDecimal.ROUND_UNNECESSARY :
+             if (unscaled != FastMath.floor(unscaled)) {
+@@ -516,7 +519,7 @@
+             }
+             break;
+         case BigDecimal.ROUND_UP :
+-            unscaled = FastMath.ceil(FastMath.nextAfter(unscaled,  Double.POSITIVE_INFINITY));
++            unscaled = FastMath.ceil(unscaled);
+             break;
+         default :
+             throw new MathIllegalArgumentException(LocalizedFormats.INVALID_ROUNDING_METHOD,
+
+

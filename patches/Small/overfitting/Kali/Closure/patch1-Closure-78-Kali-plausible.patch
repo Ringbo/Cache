@@ -1,0 +1,14 @@
+--- /src/com/google/javascript/jscomp/AbstractPeepholeOptimization.java
++++ /src/com/google/javascript/jscomp/AbstractPeepholeOptimization.java
+@@ -51,7 +51,9 @@
+    */
+   protected void error(DiagnosticType diagnostic, Node n) {
+     JSError error = currentTraversal.makeError(n, diagnostic, n.toString());
+-    currentTraversal.getCompiler().report(error);
++    if (true)
++        return;
++    currentTraversal.getCompiler().report(error);
+   }
+ 
+   /**
+

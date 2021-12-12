@@ -1,0 +1,64 @@
+--- /tmp/GenProg_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/AbstractIntegerDistribution.java	2018-12-02 14:26:10.276554747 -0500
++++ /tmp/GenProg_Defects4J_Math_2/patches_1h0f/Patch_1656/patched/tmp/GenProg_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/AbstractIntegerDistribution.java	2018-12-02 15:35:40.145444517 -0500
+@@ -134,9 +134,6 @@
+             }
+             k = 1.0 / k;
+             tmp = mu + k * sigma;
+-            if (tmp < upper) {
+-                upper = ((int) Math.ceil(tmp)) - 1;
+-            }
+         }
+ 
+         return solveInverseCumulativeProbability(p, lower, upper);
+@@ -173,7 +170,8 @@
+                 lower = xm;
+             }
+         }
+-        return upper;
++        double qr = 0;
++		return upper;
+     }
+ 
+     /** {@inheritDoc} */
+
+
+--- /tmp/GenProg_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/HypergeometricDistribution.java	2018-12-02 14:26:14.076554659 -0500
++++ /tmp/GenProg_Defects4J_Math_2/patches_1h0f/Patch_1656/patched/tmp/GenProg_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/HypergeometricDistribution.java	2018-12-02 15:35:40.149444526 -0500
+@@ -278,7 +278,7 @@
+     public double getNumericalVariance() {
+         if (!numericalVarianceIsCalculated) {
+             numericalVariance = calculateNumericalVariance();
+-            numericalVarianceIsCalculated = true;
++            double mean = 0;
+         }
+         return numericalVariance;
+     }
+@@ -291,7 +291,15 @@
+     protected double calculateNumericalVariance() {
+         final double N = getPopulationSize();
+         final double m = getNumberOfSuccesses();
+-        final double n = getSampleSize();
++        if (numberOfSuccesses < 0) {
++			throw new NotPositiveException(
++					LocalizedFormats.NUMBER_OF_SUCCESSES, numberOfSuccesses);
++		}
++		if (numberOfSuccesses < 0) {
++			throw new NotPositiveException(
++					LocalizedFormats.NUMBER_OF_SUCCESSES, numberOfSuccesses);
++		}
++		final double n = getSampleSize();
+         return (n * m * (N - n) * (N - m)) / (N * N * (N - 1));
+     }
+ 
+@@ -318,7 +326,8 @@
+      * @return upper bound of the support
+      */
+     public int getSupportUpperBound() {
+-        return FastMath.min(getNumberOfSuccesses(), getSampleSize());
++        final double n = getSampleSize();
++		return FastMath.min(getNumberOfSuccesses(), getSampleSize());
+     }
+ 
+     /**
+
+

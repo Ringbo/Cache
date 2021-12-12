@@ -1,0 +1,55 @@
+--- /tmp/GenProg_Defects4J_Math_85/src/java/org/apache/commons/math/distribution/NormalDistributionImpl.java	2018-12-02 11:08:36.461549548 -0500
++++ /tmp/GenProg_Defects4J_Math_85/patches_sd6k/Patch_126/patched/tmp/GenProg_Defects4J_Math_85/src/java/org/apache/commons/math/distribution/NormalDistributionImpl.java	2018-12-02 11:11:44.541545192 -0500
+@@ -128,11 +128,13 @@
+         } catch (MaxIterationsExceededException ex) {
+             if (x < (mean - 20 * standardDeviation)) { // JDK 1.5 blows at 38
+                 return 0.0d;
+-            } else if (x > (mean + 20 * standardDeviation)) {
+-                return 1.0d;
+-            } else {
+-                throw ex;
+-            }
++            } else if (x < (mean - 20 * standardDeviation)) {
++				return 0.0d;
++			} else if (x > (mean + 20 * standardDeviation)) {
++				return 1.0d;
++			} else {
++				throw ex;
++			}
+         }
+     }
+     
+
+
+--- /tmp/GenProg_Defects4J_Math_85/src/java/org/apache/commons/math/analysis/solvers/UnivariateRealSolverUtils.java	2018-12-02 11:08:39.989549467 -0500
++++ /tmp/GenProg_Defects4J_Math_85/patches_sd6k/Patch_126/patched/tmp/GenProg_Defects4J_Math_85/src/java/org/apache/commons/math/analysis/solvers/UnivariateRealSolverUtils.java	2018-12-02 11:11:44.545545192 -0500
+@@ -196,12 +196,6 @@
+                 ((a > lowerBound) || (b < upperBound)));
+    
+         if (fa * fb >= 0.0 ) {
+-            throw new ConvergenceException(
+-                      "number of iterations={0}, maximum iterations={1}, " +
+-                      "initial={2}, lower bound={3}, upper bound={4}, final a value={5}, " +
+-                      "final b value={6}, f(a)={7}, f(b)={8}",
+-                      numIterations, maximumIterations, initial,
+-                      lowerBound, upperBound, a, b, fa, fb);
+         }
+         
+         return new double[]{a, b};
+
+
+--- /tmp/GenProg_Defects4J_Math_85/src/java/org/apache/commons/math/distribution/AbstractContinuousDistribution.java	2018-12-02 11:08:39.989549467 -0500
++++ /tmp/GenProg_Defects4J_Math_85/patches_sd6k/Patch_126/patched/tmp/GenProg_Defects4J_Math_85/src/java/org/apache/commons/math/distribution/AbstractContinuousDistribution.java	2018-12-02 11:11:44.545545192 -0500
+@@ -99,9 +99,7 @@
+             }
+             if (Math.abs(rootFindingFunction.value(upperBound)) < 1E-6) {
+                 return upperBound;
+-            }     
+-            // Failed bracket convergence was not because of corner solution
+-            throw new MathException(ex);
++            }
+         }
+ 
+         // find root
+
+

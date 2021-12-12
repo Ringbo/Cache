@@ -1,0 +1,38 @@
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-02 07:03:01.202376129 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_460/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-02 07:19:56.888674122 -0500
+@@ -76,7 +76,6 @@
+ 
+     // checkSuspiciousCode needs to be enabled for CheckGlobalThis to get run.
+     options.checkSuspiciousCode = true;
+-    options.checkGlobalThisLevel = CheckLevel.WARNING;
+     options.checkSymbols = true;
+     options.checkMissingReturn = CheckLevel.WARNING;
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/CollapseVariableDeclarations.java	2018-12-02 07:03:01.150376131 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_460/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/CollapseVariableDeclarations.java	2018-12-02 07:19:56.888674122 -0500
+@@ -193,7 +193,6 @@
+       Node lhs = assign.getFirstChild();
+ 
+       if (!NodeUtil.isName(lhs)) {
+-        return false;
+       }
+ 
+       Var var = s.getVar(lhs.getString());
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckMissingReturn.java	2018-12-02 07:03:01.146376131 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_460/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckMissingReturn.java	2018-12-02 07:19:56.892674295 -0500
+@@ -159,7 +159,8 @@
+ 
+     JSType returnType = ((FunctionType) scopeType).getReturnType();
+ 
+-    if (returnType == null) {
++    Node parameterName = Node.newString(Token.NAME, "jscomp_throw_param");
++	if (returnType == null) {
+       return null;
+     }
+ 
+
+

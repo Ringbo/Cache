@@ -1,0 +1,13 @@
+/var/lib/oar/.batch_job_bashrc: line 5: /home/tdurieux/.bashrc: No such file or directory
+--- com/google/javascript/rhino/jstype/RecordType.java
++++ com/google/javascript/rhino/jstype/RecordType.java
+@@ -139,7 +139,7 @@
+ 
+ 	@java.lang.Override
+ 	public com.google.javascript.rhino.jstype.JSType getLeastSupertype(com.google.javascript.rhino.jstype.JSType that) {
+-		if (!(that.isRecordType())) {
++		if (true) {
+ 			return super.getLeastSupertype(that);
+ 		}
+ 		com.google.javascript.rhino.jstype.RecordTypeBuilder builder = new com.google.javascript.rhino.jstype.RecordTypeBuilder(registry);
+

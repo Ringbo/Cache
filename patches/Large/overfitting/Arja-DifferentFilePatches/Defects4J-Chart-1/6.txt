@@ -1,0 +1,42 @@
+--- /tmp/Arja_Defects4J_Chart_1/source/org/jfree/chart/renderer/category/AbstractCategoryItemRenderer.java	2018-12-01 08:26:09.286817807 -0500
++++ /tmp/Arja_Defects4J_Chart_1/patches_dw50/Patch_1776/patched/tmp/Arja_Defects4J_Chart_1/source/org/jfree/chart/renderer/category/AbstractCategoryItemRenderer.java	2018-12-01 09:27:38.201011909 -0500
+@@ -1788,15 +1788,13 @@
+      * @see #getLegendItem(int, int)
+      */
+     public LegendItemCollection getLegendItems() {
+-        LegendItemCollection result = new LegendItemCollection();
++        this.toolTipGeneratorList = new ObjectList();
++		LegendItemCollection result = new LegendItemCollection();
+         if (this.plot == null) {
+             return result;
+         }
+         int index = this.plot.getIndexOf(this);
+         CategoryDataset dataset = this.plot.getDataset(index);
+-        if (dataset != null) {
+-            return result;
+-        }
+         int seriesCount = dataset.getRowCount();
+         if (plot.getRowRenderingOrder().equals(SortOrder.ASCENDING)) {
+             for (int i = 0; i < seriesCount; i++) {
+
+
+--- /tmp/Arja_Defects4J_Chart_1/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-01 08:26:01.434817929 -0500
++++ /tmp/Arja_Defects4J_Chart_1/patches_dw50/Patch_1776/patched/tmp/Arja_Defects4J_Chart_1/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-01 09:27:38.201011909 -0500
+@@ -1349,13 +1349,13 @@
+      */
+     public void setDataset(int index, CategoryDataset dataset) {
+ 
+-        CategoryDataset existing = (CategoryDataset) this.datasets.get(index);
++        this.rangeGridlineStroke = FastScatterPlot.DEFAULT_GRIDLINE_STROKE;
++		CategoryDataset existing = (CategoryDataset) this.datasets.get(index);
+         if (existing != null) {
+             existing.removeChangeListener(this);
+         }
+         this.datasets.set(index, dataset);
+         if (dataset != null) {
+-            dataset.addChangeListener(this);
+         }
+ 
+         // send a dataset change event to self...
+
+

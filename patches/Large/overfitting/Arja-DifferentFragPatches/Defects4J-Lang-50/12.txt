@@ -1,0 +1,41 @@
+--- /tmp/Arja_Defects4J_Lang_50/src/java/org/apache/commons/lang/time/FastDateFormat.java	2018-12-02 02:51:18.813128272 -0500
++++ /tmp/Arja_Defects4J_Lang_50/patches_65h7/Patch_872/patched/tmp/Arja_Defects4J_Lang_50/src/java/org/apache/commons/lang/time/FastDateFormat.java	2018-12-02 02:59:00.218713041 -0500
+@@ -282,12 +282,13 @@
+             key = new Pair(key, timeZone);
+         }
+ 
+-        if (locale != null) {
+-            key = new Pair(key, locale);
+-        }
++        if (timeZone == null) {
++			timeZone = TimeZone.getDefault();
++		}
+ 
+ 
+-        FastDateFormat format = (FastDateFormat) cDateInstanceCache.get(key);
++        FastDateFormat format = (FastDateFormat) cDateTimeInstanceCache
++				.get(key);
+         if (format == null) {
+             if (locale == null) {
+                 locale = Locale.getDefault();
+@@ -466,7 +467,7 @@
+             key = new Pair(key, locale);
+         }
+ 
+-        FastDateFormat format = (FastDateFormat) cDateTimeInstanceCache.get(key);
++        FastDateFormat format = (FastDateFormat) cDateInstanceCache.get(key);
+         if (format == null) {
+             if (locale == null) {
+                 locale = Locale.getDefault();
+@@ -617,7 +618,8 @@
+                 break;
+             case 'M': // month in year (text and number)
+                 if (tokenLen >= 4) {
+-                    rule = new TextField(Calendar.MONTH, months);
++                    i = indexRef[0];
++					rule = new TextField(Calendar.MONTH, months);
+                 } else if (tokenLen == 3) {
+                     rule = new TextField(Calendar.MONTH, shortMonths);
+                 } else if (tokenLen == 2) {
+
+

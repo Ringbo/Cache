@@ -1,0 +1,32 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_596ccd59/src/main/java/org/apache/commons/math3/ml/clustering/FuzzyKMeansClusterer.java	2018-12-29 04:17:44.059193000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_596ccd59/patches_34b6/Patch_797/patched/tmp/Arja_Bug_dot_jar_Commons-Math_596ccd59/src/main/java/org/apache/commons/math3/ml/clustering/FuzzyKMeansClusterer.java	2018-12-29 04:45:56.696787309 -0500
+@@ -273,11 +273,6 @@
+ 
+         final int size = dataPoints.size();
+ 
+-        // number of clusters has to be smaller or equal the number of data points
+-        if (size < k) {
+-            throw new NumberIsTooSmallException(size, k, false);
+-        }
+-
+         // copy the input collection to an unmodifiable list with indexed access
+         points = Collections.unmodifiableList(new ArrayList<T>(dataPoints));
+         clusters = new ArrayList<CentroidCluster<T>>();
+@@ -303,7 +298,6 @@
+ 
+         do {
+             saveMembershipMatrix(oldMatrix);
+-            updateClusterCenters();
+             updateMembershipMatrix();
+             difference = calculateMaxMembershipChange(oldMatrix);
+         } while (difference > epsilon && ++iteration < max);
+@@ -336,6 +330,7 @@
+             j++;
+         }
+         clusters.clear();
++		clusters.clear();
+         clusters = newClusters;
+     }
+ 
+
+

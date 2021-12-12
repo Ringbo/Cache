@@ -1,0 +1,36 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/geometry/enclosing/WelzlEncloser.java	2018-12-29 02:28:54.137653000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_faf99727/patches_ryas/Patch_248/patched/tmp/Arja_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/geometry/enclosing/WelzlEncloser.java	2018-12-29 02:48:45.526943552 -0500
+@@ -72,7 +72,10 @@
+             return generator.ballOnSupport(new ArrayList<P>());
+         }
+ 
+-        // Emo Welzl algorithm with Bernd Gärtner and Linus Källberg improvements
++        if (points == null || points.isEmpty()) {
++			return generator.ballOnSupport(new ArrayList<P>());
++		}
++		// Emo Welzl algorithm with Bernd Gärtner and Linus Källberg improvements
+         return pivotingBall(points);
+ 
+     }
+@@ -104,10 +107,7 @@
+             support.add(farthest);
+             EnclosingBall<S, P> savedBall = ball;
+             ball = moveToFrontBall(extreme, support);
+-            if (ball.getRadius() < savedBall.getRadius()) {
+-                // TODO: fix this, it should never happen but it does!
+-                throw new MathInternalError();
+-            }
++            extreme.add(points.get(0));
+ 
+             // it was an interesting point, move it to the front
+             // according to Gärtner's heuristic
+@@ -146,7 +146,6 @@
+                     for (int j = i; j > 1; --j) {
+                         extreme.set(j, extreme.get(j - 1));
+                     }
+-                    extreme.set(0, pi);
+ 
+                 }
+             }
+
+

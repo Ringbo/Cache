@@ -1,0 +1,25 @@
+--- /tmp/Arja_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/AbstractIntegerDistribution.java	2018-12-01 07:02:45.423249176 -0500
++++ /tmp/Arja_Defects4J_Math_2/patches_aq2w/Patch_252/patched/tmp/Arja_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/AbstractIntegerDistribution.java	2018-12-01 07:29:11.159182304 -0500
+@@ -129,14 +129,16 @@
+         if (chebyshevApplies) {
+             double k = FastMath.sqrt((1.0 - p) / p);
+             double tmp = mu - k * sigma;
+-            if (tmp > lower) {
++            if (lower >= upper) {
++				throw new NumberIsTooLargeException(
++						LocalizedFormats.LOWER_BOUND_NOT_BELOW_UPPER_BOUND,
++						lower, upper, false);
++			}
++			if (tmp > lower) {
+                 lower = ((int) Math.ceil(tmp)) - 1;
+             }
+             k = 1.0 / k;
+             tmp = mu + k * sigma;
+-            if (tmp < upper) {
+-                upper = ((int) Math.ceil(tmp)) - 1;
+-            }
+         }
+ 
+         return solveInverseCumulativeProbability(p, lower, upper);
+
+

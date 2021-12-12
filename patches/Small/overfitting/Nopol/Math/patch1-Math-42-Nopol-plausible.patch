@@ -1,0 +1,10 @@
+--- /src/main/java/org/apache/commons/math/optimization/linear/SimplexTableau.java
++++ /src/main/java/org/apache/commons/math/optimization/linear/SimplexTableau.java
+@@ -346,3 +346,5 @@
+           if (getBasicRow(col) == null) {
+-            columnsToDrop.add(col);
++            if (0 < org.apache.commons.math.optimization.linear.SimplexTableau.this.numSlackVariables) {
++                columnsToDrop.add(col);
++            }
+           }
+

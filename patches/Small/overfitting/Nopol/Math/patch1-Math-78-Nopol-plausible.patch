@@ -1,0 +1,10 @@
+--- /src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java
++++ /src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java
+@@ -281,3 +281,5 @@
+                     // Fall back to bisection.
+-                    delta = 0.5 * dx;
++                    if (y0 < 1) {
++                        delta = 0.5 * dx;
++                    }
+                     oldDelta = delta;
+

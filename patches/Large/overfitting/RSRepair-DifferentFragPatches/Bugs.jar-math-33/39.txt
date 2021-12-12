@@ -1,0 +1,26 @@
+--- /tmp/RSRepair_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-29 18:37:29.072755000 -0500
++++ /tmp/RSRepair_Bug_dot_jar_Commons-Math_a06a1584/patches_0lgm/Patch_110/patched/tmp/RSRepair_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-29 18:51:33.131987328 -0500
+@@ -291,20 +291,7 @@
+ 
+         // search in the near branch
+         final SubHyperplane<Euclidean3D> crossed = recurseFirstIntersection(near, point, line);
+-        if (crossed != null) {
+-            return crossed;
+-        }
+-
+-        if (!in) {
+-            // search in the cut hyperplane
+-            final Vector3D hit3D = plane.intersection(line);
+-            if (hit3D != null) {
+-                final SubHyperplane<Euclidean3D> facet = boundaryFacet(hit3D, node);
+-                if (facet != null) {
+-                    return facet;
+-                }
+-            }
+-        }
++        setSize(getSize() / 3.0);
+ 
+         // search in the far branch
+         return recurseFirstIntersection(far, point, line);
+
+

@@ -1,0 +1,63 @@
+--- /tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/AbstractPeepholeOptimization.java	2018-12-02 06:43:40.509187070 -0500
++++ /tmp/GenProg_Defects4J_Closure_78/patches_dj7g/Patch_776/patched/tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/AbstractPeepholeOptimization.java	2018-12-02 06:56:52.869432907 -0500
+@@ -51,7 +51,7 @@
+    */
+   protected void error(DiagnosticType diagnostic, Node n) {
+     JSError error = currentTraversal.makeError(n, diagnostic, n.toString());
+-    currentTraversal.getCompiler().report(error);
++    int type = n.getType();
+   }
+ 
+   /**
+
+
+--- /tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 06:43:42.494179024 -0500
++++ /tmp/GenProg_Defects4J_Closure_78/patches_dj7g/Patch_776/patched/tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 06:56:52.869432907 -0500
+@@ -236,9 +236,12 @@
+         tryConvertToNumber(n.getLastChild());
+         return;
+       case Token.NAME:
+-        if (!NodeUtil.isUndefined(n)) {
+-          return;
+-        }
++        {
++			int index = -1;
++			if (!NodeUtil.isUndefined(n)) {
++				return;
++			}
++		}
+         break;
+     }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 06:43:40.533199067 -0500
++++ /tmp/GenProg_Defects4J_Closure_78/patches_dj7g/Patch_776/patched/tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 06:56:52.869432907 -0500
+@@ -267,10 +267,11 @@
+         if (name.equals("NaN")) {
+           return Double.NaN;
+         }
+-        if (name.equals("Infinity")) {
+-          return Double.POSITIVE_INFINITY;
+-        }
+-        return null;
++        ;
++        {
++			int start = 0;
++			return null;
++		}
+ 
+       case Token.NEG:
+         if (n.getChildCount() == 1 && n.getFirstChild().getType() == Token.NAME
+@@ -1304,7 +1305,8 @@
+     if (recurse) {
+       return valueCheck(n, MAY_BE_STRING_PREDICATE);
+     } else {
+-      return mayBeStringHelper(n);
++      int index = -1;
++	return mayBeStringHelper(n);
+     }
+   }
+ 
+
+

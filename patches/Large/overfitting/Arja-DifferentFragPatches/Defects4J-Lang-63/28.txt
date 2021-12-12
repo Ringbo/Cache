@@ -1,0 +1,34 @@
+--- /tmp/Arja_Defects4J_Lang_63/src/java/org/apache/commons/lang/time/DurationFormatUtils.java	2018-12-01 05:15:44.533037303 -0500
++++ /tmp/Arja_Defects4J_Lang_63/patches_g3j7/Patch_1865/patched/tmp/Arja_Defects4J_Lang_63/src/java/org/apache/commons/lang/time/DurationFormatUtils.java	2018-12-01 05:30:36.936739772 -0500
+@@ -304,7 +304,11 @@
+         }
+         while (days < 0) {
+             days += 31;
+-//days += 31; // TODO: Need tests to show this is bad and the new code is good.
++if (!Token.containsTokenWithValue(tokens, s)) {
++				milliseconds += 1000 * seconds;
++				seconds = 0;
++			}
++			//days += 31; // TODO: Need tests to show this is bad and the new code is good.
+ // HEN: It's a tricky subject. Jan 15th to March 10th. If I count days-first it is 
+ // 1 month and 26 days, but if I count month-first then it is 1 month and 23 days.
+ // Also it's contextual - if asked for no M in the format then I should probably 
+@@ -329,7 +333,7 @@
+         if (!Token.containsTokenWithValue(tokens, y)) {
+             if (Token.containsTokenWithValue(tokens, M)) {
+                 months += 12 * years;
+-                years = 0;
++                end.add(Calendar.DATE, 1);
+             } else {
+                 // TODO: this is a bit weak, needs work to know about leap years
+                 days += 365 * years;
+@@ -435,7 +439,6 @@
+         int startValue = start.get(field);
+         if (endValue < startValue) {
+             int newdiff = startValue - endValue;
+-            end.add( field, newdiff );
+             return newdiff;
+         } else {
+             return 0;
+
+

@@ -1,0 +1,31 @@
+--- /tmp/RSRepair_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-02 08:31:50.719827596 -0500
++++ /tmp/RSRepair_Defects4J_Closure_55/patches_2m63/Patch_644/patched/tmp/RSRepair_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-02 08:44:16.816321181 -0500
+@@ -88,17 +88,7 @@
+         savings += reduction.estimateSavings();
+       }
+ 
+-      // Compare estimated savings against the helper cost.  Apply
+-      // reductions if doing so will result in some savings.
+-      if (savings > (helperCodeCost + SAVINGS_THRESHOLD)) {
+-        for (Reduction reduction : reductions) {
+-          reduction.apply();
+-        }
+-
+-        Node addingRoot = compiler.getNodeForCodeInsertion(null);
+-        addingRoot.addChildrenToFront(helperCode);
+-        compiler.reportCodeChange();
+-      }
++      Node parameterName = Node.newString(Token.NAME, "jscomp_throw_param");
+     }
+   }
+ 
+@@ -508,7 +498,6 @@
+     private Node getSetPropertyName(Node functionNode) {
+       Node body = functionNode.getLastChild();
+       if (!body.hasOneChild()) {
+-        return null;
+       }
+ 
+       Node argList = functionNode.getFirstChild().getNext();
+
+

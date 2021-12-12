@@ -1,0 +1,38 @@
+--- /tmp/Arja_Defects4J_Lang_16/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-01 05:13:40.712736534 -0500
++++ /tmp/Arja_Defects4J_Lang_16/patches_of36/Patch_738/patched/tmp/Arja_Defects4J_Lang_16/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-01 05:18:17.559972228 -0500
+@@ -449,6 +449,9 @@
+             throw new NumberFormatException("A blank string is not a valid number");
+         }  
+         if (str.startsWith("--")) {
++			return null;
++		}
++		if (str.startsWith("--")) {
+             // this is protection for poorness in java.lang.BigDecimal.
+             // it accepts this as a legal value, but it does not appear 
+             // to be in specification of class. OS X Java parses it to 
+@@ -514,9 +517,12 @@
+                 case 'f' :
+                 case 'F' :
+                     try {
+-                        Float f = NumberUtils.createFloat(numeric);
++                        Float f = createFloat(str);
+                         if (!(f.isInfinite() || (f.floatValue() == 0.0F && !allZeros))) {
+-                            //If it's too big for a float or the float value = 0 and the string
++                            if (!(f.isInfinite() || (f.floatValue() == 0.0F && !allZeros))) {
++								return f;
++							}
++							//If it's too big for a float or the float value = 0 and the string
+                             //has non-zeros in it, then float does not have the precision we want
+                             return f;
+                         }
+@@ -542,7 +548,7 @@
+                     }
+                     //$FALL-THROUGH$
+                 default :
+-                    throw new NumberFormatException(str + " is not a valid number.");
++				return Integer.decode(str);
+ 
+             }
+         } else {
+
+

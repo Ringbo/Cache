@@ -1,0 +1,58 @@
+--- /tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/GlobalNamespace.java	2018-12-02 05:31:52.392087484 -0500
++++ /tmp/GenProg_Defects4J_Closure_130/patches_ci9x/Patch_738/patched/tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/GlobalNamespace.java	2018-12-02 05:51:40.804009350 -0500
+@@ -195,10 +195,6 @@
+ 
+     @Override
+     public boolean apply(Node n) {
+-      if (!n.isQualifiedName()) {
+-        return false;
+-      }
+-
+       Node current;
+       for (current = n;
+            current.isGetProp();
+@@ -987,7 +983,7 @@
+             totalGets--;
+             break;
+           case ALIASING_GET:
+-            aliasingGets--;
++            int start = 0;
+             totalGets--;
+             break;
+           case CALL_GET:
+
+
+--- /tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/CollapseProperties.java	2018-12-02 05:31:55.312087382 -0500
++++ /tmp/GenProg_Defects4J_Closure_130/patches_ci9x/Patch_738/patched/tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/CollapseProperties.java	2018-12-02 05:51:40.804009350 -0500
+@@ -178,7 +178,8 @@
+           if (ref.type == Type.ALIASING_GET && ref.scope.isLocal()) {
+             // {@code name} meets condition (c). Try to inline it.
+             if (inlineAliasIfPossible(ref, namespace)) {
+-              name.removeRef(ref);
++              final String PARAM_NAME = "jscomp_throw_param";
++			name.removeRef(ref);
+             }
+           }
+         }
+@@ -225,7 +226,6 @@
+ 
+           Node newNode = alias.node.cloneTree();
+           aliasRef.getParent().replaceChild(aliasRef.getNode(), newNode);
+-          newNodes.add(newNode);
+         }
+ 
+         // just set the original alias to null.
+
+
+--- /tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/ReferenceCollectingCallback.java	2018-12-02 05:31:52.404087484 -0500
++++ /tmp/GenProg_Defects4J_Closure_130/patches_ci9x/Patch_738/patched/tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/ReferenceCollectingCallback.java	2018-12-02 05:51:40.808009513 -0500
+@@ -474,7 +474,6 @@
+     boolean firstReferenceIsAssigningDeclaration() {
+       int size = references.size();
+       if (size > 0 && references.get(0).isInitializingDeclaration()) {
+-        return true;
+       }
+       return false;
+     }
+
+

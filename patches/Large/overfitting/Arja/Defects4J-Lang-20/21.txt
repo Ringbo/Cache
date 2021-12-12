@@ -1,0 +1,22 @@
+--- /tmp/Arja_Defects4J_Lang_20/src/main/java/org/apache/commons/lang3/StringUtils.java	2018-12-01 05:15:36.810015490 -0500
++++ /tmp/Arja_Defects4J_Lang_20/patches_9t4x/Patch_908/patched/tmp/Arja_Defects4J_Lang_20/src/main/java/org/apache/commons/lang3/StringUtils.java	2018-12-01 05:22:09.356836523 -0500
+@@ -3295,7 +3295,7 @@
+             return EMPTY;
+         }
+         
+-        StringBuilder buf = new StringBuilder((array[startIndex] == null ? 16 : array[startIndex].toString().length()) + 1);
++        StringBuilder buf = new StringBuilder(32);
+ 
+         for (int i = startIndex; i < endIndex; i++) {
+             if (i > startIndex) {
+@@ -3380,7 +3380,7 @@
+             return EMPTY;
+         }
+ 
+-        StringBuilder buf = new StringBuilder((array[startIndex] == null ? 16 : array[startIndex].toString().length()) + separator.length());
++        StringBuilder buf = new StringBuilder(256);
+ 
+         for (int i = startIndex; i < endIndex; i++) {
+             if (i > startIndex) {
+
+

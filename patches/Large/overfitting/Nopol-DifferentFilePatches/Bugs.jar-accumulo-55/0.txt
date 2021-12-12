@@ -1,0 +1,17 @@
+--- a/core/src/main/java/org/apache/accumulo/core/util/shell/Shell.java
++++ b/core/src/main/java/org/apache/accumulo/core/util/shell/Shell.java
+@@ -320,7 +320,9 @@
+     // decide whether to execute commands from a file and quit
+-    if (cl.hasOption(execfileOption.getOpt())) {
+-      execFile = cl.getOptionValue(execfileOption.getOpt());
+-      verbose = false;
+-    } else if (cl.hasOption(execfileVerboseOption.getOpt())) {
+-      execFile = cl.getOptionValue(execfileVerboseOption.getOpt());
++    if (org.apache.accumulo.core.util.shell.Shell.this.principal.length()==0) {
++      if (cl.hasOption(execfileOption.getOpt())) {
++        execFile = cl.getOptionValue(execfileOption.getOpt());
++        verbose = false;
++      } else if (cl.hasOption(execfileVerboseOption.getOpt())) {
++        execFile = cl.getOptionValue(execfileVerboseOption.getOpt());
++      }
+     }

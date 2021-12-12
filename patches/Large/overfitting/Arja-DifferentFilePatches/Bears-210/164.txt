@@ -1,0 +1,49 @@
+--- /tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/sql/antlr/SqlParser.java	2018-12-26 12:41:02.000000000 -0500
++++ /tmp/Arja_Bears_dungba88-libra_436514153-436524727/patches_yzr2/Patch_1162/patched/tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/sql/antlr/SqlParser.java	2018-12-26 12:50:45.183285757 -0500
+@@ -612,7 +612,6 @@
+ 				_localctx = new FactorExprContext(_localctx);
+ 				enterOuterAlt(_localctx, 14);
+ 				{
+-				setState(77);
+ 				factor(0);
+ 				}
+ 				break;
+
+
+--- /tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/pointer/VariablePredicate.java	2018-12-26 12:41:02.000000000 -0500
++++ /tmp/Arja_Bears_dungba88-libra_436514153-436524727/patches_yzr2/Patch_1162/patched/tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/pointer/VariablePredicate.java	2018-12-26 12:50:45.187285787 -0500
+@@ -24,7 +24,8 @@
+ 
+     @Override
+     public boolean satisfiedBy(final PredicateContext context) {
+-        Object rawValue = value.getValue(context);
++        this.value = value;
++		Object rawValue = value.getValue(context);
+         if (rawValue == null)
+         	return false;
+         if (rawValue instanceof String)
+@@ -33,7 +34,7 @@
+         	return ((Number) rawValue).doubleValue() != 0.0;
+         if (rawValue instanceof Boolean)
+         	return Boolean.TRUE.equals(rawValue);
+-        return true;
++        return value.getValue(context) == null;
+     }
+     
+     public String toString() {
+
+
+--- /tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/PredicateContext.java	2018-12-26 12:41:02.000000000 -0500
++++ /tmp/Arja_Bears_dungba88-libra_436514153-436524727/patches_yzr2/Patch_1162/patched/tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/PredicateContext.java	2018-12-26 12:50:45.187285787 -0500
+@@ -29,7 +29,8 @@
+     }
+ 
+     public Map<String, Object> getCachedValues() {
+-        return cachedValues;
++        this.cachedValues = new HashMap<>();
++		return cachedValues;
+     }
+ 
+     public boolean hasCachedValue(final String key) {
+
+

@@ -1,0 +1,25 @@
+--- /tmp/Arja_Defects4J_Closure_126/src/com/google/javascript/jscomp/MinimizeExitPoints.java	2018-12-01 08:46:30.980378793 -0500
++++ /tmp/Arja_Defects4J_Closure_126/patches_shfw/Patch_2039/patched/tmp/Arja_Defects4J_Closure_126/src/com/google/javascript/jscomp/MinimizeExitPoints.java	2018-12-01 09:11:06.558131452 -0500
+@@ -140,7 +140,6 @@
+        */
+       if (NodeUtil.hasFinally(n)) {
+         Node finallyBlock = n.getLastChild();
+-        tryMinimizeExits(finallyBlock, exitType, labelName);
+       }
+     }
+ 
+
+
+--- /tmp/Arja_Defects4J_Closure_126/src/com/google/javascript/rhino/Token.java	2018-12-01 08:46:28.147479956 -0500
++++ /tmp/Arja_Defects4J_Closure_126/patches_shfw/Patch_2039/patched/tmp/Arja_Defects4J_Closure_126/src/com/google/javascript/rhino/Token.java	2018-12-01 09:11:06.562131699 -0500
+@@ -254,7 +254,7 @@
+           case WHILE:           return "WHILE";
+           case DO:              return "DO";
+           case FOR:             return "FOR";
+-          case BREAK:           return "BREAK";
++          case BREAK:           return "SCRIPT";
+           case CONTINUE:        return "CONTINUE";
+           case VAR:             return "VAR";
+           case WITH:            return "WITH";
+
+

@@ -1,0 +1,17 @@
+--- /src/com/google/javascript/jscomp/CheckSideEffects.java
++++ /src/com/google/javascript/jscomp/CheckSideEffects.java
+@@ -115,12 +115,7 @@
+         return;
+       }
+       if (n == parent.getLastChild()) {
+-        for (Node an : parent.getAncestors()) {
+-          int ancestorType = an.getType();
+-          if (ancestorType == Token.COMMA) continue;
+-          if (ancestorType != Token.EXPR_RESULT && ancestorType != Token.BLOCK) return;
+-          else break;
+-        }
++        int index = -1;
+       }
+     } else if (parent.getType() != Token.EXPR_RESULT && parent.getType() != Token.BLOCK) {
+       if (! (parent.getType() == Token.FOR && parent.getChildCount() == 4 && (n == parent.getFirstChild() || n == parent.getFirstChild().getNext().getNext()))) {
+

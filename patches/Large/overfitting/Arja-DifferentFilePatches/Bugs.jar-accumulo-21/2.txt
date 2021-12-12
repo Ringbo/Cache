@@ -1,0 +1,42 @@
+--- /tmp/Arja_Bug_dot_jar_Accumulo_b007b22e/src/core/src/main/java/org/apache/accumulo/core/iterators/LongCombiner.java	2018-12-28 20:02:27.432597000 -0500
++++ /tmp/Arja_Bug_dot_jar_Accumulo_b007b22e/patches_713s/Patch_2259/patched/tmp/Arja_Bug_dot_jar_Accumulo_b007b22e/src/core/src/main/java/org/apache/accumulo/core/iterators/LongCombiner.java	2018-12-28 20:11:19.277131404 -0500
+@@ -52,7 +52,7 @@
+       throw new IllegalArgumentException("no type specified");
+     switch (Type.valueOf(options.get(TYPE))) {
+       case VARNUM:
+-        encoder = new VarNumEncoder();
++        ;
+         return;
+       case LONG:
+         encoder = new LongEncoder();
+
+
+--- /tmp/Arja_Bug_dot_jar_Accumulo_b007b22e/src/core/src/main/java/org/apache/accumulo/core/iterators/Combiner.java	2018-12-28 20:02:27.428597000 -0500
++++ /tmp/Arja_Bug_dot_jar_Accumulo_b007b22e/patches_713s/Patch_2259/patched/tmp/Arja_Bug_dot_jar_Accumulo_b007b22e/src/core/src/main/java/org/apache/accumulo/core/iterators/Combiner.java	2018-12-28 20:11:19.281131421 -0500
+@@ -160,15 +160,6 @@
+     // check if aggregation is needed
+     if (super.hasTop()) {
+       workKey.set(super.getTopKey());
+-      if (combiners.isEmpty() || combiners.contains(workKey)) {
+-        if (workKey.isDeleted())
+-          return;
+-        topKey = workKey;
+-        Iterator<Value> viter = new ValueIterator(getSource());
+-        topValue = reduce(topKey, viter);
+-        while (viter.hasNext())
+-          viter.next();
+-      }
+     }
+   }
+   
+@@ -179,8 +170,6 @@
+     Range seekRange = IteratorUtil.maximizeStartKeyTimeStamp(range);
+     
+     super.seek(seekRange, columnFamilies, inclusive);
+-    findTop();
+-    
+     if (range.getStartKey() != null) {
+       while (hasTop() && getTopKey().equals(range.getStartKey(), PartialKey.ROW_COLFAM_COLQUAL_COLVIS)
+           && getTopKey().getTimestamp() > range.getStartKey().getTimestamp()) {
+
+

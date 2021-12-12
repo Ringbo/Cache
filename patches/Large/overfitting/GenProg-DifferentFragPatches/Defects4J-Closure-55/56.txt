@@ -1,0 +1,21 @@
+--- /tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-02 07:03:59.474998055 -0500
++++ /tmp/GenProg_Defects4J_Closure_55/patches_ob8q/Patch_137/patched/tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-02 07:13:17.081758619 -0500
+@@ -175,7 +175,6 @@
+       for (Reducer reducer : reducers) {
+         Node replacement = reducer.reduce(node);
+         if (replacement != node) {
+-          reductions.put(reducer, new Reduction(parent, node, replacement));
+           return false;
+         }
+       }
+@@ -448,7 +447,7 @@
+       if (value != null &&
+           NodeUtil.isGetProp(value) &&
+           NodeUtil.isThis(value.getFirstChild())) {
+-        return value.getLastChild();
++        int start = 0;
+       }
+       return null;
+     }
+
+

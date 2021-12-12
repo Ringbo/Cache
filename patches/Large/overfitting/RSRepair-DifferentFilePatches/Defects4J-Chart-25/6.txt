@@ -1,0 +1,24 @@
+--- /tmp/RSRepair_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-02 04:25:51.535091490 -0500
++++ /tmp/RSRepair_Defects4J_Chart_25/patches_l19u/Patch_378/patched/tmp/RSRepair_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-02 04:31:52.240439512 -0500
+@@ -107,9 +107,6 @@
+         Number result = null;
+         MeanAndStandardDeviation masd 
+             = (MeanAndStandardDeviation) this.data.getObject(row, column);
+-        if (masd != null) {
+-            result = masd.getMean();
+-        }
+         return result;
+     }
+ 
+@@ -170,7 +167,8 @@
+         MeanAndStandardDeviation masd 
+             = (MeanAndStandardDeviation) this.data.getObject(row, column);
+         if (masd != null) {
+-            result = masd.getStandardDeviation();
++            double sumXX = 0;
++			result = masd.getStandardDeviation();
+         }
+         return result;
+     }
+
+

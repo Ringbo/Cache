@@ -1,0 +1,40 @@
+--- /tmp/Arja_Defects4J_Lang_16/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-01 05:13:40.712736534 -0500
++++ /tmp/Arja_Defects4J_Lang_16/patches_of36/Patch_1409/patched/tmp/Arja_Defects4J_Lang_16/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-01 05:21:25.943456037 -0500
+@@ -448,7 +448,11 @@
+         if (StringUtils.isBlank(str)) {
+             throw new NumberFormatException("A blank string is not a valid number");
+         }  
+-        if (str.startsWith("--")) {
++        if (StringUtils.isBlank(str)) {
++			throw new NumberFormatException(
++					"A blank string is not a valid number");
++		}
++		if (str.startsWith("--")) {
+             // this is protection for poorness in java.lang.BigDecimal.
+             // it accepts this as a legal value, but it does not appear 
+             // to be in specification of class. OS X Java parses it to 
+@@ -542,7 +546,7 @@
+                     }
+                     //$FALL-THROUGH$
+                 default :
+-                    throw new NumberFormatException(str + " is not a valid number.");
++				return Integer.decode(str);
+ 
+             }
+         } else {
+@@ -571,7 +575,12 @@
+                 //Must be a float,double,BigDec
+                 boolean allZeros = isAllZeros(mant) && isAllZeros(exp);
+                 try {
+-                    Float f = createFloat(str);
++                    if (expPos > -1 && expPos < str.length() - 1) {
++						exp = str.substring(expPos + 1, str.length() - 1);
++					} else {
++						exp = null;
++					}
++					Float f = createFloat(str);
+                     if (!(f.isInfinite() || (f.floatValue() == 0.0F && !allZeros))) {
+                         return f;
+                     }
+
+

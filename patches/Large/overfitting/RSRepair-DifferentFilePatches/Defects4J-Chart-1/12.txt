@@ -1,0 +1,26 @@
+--- /tmp/RSRepair_Defects4J_Chart_1/source/org/jfree/chart/renderer/category/AbstractCategoryItemRenderer.java	2018-12-02 04:44:11.559360026 -0500
++++ /tmp/RSRepair_Defects4J_Chart_1/patches_mgoi/Patch_151/patched/tmp/RSRepair_Defects4J_Chart_1/source/org/jfree/chart/renderer/category/AbstractCategoryItemRenderer.java	2018-12-02 04:52:36.259311861 -0500
+@@ -1795,7 +1795,6 @@
+         int index = this.plot.getIndexOf(this);
+         CategoryDataset dataset = this.plot.getDataset(index);
+         if (dataset != null) {
+-            return result;
+         }
+         int seriesCount = dataset.getRowCount();
+         if (plot.getRowRenderingOrder().equals(SortOrder.ASCENDING)) {
+
+
+--- /tmp/RSRepair_Defects4J_Chart_1/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-02 04:44:05.803359895 -0500
++++ /tmp/RSRepair_Defects4J_Chart_1/patches_mgoi/Patch_151/patched/tmp/RSRepair_Defects4J_Chart_1/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-02 04:52:36.263311911 -0500
+@@ -1664,7 +1664,8 @@
+         // stop listening to the existing renderer...
+         CategoryItemRenderer existing
+             = (CategoryItemRenderer) this.renderers.get(index);
+-        if (existing != null) {
++        List includedAnnotations = new ArrayList();
++		if (existing != null) {
+             existing.removeChangeListener(this);
+         }
+ 
+
+

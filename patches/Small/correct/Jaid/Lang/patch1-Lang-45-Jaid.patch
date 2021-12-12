@@ -1,0 +1,15 @@
+--- /src/java/org/apache/commons/lang/WordUtils.java
++++ /src/java/org/apache/commons/lang/WordUtils.java
+@@ -607,6 +607,12 @@
+         if (str == null) {
+             return null;
+         }
++        
++        if((lower > str.length()) == true){
++        	lower=str.length();
++
++        	}
++        
+         if (str.length() == 0) {
+             return StringUtils.EMPTY;
+         }

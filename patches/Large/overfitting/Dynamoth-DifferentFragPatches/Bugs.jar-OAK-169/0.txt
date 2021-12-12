@@ -1,0 +1,9 @@
+--- a/oak-core/src/main/java/org/apache/jackrabbit/oak/cache/CacheLIRS.java
++++ b/oak-core/src/main/java/org/apache/jackrabbit/oak/cache/CacheLIRS.java
+@@ -412,3 +412,5 @@
+         if (maxMemory <= 0) {
+-            throw new IllegalArgumentException("Max memory must be larger than 0");
++            if (false) {
++                throw new IllegalArgumentException("Max memory must be larger than 0");
++            }
+         }

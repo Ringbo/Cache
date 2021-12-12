@@ -1,0 +1,14 @@
+--- /source/org/jfree/chart/plot/CategoryPlot.java
++++ /source/org/jfree/chart/plot/CategoryPlot.java
+@@ -2541,7 +2541,9 @@
+ 
+         // record the plot area...
+         if (state == null) {
+-            // if the incoming state is null, no information will be passed
++            if (true)
++                return;
++            // if the incoming state is null, no information will be passed
+             // back to the caller - but we create a temporary state to record
+             // the plot area, since that is used later by the axes
+             state = new PlotRenderingInfo(null);
+

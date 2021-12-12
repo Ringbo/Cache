@@ -1,0 +1,11 @@
+--- /src/com/google/javascript/jscomp/type/ClosureReverseAbstractInterpreter.java
++++ /src/com/google/javascript/jscomp/type/ClosureReverseAbstractInterpreter.java
+@@ -208,7 +208,7 @@
+     if (condition.isCall() && condition.getChildCount() == 2) {
+       Node callee = condition.getFirstChild();
+       Node param = condition.getLastChild();
+-      if (callee.isGetProp() && param.isQualifiedName()) {
++      if (param.isName()||param.isGetProp()) {
+         JSType paramType =  getTypeIfRefinable(param, blindScope);
+         Node left = callee.getFirstChild();
+         Node right = callee.getLastChild();

@@ -1,0 +1,30 @@
+--- /tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-01 09:01:13.654047680 -0500
++++ /tmp/Arja_Defects4J_Closure_112/patches_famj/Patch_256/patched/tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-01 09:10:42.012508156 -0500
+@@ -1126,10 +1126,6 @@
+       Map<TemplateType, JSType> resolvedTypes) {
+     while (declParams.hasNext() && callParams.hasNext()) {
+       Node declParam = declParams.next();
+-      maybeResolveTemplatedType(
+-          getJSType(declParam),
+-          getJSType(callParams.next()),
+-          resolvedTypes);
+       if (declParam.isVarArgs()) {
+         while (callParams.hasNext()) {
+           maybeResolveTemplatedType(
+@@ -1144,14 +1140,6 @@
+   private static void resolvedTemplateType(
+       Map<TemplateType, JSType> map, TemplateType template, JSType resolved) {
+     JSType previous = map.get(template);
+-    if (!resolved.isUnknownType()) {
+-      if (previous == null) {
+-        map.put(template, resolved);
+-      } else {
+-        JSType join = previous.getLeastSupertype(resolved);
+-        map.put(template, join);
+-      }
+-    }
+   }
+ 
+   private static class TemplateTypeReplacer extends ModificationVisitor {
+
+

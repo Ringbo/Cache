@@ -1,0 +1,10 @@
+--- /src/main/java/org/apache/commons/math/optimization/general/LevenbergMarquardtOptimizer.java
++++ /src/main/java/org/apache/commons/math/optimization/general/LevenbergMarquardtOptimizer.java
+@@ -604,3 +604,5 @@
+             }
+-            sum2 = 0;
++            if (this.costRelativeTolerance != this.orthoTolerance) {
++                sum2 = 0;
++            }
+             for (int j = 0; j < solvedCols; ++j) {
+

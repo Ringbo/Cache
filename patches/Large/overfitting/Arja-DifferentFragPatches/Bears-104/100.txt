@@ -1,0 +1,12 @@
+--- /tmp/Arja_Bears_traccar-traccar_212058933-212061222/src/org/traccar/protocol/SuntechProtocolDecoder.java	2018-12-26 13:24:02.202494680 -0500
++++ /tmp/Arja_Bears_traccar-traccar_212058933-212061222/patches_7b3l/Patch_2189/patched/tmp/Arja_Bears_traccar-traccar_212058933-212061222/src/org/traccar/protocol/SuntechProtocolDecoder.java	2018-12-26 13:45:27.649604262 -0500
+@@ -133,7 +133,6 @@
+ 
+         position.setValid(values[index++].equals("1"));
+ 
+-        position.set(Position.KEY_ODOMETER, Integer.parseInt(values[index++]));
+         position.set(Position.KEY_POWER, Double.parseDouble(values[index++]));
+ 
+         position.set(Position.PREFIX_IO + 1, values[index++]);
+
+

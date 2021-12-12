@@ -1,0 +1,12 @@
+--- /source/org/jfree/chart/plot/CategoryPlot.java
++++ /source/org/jfree/chart/plot/CategoryPlot.java
+@@ -2533,7 +2533,7 @@
+                      PlotRenderingInfo state) {
+ 
+         // if the plot area is too small, just return...
+-        boolean b1 = (area.getWidth() <= MINIMUM_WIDTH_TO_DRAW);
++        boolean b1 = (area.getWidth()!=MINIMUM_WIDTH_TO_DRAW);
+         boolean b2 = (area.getHeight() <= MINIMUM_HEIGHT_TO_DRAW);
+         if (b1 || b2) {
+             return;
+

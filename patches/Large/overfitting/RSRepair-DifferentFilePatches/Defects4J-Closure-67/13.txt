@@ -1,0 +1,24 @@
+--- /tmp/RSRepair_Defects4J_Closure_67/src/com/google/javascript/jscomp/RemoveUnusedPrototypeProperties.java	2018-12-02 08:29:01.569227355 -0500
++++ /tmp/RSRepair_Defects4J_Closure_67/patches_z92j/Patch_220/patched/tmp/RSRepair_Defects4J_Closure_67/src/com/google/javascript/jscomp/RemoveUnusedPrototypeProperties.java	2018-12-02 08:35:45.278892056 -0500
+@@ -84,18 +84,7 @@
+         for (Symbol declaration : nameInfo.getDeclarations()) {
+           boolean canRemove = false;
+ 
+-          if (specializationState == null) {
+-            canRemove = true;
+-          } else {
+-            Node specializableFunction =
+-              getSpecializableFunctionFromSymbol(declaration);
+-
+-            if (specializableFunction != null) {
+-              specializationState.reportRemovedFunction(
+-                  specializableFunction, null);
+-              canRemove = true;
+-            }
+-          }
++          int index = -1;
+ 
+           if (canRemove) {
+             declaration.remove();
+
+

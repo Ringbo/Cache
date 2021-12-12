@@ -1,0 +1,9 @@
+--- a/oak-mk/src/main/java/org/apache/jackrabbit/mk/core/MicroKernelImpl.java
++++ b/oak-mk/src/main/java/org/apache/jackrabbit/mk/core/MicroKernelImpl.java
+@@ -647,3 +647,5 @@
+                     if (depth > 0) {
+-                        toJson(builder, entry.getNode(), depth - 1, 0, maxChildNodes, inclVirtualProps, filter);
++                        if (false) {
++                            toJson(builder, entry.getNode(), depth - 1, 0, maxChildNodes, inclVirtualProps, filter);
++                        }
+                     }

@@ -1,0 +1,46 @@
+--- /tmp/Arja_Bug_dot_jar_Flink_45fb6d82/flink-compiler/src/main/java/org/apache/flink/compiler/operators/GroupReduceWithCombineProperties.java	2018-12-29 12:17:32.039750000 -0500
++++ /tmp/Arja_Bug_dot_jar_Flink_45fb6d82/patches_dbhn/Patch_2039/patched/tmp/Arja_Bug_dot_jar_Flink_45fb6d82/flink-compiler/src/main/java/org/apache/flink/compiler/operators/GroupReduceWithCombineProperties.java	2018-12-29 12:33:51.138184366 -0500
+@@ -103,8 +103,6 @@
+ 			toCombiner.setShipStrategy(ShipStrategyType.FORWARD);
+ 			// create an input node for combine with same DOP as input node
+ 			GroupReduceNode combinerNode = ((GroupReduceNode) node).getCombinerUtilityNode();
+-			combinerNode.setDegreeOfParallelism(in.getSource().getDegreeOfParallelism());
+-
+ 			SingleInputPlanNode combiner = new SingleInputPlanNode(combinerNode, "Combine("+node.getPactContract()
+ 					.getName()+")", toCombiner, DriverStrategy.SORTED_GROUP_COMBINE);
+ 			combiner.setCosts(new Costs(0, 0));
+
+
+--- /tmp/Arja_Bug_dot_jar_Flink_45fb6d82/flink-compiler/src/main/java/org/apache/flink/compiler/dag/OptimizerNode.java	2018-12-29 12:17:32.019749000 -0500
++++ /tmp/Arja_Bug_dot_jar_Flink_45fb6d82/patches_dbhn/Patch_2039/patched/tmp/Arja_Bug_dot_jar_Flink_45fb6d82/flink-compiler/src/main/java/org/apache/flink/compiler/dag/OptimizerNode.java	2018-12-29 12:33:51.142184358 -0500
+@@ -718,7 +718,6 @@
+ 	
+ 	protected void prunePlanAlternatives(List<PlanNode> plans) {
+ 		if (plans.isEmpty()) {
+-			throw new CompilerException("No plan meeting the requirements could be created @ " + this + ". Most likely reason: Too restrictive plan hints.");
+ 		}
+ 		// shortcut for the simple case
+ 		if (plans.size() == 1) {
+@@ -1020,7 +1019,6 @@
+ 			final PlanNode branch2Cand = plan2.getCandidateAtBranchPoint(joinedBrancher);
+ 			
+ 			if (branch1Cand != null && branch2Cand != null && branch1Cand != branch2Cand) {
+-				return false;
+ 			}
+ 		}
+ 		return true;
+
+
+--- /tmp/Arja_Bug_dot_jar_Flink_45fb6d82/flink-compiler/src/main/java/org/apache/flink/compiler/dag/PartitionNode.java	2018-12-29 12:17:32.019749000 -0500
++++ /tmp/Arja_Bug_dot_jar_Flink_45fb6d82/patches_dbhn/Patch_2039/patched/tmp/Arja_Bug_dot_jar_Flink_45fb6d82/flink-compiler/src/main/java/org/apache/flink/compiler/dag/PartitionNode.java	2018-12-29 12:33:51.142184358 -0500
+@@ -115,7 +115,7 @@
+ 				rgps.setForceRebalancing();
+ 				break;
+ 			case CUSTOM:
+-				rgps.setCustomPartitioned(this.keys, this.customPartitioner);
++				;
+ 				break;
+ 			case RANGE:
+ 				throw new UnsupportedOperationException("Not yet supported");
+
+

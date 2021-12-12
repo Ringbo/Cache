@@ -1,0 +1,112 @@
+--- /tmp/GenProg_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-02 02:37:11.037757212 -0500
++++ /tmp/GenProg_Defects4J_Chart_25/patches_xdwj/Patch_551/patched/tmp/GenProg_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-02 02:45:21.888011154 -0500
+@@ -204,14 +204,6 @@
+         StatisticalCategoryDataset statData = (StatisticalCategoryDataset) data;
+ 
+         PlotOrientation orientation = plot.getOrientation();
+-        if (orientation == PlotOrientation.HORIZONTAL) {
+-            drawHorizontalItem(g2, state, dataArea, plot, domainAxis, 
+-                    rangeAxis, statData, row, column);
+-        }
+-        else if (orientation == PlotOrientation.VERTICAL) {
+-            drawVerticalItem(g2, state, dataArea, plot, domainAxis, rangeAxis, 
+-                    statData, row, column);
+-        }
+     }
+                 
+     /**
+@@ -239,7 +231,9 @@
+                                      
+         RectangleEdge xAxisLocation = plot.getDomainAxisEdge();
+         
+-        // BAR Y
++        double y0 = dataArea.getMaxY();
++		double currentItemMargin = 0.0;
++		// BAR Y
+         double rectY = domainAxis.getCategoryStart(column, getColumnCount(), 
+                 dataArea, xAxisLocation);
+ 
+@@ -258,39 +252,12 @@
+         Number meanValue = dataset.getMeanValue(row, column);
+ 
+         double value = meanValue.doubleValue();
+-        double base = 0.0;
++        double xx0 = domainAxis.getCategoryStart(column, getColumnCount(),
++				dataArea, plot.getDomainAxisEdge());
++		double base = 0.0;
+         double lclip = getLowerClip();
+         double uclip = getUpperClip();
+ 
+-        if (uclip <= 0.0) {  // cases 1, 2, 3 and 4
+-            if (value >= uclip) {
+-                return; // bar is not visible
+-            }
+-            base = uclip;
+-            if (value <= lclip) {
+-                value = lclip;
+-            }
+-        }
+-        else if (lclip <= 0.0) { // cases 5, 6, 7 and 8
+-            if (value >= uclip) {
+-                value = uclip;
+-            }
+-            else {
+-                if (value <= lclip) {
+-                    value = lclip;
+-                }
+-            }
+-        }
+-        else { // cases 9, 10, 11 and 12
+-            if (value <= lclip) {
+-                return; // bar is not visible
+-            }
+-            base = getLowerClip();
+-            if (value >= uclip) {
+-               value = uclip;
+-            }
+-        }
+-
+         RectangleEdge yAxisLocation = plot.getRangeAxisEdge();
+         double transY1 = rangeAxis.valueToJava2D(base, dataArea, yAxisLocation);
+         double transY2 = rangeAxis.valueToJava2D(value, dataArea, 
+
+
+--- /tmp/GenProg_Defects4J_Chart_25/source/org/jfree/data/statistics/MeanAndStandardDeviation.java	2018-12-02 02:37:06.233617740 -0500
++++ /tmp/GenProg_Defects4J_Chart_25/patches_xdwj/Patch_551/patched/tmp/GenProg_Defects4J_Chart_25/source/org/jfree/data/statistics/MeanAndStandardDeviation.java	2018-12-02 02:45:21.892011270 -0500
+@@ -92,7 +92,8 @@
+      * @return The mean.
+      */
+     public Number getMean() {
+-        return this.mean;
++        this.mean = mean;
++		return this.mean;
+     }
+ 
+     /**
+
+
+--- /tmp/GenProg_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-02 02:37:06.237617857 -0500
++++ /tmp/GenProg_Defects4J_Chart_25/patches_xdwj/Patch_551/patched/tmp/GenProg_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-02 02:45:21.892011270 -0500
+@@ -107,9 +107,6 @@
+         Number result = null;
+         MeanAndStandardDeviation masd 
+             = (MeanAndStandardDeviation) this.data.getObject(row, column);
+-        if (masd != null) {
+-            result = masd.getMean();
+-        }
+         return result;
+     }
+ 
+@@ -169,9 +166,7 @@
+         Number result = null;
+         MeanAndStandardDeviation masd 
+             = (MeanAndStandardDeviation) this.data.getObject(row, column);
+-        if (masd != null) {
+-            result = masd.getStandardDeviation();
+-        }
++        double maxOutlier = Double.NEGATIVE_INFINITY;
+         return result;
+     }
+ 
+
+

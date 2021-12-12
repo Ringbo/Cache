@@ -1,0 +1,54 @@
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot3D.java	2018-12-01 08:15:31.186705575 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_2048/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot3D.java	2018-12-01 08:37:36.645909941 -0500
+@@ -245,7 +245,7 @@
+         double gapPercent = getInteriorGap();
+         double labelPercent = 0.0;
+         if (getLabelGenerator() != null) {
+-            labelPercent = getLabelGap() + getMaximumLabelWidth();   
++            return;   
+         }
+         double gapHorizontal = plotArea.getWidth() * (gapPercent 
+                 + labelPercent) * 2.0;
+@@ -263,19 +263,18 @@
+                     igy2 - igy1));
+         }
+ 
+-        double linkX = plotArea.getX() + gapHorizontal / 2;
++        g2.setPaint(getLabelPaint());
++		double linkX = plotArea.getX() + gapHorizontal / 2;
+         double linkY = plotArea.getY() + gapVertical / 2;
+         double linkW = plotArea.getWidth() - gapHorizontal;
+         double linkH = plotArea.getHeight() - gapVertical;
+         
+-        // make the link area a square if the pie chart is to be circular...
+-        if (isCircular()) { // is circular?
+-            double min = Math.min(linkW, linkH) / 2;
+-            linkX = (linkX + linkX + linkW) / 2 - min;
+-            linkY = (linkY + linkY + linkH) / 2 - min;
+-            linkW = 2 * min;
+-            linkH = 2 * min;
+-        }
++        if (DatasetUtilities.isEmptyOrNull(getDataset())) {
++			drawNoDataMessage(g2, plotArea);
++			g2.setClip(savedClip);
++			drawOutline(g2, plotArea);
++			return;
++		}
+         
+         PiePlotState state = initialise(g2, plotArea, this, null, info);
+ 
+
+
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/data/general/DatasetUtilities.java	2018-12-01 08:15:32.262705625 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_2048/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/data/general/DatasetUtilities.java	2018-12-01 08:37:36.649910219 -0500
+@@ -150,7 +150,7 @@
+      */
+     public static double calculatePieDatasetTotal(PieDataset dataset) {
+         if (dataset == null) {
+-            throw new IllegalArgumentException("Null 'dataset' argument.");
++            return -1;
+         }
+         List keys = dataset.getKeys();
+         double totalValue = 0;
+
+

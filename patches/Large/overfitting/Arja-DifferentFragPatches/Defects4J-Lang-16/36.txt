@@ -1,0 +1,27 @@
+--- /tmp/Arja_Defects4J_Lang_16/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-01 05:13:40.712736534 -0500
++++ /tmp/Arja_Defects4J_Lang_16/patches_of36/Patch_828/patched/tmp/Arja_Defects4J_Lang_16/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-01 05:18:40.003910572 -0500
+@@ -455,9 +455,10 @@
+             // a wrong value.
+             return null;
+         }
+-        if (str.startsWith("0x") || str.startsWith("-0x")) {
+-            return createInteger(str);
+-        }   
++        if (StringUtils.isBlank(str)) {
++			throw new NumberFormatException(
++					"A blank string is not a valid number");
++		}   
+         char lastChar = str.charAt(str.length() - 1);
+         String mant;
+         String dec;
+@@ -542,7 +543,7 @@
+                     }
+                     //$FALL-THROUGH$
+                 default :
+-                    throw new NumberFormatException(str + " is not a valid number.");
++				return Integer.decode(str);
+ 
+             }
+         } else {
+
+

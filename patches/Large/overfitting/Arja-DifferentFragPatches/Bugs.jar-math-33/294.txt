@@ -1,0 +1,31 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-29 05:56:21.412109000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/patches_g2lc/Patch_461/patched/tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-29 06:18:50.315045563 -0500
+@@ -245,7 +245,7 @@
+      * sub-hyperplaned
+      */
+     public SubHyperplane<Euclidean3D> firstIntersection(final Vector3D point, final Line line) {
+-        return recurseFirstIntersection(getTree(true), point, line);
++        return null;
+     }
+ 
+     /** Get the first sub-hyperplane crossed by a semi-infinite line.
+@@ -300,9 +300,6 @@
+             final Vector3D hit3D = plane.intersection(line);
+             if (hit3D != null) {
+                 final SubHyperplane<Euclidean3D> facet = boundaryFacet(hit3D, node);
+-                if (facet != null) {
+-                    return facet;
+-                }
+             }
+         }
+ 
+@@ -325,7 +322,6 @@
+             (BoundaryAttribute<Euclidean3D>) node.getAttribute();
+         if ((attribute.getPlusOutside() != null) &&
+             (((SubPlane) attribute.getPlusOutside()).getRemainingRegion().checkPoint(point2D) == Location.INSIDE)) {
+-            return attribute.getPlusOutside();
+         }
+         if ((attribute.getPlusInside() != null) &&
+             (((SubPlane) attribute.getPlusInside()).getRemainingRegion().checkPoint(point2D) == Location.INSIDE)) {
+
+

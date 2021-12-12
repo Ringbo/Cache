@@ -1,0 +1,13 @@
+--- /tmp/RSRepair_Defects4J_Closure_117/src/com/google/javascript/jscomp/TypedScopeCreator.java	2018-12-02 05:24:03.002420387 -0500
++++ /tmp/RSRepair_Defects4J_Closure_117/patches_dssd/Patch_33/patched/tmp/RSRepair_Defects4J_Closure_117/src/com/google/javascript/jscomp/TypedScopeCreator.java	2018-12-02 05:28:37.642580447 -0500
+@@ -1802,7 +1802,7 @@
+                   child.getLastChild());
+               break;
+             case Token.GETPROP:
+-              maybeCollectMember(child, child, null);
++              final String paramName = "jscomp_throw_param";
+               break;
+           }
+         }
+
+

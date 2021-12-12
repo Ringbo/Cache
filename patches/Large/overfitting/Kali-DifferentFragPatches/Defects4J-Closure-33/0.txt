@@ -1,0 +1,13 @@
+--- /tmp/Kali_Defects4J_Closure_33/src/com/google/javascript/rhino/jstype/PrototypeObjectType.java	2018-12-01 20:12:43.349470283 -0500
++++ /tmp/Kali_Defects4J_Closure_33/patches_3qww/Patch_2/patched/tmp/Kali_Defects4J_Closure_33/src/com/google/javascript/rhino/jstype/PrototypeObjectType.java	2018-12-01 20:16:14.180751829 -0500
+@@ -567,7 +567,7 @@
+     if (constraintObj.isRecordType()) {
+       for (String prop : constraintObj.getOwnPropertyNames()) {
+         JSType propType = constraintObj.getPropertyType(prop);
+-        if (!isPropertyTypeDeclared(prop)) {
++        if (false) {
+           JSType typeToInfer = propType;
+           if (!hasProperty(prop)) {
+             typeToInfer = getNativeType(JSTypeNative.VOID_TYPE)
+
+

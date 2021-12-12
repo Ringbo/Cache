@@ -1,0 +1,13 @@
+--- /tmp/Kali_Bears_julianps-modelmapper-module-vavr_441307573-461240331/src/main/java/com/github/julianps/modelmapper/VavrModule.java	2018-12-27 05:11:13.286411133 -0500
++++ /tmp/Kali_Bears_julianps-modelmapper-module-vavr_441307573-461240331/patches_1ts5/Patch_1/patched/tmp/Kali_Bears_julianps-modelmapper-module-vavr_441307573-461240331/src/main/java/com/github/julianps/modelmapper/VavrModule.java	2018-12-27 05:11:29.466369648 -0500
+@@ -31,6 +31,8 @@
+ 
+ 	@Override
+ 	public void setupModule(ModelMapper modelMapper) {
++		if (true)
++			return;
+ 		modelMapper.getConfiguration().getConverters().add(INDEX_ZERO, new ValueConverter());
+ 	}
+ }
+
+

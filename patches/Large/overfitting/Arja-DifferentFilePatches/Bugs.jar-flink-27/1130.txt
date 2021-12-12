@@ -1,0 +1,16 @@
+--- /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/api/datastream/DataStream.java	2018-12-29 12:37:22.084563000 -0500
++++ /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/patches_stp5/Patch_12/patched/tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/api/datastream/DataStream.java	2018-12-29 12:45:30.387369577 -0500
+@@ -1227,11 +1227,6 @@
+ 		SingleOutputStreamOperator<R, ?> returnStream = new SingleOutputStreamOperator(environment,
+ 				operatorName, outTypeInfo, operator);
+ 
+-		streamGraph.addOperator(returnStream.getId(), operator, getType(), outTypeInfo,
+-				operatorName);
+-
+-		connectGraph(inputStream, returnStream.getId(), 0);
+-		
+ 		if (iterationID != null) {
+ 			//This data stream is an input to some iteration
+ 			addIterationSource(returnStream);
+
+

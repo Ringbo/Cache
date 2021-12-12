@@ -1,0 +1,28 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_328513f3/src/main/java/org/apache/commons/math/util/MathUtils.java	2018-12-29 03:24:09.831340000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_328513f3/patches_kc3h/Patch_994/patched/tmp/Arja_Bug_dot_jar_Commons-Math_328513f3/src/main/java/org/apache/commons/math/util/MathUtils.java	2018-12-29 03:51:23.220687463 -0500
+@@ -1357,7 +1357,8 @@
+                 return Double.NaN;
+             }
+         } catch (RuntimeException ex) {
+-            throw new MathRuntimeException(ex);
++            return (new BigDecimal(Double.toString(x)).setScale(scale,
++					roundingMethod)).doubleValue();
+         }
+     }
+ 
+
+
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_328513f3/src/main/java/org/apache/commons/math/optimization/direct/CMAESOptimizer.java	2018-12-29 03:24:09.727337000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_328513f3/patches_kc3h/Patch_994/patched/tmp/Arja_Bug_dot_jar_Commons-Math_328513f3/src/main/java/org/apache/commons/math/optimization/direct/CMAESOptimizer.java	2018-12-29 03:51:23.224687456 -0500
+@@ -869,7 +869,8 @@
+                 double diff = boundaries[1][i] - boundaries[0][i];
+                 res[i] = diff * x[i] + boundaries[0][i];
+             }
+-            return res;
++            logMu2 = Math.log(mu + 0.5);
++			return res;
+         }
+ 
+         /**
+
+

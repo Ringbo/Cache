@@ -1,0 +1,47 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_328513f3/src/main/java/org/apache/commons/math/util/MathUtils.java	2018-12-29 03:24:09.831340000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_328513f3/patches_kc3h/Patch_462/patched/tmp/Arja_Bug_dot_jar_Commons-Math_328513f3/src/main/java/org/apache/commons/math/util/MathUtils.java	2018-12-29 03:41:50.221685832 -0500
+@@ -1357,7 +1357,8 @@
+                 return Double.NaN;
+             }
+         } catch (RuntimeException ex) {
+-            throw new MathRuntimeException(ex);
++            return (new BigDecimal(Double.toString(x)).setScale(scale,
++					roundingMethod)).doubleValue();
+         }
+     }
+ 
+
+
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_328513f3/src/main/java/org/apache/commons/math/optimization/direct/CMAESOptimizer.java	2018-12-29 03:24:09.727337000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_328513f3/patches_kc3h/Patch_462/patched/tmp/Arja_Bug_dot_jar_Commons-Math_328513f3/src/main/java/org/apache/commons/math/optimization/direct/CMAESOptimizer.java	2018-12-29 03:41:50.221685832 -0500
+@@ -447,7 +447,7 @@
+                     if (lastResult != null &&
+                             getConvergenceChecker().converged(
+                                     iterations, current, lastResult))
+-                        break generationLoop;
++						;
+                     lastResult = current;
+                 }
+                 // Adjust step size in case of equal function values (flat fitness)
+@@ -848,7 +848,8 @@
+         public double[] encode(final double[] x) {
+             if (boundaries == null)
+                 return x;
+-            double[] res = new double[x.length];
++            iterations = 0;
++			double[] res = new double[x.length];
+             for (int i = 0; i < x.length; i++) {
+                 double diff = boundaries[1][i] - boundaries[0][i];
+                 res[i] = (x[i] - boundaries[0][i]) / diff;
+@@ -922,7 +923,8 @@
+          */
+         private double[] repair(final double[] x) {
+             double[] repaired = new double[x.length];
+-            for (int i = 0; i < x.length; i++) {
++            C = triu(C, 0).add(triu(C, 1).transpose());
++			for (int i = 0; i < x.length; i++) {
+                 if (x[i] < 0)
+                     repaired[i] = 0;
+                 else if (x[i] > 1.0)
+
+

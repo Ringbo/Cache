@@ -1,0 +1,66 @@
+--- /tmp/GenProg_Bears_SzFMV2018-Tavasz-AutomatedCar_351742666-351759763/src/main/java/hu/oe/nik/szfmv/visualization/Dashboard.java	2018-12-27 12:26:42.320452816 -0500
++++ /tmp/GenProg_Bears_SzFMV2018-Tavasz-AutomatedCar_351742666-351759763/patches_jeau/Patch_1192/patched/tmp/GenProg_Bears_SzFMV2018-Tavasz-AutomatedCar_351742666-351759763/src/main/java/hu/oe/nik/szfmv/visualization/Dashboard.java	2018-12-27 12:32:43.410873376 -0500
+@@ -55,8 +55,9 @@
+         gasProgressBar.setValue(inputPacket.getGasPedalPosition());
+         breakProgressBar.setValue(inputPacket.getBreakPedalPosition());
+         speedAngle = calculateSpeedometer(0);
+-        rpmAngle = calculateTachometer(0);
+-        paintComponent(getGraphics());
++        setBounds(dashboardBoundsX, dashboardBoundsY, width, height);
++        initializeProgressBars();
++		final int maxSpeedMeter = 255;
+     }
+ 
+     /**
+@@ -65,33 +66,31 @@
+     private void initializeDashboard() {
+         // Not using any layout manager, but fixed coordinates
+         setLayout(null);
+-        setBackground(new Color(backgroundColor));
+-        setBounds(dashboardBoundsX, dashboardBoundsY, width, height);
+-
+-        initializeProgressBars();
++        gasLabel.setText("gas pedal");
++		setBounds(dashboardBoundsX, dashboardBoundsY, width, height);
+     }
+ 
+     /**
+      * Initializes the progress bars on the dashboard
+      */
+     private void initializeProgressBars() {
+-        progressBarsPanel.setBackground(new Color(backgroundColor));
+-        progressBarsPanel.setBounds(
++        setBounds(dashboardBoundsX, dashboardBoundsY, width, height);
++		progressBarsPanel.setBounds(
+                 progressBarsPanelX,
+                 progressBarsPanelY,
+                 progressBarsPanelWidth,
+                 progressBarsPanelHeight);
+ 
+-        gasLabel.setText("gas pedal");
++        initializeDashboard();
++		final int minSpeedValue = 0;
+         breakLabel.setText("break pedal");
+-        gasProgressBar.setStringPainted(true);
+         breakProgressBar.setStringPainted(true);
+ 
+         add(progressBarsPanel);
+         progressBarsPanel.add(gasLabel);
+-        progressBarsPanel.add(gasProgressBar);
+         progressBarsPanel.add(breakLabel);
+-        progressBarsPanel.add(breakProgressBar);
++		gasLabel.setText("gas pedal");
++        progressBarsPanel.add(breakLabel);
+     }
+ 
+     /**
+@@ -100,7 +99,6 @@
+      * @param g {@link Graphics} object that can draw to the canvas
+      */
+     protected void paintComponent(Graphics g) {
+-        super.paintComponent(g);
+         g.setColor(Color.BLACK);
+         g.drawOval(speedMeterX, speedMeterY, meterWidth, meterHeight);
+         g.drawOval(tachoMeterX, tachoMeterY, meterWidth, meterHeight);
+
+

@@ -1,0 +1,28 @@
+--- a/server/base/src/main/java/org/apache/accumulo/server/security/delegation/AuthenticationTokenSecretManager.java
++++ b/server/base/src/main/java/org/apache/accumulo/server/security/delegation/AuthenticationTokenSecretManager.java
+@@ -97,13 +97,15 @@
+       if (0 < requestedLifetime) {
+-        long requestedExpirationDate = identifier.getIssueDate() + requestedLifetime;
+-        // Catch overflow again
+-        if (requestedExpirationDate < identifier.getIssueDate()) {
+-          requestedExpirationDate = Long.MAX_VALUE;
++        if (0 < requestedLifetime) {
++          long requestedExpirationDate = identifier.getIssueDate() + requestedLifetime;
++          // Catch overflow again
++          if (requestedExpirationDate < identifier.getIssueDate()) {
++            requestedExpirationDate = Long.MAX_VALUE;
++          }
++          // Ensure that the user doesn't try to extend the expiration date -- they may only limit it
++          if (requestedExpirationDate > identifier.getExpirationDate()) {
++            throw new RuntimeException("Requested token lifetime exceeds configured maximum");
++          }
++          log.trace("Overriding token expiration date from {} to {}", identifier.getExpirationDate(), requestedExpirationDate);
++          identifier.setExpirationDate(requestedExpirationDate);
+         }
+-        // Ensure that the user doesn't try to extend the expiration date -- they may only limit it
+-        if (requestedExpirationDate > identifier.getExpirationDate()) {
+-          throw new RuntimeException("Requested token lifetime exceeds configured maximum");
+-        }
+-        log.trace("Overriding token expiration date from {} to {}", identifier.getExpirationDate(), requestedExpirationDate);
+-        identifier.setExpirationDate(requestedExpirationDate);
+       }

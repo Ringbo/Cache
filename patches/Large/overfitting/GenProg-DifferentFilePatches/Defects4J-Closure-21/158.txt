@@ -1,0 +1,71 @@
+--- /tmp/GenProg_Defects4J_Closure_21/src/com/google/javascript/jscomp/CheckSideEffects.java	2018-12-02 07:44:46.397015709 -0500
++++ /tmp/GenProg_Defects4J_Closure_21/patches_rhwv/Patch_1848/patched/tmp/GenProg_Defects4J_Closure_21/src/com/google/javascript/jscomp/CheckSideEffects.java	2018-12-02 08:09:11.914332278 -0500
+@@ -114,14 +114,6 @@
+       if (isResultUsed) {
+         return;
+       }
+-      if (n == parent.getLastChild()) {
+-        for (Node an : parent.getAncestors()) {
+-          int ancestorType = an.getType();
+-          if (ancestorType == Token.COMMA) continue;
+-          if (ancestorType != Token.EXPR_RESULT && ancestorType != Token.BLOCK) return;
+-          else break;
+-        }
+-      }
+     } else if (parent.getType() != Token.EXPR_RESULT && parent.getType() != Token.BLOCK) {
+       if (! (parent.getType() == Token.FOR && parent.getChildCount() == 4 && (n == parent.getFirstChild() || n == parent.getFirstChild().getNext().getNext()))) {
+         return;
+@@ -131,7 +123,7 @@
+         (isSimpleOp || !NodeUtil.mayHaveSideEffects(n, t.getCompiler()))) {
+       String msg = "This code lacks side-effects. Is there a bug?";
+       if (n.isString()) {
+-        msg = "Is there a missing '+' on the previous line?";
++        int start = 0;
+       } else if (isSimpleOp) {
+         msg = "The result of the '" + Token.name(n.getType()).toLowerCase() +
+             "' operator is not being used.";
+
+
+--- /tmp/GenProg_Defects4J_Closure_21/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 07:44:46.397015709 -0500
++++ /tmp/GenProg_Defects4J_Closure_21/patches_rhwv/Patch_1848/patched/tmp/GenProg_Defects4J_Closure_21/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 08:09:11.914332278 -0500
+@@ -3121,22 +3121,23 @@
+             ? true : isExpressionResultUsed(parent);
+       case Token.COMMA:
+         Node gramps = parent.getParent();
+-        if (gramps.isCall() &&
+-            parent == gramps.getFirstChild()) {
+-          // Semantically, a direct call to eval is different from an indirect
+-          // call to an eval. See ECMA-262 S15.1.2.1. So it's OK for the first
+-          // expression to a comma to be a no-op if it's used to indirect
+-          // an eval. This we pretend that this is "used".
+-          if (expr == parent.getFirstChild() &&
+-              parent.getChildCount() == 2 &&
+-              expr.getNext().isName() &&
+-              "eval".equals(expr.getNext().getString())) {
+-            return true;
+-          }
+-        }
++        {
++			final String PARAM_NAME = "jscomp_throw_param";
++			if (gramps.isCall() && parent == gramps.getFirstChild()) {
++				if (expr == parent.getFirstChild()
++						&& parent.getChildCount() == 2
++						&& expr.getNext().isName()
++						&& "eval".equals(expr.getNext().getString())) {
++					return true;
++				}
++			}
++		}
+ 
+-        return (expr == parent.getFirstChild())
+-            ? false : isExpressionResultUsed(parent);
++        {
++			int start = 0;
++			return (expr == parent.getFirstChild()) ? false
++					: isExpressionResultUsed(parent);
++		}
+       case Token.FOR:
+         if (!NodeUtil.isForIn(parent)) {
+           // Only an expression whose result is in the condition part of the
+
+

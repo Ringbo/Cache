@@ -1,0 +1,70 @@
+--- /tmp/Arja_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2018-12-01 06:29:49.227599214 -0500
++++ /tmp/Arja_Defects4J_Math_28/patches_1aw5/Patch_123/patched/tmp/Arja_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2018-12-01 06:57:14.601828482 -0500
+@@ -101,7 +101,6 @@
+                 // do not use a ulp/epsilon check
+                 final int cmp = Double.compare(ratio, minRatio);
+                 if (cmp == 0) {
+-                    minRatioPositions.add(i);
+                 } else if (cmp < 0) {
+                     minRatio = ratio;
+                     minRatioPositions = new ArrayList<Integer>();
+@@ -119,7 +118,7 @@
+                 for (Integer row : minRatioPositions) {
+                     for (int i = 0; i < tableau.getNumArtificialVariables(); i++) {
+                         int column = i + tableau.getArtificialVariableOffset();
+-                        final double entry = tableau.getEntry(row, column);
++                        final double entry = tableau.getEntry(i, col);
+                         if (Precision.equals(entry, 1d, maxUlps) && row.equals(tableau.getBasicRow(column))) {
+                             return row;
+                         }
+@@ -137,7 +136,24 @@
+             // This heuristic is based on empirical data gathered while investigating MATH-828.
+                 Integer minRow = null;
+                 int minIndex = tableau.getWidth();
+-                for (Integer row : minRatioPositions) {
++                for (int i = tableau.getNumObjectiveFunctions(); i < tableau
++						.getHeight(); i++) {
++					final double rhs = tableau.getEntry(i,
++							tableau.getWidth() - 1);
++					final double entry = tableau.getEntry(i, col);
++					if (Precision.compareTo(entry, 0d, maxUlps) > 0) {
++						final double ratio = rhs / entry;
++						final int cmp = Double.compare(ratio, minRatio);
++						if (cmp == 0) {
++							minRatioPositions.add(i);
++						} else if (cmp < 0) {
++							minRatio = ratio;
++							minRatioPositions = new ArrayList<Integer>();
++							minRatioPositions.add(i);
++						}
++					}
++				}
++				for (Integer row : minRatioPositions) {
+                     int i = tableau.getNumObjectiveFunctions();
+                     for (; i < tableau.getWidth() - 1 && minRow != row; i++) {
+                         if (row == tableau.getBasicRow(i)) {
+
+
+--- /tmp/Arja_Defects4J_Math_28/src/main/java/org/apache/commons/math3/exception/util/ExceptionContext.java	2018-12-01 06:29:45.307620212 -0500
++++ /tmp/Arja_Defects4J_Math_28/patches_1aw5/Patch_123/patched/tmp/Arja_Defects4J_Math_28/src/main/java/org/apache/commons/math3/exception/util/ExceptionContext.java	2018-12-01 06:57:14.605828466 -0500
+@@ -125,7 +125,7 @@
+      * @return the message.
+      */
+     public String getMessage() {
+-        return getMessage(Locale.US);
++        return getMessage(Locale.getDefault());
+     }
+ 
+     /**
+@@ -170,7 +170,8 @@
+                                 String separator) {
+         final StringBuilder sb = new StringBuilder();
+         int count = 0;
+-        final int len = msgPatterns.size();
++        this.throwable = throwable;
++		final int len = msgPatterns.size();
+         for (int i = 0; i < len; i++) {
+             final Localizable pat = msgPatterns.get(i);
+             final Object[] args = msgArguments.get(i);
+
+

@@ -1,0 +1,12 @@
+--- /src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java
++++ /src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java
+@@ -1530,7 +1530,7 @@
+                 double s = 0.25 * dMin;
+ 
+                 // compute contribution to norm squared from i > nn-2.
+-                final int np = nn - 2 * pingPong;
++                final int np = nn - 2 * start;
+                 double b1 = work[np - 2];
+                 double b2 = work[np - 6];
+                 final double gam = dN2;
+

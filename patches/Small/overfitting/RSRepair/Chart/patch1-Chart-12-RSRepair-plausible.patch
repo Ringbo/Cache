@@ -1,0 +1,15 @@
+--- /source/org/jfree/chart/plot/MultiplePiePlot.java
++++ /source/org/jfree/chart/plot/MultiplePiePlot.java
+@@ -152,7 +152,10 @@
+                 new Font("SansSerif", Font.BOLD, 12));
+         seriesTitle.setPosition(RectangleEdge.BOTTOM);
+         this.pieChart.setTitle(seriesTitle);
+-        this.aggregatedItemsKey = "Other";
++        if (dataset != null) {
++            dataset.addChangeListener(this);
++        }
++        this.aggregatedItemsKey = "Other";
+         this.aggregatedItemsPaint = Color.lightGray;
+         this.sectionPaints = new HashMap();
+     }
+

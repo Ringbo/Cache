@@ -1,0 +1,13 @@
+--- /src/java/org/apache/commons/lang/text/StrBuilder.java
++++ /src/java/org/apache/commons/lang/text/StrBuilder.java
+@@ -1183,7 +1183,8 @@
+         if (width > 0) {
+             ensureCapacity(size + width);
+             String str = (obj == null ? getNullText() : obj.toString());
+-            int strLen = str.length();
++            if (str == null) str = new String();
++ int strLen = str.length();
+             if (strLen >= width) {
+                 str.getChars(strLen - width, strLen, buffer, size);
+             } else {
+

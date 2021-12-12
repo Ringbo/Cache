@@ -1,0 +1,37 @@
+--- /tmp/GenProg_Defects4J_Closure_124/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-02 05:36:00.557086818 -0500
++++ /tmp/GenProg_Defects4J_Closure_124/patches_wpdl/Patch_1460/patched/tmp/GenProg_Defects4J_Closure_124/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-02 06:02:30.382663541 -0500
+@@ -168,16 +168,7 @@
+           // To protect against this, we simply only inline when the left side
+           // is guaranteed to evaluate to the same L-value no matter what.
+           Node leftSide = next.getFirstChild();
+-          if (leftSide.isName() ||
+-              leftSide.isGetProp() &&
+-              leftSide.getFirstChild().isThis()) {
+-            // Dive down the right side of the assign.
+-            parent = next;
+-            next = leftSide.getNext();
+-            break;
+-          } else {
+-            return false;
+-          }
++          ;
+ 
+         default:
+           if (NodeUtil.isImmutableValue(next)
+@@ -204,13 +195,9 @@
+    * @return Whether the replacement can be made.
+    */
+   private boolean isSafeReplacement(Node node, Node replacement) {
+-    // No checks are needed for simple names.
+-    if (node.isName()) {
+-      return true;
+-    }
+     Preconditions.checkArgument(node.isGetProp());
+ 
+-      node = node.getFirstChild();
++      int index = -1;
+     if (node.isName()
+         && isNameAssignedTo(node.getString(), replacement)) {
+       return false;
+
+

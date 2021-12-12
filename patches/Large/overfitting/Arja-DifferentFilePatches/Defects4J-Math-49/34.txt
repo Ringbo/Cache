@@ -1,0 +1,25 @@
+--- /tmp/Arja_Defects4J_Math_49/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java	2018-12-02 02:51:20.079187851 -0500
++++ /tmp/Arja_Defects4J_Math_49/patches_4ok3/Patch_299/patched/tmp/Arja_Defects4J_Math_49/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java	2018-12-02 03:09:59.121490279 -0500
+@@ -396,7 +396,6 @@
+         final double previous = values[index];
+         values[index] = missingEntries;
+         --size;
+-        ++count;
+         return previous;
+     }
+ 
+
+
+--- /tmp/Arja_Defects4J_Math_49/src/main/java/org/apache/commons/math/linear/OpenMapRealVector.java	2018-12-02 02:51:23.571187993 -0500
++++ /tmp/Arja_Defects4J_Math_49/patches_4ok3/Patch_299/patched/tmp/Arja_Defects4J_Math_49/src/main/java/org/apache/commons/math/linear/OpenMapRealVector.java	2018-12-02 03:09:59.125490286 -0500
+@@ -366,7 +366,7 @@
+     /** {@inheritDoc} */
+     public OpenMapRealVector ebeMultiply(RealVector v) {
+         checkVectorDimensions(v.getDimension());
+-        OpenMapRealVector res = new OpenMapRealVector(this);
++        OpenMapRealVector res = copy();
+         Iterator iter = res.entries.iterator();
+         while (iter.hasNext()) {
+             iter.advance();
+
+

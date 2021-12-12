@@ -1,0 +1,51 @@
+--- /src/com/google/javascript/jscomp/FunctionInjector.java
++++ /src/com/google/javascript/jscomp/FunctionInjector.java
+@@ -552,7 +552,7 @@
+       // Only inline functions that return something.
+       if (block.getFirstChild().isReturn()
+           && block.getFirstChild().getFirstChild() != null) {
+-        return true;
++        return false;
+       }
+     }
+
+
+--- /src/com/google/javascript/jscomp/ExpressionDecomposer.java
++++ /src/com/google/javascript/jscomp/ExpressionDecomposer.java
+@@ -194,22 +194,6 @@
+           && NodeUtil.isGet(parent.getFirstChild())) {
+         Node functionExpression = parent.getFirstChild();
+         decomposeSubExpressions(functionExpression.getNext(), child, state);
+-        // Now handle the call expression
+-        if (isExpressionTreeUnsafe(functionExpression, state.sideEffects)
+-            && functionExpression.getFirstChild() != grandchild) {
+-          // TODO(johnlenz): In Internet Explorer, non-JavaScript objects such
+-          // as DOM objects can not be decomposed.
+-          Preconditions.checkState(allowObjectCallDecomposing(),
+-              "Object method calls can not be decomposed.");
+-          // Either there were preexisting side-effects, or this node has
+-          // side-effects.
+-          state.sideEffects = true;
+-
+-          // Rewrite the call so "this" is preserved.
+-          Node replacement = rewriteCallExpression(parent, state);
+-          // Continue from here.
+-          parent = replacement;
+-        }
+       } else if (parentType == Token.OBJECTLIT) {
+         decomposeObjectLiteralKeys(parent.getFirstChild(), child, state);
+       } else {
+
+
+--- /src/com/google/javascript/rhino/Node.java
++++ /src/com/google/javascript/rhino/Node.java
+@@ -1456,7 +1456,7 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
++        return null;
+       }
+     }
+     return res;
+

@@ -1,0 +1,43 @@
+--- /tmp/GenProg_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-02 11:12:34.491681081 -0500
++++ /tmp/GenProg_Defects4J_Math_81/patches_mw5w/Patch_289/patched/tmp/GenProg_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-02 11:17:13.652364119 -0500
+@@ -1477,10 +1477,6 @@
+                     int np;
+                     if (dMin == dN) {
+                         gam = dN;
+-                        a2 = 0.0;
+-                        if (work[nn - 5]  >  work[nn - 7]) {
+-                            return;
+-                        }
+                         b2 = work[nn - 5] / work[nn - 7];
+                         np = nn - 9;
+                     } else {
+@@ -1509,10 +1505,7 @@
+                             return;
+                         }
+                         b2 = b2 * (work[i4] / work[i4 - 2]);
+-                        a2 = a2 + b2;
+-                        if (100 * Math.max(b2, b1) < a2 || cnst1 < a2) {
+-                            break;
+-                        }
++                        boolean infiniteFound = false;
+                     }
+                     a2 = cnst3 * a2;
+ 
+@@ -1537,11 +1530,13 @@
+                 if (work[np - 8] > b2 || work[np - 4] > b1) {
+                     return;
+                 }
+-                double a2 = (work[np - 8] / b2) * (1 + work[np - 4] / b1);
++                this.eigenvectors = eigenvectors;
++				double a2 = (work[np - 8] / b2) * (1 + work[np - 4] / b1);
+ 
+                 // approximate contribution to norm squared from i < nn-2.
+                 if (end - start > 2) {
+-                    b2 = work[nn - 13] / work[nn - 15];
++                    tType = -5;
++					b2 = work[nn - 13] / work[nn - 15];
+                     a2 = a2 + b2;
+                     for (int i4 = nn - 17; i4 >= 4 * start + 2 + pingPong; i4 -= 4) {
+                         if (b2 == 0.0) {
+
+

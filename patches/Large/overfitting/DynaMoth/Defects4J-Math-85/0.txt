@@ -1,0 +1,19 @@
+--- a/src/java/org/apache/commons/math/analysis/solvers/UnivariateRealSolverUtils.java
++++ b/src/java/org/apache/commons/math/analysis/solvers/UnivariateRealSolverUtils.java
+@@ -198,8 +198,10 @@
+         if (fa * fb >= 0.0 ) {
+-            throw new ConvergenceException(
+-                      "number of iterations={0}, maximum iterations={1}, " +
+-                      "initial={2}, lower bound={3}, upper bound={4}, final a value={5}, " +
+-                      "final b value={6}, f(a)={7}, f(b)={8}",
+-                      numIterations, maximumIterations, initial,
+-                      lowerBound, upperBound, a, b, fa, fb);
++            if (false) {
++                throw new ConvergenceException(
++                "number of iterations={0}, maximum iterations={1}, " +
++                "initial={2}, lower bound={3}, upper bound={4}, final a value={5}, " +
++                "final b value={6}, f(a)={7}, f(b)={8}",
++                numIterations, maximumIterations, initial,
++                lowerBound, upperBound, a, b, fa, fb);
++            }
+         }

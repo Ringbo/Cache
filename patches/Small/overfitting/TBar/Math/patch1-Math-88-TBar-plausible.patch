@@ -1,0 +1,12 @@
+--- /src/java/org/apache/commons/math/optimization/linear/SimplexTableau.java
++++ /src/java/org/apache/commons/math/optimization/linear/SimplexTableau.java
+@@ -335,7 +335,7 @@
+                     (restrictToNonNegative ? 0 : mostNegative);
+             if (basicRow != null) {
+                 for (int j = getNumObjectiveFunctions(); j < getNumObjectiveFunctions() + i; j++) {
+-                    if (tableau.getEntry(basicRow, j) == 1) {
++                    if (j == i && (tableau.getEntry(basicRow, j) == 1)) {
+                          coefficients[i] = 0;
+                     }
+                 }
+

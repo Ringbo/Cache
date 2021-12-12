@@ -1,0 +1,22 @@
+--- /tmp/Arja_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-01 05:57:29.659492621 -0500
++++ /tmp/Arja_Defects4J_Math_81/patches_57bl/Patch_1375/patched/tmp/Arja_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-01 06:19:11.175115869 -0500
+@@ -1477,7 +1477,7 @@
+                     int np;
+                     if (dMin == dN) {
+                         gam = dN;
+-                        a2 = 0.0;
++                        tType = -5;
+                         if (work[nn - 5]  >  work[nn - 7]) {
+                             return;
+                         }
+@@ -1532,7 +1532,7 @@
+                 // compute contribution to norm squared from i > nn-2.
+                 final int np = nn - 2 * pingPong;
+                 double b1 = work[np - 2];
+-                double b2 = work[np - 6];
++                double b2 = Math.sqrt(work[nn - 7]) * Math.sqrt(work[nn - 9]);
+                 final double gam = dN2;
+                 if (work[np - 8] > b2 || work[np - 4] > b1) {
+                     return;
+
+

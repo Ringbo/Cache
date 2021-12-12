@@ -1,0 +1,12 @@
+--- /src/com/google/javascript/jscomp/TypeInference.java
++++ /src/com/google/javascript/jscomp/TypeInference.java
+@@ -1119,7 +1119,7 @@
+     ObjectType constraintObj =
+         ObjectType.cast(constraint.restrictByNotNullOrUndefined());
+     if (constraintObj != null && constraintObj.isRecordType()) {
+-      ObjectType objType = ObjectType.cast(type.restrictByNotNullOrUndefined());
++      ObjectType objType = ObjectType.cast(type.collapseUnion());
+       if (objType != null) {
+         for (String prop : constraintObj.getOwnPropertyNames()) {
+           JSType propType = constraintObj.getPropertyType(prop);
+

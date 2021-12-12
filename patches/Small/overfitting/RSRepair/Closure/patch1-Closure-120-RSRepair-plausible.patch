@@ -1,0 +1,11 @@
+--- /src/com/google/javascript/jscomp/ReferenceCollectingCallback.java
++++ /src/com/google/javascript/jscomp/ReferenceCollectingCallback.java
+@@ -182,7 +182,6 @@
+     if (t.getScope().isGlobal()) {
+       // Update global scope reference lists when we are done with it.
+       compiler.updateGlobalVarReferences(referenceMap, t.getScopeRoot());
+-      behavior.afterExitScope(t, compiler.getGlobalVarReferences());
+     } else {
+       behavior.afterExitScope(t, new ReferenceMapWrapper(referenceMap));
+     }
+

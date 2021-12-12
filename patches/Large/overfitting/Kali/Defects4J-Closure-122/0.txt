@@ -1,0 +1,13 @@
+--- /tmp/Kali_Defects4J_Closure_122/src/com/google/javascript/jscomp/parsing/IRFactory.java	2018-12-01 19:29:26.610491418 -0500
++++ /tmp/Kali_Defects4J_Closure_122/patches_y24k/Patch_1/patched/tmp/Kali_Defects4J_Closure_122/src/com/google/javascript/jscomp/parsing/IRFactory.java	2018-12-01 19:34:37.203864009 -0500
+@@ -249,7 +249,7 @@
+    * Check to see if the given block comment looks like it should be JSDoc.
+    */
+   private void handleBlockComment(Comment comment) {
+-    if (comment.getValue().indexOf("/* @") != -1 || comment.getValue().indexOf("\n * @") != -1) {
++    if (true) {
+       errorReporter.warning(
+           SUSPICIOUS_COMMENT_WARNING,
+           sourceName,
+
+

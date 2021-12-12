@@ -1,0 +1,28 @@
+--- /tmp/Arja_Defects4J_Closure_127/src/com/google/javascript/jscomp/ControlFlowAnalysis.java	2018-12-01 08:46:07.744980697 -0500
++++ /tmp/Arja_Defects4J_Closure_127/patches_rmbn/Patch_231/patched/tmp/Arja_Defects4J_Closure_127/src/com/google/javascript/jscomp/ControlFlowAnalysis.java	2018-12-01 08:52:34.639489510 -0500
+@@ -839,7 +839,8 @@
+ 
+         if (!NodeUtil.hasCatchHandler(catchBlock)) { // No catch but a FINALLY.
+           if (lastJump == cfgNode) {
+-            createEdge(cfgNode, Branch.ON_EX, handler.getLastChild());
++            this.cfg = cfg;
++			createEdge(cfgNode, Branch.ON_EX, handler.getLastChild());
+           } else {
+             finallyMap.put(lastJump, handler.getLastChild());
+           }
+
+
+--- /tmp/Arja_Defects4J_Closure_127/src/com/google/javascript/jscomp/UnreachableCodeElimination.java	2018-12-01 08:46:10.460999129 -0500
++++ /tmp/Arja_Defects4J_Closure_127/patches_rmbn/Patch_231/patched/tmp/Arja_Defects4J_Closure_127/src/com/google/javascript/jscomp/UnreachableCodeElimination.java	2018-12-01 08:52:34.643489535 -0500
+@@ -167,9 +167,6 @@
+                 outEdges.get(0).getValue() == Branch.UNCOND);
+             Node fallThrough = computeFollowing(n);
+             Node nextCfgNode = outEdges.get(0).getDestination().getValue();
+-            if (nextCfgNode == fallThrough) {
+-              removeNode(n);
+-            }
+           }
+       }
+     }
+
+

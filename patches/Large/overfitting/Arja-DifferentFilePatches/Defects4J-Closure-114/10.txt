@@ -1,0 +1,26 @@
+--- /tmp/Arja_Defects4J_Closure_114/src/com/google/javascript/rhino/Node.java	2018-12-01 09:01:17.385598541 -0500
++++ /tmp/Arja_Defects4J_Closure_114/patches_p59p/Patch_1730/patched/tmp/Arja_Defects4J_Closure_114/src/com/google/javascript/rhino/Node.java	2018-12-01 09:28:11.461543837 -0500
+@@ -1456,7 +1456,7 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
++        return null;
+       }
+     }
+     return res;
+
+
+--- /tmp/Arja_Defects4J_Closure_114/src/com/google/javascript/jscomp/NameAnalyzer.java	2018-12-01 09:01:20.341613856 -0500
++++ /tmp/Arja_Defects4J_Closure_114/patches_p59p/Patch_1730/patched/tmp/Arja_Defects4J_Closure_114/src/com/google/javascript/jscomp/NameAnalyzer.java	2018-12-01 09:28:11.461543837 -0500
+@@ -1720,8 +1720,6 @@
+       // TODO(user) make the pass smarter about these cases and/or run
+       // this pass and RemoveConstantExpressions together in a loop.
+       Node replacement = n.getLastChild();
+-      replacement.detachFromParent();
+-      changeProxy.replaceWith(parent, n, replacement);
+     } else {
+       replaceTopLevelExpressionWithRhs(parent, n);
+     }
+
+

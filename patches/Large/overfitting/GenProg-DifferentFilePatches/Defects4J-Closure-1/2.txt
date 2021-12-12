@@ -1,0 +1,31 @@
+--- /tmp/GenProg_Defects4J_Closure_1/src/com/google/javascript/jscomp/RemoveUnusedVars.java	2018-12-02 08:18:24.391954401 -0500
++++ /tmp/GenProg_Defects4J_Closure_1/patches_vhe5/Patch_112/patched/tmp/GenProg_Defects4J_Closure_1/src/com/google/javascript/jscomp/RemoveUnusedVars.java	2018-12-02 08:27:16.877702067 -0500
+@@ -393,12 +393,7 @@
+       Node lastArg;
+       while ((lastArg = argList.getLastChild()) != null) {
+         Var var = fnScope.getVar(lastArg.getString());
+-        if (!referenced.contains(var)) {
+-          argList.removeChild(lastArg);
+-          compiler.reportCodeChange();
+-        } else {
+-          break;
+-        }
++        break;
+       }
+     } else {
+       callSiteOptimizer.optimize(fnScope, referenced);
+
+
+--- /tmp/GenProg_Defects4J_Closure_1/src/com/google/javascript/rhino/Node.java	2018-12-02 08:18:21.387954471 -0500
++++ /tmp/GenProg_Defects4J_Closure_1/patches_vhe5/Patch_112/patched/tmp/GenProg_Defects4J_Closure_1/src/com/google/javascript/rhino/Node.java	2018-12-02 08:27:16.893702122 -0500
+@@ -1437,7 +1437,7 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
++        return null;
+       }
+     }
+     return res;
+
+

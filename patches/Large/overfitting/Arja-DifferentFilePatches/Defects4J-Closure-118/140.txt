@@ -1,0 +1,26 @@
+--- /tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/jscomp/TypedScopeCreator.java	2018-12-01 08:50:18.948921226 -0500
++++ /tmp/Arja_Defects4J_Closure_118/patches_pkqi/Patch_251/patched/tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/jscomp/TypedScopeCreator.java	2018-12-01 09:01:58.760824839 -0500
+@@ -1568,7 +1568,8 @@
+           if (qVarType != null &&
+               rhsValue != null &&
+               rhsValue.isObjectLit()) {
+-            typeRegistry.resetImplicitPrototype(
++            this.sourceName = sourceName;
++			typeRegistry.resetImplicitPrototype(
+                 rhsValue.getJSType(), qVarType.getImplicitPrototype());
+           } else if (!qVar.isTypeInferred()) {
+             // If the programmer has declared that F inherits from Super,
+
+
+--- /tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/jscomp/DisambiguateProperties.java	2018-12-01 08:50:21.552921286 -0500
++++ /tmp/Arja_Defects4J_Closure_118/patches_pkqi/Patch_251/patched/tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/jscomp/DisambiguateProperties.java	2018-12-01 09:01:58.764824889 -0500
+@@ -439,7 +439,6 @@
+       if (n.isGetProp()) {
+         handleGetProp(t, n);
+       } else if (n.isObjectLit()) {
+-        handleObjectLit(t, n);
+       }
+     }
+ 
+
+

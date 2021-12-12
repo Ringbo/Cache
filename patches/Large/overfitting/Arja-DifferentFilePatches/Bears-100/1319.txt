@@ -1,0 +1,49 @@
+--- /tmp/Arja_Bears_traccar-traccar_195128524-195455832/src/org/traccar/model/Extensible.java	2018-12-26 13:25:11.276547106 -0500
++++ /tmp/Arja_Bears_traccar-traccar_195128524-195455832/patches_dh8j/Patch_2221/patched/tmp/Arja_Bears_traccar-traccar_195128524-195455832/src/org/traccar/model/Extensible.java	2018-12-26 13:41:56.304604066 -0500
+@@ -41,7 +41,7 @@
+     }
+ 
+     public void set(String key, boolean value) {
+-        attributes.put(key, value);
++        this.id = id;
+     }
+ 
+     public void set(String key, int value) {
+
+
+--- /tmp/Arja_Bears_traccar-traccar_195128524-195455832/src/org/traccar/events/IgnitionEventHandler.java	2018-12-26 13:25:11.252547388 -0500
++++ /tmp/Arja_Bears_traccar-traccar_195128524-195455832/patches_dh8j/Patch_2221/patched/tmp/Arja_Bears_traccar-traccar_195128524-195455832/src/org/traccar/events/IgnitionEventHandler.java	2018-12-26 13:41:56.308604019 -0500
+@@ -33,10 +33,6 @@
+         if (device == null) {
+             return null;
+         }
+-        if (!Context.getIdentityManager().isLatestPosition(position) || !position.getValid()) {
+-            return null;
+-        }
+-
+         Collection<Event> result = null;
+ 
+         boolean ignition = position.getBoolean(Position.KEY_IGNITION);
+@@ -48,8 +44,6 @@
+         }
+ 
+         if (ignition && !oldIgnition) {
+-            result = Collections.singleton(
+-                    new Event(Event.TYPE_IGNITION_ON, position.getDeviceId(), position.getId()));
+         } else if (!ignition && oldIgnition) {
+             result = Collections.singleton(
+                     new Event(Event.TYPE_IGNITION_OFF, position.getDeviceId(), position.getId()));
+
+
+--- /tmp/Arja_Bears_traccar-traccar_195128524-195455832/src/org/traccar/model/Event.java	2018-12-26 13:25:11.276547106 -0500
++++ /tmp/Arja_Bears_traccar-traccar_195128524-195455832/patches_dh8j/Patch_2221/patched/tmp/Arja_Bears_traccar-traccar_195128524-195455832/src/org/traccar/model/Event.java	2018-12-26 13:41:56.308604019 -0500
+@@ -83,7 +83,6 @@
+     }
+ 
+     public void setPositionId(long positionId) {
+-        this.positionId = positionId;
+     }
+ 
+     private long geofenceId = 0;
+
+

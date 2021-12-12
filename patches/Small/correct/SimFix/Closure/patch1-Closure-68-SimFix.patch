@@ -1,0 +1,21 @@
+--- /src/com/google/javascript/jscomp/parsing/JsDocInfoParser.java
++++ /src/com/google/javascript/jscomp/parsing/JsDocInfoParser.java
+@@ -1757,9 +1757,17 @@
+   private Node parseFunctionType(JsDocToken token) {
+     // NOTE(nicksantos): We're not implementing generics at the moment, so
+     // just throw out TypeParameters.
++    // start of generated patch
+     if (token != JsDocToken.LP) {
++      restoreLookAhead(token);
+       return reportTypeSyntaxWarning("msg.jsdoc.missing.lp");
+     }
++    // end of generated patch
++    /* start of original code
++        if (token != JsDocToken.LP) {
++          return reportTypeSyntaxWarning("msg.jsdoc.missing.lp");
++        }
++     end of original code*/
+ 
+     Node functionType = newNode(Token.FUNCTION);
+     Node parameters = null;
+

@@ -1,0 +1,33 @@
+--- /tmp/Arja_Defects4J_Closure_22/src/com/google/javascript/jscomp/CheckSideEffects.java	2018-12-01 09:55:25.787478311 -0500
++++ /tmp/Arja_Defects4J_Closure_22/patches_ahai/Patch_363/patched/tmp/Arja_Defects4J_Closure_22/src/com/google/javascript/jscomp/CheckSideEffects.java	2018-12-01 10:04:54.039395494 -0500
+@@ -105,20 +105,6 @@
+       return;
+         }
+     }
+-
+-    // This no-op statement was there so that JSDoc information could
+-    // be attached to the name. This check should not complain about it.
+-      if (n == parent.getLastChild()) {
+-        for (Node an : parent.getAncestors()) {
+-          int ancestorType = an.getType();
+-          if (ancestorType == Token.COMMA)
+-            continue;
+-          if (ancestorType != Token.EXPR_RESULT && ancestorType != Token.BLOCK)
+-            return;
+-          else
+-            break;
+-        }
+-      }
+     } else if (parent.getType() != Token.EXPR_RESULT && parent.getType() != Token.BLOCK) {
+       if (parent.getType() == Token.FOR && parent.getChildCount() == 4 && (n == parent.getFirstChild() ||
+            n == parent.getFirstChild().getNext().getNext())) {
+@@ -161,7 +147,6 @@
+    */
+   private void protectSideEffects() {
+     if (!problemNodes.isEmpty()) {
+-      addExtern();
+       for (Node n : problemNodes) {
+         Node name = IR.name(PROTECTOR_FN).srcref(n);
+         name.putBooleanProp(Node.IS_CONSTANT_NAME, true);
+
+

@@ -1,0 +1,52 @@
+--- /tmp/Arja_Defects4J_Closure_132/src/com/google/javascript/rhino/Node.java	2018-12-01 08:47:12.836609632 -0500
++++ /tmp/Arja_Defects4J_Closure_132/patches_y19z/Patch_839/patched/tmp/Arja_Defects4J_Closure_132/src/com/google/javascript/rhino/Node.java	2018-12-01 09:02:45.037420719 -0500
+@@ -1443,7 +1443,7 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
++        return null;
+       }
+     }
+     return res;
+
+
+--- /tmp/Arja_Defects4J_Closure_132/src/com/google/javascript/jscomp/PeepholeSubstituteAlternateSyntax.java	2018-12-01 08:47:15.468608427 -0500
++++ /tmp/Arja_Defects4J_Closure_132/patches_y19z/Patch_839/patched/tmp/Arja_Defects4J_Closure_132/src/com/google/javascript/jscomp/PeepholeSubstituteAlternateSyntax.java	2018-12-01 09:02:45.037420719 -0500
+@@ -770,34 +770,6 @@
+     if (thenBranchIsExpressionBlock && elseBranchIsExpressionBlock) {
+       Node thenOp = getBlockExpression(thenBranch).getFirstChild();
+       Node elseOp = getBlockExpression(elseBranch).getFirstChild();
+-      if (thenOp.getType() == elseOp.getType()) {
+-        // if(x)a=1;else a=2; -> a=x?1:2;
+-        if (NodeUtil.isAssignmentOp(thenOp)) {
+-          Node lhs = thenOp.getFirstChild();
+-          if (areNodesEqualForInlining(lhs, elseOp.getFirstChild()) &&
+-              // if LHS has side effects, don't proceed [since the optimization
+-              // evaluates LHS before cond]
+-              // NOTE - there are some circumstances where we can
+-              // proceed even if there are side effects...
+-              !mayEffectMutableState(lhs)) {
+-
+-            n.removeChild(cond);
+-            Node assignName = thenOp.removeFirstChild();
+-            Node thenExpr = thenOp.removeFirstChild();
+-            Node elseExpr = elseOp.getLastChild();
+-            elseOp.removeChild(elseExpr);
+-
+-            Node hookNode = IR.hook(cond, thenExpr, elseExpr).srcref(n);
+-            Node assign = new Node(thenOp.getType(), assignName, hookNode)
+-                              .srcref(thenOp);
+-            Node expr = NodeUtil.newExpr(assign);
+-            parent.replaceChild(n, expr);
+-            reportCodeChange();
+-
+-            return expr;
+-          }
+-        }
+-      }
+       // if(x)foo();else bar(); -> x?foo():bar()
+       n.removeChild(cond);
+       thenOp.detachFromParent();
+
+

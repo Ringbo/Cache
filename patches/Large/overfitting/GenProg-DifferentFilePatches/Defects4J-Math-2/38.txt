@@ -1,0 +1,41 @@
+--- /tmp/GenProg_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/AbstractIntegerDistribution.java	2018-12-02 14:26:10.276554747 -0500
++++ /tmp/GenProg_Defects4J_Math_2/patches_1h0f/Patch_1538/patched/tmp/GenProg_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/AbstractIntegerDistribution.java	2018-12-02 15:32:31.913061801 -0500
+@@ -134,9 +134,13 @@
+             }
+             k = 1.0 / k;
+             tmp = mu + k * sigma;
+-            if (tmp < upper) {
+-                upper = ((int) Math.ceil(tmp)) - 1;
+-            }
++            if (lower == Integer.MIN_VALUE) {
++				if (checkedCumulativeProbability(lower) >= p) {
++					return lower;
++				}
++			} else {
++				lower -= 1;
++			}
+         }
+ 
+         return solveInverseCumulativeProbability(p, lower, upper);
+
+
+--- /tmp/GenProg_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/HypergeometricDistribution.java	2018-12-02 14:26:14.076554659 -0500
++++ /tmp/GenProg_Defects4J_Math_2/patches_1h0f/Patch_1538/patched/tmp/GenProg_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/HypergeometricDistribution.java	2018-12-02 15:32:31.917061810 -0500
+@@ -276,8 +276,13 @@
+      * {@code [n * m * (N - n) * (N - m)] / [N^2 * (N - 1)]}.
+      */
+     public double getNumericalVariance() {
+-        if (!numericalVarianceIsCalculated) {
+-            numericalVariance = calculateNumericalVariance();
++        if (sampleSize <= 0) {
++			throw new NotStrictlyPositiveException(
++					LocalizedFormats.NUMBER_OF_SAMPLES, sampleSize);
++		}
++		if (!numericalVarianceIsCalculated) {
++            double[] out = new double[sampleSize];
++			numericalVariance = calculateNumericalVariance();
+             numericalVarianceIsCalculated = true;
+         }
+         return numericalVariance;
+
+

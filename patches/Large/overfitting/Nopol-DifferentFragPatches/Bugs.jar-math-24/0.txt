@@ -1,0 +1,7 @@
+--- a/src/main/java/org/apache/commons/math3/geometry/euclidean/twod/hull/MonotoneChain.java
++++ b/src/main/java/org/apache/commons/math3/geometry/euclidean/twod/hull/MonotoneChain.java
+@@ -160,3 +160,3 @@
+                 } else {
+-                    if (distanceToCurrent > distanceToLast) {
++                    if (hull!=null) {
+                         hull.remove(size - 1);

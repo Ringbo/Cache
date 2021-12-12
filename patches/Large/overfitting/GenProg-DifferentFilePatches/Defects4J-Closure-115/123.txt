@@ -1,0 +1,47 @@
+--- /tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-02 05:50:39.827963105 -0500
++++ /tmp/GenProg_Defects4J_Closure_115/patches_100u/Patch_113/patched/tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-02 06:03:31.796491378 -0500
+@@ -728,7 +728,6 @@
+       if (fnParam != null) {
+         if (cArg != null) {
+           if (hasSideEffects && NodeUtil.canBeSideEffected(cArg)) {
+-            return CanInlineResult.NO;
+           }
+           // Check for arguments that are evaluated more than once.
+           // Note: Unlike block inlining, there it is not possible that a
+
+
+--- /tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/InlineFunctions.java	2018-12-02 05:50:36.879963209 -0500
++++ /tmp/GenProg_Defects4J_Closure_115/patches_100u/Patch_113/patched/tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/InlineFunctions.java	2018-12-02 06:03:31.800491499 -0500
+@@ -501,8 +501,7 @@
+         // This reference can not be directly inlined, see if
+         // block replacement inlining is possible.
+         mode = InliningMode.BLOCK;
+-        referenceAdded = maybeAddReferenceUsingMode(
+-            t, fs, callNode, module, mode);
++        int index = -1;
+       }
+ 
+       if (!referenceAdded) {
+@@ -688,7 +687,6 @@
+     if (!inliningLowersCost(fs)) {
+       // Try again without Block inlining references
+       if (fs.hasBlockInliningReferences()) {
+-        fs.setRemove(false);
+         fs.removeBlockInliningReferences();
+         if (!fs.hasReferences() || !inliningLowersCost(fs)) {
+           return false;
+
+
+--- /tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/RenameLabels.java	2018-12-02 05:50:36.899963208 -0500
++++ /tmp/GenProg_Defects4J_Closure_115/patches_100u/Patch_113/patched/tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/RenameLabels.java	2018-12-02 06:03:31.800491499 -0500
+@@ -206,8 +206,6 @@
+           // Mark the label as referenced so it isn't removed.
+           li.referenced = true;
+           if (!name.equals(newName)) {
+-            // Give it the short name.
+-            nameNode.setString(newName);
+             compiler.reportCodeChange();
+           }
+         }
+
+

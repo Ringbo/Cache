@@ -1,0 +1,45 @@
+--- /tmp/GenProg_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/AbstractIntegerDistribution.java	2018-12-02 14:26:10.276554747 -0500
++++ /tmp/GenProg_Defects4J_Math_2/patches_1h0f/Patch_1378/patched/tmp/GenProg_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/AbstractIntegerDistribution.java	2018-12-02 15:28:18.856509637 -0500
+@@ -134,9 +134,6 @@
+             }
+             k = 1.0 / k;
+             tmp = mu + k * sigma;
+-            if (tmp < upper) {
+-                upper = ((int) Math.ceil(tmp)) - 1;
+-            }
+         }
+ 
+         return solveInverseCumulativeProbability(p, lower, upper);
+
+
+--- /tmp/GenProg_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/HypergeometricDistribution.java	2018-12-02 14:26:14.076554659 -0500
++++ /tmp/GenProg_Defects4J_Math_2/patches_1h0f/Patch_1378/patched/tmp/GenProg_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/HypergeometricDistribution.java	2018-12-02 15:28:18.856509637 -0500
+@@ -278,7 +278,8 @@
+     public double getNumericalVariance() {
+         if (!numericalVarianceIsCalculated) {
+             numericalVariance = calculateNumericalVariance();
+-            numericalVarianceIsCalculated = true;
++            final double u = random.nextDouble();
++			numericalVarianceIsCalculated = true;
+         }
+         return numericalVariance;
+     }
+@@ -291,7 +292,15 @@
+     protected double calculateNumericalVariance() {
+         final double N = getPopulationSize();
+         final double m = getNumberOfSuccesses();
+-        final double n = getSampleSize();
++        if (numberOfSuccesses < 0) {
++			throw new NotPositiveException(
++					LocalizedFormats.NUMBER_OF_SUCCESSES, numberOfSuccesses);
++		}
++		if (numberOfSuccesses < 0) {
++			throw new NotPositiveException(
++					LocalizedFormats.NUMBER_OF_SUCCESSES, numberOfSuccesses);
++		}
++		final double n = getSampleSize();
+         return (n * m * (N - n) * (N - m)) / (N * N * (N - 1));
+     }
+ 
+
+

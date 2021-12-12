@@ -1,0 +1,82 @@
+--- /tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 05:32:20.512016874 -0500
++++ /tmp/GenProg_Defects4J_Closure_129/patches_qyo9/Patch_1682/patched/tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 06:03:09.084276032 -0500
+@@ -3162,7 +3162,7 @@
+       case Token.EXPR_RESULT:
+         return false;
+       case Token.CAST:
+-        return isExpressionResultUsed(parent);
++        ;
+       case Token.HOOK:
+       case Token.AND:
+       case Token.OR:
+
+
+--- /tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/rhino/Node.java	2018-12-02 05:32:20.528016873 -0500
++++ /tmp/GenProg_Defects4J_Closure_129/patches_qyo9/Patch_1682/patched/tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/rhino/Node.java	2018-12-02 06:03:09.088276040 -0500
+@@ -1425,7 +1425,19 @@
+   public String checkTreeEquals(Node node2) {
+       NodeMismatch diff = checkTreeEqualsImpl(node2);
+       if (diff != null) {
+-        return "Node tree inequality:" +
++        if (diff != null) {
++			return "Node tree inequality:" + "\nTree1:\n" + toStringTree()
++					+ "\n\nTree2:\n" + node2.toStringTree() + "\n\nSubtree1: "
++					+ diff.nodeA.toStringTree() + "\n\nSubtree2: "
++					+ diff.nodeB.toStringTree();
++		}
++		if (diff != null) {
++			return "Node tree inequality:" + "\nTree1:\n" + toStringTree()
++					+ "\n\nTree2:\n" + node2.toStringTree() + "\n\nSubtree1: "
++					+ diff.nodeA.toStringTree() + "\n\nSubtree2: "
++					+ diff.nodeB.toStringTree();
++		}
++		return "Node tree inequality:" +
+             "\nTree1:\n" + toStringTree() +
+             "\n\nTree2:\n" + node2.toStringTree() +
+             "\n\nSubtree1: " + diff.nodeA.toStringTree() +
+@@ -1454,7 +1466,7 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
++        return null;
+       }
+     }
+     return res;
+@@ -1543,7 +1555,9 @@
+       }
+     } else if (type == Token.CALL) {
+       if (this.getBooleanProp(FREE_CALL) != node.getBooleanProp(FREE_CALL)) {
+-        return false;
++        if (compareJsType && !JSType.isEquivalent(jsType, node.getJSType())) {
++			return false;
++		}
+       }
+     }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/jscomp/CodeGenerator.java	2018-12-02 05:32:20.500016874 -0500
++++ /tmp/GenProg_Defects4J_Closure_129/patches_qyo9/Patch_1682/patched/tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/jscomp/CodeGenerator.java	2018-12-02 06:03:09.088276040 -0500
+@@ -529,7 +529,6 @@
+             || n.getBooleanProp(Node.FREE_CALL) && NodeUtil.isGet(first)) {
+           add("(0,");
+           addExpr(first, NodeUtil.precedence(Token.COMMA), Context.OTHER);
+-          add(")");
+         } else {
+           addExpr(first, NodeUtil.precedence(type), context);
+         }
+
+
+--- /tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/jscomp/ConvertToDottedProperties.java	2018-12-02 05:32:20.212016881 -0500
++++ /tmp/GenProg_Defects4J_Closure_129/patches_qyo9/Patch_1682/patched/tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/jscomp/ConvertToDottedProperties.java	2018-12-02 06:03:09.088276040 -0500
+@@ -61,7 +61,6 @@
+           n.removeChild(left);
+           n.removeChild(right);
+           parent.replaceChild(n, IR.getprop(left, right));
+-          compiler.reportCodeChange();
+         }
+         break;
+     }
+
+

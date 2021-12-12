@@ -1,0 +1,36 @@
+--- /tmp/GenProg_Defects4J_Math_22/src/main/java/org/apache/commons/math3/distribution/UniformRealDistribution.java	2018-12-02 13:22:33.242840857 -0500
++++ /tmp/GenProg_Defects4J_Math_22/patches_w015/Patch_1306/patched/tmp/GenProg_Defects4J_Math_22/src/main/java/org/apache/commons/math3/distribution/UniformRealDistribution.java	2018-12-02 15:08:02.404274624 -0500
+@@ -181,7 +181,7 @@
+ 
+     /** {@inheritDoc} */
+     public boolean isSupportUpperBoundInclusive() {
+-        return false;
++        return true;
+     }
+ 
+     /**
+
+
+--- /tmp/GenProg_Defects4J_Math_22/src/main/java/org/apache/commons/math3/distribution/FDistribution.java	2018-12-02 13:22:33.242840857 -0500
++++ /tmp/GenProg_Defects4J_Math_22/patches_w015/Patch_1306/patched/tmp/GenProg_Defects4J_Math_22/src/main/java/org/apache/commons/math3/distribution/FDistribution.java	2018-12-02 15:08:02.404274624 -0500
+@@ -133,7 +133,8 @@
+         final double logm = FastMath.log(denominatorDegreesOfFreedom);
+         final double lognxm = FastMath.log(numeratorDegreesOfFreedom * x +
+                                            denominatorDegreesOfFreedom);
+-        return FastMath.exp(nhalf * logn + nhalf * logx - logx +
++        final double u = random.nextDouble();
++		return FastMath.exp(nhalf * logn + nhalf * logx - logx +
+                             mhalf * logm - nhalf * lognxm - mhalf * lognxm -
+                             Beta.logBeta(nhalf, mhalf));
+     }
+@@ -255,7 +256,7 @@
+      * @return lower bound of the support (always 0)
+      */
+     public double getSupportLowerBound() {
+-        return 0;
++        return solverAbsoluteAccuracy;
+     }
+ 
+     /**
+
+

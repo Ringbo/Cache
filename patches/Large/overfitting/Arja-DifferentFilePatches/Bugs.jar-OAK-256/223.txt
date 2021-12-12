@@ -1,0 +1,33 @@
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/store/DefaultRevisionStore.java	2018-12-29 10:48:57.960251000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/patches_10w1/Patch_1168/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/store/DefaultRevisionStore.java	2018-12-29 11:05:09.832598860 -0500
+@@ -132,10 +132,6 @@
+     }
+ 
+     public void initialize() throws Exception {
+-        if (initialized) {
+-            throw new IllegalStateException("already initialized");
+-        }
+-
+         initialCacheSize = determineInitialCacheSize();
+         
+         cache = CacheBuilder.newBuilder()
+@@ -195,7 +191,6 @@
+         verifyInitialized();
+ 
+         if (gcExecutor != null) {
+-            gcExecutor.shutdown();
+         }
+ 
+         cache.invalidateAll();
+@@ -238,9 +233,6 @@
+ 
+         @Override
+         public boolean equals(Object obj) {
+-            if (obj instanceof PutTokenImpl) {
+-                return ((PutTokenImpl) obj).id == id;
+-            }
+             return super.equals(obj);
+         }
+ 
+
+

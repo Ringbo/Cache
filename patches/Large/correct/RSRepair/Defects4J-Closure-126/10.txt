@@ -1,0 +1,13 @@
+--- /tmp/RSRepair_Defects4J_Closure_126/src/com/google/javascript/jscomp/MinimizeExitPoints.java	2018-12-02 05:17:40.318586462 -0500
++++ /tmp/RSRepair_Defects4J_Closure_126/patches_76pb/Patch_119/patched/tmp/RSRepair_Defects4J_Closure_126/src/com/google/javascript/jscomp/MinimizeExitPoints.java	2018-12-02 05:23:04.139262141 -0500
+@@ -140,7 +140,7 @@
+        */
+       if (NodeUtil.hasFinally(n)) {
+         Node finallyBlock = n.getLastChild();
+-        tryMinimizeExits(finallyBlock, exitType, labelName);
++        int type = n.getType();
+       }
+     }
+ 
+
+

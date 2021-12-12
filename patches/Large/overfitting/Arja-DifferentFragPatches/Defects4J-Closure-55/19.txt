@@ -1,0 +1,32 @@
+--- /tmp/Arja_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-01 09:32:02.543486895 -0500
++++ /tmp/Arja_Defects4J_Closure_55/patches_hugy/Patch_9/patched/tmp/Arja_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-01 09:37:06.967641778 -0500
+@@ -84,10 +84,6 @@
+ 
+       // Estimate savings
+       int savings = 0;
+-      for (Reduction reduction : reductions) {
+-        savings += reduction.estimateSavings();
+-      }
+-
+       // Compare estimated savings against the helper cost.  Apply
+       // reductions if doing so will result in some savings.
+       if (savings > (helperCodeCost + SAVINGS_THRESHOLD)) {
+@@ -110,7 +106,7 @@
+   public Node parseHelperCode(Reducer reducer) {
+     Node root = compiler.parseSyntheticCode(
+         reducer.getClass().toString() + ":helper", reducer.getHelperSource());
+-    return (root != null) ? root.removeFirstChild() : null;
++    return null;
+   }
+ 
+   private static boolean isReduceableFunctionExpression(Node n) {
+@@ -135,7 +131,6 @@
+      * Apply the reduction by replacing the old child with the new child.
+      */
+     void apply() {
+-      parent.replaceChild(oldChild, newChild);
+       compiler.reportCodeChange();
+     }
+ 
+
+

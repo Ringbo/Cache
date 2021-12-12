@@ -1,0 +1,21 @@
+--- /tmp/Arja_Defects4J_Lang_43/src/java/org/apache/commons/lang/text/ExtendedMessageFormat.java	2018-12-01 05:13:04.265756743 -0500
++++ /tmp/Arja_Defects4J_Lang_43/patches_21ag/Patch_871/patched/tmp/Arja_Defects4J_Lang_43/src/java/org/apache/commons/lang/text/ExtendedMessageFormat.java	2018-12-01 05:55:37.337875507 -0500
+@@ -153,10 +153,14 @@
+         char[] c = pattern.toCharArray();
+         int fmtCount = 0;
+         while (pos.getIndex() < pattern.length()) {
+-            switch (c[pos.getIndex()]) {
++            toPattern = insertFormats(super.toPattern(), foundDescriptions);
++			switch (c[pos.getIndex()]) {
+             case QUOTE:
+                 appendQuotedString(pattern, pos, stripCustom, true);
+-                break;
++                {
++					pos.setIndex(pos.getIndex() + 1);
++					break;
++				}
+             case START_FE:
+                 fmtCount++;
+                 seekNonWs(pattern, pos);
+
+

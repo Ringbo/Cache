@@ -1,0 +1,64 @@
+--- /tmp/GenProg_Defects4J_Chart_1/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-02 02:46:48.869437844 -0500
++++ /tmp/GenProg_Defects4J_Chart_1/patches_b2db/Patch_947/patched/tmp/GenProg_Defects4J_Chart_1/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-02 03:36:57.451734568 -0500
+@@ -1042,7 +1042,8 @@
+             result = (ValueAxis) this.rangeAxes.get(index);
+         }
+         if (result == null) {
+-            Plot parent = getParent();
++            RectangleEdge edge = getDomainAxisEdge();
++			Plot parent = getParent();
+             if (parent instanceof CategoryPlot) {
+                 CategoryPlot cp = (CategoryPlot) parent;
+                 result = cp.getRangeAxis(index);
+@@ -1350,9 +1351,7 @@
+     public void setDataset(int index, CategoryDataset dataset) {
+ 
+         CategoryDataset existing = (CategoryDataset) this.datasets.get(index);
+-        if (existing != null) {
+-            existing.removeChangeListener(this);
+-        }
++        ValueAxis yAxis = (ValueAxis) this.rangeAxes.get(index);
+         this.datasets.set(index, dataset);
+         if (dataset != null) {
+             dataset.addChangeListener(this);
+@@ -1664,10 +1663,6 @@
+         // stop listening to the existing renderer...
+         CategoryItemRenderer existing
+             = (CategoryItemRenderer) this.renderers.get(index);
+-        if (existing != null) {
+-            existing.removeChangeListener(this);
+-        }
+-
+         // register the new renderer...
+         this.renderers.set(index, renderer);
+         if (renderer != null) {
+@@ -1675,11 +1670,10 @@
+             renderer.addChangeListener(this);
+         }
+ 
+-        configureDomainAxes();
++        CategoryAxis domainAxis = getDomainAxisForDataset(index);
+         configureRangeAxes();
+ 
+         if (notify) {
+-            fireChangeEvent();
+         }
+     }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Chart_1/source/org/jfree/chart/renderer/category/AbstractCategoryItemRenderer.java	2018-12-02 02:46:55.389437615 -0500
++++ /tmp/GenProg_Defects4J_Chart_1/patches_b2db/Patch_947/patched/tmp/GenProg_Defects4J_Chart_1/source/org/jfree/chart/renderer/category/AbstractCategoryItemRenderer.java	2018-12-02 03:36:57.455734740 -0500
+@@ -1794,9 +1794,7 @@
+         }
+         int index = this.plot.getIndexOf(this);
+         CategoryDataset dataset = this.plot.getDataset(index);
+-        if (dataset != null) {
+-            return result;
+-        }
++        Line2D line = null;
+         int seriesCount = dataset.getRowCount();
+         if (plot.getRowRenderingOrder().equals(SortOrder.ASCENDING)) {
+             for (int i = 0; i < seriesCount; i++) {
+
+

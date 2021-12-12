@@ -1,0 +1,58 @@
+--- /tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/jscomp/RemoveUnusedPrototypeProperties.java	2018-12-02 06:51:37.259744610 -0500
++++ /tmp/GenProg_Defects4J_Closure_67/patches_0sb3/Patch_1134/patched/tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/jscomp/RemoveUnusedPrototypeProperties.java	2018-12-02 07:06:28.288937853 -0500
+@@ -85,7 +85,6 @@
+           boolean canRemove = false;
+ 
+           if (specializationState == null) {
+-            canRemove = true;
+           } else {
+             Node specializableFunction =
+               getSpecializableFunctionFromSymbol(declaration);
+@@ -96,11 +95,6 @@
+               canRemove = true;
+             }
+           }
+-
+-          if (canRemove) {
+-            declaration.remove();
+-            changed = true;
+-          }
+         }
+ 
+         logger.fine("Removed unused prototype property: " + nameInfo.name);
+
+
+--- /tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/rhino/Node.java	2018-12-02 06:51:37.279734609 -0500
++++ /tmp/GenProg_Defects4J_Closure_67/patches_0sb3/Patch_1134/patched/tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/rhino/Node.java	2018-12-02 07:06:28.292937842 -0500
+@@ -936,7 +936,6 @@
+         sb.append(' ');
+         sb.append(getString());
+       } else if (type == Token.FUNCTION) {
+-        sb.append(' ');
+         // In the case of JsDoc trees, the first child is often not a string
+         // which causes exceptions to be thrown when calling toString or
+         // toStringTree.
+
+
+--- /tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/rhino/Token.java	2018-12-02 06:51:37.283732609 -0500
++++ /tmp/GenProg_Defects4J_Closure_67/patches_0sb3/Patch_1134/patched/tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/rhino/Token.java	2018-12-02 07:06:28.292937842 -0500
+@@ -315,7 +315,7 @@
+           case NUMBER:          return "NUMBER";
+           case STRING:          return "STRING";
+           case NULL:            return "NULL";
+-          case THIS:            return "THIS";
++          case THIS:            ;
+           case FALSE:           return "FALSE";
+           case TRUE:            return "TRUE";
+           case SHEQ:            return "SHEQ";
+@@ -359,7 +359,7 @@
+           case LP:              return "LP";
+           case RP:              return "RP";
+           case COMMA:           return "COMMA";
+-          case ASSIGN:          return "ASSIGN";
++          case ASSIGN:          ;
+           case ASSIGN_BITOR:    return "ASSIGN_BITOR";
+           case ASSIGN_BITXOR:   return "ASSIGN_BITXOR";
+           case ASSIGN_BITAND:   return "ASSIGN_BITAND";
+
+

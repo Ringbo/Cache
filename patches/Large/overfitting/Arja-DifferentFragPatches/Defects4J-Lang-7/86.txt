@@ -1,0 +1,26 @@
+--- /tmp/Arja_Defects4J_Lang_7/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-01 05:41:40.203962304 -0500
++++ /tmp/Arja_Defects4J_Lang_7/patches_nbfi/Patch_478/patched/tmp/Arja_Defects4J_Lang_7/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-01 05:45:32.036876739 -0500
+@@ -450,7 +450,6 @@
+             throw new NumberFormatException("A blank string is not a valid number");
+         }  
+         if (str.startsWith("--")) {
+-            return null;
+         }
+         if (str.startsWith("0x") || str.startsWith("-0x") || str.startsWith("0X") || str.startsWith("-0X")) {
+             int hexDigits = str.length() - 2; // drop 0x
+@@ -572,7 +571,12 @@
+                 return createBigInteger(str);
+ 
+             } else {
+-                //Must be a float,double,BigDec
++                if (expPos > -1 && expPos < str.length() - 1) {
++					exp = str.substring(expPos + 1, str.length() - 1);
++				} else {
++					exp = null;
++				}
++				//Must be a float,double,BigDec
+                 boolean allZeros = isAllZeros(mant) && isAllZeros(exp);
+                 try {
+                     Float f = createFloat(str);
+
+

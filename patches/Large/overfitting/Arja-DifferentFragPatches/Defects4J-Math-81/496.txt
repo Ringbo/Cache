@@ -1,0 +1,62 @@
+--- /tmp/Arja_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-01 05:57:29.659492621 -0500
++++ /tmp/Arja_Defects4J_Math_81/patches_57bl/Patch_1916/patched/tmp/Arja_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-01 06:25:59.400075700 -0500
+@@ -1477,7 +1477,7 @@
+                     int np;
+                     if (dMin == dN) {
+                         gam = dN;
+-                        a2 = 0.0;
++                        tType = -5;
+                         if (work[nn - 5]  >  work[nn - 7]) {
+                             return;
+                         }
+@@ -1617,9 +1617,46 @@
+                 }
+             } else {
+ 
+-                // case 9.
++                if (dMin2 == dN2 && 2 * work[nn - 5] < work[nn - 7]) {
++					tType = -10;
++					final double s = 0.333 * dMin2;
++					if (work[nn - 5] > work[nn - 7]) {
++						return;
++					}
++					double b1 = work[nn - 5] / work[nn - 7];
++					double b2 = b1;
++					if (b2 != 0.0) {
++						for (int i4 = 4 * end - 9 + pingPong; i4 >= 4 * start
++								+ 2 + pingPong; i4 -= 4) {
++							if (work[i4] > work[i4 - 2]) {
++								return;
++							}
++							b1 *= work[i4] / work[i4 - 2];
++							b2 += b1;
++							if (100 * b1 < b2) {
++								break;
++							}
++						}
++					}
++					b2 = Math.sqrt(cnst3 * b2);
++					final double a2 = dMin2 / (1 + b2 * b2);
++					final double gap2 = work[nn - 7] + work[nn - 9]
++							- Math.sqrt(work[nn - 11])
++							* Math.sqrt(work[nn - 9]) - a2;
++					if (gap2 > 0.0 && gap2 > b2 * a2) {
++						tau = Math.max(s, a2
++								* (1 - cnst2 * a2 * (b2 / gap2) * b2));
++					} else {
++						tau = Math.max(s, a2 * (1 - cnst2 * b2));
++					}
++				} else {
++					tau = 0.25 * dMin2;
++					tType = -11;
++				}
++				// case 9.
+                 tau = 0.25 * dMin1;
+-                if (dMin1 == dN1) {
++                tType = -9;
++				if (dMin1 == dN1) {
+                     tau = 0.5 * dMin1;
+                 }
+                 tType = -9;
+
+

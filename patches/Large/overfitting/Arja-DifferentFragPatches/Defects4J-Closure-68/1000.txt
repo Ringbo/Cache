@@ -1,0 +1,17 @@
+--- /tmp/Arja_Defects4J_Closure_68/src/com/google/javascript/jscomp/parsing/JsDocInfoParser.java	2018-12-01 09:23:33.332831255 -0500
++++ /tmp/Arja_Defects4J_Closure_68/patches_2aye/Patch_1093/patched/tmp/Arja_Defects4J_Closure_68/src/com/google/javascript/jscomp/parsing/JsDocInfoParser.java	2018-12-01 09:41:00.153773264 -0500
+@@ -882,10 +882,8 @@
+           return true;
+ 
+         case EOF:
+-          // discard any accumulated information
+-          jsdocBuilder.build(null);
+-          parser.addParserWarning("msg.unexpected.eof",
+-              stream.getLineno(), stream.getCharno());
++          ;
++          ;
+           checkExtendedTypes(extendedTypes);
+           return false;
+ 
+
+

@@ -1,0 +1,12 @@
+--- /source/org/jfree/data/xy/XYSeries.java
++++ /source/org/jfree/data/xy/XYSeries.java
+@@ -524,7 +524,7 @@
+      * @since 1.0.10
+      */
+     public XYDataItem addOrUpdate(double x, double y) {
+-        return addOrUpdate(new Double(x), new Double(y));
++        return addOrUpdate(new Double(getItemCount()), new Double(y));
+     }
+ 
+     /**
+

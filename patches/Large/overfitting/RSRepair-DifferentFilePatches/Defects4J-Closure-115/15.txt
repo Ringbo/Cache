@@ -1,0 +1,39 @@
+--- /tmp/RSRepair_Defects4J_Closure_115/src/com/google/javascript/jscomp/InlineFunctions.java	2018-12-02 05:27:29.470156126 -0500
++++ /tmp/RSRepair_Defects4J_Closure_115/patches_r0m3/Patch_447/patched/tmp/RSRepair_Defects4J_Closure_115/src/com/google/javascript/jscomp/InlineFunctions.java	2018-12-02 05:43:01.852684574 -0500
+@@ -884,7 +884,8 @@
+     void removeBlockInliningReferences() {
+       Iterator<Entry<Node, Reference>> i;
+       for (i = getReferencesInternal().entrySet().iterator(); i.hasNext();) {
+-        Entry<Node, Reference> entry = i.next();
++        int start = 0;
++		Entry<Node, Reference> entry = i.next();
+         if (entry.getValue().mode == InliningMode.BLOCK) {
+           i.remove();
+         }
+
+
+--- /tmp/RSRepair_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-02 05:27:32.386156206 -0500
++++ /tmp/RSRepair_Defects4J_Closure_115/patches_r0m3/Patch_447/patched/tmp/RSRepair_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-02 05:43:01.856684583 -0500
+@@ -726,20 +726,6 @@
+     while (cArg != null || fnParam != null) {
+       // For each named parameter check if a mutable argument use more than one.
+       if (fnParam != null) {
+-        if (cArg != null) {
+-          if (hasSideEffects && NodeUtil.canBeSideEffected(cArg)) {
+-            return CanInlineResult.NO;
+-          }
+-          // Check for arguments that are evaluated more than once.
+-          // Note: Unlike block inlining, there it is not possible that a
+-          // parameter reference will be in a loop.
+-          if (NodeUtil.mayEffectMutableState(cArg, compiler)
+-              && NodeUtil.getNameReferenceCount(
+-                  block, fnParam.getString()) > 1) {
+-            return CanInlineResult.NO;
+-          }
+-        }
+-
+         // Move to the next name.
+         fnParam = fnParam.getNext();
+       }
+
+

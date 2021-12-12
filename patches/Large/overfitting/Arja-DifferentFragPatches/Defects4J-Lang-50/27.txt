@@ -1,0 +1,31 @@
+--- /tmp/Arja_Defects4J_Lang_50/src/java/org/apache/commons/lang/time/FastDateFormat.java	2018-12-02 02:51:18.813128272 -0500
++++ /tmp/Arja_Defects4J_Lang_50/patches_65h7/Patch_1595/patched/tmp/Arja_Defects4J_Lang_50/src/java/org/apache/commons/lang/time/FastDateFormat.java	2018-12-02 03:03:26.703625084 -0500
+@@ -287,10 +287,12 @@
+         }
+ 
+ 
+-        FastDateFormat format = (FastDateFormat) cDateInstanceCache.get(key);
++        FastDateFormat format = (FastDateFormat) cDateTimeInstanceCache
++				.get(key);
+         if (format == null) {
+             if (locale == null) {
+-                locale = Locale.getDefault();
++                cDefaultPattern = new SimpleDateFormat().toPattern();
++				locale = Locale.getDefault();
+             }
+             try {
+                 SimpleDateFormat formatter = (SimpleDateFormat) DateFormat.getDateInstance(style, locale);
+@@ -458,7 +460,10 @@
+     public static synchronized FastDateFormat getDateTimeInstance(int dateStyle, int timeStyle, TimeZone timeZone,
+             Locale locale) {
+ 
+-        Object key = new Pair(new Integer(dateStyle), new Integer(timeStyle));
++        if (locale == null) {
++					locale = Locale.getDefault();
++				}
++		Object key = new Pair(new Integer(dateStyle), new Integer(timeStyle));
+         if (timeZone != null) {
+             key = new Pair(key, timeZone);
+         }
+
+

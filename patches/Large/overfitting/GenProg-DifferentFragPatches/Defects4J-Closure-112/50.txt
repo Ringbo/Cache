@@ -1,0 +1,36 @@
+--- /tmp/GenProg_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-02 05:54:30.851329143 -0500
++++ /tmp/GenProg_Defects4J_Closure_112/patches_1e4m/Patch_261/patched/tmp/GenProg_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-02 06:05:51.109153683 -0500
+@@ -1124,21 +1124,6 @@
+       Iterator<Node> declParams,
+       Iterator<Node> callParams,
+       Map<TemplateType, JSType> resolvedTypes) {
+-    while (declParams.hasNext() && callParams.hasNext()) {
+-      Node declParam = declParams.next();
+-      maybeResolveTemplatedType(
+-          getJSType(declParam),
+-          getJSType(callParams.next()),
+-          resolvedTypes);
+-      if (declParam.isVarArgs()) {
+-        while (callParams.hasNext()) {
+-          maybeResolveTemplatedType(
+-              getJSType(declParam),
+-              getJSType(callParams.next()),
+-              resolvedTypes);
+-        }
+-      }
+-    }
+   }
+ 
+   private static void resolvedTemplateType(
+@@ -1148,7 +1133,8 @@
+       if (previous == null) {
+         map.put(template, resolved);
+       } else {
+-        JSType join = previous.getLeastSupertype(resolved);
++        int start = 0;
++		JSType join = previous.getLeastSupertype(resolved);
+         map.put(template, join);
+       }
+     }
+
+

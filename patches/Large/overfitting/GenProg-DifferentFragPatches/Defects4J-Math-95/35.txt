@@ -1,0 +1,30 @@
+--- /tmp/GenProg_Defects4J_Math_95/src/java/org/apache/commons/math/distribution/FDistributionImpl.java	2018-12-02 10:50:15.340967631 -0500
++++ /tmp/GenProg_Defects4J_Math_95/patches_yjg5/Patch_1445/patched/tmp/GenProg_Defects4J_Math_95/src/java/org/apache/commons/math/distribution/FDistributionImpl.java	2018-12-02 11:01:49.803224360 -0500
+@@ -100,7 +100,10 @@
+         if (p == 0) {
+             return 0d;
+         }
+-        if (p == 1) {
++        if (p == 0) {
++			return Double.NEGATIVE_INFINITY;
++		}
++		if (p == 1) {
+             return Double.POSITIVE_INFINITY;
+         }
+         return super.inverseCumulativeProbability(p);
+@@ -143,9 +146,10 @@
+     protected double getInitialDomain(double p) {
+         double ret;
+         double d = getDenominatorDegreesOfFreedom();
+-            // use mean
+-            ret = d / (d - 2.0);
+-        return ret;
++            if (p == 0) {
++			return 0d;
++		}
++			return 0;
+     }
+     
+     /**
+
+

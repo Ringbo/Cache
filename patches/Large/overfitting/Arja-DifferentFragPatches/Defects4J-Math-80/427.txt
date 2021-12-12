@@ -1,0 +1,27 @@
+--- /tmp/Arja_Defects4J_Math_80/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-01 05:57:18.366664089 -0500
++++ /tmp/Arja_Defects4J_Math_80/patches_5yvr/Patch_372/patched/tmp/Arja_Defects4J_Math_80/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-01 06:01:00.895915501 -0500
+@@ -1086,9 +1086,7 @@
+                            (dMin1 > 0.0) &&
+                            (work[4 * deflatedEnd - 5 - pingPong] < TOLERANCE * (sigma + dN1)) &&
+                            (Math.abs(dN) < TOLERANCE * sigma)) {
+-                   // convergence hidden by negative DN.
+-                    work[4 * deflatedEnd - 3 - pingPong] = 0.0;
+-                    dMin = 0.0;
++                   dMin = 0.0;
+                     updateSigma(tau);
+                     return deflatedEnd;
+                 } else if (dMin < 0.0) {
+@@ -1134,11 +1132,6 @@
+             // flip array
+             int j = 4 * n - 1;
+             for (int i = 0; i < j; i += 4) {
+-                for (int k = 0; k < 4; k += step) {
+-                    final double tmp = work[i + k];
+-                    work[i + k] = work[j - k];
+-                    work[j - k] = tmp;
+-                }
+                 j -= 4;
+             }
+             return true;
+
+

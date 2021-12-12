@@ -1,0 +1,34 @@
+--- /tmp/Arja_Defects4J_Math_84/src/main/java/org/apache/commons/math/optimization/direct/DirectSearchOptimizer.java	2018-12-02 02:50:50.072251602 -0500
++++ /tmp/Arja_Defects4J_Math_84/patches_l8im/Patch_1424/patched/tmp/Arja_Defects4J_Math_84/src/main/java/org/apache/commons/math/optimization/direct/DirectSearchOptimizer.java	2018-12-02 03:11:53.277773683 -0500
+@@ -144,11 +144,6 @@
+         for (int i = 0; i < n; ++i) {
+             final double[] vertexI = startConfiguration[i];
+             for (int j = 0; j < i + 1; ++j) {
+-                if (steps[j] == 0.0) {
+-                    throw MathRuntimeException.createIllegalArgumentException(
+-                            "equals vertices {0} and {1} in simplex configuration",
+-                            j, j + 1);
+-                }
+                 System.arraycopy(steps, 0, vertexI, 0, j + 1);
+             }
+         }
+
+
+--- /tmp/Arja_Defects4J_Math_84/src/main/java/org/apache/commons/math/optimization/direct/MultiDirectional.java	2018-12-02 02:50:53.636433660 -0500
++++ /tmp/Arja_Defects4J_Math_84/patches_l8im/Patch_1424/patched/tmp/Arja_Defects4J_Math_84/src/main/java/org/apache/commons/math/optimization/direct/MultiDirectional.java	2018-12-02 03:11:53.277773683 -0500
+@@ -87,12 +87,7 @@
+ 
+             // compute the contracted simplex
+             final RealPointValuePair contracted = evaluateNewSimplex(original, gamma, comparator);
+-            if (comparator.compare(contracted, best) < 0) {
+-                // accept the contracted simplex
+-
+-            // check convergence
+-                return;
+-            }
++            break;
+ 
+         }
+ 
+
+

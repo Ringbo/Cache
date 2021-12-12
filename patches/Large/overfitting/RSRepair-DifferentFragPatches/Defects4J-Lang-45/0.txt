@@ -1,0 +1,16 @@
+--- /tmp/RSRepair_Defects4J_Lang_45/src/java/org/apache/commons/lang/WordUtils.java	2018-12-02 02:38:06.457977142 -0500
++++ /tmp/RSRepair_Defects4J_Lang_45/patches_fq31/Patch_631/patched/tmp/RSRepair_Defects4J_Lang_45/src/java/org/apache/commons/lang/WordUtils.java	2018-12-02 02:44:02.045522323 -0500
+@@ -623,7 +623,10 @@
+             upper = lower;
+         }
+ 
+-        StringBuffer result = new StringBuffer();
++        if (upper == -1 || upper > str.length()) {
++			upper = str.length();
++		}
++		StringBuffer result = new StringBuffer();
+         int index = StringUtils.indexOf(str, " ", lower);
+         if (index == -1) {
+             result.append(str.substring(0, upper));
+
+

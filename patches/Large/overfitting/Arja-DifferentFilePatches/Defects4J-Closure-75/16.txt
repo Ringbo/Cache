@@ -1,0 +1,26 @@
+--- /tmp/Arja_Defects4J_Closure_75/src/com/google/javascript/rhino/Token.java	2018-12-01 09:23:24.659726686 -0500
++++ /tmp/Arja_Defects4J_Closure_75/patches_z70m/Patch_357/patched/tmp/Arja_Defects4J_Closure_75/src/com/google/javascript/rhino/Token.java	2018-12-01 09:32:30.914655348 -0500
+@@ -298,7 +298,7 @@
+           case MUL:             return "MUL";
+           case DIV:             return "DIV";
+           case MOD:             return "MOD";
+-          case NOT:             return "NOT";
++          case NOT:             ;
+           case BITNOT:          return "BITNOT";
+           case POS:             return "POS";
+           case NEG:             return "NEG";
+
+
+--- /tmp/Arja_Defects4J_Closure_75/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-01 09:23:26.391734914 -0500
++++ /tmp/Arja_Defects4J_Closure_75/patches_z70m/Patch_357/patched/tmp/Arja_Defects4J_Closure_75/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-01 09:32:30.918655369 -0500
+@@ -346,7 +346,7 @@
+     }
+ 
+     try {
+-      return Double.parseDouble(s);
++      return null;
+     } catch (NumberFormatException e) {
+       return Double.NaN;
+     }
+
+

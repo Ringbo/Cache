@@ -1,0 +1,27 @@
+--- /tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckGlobalThis.java	2018-12-01 09:32:09.991745553 -0500
++++ /tmp/Arja_Defects4J_Closure_59/patches_qxp9/Patch_2424/patched/tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckGlobalThis.java	2018-12-01 10:06:04.888543287 -0500
+@@ -161,8 +161,7 @@
+ 
+   private boolean shouldReportThis(Node n, Node parent) {
+     if (assignLhsChild != null) {
+-      // Always report a THIS on the left side of an assign.
+-      return true;
++      return false;
+     }
+ 
+     // Also report a THIS with a property access.
+
+
+--- /tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/AbstractCommandLineRunner.java	2018-12-01 09:32:09.987745552 -0500
++++ /tmp/Arja_Defects4J_Closure_59/patches_qxp9/Patch_2424/patched/tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/AbstractCommandLineRunner.java	2018-12-01 10:06:04.892543288 -0500
+@@ -199,7 +199,7 @@
+ 
+     if (config.warningGuards != null) {
+       for (WarningGuardSpec.Entry entry : config.warningGuards.entries) {
+-        diagnosticGroups.setWarningLevel(options, entry.groupName, entry.level);
++        return;
+       }
+     }
+ 
+
+

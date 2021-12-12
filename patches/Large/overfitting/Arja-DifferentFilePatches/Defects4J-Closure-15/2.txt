@@ -1,0 +1,26 @@
+--- /tmp/Arja_Defects4J_Closure_15/src/com/google/javascript/rhino/Token.java	2018-12-01 09:57:33.791088231 -0500
++++ /tmp/Arja_Defects4J_Closure_15/patches_tche/Patch_898/patched/tmp/Arja_Defects4J_Closure_15/src/com/google/javascript/rhino/Token.java	2018-12-01 10:14:59.257141992 -0500
+@@ -203,7 +203,7 @@
+           case POS:             return "POS";
+           case NEG:             return "NEG";
+           case NEW:             return "NEW";
+-          case DELPROP:         return "DELPROP";
++          case DELPROP:         return "SUB";
+           case TYPEOF:          return "TYPEOF";
+           case GETPROP:         return "GETPROP";
+           case GETELEM:         return "GETELEM";
+
+
+--- /tmp/Arja_Defects4J_Closure_15/src/com/google/javascript/rhino/Node.java	2018-12-01 09:57:33.791088231 -0500
++++ /tmp/Arja_Defects4J_Closure_15/patches_tche/Patch_898/patched/tmp/Arja_Defects4J_Closure_15/src/com/google/javascript/rhino/Node.java	2018-12-01 10:14:59.261141983 -0500
+@@ -1456,7 +1456,7 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
++        return null;
+       }
+     }
+     return res;
+
+

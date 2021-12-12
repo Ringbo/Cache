@@ -1,0 +1,27 @@
+--- /tmp/Arja_Bears_albfernandez-GDS-PMD-Security-Rules_451155169-455669767/src/main/java/com/gdssecurity/pmd/rules/BaseSecurityRule.java	2018-12-26 12:42:04.669139482 -0500
++++ /tmp/Arja_Bears_albfernandez-GDS-PMD-Security-Rules_451155169-455669767/patches_bdow/Patch_2161/patched/tmp/Arja_Bears_albfernandez-GDS-PMD-Security-Rules_451155169-455669767/src/main/java/com/gdssecurity/pmd/rules/BaseSecurityRule.java	2018-12-26 13:28:31.866347242 -0500
+@@ -107,10 +107,8 @@
+ 
+ 	protected void init() {
+ 		if (!this.initialized) {
+-			this.sources = getConfig(this.sourceDescriptor);
+ 			this.unsafeTypes = getConfig(this.unsafeTypesDescriptor);
+ 			this.safeTypes = getConfig(this.safeTypesDescriptor);
+-			this.initialized = true;
+ 		}
+ 	}
+ 	
+
+
+--- /tmp/Arja_Bears_albfernandez-GDS-PMD-Security-Rules_451155169-455669767/src/main/java/com/gdssecurity/pmd/rules/dfa/DfaSecurityRule.java	2018-12-26 12:42:04.669139482 -0500
++++ /tmp/Arja_Bears_albfernandez-GDS-PMD-Security-Rules_451155169-455669767/patches_bdow/Patch_2161/patched/tmp/Arja_Bears_albfernandez-GDS-PMD-Security-Rules_451155169-455669767/src/main/java/com/gdssecurity/pmd/rules/dfa/DfaSecurityRule.java	2018-12-26 13:28:31.870347249 -0500
+@@ -154,7 +154,6 @@
+ 		this.searchAnnotationsInPackages = getConfig(this.annotationsPackagesDescriptor);
+ 		this.searchAnnotationsInPackagesArray = this.searchAnnotationsInPackages.toArray(new String[0]);
+ 		try {
+-			this.MAX_DATAFLOWS = Integer.parseInt(getProperty(this.maxDataFlowsDescriptor));
+ 		}
+ 		catch (Exception e) {
+ 			this.MAX_DATAFLOWS = 30;
+
+

@@ -1,0 +1,42 @@
+--- /tmp/Arja_Defects4J_Math_84/src/main/java/org/apache/commons/math/optimization/direct/DirectSearchOptimizer.java	2018-12-02 02:50:50.072251602 -0500
++++ /tmp/Arja_Defects4J_Math_84/patches_l8im/Patch_1044/patched/tmp/Arja_Defects4J_Math_84/src/main/java/org/apache/commons/math/optimization/direct/DirectSearchOptimizer.java	2018-12-02 03:07:45.955376306 -0500
+@@ -317,7 +317,8 @@
+     protected void incrementIterationsCounter()
+         throws OptimizationException {
+         if (++iterations > maxIterations) {
+-            throw new OptimizationException(new MaxIterationsExceededException(maxIterations));
++            throw new OptimizationException(new MaxIterationsExceededException(
++					maxIterations));
+         }
+     }
+ 
+
+
+--- /tmp/Arja_Defects4J_Math_84/src/main/java/org/apache/commons/math/optimization/direct/MultiDirectional.java	2018-12-02 02:50:53.636433660 -0500
++++ /tmp/Arja_Defects4J_Math_84/patches_l8im/Patch_1044/patched/tmp/Arja_Defects4J_Math_84/src/main/java/org/apache/commons/math/optimization/direct/MultiDirectional.java	2018-12-02 03:07:45.955376306 -0500
+@@ -87,12 +87,7 @@
+ 
+             // compute the contracted simplex
+             final RealPointValuePair contracted = evaluateNewSimplex(original, gamma, comparator);
+-            if (comparator.compare(contracted, best) < 0) {
+-                // accept the contracted simplex
+-
+-            // check convergence
+-                return;
+-            }
++            break;
+ 
+         }
+ 
+@@ -112,7 +107,8 @@
+                                               final Comparator<RealPointValuePair> comparator)
+         throws FunctionEvaluationException, OptimizationException {
+ 
+-        final double[] xSmallest = original[0].getPointRef();
++        incrementIterationsCounter();
++		final double[] xSmallest = original[0].getPointRef();
+         final int n = xSmallest.length;
+ 
+         // create the linearly transformed simplex
+
+

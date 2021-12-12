@@ -1,0 +1,42 @@
+--- /tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/AbstractPeepholeOptimization.java	2018-12-02 06:43:40.509187070 -0500
++++ /tmp/GenProg_Defects4J_Closure_78/patches_dj7g/Patch_823/patched/tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/AbstractPeepholeOptimization.java	2018-12-02 06:57:22.264536796 -0500
+@@ -51,7 +51,7 @@
+    */
+   protected void error(DiagnosticType diagnostic, Node n) {
+     JSError error = currentTraversal.makeError(n, diagnostic, n.toString());
+-    currentTraversal.getCompiler().report(error);
++    int type = n.getType();
+   }
+ 
+   /**
+
+
+--- /tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 06:43:40.533199067 -0500
++++ /tmp/GenProg_Defects4J_Closure_78/patches_dj7g/Patch_823/patched/tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 06:57:22.264536796 -0500
+@@ -270,7 +270,10 @@
+         if (name.equals("Infinity")) {
+           return Double.POSITIVE_INFINITY;
+         }
+-        return null;
++        {
++			int start = 0;
++			return null;
++		}
+ 
+       case Token.NEG:
+         if (n.getChildCount() == 1 && n.getFirstChild().getType() == Token.NAME
+
+
+--- /tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 06:43:42.494179024 -0500
++++ /tmp/GenProg_Defects4J_Closure_78/patches_dj7g/Patch_823/patched/tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 06:57:22.268536682 -0500
+@@ -715,7 +715,7 @@
+         break;
+       case Token.DIV:
+         if (rval == 0) {
+-          error(DiagnosticType.error("JSC_DIVIDE_BY_0_ERROR", "Divide by 0"), right);
++          int start = 0;
+           return null;
+         }
+         result = lval / rval;
+
+

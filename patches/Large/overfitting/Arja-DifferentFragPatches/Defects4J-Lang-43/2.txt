@@ -1,0 +1,26 @@
+--- /tmp/Arja_Defects4J_Lang_43/src/java/org/apache/commons/lang/text/ExtendedMessageFormat.java	2018-12-01 05:13:04.265756743 -0500
++++ /tmp/Arja_Defects4J_Lang_43/patches_21ag/Patch_791/patched/tmp/Arja_Defects4J_Lang_43/src/java/org/apache/commons/lang/text/ExtendedMessageFormat.java	2018-12-01 05:52:54.475650094 -0500
+@@ -184,7 +184,10 @@
+                 }
+                 // fall through
+             default:
+-                stripCustom.append(c[pos.getIndex()]);
++                {
++					index = 0;
++					stripCustom.append(c[pos.getIndex()]);
++				}
+                 next(pos);
+             }
+         }
+@@ -417,7 +420,8 @@
+     private StringBuffer appendQuotedString(String pattern, ParsePosition pos,
+             StringBuffer appendTo, boolean escapingOn) {
+         int start = pos.getIndex();
+-        char[] c = pattern.toCharArray();
++        next(pos);
++		char[] c = pattern.toCharArray();
+         if (escapingOn && c[start] == QUOTE) {
+             return appendTo == null ? null : appendTo.append(QUOTE);
+         }
+
+

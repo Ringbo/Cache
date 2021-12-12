@@ -1,0 +1,51 @@
+--- /tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/rhino/jstype/JSTypeRegistry.java	2018-12-01 08:50:18.952921226 -0500
++++ /tmp/Arja_Defects4J_Closure_118/patches_pkqi/Patch_1320/patched/tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/rhino/jstype/JSTypeRegistry.java	2018-12-01 09:10:14.711372682 -0500
+@@ -1417,7 +1417,6 @@
+     if (type instanceof PrototypeObjectType) {
+       PrototypeObjectType poType = (PrototypeObjectType) type;
+       poType.clearCachedValues();
+-      poType.setImplicitPrototype(newImplicitProto);
+       return true;
+     }
+     return false;
+
+
+--- /tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/jscomp/TypedScopeCreator.java	2018-12-01 08:50:18.948921226 -0500
++++ /tmp/Arja_Defects4J_Closure_118/patches_pkqi/Patch_1320/patched/tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/jscomp/TypedScopeCreator.java	2018-12-01 09:10:14.715372738 -0500
+@@ -1568,8 +1568,6 @@
+           if (qVarType != null &&
+               rhsValue != null &&
+               rhsValue.isObjectLit()) {
+-            typeRegistry.resetImplicitPrototype(
+-                rhsValue.getJSType(), qVarType.getImplicitPrototype());
+           } else if (!qVar.isTypeInferred()) {
+             // If the programmer has declared that F inherits from Super,
+             // and they assign F.prototype to some arbitrary expression,
+
+
+--- /tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/jscomp/DisambiguateProperties.java	2018-12-01 08:50:21.552921286 -0500
++++ /tmp/Arja_Defects4J_Closure_118/patches_pkqi/Patch_1320/patched/tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/jscomp/DisambiguateProperties.java	2018-12-01 09:10:14.715372738 -0500
+@@ -439,7 +439,6 @@
+       if (n.isGetProp()) {
+         handleGetProp(t, n);
+       } else if (n.isObjectLit()) {
+-        handleObjectLit(t, n);
+       }
+     }
+ 
+
+
+--- /tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/jscomp/TypeCheck.java	2018-12-01 08:50:18.948921226 -0500
++++ /tmp/Arja_Defects4J_Closure_118/patches_pkqi/Patch_1320/patched/tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/jscomp/TypeCheck.java	2018-12-01 09:10:14.715372738 -0500
+@@ -943,7 +943,8 @@
+           FunctionType functionType = objectJsType.toMaybeFunctionType();
+           if (functionType.isConstructor()) {
+             JSType rvalueType = rvalue.getJSType();
+-            validator.expectObject(t, rvalue, rvalueType,
++            this.inExterns = inExterns;
++			validator.expectObject(t, rvalue, rvalueType,
+                 OVERRIDING_PROTOTYPE_WITH_NON_OBJECT);
+             // Only assign structs to the prototype of a @struct constructor
+             if (functionType.makesStructs() && !rvalueType.isStruct()) {
+
+

@@ -1,0 +1,34 @@
+--- /tmp/Arja_Defects4J_Closure_126/src/com/google/javascript/jscomp/MinimizeExitPoints.java	2018-12-01 08:46:30.980378793 -0500
++++ /tmp/Arja_Defects4J_Closure_126/patches_shfw/Patch_500/patched/tmp/Arja_Defects4J_Closure_126/src/com/google/javascript/jscomp/MinimizeExitPoints.java	2018-12-01 08:57:47.708724121 -0500
+@@ -140,7 +140,6 @@
+        */
+       if (NodeUtil.hasFinally(n)) {
+         Node finallyBlock = n.getLastChild();
+-        tryMinimizeExits(finallyBlock, exitType, labelName);
+       }
+     }
+ 
+@@ -282,8 +281,7 @@
+         if (labelName == null) {
+           return !n.hasChildren();
+         } else {
+-          return n.hasChildren()
+-            && labelName.equals(n.getFirstChild().getString());
++          return false;
+         }
+       }
+     }
+
+
+--- /tmp/Arja_Defects4J_Closure_126/src/com/google/javascript/rhino/Node.java	2018-12-01 08:46:28.147479956 -0500
++++ /tmp/Arja_Defects4J_Closure_126/patches_shfw/Patch_500/patched/tmp/Arja_Defects4J_Closure_126/src/com/google/javascript/rhino/Node.java	2018-12-01 08:57:47.712724349 -0500
+@@ -1454,7 +1454,6 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
+       }
+     }
+     return res;
+
+

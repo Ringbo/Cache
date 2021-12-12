@@ -1,0 +1,29 @@
+--- /tmp/Arja_Defects4J_Mockito_10/src/org/mockito/internal/util/reflection/GenericMetadataSupport.java	2018-12-01 08:41:42.641290161 -0500
++++ /tmp/Arja_Defects4J_Mockito_10/patches_jed8/Patch_2710/patched/tmp/Arja_Defects4J_Mockito_10/src/org/mockito/internal/util/reflection/GenericMetadataSupport.java	2018-12-01 09:01:08.941995714 -0500
+@@ -279,7 +279,10 @@
+                 Type rawType = ((ParameterizedType) genericSuperclass).getRawType();
+                 return (Class) rawType;
+             }
+-            return (Class) genericSuperclass;
++            for (Type genericInterface : clazz.getGenericInterfaces()) {
++				registerTypeVariablesOn(genericInterface);
++			}
++			return (Class) genericSuperclass;
+         }
+ 
+         private void readActualTypeParametersOnDeclaringClass(Class<?> clazz) {
+
+
+--- /tmp/Arja_Defects4J_Mockito_10/src/org/mockito/internal/util/MockCreationValidator.java	2018-12-01 08:41:42.641290161 -0500
++++ /tmp/Arja_Defects4J_Mockito_10/patches_jed8/Patch_2710/patched/tmp/Arja_Defects4J_Mockito_10/src/org/mockito/internal/util/MockCreationValidator.java	2018-12-01 09:01:08.945995705 -0500
+@@ -60,7 +60,6 @@
+                 && !(Serializable.class.isAssignableFrom(classToMock))
+                 && Constructors.noArgConstructorOf(classToMock) == null
+                 ) {
+-            new Reporter().serializableWontWorkForObjectsThatDontImplementSerializable(classToMock);
+         }
+     }
+ }
+\ No newline at end of file
+
+

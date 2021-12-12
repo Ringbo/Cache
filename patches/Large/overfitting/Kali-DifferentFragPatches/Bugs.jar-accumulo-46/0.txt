@@ -1,0 +1,13 @@
+--- /tmp/Kali_Bug_dot_jar_Accumulo_a64151e6/server/gc/src/main/java/org/apache/accumulo/gc/GarbageCollectionAlgorithm.java	2018-12-29 05:18:40.692737000 -0500
++++ /tmp/Kali_Bug_dot_jar_Accumulo_a64151e6/patches_hn3h/Patch_15/patched/tmp/Kali_Bug_dot_jar_Accumulo_a64151e6/server/gc/src/main/java/org/apache/accumulo/gc/GarbageCollectionAlgorithm.java	2018-12-29 05:20:16.930683232 -0500
+@@ -268,7 +268,7 @@
+     while (true) {
+       List<String> candidates = getCandidates(gce, lastCandidate);
+ 
+-      if (candidates.size() == 0)
++      if (true)
+         break;
+       else
+         lastCandidate = candidates.get(candidates.size() - 1);
+
+

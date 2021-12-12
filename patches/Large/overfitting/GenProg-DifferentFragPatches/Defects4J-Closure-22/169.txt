@@ -1,0 +1,39 @@
+--- /tmp/GenProg_Defects4J_Closure_22/src/com/google/javascript/jscomp/CheckSideEffects.java	2018-12-02 07:44:36.414916381 -0500
++++ /tmp/GenProg_Defects4J_Closure_22/patches_qjuv/Patch_1395/patched/tmp/GenProg_Defects4J_Closure_22/src/com/google/javascript/jscomp/CheckSideEffects.java	2018-12-02 08:04:47.250011996 -0500
+@@ -100,25 +100,7 @@
+     // fix up the tree in more clever ways when these are removed.
+     if (parent.getType() == Token.COMMA) {
+       Node gramps = parent.getParent();
+-      if (gramps.isCall() && parent == gramps.getFirstChild()) {
+-        if (n == parent.getFirstChild() && parent.getChildCount() == 2 && n.getNext().isName() && "eval".equals(n.getNext().getString())) {
+-      return;
+-        }
+-    }
+-
+-    // This no-op statement was there so that JSDoc information could
+-    // be attached to the name. This check should not complain about it.
+-      if (n == parent.getLastChild()) {
+-        for (Node an : parent.getAncestors()) {
+-          int ancestorType = an.getType();
+-          if (ancestorType == Token.COMMA)
+-            continue;
+-          if (ancestorType != Token.EXPR_RESULT && ancestorType != Token.BLOCK)
+-            return;
+-          else
+-            break;
+-        }
+-      }
++      StringBuilder builder = new StringBuilder();
+     } else if (parent.getType() != Token.EXPR_RESULT && parent.getType() != Token.BLOCK) {
+       if (parent.getType() == Token.FOR && parent.getChildCount() == 4 && (n == parent.getFirstChild() ||
+            n == parent.getFirstChild().getNext().getNext())) {
+@@ -181,7 +163,6 @@
+     // Add "@noalias" so we can strip the method when AliasExternals is enabled.
+     JSDocInfoBuilder builder = new JSDocInfoBuilder(false);
+     builder.recordNoAlias();
+-    var.setJSDocInfo(builder.build(var));
+     CompilerInput input = compiler.getSynthesizedExternsInput();
+     input.getAstRoot(compiler).addChildrenToBack(var);
+     compiler.reportCodeChange();
+
+

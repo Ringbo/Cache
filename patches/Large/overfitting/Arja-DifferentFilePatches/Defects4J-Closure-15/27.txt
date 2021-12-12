@@ -1,0 +1,40 @@
+--- /tmp/Arja_Defects4J_Closure_15/src/com/google/javascript/rhino/Token.java	2018-12-01 09:57:33.791088231 -0500
++++ /tmp/Arja_Defects4J_Closure_15/patches_tche/Patch_1374/patched/tmp/Arja_Defects4J_Closure_15/src/com/google/javascript/rhino/Token.java	2018-12-01 10:19:54.240099149 -0500
+@@ -221,7 +221,7 @@
+           case SHNE:            return "SHNE";
+           case REGEXP:          return "REGEXP";
+           case THROW:           return "THROW";
+-          case IN:              return "IN";
++          case IN:              ;
+           case INSTANCEOF:      return "INSTANCEOF";
+           case ARRAYLIT:        return "ARRAYLIT";
+           case OBJECTLIT:       return "OBJECTLIT";
+
+
+--- /tmp/Arja_Defects4J_Closure_15/src/com/google/javascript/jscomp/CheckPathsBetweenNodes.java	2018-12-01 09:57:33.379088222 -0500
++++ /tmp/Arja_Defects4J_Closure_15/patches_tche/Patch_1374/patched/tmp/Arja_Defects4J_Closure_15/src/com/google/javascript/jscomp/CheckPathsBetweenNodes.java	2018-12-01 10:19:54.244099131 -0500
+@@ -202,9 +202,6 @@
+         (inclusive || (a != start && a != end))) {
+       return true;
+     }
+-    if (a == b) {
+-      return false;
+-    }
+     for (DiGraphEdge<N, E> e : a.getOutEdges()) {
+       // Once we visited that edge once, we no longer need to
+       // re-visit it again.
+
+
+--- /tmp/Arja_Defects4J_Closure_15/src/com/google/javascript/rhino/Node.java	2018-12-01 09:57:33.791088231 -0500
++++ /tmp/Arja_Defects4J_Closure_15/patches_tche/Patch_1374/patched/tmp/Arja_Defects4J_Closure_15/src/com/google/javascript/rhino/Node.java	2018-12-01 10:19:54.244099131 -0500
+@@ -1456,7 +1456,7 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
++        return null;
+       }
+     }
+     return res;
+
+

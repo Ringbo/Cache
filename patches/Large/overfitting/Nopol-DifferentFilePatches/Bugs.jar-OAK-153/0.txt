@@ -1,0 +1,9 @@
+--- a/oak-mk/src/main/java/org/apache/jackrabbit/mk/core/MicroKernelImpl.java
++++ b/oak-mk/src/main/java/org/apache/jackrabbit/mk/core/MicroKernelImpl.java
+@@ -645,3 +645,5 @@
+                     }
+-                    builder.key(entry.getName()).object();
++                    if (filter!=null) {
++                        builder.key(entry.getName()).object();
++                    }
+                     if (depth > 0) {

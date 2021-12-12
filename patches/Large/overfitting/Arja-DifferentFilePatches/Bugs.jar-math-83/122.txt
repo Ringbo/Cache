@@ -1,0 +1,34 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_328513f3/src/main/java/org/apache/commons/math/util/MathUtils.java	2018-12-29 03:24:09.831340000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_328513f3/patches_kc3h/Patch_782/patched/tmp/Arja_Bug_dot_jar_Commons-Math_328513f3/src/main/java/org/apache/commons/math/util/MathUtils.java	2018-12-29 03:47:31.841093644 -0500
+@@ -1357,7 +1357,8 @@
+                 return Double.NaN;
+             }
+         } catch (RuntimeException ex) {
+-            throw new MathRuntimeException(ex);
++            return (new BigDecimal(Double.toString(x)).setScale(scale,
++					roundingMethod)).doubleValue();
+         }
+     }
+ 
+
+
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_328513f3/src/main/java/org/apache/commons/math/exception/MathRuntimeException.java	2018-12-29 03:24:09.607335000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_328513f3/patches_kc3h/Patch_782/patched/tmp/Arja_Bug_dot_jar_Commons-Math_328513f3/src/main/java/org/apache/commons/math/exception/MathRuntimeException.java	2018-12-29 03:47:31.841093644 -0500
+@@ -118,13 +118,13 @@
+    /** {@inheritDoc} */
+     @Override
+     public String getMessage() {
+-        return getMessage(Locale.US);
++        return getMessage(Locale.getDefault());
+     }
+ 
+     /** {@inheritDoc} */
+     @Override
+     public String getLocalizedMessage() {
+-        return getMessage(Locale.getDefault());
++        return getMessage(Locale.US);
+     }
+ 
+     /**
+
+

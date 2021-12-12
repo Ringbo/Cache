@@ -1,0 +1,34 @@
+--- /tmp/Arja_Defects4J_Lang_63/src/java/org/apache/commons/lang/time/DurationFormatUtils.java	2018-12-01 05:15:44.533037303 -0500
++++ /tmp/Arja_Defects4J_Lang_63/patches_g3j7/Patch_1763/patched/tmp/Arja_Defects4J_Lang_63/src/java/org/apache/commons/lang/time/DurationFormatUtils.java	2018-12-01 05:29:50.284386976 -0500
+@@ -313,7 +313,11 @@
+         }
+         while (months < 0) {
+             months += 12;
+-            years -= 1;
++            if (!Token.containsTokenWithValue(tokens, m)) {
++				seconds += 60 * minutes;
++				minutes = 0;
++			}
++			years -= 1;
+         }
+         milliseconds -= reduceAndCorrect(start, end, Calendar.MILLISECOND, milliseconds);
+         seconds -= reduceAndCorrect(start, end, Calendar.SECOND, seconds);
+@@ -329,7 +333,7 @@
+         if (!Token.containsTokenWithValue(tokens, y)) {
+             if (Token.containsTokenWithValue(tokens, M)) {
+                 months += 12 * years;
+-                years = 0;
++                end.add(Calendar.DATE, 1);
+             } else {
+                 // TODO: this is a bit weak, needs work to know about leap years
+                 days += 365 * years;
+@@ -435,7 +439,6 @@
+         int startValue = start.get(field);
+         if (endValue < startValue) {
+             int newdiff = startValue - endValue;
+-            end.add( field, newdiff );
+             return newdiff;
+         } else {
+             return 0;
+
+

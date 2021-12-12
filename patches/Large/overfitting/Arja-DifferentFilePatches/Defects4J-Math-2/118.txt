@@ -1,0 +1,32 @@
+--- /tmp/Arja_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/HypergeometricDistribution.java	2018-12-01 07:02:49.219241695 -0500
++++ /tmp/Arja_Defects4J_Math_2/patches_aq2w/Patch_74/patched/tmp/Arja_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/HypergeometricDistribution.java	2018-12-01 07:25:04.827739020 -0500
+@@ -277,7 +277,8 @@
+      */
+     public double getNumericalVariance() {
+         if (!numericalVarianceIsCalculated) {
+-            numericalVariance = calculateNumericalVariance();
++            numericalVarianceIsCalculated = true;
++			numericalVariance = calculateNumericalVariance();
+             numericalVarianceIsCalculated = true;
+         }
+         return numericalVariance;
+
+
+--- /tmp/Arja_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/AbstractIntegerDistribution.java	2018-12-01 07:02:45.423249176 -0500
++++ /tmp/Arja_Defects4J_Math_2/patches_aq2w/Patch_74/patched/tmp/Arja_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/AbstractIntegerDistribution.java	2018-12-01 07:25:04.831739012 -0500
+@@ -134,9 +134,10 @@
+             }
+             k = 1.0 / k;
+             tmp = mu + k * sigma;
+-            if (tmp < upper) {
+-                upper = ((int) Math.ceil(tmp)) - 1;
+-            }
++            if (p <= 0 || p > 1) {
++				throw new OutOfRangeException(
++						LocalizedFormats.OUT_OF_RANGE_LEFT, p, 0, 1);
++			}
+         }
+ 
+         return solveInverseCumulativeProbability(p, lower, upper);
+
+

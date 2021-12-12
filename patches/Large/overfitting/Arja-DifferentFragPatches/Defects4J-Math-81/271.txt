@@ -1,0 +1,25 @@
+--- /tmp/Arja_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-01 05:57:29.659492621 -0500
++++ /tmp/Arja_Defects4J_Math_81/patches_57bl/Patch_574/patched/tmp/Arja_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-01 06:08:17.765558611 -0500
+@@ -1498,8 +1498,6 @@
+                         np = nn - 13;
+                     }
+ 
+-                    // approximate contribution to norm squared from i < nn-1.
+-                    a2 = a2 + b2;
+                     for (int i4 = np; i4 >= 4 * start + 2 + pingPong; i4 -= 4) {
+                         if(b2 == 0.0) {
+                             break;
+@@ -1516,10 +1514,7 @@
+                     }
+                     a2 = cnst3 * a2;
+ 
+-                    // rayleigh quotient residual bound.
+-                    if (a2 < cnst1) {
+-                        s = gam * (1 - Math.sqrt(a2)) / (1 + a2);
+-                    }
++                    tType = -4;
+                     tau = s;
+ 
+                 }
+
+

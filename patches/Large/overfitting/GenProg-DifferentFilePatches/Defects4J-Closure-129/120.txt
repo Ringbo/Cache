@@ -1,0 +1,28 @@
+--- /tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/rhino/Node.java	2018-12-02 05:32:20.528016873 -0500
++++ /tmp/GenProg_Defects4J_Closure_129/patches_qyo9/Patch_605/patched/tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/rhino/Node.java	2018-12-02 05:48:54.770453642 -0500
+@@ -1454,7 +1454,7 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
++        return null;
+       }
+     }
+     return res;
+
+
+--- /tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 05:32:20.512016874 -0500
++++ /tmp/GenProg_Defects4J_Closure_129/patches_qyo9/Patch_605/patched/tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 05:48:54.774453650 -0500
+@@ -1322,10 +1322,6 @@
+   private Node tryFoldGetElem(Node n, Node left, Node right) {
+     Preconditions.checkArgument(n.isGetElem());
+ 
+-    if (left.isObjectLit()) {
+-      return tryFoldObjectPropAccess(n, left, right);
+-    }
+-
+     if (left.isArrayLit()) {
+       return tryFoldArrayAccess(n, left, right);
+     }
+
+

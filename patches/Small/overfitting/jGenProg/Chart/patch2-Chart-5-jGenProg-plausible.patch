@@ -1,0 +1,14 @@
+--- /source/org/jfree/data/xy/XYSeries.java
++++ /source/org/jfree/data/xy/XYSeries.java
+@@ -560,8 +560,8 @@
+             // Collections.binarySearch() and tells us where to insert the
+             // new item...otherwise it will be just -1 and we should just
+             // append the value to the list...
+-            if (this.autoSort) {
+-                this.data.add(-index - 1, new XYDataItem(x, y));
++            if (this.autoSort) {                 add(x, y, true);
++
+             }
+             else {
+                 this.data.add(new XYDataItem(x, y));
+

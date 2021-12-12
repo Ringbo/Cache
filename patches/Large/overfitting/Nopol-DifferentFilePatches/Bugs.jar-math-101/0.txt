@@ -1,0 +1,9 @@
+--- a/src/main/java/org/apache/commons/math3/optimization/direct/BOBYQAOptimizer.java
++++ b/src/main/java/org/apache/commons/math3/optimization/direct/BOBYQAOptimizer.java
+@@ -879,3 +879,5 @@
+                     // Computing MAX
+-                    delta = Math.max(hDelta, dnorm);
++                    if (itest == biglsq) {
++                        delta = Math.max(hDelta, dnorm);
++                    }
+                 } else {

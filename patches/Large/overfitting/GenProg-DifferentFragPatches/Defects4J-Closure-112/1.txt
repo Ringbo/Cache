@@ -1,0 +1,16 @@
+--- /tmp/GenProg_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-02 05:54:30.851329143 -0500
++++ /tmp/GenProg_Defects4J_Closure_112/patches_1e4m/Patch_733/patched/tmp/GenProg_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-02 06:12:47.970356277 -0500
+@@ -1126,10 +1126,7 @@
+       Map<TemplateType, JSType> resolvedTypes) {
+     while (declParams.hasNext() && callParams.hasNext()) {
+       Node declParam = declParams.next();
+-      maybeResolveTemplatedType(
+-          getJSType(declParam),
+-          getJSType(callParams.next()),
+-          resolvedTypes);
++      StringBuilder builder = new StringBuilder();
+       if (declParam.isVarArgs()) {
+         while (callParams.hasNext()) {
+           maybeResolveTemplatedType(
+
+

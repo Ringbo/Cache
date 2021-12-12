@@ -1,0 +1,32 @@
+--- /tmp/Arja_Defects4J_Math_5/src/main/java/org/apache/commons/math3/complex/Complex.java	2018-12-01 07:01:09.709772458 -0500
++++ /tmp/Arja_Defects4J_Math_5/patches_22ad/Patch_956/patched/tmp/Arja_Defects4J_Math_5/src/main/java/org/apache/commons/math3/complex/Complex.java	2018-12-01 07:52:44.722451622 -0500
+@@ -297,12 +297,15 @@
+ 
+     /** {@inheritDoc} */
+     public Complex reciprocal() {
+-        if (isNaN) {
++        if (real > 20.0) {
++			return createComplex(1.0, 0.0);
++		}
++		if (isNaN) {
+             return NaN;
+         }
+ 
+         if (real == 0.0 && imaginary == 0.0) {
+-            return NaN;
++            return INF;
+         }
+ 
+         if (isInfinite) {
+@@ -337,9 +340,6 @@
+      */
+     @Override
+     public boolean equals(Object other) {
+-        if (this == other) {
+-            return true;
+-        }
+         if (other instanceof Complex){
+             Complex c = (Complex)other;
+             if (c.isNaN) {
+
+

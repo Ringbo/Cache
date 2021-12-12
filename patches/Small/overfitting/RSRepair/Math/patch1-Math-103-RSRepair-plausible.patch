@@ -1,0 +1,32 @@
+--- /src/java/org/apache/commons/math/special/Gamma.java
++++ /src/java/org/apache/commons/math/special/Gamma.java
+@@ -167,7 +167,19 @@
+             // calculate series
+             double n = 0.0; // current element index
+             double an = 1.0 / a; // n-th element in the series
+-            double sum = an; // partial sum
++            if (Double.isNaN(x) || (x <= 0.0)) {
++                ret = Double.NaN;
++            } else {
++                double g = 607.0 / 128.0;
++                double sum = 0.0;
++                for (int i = lanczos.length - 1; i > 0; --i) {
++                    sum = sum + (lanczos[i] / (x + i));
++                }
++                sum = sum + lanczos[0];
++                double tmp = x + g + .5;
++                ret = ((x + .5) * Math.log(tmp)) - tmp + HALF_LOG_2_PI + Math.log(sum / x);
++            }
++            double sum = an; // partial sum
+             while (Math.abs(an) > epsilon && n < maxIterations) {
+                 // compute next element in the series
+                 n = n + 1.0;
+@@ -177,7 +189,6 @@
+                 sum = sum + an;
+             }
+             if (n >= maxIterations) {
+-                throw new MaxIterationsExceededException(maxIterations);
+             } else {
+                 ret = Math.exp(-x + (a * Math.log(x)) - logGamma(a)) * sum;
+             }
+

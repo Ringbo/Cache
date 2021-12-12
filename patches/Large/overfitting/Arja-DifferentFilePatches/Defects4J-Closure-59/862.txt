@@ -1,0 +1,40 @@
+--- /tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/CollapseVariableDeclarations.java	2018-12-01 09:32:09.991745553 -0500
++++ /tmp/Arja_Defects4J_Closure_59/patches_qxp9/Patch_1118/patched/tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/CollapseVariableDeclarations.java	2018-12-01 09:52:42.336222335 -0500
+@@ -192,10 +192,6 @@
+       Node assign = n.getFirstChild();
+       Node lhs = assign.getFirstChild();
+ 
+-      if (!NodeUtil.isName(lhs)) {
+-        return false;
+-      }
+-
+       Var var = s.getVar(lhs.getString());
+       return var != null &&
+           var.getScope() == s && !blacklistedVars.contains(var);
+
+
+--- /tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/AbstractCommandLineRunner.java	2018-12-01 09:32:09.987745552 -0500
++++ /tmp/Arja_Defects4J_Closure_59/patches_qxp9/Patch_1118/patched/tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/AbstractCommandLineRunner.java	2018-12-01 09:52:42.340222337 -0500
+@@ -1726,7 +1726,7 @@
+     private final List<Entry> entries = Lists.newArrayList();
+ 
+     protected void add(CheckLevel level, String groupName) {
+-      entries.add(new Entry(level, groupName));
++      return;
+     }
+ 
+     protected void clear() {
+
+
+--- /tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-01 09:32:10.027745566 -0500
++++ /tmp/Arja_Defects4J_Closure_59/patches_qxp9/Patch_1118/patched/tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-01 09:52:42.340222337 -0500
+@@ -76,7 +76,6 @@
+ 
+     // checkSuspiciousCode needs to be enabled for CheckGlobalThis to get run.
+     options.checkSuspiciousCode = true;
+-    options.checkGlobalThisLevel = CheckLevel.WARNING;
+     options.checkSymbols = true;
+     options.checkMissingReturn = CheckLevel.WARNING;
+ 
+
+

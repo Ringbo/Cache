@@ -1,0 +1,13 @@
+--- /tmp/Kali_Defects4J_Math_84/src/main/java/org/apache/commons/math/optimization/direct/MultiDirectional.java	2018-12-01 16:40:24.033434484 -0500
++++ /tmp/Kali_Defects4J_Math_84/patches_sijd/Patch_1/patched/tmp/Kali_Defects4J_Math_84/src/main/java/org/apache/commons/math/optimization/direct/MultiDirectional.java	2018-12-01 16:41:30.749436738 -0500
+@@ -87,7 +87,7 @@
+ 
+             // compute the contracted simplex
+             final RealPointValuePair contracted = evaluateNewSimplex(original, gamma, comparator);
+-            if (comparator.compare(contracted, best) < 0) {
++            if (true) {
+                 // accept the contracted simplex
+ 
+             // check convergence
+
+

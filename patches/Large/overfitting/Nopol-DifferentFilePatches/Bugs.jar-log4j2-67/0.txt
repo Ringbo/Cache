@@ -1,0 +1,13 @@
+--- a/core/src/main/java/org/apache/logging/log4j/core/impl/ThrowableProxy.java
++++ b/core/src/main/java/org/apache/logging/log4j/core/impl/ThrowableProxy.java
+@@ -430,5 +430,7 @@
+                 int modifier = method.getModifiers();
+-                if (method.getName().equals("getCallerClass") && Modifier.isStatic(modifier)) {
+-                    getCallerClass = method;
+-                    return;
++                if (org.apache.logging.log4j.core.impl.ThrowableProxy.securityManager!=null) {
++                    if (method.getName().equals("getCallerClass") && Modifier.isStatic(modifier)) {
++                        getCallerClass = method;
++                        return;
++                    }
+                 }

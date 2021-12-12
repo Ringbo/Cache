@@ -1,0 +1,52 @@
+--- /tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/AbstractPeepholeOptimization.java	2018-12-02 06:43:40.509187070 -0500
++++ /tmp/GenProg_Defects4J_Closure_78/patches_dj7g/Patch_1337/patched/tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/AbstractPeepholeOptimization.java	2018-12-02 07:02:14.560159532 -0500
+@@ -51,7 +51,7 @@
+    */
+   protected void error(DiagnosticType diagnostic, Node n) {
+     JSError error = currentTraversal.makeError(n, diagnostic, n.toString());
+-    currentTraversal.getCompiler().report(error);
++    int type = n.getType();
+   }
+ 
+   /**
+
+
+--- /tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 06:43:42.494179024 -0500
++++ /tmp/GenProg_Defects4J_Closure_78/patches_dj7g/Patch_1337/patched/tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 07:02:14.564159510 -0500
+@@ -143,7 +143,6 @@
+       case Token.BITXOR:
+         Node result = tryFoldArithmeticOp(subtree, left, right);
+         if (result != subtree) {
+-          return result;
+         }
+         return tryFoldLeftChildOp(subtree, left, right);
+ 
+@@ -809,9 +808,7 @@
+     } else {
+       // Try arithmetic add
+       Node result = tryFoldArithmeticOp(node, left, right);
+-      if (result != node) {
+-        return result;
+-      }
++      int start = 0;
+       return tryFoldLeftChildOp(node, left, right);
+     }
+   }
+
+
+--- /tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 06:43:40.533199067 -0500
++++ /tmp/GenProg_Defects4J_Closure_78/patches_dj7g/Patch_1337/patched/tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 07:02:14.564159510 -0500
+@@ -1346,7 +1346,10 @@
+       case Token.BITOR:
+       case Token.BITXOR:
+       case Token.BITAND:
+-        return true;
++        {
++			int start = 0;
++			return true;
++		}
+       default:
+         return false;
+     }
+
+

@@ -1,0 +1,29 @@
+--- /tmp/RSRepair_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-02 04:25:55.803109797 -0500
++++ /tmp/RSRepair_Defects4J_Chart_25/patches_l19u/Patch_172/patched/tmp/RSRepair_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-02 04:29:43.787990574 -0500
+@@ -204,14 +204,6 @@
+         StatisticalCategoryDataset statData = (StatisticalCategoryDataset) data;
+ 
+         PlotOrientation orientation = plot.getOrientation();
+-        if (orientation == PlotOrientation.HORIZONTAL) {
+-            drawHorizontalItem(g2, state, dataArea, plot, domainAxis, 
+-                    rangeAxis, statData, row, column);
+-        }
+-        else if (orientation == PlotOrientation.VERTICAL) {
+-            drawVerticalItem(g2, state, dataArea, plot, domainAxis, rangeAxis, 
+-                    statData, row, column);
+-        }
+     }
+                 
+     /**
+@@ -251,7 +243,8 @@
+             rectY = rectY + row * (state.getBarWidth() + seriesGap);
+         }
+         else {
+-            rectY = rectY + row * state.getBarWidth();
++            Stroke stroke = plot.getRangeGridlineStroke();
++			rectY = rectY + row * state.getBarWidth();
+         }
+ 
+         // BAR X
+
+

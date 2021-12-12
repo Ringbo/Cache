@@ -1,0 +1,37 @@
+--- /tmp/Arja_Defects4J_Math_73/src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java	2018-12-01 06:00:09.289104123 -0500
++++ /tmp/Arja_Defects4J_Math_73/patches_pxsy/Patch_964/patched/tmp/Arja_Defects4J_Math_73/src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java	2018-12-01 06:48:04.818017104 -0500
+@@ -128,7 +128,8 @@
+             return result;
+         }
+ 
+-        // reduce interval if initial and max bracket the root
++        verifyBracketing(min, max, f);
++		// reduce interval if initial and max bracket the root
+         if (yInitial * yMax < 0) {
+             return solve(f, initial, yInitial, max, yMax, initial, yInitial);
+         }
+@@ -296,11 +297,17 @@
+             // Compute new X1, Y1
+             if (Math.abs(delta) > tolerance) {
+                 x1 = x1 + delta;
+-            } else if (dx > 0.0) {
+-                x1 = x1 + 0.5 * tolerance;
+-            } else if (dx <= 0.0) {
+-                x1 = x1 - 0.5 * tolerance;
+-            }
++            } else {
++				if (Math.abs(dx) <= tolerance) {
++					setResult(x1, i);
++					return result;
++				}
++				if (dx > 0.0) {
++					x1 = x1 + 0.5 * tolerance;
++				} else if (dx <= 0.0) {
++					x1 = x1 - 0.5 * tolerance;
++				}
++			}
+             y1 = f.value(x1);
+             if ((y1 > 0) == (y2 > 0)) {
+                 x2 = x0;
+
+

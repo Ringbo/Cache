@@ -1,0 +1,98 @@
+--- /tmp/Arja_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-01 05:57:29.659492621 -0500
++++ /tmp/Arja_Defects4J_Math_81/patches_57bl/Patch_668/patched/tmp/Arja_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-01 06:09:20.773718397 -0500
+@@ -1081,35 +1081,37 @@
+                     // the shift was good
+                     updateSigma(tau);
+                     return deflatedEnd;
+-                } else if ((dMin < 0.0) &&
+-                           (dMin1 > 0.0) &&
+-                           (work[4 * deflatedEnd - 5 - pingPong] < TOLERANCE * (sigma + dN1)) &&
+-                           (Math.abs(dN) < TOLERANCE * sigma)) {
+-                   // convergence hidden by negative DN.
+-                    work[4 * deflatedEnd - 3 - pingPong] = 0.0;
+-                    dMin = 0.0;
+-                    updateSigma(tau);
+-                    return deflatedEnd;
+-                } else if (dMin < 0.0) {
+-                    // tau too big. Select new tau and try again.
+-                    if (tType < -22) {
+-                        // failed twice. Play it safe.
+-                        tau = 0.0;
+-                    } else if (dMin1 > 0.0) {
+-                        // late failure. Gives excellent shift.
+-                        tau = (tau + dMin) * (1.0 - 2.0 * MathUtils.EPSILON);
+-                        tType -= 11;
+-                    } else {
+-                        // early failure. Divide by 4.
+-                        tau *= 0.25;
+-                        tType -= 12;
+-                    }
+-                } else if (Double.isNaN(dMin)) {
+-                    tau = 0.0;
+                 } else {
+-                    // possible underflow. Play it safe.
+-                    loop = false;
+-                }
++					if (cachedD == null) {
++						cachedD = MatrixUtils
++								.createRealDiagonalMatrix(realEigenvalues);
++					}
++					if ((dMin < 0.0)
++							&& (dMin1 > 0.0)
++							&& (work[4 * deflatedEnd - 5 - pingPong] < TOLERANCE
++									* (sigma + dN1))
++							&& (Math.abs(dN) < TOLERANCE * sigma)) {
++						work[4 * deflatedEnd - 3 - pingPong] = 0.0;
++						dMin = 0.0;
++						updateSigma(tau);
++						return deflatedEnd;
++					} else if (dMin < 0.0) {
++						if (tType < -22) {
++							tau = 0.0;
++						} else if (dMin1 > 0.0) {
++							tau = (tau + dMin)
++									* (1.0 - 2.0 * MathUtils.EPSILON);
++							tType -= 11;
++						} else {
++							tau *= 0.25;
++							tType -= 12;
++						}
++					} else if (Double.isNaN(dMin)) {
++						tau = 0.0;
++					} else {
++						loop = false;
++					}
++				}
+             }
+ 
+         }
+@@ -1477,7 +1479,6 @@
+                     int np;
+                     if (dMin == dN) {
+                         gam = dN;
+-                        a2 = 0.0;
+                         if (work[nn - 5]  >  work[nn - 7]) {
+                             return;
+                         }
+@@ -1516,10 +1517,6 @@
+                     }
+                     a2 = cnst3 * a2;
+ 
+-                    // rayleigh quotient residual bound.
+-                    if (a2 < cnst1) {
+-                        s = gam * (1 - Math.sqrt(a2)) / (1 + a2);
+-                    }
+                     tau = s;
+ 
+                 }
+@@ -1527,7 +1524,7 @@
+ 
+                 // case 5.
+                 tType = -5;
+-                double s = 0.25 * dMin;
++                double s = 0;
+ 
+                 // compute contribution to norm squared from i > nn-2.
+                 final int np = nn - 2 * pingPong;
+
+

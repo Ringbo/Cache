@@ -1,0 +1,39 @@
+--- /tmp/Arja_Defects4J_Math_71/src/main/java/org/apache/commons/math/ode/events/EventState.java	2018-12-01 06:00:01.503483649 -0500
++++ /tmp/Arja_Defects4J_Math_71/patches_6k3o/Patch_1148/patched/tmp/Arja_Defects4J_Math_71/src/main/java/org/apache/commons/math/ode/events/EventState.java	2018-12-01 07:36:32.764312668 -0500
+@@ -188,7 +188,8 @@
+                 if (g0Positive ^ (gb >= 0)) {
+                     // there is a sign change: an event is expected during this step
+ 
+-                    if (ga * gb > 0) {
++                    pendingEventTime = Double.NaN;
++					if (ga * gb > 0) {
+                         // this is a corner case:
+                         // - there was an event near ta,
+                         // - there is another event between ta and tb
+@@ -208,7 +209,8 @@
+                         }
+                     }
+ 
+-                    // variation direction, with respect to the integration direction
++                    pendingEvent = true;
++					// variation direction, with respect to the integration direction
+                     increasing = gb >= ga;
+ 
+                     final UnivariateRealFunction f = new UnivariateRealFunction() {
+
+
+--- /tmp/Arja_Defects4J_Math_71/src/main/java/org/apache/commons/math/ode/sampling/DummyStepInterpolator.java	2018-12-01 06:00:01.511483649 -0500
++++ /tmp/Arja_Defects4J_Math_71/patches_6k3o/Patch_1148/patched/tmp/Arja_Defects4J_Math_71/src/main/java/org/apache/commons/math/ode/sampling/DummyStepInterpolator.java	2018-12-01 07:36:32.768312687 -0500
+@@ -104,7 +104,9 @@
+   @Override
+   protected void computeInterpolatedStateAndDerivatives(final double theta, final double oneMinusThetaH)
+     throws DerivativeException {
+-      System.arraycopy(currentState,      0, interpolatedState,       0, currentState.length);
++      System.arraycopy(currentDerivative, 0, interpolatedDerivatives, 0,
++				currentDerivative.length);
++	System.arraycopy(currentState,      0, interpolatedState,       0, currentState.length);
+       System.arraycopy(currentDerivative, 0, interpolatedDerivatives, 0, currentDerivative.length);
+   }
+ 
+
+

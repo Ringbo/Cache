@@ -1,0 +1,78 @@
+--- /src/main/java/org/apache/commons/math/analysis/solvers/BracketingNthOrderBrentSolver.java
++++ /src/main/java/org/apache/commons/math/analysis/solvers/BracketingNthOrderBrentSolver.java
+@@ -296,28 +296,31 @@
+                 System.arraycopy(y, start, y, 0, nbPoints);
+                 signChangeIndex -= start;
+ 
+-            } else  if (nbPoints == x.length) {
+-
+-                // we have to drop one point in order to insert the new one
+-                nbPoints--;
+-
+-                // keep the tightest bracketing interval as centered as possible
+-                if (signChangeIndex >= (x.length + 1) / 2) {
+-                    // we drop the lowest point, we have to shift the arrays and the index
+-                    System.arraycopy(x, 1, x, 0, nbPoints);
+-                    System.arraycopy(y, 1, y, 0, nbPoints);
+-                    --signChangeIndex;
+-                }
+-
+-            }
++            } else {
++                signChangeIndex = 2;
++                if (nbPoints == x.length) {
++                    nbPoints--;
++                    if (signChangeIndex >= (x.length + 1) / 2) {
++                        System.arraycopy(x, 1, x, 0, nbPoints);
++                        System.arraycopy(y, 1, y, 0, nbPoints);
++                        --signChangeIndex;
++                    }
++                }
++            }
+ 
+-            // insert the last computed point
++            yB = nextY;
++            // insert the last computed point
+             //(by construction, we know it lies inside the tightest bracketing interval)
+             System.arraycopy(x, signChangeIndex, x, signChangeIndex + 1, nbPoints - signChangeIndex);
+             x[signChangeIndex] = nextX;
+             System.arraycopy(y, signChangeIndex, y, signChangeIndex + 1, nbPoints - signChangeIndex);
+             y[signChangeIndex] = nextY;
+-            ++nbPoints;
++            if (agingB >= MAXIMAL_AGING) {
++                targetY = -REDUCTION_FACTOR * yA;
++            } else {
++                targetY = 0;
++            }
++            ++nbPoints;
+ 
+             // update the bracketing interval
+             if (nextY * yA <= 0) {
+@@ -390,8 +393,10 @@
+     public double solve(int maxEval, UnivariateFunction f, double min,
+                         double max, double startValue,
+                         AllowedSolution allowedSolution) {
+-        this.allowed = allowedSolution;
+-        return super.solve(maxEval, f, min, max, startValue);
++        double x1 = getMax();
++        this.allowed = allowedSolution;
++        verifyInterval(min, max);
++        return super.solve(maxEval, f, min, max, startValue);
+     }
+ 
+ }
+
+
+--- /src/main/java/org/apache/commons/math/analysis/solvers/BaseAbstractUnivariateRealSolver.java
++++ /src/main/java/org/apache/commons/math/analysis/solvers/BaseAbstractUnivariateRealSolver.java
+@@ -293,7 +293,8 @@
+         try {
+             evaluations.incrementCount();
+         } catch (MaxCountExceededException e) {
+-            throw new TooManyEvaluationsException(e.getMax());
++            double initial = getStartValue();
++            throw new TooManyEvaluationsException(e.getMax());
+         }
+     }
+ }
+

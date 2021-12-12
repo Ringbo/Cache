@@ -1,0 +1,30 @@
+--- /src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java
++++ /src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java
+@@ -1540,25 +1540,7 @@
+                 double a2 = (work[np - 8] / b2) * (1 + work[np - 4] / b1);
+ 
+                 // approximate contribution to norm squared from i < nn-2.
+-                if (end - start > 2) {
+-                    b2 = work[nn - 13] / work[nn - 15];
+-                    a2 = a2 + b2;
+-                    for (int i4 = nn - 17; i4 >= 4 * start + 2 + pingPong; i4 -= 4) {
+-                        if (b2 == 0.0) {
+-                            break;
+-                        }
+-                        b1 = b2;
+-                        if (work[i4]  >  work[i4 - 2]) {
+-                            return;
+-                        }
+-                        b2 = b2 * (work[i4] / work[i4 - 2]);
+-                        a2 = a2 + b2;
+-                        if (100 * Math.max(b2, b1) < a2 || cnst1 < a2)  {
+-                            break;
+-                        }
+-                    }
+-                    a2 = cnst3 * a2;
+-                }
++                
+ 
+                 if (a2 < cnst1) {
+                     tau = gam * (1 - Math.sqrt(a2)) / (1 + a2);
+

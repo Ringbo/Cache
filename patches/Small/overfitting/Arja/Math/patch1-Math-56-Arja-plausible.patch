@@ -1,0 +1,16 @@
+--- /src/main/java/org/apache/commons/math/util/MultidimensionalCounter.java
++++ /src/main/java/org/apache/commons/math/util/MultidimensionalCounter.java
+@@ -237,7 +237,11 @@
+         int idx = 1;
+         while (count < index) {
+             count += idx;
+-            ++idx;
++            while (count < index) {
++                count += idx;
++                ++idx;
++            }
++            ++idx;
+         }
+         --idx;
+         indices[last] = idx;
+

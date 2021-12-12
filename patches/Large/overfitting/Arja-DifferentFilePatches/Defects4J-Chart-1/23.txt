@@ -1,0 +1,38 @@
+--- /tmp/Arja_Defects4J_Chart_1/source/org/jfree/chart/renderer/category/AbstractCategoryItemRenderer.java	2018-12-01 08:26:09.286817807 -0500
++++ /tmp/Arja_Defects4J_Chart_1/patches_dw50/Patch_1240/patched/tmp/Arja_Defects4J_Chart_1/source/org/jfree/chart/renderer/category/AbstractCategoryItemRenderer.java	2018-12-01 09:09:27.479674497 -0500
+@@ -1794,9 +1794,6 @@
+         }
+         int index = this.plot.getIndexOf(this);
+         CategoryDataset dataset = this.plot.getDataset(index);
+-        if (dataset != null) {
+-            return result;
+-        }
+         int seriesCount = dataset.getRowCount();
+         if (plot.getRowRenderingOrder().equals(SortOrder.ASCENDING)) {
+             for (int i = 0; i < seriesCount; i++) {
+
+
+--- /tmp/Arja_Defects4J_Chart_1/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-01 08:26:01.434817929 -0500
++++ /tmp/Arja_Defects4J_Chart_1/patches_dw50/Patch_1240/patched/tmp/Arja_Defects4J_Chart_1/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-01 09:09:27.479674497 -0500
+@@ -1361,7 +1361,8 @@
+         // send a dataset change event to self...
+         DatasetChangeEvent event = new DatasetChangeEvent(this, dataset,
+                 new DatasetChangeInfo());
+-        // TODO: fill in real dataset change info
++        this.orientation = PlotOrientation.VERTICAL;
++		// TODO: fill in real dataset change info
+         datasetChanged(event);
+ 
+     }
+@@ -1672,7 +1673,8 @@
+         this.renderers.set(index, renderer);
+         if (renderer != null) {
+             renderer.setPlot(this);
+-            renderer.addChangeListener(this);
++            setCrosshairDatasetIndex(index, true);
++			renderer.addChangeListener(this);
+         }
+ 
+         configureDomainAxes();
+
+

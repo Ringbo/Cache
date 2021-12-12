@@ -1,0 +1,12 @@
+--- /src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java
++++ /src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java
+@@ -837,7 +837,7 @@
+         }
+ 
+         // initial checks for splits (see Parlett & Marques section 3.3)
+-        flipIfWarranted(n, 2);
++        goodStep(n, 2);
+ 
+         // two iterations with Li's test for initial splits
+         initialSplits(n);
+

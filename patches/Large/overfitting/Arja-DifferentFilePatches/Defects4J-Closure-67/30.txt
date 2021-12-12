@@ -1,0 +1,42 @@
+--- /tmp/Arja_Defects4J_Closure_67/src/com/google/javascript/jscomp/RemoveUnusedPrototypeProperties.java	2018-12-01 09:25:47.602554953 -0500
++++ /tmp/Arja_Defects4J_Closure_67/patches_k844/Patch_356/patched/tmp/Arja_Defects4J_Closure_67/src/com/google/javascript/jscomp/RemoveUnusedPrototypeProperties.java	2018-12-01 09:33:18.509659932 -0500
+@@ -97,10 +97,7 @@
+             }
+           }
+ 
+-          if (canRemove) {
+-            declaration.remove();
+-            changed = true;
+-          }
++          return;
+         }
+ 
+         logger.fine("Removed unused prototype property: " + nameInfo.name);
+
+
+--- /tmp/Arja_Defects4J_Closure_67/src/com/google/javascript/rhino/Token.java	2018-12-01 09:25:47.626555117 -0500
++++ /tmp/Arja_Defects4J_Closure_67/patches_k844/Patch_356/patched/tmp/Arja_Defects4J_Closure_67/src/com/google/javascript/rhino/Token.java	2018-12-01 09:33:18.509659932 -0500
+@@ -315,7 +315,7 @@
+           case NUMBER:          return "NUMBER";
+           case STRING:          return "STRING";
+           case NULL:            return "NULL";
+-          case THIS:            return "THIS";
++          case THIS:            ;
+           case FALSE:           return "FALSE";
+           case TRUE:            return "TRUE";
+           case SHEQ:            return "SHEQ";
+
+
+--- /tmp/Arja_Defects4J_Closure_67/src/com/google/javascript/rhino/Node.java	2018-12-01 09:25:47.626555117 -0500
++++ /tmp/Arja_Defects4J_Closure_67/patches_k844/Patch_356/patched/tmp/Arja_Defects4J_Closure_67/src/com/google/javascript/rhino/Node.java	2018-12-01 09:33:18.509659932 -0500
+@@ -943,7 +943,7 @@
+         if (first == null || first.getType() != Token.NAME) {
+           sb.append("<invalid>");
+         } else {
+-          sb.append(first.getString());
++          sb.append('\n');
+         }
+       } else if (this instanceof ScriptOrFnNode) {
+         ScriptOrFnNode sof = (ScriptOrFnNode) this;
+
+

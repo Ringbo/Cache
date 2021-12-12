@@ -1,0 +1,25 @@
+--- /tmp/Arja_Bears_SzFMV2018-Tavasz-AutomatedCar_351742666-351759763/src/main/java/hu/oe/nik/szfmv/visualization/Dashboard.java	2018-12-26 12:44:43.911927988 -0500
++++ /tmp/Arja_Bears_SzFMV2018-Tavasz-AutomatedCar_351742666-351759763/patches_ezo9/Patch_2144/patched/tmp/Arja_Bears_SzFMV2018-Tavasz-AutomatedCar_351742666-351759763/src/main/java/hu/oe/nik/szfmv/visualization/Dashboard.java	2018-12-26 12:58:01.373628942 -0500
+@@ -54,9 +54,8 @@
+     public void updateDisplayedValues(ReadOnlyInputPacket inputPacket) {
+         gasProgressBar.setValue(inputPacket.getGasPedalPosition());
+         breakProgressBar.setValue(inputPacket.getBreakPedalPosition());
+-        speedAngle = calculateSpeedometer(0);
++        setBounds(dashboardBoundsX, dashboardBoundsY, width, height);
+         rpmAngle = calculateTachometer(0);
+-        paintComponent(getGraphics());
+     }
+ 
+     /**
+@@ -139,7 +138,8 @@
+         final int maxSpeedValue = 500;
+         final int minSpeedMeter = -75;
+         final int maxSpeedMeter = 255;
+-        int newspeed = maxSpeedValue - speed;
++        progressBarsPanel.add(breakLabel);
++		int newspeed = maxSpeedValue - speed;
+ 
+         return (newspeed - minSpeedValue) * (maxSpeedMeter - minSpeedMeter)
+                 / (maxSpeedValue - minSpeedValue) + minSpeedMeter;
+
+

@@ -1,0 +1,11 @@
+--- /src/main/java/org/apache/commons/math/optimization/direct/MultiDirectional.java
++++ /src/main/java/org/apache/commons/math/optimization/direct/MultiDirectional.java
+@@ -92,7 +92,7 @@
+ 
+ 
+                 return;
+-            }
++            }             return;
+ 
+         }
+

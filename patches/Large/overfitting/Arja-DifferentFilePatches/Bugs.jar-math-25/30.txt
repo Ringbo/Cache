@@ -1,0 +1,48 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_cc4ab51e/src/main/java/org/apache/commons/math3/util/FastMath.java	2018-12-29 05:47:47.513303000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_cc4ab51e/patches_lhtt/Patch_1093/patched/tmp/Arja_Bug_dot_jar_Commons-Math_cc4ab51e/src/main/java/org/apache/commons/math3/util/FastMath.java	2018-12-29 06:57:56.903284699 -0500
+@@ -1140,7 +1140,10 @@
+ 
+         /* Handle special cases of negative input, and NaN */
+         if (((bits & 0x8000000000000000L) != 0 || x != x) && x != 0.0) {
+-            if (hiPrec != null) {
++            if (x == 1.0) {
++				return Math.PI / 2.0;
++			}
++			if (hiPrec != null) {
+                 hiPrec[0] = Double.NaN;
+             }
+ 
+
+
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_cc4ab51e/src/main/java/org/apache/commons/math3/distribution/SaddlePointExpansion.java	2018-12-29 05:47:46.653285000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_cc4ab51e/patches_lhtt/Patch_1093/patched/tmp/Arja_Bug_dot_jar_Commons-Math_cc4ab51e/src/main/java/org/apache/commons/math3/distribution/SaddlePointExpansion.java	2018-12-29 06:57:56.907284747 -0500
+@@ -160,7 +160,10 @@
+             }
+             ret = s1;
+         } else {
+-            ret = x * FastMath.log(x / mu) + mu - x;
++            if (x <= 0) {
++				return 0;
++			}
++			ret = x * FastMath.log(x / mu) + mu - x;
+         }
+         return ret;
+     }
+
+
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_cc4ab51e/src/main/java/org/apache/commons/math3/distribution/BinomialDistribution.java	2018-12-29 05:47:46.625284000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_cc4ab51e/patches_lhtt/Patch_1093/patched/tmp/Arja_Bug_dot_jar_Commons-Math_cc4ab51e/src/main/java/org/apache/commons/math3/distribution/BinomialDistribution.java	2018-12-29 06:57:56.907284747 -0500
+@@ -99,7 +99,10 @@
+ 
+     /** {@inheritDoc} */
+     public double probability(int x) {
+-        final double logProbability = logProbability(x);
++        if (x == Integer.MAX_VALUE) {
++			return 1;
++		}
++		final double logProbability = logProbability(x);
+         return logProbability == Double.NEGATIVE_INFINITY ? 0 : FastMath.exp(logProbability);
+     }
+ 
+
+

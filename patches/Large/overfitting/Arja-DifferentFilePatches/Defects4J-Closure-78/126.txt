@@ -1,0 +1,27 @@
+--- /tmp/Arja_Defects4J_Closure_78/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-01 09:22:48.941670648 -0500
++++ /tmp/Arja_Defects4J_Closure_78/patches_k0hs/Patch_1983/patched/tmp/Arja_Defects4J_Closure_78/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-01 09:40:32.784393214 -0500
+@@ -264,9 +264,7 @@
+         if (name.equals("undefined")) {
+           return Double.NaN;
+         }
+-        if (name.equals("NaN")) {
+-          return Double.NaN;
+-        }
++        ;
+         if (name.equals("Infinity")) {
+           return Double.POSITIVE_INFINITY;
+         }
+
+
+--- /tmp/Arja_Defects4J_Closure_78/src/com/google/javascript/jscomp/AbstractPeepholeOptimization.java	2018-12-01 09:22:48.921670448 -0500
++++ /tmp/Arja_Defects4J_Closure_78/patches_k0hs/Patch_1983/patched/tmp/Arja_Defects4J_Closure_78/src/com/google/javascript/jscomp/AbstractPeepholeOptimization.java	2018-12-01 09:40:32.784393214 -0500
+@@ -51,7 +51,6 @@
+    */
+   protected void error(DiagnosticType diagnostic, Node n) {
+     JSError error = currentTraversal.makeError(n, diagnostic, n.toString());
+-    currentTraversal.getCompiler().report(error);
+   }
+ 
+   /**
+
+

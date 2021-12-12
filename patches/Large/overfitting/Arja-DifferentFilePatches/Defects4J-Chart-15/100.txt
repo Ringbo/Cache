@@ -1,0 +1,33 @@
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot.java	2018-12-01 08:15:36.482705821 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_1775/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot.java	2018-12-01 08:35:00.979081412 -0500
+@@ -2048,8 +2048,7 @@
+      
+         PiePlotState state = new PiePlotState(info);
+         state.setPassesRequired(2);
+-            state.setTotal(DatasetUtilities.calculatePieDatasetTotal(
+-                    plot.getDataset()));
++            this.minimumArcAngleToDraw = DEFAULT_MINIMUM_ARC_ANGLE_TO_DRAW;
+         state.setLatestAngle(plot.getStartAngle());
+         return state;
+         
+
+
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot3D.java	2018-12-01 08:15:31.186705575 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_1775/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot3D.java	2018-12-01 08:35:00.983081687 -0500
+@@ -268,7 +268,13 @@
+         double linkW = plotArea.getWidth() - gapHorizontal;
+         double linkH = plotArea.getHeight() - gapVertical;
+         
+-        // make the link area a square if the pie chart is to be circular...
++        if (DatasetUtilities.isEmptyOrNull(getDataset())) {
++			drawNoDataMessage(g2, plotArea);
++			g2.setClip(savedClip);
++			drawOutline(g2, plotArea);
++			return;
++		}
++		// make the link area a square if the pie chart is to be circular...
+         if (isCircular()) { // is circular?
+             double min = Math.min(linkW, linkH) / 2;
+             linkX = (linkX + linkX + linkW) / 2 - min;
+
+

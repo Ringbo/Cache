@@ -1,0 +1,26 @@
+--- /tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/rhino/jstype/ModificationVisitor.java	2018-12-01 09:01:11.058036838 -0500
++++ /tmp/Arja_Defects4J_Closure_112/patches_famj/Patch_550/patched/tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/rhino/jstype/ModificationVisitor.java	2018-12-01 09:13:30.389545636 -0500
+@@ -106,7 +106,6 @@
+     JSType beforeReturn = type.getReturnType();
+     JSType afterReturn = beforeReturn.visit(this);
+     if (beforeReturn != afterReturn) {
+-      changed = true;
+     }
+ 
+     FunctionParamBuilder paramBuilder = new FunctionParamBuilder(registry);
+
+
+--- /tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-01 09:01:13.654047680 -0500
++++ /tmp/Arja_Defects4J_Closure_112/patches_famj/Patch_550/patched/tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-01 09:13:30.393545661 -0500
+@@ -1059,9 +1059,6 @@
+       JSType argType,
+       Map<TemplateType, JSType> resolvedTypes) {
+     if (paramType.isTemplateType()) {
+-      // @param {T}
+-      resolvedTemplateType(
+-          resolvedTypes, paramType.toMaybeTemplateType(), argType);
+     } else if (paramType.isUnionType()) {
+       // @param {Array.<T>|NodeList|Arguments|{length:number}}
+       UnionType unionType = paramType.toMaybeUnionType();
+
+

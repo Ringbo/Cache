@@ -1,0 +1,40 @@
+--- /tmp/GenProg_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-02 11:12:34.491681081 -0500
++++ /tmp/GenProg_Defects4J_Math_81/patches_mw5w/Patch_92/patched/tmp/GenProg_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-02 11:15:36.831676857 -0500
+@@ -1096,8 +1096,6 @@
+                         // failed twice. Play it safe.
+                         tau = 0.0;
+                     } else if (dMin1 > 0.0) {
+-                        // late failure. Gives excellent shift.
+-                        tau = (tau + dMin) * (1.0 - 2.0 * MathUtils.EPSILON);
+                         tType -= 11;
+                     } else {
+                         // early failure. Divide by 4.
+@@ -1477,7 +1475,7 @@
+                     int np;
+                     if (dMin == dN) {
+                         gam = dN;
+-                        a2 = 0.0;
++                        int deflatedEnd = end;
+                         if (work[nn - 5]  >  work[nn - 7]) {
+                             return;
+                         }
+@@ -1498,8 +1496,7 @@
+                         np = nn - 13;
+                     }
+ 
+-                    // approximate contribution to norm squared from i < nn-1.
+-                    a2 = a2 + b2;
++                    tau = 0.0;
+                     for (int i4 = np; i4 >= 4 * start + 2 + pingPong; i4 -= 4) {
+                         if(b2 == 0.0) {
+                             break;
+@@ -1623,6 +1620,7 @@
+                     tau = 0.5 * dMin1;
+                 }
+                 tType = -9;
++				tType = -9;
+             }
+             break;
+ 
+
+

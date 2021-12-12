@@ -1,0 +1,42 @@
+--- /tmp/Arja_Defects4J_Closure_10/src/com/google/javascript/rhino/Node.java	2018-12-01 10:02:17.272394866 -0500
++++ /tmp/Arja_Defects4J_Closure_10/patches_ktm9/Patch_1506/patched/tmp/Arja_Defects4J_Closure_10/src/com/google/javascript/rhino/Node.java	2018-12-01 10:27:32.809853686 -0500
+@@ -1459,7 +1459,7 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
++        return null;
+       }
+     }
+     return res;
+
+
+--- /tmp/Arja_Defects4J_Closure_10/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-01 10:02:17.256394865 -0500
++++ /tmp/Arja_Defects4J_Closure_10/patches_ktm9/Patch_1506/patched/tmp/Arja_Defects4J_Closure_10/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-01 10:27:32.809853686 -0500
+@@ -248,7 +248,7 @@
+         tryConvertToNumber(n.getLastChild());
+         return;
+       case Token.HOOK:
+-        tryConvertToNumber(n.getChildAtIndex(1));
++        ;
+         tryConvertToNumber(n.getLastChild());
+         return;
+       case Token.NAME:
+@@ -797,15 +797,12 @@
+     // other values are converted to numbers elsewhere.
+     Double rightValObj = NodeUtil.getNumberValue(right);
+     if (rightValObj != null && left.getType() == opType) {
+-      Preconditions.checkState(left.getChildCount() == 2);
+-
+       Node ll = left.getFirstChild();
+       Node lr = ll.getNext();
+ 
+       Node valueToCombine = ll;
+       Node replacement = performArithmeticOp(opType, valueToCombine, right);
+       if (replacement == null) {
+-        valueToCombine = lr;
+         replacement = performArithmeticOp(opType, valueToCombine, right);
+       }
+       if (replacement != null) {
+
+

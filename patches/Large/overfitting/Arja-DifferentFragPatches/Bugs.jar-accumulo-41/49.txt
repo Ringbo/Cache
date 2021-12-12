@@ -1,0 +1,24 @@
+--- /tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/src/core/src/main/java/org/apache/accumulo/core/client/mock/MockTable.java	2018-12-28 20:28:13.213481000 -0500
++++ /tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/patches_5ben/Patch_198/patched/tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/src/core/src/main/java/org/apache/accumulo/core/client/mock/MockTable.java	2018-12-28 20:32:33.557399426 -0500
+@@ -70,8 +70,6 @@
+         MockMemKey other = (MockMemKey) o;
+         if (count < other.count)
+           return -1;
+-        if (count > other.count)
+-          return 1;
+       } else {
+         return 1;
+       }
+@@ -106,8 +104,8 @@
+       if (!u.hasTimestamp())
+         if (timeType.equals(TimeType.LOGICAL))
+           key.setTimestamp(mutationCount);
+-        else
+-          key.setTimestamp(now);
++		else
++			;
+       
+       table.put(new MockMemKey(key, mutationCount), new Value(u.getValue()));
+     }
+
+

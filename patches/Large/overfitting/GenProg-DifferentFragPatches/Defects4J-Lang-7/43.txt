@@ -1,0 +1,67 @@
+--- /tmp/GenProg_Defects4J_Lang_7/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-02 05:05:38.013361696 -0500
++++ /tmp/GenProg_Defects4J_Lang_7/patches_e3r9/Patch_1220/patched/tmp/GenProg_Defects4J_Lang_7/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-02 05:24:08.080321513 -0500
+@@ -450,7 +450,6 @@
+             throw new NumberFormatException("A blank string is not a valid number");
+         }  
+         if (str.startsWith("--")) {
+-            return null;
+         }
+         if (str.startsWith("0x") || str.startsWith("-0x") || str.startsWith("0X") || str.startsWith("-0X")) {
+             int hexDigits = str.length() - 2; // drop 0x
+@@ -471,7 +470,13 @@
+ 
+         if (decPos > -1) {
+ 
+-            if (expPos > -1) {
++            if (expPos > str.length()) {
++				throw new NumberFormatException(str + " is not a valid number.");
++			}
++			if (expPos > str.length()) {
++				throw new NumberFormatException(str + " is not a valid number.");
++			}
++			if (expPos > -1) {
+                 if (expPos < decPos || expPos > str.length()) {
+                     throw new NumberFormatException(str + " is not a valid number.");
+                 }
+@@ -482,7 +487,17 @@
+             mant = str.substring(0, decPos);
+         } else {
+             if (expPos > -1) {
+-                if (expPos > str.length()) {
++                if (expPos > -1 && expPos < str.length() - 1) {
++					exp = str.substring(expPos + 1, str.length());
++				} else {
++					exp = null;
++				}
++				if (expPos > -1 && expPos < str.length() - 1) {
++					exp = str.substring(expPos + 1, str.length());
++				} else {
++					exp = null;
++				}
++				if (expPos > str.length()) {
+                     throw new NumberFormatException(str + " is not a valid number.");
+                 }
+                 mant = str.substring(0, expPos);
+@@ -532,7 +547,19 @@
+                 case 'd' :
+                 case 'D' :
+                     try {
+-                        Double d = NumberUtils.createDouble(numeric);
++                        if (str.startsWith("0x") || str.startsWith("-0x")
++								|| str.startsWith("0X")
++								|| str.startsWith("-0X")) {
++							int hexDigits = str.length() - 2;
++							if (str.startsWith("-")) {
++								hexDigits--;
++							}
++							if (hexDigits > 8) {
++								return createLong(str);
++							}
++							return createInteger(str);
++						}
++						Double d = NumberUtils.createDouble(numeric);
+                         if (!(d.isInfinite() || (d.floatValue() == 0.0D && !allZeros))) {
+                             return d;
+                         }
+
+

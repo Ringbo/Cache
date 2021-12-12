@@ -1,0 +1,53 @@
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/store/DefaultRevisionStore.java	2018-12-29 10:48:57.960251000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/patches_10w1/Patch_508/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/store/DefaultRevisionStore.java	2018-12-29 10:57:35.927238118 -0500
+@@ -238,9 +238,6 @@
+ 
+         @Override
+         public boolean equals(Object obj) {
+-            if (obj instanceof PutTokenImpl) {
+-                return ((PutTokenImpl) obj).id == id;
+-            }
+             return super.equals(obj);
+         }
+ 
+
+
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/core/MicroKernelImpl.java	2018-12-29 10:48:57.948251000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/patches_10w1/Patch_508/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/core/MicroKernelImpl.java	2018-12-29 10:57:35.927238118 -0500
+@@ -94,14 +94,6 @@
+ 
+     public void dispose() {
+         gate.commit("end");
+-        if (rep != null) {
+-            try {
+-                rep.shutDown();
+-            } catch (Exception ignore) {
+-                // fail silently
+-            }
+-            rep = null;
+-        }
+     }
+ 
+     public String getHeadRevision() throws MicroKernelException {
+
+
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/core/Repository.java	2018-12-29 10:48:57.948251000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/patches_10w1/Patch_508/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/core/Repository.java	2018-12-29 10:57:35.931238128 -0500
+@@ -109,15 +109,9 @@
+     }
+ 
+     public void shutDown() throws Exception {
+-        if (!initialized) {
+-            return;
+-        }
+         if (blobStoreNeedsClose && bs instanceof Closeable) {
+             IOUtils.closeQuietly((Closeable) bs);
+         }
+-        if (rs instanceof Closeable) {
+-            IOUtils.closeQuietly((Closeable) rs);
+-        }
+         initialized = false;
+     }
+ 
+
+

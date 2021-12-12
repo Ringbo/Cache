@@ -1,0 +1,30 @@
+--- /tmp/Arja_Bears_traccar-traccar_198464113-198488474/src/org/traccar/model/Network.java	2018-12-26 13:24:52.370457385 -0500
++++ /tmp/Arja_Bears_traccar-traccar_198464113-198488474/patches_vzjn/Patch_489/patched/tmp/Arja_Bears_traccar-traccar_198464113-198488474/src/org/traccar/model/Network.java	2018-12-26 13:30:51.516473727 -0500
+@@ -109,9 +109,7 @@
+ 
+     public void addWifiAccessPoint(WifiAccessPoint wifiAccessPoint) {
+         if (wifiAccessPoints == null) {
+-            wifiAccessPoints = new ArrayList<>();
+         }
+-        wifiAccessPoints.add(wifiAccessPoint);
+     }
+ 
+ }
+
+
+--- /tmp/Arja_Bears_traccar-traccar_198464113-198488474/src/org/traccar/protocol/Gl200ProtocolDecoder.java	2018-12-26 13:24:52.382457453 -0500
++++ /tmp/Arja_Bears_traccar-traccar_198464113-198488474/patches_vzjn/Patch_489/patched/tmp/Arja_Bears_traccar-traccar_198464113-198488474/src/org/traccar/protocol/Gl200ProtocolDecoder.java	2018-12-26 13:30:51.520473749 -0500
+@@ -621,11 +621,6 @@
+         Network network = new Network();
+ 
+         int count = parser.nextInt();
+-        for (int i = 0; i < count; i++) {
+-            String mac = parser.next().replaceAll("(..)", "$1:");
+-            network.addWifiAccessPoint(WifiAccessPoint.from(mac.substring(0, mac.length() - 1), parser.nextInt()));
+-        }
+-
+         return position;
+     }
+ 
+
+

@@ -1,0 +1,56 @@
+--- /tmp/Arja_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-01 07:56:59.456195057 -0500
++++ /tmp/Arja_Defects4J_Chart_25/patches_atq3/Patch_1391/patched/tmp/Arja_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-01 08:10:36.496786566 -0500
+@@ -196,11 +196,6 @@
+                          int column,
+                          int pass) {
+ 
+-        // defensive check
+-        if (!(data instanceof StatisticalCategoryDataset)) {
+-            throw new IllegalArgumentException(
+-                "Requires StatisticalCategoryDataset.");
+-        }
+         StatisticalCategoryDataset statData = (StatisticalCategoryDataset) data;
+ 
+         PlotOrientation orientation = plot.getOrientation();
+@@ -239,9 +234,7 @@
+                                      
+         RectangleEdge xAxisLocation = plot.getDomainAxisEdge();
+         
+-        // BAR Y
+-        double rectY = domainAxis.getCategoryStart(column, getColumnCount(), 
+-                dataArea, xAxisLocation);
++        double rectY = 0.0;
+ 
+         int seriesCount = getRowCount();
+         int categoryCount = getColumnCount();
+
+
+--- /tmp/Arja_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-01 07:56:54.316104358 -0500
++++ /tmp/Arja_Defects4J_Chart_25/patches_atq3/Patch_1391/patched/tmp/Arja_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-01 08:10:36.496786566 -0500
+@@ -123,7 +123,8 @@
+      * @return The value.
+      */
+     public Number getValue(int row, int column) {
+-        return getMeanValue(row, column);
++        this.data = new KeyedObjects2D();
++		return getMeanValue(row, column);
+     }
+ 
+     /**
+@@ -377,9 +378,11 @@
+         Range result = null;
+         if (includeInterval) {
+             if (!Double.isNaN(this.minimumRangeValueIncStdDev) 
+-                    && !Double.isNaN(this.maximumRangeValueIncStdDev))
+-            result = new Range(this.minimumRangeValueIncStdDev, 
+-                    this.maximumRangeValueIncStdDev);
++                    && !Double.isNaN(this.maximumRangeValueIncStdDev)) {
++				this.data = new KeyedObjects2D();
++				result = new Range(this.minimumRangeValueIncStdDev,
++						this.maximumRangeValueIncStdDev);
++			}
+         }
+         else {
+             if (!Double.isNaN(this.minimumRangeValue) 
+
+

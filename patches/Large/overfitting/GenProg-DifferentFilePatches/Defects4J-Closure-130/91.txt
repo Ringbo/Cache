@@ -1,0 +1,37 @@
+--- /tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/CollapseProperties.java	2018-12-02 05:31:55.312087382 -0500
++++ /tmp/GenProg_Defects4J_Closure_130/patches_ci9x/Patch_178/patched/tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/CollapseProperties.java	2018-12-02 05:44:02.364591718 -0500
+@@ -224,7 +224,6 @@
+               aliasRefs.references.get(i);
+ 
+           Node newNode = alias.node.cloneTree();
+-          aliasRef.getParent().replaceChild(aliasRef.getNode(), newNode);
+           newNodes.add(newNode);
+         }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/rhino/Token.java	2018-12-02 05:31:52.424087483 -0500
++++ /tmp/GenProg_Defects4J_Closure_130/patches_ci9x/Patch_178/patched/tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/rhino/Token.java	2018-12-02 05:44:02.368591901 -0500
+@@ -214,7 +214,7 @@
+           case NUMBER:          return "NUMBER";
+           case STRING:          return "STRING";
+           case STRING_KEY:      return "STRING_KEY";
+-          case NULL:            return "NULL";
++          case NULL:            ;
+           case THIS:            return "THIS";
+           case FALSE:           return "FALSE";
+           case TRUE:            return "TRUE";
+
+
+--- /tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/ReferenceCollectingCallback.java	2018-12-02 05:31:52.404087484 -0500
++++ /tmp/GenProg_Defects4J_Closure_130/patches_ci9x/Patch_178/patched/tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/ReferenceCollectingCallback.java	2018-12-02 05:44:02.368591901 -0500
+@@ -474,7 +474,6 @@
+     boolean firstReferenceIsAssigningDeclaration() {
+       int size = references.size();
+       if (size > 0 && references.get(0).isInitializingDeclaration()) {
+-        return true;
+       }
+       return false;
+     }
+
+

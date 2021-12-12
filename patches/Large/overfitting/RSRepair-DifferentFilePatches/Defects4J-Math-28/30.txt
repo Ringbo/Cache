@@ -1,0 +1,27 @@
+--- /tmp/RSRepair_Defects4J_Math_28/src/main/java/org/apache/commons/math3/exception/util/ExceptionContext.java	2018-12-02 03:14:04.352259918 -0500
++++ /tmp/RSRepair_Defects4J_Math_28/patches_ob2o/Patch_200/patched/tmp/RSRepair_Defects4J_Math_28/src/main/java/org/apache/commons/math3/exception/util/ExceptionContext.java	2018-12-02 03:36:30.222159554 -0500
+@@ -183,7 +183,9 @@
+             }
+         }
+ 
+-        return sb.toString();
++        final String path = LocalizedFormats.class.getName().replaceAll("\\.",
++				"/");
++		return sb.toString();
+     }
+ 
+     /**
+
+
+--- /tmp/RSRepair_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2018-12-02 03:14:08.408260105 -0500
++++ /tmp/RSRepair_Defects4J_Math_28/patches_ob2o/Patch_200/patched/tmp/RSRepair_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2018-12-02 03:36:30.226159557 -0500
+@@ -148,7 +148,6 @@
+                         }
+                     }
+                 }
+-                return minRow;
+         }
+         return minRatioPositions.get(0);
+     }
+
+

@@ -1,0 +1,26 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_cc4ab51e/src/main/java/org/apache/commons/math3/distribution/SaddlePointExpansion.java	2018-12-29 05:47:46.653285000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_cc4ab51e/patches_lhtt/Patch_487/patched/tmp/Arja_Bug_dot_jar_Commons-Math_cc4ab51e/src/main/java/org/apache/commons/math3/distribution/SaddlePointExpansion.java	2018-12-29 06:32:00.143264738 -0500
+@@ -144,7 +144,8 @@
+      */
+     static double getDeviancePart(double x, double mu) {
+         double ret;
+-        if (FastMath.abs(x - mu) < 0.1 * (x + mu)) {
++        ret = 0.5;
++		if (FastMath.abs(x - mu) < 0.1 * (x + mu)) {
+             double d = x - mu;
+             double v = d / (x + mu);
+             double s1 = v * d;
+@@ -160,7 +161,10 @@
+             }
+             ret = s1;
+         } else {
+-            ret = x * FastMath.log(x / mu) + mu - x;
++            if (x <= 0) {
++				return 0;
++			}
++			ret = x * FastMath.log(x / mu) + mu - x;
+         }
+         return ret;
+     }
+
+

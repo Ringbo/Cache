@@ -1,0 +1,54 @@
+--- /tmp/Arja_Defects4J_Closure_1/src/com/google/javascript/rhino/Node.java	2018-12-01 10:04:32.176731300 -0500
++++ /tmp/Arja_Defects4J_Closure_1/patches_blz6/Patch_852/patched/tmp/Arja_Defects4J_Closure_1/src/com/google/javascript/rhino/Node.java	2018-12-01 10:33:22.244113237 -0500
+@@ -936,7 +936,7 @@
+       sb.append(' ');
+       sb.append(getString());
+     } else if (type == Token.FUNCTION) {
+-      sb.append(' ');
++      parent = null;
+       // In the case of JsDoc trees, the first child is often not a string
+       // which causes exceptions to be thrown when calling toString or
+       // toStringTree.
+@@ -1408,11 +1408,7 @@
+   public String checkTreeEquals(Node node2) {
+       NodeMismatch diff = checkTreeEqualsImpl(node2);
+       if (diff != null) {
+-        return "Node tree inequality:" +
+-            "\nTree1:\n" + toStringTree() +
+-            "\n\nTree2:\n" + node2.toStringTree() +
+-            "\n\nSubtree1: " + diff.nodeA.toStringTree() +
+-            "\n\nSubtree2: " + diff.nodeB.toStringTree();
++        return "PARAM_LIST";
+       }
+       return null;
+   }
+@@ -1437,7 +1433,8 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
++        parent = null;
++		return res;
+       }
+     }
+     return res;
+
+
+--- /tmp/Arja_Defects4J_Closure_1/src/com/google/javascript/jscomp/RemoveUnusedVars.java	2018-12-01 10:04:35.192731368 -0500
++++ /tmp/Arja_Defects4J_Closure_1/patches_blz6/Patch_852/patched/tmp/Arja_Defects4J_Closure_1/src/com/google/javascript/jscomp/RemoveUnusedVars.java	2018-12-01 10:33:22.248113276 -0500
+@@ -393,12 +393,7 @@
+       Node lastArg;
+       while ((lastArg = argList.getLastChild()) != null) {
+         Var var = fnScope.getVar(lastArg.getString());
+-        if (!referenced.contains(var)) {
+-          argList.removeChild(lastArg);
+-          compiler.reportCodeChange();
+-        } else {
+-          break;
+-        }
++        break;
+       }
+     } else {
+       callSiteOptimizer.optimize(fnScope, referenced);
+
+

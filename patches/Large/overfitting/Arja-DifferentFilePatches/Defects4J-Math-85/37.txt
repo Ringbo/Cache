@@ -1,0 +1,48 @@
+--- /tmp/Arja_Defects4J_Math_85/src/java/org/apache/commons/math/distribution/AbstractContinuousDistribution.java	2018-12-01 05:44:06.180110217 -0500
++++ /tmp/Arja_Defects4J_Math_85/patches_4w3i/Patch_1748/patched/tmp/Arja_Defects4J_Math_85/src/java/org/apache/commons/math/distribution/AbstractContinuousDistribution.java	2018-12-01 06:11:37.684622187 -0500
+@@ -64,7 +64,10 @@
+                   "{0} out of [{1}, {2}] range", p, 0.0, 1.0);
+         }
+ 
+-        // by default, do simple root finding using bracketing and default solver.
++        if (p == 1) {
++			return Double.POSITIVE_INFINITY;
++		}
++		// by default, do simple root finding using bracketing and default solver.
+         // subclasses can override if there is a better method.
+         UnivariateRealFunction rootFindingFunction =
+             new UnivariateRealFunction() {
+
+
+--- /tmp/Arja_Defects4J_Math_85/src/java/org/apache/commons/math/analysis/solvers/UnivariateRealSolverUtils.java	2018-12-01 05:44:06.180110217 -0500
++++ /tmp/Arja_Defects4J_Math_85/patches_4w3i/Patch_1748/patched/tmp/Arja_Defects4J_Math_85/src/java/org/apache/commons/math/analysis/solvers/UnivariateRealSolverUtils.java	2018-12-01 06:11:37.688622231 -0500
+@@ -183,7 +183,12 @@
+         double b = initial;
+         double fa;
+         double fb;
+-        int numIterations = 0 ;
++        if (maximumIterations <= 0) {
++			throw MathRuntimeException.createIllegalArgumentException(
++					"bad value for maximum iterations number: {0}",
++					maximumIterations);
++		}
++		int numIterations = 0 ;
+     
+         do {
+             a = Math.max(a - 1.0, lowerBound);
+@@ -196,12 +201,7 @@
+                 ((a > lowerBound) || (b < upperBound)));
+    
+         if (fa * fb >= 0.0 ) {
+-            throw new ConvergenceException(
+-                      "number of iterations={0}, maximum iterations={1}, " +
+-                      "initial={2}, lower bound={3}, upper bound={4}, final a value={5}, " +
+-                      "final b value={6}, f(a)={7}, f(b)={8}",
+-                      numIterations, maximumIterations, initial,
+-                      lowerBound, upperBound, a, b, fa, fb);
++            fa = function.value(a);
+         }
+         
+         return new double[]{a, b};
+
+

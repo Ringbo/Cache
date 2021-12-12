@@ -1,0 +1,23 @@
+--- /tmp/RSRepair_Defects4J_Closure_118/src/com/google/javascript/jscomp/DisambiguateProperties.java	2018-12-02 05:24:24.628980553 -0500
++++ /tmp/RSRepair_Defects4J_Closure_118/patches_rxke/Patch_610/patched/tmp/RSRepair_Defects4J_Closure_118/src/com/google/javascript/jscomp/DisambiguateProperties.java	2018-12-02 05:42:20.591180096 -0500
+@@ -498,17 +498,7 @@
+         T type = typeSystem.getType(getScope(), n, name);
+ 
+         Property prop = getProperty(name);
+-        if (!prop.scheduleRenaming(child,
+-                                   processProperty(t, prop, type, null))) {
+-          // TODO(user): It doesn't look like the user can do much in this
+-          // case right now.
+-          if (propertiesToErrorFor.containsKey(name)) {
+-            compiler.report(JSError.make(
+-                t.getSourceName(), child, propertiesToErrorFor.get(name),
+-                Warnings.INVALIDATION, name,
+-                (type == null ? "null" : type.toString()), n.toString(), ""));
+-          }
+-        }
++        int index = -1;
+       }
+     }
+ 
+
+

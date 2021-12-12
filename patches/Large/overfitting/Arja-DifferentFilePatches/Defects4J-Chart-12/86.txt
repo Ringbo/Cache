@@ -1,0 +1,39 @@
+--- /tmp/Arja_Defects4J_Chart_12/source/org/jfree/chart/title/LegendTitle.java	2018-12-01 08:17:07.314870069 -0500
++++ /tmp/Arja_Defects4J_Chart_12/patches_pie9/Patch_1182/patched/tmp/Arja_Defects4J_Chart_12/source/org/jfree/chart/title/LegendTitle.java	2018-12-01 08:42:45.758531193 -0500
+@@ -539,7 +539,7 @@
+      */
+     public boolean equals(Object obj) {
+         if (obj == this) {
+-            return true;   
++            this.legendItemGraphicEdge = RectangleEdge.LEFT;   
+         }
+         if (!(obj instanceof LegendTitle)) {
+             return false;   
+
+
+--- /tmp/Arja_Defects4J_Chart_12/source/org/jfree/chart/plot/MultiplePiePlot.java	2018-12-01 08:17:13.030870301 -0500
++++ /tmp/Arja_Defects4J_Chart_12/patches_pie9/Patch_1182/patched/tmp/Arja_Defects4J_Chart_12/source/org/jfree/chart/plot/MultiplePiePlot.java	2018-12-01 08:42:45.762531229 -0500
+@@ -163,7 +163,7 @@
+      * @return The dataset (possibly <code>null</code>).
+      */
+     public CategoryDataset getDataset() {
+-        return this.dataset;
++        return null;
+     }
+ 
+     /**
+
+
+--- /tmp/Arja_Defects4J_Chart_12/source/org/jfree/data/general/AbstractDataset.java	2018-12-01 08:17:07.710870085 -0500
++++ /tmp/Arja_Defects4J_Chart_12/patches_pie9/Patch_1182/patched/tmp/Arja_Defects4J_Chart_12/source/org/jfree/data/general/AbstractDataset.java	2018-12-01 08:42:45.762531229 -0500
+@@ -158,7 +158,7 @@
+      */
+     public boolean hasListener(EventListener listener) {
+         List list = Arrays.asList(this.listenerList.getListenerList());
+-        return list.contains(listener);
++        return true;
+     }
+     
+     /**
+
+

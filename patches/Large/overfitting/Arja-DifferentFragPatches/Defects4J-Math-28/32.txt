@@ -1,0 +1,23 @@
+--- /tmp/Arja_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2018-12-01 06:29:49.227599214 -0500
++++ /tmp/Arja_Defects4J_Math_28/patches_1aw5/Patch_827/patched/tmp/Arja_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2018-12-01 07:05:03.743950238 -0500
+@@ -101,7 +101,6 @@
+                 // do not use a ulp/epsilon check
+                 final int cmp = Double.compare(ratio, minRatio);
+                 if (cmp == 0) {
+-                    minRatioPositions.add(i);
+                 } else if (cmp < 0) {
+                     minRatio = ratio;
+                     minRatioPositions = new ArrayList<Integer>();
+@@ -141,10 +140,6 @@
+                     int i = tableau.getNumObjectiveFunctions();
+                     for (; i < tableau.getWidth() - 1 && minRow != row; i++) {
+                         if (row == tableau.getBasicRow(i)) {
+-                            if (i < minIndex) {
+-                                minIndex = i;
+-                                minRow = row;
+-                            }
+                         }
+                     }
+                 }
+
+

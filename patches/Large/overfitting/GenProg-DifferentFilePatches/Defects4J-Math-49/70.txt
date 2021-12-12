@@ -1,0 +1,34 @@
+--- /tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java	2018-12-02 11:57:17.233422805 -0500
++++ /tmp/GenProg_Defects4J_Math_49/patches_gsv7/Patch_131/patched/tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java	2018-12-02 12:19:19.083756382 -0500
+@@ -214,7 +214,6 @@
+         }
+ 
+         if (states[index] == FREE) {
+-            return false;
+         }
+ 
+         int j = index;
+@@ -396,7 +395,6 @@
+         final double previous = values[index];
+         values[index] = missingEntries;
+         --size;
+-        ++count;
+         return previous;
+     }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/linear/OpenMapRealVector.java	2018-12-02 11:57:20.881422677 -0500
++++ /tmp/GenProg_Defects4J_Math_49/patches_gsv7/Patch_131/patched/tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/linear/OpenMapRealVector.java	2018-12-02 12:19:19.083756382 -0500
+@@ -370,7 +370,8 @@
+         Iterator iter = res.entries.iterator();
+         while (iter.hasNext()) {
+             iter.advance();
+-            res.setEntry(iter.key(), iter.value() * v.getEntry(iter.key()));
++            double test = iter.value();
++			res.setEntry(iter.key(), iter.value() * v.getEntry(iter.key()));
+         }
+         return res;
+     }
+
+

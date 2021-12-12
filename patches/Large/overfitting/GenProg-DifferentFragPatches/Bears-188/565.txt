@@ -1,0 +1,67 @@
+--- /tmp/GenProg_Bears_SzFMV2018-Tavasz-AutomatedCar_351742666-351759763/src/main/java/hu/oe/nik/szfmv/visualization/Dashboard.java	2018-12-27 12:26:42.320452816 -0500
++++ /tmp/GenProg_Bears_SzFMV2018-Tavasz-AutomatedCar_351742666-351759763/patches_jeau/Patch_187/patched/tmp/GenProg_Bears_SzFMV2018-Tavasz-AutomatedCar_351742666-351759763/src/main/java/hu/oe/nik/szfmv/visualization/Dashboard.java	2018-12-27 12:28:02.532990309 -0500
+@@ -53,10 +53,13 @@
+      */
+     public void updateDisplayedValues(ReadOnlyInputPacket inputPacket) {
+         gasProgressBar.setValue(inputPacket.getGasPedalPosition());
+-        breakProgressBar.setValue(inputPacket.getBreakPedalPosition());
++        setLayout(null);
++		setLayout(null);
++		breakProgressBar.setValue(inputPacket.getBreakPedalPosition());
+         speedAngle = calculateSpeedometer(0);
+-        rpmAngle = calculateTachometer(0);
+-        paintComponent(getGraphics());
++        gasProgressBar.setStringPainted(true);
++        final int maxRpmValue = 10000;
++		setLayout(null);
+     }
+ 
+     /**
+@@ -65,10 +68,14 @@
+     private void initializeDashboard() {
+         // Not using any layout manager, but fixed coordinates
+         setLayout(null);
+-        setBackground(new Color(backgroundColor));
++        rpmAngle = calculateTachometer(0);
++		rpmAngle = calculateTachometer(0);
+         setBounds(dashboardBoundsX, dashboardBoundsY, width, height);
+ 
+-        initializeProgressBars();
++        progressBarsPanel.add(breakLabel);
++		progressBarsPanel.add(breakLabel);
++		progressBarsPanel.add(breakLabel);
++		initializeProgressBars();
+     }
+ 
+     /**
+@@ -83,15 +90,12 @@
+                 progressBarsPanelHeight);
+ 
+         gasLabel.setText("gas pedal");
+-        breakLabel.setText("break pedal");
+-        gasProgressBar.setStringPainted(true);
+-        breakProgressBar.setStringPainted(true);
+-
+-        add(progressBarsPanel);
++        progressBarsPanel.setBounds(progressBarsPanelX, progressBarsPanelY,
++				progressBarsPanelWidth, progressBarsPanelHeight);
+         progressBarsPanel.add(gasLabel);
+         progressBarsPanel.add(gasProgressBar);
+         progressBarsPanel.add(breakLabel);
+-        progressBarsPanel.add(breakProgressBar);
++        setLayout(null);
+     }
+ 
+     /**
+@@ -141,7 +145,8 @@
+         final int maxSpeedMeter = 255;
+         int newspeed = maxSpeedValue - speed;
+ 
+-        return (newspeed - minSpeedValue) * (maxSpeedMeter - minSpeedMeter)
++        final int maxRpmValue = 10000;
++		return (newspeed - minSpeedValue) * (maxSpeedMeter - minSpeedMeter)
+                 / (maxSpeedValue - minSpeedValue) + minSpeedMeter;
+     }
+ }
+
+

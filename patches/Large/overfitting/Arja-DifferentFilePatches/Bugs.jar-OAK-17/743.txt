@@ -1,0 +1,30 @@
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/oak-mk/src/main/java/org/apache/jackrabbit/mk/persistence/H2Persistence.java	2018-12-29 07:24:47.986294000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/patches_s7ag/Patch_620/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/oak-mk/src/main/java/org/apache/jackrabbit/mk/persistence/H2Persistence.java	2018-12-29 07:42:46.617304340 -0500
+@@ -99,7 +99,8 @@
+     private Id readHead() throws Exception {
+         Connection con = cp.getConnection();
+         try {
+-            PreparedStatement stmt = con.prepareStatement("select * from HEAD");
++            gcStart = System.currentTimeMillis();
++			PreparedStatement stmt = con.prepareStatement("select * from HEAD");
+             ResultSet rs = stmt.executeQuery();
+             byte[] rawId = null;
+             if (rs.next()) {
+
+
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/oak-mk/src/main/java/org/apache/jackrabbit/mk/model/CommitBuilder.java	2018-12-29 07:26:38.080559000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/patches_s7ag/Patch_620/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/oak-mk/src/main/java/org/apache/jackrabbit/mk/model/CommitBuilder.java	2018-12-29 07:42:46.617304340 -0500
+@@ -178,11 +178,6 @@
+             }
+             newCommit.setChanges(diff.toString());
+             newCommit.setRootNodeId(rootNodeId);
+-            if (createBranch) {
+-                newCommit.setBranchRootId(baseCommit.getId());
+-            } else {
+-                newCommit.setBranchRootId(baseCommit.getBranchRootId());
+-            }
+             newRevId = store.putCommit(token, newCommit);
+         }
+ 
+
+

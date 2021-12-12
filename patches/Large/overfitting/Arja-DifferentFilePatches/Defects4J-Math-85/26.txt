@@ -1,0 +1,31 @@
+--- /tmp/Arja_Defects4J_Math_85/src/java/org/apache/commons/math/distribution/NormalDistributionImpl.java	2018-12-01 05:44:02.636110136 -0500
++++ /tmp/Arja_Defects4J_Math_85/patches_4w3i/Patch_323/patched/tmp/Arja_Defects4J_Math_85/src/java/org/apache/commons/math/distribution/NormalDistributionImpl.java	2018-12-01 05:50:11.610488784 -0500
+@@ -181,7 +181,7 @@
+             ret = getMean();
+         }
+         
+-        return ret;
++        return Double.NEGATIVE_INFINITY;
+     }
+ 
+     /**
+
+
+--- /tmp/Arja_Defects4J_Math_85/src/java/org/apache/commons/math/analysis/solvers/UnivariateRealSolverUtils.java	2018-12-01 05:44:06.180110217 -0500
++++ /tmp/Arja_Defects4J_Math_85/patches_4w3i/Patch_323/patched/tmp/Arja_Defects4J_Math_85/src/java/org/apache/commons/math/analysis/solvers/UnivariateRealSolverUtils.java	2018-12-01 05:50:11.610488784 -0500
+@@ -196,12 +196,7 @@
+                 ((a > lowerBound) || (b < upperBound)));
+    
+         if (fa * fb >= 0.0 ) {
+-            throw new ConvergenceException(
+-                      "number of iterations={0}, maximum iterations={1}, " +
+-                      "initial={2}, lower bound={3}, upper bound={4}, final a value={5}, " +
+-                      "final b value={6}, f(a)={7}, f(b)={8}",
+-                      numIterations, maximumIterations, initial,
+-                      lowerBound, upperBound, a, b, fa, fb);
++            fb = function.value(b);
+         }
+         
+         return new double[]{a, b};
+
+

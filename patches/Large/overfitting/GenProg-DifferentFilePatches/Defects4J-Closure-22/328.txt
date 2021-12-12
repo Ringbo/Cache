@@ -1,0 +1,61 @@
+--- /tmp/GenProg_Defects4J_Closure_22/src/com/google/javascript/jscomp/CheckSideEffects.java	2018-12-02 07:44:36.414916381 -0500
++++ /tmp/GenProg_Defects4J_Closure_22/patches_qjuv/Patch_1905/patched/tmp/GenProg_Defects4J_Closure_22/src/com/google/javascript/jscomp/CheckSideEffects.java	2018-12-02 08:09:39.868555446 -0500
+@@ -100,25 +100,7 @@
+     // fix up the tree in more clever ways when these are removed.
+     if (parent.getType() == Token.COMMA) {
+       Node gramps = parent.getParent();
+-      if (gramps.isCall() && parent == gramps.getFirstChild()) {
+-        if (n == parent.getFirstChild() && parent.getChildCount() == 2 && n.getNext().isName() && "eval".equals(n.getNext().getString())) {
+-      return;
+-        }
+-    }
+-
+-    // This no-op statement was there so that JSDoc information could
+-    // be attached to the name. This check should not complain about it.
+-      if (n == parent.getLastChild()) {
+-        for (Node an : parent.getAncestors()) {
+-          int ancestorType = an.getType();
+-          if (ancestorType == Token.COMMA)
+-            continue;
+-          if (ancestorType != Token.EXPR_RESULT && ancestorType != Token.BLOCK)
+-            return;
+-          else
+-            break;
+-        }
+-      }
++      StringBuilder builder = new StringBuilder();
+     } else if (parent.getType() != Token.EXPR_RESULT && parent.getType() != Token.BLOCK) {
+       if (parent.getType() == Token.FOR && parent.getChildCount() == 4 && (n == parent.getFirstChild() ||
+            n == parent.getFirstChild().getNext().getNext())) {
+@@ -138,7 +120,6 @@
+       }
+       String msg = "This code lacks side-effects. Is there a bug?";
+       if (n.isString()) {
+-        msg = "Is there a missing '+' on the previous line?";
+       } else if (isSimpleOp) {
+         msg = "The result of the '" + Token.name(n.getType()).toLowerCase() +
+             "' operator is not being used.";
+@@ -161,7 +142,7 @@
+    */
+   private void protectSideEffects() {
+     if (!problemNodes.isEmpty()) {
+-      addExtern();
++      final String PARAM_NAME = "jscomp_throw_param";
+       for (Node n : problemNodes) {
+         Node name = IR.name(PROTECTOR_FN).srcref(n);
+         name.putBooleanProp(Node.IS_CONSTANT_NAME, true);
+
+
+--- /tmp/GenProg_Defects4J_Closure_22/src/com/google/javascript/rhino/Token.java	2018-12-02 07:44:34.590004490 -0500
++++ /tmp/GenProg_Defects4J_Closure_22/patches_qjuv/Patch_1905/patched/tmp/GenProg_Defects4J_Closure_22/src/com/google/javascript/rhino/Token.java	2018-12-02 08:09:39.868555446 -0500
+@@ -184,7 +184,7 @@
+           case BITOR:           return "BITOR";
+           case BITXOR:          return "BITXOR";
+           case BITAND:          return "BITAND";
+-          case EQ:              return "EQ";
++          case EQ:              return "PARAM_LIST";
+           case NE:              return "NE";
+           case LT:              return "LT";
+           case LE:              return "LE";
+
+

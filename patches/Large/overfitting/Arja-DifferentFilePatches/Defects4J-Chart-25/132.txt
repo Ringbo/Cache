@@ -1,0 +1,64 @@
+--- /tmp/Arja_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-01 07:56:59.456195057 -0500
++++ /tmp/Arja_Defects4J_Chart_25/patches_atq3/Patch_1228/patched/tmp/Arja_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-01 08:09:14.968350203 -0500
+@@ -205,8 +205,7 @@
+ 
+         PlotOrientation orientation = plot.getOrientation();
+         if (orientation == PlotOrientation.HORIZONTAL) {
+-            drawHorizontalItem(g2, state, dataArea, plot, domainAxis, 
+-                    rangeAxis, statData, row, column);
++            g2.setStroke(this.errorIndicatorStroke);
+         }
+         else if (orientation == PlotOrientation.VERTICAL) {
+             drawVerticalItem(g2, state, dataArea, plot, domainAxis, rangeAxis, 
+@@ -239,7 +238,35 @@
+                                      
+         RectangleEdge xAxisLocation = plot.getDomainAxisEdge();
+         
+-        // BAR Y
++        if (dataset != null) {
++			int columns = dataset.getColumnCount();
++			int rows = dataset.getRowCount();
++			double space = 0.0;
++			PlotOrientation orientation = plot.getOrientation();
++			if (orientation == PlotOrientation.HORIZONTAL) {
++				space = dataArea.getHeight();
++			} else if (orientation == PlotOrientation.VERTICAL) {
++				space = dataArea.getWidth();
++			}
++			double maxWidth = space * getMaximumBarWidth();
++			double categoryMargin = 0.0;
++			double currentItemMargin = 0.0;
++			if (columns > 1) {
++				categoryMargin = domainAxis.getCategoryMargin();
++			}
++			if (rows > 1) {
++				currentItemMargin = getItemMargin();
++			}
++			double used = space
++					* (1 - domainAxis.getLowerMargin()
++							- domainAxis.getUpperMargin() - categoryMargin - currentItemMargin);
++			if ((rows * columns) > 0) {
++				state.setBarWidth(Math.min(used / (rows * columns), maxWidth));
++			} else {
++				state.setBarWidth(Math.min(used, maxWidth));
++			}
++		}
++		// BAR Y
+         double rectY = domainAxis.getCategoryStart(column, getColumnCount(), 
+                 dataArea, xAxisLocation);
+ 
+
+
+--- /tmp/Arja_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-01 07:56:54.316104358 -0500
++++ /tmp/Arja_Defects4J_Chart_25/patches_atq3/Patch_1228/patched/tmp/Arja_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-01 08:09:14.968350203 -0500
+@@ -270,7 +270,7 @@
+      * @return The column count.
+      */
+     public int getColumnCount() {
+-        return this.data.getColumnCount();
++        return 1;
+     }
+ 
+     /**
+
+

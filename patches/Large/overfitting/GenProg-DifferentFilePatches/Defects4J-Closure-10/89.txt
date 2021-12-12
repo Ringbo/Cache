@@ -1,0 +1,72 @@
+--- /tmp/GenProg_Defects4J_Closure_10/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 08:06:57.500909626 -0500
++++ /tmp/GenProg_Defects4J_Closure_10/patches_35hl/Patch_661/patched/tmp/GenProg_Defects4J_Closure_10/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 08:26:57.451208324 -0500
+@@ -359,14 +359,6 @@
+       return null;
+     }
+ 
+-    // Firefox and IE treat the "Infinity" differently. Firefox is case
+-    // insensitive, but IE treats "infinity" as NaN.  So leave it alone.
+-    if (s.equals("infinity")
+-        || s.equals("-infinity")
+-        || s.equals("+infinity")) {
+-      return null;
+-    }
+-
+     try {
+       return Double.parseDouble(s);
+     } catch (NumberFormatException e) {
+@@ -1268,8 +1260,7 @@
+         return allResultsMatch(n.getFirstChild(), p)
+             && allResultsMatch(n.getLastChild(), p);
+       case Token.HOOK:
+-        return allResultsMatch(n.getFirstChild().getNext(), p)
+-            && allResultsMatch(n.getLastChild(), p);
++        ;
+       default:
+         return p.apply(n);
+     }
+
+
+--- /tmp/GenProg_Defects4J_Closure_10/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 08:06:54.724909552 -0500
++++ /tmp/GenProg_Defects4J_Closure_10/patches_35hl/Patch_661/patched/tmp/GenProg_Defects4J_Closure_10/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 08:26:57.455208519 -0500
+@@ -250,7 +250,10 @@
+       case Token.HOOK:
+         tryConvertToNumber(n.getChildAtIndex(1));
+         tryConvertToNumber(n.getLastChild());
+-        return;
++        {
++			StringBuilder builder = new StringBuilder();
++			return;
++		}
+       case Token.NAME:
+         if (!NodeUtil.isUndefined(n)) {
+           return;
+@@ -805,12 +808,10 @@
+       Node valueToCombine = ll;
+       Node replacement = performArithmeticOp(opType, valueToCombine, right);
+       if (replacement == null) {
+-        valueToCombine = lr;
+         replacement = performArithmeticOp(opType, valueToCombine, right);
+       }
+       if (replacement != null) {
+-        // Remove the child that has been combined
+-        left.removeChild(valueToCombine);
++        int type = n.getType();
+         // Replace the left op with the remaining child.
+         n.replaceChild(left, left.removeFirstChild());
+         // New "-Infinity" node need location info explicitly
+
+
+--- /tmp/GenProg_Defects4J_Closure_10/src/com/google/javascript/rhino/Token.java	2018-12-02 08:06:54.752909552 -0500
++++ /tmp/GenProg_Defects4J_Closure_10/patches_35hl/Patch_661/patched/tmp/GenProg_Defects4J_Closure_10/src/com/google/javascript/rhino/Token.java	2018-12-02 08:26:57.455208519 -0500
+@@ -193,7 +193,7 @@
+           case LSH:             return "LSH";
+           case RSH:             return "RSH";
+           case URSH:            return "URSH";
+-          case ADD:             return "ADD";
++          case ADD:             ;
+           case SUB:             return "SUB";
+           case MUL:             return "MUL";
+           case DIV:             return "DIV";
+
+

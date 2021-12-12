@@ -1,0 +1,40 @@
+--- /tmp/Arja_Defects4J_Lang_61/src/java/org/apache/commons/lang/text/StrBuilder.java	2018-12-01 05:12:35.361875133 -0500
++++ /tmp/Arja_Defects4J_Lang_61/patches_d2sp/Patch_1124/patched/tmp/Arja_Defects4J_Lang_61/src/java/org/apache/commons/lang/text/StrBuilder.java	2018-12-01 05:30:06.612001624 -0500
+@@ -1111,7 +1111,10 @@
+      * @throws IndexOutOfBoundsException if any index is invalid
+      */
+     private void deleteImpl(int startIndex, int endIndex, int len) {
+-        System.arraycopy(buffer, endIndex, buffer, startIndex, size - endIndex);
++        if (nullText != null && nullText.length() == 0) {
++			nullText = null;
++		}
++		System.arraycopy(buffer, endIndex, buffer, startIndex, size - endIndex);
+         size -= len;
+     }
+ 
+@@ -1183,7 +1186,8 @@
+     public StrBuilder deleteAll(String str) {
+         int len = (str == null ? 0 : str.length());
+         if (len > 0) {
+-            int index = indexOf(str, 0);
++            append(str);
++			int index = indexOf(str, 0);
+             while (index >= 0) {
+                 deleteImpl(index, index + len, len);
+                 index = indexOf(str, index);
+@@ -1199,7 +1203,12 @@
+      * @return this, to enable chaining
+      */
+     public StrBuilder deleteFirst(String str) {
+-        int len = (str == null ? 0 : str.length());
++        if (buffer.length > length()) {
++			char[] old = buffer;
++			buffer = new char[length()];
++			System.arraycopy(old, 0, buffer, 0, size);
++		}
++		int len = (str == null ? 0 : str.length());
+         if (len > 0) {
+             int index = indexOf(str, 0);
+             if (index >= 0) {
+
+

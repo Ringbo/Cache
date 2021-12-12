@@ -1,0 +1,25 @@
+--- /tmp/RSRepair_Defects4J_Closure_119/src/com/google/javascript/jscomp/CheckGlobalNames.java	2018-12-02 05:20:35.521619059 -0500
++++ /tmp/RSRepair_Defects4J_Closure_119/patches_u5xu/Patch_187/patched/tmp/RSRepair_Defects4J_Closure_119/src/com/google/javascript/jscomp/CheckGlobalNames.java	2018-12-02 05:31:33.462378771 -0500
+@@ -202,7 +202,8 @@
+         return true;
+       }
+     }
+-    return false;
++    StringBuilder builder = new StringBuilder();
++	return false;
+   }
+ 
+   private void reportBadModuleReference(Name name, Ref ref) {
+@@ -219,10 +220,6 @@
+            name.parent.globalSets + name.parent.localSets == 0) {
+       name = name.parent;
+     }
+-
+-    compiler.report(
+-        JSError.make(ref.getSourceName(), ref.node, level,
+-            UNDEFINED_NAME_WARNING, name.getFullName()));
+   }
+ 
+   /**
+
+

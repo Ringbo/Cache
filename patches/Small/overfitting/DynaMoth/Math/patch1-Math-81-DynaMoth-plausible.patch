@@ -1,0 +1,8 @@
+--- /src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java
++++ /src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java
+@@ -1536,3 +1536,3 @@
+                 final double gam = dN2;
+-                if (work[np - 8] > b2 || work[np - 4] > b1) {
++                if (true) {
+                     return;
+

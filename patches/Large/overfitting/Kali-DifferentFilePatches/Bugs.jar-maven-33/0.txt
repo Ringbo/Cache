@@ -1,0 +1,13 @@
+--- /tmp/Kali_Bug_dot_jar_Maven_c4002945/maven-plugin-api/src/main/java/org/apache/maven/plugin/descriptor/PluginDescriptorBuilder.java	2018-12-08 08:44:45.351577000 -0500
++++ /tmp/Kali_Bug_dot_jar_Maven_c4002945/patches_qg6i/Patch_1/patched/tmp/Kali_Bug_dot_jar_Maven_c4002945/maven-plugin-api/src/main/java/org/apache/maven/plugin/descriptor/PluginDescriptorBuilder.java	2018-12-30 00:05:11.013303845 -0500
+@@ -61,7 +61,7 @@
+ 
+         String isolatedRealm = c.getChild( "isolatedRealm" ).getValue();
+ 
+-        if ( isolatedRealm != null )
++        if ( true )
+         {
+             pluginDescriptor.setIsolatedRealm( Boolean.parseBoolean( isolatedRealm ) );
+         }
+
+

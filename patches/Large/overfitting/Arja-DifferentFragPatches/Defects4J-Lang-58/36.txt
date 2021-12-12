@@ -1,0 +1,28 @@
+--- /tmp/Arja_Defects4J_Lang_58/src/java/org/apache/commons/lang/math/NumberUtils.java	2018-12-01 05:15:58.998758820 -0500
++++ /tmp/Arja_Defects4J_Lang_58/patches_nhyd/Patch_459/patched/tmp/Arja_Defects4J_Lang_58/src/java/org/apache/commons/lang/math/NumberUtils.java	2018-12-01 05:20:45.640632368 -0500
+@@ -461,7 +461,7 @@
+                         return createBigInteger(numeric);
+ 
+                     }
+-                    throw new NumberFormatException(str + " is not a valid number.");
++				return null;
+                 case 'f' :
+                 case 'F' :
+                     try {
+@@ -553,9 +553,11 @@
+      * @return if it is all zeros or <code>null</code>
+      */
+     private static boolean isAllZeros(String str) {
+-        if (str == null) {
+-            return true;
+-        }
++        for (int i = str.length() - 1; i >= 0; i--) {
++			if (str.charAt(i) != '0') {
++				return false;
++			}
++		}
+         for (int i = str.length() - 1; i >= 0; i--) {
+             if (str.charAt(i) != '0') {
+                 return false;
+
+

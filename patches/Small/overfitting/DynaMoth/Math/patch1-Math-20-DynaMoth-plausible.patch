@@ -1,0 +1,8 @@
+--- /src/main/java/org/apache/commons/math3/optimization/direct/CMAESOptimizer.java
++++ /src/main/java/org/apache/commons/math3/optimization/direct/CMAESOptimizer.java
+@@ -786,3 +786,3 @@
+             }
+-            if (max(diagD) > 1e14 * min(diagD)) {
++            if (this.dimension == 1) {
+                 double tfac = max(diagD) / 1e14 - min(diagD);
+

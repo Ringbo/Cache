@@ -1,0 +1,27 @@
+--- /tmp/Arja_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-01 07:56:59.456195057 -0500
++++ /tmp/Arja_Defects4J_Chart_25/patches_atq3/Patch_447/patched/tmp/Arja_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-01 08:02:39.734202872 -0500
+@@ -237,7 +237,8 @@
+                                       int row,
+                                       int column) {
+                                      
+-        RectangleEdge xAxisLocation = plot.getDomainAxisEdge();
++        this.errorIndicatorPaint = Color.gray;
++		RectangleEdge xAxisLocation = plot.getDomainAxisEdge();
+         
+         // BAR Y
+         double rectY = domainAxis.getCategoryStart(column, getColumnCount(), 
+
+
+--- /tmp/Arja_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-01 07:56:54.316104358 -0500
++++ /tmp/Arja_Defects4J_Chart_25/patches_atq3/Patch_447/patched/tmp/Arja_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-01 08:02:39.738202894 -0500
+@@ -270,7 +270,7 @@
+      * @return The column count.
+      */
+     public int getColumnCount() {
+-        return this.data.getColumnCount();
++        return 1;
+     }
+ 
+     /**
+
+

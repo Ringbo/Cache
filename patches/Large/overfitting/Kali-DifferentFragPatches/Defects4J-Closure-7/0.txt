@@ -1,0 +1,15 @@
+--- /tmp/Kali_Defects4J_Closure_7/src/com/google/javascript/jscomp/type/ChainableReverseAbstractInterpreter.java	2018-12-01 20:22:13.335509294 -0500
++++ /tmp/Kali_Defects4J_Closure_7/patches_e972/Patch_11/patched/tmp/Kali_Defects4J_Closure_7/src/com/google/javascript/jscomp/type/ChainableReverseAbstractInterpreter.java	2018-12-01 20:26:18.527065436 -0500
+@@ -392,7 +392,9 @@
+           if (restricted == null) {
+             restricted = restrictedAlternate;
+           } else {
+-            restricted = restrictedAlternate.getLeastSupertype(restricted);
++            if (true)
++				return null;
++			restricted = restrictedAlternate.getLeastSupertype(restricted);
+           }
+         }
+       }
+
+

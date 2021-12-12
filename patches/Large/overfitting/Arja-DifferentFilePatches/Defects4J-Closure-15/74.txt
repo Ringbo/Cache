@@ -1,0 +1,37 @@
+--- /tmp/Arja_Defects4J_Closure_15/src/com/google/javascript/jscomp/CheckPathsBetweenNodes.java	2018-12-01 09:57:33.379088222 -0500
++++ /tmp/Arja_Defects4J_Closure_15/patches_tche/Patch_1542/patched/tmp/Arja_Defects4J_Closure_15/src/com/google/javascript/jscomp/CheckPathsBetweenNodes.java	2018-12-01 10:21:35.644465709 -0500
+@@ -198,10 +198,6 @@
+    */
+   private boolean checkSomePathsWithoutBackEdges(DiGraphNode<N, E> a,
+       DiGraphNode<N, E> b) {
+-    if (nodePredicate.apply(a.getValue()) &&
+-        (inclusive || (a != start && a != end))) {
+-      return true;
+-    }
+     if (a == b) {
+       return false;
+     }
+@@ -211,8 +207,6 @@
+       if (e.getAnnotation() == VISITED_EDGE) {
+         continue;
+       }
+-      e.setAnnotation(VISITED_EDGE);
+-
+       if (ignoreEdge(e)) {
+         continue;
+       }
+
+
+--- /tmp/Arja_Defects4J_Closure_15/src/com/google/javascript/rhino/Node.java	2018-12-01 09:57:33.791088231 -0500
++++ /tmp/Arja_Defects4J_Closure_15/patches_tche/Patch_1542/patched/tmp/Arja_Defects4J_Closure_15/src/com/google/javascript/rhino/Node.java	2018-12-01 10:21:35.644465709 -0500
+@@ -1456,7 +1456,7 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
++        return null;
+       }
+     }
+     return res;
+
+

@@ -1,0 +1,43 @@
+--- /tmp/Arja_Defects4J_Closure_10/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-01 10:02:20.292394989 -0500
++++ /tmp/Arja_Defects4J_Closure_10/patches_ktm9/Patch_1367/patched/tmp/Arja_Defects4J_Closure_10/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-01 10:26:16.643471219 -0500
+@@ -359,16 +359,8 @@
+       return null;
+     }
+ 
+-    // Firefox and IE treat the "Infinity" differently. Firefox is case
+-    // insensitive, but IE treats "infinity" as NaN.  So leave it alone.
+-    if (s.equals("infinity")
+-        || s.equals("-infinity")
+-        || s.equals("+infinity")) {
+-      return null;
+-    }
+-
+     try {
+-      return Double.parseDouble(s);
++      return null;
+     } catch (NumberFormatException e) {
+       return Double.NaN;
+     }
+
+
+--- /tmp/Arja_Defects4J_Closure_10/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-01 10:02:17.256394865 -0500
++++ /tmp/Arja_Defects4J_Closure_10/patches_ktm9/Patch_1367/patched/tmp/Arja_Defects4J_Closure_10/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-01 10:26:16.647471136 -0500
+@@ -248,7 +248,7 @@
+         tryConvertToNumber(n.getLastChild());
+         return;
+       case Token.HOOK:
+-        tryConvertToNumber(n.getChildAtIndex(1));
++        ;
+         tryConvertToNumber(n.getLastChild());
+         return;
+       case Token.NAME:
+@@ -805,7 +805,6 @@
+       Node valueToCombine = ll;
+       Node replacement = performArithmeticOp(opType, valueToCombine, right);
+       if (replacement == null) {
+-        valueToCombine = lr;
+         replacement = performArithmeticOp(opType, valueToCombine, right);
+       }
+       if (replacement != null) {
+
+

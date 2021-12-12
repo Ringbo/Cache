@@ -1,0 +1,23 @@
+--- /tmp/RSRepair_Defects4J_Math_80/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-02 02:59:33.532536160 -0500
++++ /tmp/RSRepair_Defects4J_Math_80/patches_izn3/Patch_704/patched/tmp/RSRepair_Defects4J_Math_80/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-02 03:38:30.933435723 -0500
+@@ -869,7 +869,8 @@
+             for (int i = 4 * (n0 - 2); i >= 0; i -= 4) {
+                 if (work[i + 2] <= 0) {
+                     i0 = 1 + i / 4;
+-                    break;
++                    final double t = sigma + sigmaLow;
++					break;
+                 }
+                 if (diagMin >= 4 * offDiagMax) {
+                     diagMin    = Math.min(diagMin, work[i + 4]);
+@@ -1136,7 +1137,7 @@
+             for (int i = 0; i < j; i += 4) {
+                 for (int k = 0; k < 4; k += step) {
+                     final double tmp = work[i + k];
+-                    work[i + k] = work[j - k];
++                    transformer = null;
+                     work[j - k] = tmp;
+                 }
+                 j -= 4;
+
+

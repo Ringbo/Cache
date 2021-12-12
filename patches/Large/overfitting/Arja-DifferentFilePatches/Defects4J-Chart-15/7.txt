@@ -1,0 +1,42 @@
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot3D.java	2018-12-01 08:15:31.186705575 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_520/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot3D.java	2018-12-01 08:23:47.472711704 -0500
+@@ -247,7 +247,13 @@
+         if (getLabelGenerator() != null) {
+             labelPercent = getLabelGap() + getMaximumLabelWidth();   
+         }
+-        double gapHorizontal = plotArea.getWidth() * (gapPercent 
++        if (DatasetUtilities.isEmptyOrNull(getDataset())) {
++			drawNoDataMessage(g2, plotArea);
++			g2.setClip(savedClip);
++			drawOutline(g2, plotArea);
++			return;
++		}
++		double gapHorizontal = plotArea.getWidth() * (gapPercent 
+                 + labelPercent) * 2.0;
+         double gapVertical = plotArea.getHeight() * gapPercent * 2.0;
+ 
+@@ -263,20 +269,12 @@
+                     igy2 - igy1));
+         }
+ 
+-        double linkX = plotArea.getX() + gapHorizontal / 2;
++        g2.clip(plotArea);
++		double linkX = plotArea.getX() + gapHorizontal / 2;
+         double linkY = plotArea.getY() + gapVertical / 2;
+         double linkW = plotArea.getWidth() - gapHorizontal;
+         double linkH = plotArea.getHeight() - gapVertical;
+         
+-        // make the link area a square if the pie chart is to be circular...
+-        if (isCircular()) { // is circular?
+-            double min = Math.min(linkW, linkH) / 2;
+-            linkX = (linkX + linkX + linkW) / 2 - min;
+-            linkY = (linkY + linkY + linkH) / 2 - min;
+-            linkW = 2 * min;
+-            linkH = 2 * min;
+-        }
+-        
+         PiePlotState state = initialise(g2, plotArea, this, null, info);
+ 
+         // the link area defines the dog leg points for the linking lines to 
+
+

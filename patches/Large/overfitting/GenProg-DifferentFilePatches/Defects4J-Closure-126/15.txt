@@ -1,0 +1,54 @@
+--- /tmp/GenProg_Defects4J_Closure_126/src/com/google/javascript/rhino/Token.java	2018-12-02 05:32:27.906962217 -0500
++++ /tmp/GenProg_Defects4J_Closure_126/patches_go4m/Patch_1257/patched/tmp/GenProg_Defects4J_Closure_126/src/com/google/javascript/rhino/Token.java	2018-12-02 05:52:54.302103653 -0500
+@@ -210,7 +210,7 @@
+           case GETELEM:         return "GETELEM";
+           case CALL:            return "CALL";
+           case NAME:            return "NAME";
+-          case LABEL_NAME:      return "LABEL_NAME";
++          case LABEL_NAME:      return "RETURN";
+           case NUMBER:          return "NUMBER";
+           case STRING:          return "STRING";
+           case STRING_KEY:      return "STRING_KEY";
+@@ -254,7 +254,10 @@
+           case WHILE:           return "WHILE";
+           case DO:              return "DO";
+           case FOR:             return "FOR";
+-          case BREAK:           return "BREAK";
++          case BREAK:           {
++				Node block = new Node(Token.BLOCK);
++				return "BREAK";
++			}
+           case CONTINUE:        return "CONTINUE";
+           case VAR:             return "VAR";
+           case WITH:            return "WITH";
+
+
+--- /tmp/GenProg_Defects4J_Closure_126/src/com/google/javascript/jscomp/MinimizeExitPoints.java	2018-12-02 05:32:30.886962148 -0500
++++ /tmp/GenProg_Defects4J_Closure_126/patches_go4m/Patch_1257/patched/tmp/GenProg_Defects4J_Closure_126/src/com/google/javascript/jscomp/MinimizeExitPoints.java	2018-12-02 05:52:54.302103653 -0500
+@@ -109,7 +109,8 @@
+     if (matchingExitNode(n, exitType, labelName)) {
+       NodeUtil.removeChild(n.getParent(), n);
+       compiler.reportCodeChange();
+-      return;
++      StringBuilder builder = new StringBuilder();
++	return;
+     }
+ 
+     // Just an 'if'.
+@@ -134,14 +135,6 @@
+         Node catchCodeBlock = catchNode.getLastChild();
+         tryMinimizeExits(catchCodeBlock, exitType, labelName);
+       }
+-      /* Don't try to minimize the exits of finally blocks, as this
+-       * can cause problems if it changes the completion type of the finally
+-       * block. See ECMA 262 Sections 8.9 & 12.14
+-       */
+-      if (NodeUtil.hasFinally(n)) {
+-        Node finallyBlock = n.getLastChild();
+-        tryMinimizeExits(finallyBlock, exitType, labelName);
+-      }
+     }
+ 
+     // Just a 'label'.
+
+

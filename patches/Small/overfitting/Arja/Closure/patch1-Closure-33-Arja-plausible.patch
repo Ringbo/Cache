@@ -1,0 +1,11 @@
+--- /src/com/google/javascript/rhino/jstype/RecordType.java
++++ /src/com/google/javascript/rhino/jstype/RecordType.java
+@@ -258,7 +258,6 @@
+           }
+         } else {
+           if (!propA.isSubtype(propB)) {
+-            return false;
+           }
+         }
+       }
+

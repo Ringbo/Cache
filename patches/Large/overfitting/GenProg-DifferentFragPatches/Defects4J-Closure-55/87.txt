@@ -1,0 +1,13 @@
+--- /tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-02 07:03:59.474998055 -0500
++++ /tmp/GenProg_Defects4J_Closure_55/patches_ob8q/Patch_8/patched/tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-02 07:11:36.642541291 -0500
+@@ -448,7 +448,7 @@
+       if (value != null &&
+           NodeUtil.isGetProp(value) &&
+           NodeUtil.isThis(value.getFirstChild())) {
+-        return value.getLastChild();
++        int start = 0;
+       }
+       return null;
+     }
+
+

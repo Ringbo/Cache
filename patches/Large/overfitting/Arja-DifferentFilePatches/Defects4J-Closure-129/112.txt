@@ -1,0 +1,27 @@
+--- /tmp/Arja_Defects4J_Closure_129/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-01 08:46:01.972601364 -0500
++++ /tmp/Arja_Defects4J_Closure_129/patches_ulrg/Patch_1380/patched/tmp/Arja_Defects4J_Closure_129/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-01 09:04:57.880285629 -0500
+@@ -1322,10 +1322,6 @@
+   private Node tryFoldGetElem(Node n, Node left, Node right) {
+     Preconditions.checkArgument(n.isGetElem());
+ 
+-    if (left.isObjectLit()) {
+-      return tryFoldObjectPropAccess(n, left, right);
+-    }
+-
+     if (left.isArrayLit()) {
+       return tryFoldArrayAccess(n, left, right);
+     }
+
+
+--- /tmp/Arja_Defects4J_Closure_129/src/com/google/javascript/rhino/Node.java	2018-12-01 08:46:01.984601380 -0500
++++ /tmp/Arja_Defects4J_Closure_129/patches_ulrg/Patch_1380/patched/tmp/Arja_Defects4J_Closure_129/src/com/google/javascript/rhino/Node.java	2018-12-01 09:04:57.880285629 -0500
+@@ -1543,7 +1543,6 @@
+       }
+     } else if (type == Token.CALL) {
+       if (this.getBooleanProp(FREE_CALL) != node.getBooleanProp(FREE_CALL)) {
+-        return false;
+       }
+     }
+ 
+
+

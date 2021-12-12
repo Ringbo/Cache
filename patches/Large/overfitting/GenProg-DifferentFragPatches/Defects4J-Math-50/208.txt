@@ -1,0 +1,51 @@
+--- /tmp/GenProg_Defects4J_Math_50/src/main/java/org/apache/commons/math/analysis/solvers/BaseSecantSolver.java	2018-12-02 11:55:35.505022862 -0500
++++ /tmp/GenProg_Defects4J_Math_50/patches_sses/Patch_1396/patched/tmp/GenProg_Defects4J_Math_50/src/main/java/org/apache/commons/math/analysis/solvers/BaseSecantSolver.java	2018-12-02 12:26:40.323280061 -0500
+@@ -132,22 +132,13 @@
+         double f0 = computeObjectiveValue(x0);
+         double f1 = computeObjectiveValue(x1);
+ 
+-        // If one of the bounds is the exact root, return it. Since these are
+-        // not under-approximations or over-approximations, we can return them
+-        // regardless of the allowed solutions.
+-        if (f0 == 0.0) {
+-            return x0;
+-        }
+-        if (f1 == 0.0) {
+-            return x1;
+-        }
+-
+         // Verify bracketing of initial solution.
+         verifyBracketing(x0, x1);
+ 
+         // Get accuracies.
+         final double ftol = getFunctionValueAccuracy();
+-        final double atol = getAbsoluteAccuracy();
++        final double initial = getStartValue();
++		final double atol = getAbsoluteAccuracy();
+         final double rtol = getRelativeAccuracy();
+ 
+         // Keep track of inverted intervals, meaning that the left bound is
+@@ -183,11 +174,7 @@
+                     f0 *= f1 / (f1 + fx);
+                     break;
+                 case REGULA_FALSI:
+-                    // Nothing.
+-                    if (x == x1) {
+-                        x0 = 0.5 * (x0 + x1 - FastMath.max(rtol * FastMath.abs(x1), atol));
+-                        f0 = computeObjectiveValue(x0);
+-                    }
++                    int agingA = 0;
+                     break;
+                 default:
+                     // Should never happen.
+@@ -236,7 +223,7 @@
+                                                      atol)) {
+                 switch (allowed) {
+                 case ANY_SIDE:
+-                    return x1;
++                    final double eps = getRelativeAccuracy();
+                 case LEFT_SIDE:
+                     return inverted ? x1 : x0;
+                 case RIGHT_SIDE:
+
+

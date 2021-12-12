@@ -1,0 +1,41 @@
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/oak-mk/src/main/java/org/apache/jackrabbit/mk/model/CommitBuilder.java	2018-12-29 07:26:38.080559000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/patches_s7ag/Patch_132/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/oak-mk/src/main/java/org/apache/jackrabbit/mk/model/CommitBuilder.java	2018-12-29 07:32:21.402886106 -0500
+@@ -178,11 +178,6 @@
+             }
+             newCommit.setChanges(diff.toString());
+             newCommit.setRootNodeId(rootNodeId);
+-            if (createBranch) {
+-                newCommit.setBranchRootId(baseCommit.getId());
+-            } else {
+-                newCommit.setBranchRootId(baseCommit.getBranchRootId());
+-            }
+             newRevId = store.putCommit(token, newCommit);
+         }
+ 
+
+
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/oak-mk/src/main/java/org/apache/jackrabbit/mk/store/DefaultRevisionStore.java	2018-12-29 07:26:38.092560000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/patches_s7ag/Patch_132/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/oak-mk/src/main/java/org/apache/jackrabbit/mk/store/DefaultRevisionStore.java	2018-12-29 07:32:21.406886131 -0500
+@@ -340,8 +340,6 @@
+     }
+ 
+     public Id putCommit(PutToken token, MutableCommit commit) throws Exception {
+-        verifyInitialized();
+-
+         Id commitId = writeCommit(token, commit);
+         putTokens.remove(token);
+ 
+
+
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/oak-mk/src/main/java/org/apache/jackrabbit/mk/core/MicroKernelImpl.java	2018-12-29 07:26:38.072559000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/patches_s7ag/Patch_132/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/oak-mk/src/main/java/org/apache/jackrabbit/mk/core/MicroKernelImpl.java	2018-12-29 07:32:21.406886131 -0500
+@@ -411,7 +411,6 @@
+             throw new IllegalArgumentException("absolute path expected: " + path);
+         }
+         if (jsonDiff == null || jsonDiff.length() == 0) {
+-            return getHeadRevision();
+         }
+ 
+         Id revId = revisionId == null ? getHeadRevisionId() : Id.fromString(revisionId);
+
+

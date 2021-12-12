@@ -1,0 +1,16 @@
+--- /tmp/Kali_Defects4J_Mockito_10/src/org/mockito/internal/util/MockCreationValidator.java	2018-12-01 19:16:40.031000510 -0500
++++ /tmp/Kali_Defects4J_Mockito_10/patches_q2uo/Patch_12/patched/tmp/Kali_Defects4J_Mockito_10/src/org/mockito/internal/util/MockCreationValidator.java	2018-12-01 19:18:27.075015048 -0500
+@@ -60,7 +60,9 @@
+                 && !(Serializable.class.isAssignableFrom(classToMock))
+                 && Constructors.noArgConstructorOf(classToMock) == null
+                 ) {
+-            new Reporter().serializableWontWorkForObjectsThatDontImplementSerializable(classToMock);
++            if (true)
++						return;
++			new Reporter().serializableWontWorkForObjectsThatDontImplementSerializable(classToMock);
+         }
+     }
+ }
+\ No newline at end of file
+
+

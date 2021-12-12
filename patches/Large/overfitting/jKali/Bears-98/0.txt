@@ -1,0 +1,13 @@
+/var/lib/oar/.batch_job_bashrc: line 5: /home/tdurieux/.bashrc: No such file or directory
+--- org/traccar/protocol/GoSafeProtocolDecoder.java
++++ org/traccar/protocol/GoSafeProtocolDecoder.java
+@@ -156,7 +156,7 @@
+ 
+ 		position.set(org.traccar.model.Position.KEY_HDOP, parser.next());
+ 
+-		if (parser.hasNext(4)) {
++		if (false) {
+ 			position.setNetwork(new org.traccar.model.Network(org.traccar.model.CellTower.from(
+ 			parser.nextInt(), parser.nextInt(), parser.nextInt(16), parser.nextInt(16), parser.nextInt())));
+ 		}
+

@@ -1,0 +1,13 @@
+--- /tmp/Kali_Bug_dot_jar_Flink_5dfc897b/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/api/functions/source/FileMonitoringFunction.java	2018-12-30 01:22:32.012199000 -0500
++++ /tmp/Kali_Bug_dot_jar_Flink_5dfc897b/patches_0w8l/Patch_5/patched/tmp/Kali_Bug_dot_jar_Flink_5dfc897b/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/api/functions/source/FileMonitoringFunction.java	2018-12-30 01:38:42.200114497 -0500
+@@ -65,6 +65,8 @@
+ 	public void run(SourceContext<Tuple3<String, Long, Long>> ctx) throws Exception {
+ 		FileSystem fileSystem = FileSystem.get(new URI(path));
+ 
++		if (true)
++			return;
+ 		while (isRunning) {
+ 			List<String> files = listNewFiles(fileSystem);
+ 			for (String filePath : files) {
+
+

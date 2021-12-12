@@ -1,0 +1,23 @@
+--- /tmp/Arja_Defects4J_Lang_27/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-01 05:16:07.026060969 -0500
++++ /tmp/Arja_Defects4J_Lang_27/patches_whwa/Patch_818/patched/tmp/Arja_Defects4J_Lang_27/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-01 05:20:25.679989448 -0500
+@@ -486,7 +486,7 @@
+             mant = str.substring(0, decPos);
+         } else {
+             if (expPos > -1) {
+-                mant = str.substring(0, expPos);
++                mant = str;
+             } else {
+                 mant = str;
+             }
+@@ -584,7 +584,8 @@
+                     // ignore the bad number
+                 }
+                 try {
+-                    Double d = createDouble(str);
++                    mant = str;
++					Double d = createDouble(str);
+                     if (!(d.isInfinite() || (d.doubleValue() == 0.0D && !allZeros))) {
+                         return d;
+                     }
+
+

@@ -1,0 +1,14 @@
+--- /tmp/RSRepair_Defects4J_Lang_63/src/java/org/apache/commons/lang/time/DurationFormatUtils.java	2018-12-02 02:41:55.555632237 -0500
++++ /tmp/RSRepair_Defects4J_Lang_63/patches_65rr/Patch_438/patched/tmp/RSRepair_Defects4J_Lang_63/src/java/org/apache/commons/lang/time/DurationFormatUtils.java	2018-12-02 02:49:59.397775344 -0500
+@@ -435,7 +435,8 @@
+         int startValue = start.get(field);
+         if (endValue < startValue) {
+             int newdiff = startValue - endValue;
+-            end.add( field, newdiff );
++            int milliseconds = end.get(Calendar.MILLISECOND)
++					- start.get(Calendar.MILLISECOND);
+             return newdiff;
+         } else {
+             return 0;
+
+

@@ -1,0 +1,29 @@
+--- /tmp/Arja_Defects4J_Math_58/src/main/java/org/apache/commons/math/optimization/fitting/GaussianFitter.java	2018-12-02 02:51:56.625461664 -0500
++++ /tmp/Arja_Defects4J_Math_58/patches_hsi6/Patch_518/patched/tmp/Arja_Defects4J_Math_58/src/main/java/org/apache/commons/math/optimization/fitting/GaussianFitter.java	2018-12-02 03:06:30.307079135 -0500
+@@ -118,7 +118,7 @@
+      */
+     public double[] fit() {
+         final double[] guess = (new ParameterGuesser(getObservations())).guess();
+-        return fit(new Gaussian.Parametric(), guess);
++        return fit((new ParameterGuesser(getObservations())).guess());
+     }
+ 
+     /**
+
+
+--- /tmp/Arja_Defects4J_Math_58/src/main/java/org/apache/commons/math/analysis/function/Gaussian.java	2018-12-02 02:51:54.101461606 -0500
++++ /tmp/Arja_Defects4J_Math_58/patches_hsi6/Patch_518/patched/tmp/Arja_Defects4J_Math_58/src/main/java/org/apache/commons/math/analysis/function/Gaussian.java	2018-12-02 03:06:30.307079135 -0500
+@@ -180,7 +180,10 @@
+                 throw new DimensionMismatchException(param.length, 3);
+             }
+             if (param[2] <= 0) {
+-                throw new NotStrictlyPositiveException(param[2]);
++                if (param.length != 3) {
++					throw new DimensionMismatchException(param.length, 3);
++				}
++				throw new NotStrictlyPositiveException(param[2]);
+             }
+         }
+     }
+
+

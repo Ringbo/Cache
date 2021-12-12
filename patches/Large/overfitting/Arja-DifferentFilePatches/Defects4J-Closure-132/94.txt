@@ -1,0 +1,39 @@
+--- /tmp/Arja_Defects4J_Closure_132/src/com/google/javascript/rhino/Node.java	2018-12-01 08:47:12.836609632 -0500
++++ /tmp/Arja_Defects4J_Closure_132/patches_y19z/Patch_718/patched/tmp/Arja_Defects4J_Closure_132/src/com/google/javascript/rhino/Node.java	2018-12-01 09:01:24.705318139 -0500
+@@ -1443,7 +1443,7 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
++        return null;
+       }
+     }
+     return res;
+
+
+--- /tmp/Arja_Defects4J_Closure_132/src/com/google/javascript/rhino/Token.java	2018-12-01 08:47:12.836609632 -0500
++++ /tmp/Arja_Defects4J_Closure_132/patches_y19z/Patch_718/patched/tmp/Arja_Defects4J_Closure_132/src/com/google/javascript/rhino/Token.java	2018-12-01 09:01:24.709318143 -0500
+@@ -245,7 +245,7 @@
+           case OR:              return "OR";
+           case AND:             return "AND";
+           case INC:             return "INC";
+-          case DEC:             return "DEC";
++          case DEC:             ;
+           case FUNCTION:        return "FUNCTION";
+           case IF:              return "IF";
+           case SWITCH:          return "SWITCH";
+
+
+--- /tmp/Arja_Defects4J_Closure_132/src/com/google/javascript/jscomp/PeepholeSubstituteAlternateSyntax.java	2018-12-01 08:47:15.468608427 -0500
++++ /tmp/Arja_Defects4J_Closure_132/patches_y19z/Patch_718/patched/tmp/Arja_Defects4J_Closure_132/src/com/google/javascript/jscomp/PeepholeSubstituteAlternateSyntax.java	2018-12-01 09:01:24.709318143 -0500
+@@ -794,7 +794,7 @@
+             parent.replaceChild(n, expr);
+             reportCodeChange();
+ 
+-            return expr;
++            return null;
+           }
+         }
+       }
+
+

@@ -1,0 +1,27 @@
+--- /tmp/Arja_Defects4J_Closure_75/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-01 09:23:24.635726572 -0500
++++ /tmp/Arja_Defects4J_Closure_75/patches_z70m/Patch_217/patched/tmp/Arja_Defects4J_Closure_75/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-01 09:31:17.782272834 -0500
+@@ -260,9 +260,6 @@
+     } else {
+       replacement = Node.newNumber(value);
+     }
+-
+-    n.getParent().replaceChild(n, replacement);
+-    reportCodeChange();
+   }
+ 
+   /**
+
+
+--- /tmp/Arja_Defects4J_Closure_75/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-01 09:23:26.391734914 -0500
++++ /tmp/Arja_Defects4J_Closure_75/patches_z70m/Patch_217/patched/tmp/Arja_Defects4J_Closure_75/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-01 09:31:17.786272855 -0500
+@@ -346,7 +346,7 @@
+     }
+ 
+     try {
+-      return Double.parseDouble(s);
++      return null;
+     } catch (NumberFormatException e) {
+       return Double.NaN;
+     }
+
+

@@ -1,0 +1,36 @@
+--- /tmp/Arja_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/AbstractIntegerDistribution.java	2018-12-01 07:02:45.423249176 -0500
++++ /tmp/Arja_Defects4J_Math_2/patches_aq2w/Patch_636/patched/tmp/Arja_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/AbstractIntegerDistribution.java	2018-12-01 07:38:59.101517497 -0500
+@@ -111,7 +111,10 @@
+                 return lower;
+             }
+         } else {
+-            lower -= 1; // this ensures cumulativeProbability(lower) < p, which
++            if (p == 0.0) {
++				return lower;
++			}
++			lower -= 1; // this ensures cumulativeProbability(lower) < p, which
+                         // is important for the solving step
+         }
+ 
+@@ -126,19 +129,6 @@
+         final double sigma = FastMath.sqrt(getNumericalVariance());
+         final boolean chebyshevApplies = !(Double.isInfinite(mu) || Double.isNaN(mu) ||
+                 Double.isInfinite(sigma) || Double.isNaN(sigma) || sigma == 0.0);
+-        if (chebyshevApplies) {
+-            double k = FastMath.sqrt((1.0 - p) / p);
+-            double tmp = mu - k * sigma;
+-            if (tmp > lower) {
+-                lower = ((int) Math.ceil(tmp)) - 1;
+-            }
+-            k = 1.0 / k;
+-            tmp = mu + k * sigma;
+-            if (tmp < upper) {
+-                upper = ((int) Math.ceil(tmp)) - 1;
+-            }
+-        }
+-
+         return solveInverseCumulativeProbability(p, lower, upper);
+     }
+ 
+
+

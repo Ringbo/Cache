@@ -1,0 +1,31 @@
+--- /tmp/Arja_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-01 07:56:59.456195057 -0500
++++ /tmp/Arja_Defects4J_Chart_25/patches_atq3/Patch_1278/patched/tmp/Arja_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-01 08:09:38.964478761 -0500
+@@ -201,17 +201,17 @@
+             throw new IllegalArgumentException(
+                 "Requires StatisticalCategoryDataset.");
+         }
+-        StatisticalCategoryDataset statData = (StatisticalCategoryDataset) data;
++        if (!(data instanceof StatisticalCategoryDataset)) {
++			throw new IllegalArgumentException(
++					"Requires StatisticalCategoryDataset.");
++		}
++		StatisticalCategoryDataset statData = (StatisticalCategoryDataset) data;
+ 
+         PlotOrientation orientation = plot.getOrientation();
+-        if (orientation == PlotOrientation.HORIZONTAL) {
+-            drawHorizontalItem(g2, state, dataArea, plot, domainAxis, 
+-                    rangeAxis, statData, row, column);
+-        }
+-        else if (orientation == PlotOrientation.VERTICAL) {
+-            drawVerticalItem(g2, state, dataArea, plot, domainAxis, rangeAxis, 
+-                    statData, row, column);
+-        }
++        if (!(data instanceof StatisticalCategoryDataset)) {
++			throw new IllegalArgumentException(
++					"Requires StatisticalCategoryDataset.");
++		}
+     }
+                 
+     /**
+
+

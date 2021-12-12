@@ -1,0 +1,56 @@
+--- /tmp/Arja_Bug_dot_jar_Accumulo_a64151e6/server/gc/src/main/java/org/apache/accumulo/gc/GarbageCollectionAlgorithm.java	2018-12-28 21:24:11.344985000 -0500
++++ /tmp/Arja_Bug_dot_jar_Accumulo_a64151e6/patches_p5ou/Patch_1371/patched/tmp/Arja_Bug_dot_jar_Accumulo_a64151e6/server/gc/src/main/java/org/apache/accumulo/gc/GarbageCollectionAlgorithm.java	2018-12-28 21:36:50.022019767 -0500
+@@ -57,9 +57,6 @@
+     if (relPath.startsWith("../"))
+       relPath = relPath.substring(3);
+ 
+-    while (relPath.endsWith("/"))
+-      relPath = relPath.substring(0, relPath.length() - 1);
+-
+     while (relPath.startsWith("/"))
+       relPath = relPath.substring(1);
+ 
+@@ -67,13 +64,6 @@
+ 
+     // handle paths like a//b///c
+     boolean containsEmpty = false;
+-    for (String token : tokens) {
+-      if (token.equals("")) {
+-        containsEmpty = true;
+-        break;
+-      }
+-    }
+-
+     if (containsEmpty) {
+       ArrayList<String> tmp = new ArrayList<String>();
+       for (String token : tokens) {
+@@ -96,13 +86,8 @@
+       } else {
+         throw new IllegalArgumentException(path);
+       }
+-    } else if (tokens.length == 3 && (expectedLen == 0 || expectedLen == 3)) {
+-      relPath = tokens[0] + "/" + tokens[1] + "/" + tokens[2];
+-    } else if (tokens.length == 2 && (expectedLen == 0 || expectedLen == 2)) {
+-      relPath = tokens[0] + "/" + tokens[1];
+-    } else {
+-      throw new IllegalArgumentException(path);
+-    }
++    } else
++		;
+ 
+     return relPath;
+   }
+@@ -111,11 +96,6 @@
+ 
+     SortedMap<String,String> ret = new TreeMap<String,String>();
+ 
+-    for (String candidate : candidates) {
+-      String relPath = makeRelative(candidate, 0);
+-      ret.put(relPath, candidate);
+-    }
+-
+     return ret;
+   }
+ 
+
+

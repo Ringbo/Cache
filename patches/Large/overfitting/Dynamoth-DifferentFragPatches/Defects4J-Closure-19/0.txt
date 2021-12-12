@@ -1,0 +1,11 @@
+--- a/src/com/google/javascript/jscomp/type/ChainableReverseAbstractInterpreter.java
++++ b/src/com/google/javascript/jscomp/type/ChainableReverseAbstractInterpreter.java
+@@ -174,4 +174,6 @@
+       default:
+-        throw new IllegalArgumentException("Node cannot be refined. \n" +
+-            node.toStringTree());
++        if (false) {
++          throw new IllegalArgumentException("Node cannot be refined. \n" +
++          node.toStringTree());
++        }
+     }

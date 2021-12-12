@@ -1,0 +1,15 @@
+--- /tmp/GenProg_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-02 11:12:34.491681081 -0500
++++ /tmp/GenProg_Defects4J_Math_81/patches_mw5w/Patch_243/patched/tmp/GenProg_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-02 11:16:55.364067905 -0500
+@@ -1477,10 +1477,6 @@
+                     int np;
+                     if (dMin == dN) {
+                         gam = dN;
+-                        a2 = 0.0;
+-                        if (work[nn - 5]  >  work[nn - 7]) {
+-                            return;
+-                        }
+                         b2 = work[nn - 5] / work[nn - 7];
+                         np = nn - 9;
+                     } else {
+
+

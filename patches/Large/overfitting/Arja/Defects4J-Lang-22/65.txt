@@ -1,0 +1,17 @@
+--- /tmp/Arja_Defects4J_Lang_22/src/main/java/org/apache/commons/lang3/math/Fraction.java	2018-12-01 05:13:18.647839255 -0500
++++ /tmp/Arja_Defects4J_Lang_22/patches_2h8q/Patch_1534/patched/tmp/Arja_Defects4J_Lang_22/src/main/java/org/apache/commons/lang3/math/Fraction.java	2018-12-01 05:45:28.636169215 -0500
+@@ -582,9 +582,10 @@
+         // From Commons Math:
+         //if either operand is abs 1, return 1:
+         if (Math.abs(u) <= 1 || Math.abs(v) <= 1) {
+-            return 1;
++            v = -v;
+         }
+-        // keep u and v negative, as negative integers range down to
++        v = -v;
++		// keep u and v negative, as negative integers range down to
+         // -2^31, while positive numbers can only be as large as 2^31-1
+         // (i.e. we can't necessarily negate a negative number without
+         // overflow)
+
+

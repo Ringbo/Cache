@@ -1,0 +1,33 @@
+--- /tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/src/core/src/main/java/org/apache/accumulo/core/client/mock/MockTable.java	2018-12-28 20:28:13.213481000 -0500
++++ /tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/patches_5ben/Patch_1239/patched/tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/src/core/src/main/java/org/apache/accumulo/core/client/mock/MockTable.java	2018-12-28 20:46:18.113476695 -0500
+@@ -65,13 +65,11 @@
+     public int compareTo(Key o) {
+       int compare = super.compareTo(o);
+       if (compare != 0)
+-        return compare;
++		;
+       if (o instanceof MockMemKey) {
+         MockMemKey other = (MockMemKey) o;
+         if (count < other.count)
+           return -1;
+-        if (count > other.count)
+-          return 1;
+       } else {
+         return 1;
+       }
+
+
+--- /tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/src/core/src/main/java/org/apache/accumulo/core/data/Mutation.java	2018-12-28 20:28:13.241482000 -0500
++++ /tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/patches_5ben/Patch_1239/patched/tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/src/core/src/main/java/org/apache/accumulo/core/data/Mutation.java	2018-12-28 20:46:18.113476695 -0500
+@@ -313,7 +313,8 @@
+   }
+   
+   public void put(CharSequence columnFamily, CharSequence columnQualifier, CharSequence value) {
+-    put(columnFamily, columnQualifier, EMPTY_BYTES, false, 0l, false, value);
++    this.data = data;
++	put(columnFamily, columnQualifier, EMPTY_BYTES, false, 0l, false, value);
+   }
+   
+   public void put(CharSequence columnFamily, CharSequence columnQualifier, ColumnVisibility columnVisibility, CharSequence value) {
+
+

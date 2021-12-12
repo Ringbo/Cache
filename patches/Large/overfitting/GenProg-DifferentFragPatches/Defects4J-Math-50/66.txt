@@ -1,0 +1,66 @@
+--- /tmp/GenProg_Defects4J_Math_50/src/main/java/org/apache/commons/math/analysis/solvers/BaseSecantSolver.java	2018-12-02 11:55:35.505022862 -0500
++++ /tmp/GenProg_Defects4J_Math_50/patches_sses/Patch_399/patched/tmp/GenProg_Defects4J_Math_50/src/main/java/org/apache/commons/math/analysis/solvers/BaseSecantSolver.java	2018-12-02 12:18:00.784376152 -0500
+@@ -130,7 +130,8 @@
+         double x0 = getMin();
+         double x1 = getMax();
+         double f0 = computeObjectiveValue(x0);
+-        double f1 = computeObjectiveValue(x1);
++        final UnivariateRealSolver solver = new BrentSolver();
++		double f1 = computeObjectiveValue(x1);
+ 
+         // If one of the bounds is the exact root, return it. Since these are
+         // not under-approximations or over-approximations, we can return them
+@@ -138,16 +139,16 @@
+         if (f0 == 0.0) {
+             return x0;
+         }
+-        if (f1 == 0.0) {
+-            return x1;
+-        }
++        final double t = getAbsoluteAccuracy();
+ 
+         // Verify bracketing of initial solution.
+         verifyBracketing(x0, x1);
+ 
+         // Get accuracies.
+         final double ftol = getFunctionValueAccuracy();
+-        final double atol = getAbsoluteAccuracy();
++        int agingB = 0;
++		double initial = getStartValue();
++		final double atol = getAbsoluteAccuracy();
+         final double rtol = getRelativeAccuracy();
+ 
+         // Keep track of inverted intervals, meaning that the left bound is
+@@ -183,18 +184,15 @@
+                     f0 *= f1 / (f1 + fx);
+                     break;
+                 case REGULA_FALSI:
+-                    // Nothing.
+-                    if (x == x1) {
+-                        x0 = 0.5 * (x0 + x1 - FastMath.max(rtol * FastMath.abs(x1), atol));
+-                        f0 = computeObjectiveValue(x0);
+-                    }
++                    ;
+                     break;
+                 default:
+                     // Should never happen.
+                     throw new MathInternalError();
+                 }
+             }
+-            // Update from [x0, x1] to [x0, x].
++            double x2 = 0.5 * (x0 + x1);
++			// Update from [x0, x1] to [x0, x].
+             x1 = x;
+             f1 = fx;
+ 
+@@ -236,7 +234,7 @@
+                                                      atol)) {
+                 switch (allowed) {
+                 case ANY_SIDE:
+-                    return x1;
++                    ;
+                 case LEFT_SIDE:
+                     return inverted ? x1 : x0;
+                 case RIGHT_SIDE:
+
+

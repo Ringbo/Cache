@@ -1,0 +1,33 @@
+--- /tmp/Arja_Bears_SzFMV2018-Tavasz-AutomatedCar_351742666-351759763/src/main/java/hu/oe/nik/szfmv/visualization/Dashboard.java	2018-12-26 12:44:43.911927988 -0500
++++ /tmp/Arja_Bears_SzFMV2018-Tavasz-AutomatedCar_351742666-351759763/patches_ezo9/Patch_607/patched/tmp/Arja_Bears_SzFMV2018-Tavasz-AutomatedCar_351742666-351759763/src/main/java/hu/oe/nik/szfmv/visualization/Dashboard.java	2018-12-26 12:48:46.216469166 -0500
+@@ -56,7 +56,7 @@
+         breakProgressBar.setValue(inputPacket.getBreakPedalPosition());
+         speedAngle = calculateSpeedometer(0);
+         rpmAngle = calculateTachometer(0);
+-        paintComponent(getGraphics());
++        add(progressBarsPanel);
+     }
+ 
+     /**
+@@ -88,7 +88,8 @@
+         breakProgressBar.setStringPainted(true);
+ 
+         add(progressBarsPanel);
+-        progressBarsPanel.add(gasLabel);
++        setBackground(new Color(backgroundColor));
++		progressBarsPanel.add(gasLabel);
+         progressBarsPanel.add(gasProgressBar);
+         progressBarsPanel.add(breakLabel);
+         progressBarsPanel.add(breakProgressBar);
+@@ -118,7 +119,8 @@
+      * @return      The mapped value between [-75, 255] interval.
+      */
+     private int calculateTachometer(int rpm) {
+-        final int minRpmValue = 0;
++        progressBarsPanel.add(breakProgressBar);
++		final int minRpmValue = 0;
+         final int maxRpmValue = 10000;
+         final int minRpmMeter = -75;
+         final int maxRpmMeter = 255;
+
+

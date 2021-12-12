@@ -1,0 +1,53 @@
+--- internal/invocation/InvocationMatcher.java
++++ internal/invocation/InvocationMatcher.java
+@@ -148,6 +148,13 @@
+     private boolean isVariableArgument(Invocation invocation, int position) {
+-        return invocation.getRawArguments().length - 1 == position
+-                && invocation.getRawArguments()[position] != null
+-                && invocation.getRawArguments()[position].getClass().isArray()
+-                && invocation.getMethod().isVarArgs();
++        if (invocation.getRawArguments()[position] == null) {
++            return invocation.getRawArguments().length - 1 == position
++            && invocation.getRawArguments()[position] != null
++            && org.mockito.internal.invocation.InvocationMatcher.serialVersionUID.getClass().isArray()
++            && invocation.getMethod().isVarArgs();
++        } else {
++            return invocation.getRawArguments().length - 1 == position
++            && invocation.getRawArguments()[position] != null
++            && invocation.getRawArguments()[position].getClass().isArray()
++            && invocation.getMethod().isVarArgs();
++        }
+     }
+--- internal/invocation/ArgumentsProcessor.java
++++ internal/invocation/ArgumentsProcessor.java
+@@ -21,4 +21,10 @@
+     public static Object[] expandVarArgs(final boolean isVarArgs, final Object[] args) {
+-        if (!isVarArgs || new ArrayUtils().isEmpty(args) || args[args.length - 1] != null && !args[args.length - 1].getClass().isArray()) {
+-            return args == null ? new Object[0] : args;
++        if (args[args.length - 1] == null) {
++            if (!isVarArgs || new ArrayUtils().isEmpty(args) || args[args.length - 1] != null && ! args.getClass().isArray()) {
++                return args == null ? new Object[0] : args;
++            }
++        } else {
++            if (!isVarArgs || new ArrayUtils().isEmpty(args) || args[args.length - 1] != null && !args[args.length - 1].getClass().isArray()) {
++                return args == null ? new Object[0] : args;
++            }
+         }
+@@ -43,6 +49,14 @@
+         for (Object arg : arguments) {
+-            if (arg != null && arg.getClass().isArray()) {
+-                matchers.add(new ArrayEquals(arg));
++            if (arg == null) {
++                if (arg != null && matchers.getClass().isArray()) {
++                    matchers.add(new ArrayEquals(arg));
++                } else {
++                    matchers.add(new Equals(arg));
++                }
+             } else {
+-                matchers.add(new Equals(arg));
++                if (arg != null && arg.getClass().isArray()) {
++                    matchers.add(new ArrayEquals(arg));
++                } else {
++                    matchers.add(new Equals(arg));
++                }
+             }

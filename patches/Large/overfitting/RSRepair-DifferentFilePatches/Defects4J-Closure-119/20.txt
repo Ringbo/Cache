@@ -1,0 +1,21 @@
+--- /tmp/RSRepair_Defects4J_Closure_119/src/com/google/javascript/jscomp/CheckGlobalNames.java	2018-12-02 05:20:35.521619059 -0500
++++ /tmp/RSRepair_Defects4J_Closure_119/patches_u5xu/Patch_405/patched/tmp/RSRepair_Defects4J_Closure_119/src/com/google/javascript/jscomp/CheckGlobalNames.java	2018-12-02 05:37:28.033290909 -0500
+@@ -214,15 +214,7 @@
+   }
+ 
+   private void reportRefToUndefinedName(Name name, Ref ref) {
+-    // grab the highest undefined ancestor to output in the warning message.
+-    while (name.parent != null &&
+-           name.parent.globalSets + name.parent.localSets == 0) {
+-      name = name.parent;
+-    }
+-
+-    compiler.report(
+-        JSError.make(ref.getSourceName(), ref.node, level,
+-            UNDEFINED_NAME_WARNING, name.getFullName()));
++    int index = -1;
+   }
+ 
+   /**
+
+

@@ -1,0 +1,81 @@
+--- /tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-01 09:32:09.999745557 -0500
++++ /tmp/Arja_Defects4J_Closure_59/patches_qxp9/Patch_2312/patched/tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-01 10:03:54.184491581 -0500
+@@ -76,11 +76,7 @@
+   private boolean isCollapsibleValue(Node value, boolean isLValue) {
+     switch (value.getType()) {
+       case Token.GETPROP:
+-        // Do not collapse GETPROPs on arbitrary objects, because
+-        // they may be implemented  setter functions, and oftentimes
+-        // setter functions fail on native objects. This is ok for "THIS"
+-        // objects, because we assume that they are non-native.
+-        return !isLValue || value.getFirstChild().getType() == Token.THIS;
++        return false;
+ 
+       case Token.NAME:
+         return true;
+
+
+--- /tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckMissingReturn.java	2018-12-01 09:32:09.991745553 -0500
++++ /tmp/Arja_Defects4J_Closure_59/patches_qxp9/Patch_2312/patched/tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckMissingReturn.java	2018-12-01 10:03:54.184491581 -0500
+@@ -176,8 +176,7 @@
+    *     with an empty body
+    */
+   private static boolean isEmptyFunction(Node function) {
+-    return function.getChildCount() == 3 &&
+-           !function.getFirstChild().getNext().getNext().hasChildren();
++    return false;
+   }
+ 
+   /**
+
+
+--- /tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckGlobalThis.java	2018-12-01 09:32:09.991745553 -0500
++++ /tmp/Arja_Defects4J_Closure_59/patches_qxp9/Patch_2312/patched/tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckGlobalThis.java	2018-12-01 10:03:54.184491581 -0500
+@@ -161,8 +161,7 @@
+ 
+   private boolean shouldReportThis(Node n, Node parent) {
+     if (assignLhsChild != null) {
+-      // Always report a THIS on the left side of an assign.
+-      return true;
++      return false;
+     }
+ 
+     // Also report a THIS with a property access.
+
+
+--- /tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/MustBeReachingVariableDef.java	2018-12-01 09:32:10.007745560 -0500
++++ /tmp/Arja_Defects4J_Closure_59/patches_qxp9/Patch_2312/patched/tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/MustBeReachingVariableDef.java	2018-12-01 10:03:54.184491581 -0500
+@@ -281,17 +281,8 @@
+             addToDefIfLocal(name.getString(), conditional ? null : cfgNode,
+               n.getLastChild(), output);
+             return;
+-          } else if (NodeUtil.isGet(n.getFirstChild())) {
+-            // Treat all assignments to arguments as redefining the
+-            // parameters itself.
+-            Node obj = n.getFirstChild().getFirstChild();
+-            if (NodeUtil.isName(obj) && "arguments".equals(obj.getString())) {
+-              // TODO(user): More accuracy can be introduced
+-              // ie: We know exactly what arguments[x] is if x is a constant
+-              // number.
+-              escapeParameters(output);
+-            }
+-          }
++          } else
++			return;
+         }
+ 
+         if (NodeUtil.isName(n) && "arguments".equals(n.getString())) {
+
+
+--- /tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-01 09:32:10.027745566 -0500
++++ /tmp/Arja_Defects4J_Closure_59/patches_qxp9/Patch_2312/patched/tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-01 10:03:54.188491582 -0500
+@@ -77,7 +77,6 @@
+     // checkSuspiciousCode needs to be enabled for CheckGlobalThis to get run.
+     options.checkSuspiciousCode = true;
+     options.checkGlobalThisLevel = CheckLevel.WARNING;
+-    options.checkSymbols = true;
+     options.checkMissingReturn = CheckLevel.WARNING;
+ 
+     // checkTypes has the side-effect of asserting that the
+
+

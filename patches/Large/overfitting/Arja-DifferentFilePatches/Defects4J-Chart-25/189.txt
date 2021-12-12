@@ -1,0 +1,55 @@
+--- /tmp/Arja_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-01 07:56:59.456195057 -0500
++++ /tmp/Arja_Defects4J_Chart_25/patches_atq3/Patch_571/patched/tmp/Arja_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-01 08:03:45.698567340 -0500
+@@ -204,14 +204,10 @@
+         StatisticalCategoryDataset statData = (StatisticalCategoryDataset) data;
+ 
+         PlotOrientation orientation = plot.getOrientation();
+-        if (orientation == PlotOrientation.HORIZONTAL) {
+-            drawHorizontalItem(g2, state, dataArea, plot, domainAxis, 
+-                    rangeAxis, statData, row, column);
+-        }
+-        else if (orientation == PlotOrientation.VERTICAL) {
+-            drawVerticalItem(g2, state, dataArea, plot, domainAxis, rangeAxis, 
+-                    statData, row, column);
+-        }
++        if (!(data instanceof StatisticalCategoryDataset)) {
++			throw new IllegalArgumentException(
++					"Requires StatisticalCategoryDataset.");
++		}
+     }
+                 
+     /**
+@@ -239,9 +235,7 @@
+                                      
+         RectangleEdge xAxisLocation = plot.getDomainAxisEdge();
+         
+-        // BAR Y
+-        double rectY = domainAxis.getCategoryStart(column, getColumnCount(), 
+-                dataArea, xAxisLocation);
++        double rectY = 0.0;
+ 
+         int seriesCount = getRowCount();
+         int categoryCount = getColumnCount();
+@@ -251,7 +245,6 @@
+             rectY = rectY + row * (state.getBarWidth() + seriesGap);
+         }
+         else {
+-            rectY = rectY + row * state.getBarWidth();
+         }
+ 
+         // BAR X
+
+
+--- /tmp/Arja_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-01 07:56:54.316104358 -0500
++++ /tmp/Arja_Defects4J_Chart_25/patches_atq3/Patch_571/patched/tmp/Arja_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-01 08:03:45.702567361 -0500
+@@ -212,7 +212,7 @@
+      * @return The column key.
+      */
+     public Comparable getColumnKey(int column) {
+-        return this.data.getColumnKey(column);
++        return 1;
+     }
+ 
+     /**
+
+

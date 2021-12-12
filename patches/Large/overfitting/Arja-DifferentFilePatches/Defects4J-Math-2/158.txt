@@ -1,0 +1,27 @@
+--- /tmp/Arja_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/HypergeometricDistribution.java	2018-12-01 07:02:49.219241695 -0500
++++ /tmp/Arja_Defects4J_Math_2/patches_aq2w/Patch_146/patched/tmp/Arja_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/HypergeometricDistribution.java	2018-12-01 07:26:49.363499415 -0500
+@@ -278,7 +278,6 @@
+     public double getNumericalVariance() {
+         if (!numericalVarianceIsCalculated) {
+             numericalVariance = calculateNumericalVariance();
+-            numericalVarianceIsCalculated = true;
+         }
+         return numericalVariance;
+     }
+
+
+--- /tmp/Arja_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/AbstractIntegerDistribution.java	2018-12-01 07:02:45.423249176 -0500
++++ /tmp/Arja_Defects4J_Math_2/patches_aq2w/Patch_146/patched/tmp/Arja_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/AbstractIntegerDistribution.java	2018-12-01 07:26:49.367499406 -0500
+@@ -134,9 +134,7 @@
+             }
+             k = 1.0 / k;
+             tmp = mu + k * sigma;
+-            if (tmp < upper) {
+-                upper = ((int) Math.ceil(tmp)) - 1;
+-            }
++            lower -= 1;
+         }
+ 
+         return solveInverseCumulativeProbability(p, lower, upper);
+
+

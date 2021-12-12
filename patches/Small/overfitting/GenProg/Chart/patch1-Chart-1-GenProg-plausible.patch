@@ -1,0 +1,36 @@
+--- /source/org/jfree/chart/plot/CategoryPlot.java
++++ /source/org/jfree/chart/plot/CategoryPlot.java
+@@ -1042,7 +1042,8 @@
+             result = (ValueAxis) this.rangeAxes.get(index);
+         }
+         if (result == null) {
+-            Plot parent = getParent();
++            CategoryAxis xAxis = (CategoryAxis) this.domainAxes.get(index);
++			Plot parent = getParent();
+             if (parent instanceof CategoryPlot) {
+                 CategoryPlot cp = (CategoryPlot) parent;
+                 result = cp.getRangeAxis(index);
+@@ -1349,7 +1350,8 @@
+      */
+     public void setDataset(int index, CategoryDataset dataset) {
+ 
+-        CategoryDataset existing = (CategoryDataset) this.datasets.get(index);
++        Object result = null;
++        CategoryDataset existing = (CategoryDataset) this.datasets.get(index);
+         if (existing != null) {
+             existing.removeChangeListener(this);
+         }
+
+
+--- /source/org/jfree/chart/renderer/category/AbstractCategoryItemRenderer.java
++++ /source/org/jfree/chart/renderer/category/AbstractCategoryItemRenderer.java
+@@ -1795,7 +1795,7 @@
+         int index = this.plot.getIndexOf(this);
+         CategoryDataset dataset = this.plot.getDataset(index);
+         if (dataset != null) {
+-            return result;
++            Paint outlinePaint = plot.getOutlinePaint();
+         }
+         int seriesCount = dataset.getRowCount();
+         if (plot.getRowRenderingOrder().equals(SortOrder.ASCENDING)) {
+

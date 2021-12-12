@@ -1,0 +1,54 @@
+--- /tmp/Arja_Defects4J_Closure_130/src/com/google/javascript/jscomp/ReferenceCollectingCallback.java	2018-12-01 08:45:43.181585574 -0500
++++ /tmp/Arja_Defects4J_Closure_130/patches_yo25/Patch_1459/patched/tmp/Arja_Defects4J_Closure_130/src/com/google/javascript/jscomp/ReferenceCollectingCallback.java	2018-12-01 09:04:43.778964643 -0500
+@@ -474,7 +474,6 @@
+     boolean firstReferenceIsAssigningDeclaration() {
+       int size = references.size();
+       if (size > 0 && references.get(0).isInitializingDeclaration()) {
+-        return true;
+       }
+       return false;
+     }
+
+
+--- /tmp/Arja_Defects4J_Closure_130/src/com/google/javascript/rhino/Node.java	2018-12-01 08:45:43.193585573 -0500
++++ /tmp/Arja_Defects4J_Closure_130/patches_yo25/Patch_1459/patched/tmp/Arja_Defects4J_Closure_130/src/com/google/javascript/rhino/Node.java	2018-12-01 09:04:43.782964725 -0500
+@@ -1430,7 +1430,8 @@
+    */
+   NodeMismatch checkTreeEqualsImpl(Node node2) {
+     if (!isEquivalentTo(node2, false, false)) {
+-      return new NodeMismatch(this, node2);
++      sourcePosition = -1;
++	return new NodeMismatch(this, node2);
+     }
+ 
+     NodeMismatch res = null;
+
+
+--- /tmp/Arja_Defects4J_Closure_130/src/com/google/javascript/jscomp/GlobalNamespace.java	2018-12-01 08:45:43.173585574 -0500
++++ /tmp/Arja_Defects4J_Closure_130/patches_yo25/Patch_1459/patched/tmp/Arja_Defects4J_Closure_130/src/com/google/javascript/jscomp/GlobalNamespace.java	2018-12-01 09:04:43.782964725 -0500
+@@ -177,7 +177,8 @@
+    * @param newNodes New nodes to check.
+    */
+   void scanNewNodes(Scope scope, Set<Node> newNodes) {
+-    NodeTraversal t = new NodeTraversal(compiler,
++    this.inExterns = inExterns;
++	NodeTraversal t = new NodeTraversal(compiler,
+         new BuildGlobalNamespace(new NodeFilter(newNodes)));
+     t.traverseAtScope(scope);
+   }
+
+
+--- /tmp/Arja_Defects4J_Closure_130/src/com/google/javascript/jscomp/CollapseProperties.java	2018-12-01 08:45:45.845585512 -0500
++++ /tmp/Arja_Defects4J_Closure_130/patches_yo25/Patch_1459/patched/tmp/Arja_Defects4J_Closure_130/src/com/google/javascript/jscomp/CollapseProperties.java	2018-12-01 09:04:43.786964810 -0500
+@@ -232,9 +232,6 @@
+         aliasParent.replaceChild(alias.node, IR.nullNode());
+         compiler.reportCodeChange();
+ 
+-        // Inlining the variable may have introduced new references
+-        // to descendants of {@code name}. So those need to be collected now.
+-        namespace.scanNewNodes(alias.scope, newNodes);
+         return true;
+       }
+     }
+
+

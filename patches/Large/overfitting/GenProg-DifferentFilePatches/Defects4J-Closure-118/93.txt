@@ -1,0 +1,92 @@
+--- /tmp/GenProg_Defects4J_Closure_118/src/com/google/javascript/jscomp/TypedScopeCreator.java	2018-12-02 05:43:55.078213712 -0500
++++ /tmp/GenProg_Defects4J_Closure_118/patches_0qet/Patch_1617/patched/tmp/GenProg_Defects4J_Closure_118/src/com/google/javascript/jscomp/TypedScopeCreator.java	2018-12-02 06:13:53.672937312 -0500
+@@ -1579,7 +1579,8 @@
+             return;
+           }
+ 
+-          qVar.getScope().undeclare(qVar);
++          int index = -1;
++		qVar.getScope().undeclare(qVar);
+         }
+       }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_118/src/com/google/javascript/jscomp/DisambiguateProperties.java	2018-12-02 05:43:57.682213651 -0500
++++ /tmp/GenProg_Defects4J_Closure_118/patches_0qet/Patch_1617/patched/tmp/GenProg_Defects4J_Closure_118/src/com/google/javascript/jscomp/DisambiguateProperties.java	2018-12-02 06:13:53.672937312 -0500
+@@ -439,7 +439,6 @@
+       if (n.isGetProp()) {
+         handleGetProp(t, n);
+       } else if (n.isObjectLit()) {
+-        handleObjectLit(t, n);
+       }
+     }
+ 
+@@ -488,28 +487,6 @@
+      * Processes a OBJECTLIT node.
+      */
+     private void handleObjectLit(NodeTraversal t, Node n) {
+-      for (Node child = n.getFirstChild();
+-          child != null;
+-          child = child.getNext()) {
+-        // Maybe STRING, GET, SET
+-
+-        // We should never see a mix of numbers and strings.
+-        String name = child.getString();
+-        T type = typeSystem.getType(getScope(), n, name);
+-
+-        Property prop = getProperty(name);
+-        if (!prop.scheduleRenaming(child,
+-                                   processProperty(t, prop, type, null))) {
+-          // TODO(user): It doesn't look like the user can do much in this
+-          // case right now.
+-          if (propertiesToErrorFor.containsKey(name)) {
+-            compiler.report(JSError.make(
+-                t.getSourceName(), child, propertiesToErrorFor.get(name),
+-                Warnings.INVALIDATION, name,
+-                (type == null ? "null" : type.toString()), n.toString(), ""));
+-          }
+-        }
+-      }
+     }
+ 
+     private void printErrorLocations(List<String> errors, JSType t) {
+@@ -871,7 +848,6 @@
+ 
+       // Ignore the prototype itself at all times.
+       if ("prototype".equals(field)) {
+-        return null;
+       }
+ 
+       // We look up the prototype chain to find the highest place (if any) that
+
+
+--- /tmp/GenProg_Defects4J_Closure_118/src/com/google/javascript/rhino/jstype/JSTypeRegistry.java	2018-12-02 05:43:55.082213712 -0500
++++ /tmp/GenProg_Defects4J_Closure_118/patches_0qet/Patch_1617/patched/tmp/GenProg_Defects4J_Closure_118/src/com/google/javascript/rhino/jstype/JSTypeRegistry.java	2018-12-02 06:13:53.676937326 -0500
+@@ -1414,12 +1414,6 @@
+    */
+   public boolean resetImplicitPrototype(
+       JSType type, ObjectType newImplicitProto) {
+-    if (type instanceof PrototypeObjectType) {
+-      PrototypeObjectType poType = (PrototypeObjectType) type;
+-      poType.clearCachedValues();
+-      poType.setImplicitPrototype(newImplicitProto);
+-      return true;
+-    }
+     return false;
+   }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_118/src/com/google/javascript/jscomp/CodeGenerator.java	2018-12-02 05:43:55.066213712 -0500
++++ /tmp/GenProg_Defects4J_Closure_118/patches_0qet/Patch_1617/patched/tmp/GenProg_Defects4J_Closure_118/src/com/google/javascript/jscomp/CodeGenerator.java	2018-12-02 06:13:53.676937326 -0500
+@@ -702,7 +702,6 @@
+               if (!Double.isNaN(d)) {
+                 cc.addNumber(d);
+               } else {
+-                addExpr(c, 1, Context.OTHER);
+               }
+             }
+             add(":");
+
+

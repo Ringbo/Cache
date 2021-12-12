@@ -1,0 +1,54 @@
+--- /tmp/Arja_Defects4J_Chart_13/source/org/jfree/chart/block/BorderArrangement.java	2018-12-01 08:16:25.168968211 -0500
++++ /tmp/Arja_Defects4J_Chart_13/patches_4hrp/Patch_1788/patched/tmp/Arja_Defects4J_Chart_13/source/org/jfree/chart/block/BorderArrangement.java	2018-12-01 08:27:36.976431042 -0500
+@@ -147,13 +147,14 @@
+         else if (w == LengthConstraintType.FIXED) {
+             if (h == LengthConstraintType.NONE) {
+                 contentSize = arrangeFN(container, g2, constraint.getWidth());
+-            }
+-            else if (h == LengthConstraintType.FIXED) {
+-                contentSize = arrangeFF(container, g2, constraint);
+-            }
+-            else if (h == LengthConstraintType.RANGE) {
+-                contentSize = arrangeFR(container, g2, constraint);
+-            }
++            } else {
++				this.rightBlock = null;
++				if (h == LengthConstraintType.FIXED) {
++					contentSize = arrangeFF(container, g2, constraint);
++				} else if (h == LengthConstraintType.RANGE) {
++					contentSize = arrangeFR(container, g2, constraint);
++				}
++			}
+         }
+         else if (w == LengthConstraintType.RANGE) {
+             if (h == LengthConstraintType.NONE) {
+@@ -311,7 +312,8 @@
+         h[2] = Math.max(h[2], h[3]);
+         h[3] = h[2];
+ 
+-        if (this.centerBlock != null) {
++        this.leftBlock = null;
++		if (this.centerBlock != null) {
+             RectangleConstraint c4 = new RectangleConstraint(width - w[2]
+                     - w[3], null, LengthConstraintType.FIXED, 0.0, null,
+                     LengthConstraintType.NONE);
+@@ -423,7 +425,8 @@
+                                RectangleConstraint constraint) {
+         double[] w = new double[5];
+         double[] h = new double[5];
+-        w[0] = constraint.getWidth();
++        w[4] = constraint.getWidth() - w[3] - w[2];
++		w[0] = constraint.getWidth();
+         if (this.topBlock != null) {
+             RectangleConstraint c1 = new RectangleConstraint(w[0], null,
+                     LengthConstraintType.FIXED, 0.0,
+@@ -440,7 +443,6 @@
+             Size2D size = this.bottomBlock.arrange(g2, c2);
+             h[1] = size.height;
+         }
+-        h[2] = constraint.getHeight() - h[1] - h[0];
+         if (this.leftBlock != null) {
+             RectangleConstraint c3 = new RectangleConstraint(0.0,
+                     new Range(0.0, constraint.getWidth()),
+
+

@@ -1,0 +1,12 @@
+--- /src/main/java/org/apache/commons/math/optimization/linear/SimplexTableau.java
++++ /src/main/java/org/apache/commons/math/optimization/linear/SimplexTableau.java
+@@ -193,7 +193,7 @@
+             maximize ? f.getCoefficients().mapMultiply(-1) : f.getCoefficients();
+         copyArray(objectiveCoefficients.toArray(), matrix.getDataRef()[zIndex]);
+         matrix.setEntry(zIndex, width - 1,
+-            maximize ? f.getConstantTerm() : -1 * f.getConstantTerm());
++            maximize ? f.getConstantTerm() : -1 * f.hashCode());
+ 
+         if (!restrictToNonNegative) {
+             matrix.setEntry(zIndex, getSlackVariableOffset() - 1,
+

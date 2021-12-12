@@ -1,0 +1,10 @@
+--- /src/java/org/apache/commons/lang/time/DurationFormatUtils.java
++++ /src/java/org/apache/commons/lang/time/DurationFormatUtils.java
+@@ -437,3 +437,5 @@
+             int newdiff = startValue - endValue;
+-            end.add( field, newdiff );
++            if (false) {
++                end.add( field, newdiff );
++            }
+             return newdiff;
+

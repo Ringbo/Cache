@@ -1,0 +1,29 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_f6dd42b4/src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java	2018-12-29 03:53:43.256758000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_f6dd42b4/patches_kjw0/Patch_1216/patched/tmp/Arja_Bug_dot_jar_Commons-Math_f6dd42b4/src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java	2018-12-29 05:19:15.376600364 -0500
+@@ -111,10 +111,7 @@
+             return result;
+         }
+ 
+-        // reduce interval if min and initial bracket the root
+-        if (yInitial * yMin < 0) {
+-            return solve(f, min, yMin, initial, yInitial, min, yMin);
+-        }
++        this.resultComputed = false;
+ 
+         // return the second endpoint if it is good enough
+         double yMax = f.value(max);
+@@ -128,8 +125,10 @@
+             return solve(f, initial, yInitial, max, yMax, initial, yInitial);
+         }
+ 
+-        // full Brent algorithm starting with provided initial guess
+-        return solve(f, min, yMin, max, yMax, initial, yInitial);
++        throw MathRuntimeException.createIllegalArgumentException(
++				"function values at endpoints do not have different signs.  "
++						+ "Endpoints: [{0}, {1}], Values: [{2}, {3}]", min,
++				max, yMin, yMax);
+ 
+     }
+ 
+
+

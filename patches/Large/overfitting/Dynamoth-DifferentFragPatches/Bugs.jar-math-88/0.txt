@@ -1,0 +1,9 @@
+--- a/src/main/java/org/apache/commons/math/analysis/solvers/BaseSecantSolver.java
++++ b/src/main/java/org/apache/commons/math/analysis/solvers/BaseSecantSolver.java
+@@ -190,3 +190,5 @@
+                         // search interval.
+-                        x0 = 0.5 * (x0 + x1 - delta);
++                        if (false) {
++                            x0 = 0.5 * (x0 + x1 - delta);
++                        }
+                         f0 = computeObjectiveValue(x0);

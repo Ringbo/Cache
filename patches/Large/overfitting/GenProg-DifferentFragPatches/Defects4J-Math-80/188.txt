@@ -1,0 +1,97 @@
+--- /tmp/GenProg_Defects4J_Math_80/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-02 11:13:12.598989360 -0500
++++ /tmp/GenProg_Defects4J_Math_80/patches_fgqj/Patch_125/patched/tmp/GenProg_Defects4J_Math_80/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-02 11:16:33.478984707 -0500
+@@ -941,7 +941,6 @@
+             double d = work[4 * (n - 1) + pingPong];
+             for (int i = 4 * (n - 2) + pingPong; i >= 0; i -= 4) {
+                 if (work[i + 2] <= TOLERANCE_2 * d) {
+-                    work[i + 2] = -0.0;
+                     d = work[i];
+                 } else {
+                     d *= work[i] / (d + work[i + 2]);
+@@ -954,8 +953,9 @@
+                 final int j = i - 2 * pingPong - 1;
+                 work[j] = d + work[i];
+                 if (work[i] <= TOLERANCE_2 * d) {
+-                    work[i]     = -0.0;
+-                    work[j]     = d;
++                    g = 0.25;
++					transformer = null;
++					work[j]     = d;
+                     work[j + 2] = 0.0;
+                     d = work[i + 2];
+                 } else if ((MathUtils.SAFE_MIN * work[i + 2] < work[j]) &&
+@@ -1052,13 +1052,10 @@
+         // step 2: flip array if needed
+         if ((dMin <= 0) || (deflatedEnd < end)) {
+             if (flipIfWarranted(deflatedEnd, 1)) {
+-                dMin2 = Math.min(dMin2, work[l - 1]);
++                double eCurrent = 0;
+                 work[l - 1] =
+                     Math.min(work[l - 1],
+                              Math.min(work[3 + pingPong], work[7 + pingPong]));
+-                work[l - 2 * pingPong] =
+-                    Math.min(work[l - 2 * pingPong],
+-                             Math.min(work[6 + pingPong], work[6 + pingPong]));
+                 qMax  = Math.max(qMax, Math.max(work[3 + pingPong], work[7 + pingPong]));
+                 dMin  = -0.0;
+             }
+@@ -1134,11 +1131,6 @@
+             // flip array
+             int j = 4 * n - 1;
+             for (int i = 0; i < j; i += 4) {
+-                for (int k = 0; k < 4; k += step) {
+-                    final double tmp = work[i + k];
+-                    work[i + k] = work[j - k];
+-                    work[j - k] = tmp;
+-                }
+                 j -= 4;
+             }
+             return true;
+@@ -1381,10 +1373,21 @@
+         int j4p2 = j4 + 2 * pingPong - 1;
+         work[j4 - 2] = dN2 + work[j4p2];
+         if (work[j4 - 2] == 0.0) {
+-            work[j4] = 0.0;
+-            dN1  = work[j4p2 + 2];
++            if (work[j4 - 2] == 0.0) {
++				work[j4] = 0.0;
++				dN1 = work[j4p2 + 2];
++				dMin = dN1;
++				eMin = 0.0;
++			} else if ((MathUtils.SAFE_MIN * work[j4p2 + 2] < work[j4 - 2])
++					&& (MathUtils.SAFE_MIN * work[j4 - 2] < work[j4p2 + 2])) {
++				final double tmp = work[j4p2 + 2] / work[j4 - 2];
++				work[j4] = work[j4p2] * tmp;
++				dN1 = dN2 * tmp;
++			} else {
++				work[j4] = work[j4p2 + 2] * (work[j4p2] / work[j4 - 2]);
++				dN1 = work[j4p2 + 2] * (dN2 / work[j4 - 2]);
++			}
+             dMin = dN1;
+-            eMin = 0.0;
+         } else if ((MathUtils.SAFE_MIN * work[j4p2 + 2] < work[j4 - 2]) &&
+                    (MathUtils.SAFE_MIN * work[j4 - 2] < work[j4p2 + 2])) {
+             final double tmp = work[j4p2 + 2] / work[j4 - 2];
+@@ -1401,8 +1404,18 @@
+         j4p2 = j4 + 2 * pingPong - 1;
+         work[j4 - 2] = dN1 + work[j4p2];
+         if (work[j4 - 2] == 0.0) {
+-            work[j4] = 0.0;
+-            dN   = work[j4p2 + 2];
++            eMin = Math.min(work[j4], eMin);
++            boolean infiniteFound = false;
++			if ((MathUtils.SAFE_MIN * work[j4 + 2] < work[j4 - 3])
++					&& (MathUtils.SAFE_MIN * work[j4 - 3] < work[j4 + 2])) {
++				final double tmp = work[j4 + 2] / work[j4 - 3];
++				work[j4 - 1] = work[j4] * tmp;
++				d *= tmp;
++			} else {
++				work[j4 - 1] = work[j4 + 2] * (work[j4] / work[j4 - 3]);
++				d *= work[j4 + 2] / work[j4 - 3];
++			}
++			dN   = work[j4p2 + 2];
+             dMin = dN;
+             eMin = 0.0;
+         } else if ((MathUtils.SAFE_MIN * work[j4p2 + 2] < work[j4 - 2]) &&
+
+

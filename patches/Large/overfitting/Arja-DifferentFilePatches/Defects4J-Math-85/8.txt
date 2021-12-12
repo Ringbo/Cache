@@ -1,0 +1,48 @@
+--- /tmp/Arja_Defects4J_Math_85/src/java/org/apache/commons/math/distribution/NormalDistributionImpl.java	2018-12-01 05:44:02.636110136 -0500
++++ /tmp/Arja_Defects4J_Math_85/patches_4w3i/Patch_856/patched/tmp/Arja_Defects4J_Math_85/src/java/org/apache/commons/math/distribution/NormalDistributionImpl.java	2018-12-01 05:58:14.147781187 -0500
+@@ -203,7 +203,10 @@
+             ret = Double.MAX_VALUE;
+         }
+         
+-        return ret;
++        if (p == 0) {
++			return Double.NEGATIVE_INFINITY;
++		}
++		return ret;
+     }
+ 
+     /**
+
+
+--- /tmp/Arja_Defects4J_Math_85/src/java/org/apache/commons/math/distribution/AbstractContinuousDistribution.java	2018-12-01 05:44:06.180110217 -0500
++++ /tmp/Arja_Defects4J_Math_85/patches_4w3i/Patch_856/patched/tmp/Arja_Defects4J_Math_85/src/java/org/apache/commons/math/distribution/AbstractContinuousDistribution.java	2018-12-01 05:58:14.147781187 -0500
+@@ -97,9 +97,6 @@
+             if (Math.abs(rootFindingFunction.value(lowerBound)) < 1E-6) {
+                 return lowerBound;
+             }
+-            if (Math.abs(rootFindingFunction.value(upperBound)) < 1E-6) {
+-                return upperBound;
+-            }     
+             // Failed bracket convergence was not because of corner solution
+             throw new MathException(ex);
+         }
+
+
+--- /tmp/Arja_Defects4J_Math_85/src/java/org/apache/commons/math/analysis/solvers/UnivariateRealSolverUtils.java	2018-12-01 05:44:06.180110217 -0500
++++ /tmp/Arja_Defects4J_Math_85/patches_4w3i/Patch_856/patched/tmp/Arja_Defects4J_Math_85/src/java/org/apache/commons/math/analysis/solvers/UnivariateRealSolverUtils.java	2018-12-01 05:58:14.147781187 -0500
+@@ -196,12 +196,7 @@
+                 ((a > lowerBound) || (b < upperBound)));
+    
+         if (fa * fb >= 0.0 ) {
+-            throw new ConvergenceException(
+-                      "number of iterations={0}, maximum iterations={1}, " +
+-                      "initial={2}, lower bound={3}, upper bound={4}, final a value={5}, " +
+-                      "final b value={6}, f(a)={7}, f(b)={8}",
+-                      numIterations, maximumIterations, initial,
+-                      lowerBound, upperBound, a, b, fa, fb);
++            fa = function.value(a);
+         }
+         
+         return new double[]{a, b};
+
+

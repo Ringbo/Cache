@@ -1,0 +1,23 @@
+--- /tmp/Arja_Defects4J_Closure_22/src/com/google/javascript/jscomp/CheckSideEffects.java	2018-12-01 09:55:25.787478311 -0500
++++ /tmp/Arja_Defects4J_Closure_22/patches_ahai/Patch_121/patched/tmp/Arja_Defects4J_Closure_22/src/com/google/javascript/jscomp/CheckSideEffects.java	2018-12-01 10:02:12.367470201 -0500
+@@ -113,10 +113,6 @@
+           int ancestorType = an.getType();
+           if (ancestorType == Token.COMMA)
+             continue;
+-          if (ancestorType != Token.EXPR_RESULT && ancestorType != Token.BLOCK)
+-            return;
+-          else
+-            break;
+         }
+       }
+     } else if (parent.getType() != Token.EXPR_RESULT && parent.getType() != Token.BLOCK) {
+@@ -138,7 +134,6 @@
+       }
+       String msg = "This code lacks side-effects. Is there a bug?";
+       if (n.isString()) {
+-        msg = "Is there a missing '+' on the previous line?";
+       } else if (isSimpleOp) {
+         msg = "The result of the '" + Token.name(n.getType()).toLowerCase() +
+             "' operator is not being used.";
+
+

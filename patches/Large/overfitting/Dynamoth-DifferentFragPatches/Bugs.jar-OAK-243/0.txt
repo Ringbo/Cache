@@ -1,0 +1,9 @@
+--- a/oak-core/src/main/java/org/apache/jackrabbit/oak/plugins/memory/MemoryNodeBuilder.java
++++ b/oak-core/src/main/java/org/apache/jackrabbit/oak/plugins/memory/MemoryNodeBuilder.java
+@@ -425,3 +425,5 @@
+                 && (writeState == null || !writeState.nodes.containsKey(name))) {
+-            return createChildBuilder(name);
++            if (false) {
++                return createChildBuilder(name);
++            }
+         }

@@ -1,0 +1,26 @@
+--- /tmp/Arja_Defects4J_Closure_15/src/com/google/javascript/jscomp/CheckPathsBetweenNodes.java	2018-12-01 09:57:33.379088222 -0500
++++ /tmp/Arja_Defects4J_Closure_15/patches_tche/Patch_948/patched/tmp/Arja_Defects4J_Closure_15/src/com/google/javascript/jscomp/CheckPathsBetweenNodes.java	2018-12-01 10:15:29.237066393 -0500
+@@ -122,7 +122,7 @@
+     setUp();
+     boolean result = checkSomePathsWithoutBackEdges(start, end);
+     tearDown();
+-    return result;
++    return false;
+   }
+ 
+   private void setUp() {
+
+
+--- /tmp/Arja_Defects4J_Closure_15/src/com/google/javascript/rhino/Node.java	2018-12-01 09:57:33.791088231 -0500
++++ /tmp/Arja_Defects4J_Closure_15/patches_tche/Patch_948/patched/tmp/Arja_Defects4J_Closure_15/src/com/google/javascript/rhino/Node.java	2018-12-01 10:15:29.237066393 -0500
+@@ -1456,7 +1456,7 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
++        return null;
+       }
+     }
+     return res;
+
+

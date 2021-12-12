@@ -1,0 +1,56 @@
+--- /tmp/Arja_Defects4J_Closure_116/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-01 08:51:01.869149850 -0500
++++ /tmp/Arja_Defects4J_Closure_116/patches_186s/Patch_1744/patched/tmp/Arja_Defects4J_Closure_116/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-01 09:26:48.178570995 -0500
+@@ -552,7 +552,6 @@
+       // Only inline functions that return something.
+       if (block.getFirstChild().isReturn()
+           && block.getFirstChild().getFirstChild() != null) {
+-        return true;
+       }
+     }
+ 
+@@ -720,15 +719,6 @@
+       // For each named parameter check if a mutable argument use more than one.
+       if (fnParam != null) {
+         if (cArg != null) {
+-
+-          // Check for arguments that are evaluated more than once.
+-          // Note: Unlike block inlining, there it is not possible that a
+-          // parameter reference will be in a loop.
+-          if (NodeUtil.mayEffectMutableState(cArg, compiler)
+-              && NodeUtil.getNameReferenceCount(
+-                  block, fnParam.getString()) > 1) {
+-            return CanInlineResult.NO;
+-          }
+         }
+ 
+         // Move to the next name.
+
+
+--- /tmp/Arja_Defects4J_Closure_116/src/com/google/javascript/jscomp/FunctionArgumentInjector.java	2018-12-01 08:50:58.457149772 -0500
++++ /tmp/Arja_Defects4J_Closure_116/patches_186s/Patch_1744/patched/tmp/Arja_Defects4J_Closure_116/src/com/google/javascript/jscomp/FunctionArgumentInjector.java	2018-12-01 09:26:48.182571012 -0500
+@@ -197,9 +197,7 @@
+     Preconditions.checkArgument(unsafe != null);
+     if (n.isName()) {
+       if (names.contains(n.getString())) {
+-        if (inInnerFunction || canNameValueChange(n, parent)) {
+-          unsafe.add(n.getString());
+-        }
++        return null;
+       }
+     } else if (n.isFunction()) {
+       // A function parameter can not be replaced with a direct inlined value
+
+
+--- /tmp/Arja_Defects4J_Closure_116/src/com/google/javascript/rhino/Node.java	2018-12-01 08:50:58.717149778 -0500
++++ /tmp/Arja_Defects4J_Closure_116/patches_186s/Patch_1744/patched/tmp/Arja_Defects4J_Closure_116/src/com/google/javascript/rhino/Node.java	2018-12-01 09:26:48.182571012 -0500
+@@ -1456,7 +1456,7 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
++        return null;
+       }
+     }
+     return res;
+
+

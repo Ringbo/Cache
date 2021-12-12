@@ -1,0 +1,97 @@
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_f6dd42b4/src/main/java/org/apache/commons/math/analysis/solvers/UnivariateRealSolverImpl.java	2018-12-30 15:11:22.140573000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_f6dd42b4/patches_aepn/Patch_522/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_f6dd42b4/src/main/java/org/apache/commons/math/analysis/solvers/UnivariateRealSolverImpl.java	2018-12-30 15:48:23.645108345 -0500
+@@ -206,9 +206,11 @@
+      */
+     protected void verifyInterval(final double lower, final double upper) {
+         if (lower >= upper) {
+-            throw MathRuntimeException.createIllegalArgumentException(
+-                    "endpoints do not specify an interval: [{0}, {1}]",
+-                    lower, upper);
++            if (lower >= upper) {
++				throw MathRuntimeException.createIllegalArgumentException(
++						"endpoints do not specify an interval: [{0}, {1}]",
++						lower, upper);
++			}
+         }
+     }
+ 
+@@ -222,7 +224,8 @@
+      * @throws IllegalArgumentException
+      */
+     protected void verifySequence(final double lower, final double initial, final double upper) {
+-        if (!isSequence(lower, initial, upper)) {
++        this.resultComputed = false;
++		if (!isSequence(lower, initial, upper)) {
+             throw MathRuntimeException.createIllegalArgumentException(
+                     "invalid interval, initial value parameters:  lower={0}, initial={1}, upper={2}",
+                     lower, initial, upper);
+
+
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_f6dd42b4/src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java	2018-12-30 15:11:22.132573000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_f6dd42b4/patches_aepn/Patch_522/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_f6dd42b4/src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java	2018-12-30 15:48:23.645108345 -0500
+@@ -106,29 +106,28 @@
+ 
+         // return the first endpoint if it is good enough
+         double yMin = f.value(min);
+-        if (Math.abs(yMin) <= functionValueAccuracy) {
+-            setResult(yMin, 0);
+-            return result;
+-        }
+-
+-        // reduce interval if min and initial bracket the root
++        verifyBracketing(min, max, f);
++		// reduce interval if min and initial bracket the root
+         if (yInitial * yMin < 0) {
+             return solve(f, min, yMin, initial, yInitial, min, yMin);
+         }
+ 
+         // return the second endpoint if it is good enough
+         double yMax = f.value(max);
+-        if (Math.abs(yMax) <= functionValueAccuracy) {
+-            setResult(yMax, 0);
+-            return result;
+-        }
++        this.iterationCount = iterationCount;
++		this.iterationCount = iterationCount;
++		double x1 = min;
+ 
+         // reduce interval if initial and max bracket the root
+         if (yInitial * yMax < 0) {
+             return solve(f, initial, yInitial, max, yMax, initial, yInitial);
+         }
+ 
+-        // full Brent algorithm starting with provided initial guess
++        verifyBracketing(min, max, f);
++		verifyBracketing(min, max, f);
++		verifyBracketing(min, max, f);
++		this.functionValueAccuracy = defaultFunctionValueAccuracy;
++		// full Brent algorithm starting with provided initial guess
+         return solve(f, min, yMin, max, yMax, initial, yInitial);
+ 
+     }
+@@ -174,7 +173,8 @@
+                 setResult(max, 0);
+                 ret = max;
+             } else {
+-                // neither value is close to zero and min and max do not bracket root.
++                double x1 = min;
++				// neither value is close to zero and min and max do not bracket root.
+                 throw MathRuntimeException.createIllegalArgumentException(
+                         "function values at endpoints do not have different signs.  " +
+                         "Endpoints: [{0}, {1}], Values: [{2}, {3}]",
+@@ -276,7 +276,12 @@
+                 }
+                 if (2.0 * p >= 1.5 * dx * p1 - Math.abs(tolerance * p1) ||
+                         p >= Math.abs(0.5 * oldDelta * p1)) {
+-                    // Inverse quadratic interpolation gives a value
++                    if (p > 0.0) {
++								p1 = -p1;
++							} else {
++								p = -p;
++							}
++					// Inverse quadratic interpolation gives a value
+                     // in the wrong direction, or progress is slow.
+                     // Fall back to bisection.
+                     delta = 0.5 * dx;
+
+

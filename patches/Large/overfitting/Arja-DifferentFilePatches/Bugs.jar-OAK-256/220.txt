@@ -1,0 +1,45 @@
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/store/DefaultRevisionStore.java	2018-12-29 10:48:57.960251000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/patches_10w1/Patch_2097/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/store/DefaultRevisionStore.java	2018-12-29 11:15:59.402559067 -0500
+@@ -160,7 +160,6 @@
+             MutableCommit initialCommit = new MutableCommit();
+             initialCommit.setCommitTS(System.currentTimeMillis());
+             initialCommit.setRootNodeId(rootNodeId);
+-            pm.writeCommit(head, initialCommit);
+             pm.writeHead(head);
+         } else {
+             Id lastCommitId = head;
+@@ -200,8 +199,6 @@
+ 
+         cache.invalidateAll();
+ 
+-        IOUtils.closeQuietly(pm);
+-
+         initialized = false;
+     }
+ 
+@@ -238,9 +235,6 @@
+ 
+         @Override
+         public boolean equals(Object obj) {
+-            if (obj instanceof PutTokenImpl) {
+-                return ((PutTokenImpl) obj).id == id;
+-            }
+             return super.equals(obj);
+         }
+ 
+
+
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/core/Repository.java	2018-12-29 10:48:57.948251000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/patches_10w1/Patch_2097/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/core/Repository.java	2018-12-29 11:15:59.402559067 -0500
+@@ -109,9 +109,6 @@
+     }
+ 
+     public void shutDown() throws Exception {
+-        if (!initialized) {
+-            return;
+-        }
+         if (blobStoreNeedsClose && bs instanceof Closeable) {
+             IOUtils.closeQuietly((Closeable) bs);
+         }
+
+

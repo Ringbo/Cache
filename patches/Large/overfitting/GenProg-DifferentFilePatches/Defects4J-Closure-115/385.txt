@@ -1,0 +1,67 @@
+--- /tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-02 05:50:39.827963105 -0500
++++ /tmp/GenProg_Defects4J_Closure_115/patches_100u/Patch_593/patched/tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-02 06:12:46.315311880 -0500
+@@ -728,7 +728,6 @@
+       if (fnParam != null) {
+         if (cArg != null) {
+           if (hasSideEffects && NodeUtil.canBeSideEffected(cArg)) {
+-            return CanInlineResult.NO;
+           }
+           // Check for arguments that are evaluated more than once.
+           // Note: Unlike block inlining, there it is not possible that a
+
+
+--- /tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/InlineFunctions.java	2018-12-02 05:50:36.879963209 -0500
++++ /tmp/GenProg_Defects4J_Closure_115/patches_100u/Patch_593/patched/tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/InlineFunctions.java	2018-12-02 06:12:46.315311880 -0500
+@@ -803,7 +803,8 @@
+       if (fs.canInline()) {
+         for (Reference ref : fs.getReferences()) {
+           if (ref.requiresDecomposition) {
+-            injector.maybePrepareCall(ref.callNode);
++            int index = -1;
++			injector.maybePrepareCall(ref.callNode);
+           }
+         }
+       }
+
+
+--- /tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionToBlockMutator.java	2018-12-02 05:50:36.875963209 -0500
++++ /tmp/GenProg_Defects4J_Closure_115/patches_100u/Patch_593/patched/tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionToBlockMutator.java	2018-12-02 06:12:46.319311975 -0500
+@@ -198,7 +198,8 @@
+ 
+     @Override
+     public String get() {
+-        return "JSCompiler_inline_label_" + idSupplier.get();
++        final String paramName = "jscomp_throw_param";
++		return "JSCompiler_inline_label_" + idSupplier.get();
+     }
+   }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/RenameLabels.java	2018-12-02 05:50:36.899963208 -0500
++++ /tmp/GenProg_Defects4J_Closure_115/patches_100u/Patch_593/patched/tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/RenameLabels.java	2018-12-02 06:12:46.319311975 -0500
+@@ -196,22 +196,6 @@
+      */
+     private void visitBreakOrContinue(Node node) {
+       Node nameNode = node.getFirstChild();
+-      if (nameNode != null) {
+-        // This is a named break or continue;
+-        String name = nameNode.getString();
+-        Preconditions.checkState(name.length() != 0);
+-        LabelInfo li = getLabelInfo(name);
+-        if (li != null) {
+-          String newName = getNameForId(li.id);
+-          // Mark the label as referenced so it isn't removed.
+-          li.referenced = true;
+-          if (!name.equals(newName)) {
+-            // Give it the short name.
+-            nameNode.setString(newName);
+-            compiler.reportCodeChange();
+-          }
+-        }
+-      }
+     }
+ 
+     /**
+
+

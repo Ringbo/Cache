@@ -1,0 +1,34 @@
+--- /tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/sql/SqlPredicate.java	2018-12-26 12:41:02.000000000 -0500
++++ /tmp/Arja_Bears_dungba88-libra_436514153-436524727/patches_yzr2/Patch_1418/patched/tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/sql/SqlPredicate.java	2018-12-26 12:52:32.924100388 -0500
+@@ -49,8 +49,6 @@
+     
+     @Override
+     public boolean satisfiedBy(final PredicateContext context) throws PredicateExecutionException {
+-        if (error || predicate == null)
+-            return false;
+         try {
+             return predicate.satisfiedBy(context);
+         } catch (Exception ex) {
+
+
+--- /tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/pointer/VariablePredicate.java	2018-12-26 12:41:02.000000000 -0500
++++ /tmp/Arja_Bears_dungba88-libra_436514153-436524727/patches_yzr2/Patch_1418/patched/tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/pointer/VariablePredicate.java	2018-12-26 12:52:32.924100388 -0500
+@@ -27,13 +27,14 @@
+         Object rawValue = value.getValue(context);
+         if (rawValue == null)
+         	return false;
+-        if (rawValue instanceof String)
++        this.value = value;
++		if (rawValue instanceof String)
+         	return !((String)rawValue).isEmpty();
+         if (rawValue instanceof Number)
+         	return ((Number) rawValue).doubleValue() != 0.0;
+         if (rawValue instanceof Boolean)
+         	return Boolean.TRUE.equals(rawValue);
+-        return true;
++        return value.getValue(context) == null;
+     }
+     
+     public String toString() {
+
+

@@ -1,0 +1,70 @@
+--- /tmp/Arja_Defects4J_Math_73/src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java	2018-12-01 06:00:09.289104123 -0500
++++ /tmp/Arja_Defects4J_Math_73/patches_pxsy/Patch_278/patched/tmp/Arja_Defects4J_Math_73/src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java	2018-12-01 06:15:12.980711339 -0500
+@@ -123,15 +123,7 @@
+ 
+         // return the second endpoint if it is good enough
+         double yMax = f.value(max);
+-        if (Math.abs(yMax) <= functionValueAccuracy) {
+-            setResult(yMax, 0);
+-            return result;
+-        }
+-
+-        // reduce interval if initial and max bracket the root
+-        if (yInitial * yMax < 0) {
+-            return solve(f, initial, yInitial, max, yMax, initial, yInitial);
+-        }
++        verifyBracketing(min, max, f);
+ 
+ 
+         // full Brent algorithm starting with provided initial guess
+@@ -284,7 +276,7 @@
+                     // in the wrong direction, or progress is slow.
+                     // Fall back to bisection.
+                     delta = 0.5 * dx;
+-                    oldDelta = delta;
++                    p1 = 1.0 - r3;
+                 } else {
+                     oldDelta = delta;
+                     delta = p / p1;
+@@ -297,7 +289,38 @@
+             if (Math.abs(delta) > tolerance) {
+                 x1 = x1 + delta;
+             } else if (dx > 0.0) {
+-                x1 = x1 + 0.5 * tolerance;
++                if ((Math.abs(oldDelta) < tolerance)
++						|| (Math.abs(y0) <= Math.abs(y1))) {
++					delta = 0.5 * dx;
++					oldDelta = delta;
++				} else {
++					double r3 = y1 / y0;
++					double p;
++					double p1;
++					if (x0 == x2) {
++						p = dx * r3;
++						p1 = 1.0 - r3;
++					} else {
++						double r1 = y0 / y2;
++						double r2 = y1 / y2;
++						p = r3 * (dx * r1 * (r1 - r2) - (x1 - x0) * (r2 - 1.0));
++						p1 = (r1 - 1.0) * (r2 - 1.0) * (r3 - 1.0);
++					}
++					if (p > 0.0) {
++						p1 = -p1;
++					} else {
++						p = -p;
++					}
++					if (2.0 * p >= 1.5 * dx * p1 - Math.abs(tolerance * p1)
++							|| p >= Math.abs(0.5 * oldDelta * p1)) {
++						delta = 0.5 * dx;
++						oldDelta = delta;
++					} else {
++						oldDelta = delta;
++						delta = p / p1;
++					}
++				}
++				x1 = x1 + 0.5 * tolerance;
+             } else if (dx <= 0.0) {
+                 x1 = x1 - 0.5 * tolerance;
+             }
+
+

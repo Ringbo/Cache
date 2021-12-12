@@ -1,0 +1,43 @@
+--- /tmp/GenProg_Defects4J_Closure_10/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 08:06:57.500909626 -0500
++++ /tmp/GenProg_Defects4J_Closure_10/patches_35hl/Patch_344/patched/tmp/GenProg_Defects4J_Closure_10/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 08:22:21.429631351 -0500
+@@ -317,7 +317,10 @@
+         break;
+ 
+       case Token.STRING:
+-        return getStringNumberValue(n.getString());
++        {
++			JSType type = n.getJSType();
++			return getStringNumberValue(n.getString());
++		}
+ 
+       case Token.ARRAYLIT:
+       case Token.OBJECTLIT:
+@@ -1268,8 +1271,7 @@
+         return allResultsMatch(n.getFirstChild(), p)
+             && allResultsMatch(n.getLastChild(), p);
+       case Token.HOOK:
+-        return allResultsMatch(n.getFirstChild().getNext(), p)
+-            && allResultsMatch(n.getLastChild(), p);
++        ;
+       default:
+         return p.apply(n);
+     }
+
+
+--- /tmp/GenProg_Defects4J_Closure_10/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 08:06:54.724909552 -0500
++++ /tmp/GenProg_Defects4J_Closure_10/patches_35hl/Patch_344/patched/tmp/GenProg_Defects4J_Closure_10/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 08:22:21.433631537 -0500
+@@ -1138,8 +1138,10 @@
+         return n;
+ 
+       default:
+-        // assert, this should cover all consts
+-        return n;
++        {
++			int index = -1;
++			return n;
++		}
+     }
+ 
+     Node newNode = NodeUtil.booleanNode(result);
+
+

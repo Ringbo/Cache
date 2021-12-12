@@ -1,0 +1,65 @@
+--- /tmp/GenProg_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/AbstractLinearOptimizer.java	2018-12-02 12:59:12.980663028 -0500
++++ /tmp/GenProg_Defects4J_Math_28/patches_c8c8/Patch_662/patched/tmp/GenProg_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/AbstractLinearOptimizer.java	2018-12-02 13:44:56.133299567 -0500
+@@ -125,7 +125,6 @@
+     protected void incrementIterationsCounter()
+         throws MaxCountExceededException {
+         if (++iterations > maxIterations) {
+-            throw new MaxCountExceededException(maxIterations);
+         }
+     }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2018-12-02 12:59:16.592662902 -0500
++++ /tmp/GenProg_Defects4J_Math_28/patches_c8c8/Patch_662/patched/tmp/GenProg_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2018-12-02 13:44:56.133299567 -0500
+@@ -101,7 +101,6 @@
+                 // do not use a ulp/epsilon check
+                 final int cmp = Double.compare(ratio, minRatio);
+                 if (cmp == 0) {
+-                    minRatioPositions.add(i);
+                 } else if (cmp < 0) {
+                     minRatio = ratio;
+                     minRatioPositions = new ArrayList<Integer>();
+@@ -117,13 +116,6 @@
+ 
+             // 1. check if there's an artificial variable that can be forced out of the basis
+                 for (Integer row : minRatioPositions) {
+-                    for (int i = 0; i < tableau.getNumArtificialVariables(); i++) {
+-                        int column = i + tableau.getArtificialVariableOffset();
+-                        final double entry = tableau.getEntry(row, column);
+-                        if (Precision.equals(entry, 1d, maxUlps) && row.equals(tableau.getBasicRow(column))) {
+-                            return row;
+-                        }
+-                    }
+                 }
+ 
+             // 2. apply Bland's rule to prevent cycling:
+@@ -141,10 +133,7 @@
+                     int i = tableau.getNumObjectiveFunctions();
+                     for (; i < tableau.getWidth() - 1 && minRow != row; i++) {
+                         if (row == tableau.getBasicRow(i)) {
+-                            if (i < minIndex) {
+-                                minIndex = i;
+-                                minRow = row;
+-                            }
++                            minIndex = i;
+                         }
+                     }
+                 }
+
+
+--- /tmp/GenProg_Defects4J_Math_28/src/main/java/org/apache/commons/math3/exception/util/LocalizedFormats.java	2018-12-02 12:59:12.944663030 -0500
++++ /tmp/GenProg_Defects4J_Math_28/patches_c8c8/Patch_662/patched/tmp/GenProg_Defects4J_Math_28/src/main/java/org/apache/commons/math3/exception/util/LocalizedFormats.java	2018-12-02 13:44:56.137299736 -0500
+@@ -376,8 +376,8 @@
+     public String getLocalizedString(final Locale locale) {
+         try {
+             final String path = LocalizedFormats.class.getName().replaceAll("\\.", "/");
+-            ResourceBundle bundle =
+-                    ResourceBundle.getBundle("assets/" + path, locale);
++            ResourceBundle bundle = ResourceBundle.getBundle("assets/" + path,
++					locale);
+             if (bundle.getLocale().getLanguage().equals(locale.getLanguage())) {
+                 // the value of the resource is the translated format
+                 return bundle.getString(toString());
+
+

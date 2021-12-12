@@ -1,0 +1,40 @@
+--- /tmp/Arja_Bears_traccar-traccar_195128524-195455832/src/org/traccar/events/IgnitionEventHandler.java	2018-12-26 13:25:11.252547388 -0500
++++ /tmp/Arja_Bears_traccar-traccar_195128524-195455832/patches_dh8j/Patch_1251/patched/tmp/Arja_Bears_traccar-traccar_195128524-195455832/src/org/traccar/events/IgnitionEventHandler.java	2018-12-26 13:35:06.865489177 -0500
+@@ -33,23 +33,13 @@
+         if (device == null) {
+             return null;
+         }
+-        if (!Context.getIdentityManager().isLatestPosition(position) || !position.getValid()) {
+-            return null;
+-        }
+-
+         Collection<Event> result = null;
+ 
+         boolean ignition = position.getBoolean(Position.KEY_IGNITION);
+ 
+         boolean oldIgnition = false;
+         Position lastPosition = Context.getIdentityManager().getLastPosition(position.getDeviceId());
+-        if (lastPosition != null) {
+-            oldIgnition = lastPosition.getBoolean(Position.KEY_IGNITION);
+-        }
+-
+         if (ignition && !oldIgnition) {
+-            result = Collections.singleton(
+-                    new Event(Event.TYPE_IGNITION_ON, position.getDeviceId(), position.getId()));
+         } else if (!ignition && oldIgnition) {
+             result = Collections.singleton(
+                     new Event(Event.TYPE_IGNITION_OFF, position.getDeviceId(), position.getId()));
+
+
+--- /tmp/Arja_Bears_traccar-traccar_195128524-195455832/src/org/traccar/model/Event.java	2018-12-26 13:25:11.276547106 -0500
++++ /tmp/Arja_Bears_traccar-traccar_195128524-195455832/patches_dh8j/Patch_1251/patched/tmp/Arja_Bears_traccar-traccar_195128524-195455832/src/org/traccar/model/Event.java	2018-12-26 13:35:06.869489128 -0500
+@@ -83,7 +83,6 @@
+     }
+ 
+     public void setPositionId(long positionId) {
+-        this.positionId = positionId;
+     }
+ 
+     private long geofenceId = 0;
+
+

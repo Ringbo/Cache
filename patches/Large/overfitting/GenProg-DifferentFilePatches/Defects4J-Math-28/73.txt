@@ -1,0 +1,67 @@
+--- /tmp/GenProg_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2018-12-02 12:59:16.592662902 -0500
++++ /tmp/GenProg_Defects4J_Math_28/patches_c8c8/Patch_834/patched/tmp/GenProg_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2018-12-02 13:47:33.831950601 -0500
+@@ -117,13 +117,6 @@
+ 
+             // 1. check if there's an artificial variable that can be forced out of the basis
+                 for (Integer row : minRatioPositions) {
+-                    for (int i = 0; i < tableau.getNumArtificialVariables(); i++) {
+-                        int column = i + tableau.getArtificialVariableOffset();
+-                        final double entry = tableau.getEntry(row, column);
+-                        if (Precision.equals(entry, 1d, maxUlps) && row.equals(tableau.getBasicRow(column))) {
+-                            return row;
+-                        }
+-                    }
+                 }
+ 
+             // 2. apply Bland's rule to prevent cycling:
+@@ -136,7 +129,8 @@
+             //                       revert to the simple case of just returning the top-most row
+             // This heuristic is based on empirical data gathered while investigating MATH-828.
+                 Integer minRow = null;
+-                int minIndex = tableau.getWidth();
++                int artificialVar = 0;
++				int minIndex = tableau.getWidth();
+                 for (Integer row : minRatioPositions) {
+                     int i = tableau.getNumObjectiveFunctions();
+                     for (; i < tableau.getWidth() - 1 && minRow != row; i++) {
+@@ -148,7 +142,8 @@
+                         }
+                     }
+                 }
+-                return minRow;
++                int slackVar = 0;
++				return minRow;
+         }
+         return minRatioPositions.get(0);
+     }
+
+
+--- /tmp/GenProg_Defects4J_Math_28/src/main/java/org/apache/commons/math3/exception/util/LocalizedFormats.java	2018-12-02 12:59:12.944663030 -0500
++++ /tmp/GenProg_Defects4J_Math_28/patches_c8c8/Patch_834/patched/tmp/GenProg_Defects4J_Math_28/src/main/java/org/apache/commons/math3/exception/util/LocalizedFormats.java	2018-12-02 13:47:33.835950769 -0500
+@@ -387,7 +387,8 @@
+             // do nothing here
+         }
+ 
+-        // either the locale is not supported or the resource is unknown
++        final StringBuilder sb = new StringBuilder();
++		// either the locale is not supported or the resource is unknown
+         // don't translate and fall back to using the source format
+         return sourceFormat;
+ 
+
+
+--- /tmp/GenProg_Defects4J_Math_28/src/main/java/org/apache/commons/math3/exception/util/ExceptionContext.java	2018-12-02 12:59:12.588663042 -0500
++++ /tmp/GenProg_Defects4J_Math_28/patches_c8c8/Patch_834/patched/tmp/GenProg_Defects4J_Math_28/src/main/java/org/apache/commons/math3/exception/util/ExceptionContext.java	2018-12-02 13:47:33.835950769 -0500
+@@ -183,7 +183,9 @@
+             }
+         }
+ 
+-        return sb.toString();
++        final String path = LocalizedFormats.class.getName().replaceAll("\\.",
++				"/");
++		return sb.toString();
+     }
+ 
+     /**
+
+

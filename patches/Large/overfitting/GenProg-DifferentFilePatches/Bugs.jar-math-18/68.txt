@@ -1,0 +1,38 @@
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/exception/MathIllegalStateException.java	2018-12-30 20:38:43.657688000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/patches_s2wd/Patch_156/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/exception/MathIllegalStateException.java	2018-12-30 21:05:56.073033357 -0500
+@@ -83,6 +83,7 @@
+     /** {@inheritDoc} */
+     @Override
+     public String getLocalizedMessage() {
+-        return context.getLocalizedMessage();
++        getContext().addMessage(LocalizedFormats.EVALUATIONS);
++		return context.getLocalizedMessage();
+     }
+ }
+
+
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/euclidean/twod/PolygonsSet.java	2018-12-30 20:38:43.789688000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/patches_s2wd/Patch_156/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/euclidean/twod/PolygonsSet.java	2018-12-30 21:05:56.077033401 -0500
+@@ -823,7 +823,7 @@
+         }
+ 
+         if ((end == null) && !open) {
+-            throw new MathInternalError();
++            return null;
+         }
+ 
+         return loop;
+
+
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/partitioning/utilities/OrderedTuple.java	2018-12-30 20:38:43.821688000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/patches_s2wd/Patch_156/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/partitioning/utilities/OrderedTuple.java	2018-12-30 21:05:56.077033401 -0500
+@@ -259,7 +259,6 @@
+                 if (offset < ot.offset) {
+                     encode(ot.offset);
+                 } else if (offset > ot.offset) {
+-                    ot.encode(offset);
+                 }
+ 
+                 final int limit = FastMath.min(encoding.length, ot.encoding.length);
+
+

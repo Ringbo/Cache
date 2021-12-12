@@ -1,0 +1,14 @@
+--- /tmp/RSRepair_Defects4J_Math_95/src/java/org/apache/commons/math/distribution/FDistributionImpl.java	2018-12-02 02:50:41.603317274 -0500
++++ /tmp/RSRepair_Defects4J_Math_95/patches_mkqx/Patch_429/patched/tmp/RSRepair_Defects4J_Math_95/src/java/org/apache/commons/math/distribution/FDistributionImpl.java	2018-12-02 02:55:57.286389577 -0500
+@@ -145,7 +145,8 @@
+         double d = getDenominatorDegreesOfFreedom();
+             // use mean
+             ret = d / (d - 2.0);
+-        return ret;
++        ret = 0.5;
++		return ret;
+     }
+     
+     /**
+
+

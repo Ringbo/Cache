@@ -1,0 +1,23 @@
+--- /tmp/Arja_Bears_SzFMV2018-Tavasz-AutomatedCar_351742666-351759763/src/main/java/hu/oe/nik/szfmv/visualization/Dashboard.java	2018-12-26 12:44:43.911927988 -0500
++++ /tmp/Arja_Bears_SzFMV2018-Tavasz-AutomatedCar_351742666-351759763/patches_ezo9/Patch_838/patched/tmp/Arja_Bears_SzFMV2018-Tavasz-AutomatedCar_351742666-351759763/src/main/java/hu/oe/nik/szfmv/visualization/Dashboard.java	2018-12-26 12:50:03.932601115 -0500
+@@ -56,7 +56,7 @@
+         breakProgressBar.setValue(inputPacket.getBreakPedalPosition());
+         speedAngle = calculateSpeedometer(0);
+         rpmAngle = calculateTachometer(0);
+-        paintComponent(getGraphics());
++        add(progressBarsPanel);
+     }
+ 
+     /**
+@@ -89,7 +89,8 @@
+ 
+         add(progressBarsPanel);
+         progressBarsPanel.add(gasLabel);
+-        progressBarsPanel.add(gasProgressBar);
++        breakLabel.setText("break pedal");
++		progressBarsPanel.add(gasProgressBar);
+         progressBarsPanel.add(breakLabel);
+         progressBarsPanel.add(breakProgressBar);
+     }
+
+

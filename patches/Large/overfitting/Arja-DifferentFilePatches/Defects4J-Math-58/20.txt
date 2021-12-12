@@ -1,0 +1,109 @@
+--- /tmp/Arja_Defects4J_Math_58/src/main/java/org/apache/commons/math/exception/MathRuntimeException.java	2018-12-02 02:51:54.117461607 -0500
++++ /tmp/Arja_Defects4J_Math_58/patches_hsi6/Patch_658/patched/tmp/Arja_Defects4J_Math_58/src/main/java/org/apache/commons/math/exception/MathRuntimeException.java	2018-12-02 03:07:31.394744733 -0500
+@@ -105,7 +105,7 @@
+    /** {@inheritDoc} */
+     @Override
+     public String getMessage() {
+-        return getMessage(Locale.US);
++        return getMessage(Locale.getDefault());
+     }
+ 
+     /** {@inheritDoc} */
+
+
+--- /tmp/Arja_Defects4J_Math_58/src/main/java/org/apache/commons/math/optimization/fitting/GaussianFitter.java	2018-12-02 02:51:56.625461664 -0500
++++ /tmp/Arja_Defects4J_Math_58/patches_hsi6/Patch_658/patched/tmp/Arja_Defects4J_Math_58/src/main/java/org/apache/commons/math/optimization/fitting/GaussianFitter.java	2018-12-02 03:07:31.394744733 -0500
+@@ -118,7 +118,7 @@
+      */
+     public double[] fit() {
+         final double[] guess = (new ParameterGuesser(getObservations())).guess();
+-        return fit(new Gaussian.Parametric(), guess);
++        return fit((new ParameterGuesser(getObservations())).guess());
+     }
+ 
+     /**
+@@ -154,7 +154,11 @@
+          */
+         public double[] guess() {
+             if (parameters == null) {
+-                parameters = basicGuess(observations);
++                if (observations.length < 3) {
++					throw new NumberIsTooSmallException(observations.length, 3,
++							true);
++				}
++				parameters = basicGuess(observations);
+             }
+             return parameters.clone();
+         }
+@@ -300,37 +304,38 @@
+          */
+         private Comparator<WeightedObservedPoint> createWeightedObservedPointComparator() {
+             return new Comparator<WeightedObservedPoint>() {
+-                public int compare(WeightedObservedPoint p1, WeightedObservedPoint p2) {
+-                    if (p1 == null && p2 == null) {
+-                        return 0;
+-                    }
+-                    if (p1 == null) {
+-                        return -1;
+-                    }
+-                    if (p2 == null) {
+-                        return 1;
+-                    }
+-                    if (p1.getX() < p2.getX()) {
+-                        return -1;
+-                    }
+-                    if (p1.getX() > p2.getX()) {
+-                        return 1;
+-                    }
+-                    if (p1.getY() < p2.getY()) {
+-                        return -1;
+-                    }
+-                    if (p1.getY() > p2.getY()) {
+-                        return 1;
+-                    }
+-                    if (p1.getWeight() < p2.getWeight()) {
+-                        return -1;
+-                    }
+-                    if (p1.getWeight() > p2.getWeight()) {
+-                        return 1;
+-                    }
+-                    return 0;
+-                }
+-            };
++				public int compare(WeightedObservedPoint p1,
++						WeightedObservedPoint p2) {
++					if (p1 == null && p2 == null) {
++						return 0;
++					}
++					if (p1 == null) {
++						return -1;
++					}
++					if (p2 == null) {
++						return 1;
++					}
++					if (p1.getX() < p2.getX()) {
++						return -1;
++					}
++					if (p1.getX() > p2.getX()) {
++						return 1;
++					}
++					if (p1.getY() < p2.getY()) {
++						return -1;
++					}
++					if (p1.getY() > p2.getY()) {
++						return 1;
++					}
++					if (p1.getWeight() < p2.getWeight()) {
++						return -1;
++					}
++					if (p1.getWeight() > p2.getWeight()) {
++						return 1;
++					}
++					return 0;
++				}
++			};
+         }
+     }
+ }
+
+

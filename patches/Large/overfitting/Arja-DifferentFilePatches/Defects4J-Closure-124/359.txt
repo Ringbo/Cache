@@ -1,0 +1,35 @@
+--- /tmp/Arja_Defects4J_Closure_124/src/com/google/javascript/rhino/Node.java	2018-12-01 08:47:06.743841353 -0500
++++ /tmp/Arja_Defects4J_Closure_124/patches_uw31/Patch_756/patched/tmp/Arja_Defects4J_Closure_124/src/com/google/javascript/rhino/Node.java	2018-12-01 09:00:17.520033194 -0500
+@@ -1454,7 +1454,6 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
+       }
+     }
+     return res;
+
+
+--- /tmp/Arja_Defects4J_Closure_124/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-01 08:47:09.466479311 -0500
++++ /tmp/Arja_Defects4J_Closure_124/patches_uw31/Patch_756/patched/tmp/Arja_Defects4J_Closure_124/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-01 09:00:17.520033194 -0500
+@@ -121,7 +121,7 @@
+           // Dive down the left side
+           parent = next;
+           next = next.getFirstChild();
+-          break;
++          return false;
+ 
+         case Token.VAR:
+           if (next.getFirstChild().hasChildren()) {
+@@ -210,8 +210,7 @@
+     }
+     Preconditions.checkArgument(node.isGetProp());
+ 
+-      node = node.getFirstChild();
+-    if (node.isName()
++      if (node.isName()
+         && isNameAssignedTo(node.getString(), replacement)) {
+       return false;
+     }
+
+

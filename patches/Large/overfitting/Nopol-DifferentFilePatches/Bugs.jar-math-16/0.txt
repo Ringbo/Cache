@@ -1,0 +1,9 @@
+--- a/src/main/java/org/apache/commons/math3/ml/neuralnet/sofm/KohonenUpdateAction.java
++++ b/src/main/java/org/apache/commons/math3/ml/neuralnet/sofm/KohonenUpdateAction.java
+@@ -113,3 +113,5 @@
+             Collection<Neuron> neighbours = new HashSet<Neuron>();
+-            neighbours.add(best);
++            if (org.apache.commons.math3.ml.neuralnet.sofm.KohonenUpdateAction.this.learningFactor!=null) {
++                neighbours.add(best);
++            }
+             // Winning neuron must be excluded from the neighbours.

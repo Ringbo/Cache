@@ -1,0 +1,31 @@
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/oak-mk/src/main/java/org/apache/jackrabbit/mk/model/CommitBuilder.java	2018-12-29 07:26:38.080559000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/patches_s7ag/Patch_64/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/oak-mk/src/main/java/org/apache/jackrabbit/mk/model/CommitBuilder.java	2018-12-29 07:30:43.993659642 -0500
+@@ -178,11 +178,6 @@
+             }
+             newCommit.setChanges(diff.toString());
+             newCommit.setRootNodeId(rootNodeId);
+-            if (createBranch) {
+-                newCommit.setBranchRootId(baseCommit.getId());
+-            } else {
+-                newCommit.setBranchRootId(baseCommit.getBranchRootId());
+-            }
+             newRevId = store.putCommit(token, newCommit);
+         }
+ 
+
+
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/oak-mk/src/main/java/org/apache/jackrabbit/mk/store/DefaultRevisionStore.java	2018-12-29 07:26:38.092560000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/patches_s7ag/Patch_64/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/oak-mk/src/main/java/org/apache/jackrabbit/mk/store/DefaultRevisionStore.java	2018-12-29 07:30:43.997659727 -0500
+@@ -350,10 +350,7 @@
+             synchronized (branches) {
+                 Id parentId = commit.getParentId();
+                 if (!parentId.equals(branchRootId)) {
+-                    /* not the first branch commit, replace its head */
+-                    branches.remove(parentId);
+                 }
+-                branches.put(commitId, branchRootId);
+             }
+         }
+         return commitId;
+
+

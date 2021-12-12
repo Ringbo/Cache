@@ -1,0 +1,49 @@
+--- /tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-02 05:50:39.827963105 -0500
++++ /tmp/GenProg_Defects4J_Closure_115/patches_100u/Patch_902/patched/tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-02 06:18:14.439530381 -0500
+@@ -728,7 +728,6 @@
+       if (fnParam != null) {
+         if (cArg != null) {
+           if (hasSideEffects && NodeUtil.canBeSideEffected(cArg)) {
+-            return CanInlineResult.NO;
+           }
+           // Check for arguments that are evaluated more than once.
+           // Note: Unlike block inlining, there it is not possible that a
+
+
+--- /tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/InlineFunctions.java	2018-12-02 05:50:36.879963209 -0500
++++ /tmp/GenProg_Defects4J_Closure_115/patches_100u/Patch_902/patched/tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/InlineFunctions.java	2018-12-02 06:18:14.443530490 -0500
+@@ -688,8 +688,6 @@
+     if (!inliningLowersCost(fs)) {
+       // Try again without Block inlining references
+       if (fs.hasBlockInliningReferences()) {
+-        fs.setRemove(false);
+-        fs.removeBlockInliningReferences();
+         if (!fs.hasReferences() || !inliningLowersCost(fs)) {
+           return false;
+         }
+
+
+--- /tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/rhino/Node.java	2018-12-02 05:50:37.095963201 -0500
++++ /tmp/GenProg_Defects4J_Closure_115/patches_100u/Patch_902/patched/tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/rhino/Node.java	2018-12-02 06:18:14.443530490 -0500
+@@ -1456,7 +1456,6 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
+       }
+     }
+     return res;
+
+
+--- /tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/CodeGenerator.java	2018-12-02 05:50:36.859963210 -0500
++++ /tmp/GenProg_Defects4J_Closure_115/patches_100u/Patch_902/patched/tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/CodeGenerator.java	2018-12-02 06:18:14.447530600 -0500
+@@ -106,7 +106,6 @@
+ 
+   void add(Node n, Context context) {
+     if (!cc.continueProcessing()) {
+-      return;
+     }
+ 
+     int type = n.getType();
+
+

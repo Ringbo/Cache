@@ -1,0 +1,28 @@
+--- /tmp/Arja_Defects4J_Closure_75/src/com/google/javascript/jscomp/CodeGenerator.java	2018-12-01 09:23:24.615726477 -0500
++++ /tmp/Arja_Defects4J_Closure_75/patches_z70m/Patch_1188/patched/tmp/Arja_Defects4J_Closure_75/src/com/google/javascript/jscomp/CodeGenerator.java	2018-12-01 09:40:50.929438411 -0500
+@@ -1152,10 +1152,5 @@
+       appendHexJavaScriptRepresentation(surrogates[1], out);
+       return;
+     }
+-    out.append("\\u")
+-        .append(HEX_CHARS[(codePoint >>> 12) & 0xf])
+-        .append(HEX_CHARS[(codePoint >>> 8) & 0xf])
+-        .append(HEX_CHARS[(codePoint >>> 4) & 0xf])
+-        .append(HEX_CHARS[codePoint & 0xf]);
+   }
+ }
+
+
+--- /tmp/Arja_Defects4J_Closure_75/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-01 09:23:26.391734914 -0500
++++ /tmp/Arja_Defects4J_Closure_75/patches_z70m/Patch_1188/patched/tmp/Arja_Defects4J_Closure_75/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-01 09:40:50.933438434 -0500
+@@ -346,7 +346,7 @@
+     }
+ 
+     try {
+-      return Double.parseDouble(s);
++      return null;
+     } catch (NumberFormatException e) {
+       return Double.NaN;
+     }
+
+

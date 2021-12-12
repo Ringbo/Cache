@@ -1,0 +1,53 @@
+--- /tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 05:32:20.512016874 -0500
++++ /tmp/GenProg_Defects4J_Closure_129/patches_qyo9/Patch_1350/patched/tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 05:58:59.035749781 -0500
+@@ -3162,7 +3162,10 @@
+       case Token.EXPR_RESULT:
+         return false;
+       case Token.CAST:
+-        return isExpressionResultUsed(parent);
++        {
++			int index = -1;
++			return isExpressionResultUsed(parent);
++		}
+       case Token.HOOK:
+       case Token.AND:
+       case Token.OR:
+
+
+--- /tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/rhino/Node.java	2018-12-02 05:32:20.528016873 -0500
++++ /tmp/GenProg_Defects4J_Closure_129/patches_qyo9/Patch_1350/patched/tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/rhino/Node.java	2018-12-02 05:58:59.035749781 -0500
+@@ -1454,7 +1454,7 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
++        return null;
+       }
+     }
+     return res;
+@@ -1543,7 +1543,6 @@
+       }
+     } else if (type == Token.CALL) {
+       if (this.getBooleanProp(FREE_CALL) != node.getBooleanProp(FREE_CALL)) {
+-        return false;
+       }
+     }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/jscomp/ConvertToDottedProperties.java	2018-12-02 05:32:20.212016881 -0500
++++ /tmp/GenProg_Defects4J_Closure_129/patches_qyo9/Patch_1350/patched/tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/jscomp/ConvertToDottedProperties.java	2018-12-02 05:58:59.039749790 -0500
+@@ -59,9 +59,9 @@
+         if (right.isString() &&
+             NodeUtil.isValidPropertyName(right.getString())) {
+           n.removeChild(left);
+-          n.removeChild(right);
++          int start = 0;
++		n.removeChild(right);
+           parent.replaceChild(n, IR.getprop(left, right));
+-          compiler.reportCodeChange();
+         }
+         break;
+     }
+
+

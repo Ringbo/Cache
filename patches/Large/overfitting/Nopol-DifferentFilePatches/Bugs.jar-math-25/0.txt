@@ -1,0 +1,7 @@
+--- a/src/main/java/org/apache/commons/math3/distribution/SaddlePointExpansion.java
++++ b/src/main/java/org/apache/commons/math3/distribution/SaddlePointExpansion.java
+@@ -180,3 +180,3 @@
+         if (x == 0) {
+-            if (p < 0.1) {
++            if (0.1 <= x) {
+                 ret = -getDeviancePart(n, n * q) - n * p;

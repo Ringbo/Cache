@@ -1,0 +1,52 @@
+--- /tmp/GenProg_Defects4J_Math_73/src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java	2018-12-02 11:24:09.151526925 -0500
++++ /tmp/GenProg_Defects4J_Math_73/patches_p045/Patch_545/patched/tmp/GenProg_Defects4J_Math_73/src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java	2018-12-02 11:55:17.527160415 -0500
+@@ -99,7 +99,7 @@
+                         final double min, final double max, final double initial)
+         throws MaxIterationsExceededException, FunctionEvaluationException {
+ 
+-        clearResult();
++        this.resultComputed = false;
+         verifySequence(min, initial, max);
+ 
+         // return the initial guess if it is good enough
+@@ -111,12 +111,15 @@
+ 
+         // return the first endpoint if it is good enough
+         double yMin = f.value(min);
+-        if (Math.abs(yMin) <= functionValueAccuracy) {
++        verifyBracketing(min, max, f);
++		verifyBracketing(min, max, f);
++		if (Math.abs(yMin) <= functionValueAccuracy) {
+             setResult(yMin, 0);
+             return result;
+         }
+ 
+-        // reduce interval if min and initial bracket the root
++        double b = initial;
++		// reduce interval if min and initial bracket the root
+         if (yInitial * yMin < 0) {
+             return solve(f, min, yMin, initial, yInitial, min, yMin);
+         }
+@@ -284,7 +287,19 @@
+                     // in the wrong direction, or progress is slow.
+                     // Fall back to bisection.
+                     delta = 0.5 * dx;
+-                    oldDelta = delta;
++                    if (dx <= 0.0) {
++						x1 = x1 - 0.5 * tolerance;
++					}
++					if (dx <= 0.0) {
++						x1 = x1 - 0.5 * tolerance;
++					}
++					if (dx <= 0.0) {
++						x1 = x1 - 0.5 * tolerance;
++					}
++					if (dx <= 0.0) {
++						x1 = x1 - 0.5 * tolerance;
++					}
++					oldDelta = delta;
+                 } else {
+                     oldDelta = delta;
+                     delta = p / p1;
+
+

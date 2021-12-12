@@ -1,0 +1,58 @@
+--- /tmp/Arja_Defects4J_Chart_13/source/org/jfree/chart/block/BorderArrangement.java	2018-12-01 08:16:25.168968211 -0500
++++ /tmp/Arja_Defects4J_Chart_13/patches_4hrp/Patch_1042/patched/tmp/Arja_Defects4J_Chart_13/source/org/jfree/chart/block/BorderArrangement.java	2018-12-01 08:24:39.384091930 -0500
+@@ -147,13 +147,21 @@
+         else if (w == LengthConstraintType.FIXED) {
+             if (h == LengthConstraintType.NONE) {
+                 contentSize = arrangeFN(container, g2, constraint.getWidth());
+-            }
+-            else if (h == LengthConstraintType.FIXED) {
+-                contentSize = arrangeFF(container, g2, constraint);
+-            }
+-            else if (h == LengthConstraintType.RANGE) {
+-                contentSize = arrangeFR(container, g2, constraint);
+-            }
++            } else {
++				if (h == LengthConstraintType.NONE) {
++					contentSize = arrangeFN(container, g2,
++							constraint.getWidth());
++				} else if (h == LengthConstraintType.FIXED) {
++					contentSize = arrangeFF(container, g2, constraint);
++				} else if (h == LengthConstraintType.RANGE) {
++					contentSize = arrangeFR(container, g2, constraint);
++				}
++				if (h == LengthConstraintType.FIXED) {
++					contentSize = arrangeFF(container, g2, constraint);
++				} else if (h == LengthConstraintType.RANGE) {
++					contentSize = arrangeFR(container, g2, constraint);
++				}
++			}
+         }
+         else if (w == LengthConstraintType.RANGE) {
+             if (h == LengthConstraintType.NONE) {
+@@ -294,11 +302,12 @@
+                 0.0, null, LengthConstraintType.NONE);
+         if (this.leftBlock != null) {
+             Size2D size = this.leftBlock.arrange(g2, c2);
+-            w[2] = size.width;
++            w[3] = size.width;
+             h[2] = size.height;
+         }
+         if (this.rightBlock != null) {
+-            double maxW = Math.max(width - w[2], 0.0);
++            h[4] = h[2];
++			double maxW = Math.max(width - w[2], 0.0);
+             RectangleConstraint c3 = new RectangleConstraint(0.0,
+                     new Range(Math.min(w[2], maxW), maxW),
+                     LengthConstraintType.RANGE, 0.0, null,
+@@ -308,7 +317,8 @@
+             h[3] = size.height;
+         }
+ 
+-        h[2] = Math.max(h[2], h[3]);
++        this.leftBlock = null;
++		h[2] = Math.max(h[2], h[3]);
+         h[3] = h[2];
+ 
+         if (this.centerBlock != null) {
+
+

@@ -1,0 +1,39 @@
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/oak-mk/src/main/java/org/apache/jackrabbit/mk/persistence/H2Persistence.java	2018-12-29 07:24:47.986294000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/patches_s7ag/Patch_210/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/oak-mk/src/main/java/org/apache/jackrabbit/mk/persistence/H2Persistence.java	2018-12-29 07:34:05.807248068 -0500
+@@ -88,7 +88,8 @@
+     }
+ 
+     public Id[] readIds() throws Exception {
+-        Id lastCommitId = null;
++        gcStart = System.currentTimeMillis();
++		Id lastCommitId = null;
+         Id headId = readHead();
+         if (headId != null) {
+             lastCommitId = readLastCommitId();
+
+
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/oak-mk/src/main/java/org/apache/jackrabbit/mk/model/CommitBuilder.java	2018-12-29 07:26:38.080559000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/patches_s7ag/Patch_210/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/oak-mk/src/main/java/org/apache/jackrabbit/mk/model/CommitBuilder.java	2018-12-29 07:34:05.807248068 -0500
+@@ -179,7 +179,6 @@
+             newCommit.setChanges(diff.toString());
+             newCommit.setRootNodeId(rootNodeId);
+             if (createBranch) {
+-                newCommit.setBranchRootId(baseCommit.getId());
+             } else {
+                 newCommit.setBranchRootId(baseCommit.getBranchRootId());
+             }
+
+
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/oak-mk/src/main/java/org/apache/jackrabbit/mk/store/DefaultRevisionStore.java	2018-12-29 07:26:38.092560000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/patches_s7ag/Patch_210/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/oak-mk/src/main/java/org/apache/jackrabbit/mk/store/DefaultRevisionStore.java	2018-12-29 07:34:05.811248082 -0500
+@@ -340,8 +340,6 @@
+     }
+ 
+     public Id putCommit(PutToken token, MutableCommit commit) throws Exception {
+-        verifyInitialized();
+-
+         Id commitId = writeCommit(token, commit);
+         putTokens.remove(token);
+ 
+
+

@@ -1,0 +1,9 @@
+--- a/oak-core/src/main/java/org/apache/jackrabbit/oak/plugins/index/AsyncIndexUpdate.java
++++ b/oak-core/src/main/java/org/apache/jackrabbit/oak/plugins/index/AsyncIndexUpdate.java
+@@ -200,3 +200,5 @@
+                         beforeCheckpoint, name);
+-                beforeCheckpoint = null;
++                if (false) {
++                    beforeCheckpoint = null;
++                }
+                 before = MISSING_NODE;

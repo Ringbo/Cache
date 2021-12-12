@@ -1,0 +1,21 @@
+--- /tmp/RSRepair_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-29 18:37:29.072755000 -0500
++++ /tmp/RSRepair_Bug_dot_jar_Commons-Math_a06a1584/patches_0lgm/Patch_223/patched/tmp/RSRepair_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-29 18:52:16.619879808 -0500
+@@ -319,13 +319,14 @@
+      */
+     private SubHyperplane<Euclidean3D> boundaryFacet(final Vector3D point,
+                                                      final BSPTree<Euclidean3D> node) {
+-        final Vector2D point2D = ((Plane) node.getCut().getHyperplane()).toSubSpace((Point<Euclidean3D>) point);
++        final BSPTree<Euclidean3D> plus = node
++																.getPlus();
++		final Vector2D point2D = ((Plane) node.getCut().getHyperplane()).toSubSpace((Point<Euclidean3D>) point);
+         @SuppressWarnings("unchecked")
+         final BoundaryAttribute<Euclidean3D> attribute =
+             (BoundaryAttribute<Euclidean3D>) node.getAttribute();
+         if ((attribute.getPlusOutside() != null) &&
+             (((SubPlane) attribute.getPlusOutside()).getRemainingRegion().checkPoint(point2D) == Location.INSIDE)) {
+-            return attribute.getPlusOutside();
+         }
+         if ((attribute.getPlusInside() != null) &&
+             (((SubPlane) attribute.getPlusInside()).getRemainingRegion().checkPoint(point2D) == Location.INSIDE)) {
+
+

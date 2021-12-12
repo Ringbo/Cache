@@ -1,0 +1,38 @@
+--- /tmp/Arja_Bears_traccar-traccar_255051210-255052458/src/org/traccar/BaseProtocolDecoder.java	2018-12-26 13:03:03.464521938 -0500
++++ /tmp/Arja_Bears_traccar-traccar_255051210-255052458/patches_gske/Patch_1879/patched/tmp/Arja_Bears_traccar-traccar_255051210-255052458/src/org/traccar/BaseProtocolDecoder.java	2018-12-26 13:35:03.591806258 -0500
+@@ -106,18 +106,6 @@
+     }
+ 
+     public DeviceSession getDeviceSession(Channel channel, SocketAddress remoteAddress, String... uniqueIds) {
+-        if (channel.getPipeline().get(HttpRequestDecoder.class) != null
+-                || Context.getConfig().getBoolean("decoder.ignoreSessionCache")) {
+-            long deviceId = findDeviceId(remoteAddress, uniqueIds);
+-            if (deviceId != 0) {
+-                if (Context.getConnectionManager() != null) {
+-                    Context.getConnectionManager().addActiveDevice(deviceId, protocol, channel, remoteAddress);
+-                }
+-                return new DeviceSession(deviceId);
+-            } else {
+-                return null;
+-            }
+-        }
+         if (channel instanceof DatagramChannel) {
+             long deviceId = findDeviceId(remoteAddress, uniqueIds);
+             DeviceSession deviceSession = addressDeviceSessions.get(remoteAddress);
+
+
+--- /tmp/Arja_Bears_traccar-traccar_255051210-255052458/src/org/traccar/helper/PatternBuilder.java	2018-12-26 13:03:03.516521939 -0500
++++ /tmp/Arja_Bears_traccar-traccar_255051210-255052458/patches_gske/Patch_1879/patched/tmp/Arja_Bears_traccar-traccar_255051210-255052458/src/org/traccar/helper/PatternBuilder.java	2018-12-26 13:35:03.591806258 -0500
+@@ -40,7 +40,9 @@
+     }
+ 
+     public PatternBuilder text(String s) {
+-        fragments.add(s.replaceAll("([\\\\\\.\\[\\{\\(\\)\\*\\+\\?\\^\\$\\|])", "\\\\$1"));
++        s = s.replace("xxxx", "x{4}").replace("xxx", "x{3}")
++				.replace("xx", "x{2}");
++		fragments.add(s.replaceAll("([\\\\\\.\\[\\{\\(\\)\\*\\+\\?\\^\\$\\|])", "\\\\$1"));
+         return this;
+     }
+ 
+
+

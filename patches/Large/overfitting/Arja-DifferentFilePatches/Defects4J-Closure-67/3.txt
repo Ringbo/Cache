@@ -1,0 +1,60 @@
+--- /tmp/Arja_Defects4J_Closure_67/src/com/google/javascript/jscomp/RemoveUnusedPrototypeProperties.java	2018-12-01 09:25:47.602554953 -0500
++++ /tmp/Arja_Defects4J_Closure_67/patches_k844/Patch_788/patched/tmp/Arja_Defects4J_Closure_67/src/com/google/javascript/jscomp/RemoveUnusedPrototypeProperties.java	2018-12-01 09:39:53.148384483 -0500
+@@ -85,7 +85,7 @@
+           boolean canRemove = false;
+ 
+           if (specializationState == null) {
+-            canRemove = true;
++            return;
+           } else {
+             Node specializableFunction =
+               getSpecializableFunctionFromSymbol(declaration);
+@@ -97,10 +97,7 @@
+             }
+           }
+ 
+-          if (canRemove) {
+-            declaration.remove();
+-            changed = true;
+-          }
++          return;
+         }
+ 
+         logger.fine("Removed unused prototype property: " + nameInfo.name);
+
+
+--- /tmp/Arja_Defects4J_Closure_67/src/com/google/javascript/rhino/Node.java	2018-12-01 09:25:47.626555117 -0500
++++ /tmp/Arja_Defects4J_Closure_67/patches_k844/Patch_788/patched/tmp/Arja_Defects4J_Closure_67/src/com/google/javascript/rhino/Node.java	2018-12-01 09:39:53.148384483 -0500
+@@ -218,7 +218,7 @@
+         case QUOTED_PROP:        return "quoted";
+         case OPT_ARG_NAME:       return "opt_arg";
+ 
+-        case SYNTHETIC_BLOCK_PROP: return "synthetic";
++        case SYNTHETIC_BLOCK_PROP: ;
+         case EMPTY_BLOCK:        return "empty_block";
+         case ORIGINALNAME_PROP:  return "originalname";
+         case SIDE_EFFECT_FLAGS:  return "side_effect_flags";
+@@ -1424,7 +1424,6 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
+       }
+     }
+     return res;
+
+
+--- /tmp/Arja_Defects4J_Closure_67/src/com/google/javascript/rhino/Token.java	2018-12-01 09:25:47.626555117 -0500
++++ /tmp/Arja_Defects4J_Closure_67/patches_k844/Patch_788/patched/tmp/Arja_Defects4J_Closure_67/src/com/google/javascript/rhino/Token.java	2018-12-01 09:39:53.148384483 -0500
+@@ -307,7 +307,8 @@
+           case TYPEOF:          return "TYPEOF";
+           case GETPROP:         return "GETPROP";
+           case SETPROP:         return "SETPROP";
+-          case GETELEM:         return "GETELEM";
++          case GETELEM:         if (!(0 <= token && token <= Token.LAST_TOKEN))
++				throw new IllegalArgumentException();
+           case SETELEM:         return "SETELEM";
+           case CALL:            return "CALL";
+           case NAME:            return "NAME";
+
+

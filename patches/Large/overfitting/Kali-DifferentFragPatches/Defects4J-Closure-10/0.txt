@@ -1,0 +1,19 @@
+--- /tmp/Kali_Defects4J_Closure_10/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-01 20:21:25.279505116 -0500
++++ /tmp/Kali_Defects4J_Closure_10/patches_7aq0/Patch_17/patched/tmp/Kali_Defects4J_Closure_10/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-01 20:26:26.105562203 -0500
+@@ -1268,8 +1268,12 @@
+         return allResultsMatch(n.getFirstChild(), p)
+             && allResultsMatch(n.getLastChild(), p);
+       case Token.HOOK:
+-        return allResultsMatch(n.getFirstChild().getNext(), p)
+-            && allResultsMatch(n.getLastChild(), p);
++        {
++			if (true)
++				return true;
++			return allResultsMatch(n.getFirstChild().getNext(), p)
++					&& allResultsMatch(n.getLastChild(), p);
++		}
+       default:
+         return p.apply(n);
+     }
+
+

@@ -1,0 +1,35 @@
+--- /tmp/Arja_Defects4J_Mockito_10/src/org/mockito/internal/util/reflection/GenericMetadataSupport.java	2018-12-01 08:41:42.641290161 -0500
++++ /tmp/Arja_Defects4J_Mockito_10/patches_jed8/Patch_1050/patched/tmp/Arja_Defects4J_Mockito_10/src/org/mockito/internal/util/reflection/GenericMetadataSupport.java	2018-12-01 08:51:26.343493259 -0500
+@@ -212,6 +212,9 @@
+         // logger.log("Method '" + method.toGenericString() + "' has return type : " + genericReturnType.getClass().getInterfaces()[0].getSimpleName() + " : " + genericReturnType);
+ 
+         if (genericReturnType instanceof Class) {
++			return new NotGenericReturnTypeSupport(genericReturnType);
++		}
++		if (genericReturnType instanceof Class) {
+             return new NotGenericReturnTypeSupport(genericReturnType);
+         }
+         if (genericReturnType instanceof ParameterizedType) {
+@@ -285,6 +288,7 @@
+         private void readActualTypeParametersOnDeclaringClass(Class<?> clazz) {
+             registerTypeParametersOn(clazz.getTypeParameters());
+             registerTypeVariablesOn(clazz.getGenericSuperclass());
++			registerTypeVariablesOn(clazz.getGenericSuperclass());
+             for (Type genericInterface : clazz.getGenericInterfaces()) {
+                 registerTypeVariablesOn(genericInterface);
+             }
+
+
+--- /tmp/Arja_Defects4J_Mockito_10/src/org/mockito/internal/util/MockCreationValidator.java	2018-12-01 08:41:42.641290161 -0500
++++ /tmp/Arja_Defects4J_Mockito_10/patches_jed8/Patch_1050/patched/tmp/Arja_Defects4J_Mockito_10/src/org/mockito/internal/util/MockCreationValidator.java	2018-12-01 08:51:26.347493251 -0500
+@@ -60,7 +60,6 @@
+                 && !(Serializable.class.isAssignableFrom(classToMock))
+                 && Constructors.noArgConstructorOf(classToMock) == null
+                 ) {
+-            new Reporter().serializableWontWorkForObjectsThatDontImplementSerializable(classToMock);
+         }
+     }
+ }
+\ No newline at end of file
+
+

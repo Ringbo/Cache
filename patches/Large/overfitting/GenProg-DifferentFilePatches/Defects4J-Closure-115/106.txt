@@ -1,0 +1,63 @@
+--- /tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-02 05:50:39.827963105 -0500
++++ /tmp/GenProg_Defects4J_Closure_115/patches_100u/Patch_1114/patched/tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-02 06:21:58.217558251 -0500
+@@ -727,9 +727,6 @@
+       // For each named parameter check if a mutable argument use more than one.
+       if (fnParam != null) {
+         if (cArg != null) {
+-          if (hasSideEffects && NodeUtil.canBeSideEffected(cArg)) {
+-            return CanInlineResult.NO;
+-          }
+           // Check for arguments that are evaluated more than once.
+           // Note: Unlike block inlining, there it is not possible that a
+           // parameter reference will be in a loop.
+
+
+--- /tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/InlineFunctions.java	2018-12-02 05:50:36.879963209 -0500
++++ /tmp/GenProg_Defects4J_Closure_115/patches_100u/Patch_1114/patched/tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/InlineFunctions.java	2018-12-02 06:21:58.217558251 -0500
+@@ -742,7 +742,6 @@
+   private void resolveInlineConflictsForFunction(FunctionState fs) {
+     // Functions that aren't referenced don't cause conflicts.
+     if (!fs.hasReferences() || !fs.canInline()) {
+-      return;
+     }
+ 
+     Node fnNode = fs.getFn().getFunctionNode();
+@@ -894,7 +893,6 @@
+     public boolean hasBlockInliningReferences() {
+       for (Reference r : getReferencesInternal().values()) {
+         if (r.mode == InliningMode.BLOCK) {
+-          return true;
+         }
+       }
+       return false;
+
+
+--- /tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/RenameLabels.java	2018-12-02 05:50:36.899963208 -0500
++++ /tmp/GenProg_Defects4J_Closure_115/patches_100u/Patch_1114/patched/tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/RenameLabels.java	2018-12-02 06:21:58.221558357 -0500
+@@ -196,21 +196,12 @@
+      */
+     private void visitBreakOrContinue(Node node) {
+       Node nameNode = node.getFirstChild();
+-      if (nameNode != null) {
++      final String paramName = "jscomp_throw_param";
++	if (nameNode != null) {
+         // This is a named break or continue;
+         String name = nameNode.getString();
+         Preconditions.checkState(name.length() != 0);
+-        LabelInfo li = getLabelInfo(name);
+-        if (li != null) {
+-          String newName = getNameForId(li.id);
+-          // Mark the label as referenced so it isn't removed.
+-          li.referenced = true;
+-          if (!name.equals(newName)) {
+-            // Give it the short name.
+-            nameNode.setString(newName);
+-            compiler.reportCodeChange();
+-          }
+-        }
++        int index = -1;
+       }
+     }
+ 
+
+

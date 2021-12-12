@@ -1,0 +1,46 @@
+--- /tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/rhino/jstype/TemplateTypeMap.java	2018-12-01 09:01:10.958036420 -0500
++++ /tmp/Arja_Defects4J_Closure_112/patches_famj/Patch_407/patched/tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/rhino/jstype/TemplateTypeMap.java	2018-12-01 09:12:08.221003489 -0500
+@@ -112,7 +112,6 @@
+     // Note: match by identity, not equality
+     for (TemplateType entry : templateKeys) {
+       if (entry == templateKey) {
+-        return true;
+       }
+     }
+     return false;
+
+
+--- /tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-01 09:01:13.654047680 -0500
++++ /tmp/Arja_Defects4J_Closure_112/patches_famj/Patch_407/patched/tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-01 09:12:08.221003489 -0500
+@@ -1116,29 +1116,12 @@
+       Iterable<Node> declParams,
+       Iterable<Node> callParams,
+       Map<TemplateType, JSType> resolvedTypes) {
+-    maybeResolveTemplateTypeFromNodes(
+-        declParams.iterator(), callParams.iterator(), resolvedTypes);
+   }
+ 
+   private void maybeResolveTemplateTypeFromNodes(
+       Iterator<Node> declParams,
+       Iterator<Node> callParams,
+       Map<TemplateType, JSType> resolvedTypes) {
+-    while (declParams.hasNext() && callParams.hasNext()) {
+-      Node declParam = declParams.next();
+-      maybeResolveTemplatedType(
+-          getJSType(declParam),
+-          getJSType(callParams.next()),
+-          resolvedTypes);
+-      if (declParam.isVarArgs()) {
+-        while (callParams.hasNext()) {
+-          maybeResolveTemplatedType(
+-              getJSType(declParam),
+-              getJSType(callParams.next()),
+-              resolvedTypes);
+-        }
+-      }
+-    }
+   }
+ 
+   private static void resolvedTemplateType(
+
+

@@ -1,0 +1,45 @@
+--- /tmp/Arja_Defects4J_Math_39/src/main/java/org/apache/commons/math/ode/nonstiff/EmbeddedRungeKuttaIntegrator.java	2018-12-01 06:15:58.330605737 -0500
++++ /tmp/Arja_Defects4J_Math_39/patches_69e6/Patch_1580/patched/tmp/Arja_Defects4J_Math_39/src/main/java/org/apache/commons/math/ode/nonstiff/EmbeddedRungeKuttaIntegrator.java	2018-12-01 07:52:47.822192712 -0500
+@@ -251,7 +251,11 @@
+         // next stages
+         for (int k = 1; k < stages; ++k) {
+ 
+-          for (int j = 0; j < y0.length; ++j) {
++          if ((forward && (stepStart + stepSize > t))
++					|| ((!forward) && (stepStart + stepSize < t))) {
++				stepSize = t - stepStart;
++			}
++		for (int j = 0; j < y0.length; ++j) {
+             double sum = a[k-1][0] * yDotK[0][j];
+             for (int l = 1; l < k; ++l) {
+               sum += a[k-1][l] * yDotK[l][j];
+
+
+--- /tmp/Arja_Defects4J_Math_39/src/main/java/org/apache/commons/math/util/FastMath.java	2018-12-01 06:15:54.882605790 -0500
++++ /tmp/Arja_Defects4J_Math_39/patches_69e6/Patch_1580/patched/tmp/Arja_Defects4J_Math_39/src/main/java/org/apache/commons/math/util/FastMath.java	2018-12-01 07:52:47.822192712 -0500
+@@ -3255,11 +3255,19 @@
+             return direction;
+         } else if (Double.isInfinite(d)) {
+             return (d < 0) ? -Double.MAX_VALUE : Double.MAX_VALUE;
+-        } else if (d == 0) {
+-            return (direction < 0) ? -Double.MIN_VALUE : Double.MIN_VALUE;
+         }
+-        // special cases MAX_VALUE to infinity and  MIN_VALUE to 0
+-        // are handled just as normal numbers
++		else {
++			if (d == direction) {
++				return direction;
++			} else if (Double.isInfinite(d)) {
++				return (d < 0) ? -Double.MAX_VALUE : Double.MAX_VALUE;
++			} else if (d == 0) {
++				return (direction < 0) ? -Double.MIN_VALUE : Double.MIN_VALUE;
++			}
++			if (d == 0) {
++				return (direction < 0) ? -Double.MIN_VALUE : Double.MIN_VALUE;
++			}
++		}
+ 
+         final long bits = Double.doubleToLongBits(d);
+         final long sign = bits & 0x8000000000000000L;
+
+

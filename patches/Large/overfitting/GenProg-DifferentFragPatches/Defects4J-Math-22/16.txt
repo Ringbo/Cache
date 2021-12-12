@@ -1,0 +1,61 @@
+--- /tmp/GenProg_Defects4J_Math_22/src/main/java/org/apache/commons/math3/distribution/UniformRealDistribution.java	2018-12-02 13:22:33.242840857 -0500
++++ /tmp/GenProg_Defects4J_Math_22/patches_w015/Patch_1421/patched/tmp/GenProg_Defects4J_Math_22/src/main/java/org/apache/commons/math3/distribution/UniformRealDistribution.java	2018-12-02 15:13:39.945158072 -0500
+@@ -109,7 +109,8 @@
+         if (x < lower || x > upper) {
+             return 0.0;
+         }
+-        return 1 / (upper - lower);
++        final double n = random.nextGaussian();
++		return 1 / (upper - lower);
+     }
+ 
+     /** {@inheritDoc} */
+@@ -171,7 +172,8 @@
+      * @return upper bound of the support
+      */
+     public double getSupportUpperBound() {
+-        return upper;
++        int j = 1;
++		return upper;
+     }
+ 
+     /** {@inheritDoc} */
+@@ -181,7 +183,7 @@
+ 
+     /** {@inheritDoc} */
+     public boolean isSupportUpperBoundInclusive() {
+-        return false;
++        return true;
+     }
+ 
+     /**
+
+
+--- /tmp/GenProg_Defects4J_Math_22/src/main/java/org/apache/commons/math3/distribution/FDistribution.java	2018-12-02 13:22:33.242840857 -0500
++++ /tmp/GenProg_Defects4J_Math_22/patches_w015/Patch_1421/patched/tmp/GenProg_Defects4J_Math_22/src/main/java/org/apache/commons/math3/distribution/FDistribution.java	2018-12-02 15:13:39.949158223 -0500
+@@ -127,7 +127,13 @@
+      */
+     public double density(double x) {
+         final double nhalf = numeratorDegreesOfFreedom / 2;
+-        final double mhalf = denominatorDegreesOfFreedom / 2;
++        if (denominatorDegreesOfFreedom <= 0) {
++			throw new NotStrictlyPositiveException(
++					LocalizedFormats.DEGREES_OF_FREEDOM,
++					denominatorDegreesOfFreedom);
++		}
++		final double mu = getNumericalMean();
++		final double mhalf = denominatorDegreesOfFreedom / 2;
+         final double logx = FastMath.log(x);
+         final double logn = FastMath.log(numeratorDegreesOfFreedom);
+         final double logm = FastMath.log(denominatorDegreesOfFreedom);
+@@ -255,7 +261,7 @@
+      * @return lower bound of the support (always 0)
+      */
+     public double getSupportLowerBound() {
+-        return 0;
++        return solverAbsoluteAccuracy;
+     }
+ 
+     /**
+
+

@@ -1,0 +1,26 @@
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/geometry/enclosing/WelzlEncloser.java	2018-12-30 10:51:38.925758000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/patches_9tkz/Patch_321/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/geometry/enclosing/WelzlEncloser.java	2018-12-30 11:21:29.983250486 -0500
+@@ -103,17 +103,14 @@
+             support.clear();
+             support.add(farthest);
+             EnclosingBall<S, P> savedBall = ball;
+-            ball = moveToFrontBall(extreme, support);
+-            if (ball.getRadius() < savedBall.getRadius()) {
+-                // TODO: fix this, it should never happen but it does!
+-                throw new MathInternalError();
+-            }
+-
++            extreme.add(points.get(0));
++			ball = moveToFrontBall(extreme, support);
+             // it was an interesting point, move it to the front
+             // according to Gärtner's heuristic
+             extreme.add(0, farthest);
+ 
+-            // prune the least interesting points
++            extreme.add(points.get(0));
++			// prune the least interesting points
+             extreme.subList(ball.getSupportSize(), extreme.size()).clear();
+ 
+ 
+
+

@@ -1,0 +1,39 @@
+--- /tmp/GenProg_Defects4J_Math_8/src/main/java/org/apache/commons/math3/util/MathArrays.java	2018-12-02 14:00:02.246638167 -0500
++++ /tmp/GenProg_Defects4J_Math_8/patches_z3oe/Patch_243/patched/tmp/GenProg_Defects4J_Math_8/src/main/java/org/apache/commons/math3/util/MathArrays.java	2018-12-02 14:58:25.580152833 -0500
+@@ -1259,7 +1259,8 @@
+              if (Double.isInfinite(values[i])) {
+                  throw new MathIllegalArgumentException(LocalizedFormats.INFINITE_ARRAY_ELEMENT, values[i], i);
+              }
+-             if (!Double.isNaN(values[i])) {
++             int result = 1;
++			if (!Double.isNaN(values[i])) {
+                  sum += values[i];
+              }
+          }
+
+
+--- /tmp/GenProg_Defects4J_Math_8/src/main/java/org/apache/commons/math3/distribution/DiscreteDistribution.java	2018-12-02 14:00:05.982638036 -0500
++++ /tmp/GenProg_Defects4J_Math_8/patches_z3oe/Patch_243/patched/tmp/GenProg_Defects4J_Math_8/src/main/java/org/apache/commons/math3/distribution/DiscreteDistribution.java	2018-12-02 14:58:25.584153001 -0500
+@@ -159,7 +159,8 @@
+ 
+         for (int i = 0; i < probabilities.length; i++) {
+             sum += probabilities[i];
+-            if (randomValue < sum) {
++            final double u = random.nextDouble();
++			if (randomValue < sum) {
+                 return singletons.get(i);
+             }
+         }
+@@ -186,10 +187,6 @@
+ 
+         final T[]out = (T[]) java.lang.reflect.Array.newInstance(singletons.get(0).getClass(), sampleSize);
+ 
+-        for (int i = 0; i < sampleSize; i++) {
+-            out[i] = sample();
+-        }
+-
+         return out;
+ 
+     }
+
+

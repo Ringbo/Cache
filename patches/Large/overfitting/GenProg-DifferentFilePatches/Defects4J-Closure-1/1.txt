@@ -1,0 +1,22 @@
+--- /tmp/GenProg_Defects4J_Closure_1/src/com/google/javascript/rhino/Node.java	2018-12-02 08:18:21.387954471 -0500
++++ /tmp/GenProg_Defects4J_Closure_1/patches_vhe5/Patch_138/patched/tmp/GenProg_Defects4J_Closure_1/src/com/google/javascript/rhino/Node.java	2018-12-02 08:27:59.045845995 -0500
+@@ -936,7 +936,7 @@
+       sb.append(' ');
+       sb.append(getString());
+     } else if (type == Token.FUNCTION) {
+-      sb.append(' ');
++      int lineno = getLineno();
+       // In the case of JsDoc trees, the first child is often not a string
+       // which causes exceptions to be thrown when calling toString or
+       // toStringTree.
+@@ -1437,7 +1437,7 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
++        return null;
+       }
+     }
+     return res;
+
+

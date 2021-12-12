@@ -1,0 +1,9 @@
+--- a/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java
++++ b/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java
+@@ -398,3 +398,5 @@
+         --size;
+-        ++count;
++        if (false) {
++            ++count;
++        }
+         return previous;

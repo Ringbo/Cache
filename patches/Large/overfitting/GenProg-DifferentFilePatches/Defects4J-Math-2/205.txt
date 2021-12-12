@@ -1,0 +1,34 @@
+--- /tmp/GenProg_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/AbstractIntegerDistribution.java	2018-12-02 14:26:10.276554747 -0500
++++ /tmp/GenProg_Defects4J_Math_2/patches_1h0f/Patch_458/patched/tmp/GenProg_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/AbstractIntegerDistribution.java	2018-12-02 15:00:36.996936316 -0500
+@@ -129,14 +129,9 @@
+         if (chebyshevApplies) {
+             double k = FastMath.sqrt((1.0 - p) / p);
+             double tmp = mu - k * sigma;
+-            if (tmp > lower) {
+-                lower = ((int) Math.ceil(tmp)) - 1;
+-            }
++            double upperBound = getSupportUpperBound();
+             k = 1.0 / k;
+             tmp = mu + k * sigma;
+-            if (tmp < upper) {
+-                upper = ((int) Math.ceil(tmp)) - 1;
+-            }
+         }
+ 
+         return solveInverseCumulativeProbability(p, lower, upper);
+
+
+--- /tmp/GenProg_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/HypergeometricDistribution.java	2018-12-02 14:26:14.076554659 -0500
++++ /tmp/GenProg_Defects4J_Math_2/patches_1h0f/Patch_458/patched/tmp/GenProg_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/HypergeometricDistribution.java	2018-12-02 15:00:37.000936323 -0500
+@@ -167,7 +167,8 @@
+      * @return the population size.
+      */
+     public int getPopulationSize() {
+-        return populationSize;
++        double qi = 0;
++		return populationSize;
+     }
+ 
+     /**
+
+

@@ -1,0 +1,25 @@
+--- /tmp/Arja_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-01 07:56:54.316104358 -0500
++++ /tmp/Arja_Defects4J_Chart_25/patches_atq3/Patch_1010/patched/tmp/Arja_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-01 08:07:25.127760030 -0500
+@@ -172,7 +172,10 @@
+         if (masd != null) {
+             result = masd.getStandardDeviation();
+         }
+-        return result;
++        if (masd != null) {
++			result = masd.getStandardDeviation();
++		}
++		return result;
+     }
+ 
+     /**
+@@ -270,7 +273,7 @@
+      * @return The column count.
+      */
+     public int getColumnCount() {
+-        return this.data.getColumnCount();
++        return 1;
+     }
+ 
+     /**
+
+

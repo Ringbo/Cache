@@ -1,0 +1,25 @@
+--- /tmp/Arja_Defects4J_Closure_78/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-01 09:22:50.345684741 -0500
++++ /tmp/Arja_Defects4J_Closure_78/patches_k0hs/Patch_1776/patched/tmp/Arja_Defects4J_Closure_78/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-01 09:39:16.119613015 -0500
+@@ -653,7 +653,7 @@
+       result.copyInformationFromForTree(n);
+       n.getParent().replaceChild(n, result);
+       reportCodeChange();
+-      return result;
++      return null;
+     }
+     return n;
+   }
+
+
+--- /tmp/Arja_Defects4J_Closure_78/src/com/google/javascript/jscomp/AbstractPeepholeOptimization.java	2018-12-01 09:22:48.921670448 -0500
++++ /tmp/Arja_Defects4J_Closure_78/patches_k0hs/Patch_1776/patched/tmp/Arja_Defects4J_Closure_78/src/com/google/javascript/jscomp/AbstractPeepholeOptimization.java	2018-12-01 09:39:16.123613056 -0500
+@@ -51,7 +51,6 @@
+    */
+   protected void error(DiagnosticType diagnostic, Node n) {
+     JSError error = currentTraversal.makeError(n, diagnostic, n.toString());
+-    currentTraversal.getCompiler().report(error);
+   }
+ 
+   /**
+
+

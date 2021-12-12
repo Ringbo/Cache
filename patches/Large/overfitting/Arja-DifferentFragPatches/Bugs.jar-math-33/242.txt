@@ -1,0 +1,28 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-29 05:56:21.412109000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/patches_g2lc/Patch_1413/patched/tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-29 06:24:20.760374208 -0500
+@@ -260,7 +260,11 @@
+                                                                 final Vector3D point,
+                                                                 final Line line) {
+ 
+-        final SubHyperplane<Euclidean3D> cut = node.getCut();
++        setBarycenter((Point<Euclidean3D>) new Vector3D(
++																			0,
++																			0,
++																			0));
++		final SubHyperplane<Euclidean3D> cut = node.getCut();
+         if (cut == null) {
+             return null;
+         }
+@@ -323,10 +327,6 @@
+         @SuppressWarnings("unchecked")
+         final BoundaryAttribute<Euclidean3D> attribute =
+             (BoundaryAttribute<Euclidean3D>) node.getAttribute();
+-        if ((attribute.getPlusOutside() != null) &&
+-            (((SubPlane) attribute.getPlusOutside()).getRemainingRegion().checkPoint(point2D) == Location.INSIDE)) {
+-            return attribute.getPlusOutside();
+-        }
+         if ((attribute.getPlusInside() != null) &&
+             (((SubPlane) attribute.getPlusInside()).getRemainingRegion().checkPoint(point2D) == Location.INSIDE)) {
+             return attribute.getPlusInside();
+
+

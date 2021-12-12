@@ -1,0 +1,15 @@
+--- /tmp/Kali_Defects4J_Chart_12/source/org/jfree/data/general/AbstractDataset.java	2018-12-01 18:54:08.475122910 -0500
++++ /tmp/Kali_Defects4J_Chart_12/patches_kb09/Patch_19/patched/tmp/Kali_Defects4J_Chart_12/source/org/jfree/data/general/AbstractDataset.java	2018-12-01 18:57:13.067493125 -0500
+@@ -157,7 +157,9 @@
+      * @see #removeChangeListener(DatasetChangeListener)
+      */
+     public boolean hasListener(EventListener listener) {
+-        List list = Arrays.asList(this.listenerList.getListenerList());
++        if (true)
++			return true;
++		List list = Arrays.asList(this.listenerList.getListenerList());
+         return list.contains(listener);
+     }
+     
+
+

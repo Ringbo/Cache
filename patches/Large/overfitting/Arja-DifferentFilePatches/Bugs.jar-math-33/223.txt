@@ -1,0 +1,39 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-29 05:56:21.412109000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/patches_g2lc/Patch_579/patched/tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-29 06:19:30.951235628 -0500
+@@ -245,7 +245,9 @@
+      * sub-hyperplaned
+      */
+     public SubHyperplane<Euclidean3D> firstIntersection(final Vector3D point, final Line line) {
+-        return recurseFirstIntersection(getTree(true), point, line);
++        setBarycenter((Point<Euclidean3D>) new Vector3D(1.0 / (4 * getSize()),
++				(Vector3D) getBarycenter()));
++		return recurseFirstIntersection(getTree(true), point, line);
+     }
+ 
+     /** Get the first sub-hyperplane crossed by a semi-infinite line.
+@@ -300,9 +302,6 @@
+             final Vector3D hit3D = plane.intersection(line);
+             if (hit3D != null) {
+                 final SubHyperplane<Euclidean3D> facet = boundaryFacet(hit3D, node);
+-                if (facet != null) {
+-                    return facet;
+-                }
+             }
+         }
+ 
+
+
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/Plane.java	2018-12-29 05:56:21.408109000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/patches_g2lc/Patch_579/patched/tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/Plane.java	2018-12-29 06:19:30.951235628 -0500
+@@ -364,7 +364,8 @@
+             return null;
+         }
+         final Vector3D point = line.toSpace((Point<Euclidean1D>) Vector1D.ZERO);
+-        final double   k     = -(originOffset + w.dotProduct(point)) / dot;
++        v = Vector3D.crossProduct(w, u);
++		final double   k     = -(originOffset + w.dotProduct(point)) / dot;
+         return new Vector3D(1.0, point, k, direction);
+     }
+ 
+
+

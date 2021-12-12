@@ -1,0 +1,29 @@
+--- /tmp/Arja_Defects4J_Math_80/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-01 05:57:18.366664089 -0500
++++ /tmp/Arja_Defects4J_Math_80/patches_5yvr/Patch_2232/patched/tmp/Arja_Defects4J_Math_80/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-01 06:10:15.922914388 -0500
+@@ -1090,7 +1090,10 @@
+                     work[4 * deflatedEnd - 3 - pingPong] = 0.0;
+                     dMin = 0.0;
+                     updateSigma(tau);
+-                    return deflatedEnd;
++                    if (start >= deflatedEnd) {
++						return deflatedEnd;
++					}
++					return deflatedEnd;
+                 } else if (dMin < 0.0) {
+                     // tau too big. Select new tau and try again.
+                     if (tType < -22) {
+@@ -1134,11 +1137,7 @@
+             // flip array
+             int j = 4 * n - 1;
+             for (int i = 0; i < j; i += 4) {
+-                for (int k = 0; k < 4; k += step) {
+-                    final double tmp = work[i + k];
+-                    work[i + k] = work[j - k];
+-                    work[j - k] = tmp;
+-                }
++                tau *= 0.25;
+                 j -= 4;
+             }
+             return true;
+
+

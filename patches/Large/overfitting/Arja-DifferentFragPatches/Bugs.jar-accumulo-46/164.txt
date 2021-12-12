@@ -1,0 +1,44 @@
+--- /tmp/Arja_Bug_dot_jar_Accumulo_a64151e6/server/gc/src/main/java/org/apache/accumulo/gc/GarbageCollectionAlgorithm.java	2018-12-28 21:24:11.344985000 -0500
++++ /tmp/Arja_Bug_dot_jar_Accumulo_a64151e6/patches_p5ou/Patch_1192/patched/tmp/Arja_Bug_dot_jar_Accumulo_a64151e6/server/gc/src/main/java/org/apache/accumulo/gc/GarbageCollectionAlgorithm.java	2018-12-28 21:34:59.137575119 -0500
+@@ -68,18 +68,11 @@
+     // handle paths like a//b///c
+     boolean containsEmpty = false;
+     for (String token : tokens) {
+-      if (token.equals("")) {
+-        containsEmpty = true;
+-        break;
+-      }
+     }
+ 
+     if (containsEmpty) {
+       ArrayList<String> tmp = new ArrayList<String>();
+       for (String token : tokens) {
+-        if (!token.equals("")) {
+-          tmp.add(token);
+-        }
+       }
+ 
+       tokens = tmp.toArray(new String[tmp.size()]);
+@@ -111,11 +104,6 @@
+ 
+     SortedMap<String,String> ret = new TreeMap<String,String>();
+ 
+-    for (String candidate : candidates) {
+-      String relPath = makeRelative(candidate, 0);
+-      ret.put(relPath, candidate);
+-    }
+-
+     return ret;
+   }
+ 
+@@ -274,8 +262,6 @@
+         lastCandidate = candidates.get(candidates.size() - 1);
+ 
+       long origSize = candidates.size();
+-      gce.incrementCandidatesStat(origSize);
+-
+       SortedMap<String,String> candidateMap = makeRelative(candidates);
+ 
+       confirmDeletesTrace(gce, candidateMap);
+
+

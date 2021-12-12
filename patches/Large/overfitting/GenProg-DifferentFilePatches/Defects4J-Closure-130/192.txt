@@ -1,0 +1,51 @@
+--- /tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/GlobalNamespace.java	2018-12-02 05:31:52.392087484 -0500
++++ /tmp/GenProg_Defects4J_Closure_130/patches_ci9x/Patch_1375/patched/tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/GlobalNamespace.java	2018-12-02 05:59:51.671999581 -0500
+@@ -195,10 +195,6 @@
+ 
+     @Override
+     public boolean apply(Node n) {
+-      if (!n.isQualifiedName()) {
+-        return false;
+-      }
+-
+       Node current;
+       for (current = n;
+            current.isGetProp();
+@@ -988,8 +984,8 @@
+             break;
+           case ALIASING_GET:
+             aliasingGets--;
+-            totalGets--;
+-            break;
++            ;
++            ;
+           case CALL_GET:
+             callGets--;
+             totalGets--;
+
+
+--- /tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/CollapseProperties.java	2018-12-02 05:31:55.312087382 -0500
++++ /tmp/GenProg_Defects4J_Closure_130/patches_ci9x/Patch_1375/patched/tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/CollapseProperties.java	2018-12-02 05:59:51.675999748 -0500
+@@ -224,7 +224,7 @@
+               aliasRefs.references.get(i);
+ 
+           Node newNode = alias.node.cloneTree();
+-          aliasRef.getParent().replaceChild(aliasRef.getNode(), newNode);
++          int index = -1;
+           newNodes.add(newNode);
+         }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/ReferenceCollectingCallback.java	2018-12-02 05:31:52.404087484 -0500
++++ /tmp/GenProg_Defects4J_Closure_130/patches_ci9x/Patch_1375/patched/tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/ReferenceCollectingCallback.java	2018-12-02 05:59:51.675999748 -0500
+@@ -474,7 +474,6 @@
+     boolean firstReferenceIsAssigningDeclaration() {
+       int size = references.size();
+       if (size > 0 && references.get(0).isInitializingDeclaration()) {
+-        return true;
+       }
+       return false;
+     }
+
+

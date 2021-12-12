@@ -1,0 +1,33 @@
+--- /tmp/RSRepair_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-29 18:37:29.072755000 -0500
++++ /tmp/RSRepair_Bug_dot_jar_Commons-Math_a06a1584/patches_0lgm/Patch_4/patched/tmp/RSRepair_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-29 18:50:57.100074121 -0500
+@@ -270,7 +270,8 @@
+ 
+         // establish search order
+         final double offset = plane.getOffset((Point<Euclidean3D>) point);
+-        final boolean in    = FastMath.abs(offset) < 1.0e-10;
++        final double[][] hj = new double[3][3];
++		final boolean in    = FastMath.abs(offset) < 1.0e-10;
+         final BSPTree<Euclidean3D> near;
+         final BSPTree<Euclidean3D> far;
+         if (offset < 0) {
+@@ -295,16 +296,8 @@
+             return crossed;
+         }
+ 
+-        if (!in) {
+-            // search in the cut hyperplane
+-            final Vector3D hit3D = plane.intersection(line);
+-            if (hit3D != null) {
+-                final SubHyperplane<Euclidean3D> facet = boundaryFacet(hit3D, node);
+-                if (facet != null) {
+-                    return facet;
+-                }
+-            }
+-        }
++        setBarycenter((Point<Euclidean3D>) new Vector3D(1.0 / (4 * getSize()),
++				(Vector3D) getBarycenter()));
+ 
+         // search in the far branch
+         return recurseFirstIntersection(far, point, line);
+
+

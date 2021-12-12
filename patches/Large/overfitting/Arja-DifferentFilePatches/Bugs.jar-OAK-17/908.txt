@@ -1,0 +1,26 @@
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/oak-mk/src/main/java/org/apache/jackrabbit/mk/persistence/H2Persistence.java	2018-12-29 07:24:47.986294000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/patches_s7ag/Patch_375/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/oak-mk/src/main/java/org/apache/jackrabbit/mk/persistence/H2Persistence.java	2018-12-29 07:37:43.100039947 -0500
+@@ -90,9 +90,6 @@
+     public Id[] readIds() throws Exception {
+         Id lastCommitId = null;
+         Id headId = readHead();
+-        if (headId != null) {
+-            lastCommitId = readLastCommitId();
+-        }
+         return new Id[] { headId, lastCommitId };
+     }
+     
+
+
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/oak-mk/src/main/java/org/apache/jackrabbit/mk/core/MicroKernelImpl.java	2018-12-29 07:26:38.072559000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/patches_s7ag/Patch_375/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/oak-mk/src/main/java/org/apache/jackrabbit/mk/core/MicroKernelImpl.java	2018-12-29 07:37:43.104039963 -0500
+@@ -411,7 +411,6 @@
+             throw new IllegalArgumentException("absolute path expected: " + path);
+         }
+         if (jsonDiff == null || jsonDiff.length() == 0) {
+-            return getHeadRevision();
+         }
+ 
+         Id revId = revisionId == null ? getHeadRevisionId() : Id.fromString(revisionId);
+
+

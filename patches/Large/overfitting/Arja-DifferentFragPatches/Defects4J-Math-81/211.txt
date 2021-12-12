@@ -1,0 +1,40 @@
+--- /tmp/Arja_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-01 05:57:29.659492621 -0500
++++ /tmp/Arja_Defects4J_Math_81/patches_57bl/Patch_2148/patched/tmp/Arja_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-01 06:28:47.096482648 -0500
+@@ -1096,7 +1096,17 @@
+                         // failed twice. Play it safe.
+                         tau = 0.0;
+                     } else if (dMin1 > 0.0) {
+-                        // late failure. Gives excellent shift.
++                        if (tType < -22) {
++							tau = 0.0;
++						} else if (dMin1 > 0.0) {
++							tau = (tau + dMin)
++									* (1.0 - 2.0 * MathUtils.EPSILON);
++							tType -= 11;
++						} else {
++							tau *= 0.25;
++							tType -= 12;
++						}
++						// late failure. Gives excellent shift.
+                         tau = (tau + dMin) * (1.0 - 2.0 * MathUtils.EPSILON);
+                         tType -= 11;
+                     } else {
+@@ -1477,7 +1487,6 @@
+                     int np;
+                     if (dMin == dN) {
+                         gam = dN;
+-                        a2 = 0.0;
+                         if (work[nn - 5]  >  work[nn - 7]) {
+                             return;
+                         }
+@@ -1527,7 +1536,7 @@
+ 
+                 // case 5.
+                 tType = -5;
+-                double s = 0.25 * dMin;
++                double s = 0;
+ 
+                 // compute contribution to norm squared from i > nn-2.
+                 final int np = nn - 2 * pingPong;
+
+

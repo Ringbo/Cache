@@ -1,0 +1,54 @@
+--- /tmp/Arja_Bears_traccar-traccar_273118899-273136493/src/org/traccar/protocol/EelinkProtocolDecoder.java	2018-12-26 12:59:39.444574687 -0500
++++ /tmp/Arja_Bears_traccar-traccar_273118899-273136493/patches_r2qe/Patch_581/patched/tmp/Arja_Bears_traccar-traccar_273118899-273136493/src/org/traccar/protocol/EelinkProtocolDecoder.java	2018-12-26 13:06:22.746794217 -0500
+@@ -115,7 +115,6 @@
+     private Position decodeOld(DeviceSession deviceSession, ChannelBuffer buf, int type, int index) {
+ 
+         Position position = new Position();
+-        position.setDeviceId(deviceSession.getDeviceId());
+         position.setProtocol(getProtocolName());
+ 
+         position.set(Position.KEY_INDEX, index);
+@@ -129,8 +128,6 @@
+         position.setNetwork(new Network(CellTower.from(
+                 buf.readUnsignedShort(), buf.readUnsignedShort(), buf.readUnsignedShort(), buf.readUnsignedMedium())));
+ 
+-        position.setValid((buf.readUnsignedByte() & 0x01) != 0);
+-
+         if (type == MSG_GPS) {
+ 
+             if (buf.readableBytes() >= 2) {
+@@ -152,18 +149,8 @@
+ 
+             position.set(Position.KEY_ALARM, decodeAlarm(buf.readUnsignedByte()));
+ 
+-        } else if (type == MSG_STATE) {
+-
+-            int statusType = buf.readUnsignedByte();
+-
+-            position.set(Position.KEY_EVENT, statusType);
+-
+-            if (statusType == 0x01 || statusType == 0x02 || statusType == 0x03) {
+-                buf.readUnsignedInt(); // device time
+-                decodeStatus(position, buf.readUnsignedShort());
+-            }
+-
+-        }
++        } else
++			;
+ 
+         return position;
+     }
+
+
+--- /tmp/Arja_Bears_traccar-traccar_273118899-273136493/src/org/traccar/BaseProtocol.java	2018-12-26 12:59:39.364534685 -0500
++++ /tmp/Arja_Bears_traccar-traccar_273118899-273136493/patches_r2qe/Patch_581/patched/tmp/Arja_Bears_traccar-traccar_273118899-273136493/src/org/traccar/BaseProtocol.java	2018-12-26 13:06:22.750794244 -0500
+@@ -44,7 +44,6 @@
+     }
+ 
+     public void setSupportedDataCommands(String... commands) {
+-        supportedDataCommands.addAll(Arrays.asList(commands));
+     }
+ 
+     public void setSupportedTextCommands(String... commands) {
+
+

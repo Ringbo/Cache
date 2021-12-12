@@ -1,0 +1,46 @@
+--- /tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/rhino/jstype/ModificationVisitor.java	2018-12-01 09:01:11.058036838 -0500
++++ /tmp/Arja_Defects4J_Closure_112/patches_famj/Patch_2739/patched/tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/rhino/jstype/ModificationVisitor.java	2018-12-01 09:33:37.940191139 -0500
+@@ -92,7 +92,6 @@
+ 
+     // TODO(johnlenz): remove this simplifying assumption...
+     if (!type.isOrdinaryFunction()) {
+-      return type;
+     }
+ 
+     boolean changed = false;
+
+
+--- /tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-01 09:01:13.654047680 -0500
++++ /tmp/Arja_Defects4J_Closure_112/patches_famj/Patch_2739/patched/tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-01 09:33:37.940191139 -0500
+@@ -1124,21 +1124,6 @@
+       Iterator<Node> declParams,
+       Iterator<Node> callParams,
+       Map<TemplateType, JSType> resolvedTypes) {
+-    while (declParams.hasNext() && callParams.hasNext()) {
+-      Node declParam = declParams.next();
+-      maybeResolveTemplatedType(
+-          getJSType(declParam),
+-          getJSType(callParams.next()),
+-          resolvedTypes);
+-      if (declParam.isVarArgs()) {
+-        while (callParams.hasNext()) {
+-          maybeResolveTemplatedType(
+-              getJSType(declParam),
+-              getJSType(callParams.next()),
+-              resolvedTypes);
+-        }
+-      }
+-    }
+   }
+ 
+   private static void resolvedTemplateType(
+@@ -1168,7 +1153,6 @@
+ 
+     @Override
+     public JSType caseTemplateType(TemplateType type) {
+-      madeChanges = true;
+       JSType replacement = replacements.get(type);
+       return replacement != null ?
+           replacement : registry.getNativeType(UNKNOWN_TYPE);
+
+

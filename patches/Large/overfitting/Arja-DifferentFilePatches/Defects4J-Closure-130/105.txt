@@ -1,0 +1,73 @@
+--- /tmp/Arja_Defects4J_Closure_130/src/com/google/javascript/rhino/Node.java	2018-12-01 08:45:43.193585573 -0500
++++ /tmp/Arja_Defects4J_Closure_130/patches_yo25/Patch_85/patched/tmp/Arja_Defects4J_Closure_130/src/com/google/javascript/rhino/Node.java	2018-12-01 08:52:42.007511759 -0500
+@@ -1443,7 +1443,16 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
++        for (n = first, n2 = node2.first; res == null && n != null; n = n.next, n2 = n2.next) {
++			if (node2 == null) {
++				throw new IllegalStateException();
++			}
++			res = n.checkTreeEqualsImpl(n2);
++			if (res != null) {
++				return res;
++			}
++		}
++		return res;
+       }
+     }
+     return res;
+
+
+--- /tmp/Arja_Defects4J_Closure_130/src/com/google/javascript/jscomp/GlobalNamespace.java	2018-12-01 08:45:43.173585574 -0500
++++ /tmp/Arja_Defects4J_Closure_130/patches_yo25/Patch_85/patched/tmp/Arja_Defects4J_Closure_130/src/com/google/javascript/jscomp/GlobalNamespace.java	2018-12-01 08:52:42.011511834 -0500
+@@ -195,10 +195,6 @@
+ 
+     @Override
+     public boolean apply(Node n) {
+-      if (!n.isQualifiedName()) {
+-        return false;
+-      }
+-
+       Node current;
+       for (current = n;
+            current.isGetProp();
+
+
+--- /tmp/Arja_Defects4J_Closure_130/src/com/google/javascript/jscomp/CollapseProperties.java	2018-12-01 08:45:45.845585512 -0500
++++ /tmp/Arja_Defects4J_Closure_130/patches_yo25/Patch_85/patched/tmp/Arja_Defects4J_Closure_130/src/com/google/javascript/jscomp/CollapseProperties.java	2018-12-01 08:52:42.011511834 -0500
+@@ -213,30 +213,7 @@
+       (new NodeTraversal(compiler, collector)).traverseAtScope(scope);
+ 
+       ReferenceCollection aliasRefs = collector.getReferences(aliasVar);
+-      if (aliasRefs.isWellDefined()
+-          && aliasRefs.firstReferenceIsAssigningDeclaration()
+-          && aliasRefs.isAssignedOnceInLifetime()) {
+-        // The alias is well-formed, so do the inlining now.
+-        int size = aliasRefs.references.size();
+-        Set<Node> newNodes = Sets.newHashSetWithExpectedSize(size - 1);
+-        for (int i = 1; i < size; i++) {
+-          ReferenceCollectingCallback.Reference aliasRef =
+-              aliasRefs.references.get(i);
+-
+-          Node newNode = alias.node.cloneTree();
+-          aliasRef.getParent().replaceChild(aliasRef.getNode(), newNode);
+-          newNodes.add(newNode);
+-        }
+-
+-        // just set the original alias to null.
+-        aliasParent.replaceChild(alias.node, IR.nullNode());
+-        compiler.reportCodeChange();
+-
+-        // Inlining the variable may have introduced new references
+-        // to descendants of {@code name}. So those need to be collected now.
+-        namespace.scanNewNodes(alias.scope, newNodes);
+-        return true;
+-      }
++      return false;
+     }
+ 
+     return false;
+
+

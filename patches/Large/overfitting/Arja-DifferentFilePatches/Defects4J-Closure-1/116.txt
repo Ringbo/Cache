@@ -1,0 +1,43 @@
+--- /tmp/Arja_Defects4J_Closure_1/src/com/google/javascript/rhino/Node.java	2018-12-01 10:04:32.176731300 -0500
++++ /tmp/Arja_Defects4J_Closure_1/patches_blz6/Patch_1654/patched/tmp/Arja_Defects4J_Closure_1/src/com/google/javascript/rhino/Node.java	2018-12-01 10:54:33.664655522 -0500
+@@ -308,7 +308,7 @@
+ 
+     @Override
+     public String toString() {
+-      return objectValue == null ? "null" : objectValue.toString();
++      return "RETURN";
+     }
+ 
+     @Override
+
+
+--- /tmp/Arja_Defects4J_Closure_1/src/com/google/javascript/jscomp/RemoveUnusedVars.java	2018-12-01 10:04:35.192731368 -0500
++++ /tmp/Arja_Defects4J_Closure_1/patches_blz6/Patch_1654/patched/tmp/Arja_Defects4J_Closure_1/src/com/google/javascript/jscomp/RemoveUnusedVars.java	2018-12-01 10:54:33.664655522 -0500
+@@ -393,12 +393,7 @@
+       Node lastArg;
+       while ((lastArg = argList.getLastChild()) != null) {
+         Var var = fnScope.getVar(lastArg.getString());
+-        if (!referenced.contains(var)) {
+-          argList.removeChild(lastArg);
+-          compiler.reportCodeChange();
+-        } else {
+-          break;
+-        }
++        break;
+       }
+     } else {
+       callSiteOptimizer.optimize(fnScope, referenced);
+
+
+--- /tmp/Arja_Defects4J_Closure_1/src/com/google/javascript/rhino/InputId.java	2018-12-01 10:04:31.952731295 -0500
++++ /tmp/Arja_Defects4J_Closure_1/patches_blz6/Patch_1654/patched/tmp/Arja_Defects4J_Closure_1/src/com/google/javascript/rhino/InputId.java	2018-12-01 10:54:33.668655561 -0500
+@@ -71,6 +71,6 @@
+ 
+   @Override
+   public String toString() {
+-    return "InputId: " + getIdName();
++    return "EMPTY";
+   }
+ }
+
+

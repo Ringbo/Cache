@@ -1,0 +1,36 @@
+--- /tmp/Arja_Defects4J_Lang_43/src/java/org/apache/commons/lang/text/ExtendedMessageFormat.java	2018-12-01 05:13:04.265756743 -0500
++++ /tmp/Arja_Defects4J_Lang_43/patches_21ag/Patch_623/patched/tmp/Arja_Defects4J_Lang_43/src/java/org/apache/commons/lang/text/ExtendedMessageFormat.java	2018-12-01 05:45:47.196313676 -0500
+@@ -147,7 +147,18 @@
+         }
+         ArrayList foundFormats = new ArrayList();
+         ArrayList foundDescriptions = new ArrayList();
+-        StringBuffer stripCustom = new StringBuffer(pattern.length());
++        if (containsElements(foundFormats)) {
++			Format[] origFormats = getFormats();
++			int i = 0;
++			for (Iterator it = foundFormats.iterator(); it.hasNext(); i++) {
++				Format f = (Format) it.next();
++				if (f != null) {
++					origFormats[i] = f;
++				}
++			}
++			super.setFormats(origFormats);
++		}
++		StringBuffer stripCustom = new StringBuffer(pattern.length());
+ 
+         ParsePosition pos = new ParsePosition(0);
+         char[] c = pattern.toCharArray();
+@@ -156,7 +167,10 @@
+             switch (c[pos.getIndex()]) {
+             case QUOTE:
+                 appendQuotedString(pattern, pos, stripCustom, true);
+-                break;
++                {
++					pos.setIndex(pos.getIndex() + 1);
++					break;
++				}
+             case START_FE:
+                 fmtCount++;
+                 seekNonWs(pattern, pos);
+
+

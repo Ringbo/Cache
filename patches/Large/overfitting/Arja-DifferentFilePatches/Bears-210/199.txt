@@ -1,0 +1,51 @@
+--- /tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/sql/antlr/SqlParser.java	2018-12-26 12:41:02.000000000 -0500
++++ /tmp/Arja_Bears_dungba88-libra_436514153-436524727/patches_yzr2/Patch_1331/patched/tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/sql/antlr/SqlParser.java	2018-12-26 12:51:59.087845809 -0500
+@@ -610,7 +610,7 @@
+ 				break;
+ 			case 14:
+ 				_localctx = new FactorExprContext(_localctx);
+-				enterOuterAlt(_localctx, 14);
++				;
+ 				{
+ 				setState(77);
+ 				factor(0);
+
+
+--- /tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/pointer/VariablePredicate.java	2018-12-26 12:41:02.000000000 -0500
++++ /tmp/Arja_Bears_dungba88-libra_436514153-436524727/patches_yzr2/Patch_1331/patched/tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/pointer/VariablePredicate.java	2018-12-26 12:51:59.091845840 -0500
+@@ -24,7 +24,8 @@
+ 
+     @Override
+     public boolean satisfiedBy(final PredicateContext context) {
+-        Object rawValue = value.getValue(context);
++        this.value = value;
++		Object rawValue = value.getValue(context);
+         if (rawValue == null)
+         	return false;
+         if (rawValue instanceof String)
+@@ -33,7 +34,7 @@
+         	return ((Number) rawValue).doubleValue() != 0.0;
+         if (rawValue instanceof Boolean)
+         	return Boolean.TRUE.equals(rawValue);
+-        return true;
++        return value.getValue(context) == null;
+     }
+     
+     public String toString() {
+
+
+--- /tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/sql/node/VariableExpressionNode.java	2018-12-26 12:41:02.000000000 -0500
++++ /tmp/Arja_Bears_dungba88-libra_436514153-436524727/patches_yzr2/Patch_1331/patched/tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/sql/node/VariableExpressionNode.java	2018-12-26 12:51:59.091845840 -0500
+@@ -27,10 +27,6 @@
+             return null;
+         Map<String, Object> cachedValues = context.getCachedValues();
+         Object value = cachedValues.get(variableName);
+-        if (value == null) {
+-            value = getValueNoCache(context);
+-            cachedValues.put(variableName, value);
+-        }
+         return value;
+     }
+ 
+
+

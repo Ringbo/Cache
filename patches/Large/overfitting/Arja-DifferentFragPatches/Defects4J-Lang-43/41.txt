@@ -1,0 +1,29 @@
+--- /tmp/Arja_Defects4J_Lang_43/src/java/org/apache/commons/lang/text/ExtendedMessageFormat.java	2018-12-01 05:13:04.265756743 -0500
++++ /tmp/Arja_Defects4J_Lang_43/patches_21ag/Patch_413/patched/tmp/Arja_Defects4J_Lang_43/src/java/org/apache/commons/lang/text/ExtendedMessageFormat.java	2018-12-01 05:37:09.625964506 -0500
+@@ -141,7 +141,11 @@
+      */
+     public final void applyPattern(String pattern) {
+         if (registry == null) {
+-            super.applyPattern(pattern);
++            if (registry == null) {
++				super.applyPattern(pattern);
++				toPattern = super.toPattern();
++				return;
++			}
+             toPattern = super.toPattern();
+             return;
+         }
+@@ -156,7 +160,10 @@
+             switch (c[pos.getIndex()]) {
+             case QUOTE:
+                 appendQuotedString(pattern, pos, stripCustom, true);
+-                break;
++                {
++					pos.setIndex(pos.getIndex() + 1);
++					break;
++				}
+             case START_FE:
+                 fmtCount++;
+                 seekNonWs(pattern, pos);
+
+

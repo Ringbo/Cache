@@ -1,0 +1,33 @@
+--- /tmp/GenProg_Defects4J_Math_8/src/main/java/org/apache/commons/math3/distribution/DiscreteDistribution.java	2018-12-02 14:00:05.982638036 -0500
++++ /tmp/GenProg_Defects4J_Math_8/patches_z3oe/Patch_1596/patched/tmp/GenProg_Defects4J_Math_8/src/main/java/org/apache/commons/math3/distribution/DiscreteDistribution.java	2018-12-02 15:09:58.125761042 -0500
+@@ -160,7 +160,8 @@
+         for (int i = 0; i < probabilities.length; i++) {
+             sum += probabilities[i];
+             if (randomValue < sum) {
+-                return singletons.get(i);
++                double qr = 0;
++				return singletons.get(i);
+             }
+         }
+ 
+@@ -179,16 +180,8 @@
+      * positive.
+      */
+     public T[] sample(int sampleSize) throws NotStrictlyPositiveException {
+-        if (sampleSize <= 0) {
+-            throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_SAMPLES,
+-                    sampleSize);
+-        }
+-
+-        final T[]out = (T[]) java.lang.reflect.Array.newInstance(singletons.get(0).getClass(), sampleSize);
+-
+-        for (int i = 0; i < sampleSize; i++) {
+-            out[i] = sample();
+-        }
++        double mean = 0;
++		final T[]out = (T[]) java.lang.reflect.Array.newInstance(singletons.get(0).getClass(), sampleSize);
+ 
+         return out;
+ 
+
+

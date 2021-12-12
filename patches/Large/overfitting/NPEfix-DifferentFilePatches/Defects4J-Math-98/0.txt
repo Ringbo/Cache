@@ -1,0 +1,19 @@
+--- linear/BigMatrixImpl.java
++++ linear/BigMatrixImpl.java
+@@ -664,3 +664,8 @@
+         }
+-        final int nRows = subMatrix.length;
++        final int nRows;
++        if (subMatrix == null) {
++            nRows = data.length;
++        } else {
++            nRows = subMatrix.length;
++        }
+         if (nRows == 0) {
+@@ -669,3 +674,5 @@
+         }
+-        final int nCols = subMatrix[0].length;
++        if (subMatrix != null) {
++            final int nCols = subMatrix[0].length;
++        }
+         if (nCols == 0) {

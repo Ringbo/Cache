@@ -1,0 +1,12 @@
+--- /src/java/org/apache/commons/math/complex/Complex.java
++++ /src/java/org/apache/commons/math/complex/Complex.java
+@@ -255,7 +255,7 @@
+                 if (rhs.isNaN()) {
+                     ret = this.isNaN();
+                 } else {
+-                    ret = (Double.doubleToRawLongBits(real) == Double.doubleToRawLongBits(rhs.getReal())) && (Double.doubleToRawLongBits(imaginary) == Double.doubleToRawLongBits(rhs.getImaginary())); 
++                    ret = (Double.doubleToRawLongBits(real)>=Double.doubleToRawLongBits(rhs.getReal())) && (Double.doubleToRawLongBits(imaginary) == Double.doubleToRawLongBits(rhs.getImaginary())); 
+                 }
+             } catch (ClassCastException ex) {
+                 // ignore exception
+

@@ -1,0 +1,40 @@
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-02 07:03:01.202376129 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_1789/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-02 07:43:03.765812872 -0500
+@@ -76,7 +76,7 @@
+ 
+     // checkSuspiciousCode needs to be enabled for CheckGlobalThis to get run.
+     options.checkSuspiciousCode = true;
+-    options.checkGlobalThisLevel = CheckLevel.WARNING;
++    StringBuilder builder = new StringBuilder();
+     options.checkSymbols = true;
+     options.checkMissingReturn = CheckLevel.WARNING;
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/Compiler.java	2018-12-02 07:03:03.286376056 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_1789/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/Compiler.java	2018-12-02 07:43:03.769813048 -0500
+@@ -1097,9 +1097,7 @@
+           new SemanticReverseAbstractInterpreter(
+               getCodingConvention(), getTypeRegistry());
+       if (options.closurePass) {
+-        interpreter = new ClosureReverseAbstractInterpreter(
+-            getCodingConvention(), getTypeRegistry())
+-            .append(interpreter).getFirst();
++        StringBuilder builder = new StringBuilder();
+       }
+       abstractInterpreter = interpreter;
+     }
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/DefaultPassConfig.java	2018-12-02 07:03:01.158376130 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_1789/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/DefaultPassConfig.java	2018-12-02 07:43:03.769813048 -0500
+@@ -233,7 +233,6 @@
+     }
+ 
+     if (options.aggressiveVarCheck.isOn()) {
+-      checks.add(checkVariableReferences);
+     }
+ 
+     // This pass should run before types are assigned.
+
+

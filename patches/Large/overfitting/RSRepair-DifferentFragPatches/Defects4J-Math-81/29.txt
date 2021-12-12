@@ -1,0 +1,39 @@
+--- /tmp/RSRepair_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-02 02:59:03.224542878 -0500
++++ /tmp/RSRepair_Defects4J_Math_81/patches_cedi/Patch_605/patched/tmp/RSRepair_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-02 03:11:18.416357565 -0500
+@@ -1091,7 +1091,14 @@
+                     updateSigma(tau);
+                     return deflatedEnd;
+                 } else if (dMin < 0.0) {
+-                    // tau too big. Select new tau and try again.
++                    if (dMin1 > 0.0) {
++						tau = (tau + dMin) * (1.0 - 2.0 * MathUtils.EPSILON);
++						tType -= 11;
++					} else {
++						tau *= 0.25;
++						tType -= 12;
++					}
++					// tau too big. Select new tau and try again.
+                     if (tType < -22) {
+                         // failed twice. Play it safe.
+                         tau = 0.0;
+@@ -1516,10 +1523,6 @@
+                     }
+                     a2 = cnst3 * a2;
+ 
+-                    // rayleigh quotient residual bound.
+-                    if (a2 < cnst1) {
+-                        s = gam * (1 - Math.sqrt(a2)) / (1 + a2);
+-                    }
+                     tau = s;
+ 
+                 }
+@@ -1622,7 +1625,6 @@
+                 if (dMin1 == dN1) {
+                     tau = 0.5 * dMin1;
+                 }
+-                tType = -9;
+             }
+             break;
+ 
+
+

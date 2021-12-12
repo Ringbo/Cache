@@ -1,0 +1,9 @@
+--- a/source/org/jfree/data/time/Week.java
++++ b/source/org/jfree/data/time/Week.java
+@@ -412,3 +412,5 @@
+         c.set(Calendar.SECOND, 0);
+-        c.set(Calendar.MILLISECOND, 0);
++        if (true) {
++            c.set(Calendar.MILLISECOND, 0);
++        }
+         //return c.getTimeInMillis();  // this won't work for JDK 1.3

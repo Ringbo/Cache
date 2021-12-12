@@ -1,0 +1,33 @@
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/ChartFactory.java	2018-12-01 08:15:31.762705602 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_2052/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/ChartFactory.java	2018-12-01 08:37:38.778058400 -0500
+@@ -696,7 +696,8 @@
+         if (tooltips) {
+             plot.setToolTipGenerator(new StandardPieToolTipGenerator());
+         }
+-        if (urls) {
++        plot.setURLGenerator(new StandardPieURLGenerator());
++		if (urls) {
+             plot.setURLGenerator(new StandardPieURLGenerator());
+         }
+         return new JFreeChart(title, JFreeChart.DEFAULT_TITLE_FONT, plot, 
+
+
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot3D.java	2018-12-01 08:15:31.186705575 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_2052/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot3D.java	2018-12-01 08:37:38.782058679 -0500
+@@ -268,7 +268,13 @@
+         double linkW = plotArea.getWidth() - gapHorizontal;
+         double linkH = plotArea.getHeight() - gapVertical;
+         
+-        // make the link area a square if the pie chart is to be circular...
++        if (DatasetUtilities.isEmptyOrNull(getDataset())) {
++			drawNoDataMessage(g2, plotArea);
++			g2.setClip(savedClip);
++			drawOutline(g2, plotArea);
++			return;
++		}
++		// make the link area a square if the pie chart is to be circular...
+         if (isCircular()) { // is circular?
+             double min = Math.min(linkW, linkH) / 2;
+             linkX = (linkX + linkX + linkW) / 2 - min;
+
+

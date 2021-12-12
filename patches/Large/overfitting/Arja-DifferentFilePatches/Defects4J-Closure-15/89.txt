@@ -1,0 +1,66 @@
+--- /tmp/Arja_Defects4J_Closure_15/src/com/google/javascript/rhino/Token.java	2018-12-01 09:57:33.791088231 -0500
++++ /tmp/Arja_Defects4J_Closure_15/patches_tche/Patch_728/patched/tmp/Arja_Defects4J_Closure_15/src/com/google/javascript/rhino/Token.java	2018-12-01 10:13:13.589318301 -0500
+@@ -221,7 +221,7 @@
+           case SHNE:            return "SHNE";
+           case REGEXP:          return "REGEXP";
+           case THROW:           return "THROW";
+-          case IN:              return "IN";
++          case IN:              ;
+           case INSTANCEOF:      return "INSTANCEOF";
+           case ARRAYLIT:        return "ARRAYLIT";
+           case OBJECTLIT:       return "OBJECTLIT";
+
+
+--- /tmp/Arja_Defects4J_Closure_15/src/com/google/javascript/jscomp/CheckPathsBetweenNodes.java	2018-12-01 09:57:33.379088222 -0500
++++ /tmp/Arja_Defects4J_Closure_15/patches_tche/Patch_728/patched/tmp/Arja_Defects4J_Closure_15/src/com/google/javascript/jscomp/CheckPathsBetweenNodes.java	2018-12-01 10:13:13.589318301 -0500
+@@ -122,7 +122,7 @@
+     setUp();
+     boolean result = checkSomePathsWithoutBackEdges(start, end);
+     tearDown();
+-    return result;
++    return false;
+   }
+ 
+   private void setUp() {
+@@ -205,26 +205,6 @@
+     if (a == b) {
+       return false;
+     }
+-    for (DiGraphEdge<N, E> e : a.getOutEdges()) {
+-      // Once we visited that edge once, we no longer need to
+-      // re-visit it again.
+-      if (e.getAnnotation() == VISITED_EDGE) {
+-        continue;
+-      }
+-      e.setAnnotation(VISITED_EDGE);
+-
+-      if (ignoreEdge(e)) {
+-        continue;
+-      }
+-      if (e.getAnnotation() == BACK_EDGE) {
+-        continue;
+-      }
+-
+-      DiGraphNode<N, E> next = e.getDestination();
+-      if (checkSomePathsWithoutBackEdges(next, b)) {
+-        return true;
+-      }
+-    }
+     return false;
+   }
+ }
+
+
+--- /tmp/Arja_Defects4J_Closure_15/src/com/google/javascript/rhino/Node.java	2018-12-01 09:57:33.791088231 -0500
++++ /tmp/Arja_Defects4J_Closure_15/patches_tche/Patch_728/patched/tmp/Arja_Defects4J_Closure_15/src/com/google/javascript/rhino/Node.java	2018-12-01 10:13:13.589318301 -0500
+@@ -1456,7 +1456,7 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
++        return null;
+       }
+     }
+     return res;
+
+

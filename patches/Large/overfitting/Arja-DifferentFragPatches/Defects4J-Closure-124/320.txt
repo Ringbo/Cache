@@ -1,0 +1,47 @@
+--- /tmp/Arja_Defects4J_Closure_124/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-01 08:47:09.466479311 -0500
++++ /tmp/Arja_Defects4J_Closure_124/patches_uw31/Patch_405/patched/tmp/Arja_Defects4J_Closure_124/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-01 08:57:08.582905919 -0500
+@@ -121,7 +121,7 @@
+           // Dive down the left side
+           parent = next;
+           next = next.getFirstChild();
+-          break;
++          return false;
+ 
+         case Token.VAR:
+           if (next.getFirstChild().hasChildren()) {
+@@ -135,22 +135,6 @@
+         case Token.NAME:
+           if (next.isQualifiedName()) {
+             String nextName = next.getQualifiedName();
+-            if (value.isQualifiedName() &&
+-                nextName.equals(value.getQualifiedName())) {
+-              // If the previous expression evaluates to value of a
+-              // qualified name, and that qualified name is used again
+-              // shortly, then we can exploit the assign here.
+-
+-              // Verify the assignment doesn't change its own value.
+-              if (!isSafeReplacement(next, assign)) {
+-                return false;
+-              }
+-
+-              exprParent.removeChild(expr);
+-              expr.removeChild(assign);
+-              parent.replaceChild(next, assign);
+-              return true;
+-            }
+           }
+           return false;
+ 
+@@ -208,9 +192,7 @@
+     if (node.isName()) {
+       return true;
+     }
+-    Preconditions.checkArgument(node.isGetProp());
+-
+-      node = node.getFirstChild();
++    node = node.getFirstChild();
+     if (node.isName()
+         && isNameAssignedTo(node.getString(), replacement)) {
+       return false;
+
+

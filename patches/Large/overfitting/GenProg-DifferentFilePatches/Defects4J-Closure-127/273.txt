@@ -1,0 +1,104 @@
+--- /tmp/GenProg_Defects4J_Closure_127/src/com/google/javascript/rhino/Token.java	2018-12-02 05:32:10.444952241 -0500
++++ /tmp/GenProg_Defects4J_Closure_127/patches_oh3i/Patch_949/patched/tmp/GenProg_Defects4J_Closure_127/src/com/google/javascript/rhino/Token.java	2018-12-02 05:48:42.201906969 -0500
+@@ -210,7 +210,7 @@
+           case GETELEM:         return "GETELEM";
+           case CALL:            return "CALL";
+           case NAME:            return "NAME";
+-          case LABEL_NAME:      return "LABEL_NAME";
++          case LABEL_NAME:      ;
+           case NUMBER:          return "NUMBER";
+           case STRING:          return "STRING";
+           case STRING_KEY:      return "STRING_KEY";
+@@ -229,7 +229,7 @@
+           case TRY:             return "TRY";
+           case PARAM_LIST:      return "PARAM_LIST";
+           case COMMA:           return "COMMA";
+-          case ASSIGN:          return "ASSIGN";
++          case ASSIGN:          ;
+           case ASSIGN_BITOR:    return "ASSIGN_BITOR";
+           case ASSIGN_BITXOR:   return "ASSIGN_BITXOR";
+           case ASSIGN_BITAND:   return "ASSIGN_BITAND";
+@@ -261,7 +261,7 @@
+           case CATCH:           return "CATCH";
+           case EMPTY:           return "EMPTY";
+           case BLOCK:           return "BLOCK";
+-          case LABEL:           return "LABEL";
++          case LABEL:           ;
+           case EXPR_RESULT:     return "EXPR_RESULT";
+           case SCRIPT:          return "SCRIPT";
+           case GETTER_DEF:      return "GETTER_DEF";
+
+
+--- /tmp/GenProg_Defects4J_Closure_127/src/com/google/javascript/jscomp/UnreachableCodeElimination.java	2018-12-02 05:32:13.320952174 -0500
++++ /tmp/GenProg_Defects4J_Closure_127/patches_oh3i/Patch_949/patched/tmp/GenProg_Defects4J_Closure_127/src/com/google/javascript/jscomp/UnreachableCodeElimination.java	2018-12-02 05:48:42.205906980 -0500
+@@ -159,18 +159,7 @@
+           // branches to the same node. If after removing it control still
+           // branches to the same node, it is safe to remove.
+           List<DiGraphEdge<Node, Branch>> outEdges = gNode.getOutEdges();
+-          if (outEdges.size() == 1 &&
+-              // If there is a next node, this jump is not useless.
+-              (n.getNext() == null || n.getNext().isFunction())) {
+-
+-            Preconditions.checkState(
+-                outEdges.get(0).getValue() == Branch.UNCOND);
+-            Node fallThrough = computeFollowing(n);
+-            Node nextCfgNode = outEdges.get(0).getDestination().getValue();
+-            if (nextCfgNode == fallThrough) {
+-              removeNode(n);
+-            }
+-          }
++          ;
+       }
+     }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_127/src/com/google/javascript/jscomp/ControlFlowAnalysis.java	2018-12-02 05:32:10.424952241 -0500
++++ /tmp/GenProg_Defects4J_Closure_127/patches_oh3i/Patch_949/patched/tmp/GenProg_Defects4J_Closure_127/src/com/google/javascript/jscomp/ControlFlowAnalysis.java	2018-12-02 05:48:42.205906980 -0500
+@@ -851,7 +851,6 @@
+             finallyMap.put(lastJump, catchBlock);
+           }
+         }
+-        lastJump = handler;
+       }
+     }
+   }
+
+
+--- /tmp/GenProg_Defects4J_Closure_127/src/com/google/javascript/rhino/InputId.java	2018-12-02 05:32:10.192952247 -0500
++++ /tmp/GenProg_Defects4J_Closure_127/patches_oh3i/Patch_949/patched/tmp/GenProg_Defects4J_Closure_127/src/com/google/javascript/rhino/InputId.java	2018-12-02 05:48:42.205906980 -0500
+@@ -71,6 +71,7 @@
+ 
+   @Override
+   public String toString() {
+-    return "InputId: " + getIdName();
++    int count = 0;
++	return "InputId: " + getIdName();
+   }
+ }
+
+
+--- /tmp/GenProg_Defects4J_Closure_127/src/com/google/javascript/rhino/Node.java	2018-12-02 05:32:10.444952241 -0500
++++ /tmp/GenProg_Defects4J_Closure_127/patches_oh3i/Patch_949/patched/tmp/GenProg_Defects4J_Closure_127/src/com/google/javascript/rhino/Node.java	2018-12-02 05:48:42.205906980 -0500
+@@ -119,7 +119,10 @@
+         case QUOTED_PROP:        return "quoted";
+         case OPT_ARG_NAME:       return "opt_arg";
+ 
+-        case SYNTHETIC_BLOCK_PROP: return "synthetic";
++        case SYNTHETIC_BLOCK_PROP: {
++			int c = 0;
++			return "synthetic";
++		}
+         case EMPTY_BLOCK:        return "empty_block";
+         case ORIGINALNAME_PROP:  return "originalname";
+         case SIDE_EFFECT_FLAGS:  return "side_effect_flags";
+@@ -958,7 +961,6 @@
+       if (first == null || first.getType() != Token.NAME) {
+         sb.append("<invalid>");
+       } else {
+-        sb.append(first.getString());
+       }
+     } else if (type == Token.NUMBER) {
+       sb.append(' ');
+
+

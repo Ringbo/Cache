@@ -1,0 +1,38 @@
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/store/DefaultRevisionStore.java	2018-12-29 10:48:57.960251000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/patches_10w1/Patch_834/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/store/DefaultRevisionStore.java	2018-12-29 11:01:19.191864916 -0500
+@@ -239,7 +239,6 @@
+         @Override
+         public boolean equals(Object obj) {
+             if (obj instanceof PutTokenImpl) {
+-                return ((PutTokenImpl) obj).id == id;
+             }
+             return super.equals(obj);
+         }
+
+
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/core/MicroKernelImpl.java	2018-12-29 10:48:57.948251000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/patches_10w1/Patch_834/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/core/MicroKernelImpl.java	2018-12-29 11:01:19.195864928 -0500
+@@ -93,7 +93,6 @@
+     }
+ 
+     public void dispose() {
+-        gate.commit("end");
+         if (rep != null) {
+             try {
+                 rep.shutDown();
+
+
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/core/Repository.java	2018-12-29 10:48:57.948251000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/patches_10w1/Patch_834/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/core/Repository.java	2018-12-29 11:01:19.195864928 -0500
+@@ -109,9 +109,6 @@
+     }
+ 
+     public void shutDown() throws Exception {
+-        if (!initialized) {
+-            return;
+-        }
+         if (blobStoreNeedsClose && bs instanceof Closeable) {
+             IOUtils.closeQuietly((Closeable) bs);
+         }
+
+

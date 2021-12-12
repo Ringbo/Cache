@@ -1,0 +1,49 @@
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/Plot.java	2018-12-01 08:15:31.190705575 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_1090/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/Plot.java	2018-12-01 08:28:37.604552306 -0500
+@@ -929,7 +929,8 @@
+         // some subclasses override this method completely, so don't put 
+         // anything here that *must* be done
+         fillBackground(g2, area);
+-        drawBackgroundImage(g2, area);
++        g2.draw(area);
++		drawBackgroundImage(g2, area);
+     }
+ 
+     /**
+
+
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot3D.java	2018-12-01 08:15:31.186705575 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_1090/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot3D.java	2018-12-01 08:28:37.608552582 -0500
+@@ -244,7 +244,8 @@
+         // adjust the plot area by the interior spacing value
+         double gapPercent = getInteriorGap();
+         double labelPercent = 0.0;
+-        if (getLabelGenerator() != null) {
++        g2.setPaint(getLabelPaint());
++		if (getLabelGenerator() != null) {
+             labelPercent = getLabelGap() + getMaximumLabelWidth();   
+         }
+         double gapHorizontal = plotArea.getWidth() * (gapPercent 
+@@ -268,14 +269,12 @@
+         double linkW = plotArea.getWidth() - gapHorizontal;
+         double linkH = plotArea.getHeight() - gapVertical;
+         
+-        // make the link area a square if the pie chart is to be circular...
+-        if (isCircular()) { // is circular?
+-            double min = Math.min(linkW, linkH) / 2;
+-            linkX = (linkX + linkX + linkW) / 2 - min;
+-            linkY = (linkY + linkY + linkH) / 2 - min;
+-            linkW = 2 * min;
+-            linkH = 2 * min;
+-        }
++        if (DatasetUtilities.isEmptyOrNull(getDataset())) {
++			drawNoDataMessage(g2, plotArea);
++			g2.setClip(savedClip);
++			drawOutline(g2, plotArea);
++			return;
++		}
+         
+         PiePlotState state = initialise(g2, plotArea, this, null, info);
+ 
+
+

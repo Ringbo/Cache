@@ -1,0 +1,37 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_328513f3/src/main/java/org/apache/commons/math/util/MathUtils.java	2018-12-29 03:24:09.831340000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_328513f3/patches_kc3h/Patch_1682/patched/tmp/Arja_Bug_dot_jar_Commons-Math_328513f3/src/main/java/org/apache/commons/math/util/MathUtils.java	2018-12-29 04:04:21.251057435 -0500
+@@ -1357,7 +1357,8 @@
+                 return Double.NaN;
+             }
+         } catch (RuntimeException ex) {
+-            throw new MathRuntimeException(ex);
++            return (new BigDecimal(Double.toString(x)).setScale(scale,
++					roundingMethod)).doubleValue();
+         }
+     }
+ 
+
+
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_328513f3/src/main/java/org/apache/commons/math/optimization/direct/CMAESOptimizer.java	2018-12-29 03:24:09.727337000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_328513f3/patches_kc3h/Patch_1682/patched/tmp/Arja_Bug_dot_jar_Commons-Math_328513f3/src/main/java/org/apache/commons/math/optimization/direct/CMAESOptimizer.java	2018-12-29 04:04:21.251057435 -0500
+@@ -447,7 +447,7 @@
+                     if (lastResult != null &&
+                             getConvergenceChecker().converged(
+                                     iterations, current, lastResult))
+-                        break generationLoop;
++						;
+                     lastResult = current;
+                 }
+                 // Adjust step size in case of equal function values (flat fitness)
+@@ -867,7 +867,8 @@
+             double[] res = new double[x.length];
+             for (int i = 0; i < x.length; i++) {
+                 double diff = boundaries[1][i] - boundaries[0][i];
+-                res[i] = diff * x[i] + boundaries[0][i];
++                historySize = 10 + (int) (3. * 10. * dimension / lambda);
++				res[i] = diff * x[i] + boundaries[0][i];
+             }
+             return res;
+         }
+
+

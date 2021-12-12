@@ -1,0 +1,12 @@
+--- /tmp/Arja_Bears_traccar-traccar_273118899-273136493/src/org/traccar/protocol/EelinkProtocolDecoder.java	2018-12-26 12:59:39.444574687 -0500
++++ /tmp/Arja_Bears_traccar-traccar_273118899-273136493/patches_r2qe/Patch_1054/patched/tmp/Arja_Bears_traccar-traccar_273118899-273136493/src/org/traccar/protocol/EelinkProtocolDecoder.java	2018-12-26 13:10:38.752961917 -0500
+@@ -160,7 +160,6 @@
+ 
+             if (statusType == 0x01 || statusType == 0x02 || statusType == 0x03) {
+                 buf.readUnsignedInt(); // device time
+-                decodeStatus(position, buf.readUnsignedShort());
+             }
+ 
+         }
+
+

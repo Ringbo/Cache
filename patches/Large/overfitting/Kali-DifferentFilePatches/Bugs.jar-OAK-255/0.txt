@@ -1,0 +1,15 @@
+--- /tmp/Kali_Bug_dot_jar_Jackrabbit-Oak_ffa818f3/oak-mk/src/main/java/org/apache/jackrabbit/mk/model/Id.java	2018-12-29 21:10:39.860222000 -0500
++++ /tmp/Kali_Bug_dot_jar_Jackrabbit-Oak_ffa818f3/patches_ciuy/Patch_10/patched/tmp/Kali_Bug_dot_jar_Jackrabbit-Oak_ffa818f3/oak-mk/src/main/java/org/apache/jackrabbit/mk/model/Id.java	2018-12-29 21:13:08.418553478 -0500
+@@ -113,7 +113,9 @@
+         
+         for (int i = 0; i < len; i++) {
+             if (raw[i] != other[i]) {
+-                return raw[i] - other[i];
++                if (true)
++					return -1;
++				return raw[i] - other[i];
+             }
+         }
+         return raw.length - other.length;
+
+

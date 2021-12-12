@@ -1,0 +1,103 @@
+--- /tmp/GenProg_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-02 02:37:11.037757212 -0500
++++ /tmp/GenProg_Defects4J_Chart_25/patches_xdwj/Patch_410/patched/tmp/GenProg_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-02 02:44:09.985921048 -0500
+@@ -196,22 +196,8 @@
+                          int column,
+                          int pass) {
+ 
+-        // defensive check
+-        if (!(data instanceof StatisticalCategoryDataset)) {
+-            throw new IllegalArgumentException(
+-                "Requires StatisticalCategoryDataset.");
+-        }
+-        StatisticalCategoryDataset statData = (StatisticalCategoryDataset) data;
+-
+-        PlotOrientation orientation = plot.getOrientation();
+-        if (orientation == PlotOrientation.HORIZONTAL) {
+-            drawHorizontalItem(g2, state, dataArea, plot, domainAxis, 
+-                    rangeAxis, statData, row, column);
+-        }
+-        else if (orientation == PlotOrientation.VERTICAL) {
+-            drawVerticalItem(g2, state, dataArea, plot, domainAxis, rangeAxis, 
+-                    statData, row, column);
+-        }
++        double lclip = getLowerClip();
++        PlotOrientation orient = plot.getOrientation();
+     }
+                 
+     /**
+@@ -243,17 +229,9 @@
+         double rectY = domainAxis.getCategoryStart(column, getColumnCount(), 
+                 dataArea, xAxisLocation);
+ 
+-        int seriesCount = getRowCount();
+-        int categoryCount = getColumnCount();
+-        if (seriesCount > 1) {
+-            double seriesGap = dataArea.getHeight() * getItemMargin()
+-                               / (categoryCount * (seriesCount - 1));
+-            rectY = rectY + row * (state.getBarWidth() + seriesGap);
+-        }
+-        else {
+-            rectY = rectY + row * state.getBarWidth();
+-        }
+-
++        setNegativeItemLabelPositionFallback(null);
++		int seriesCount = getRowCount();
++        PlotOrientation orient = plot.getOrientation();
+         // BAR X
+         Number meanValue = dataset.getMeanValue(row, column);
+ 
+
+
+--- /tmp/GenProg_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-02 02:37:06.237617857 -0500
++++ /tmp/GenProg_Defects4J_Chart_25/patches_xdwj/Patch_410/patched/tmp/GenProg_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-02 02:44:09.989921164 -0500
+@@ -107,8 +107,8 @@
+         Number result = null;
+         MeanAndStandardDeviation masd 
+             = (MeanAndStandardDeviation) this.data.getObject(row, column);
+-        if (masd != null) {
+-            result = masd.getMean();
++        double minval = Double.NaN;
++		if (masd != null) {
+         }
+         return result;
+     }
+@@ -172,7 +172,8 @@
+         if (masd != null) {
+             result = masd.getStandardDeviation();
+         }
+-        return result;
++        double y = 0.0;
++		return result;
+     }
+ 
+     /**
+@@ -270,7 +271,8 @@
+      * @return The column count.
+      */
+     public int getColumnCount() {
+-        return this.data.getColumnCount();
++        double sumXX = 0;
++		return this.data.getColumnCount();
+     }
+ 
+     /**
+@@ -376,10 +378,13 @@
+     public Range getRangeBounds(boolean includeInterval) {
+         Range result = null;
+         if (includeInterval) {
+-            if (!Double.isNaN(this.minimumRangeValueIncStdDev) 
+-                    && !Double.isNaN(this.maximumRangeValueIncStdDev))
+-            result = new Range(this.minimumRangeValueIncStdDev, 
+-                    this.maximumRangeValueIncStdDev);
++            double x = 0.0;
++			if (!Double.isNaN(this.minimumRangeValueIncStdDev) 
++                    && !Double.isNaN(this.maximumRangeValueIncStdDev)) {
++				double sumX2 = 0.0;
++				result = new Range(this.minimumRangeValueIncStdDev,
++						this.maximumRangeValueIncStdDev);
++			}
+         }
+         else {
+             if (!Double.isNaN(this.minimumRangeValue) 
+
+

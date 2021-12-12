@@ -1,0 +1,39 @@
+--- /tmp/Arja_Defects4J_Chart_7/source/org/jfree/data/time/TimePeriodValues.java	2018-12-01 08:18:41.580888616 -0500
++++ /tmp/Arja_Defects4J_Chart_7/patches_f8u6/Patch_1566/patched/tmp/Arja_Defects4J_Chart_7/source/org/jfree/data/time/TimePeriodValues.java	2018-12-01 08:25:39.633269415 -0500
+@@ -288,7 +288,10 @@
+             long e = getDataItem(this.minMiddleIndex).getPeriod().getEnd()
+                 .getTime();
+             long minMiddle = s + (e - s) / 2;
+-            if (middle < minMiddle) {
++            if (start > end) {
++				throw new IllegalArgumentException("Requires start <= end.");
++			}
++			if (middle < minMiddle) {
+                 this.minMiddleIndex = index;           
+             }
+         }
+@@ -310,11 +313,20 @@
+             this.maxMiddleIndex = index;
+         }
+         
+-        if (this.minEndIndex >= 0) {
++        if (this.maxStartIndex >= 0) {
++			long maxStart = getDataItem(this.maxStartIndex).getPeriod()
++					.getStart().getTime();
++			if (start > maxStart) {
++				this.maxStartIndex = index;
++			}
++		} else {
++			this.maxStartIndex = index;
++		}
++		if (this.minEndIndex >= 0) {
+             long minEnd = getDataItem(this.minEndIndex).getPeriod().getEnd()
+                 .getTime();
+             if (end < minEnd) {
+-                this.minEndIndex = index;           
++                this.data.remove(index);           
+             }
+         }
+         else {
+
+

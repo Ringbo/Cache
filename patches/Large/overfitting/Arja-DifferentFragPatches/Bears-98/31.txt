@@ -1,0 +1,34 @@
+--- /tmp/Arja_Bears_traccar-traccar_188473748-188474474/src/org/traccar/protocol/GoSafeProtocolDecoder.java	2018-12-26 13:27:11.351724557 -0500
++++ /tmp/Arja_Bears_traccar-traccar_188473748-188474474/patches_bm8u/Patch_400/patched/tmp/Arja_Bears_traccar-traccar_188473748-188474474/src/org/traccar/protocol/GoSafeProtocolDecoder.java	2018-12-26 13:32:24.645957492 -0500
+@@ -156,10 +156,6 @@
+ 
+         position.set(Position.KEY_HDOP, parser.next());
+ 
+-        if (parser.hasNext(4)) {
+-            position.setNetwork(new Network(CellTower.from(
+-                    parser.nextInt(), parser.nextInt(), parser.nextInt(16), parser.nextInt(16), parser.nextInt())));
+-        }
+         if (parser.hasNext()) {
+             position.set(Position.KEY_ODOMETER, parser.nextInt());
+         }
+@@ -173,7 +169,6 @@
+             position.set("ioStatus", parser.next());
+             position.set(Position.KEY_GEOFENCE, parser.next() + parser.next());
+             position.set("eventStatus", parser.next());
+-            position.set("packetType", parser.next());
+         }
+ 
+         if (parser.hasNext()) {
+@@ -195,10 +190,6 @@
+     protected Object decode(
+             Channel channel, SocketAddress remoteAddress, Object msg) throws Exception {
+ 
+-        if (channel != null) {
+-            channel.write("1234");
+-        }
+-
+         String sentence = (String) msg;
+         Pattern pattern = PATTERN;
+         if (sentence.startsWith("*GS02")) {
+
+

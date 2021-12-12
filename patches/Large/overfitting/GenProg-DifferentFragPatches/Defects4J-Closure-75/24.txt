@@ -1,0 +1,22 @@
+--- /tmp/GenProg_Defects4J_Closure_75/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 06:44:29.966816550 -0500
++++ /tmp/GenProg_Defects4J_Closure_75/patches_wgwu/Patch_107/patched/tmp/GenProg_Defects4J_Closure_75/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 06:54:19.436904710 -0500
+@@ -346,7 +346,7 @@
+     }
+ 
+     try {
+-      return Double.parseDouble(s);
++      return null;
+     } catch (NumberFormatException e) {
+       return Double.NaN;
+     }
+@@ -372,7 +372,7 @@
+   static TernaryValue isStrWhiteSpaceChar(int c) {
+     switch (c) {
+       case '\u000B': // <VT>
+-        return TernaryValue.TRUE;
++        ;
+       case ' ': // <SP>
+       case '\n': // <LF>
+       case '\r': // <CR>
+
+

@@ -1,0 +1,25 @@
+--- /tmp/RSRepair_Defects4J_Closure_127/src/com/google/javascript/jscomp/UnreachableCodeElimination.java	2018-12-02 05:17:45.386676090 -0500
++++ /tmp/RSRepair_Defects4J_Closure_127/patches_25dy/Patch_472/patched/tmp/RSRepair_Defects4J_Closure_127/src/com/google/javascript/jscomp/UnreachableCodeElimination.java	2018-12-02 05:26:58.689250482 -0500
+@@ -168,7 +168,6 @@
+             Node fallThrough = computeFollowing(n);
+             Node nextCfgNode = outEdges.get(0).getDestination().getValue();
+             if (nextCfgNode == fallThrough) {
+-              removeNode(n);
+             }
+           }
+       }
+
+
+--- /tmp/RSRepair_Defects4J_Closure_127/src/com/google/javascript/rhino/Token.java	2018-12-02 05:17:42.954647832 -0500
++++ /tmp/RSRepair_Defects4J_Closure_127/patches_25dy/Patch_472/patched/tmp/RSRepair_Defects4J_Closure_127/src/com/google/javascript/rhino/Token.java	2018-12-02 05:26:58.693250530 -0500
+@@ -210,7 +210,7 @@
+           case GETELEM:         return "GETELEM";
+           case CALL:            return "CALL";
+           case NAME:            return "NAME";
+-          case LABEL_NAME:      return "LABEL_NAME";
++          case LABEL_NAME:      ;
+           case NUMBER:          return "NUMBER";
+           case STRING:          return "STRING";
+           case STRING_KEY:      return "STRING_KEY";
+
+

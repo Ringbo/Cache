@@ -1,0 +1,67 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_59a0da9c/src/main/java/org/apache/commons/math/optimization/linear/SimplexSolver.java	2018-12-29 06:30:16.966620000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_59a0da9c/patches_un30/Patch_1464/patched/tmp/Arja_Bug_dot_jar_Commons-Math_59a0da9c/src/main/java/org/apache/commons/math/optimization/linear/SimplexSolver.java	2018-12-29 07:20:11.728719248 -0500
+@@ -86,7 +86,8 @@
+             if (MathUtils.compareTo(entry, 0, epsilon) > 0) {
+                 final double ratio = rhs / entry;
+                 if (MathUtils.equals(ratio, minRatio, epsilon)) {
+-                    minRatioPositions.add(i);
++                    minRatioPositions = new ArrayList<Integer>();
++					minRatioPositions.add(i);
+                 } else if (ratio < minRatio) {
+                     minRatio = ratio;
+                     minRatioPositions = new ArrayList<Integer>();
+
+
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_59a0da9c/src/main/java/org/apache/commons/math/ode/nonstiff/GraggBulirschStoerIntegrator.java	2018-12-29 06:30:16.902618000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_59a0da9c/patches_un30/Patch_1464/patched/tmp/Arja_Bug_dot_jar_Commons-Math_59a0da9c/src/main/java/org/apache/commons/math/ode/nonstiff/GraggBulirschStoerIntegrator.java	2018-12-29 07:20:11.732719275 -0500
+@@ -694,7 +694,12 @@
+ 
+           // the stability check failed, we reduce the global step
+           hNew   = Math.abs(filterStep(stepSize * stabilityReduction, forward, false));
+-          reject = true;
++          if ((targetIter > 1)
++				&& (costPerTimeUnit[targetIter - 1] < orderControl1
++						* costPerTimeUnit[targetIter])) {
++			--targetIter;
++		}
++		reject = true;
+           loop   = false;
+ 
+         } else {
+@@ -749,9 +754,21 @@
+                     final double ratio = ((double) sequence [k] * sequence[k+1]) /
+                                          (sequence[0] * sequence[0]);
+                     if (error > ratio * ratio) {
+-                      // we don't expect to converge on next iteration
+-                      // we reject the step immediately and reduce order
+-                      reject = true;
++                      if (newStep) {
++						interpolator.shift();
++						if (!firstStepAlreadyComputed) {
++							computeDerivatives(stepStart, y, yDot0);
++						}
++						if (firstTime) {
++							hNew = initializeStep(equations, forward,
++									2 * targetIter + 1, scale, stepStart, y,
++									yDot0, yTmp, yTmpDot);
++							if (!forward) {
++								hNew = -hNew;
++							}
++						}
++						newStep = false;
++					}
+                       loop   = false;
+                       targetIter = k;
+                       if ((targetIter > 1) &&
+@@ -875,7 +892,8 @@
+                                                 0.01));
+             if (interpError > 10.0) {
+               hNew = hInt;
+-              reject = true;
++              ++k;
++			reject = true;
+             }
+           }
+ 
+
+

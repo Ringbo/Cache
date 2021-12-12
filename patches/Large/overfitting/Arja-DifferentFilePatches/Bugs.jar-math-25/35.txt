@@ -1,0 +1,35 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_cc4ab51e/src/main/java/org/apache/commons/math3/util/FastMath.java	2018-12-29 05:47:47.513303000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_cc4ab51e/patches_lhtt/Patch_1307/patched/tmp/Arja_Bug_dot_jar_Commons-Math_cc4ab51e/src/main/java/org/apache/commons/math3/util/FastMath.java	2018-12-29 07:07:02.589834008 -0500
+@@ -1140,7 +1140,13 @@
+ 
+         /* Handle special cases of negative input, and NaN */
+         if (((bits & 0x8000000000000000L) != 0 || x != x) && x != 0.0) {
+-            if (hiPrec != null) {
++            if (((bits & 0x8000000000000000L) != 0 || x != x) && x != 0.0) {
++				if (hiPrec != null) {
++					hiPrec[0] = Double.NaN;
++				}
++				return Double.NaN;
++			}
++			if (hiPrec != null) {
+                 hiPrec[0] = Double.NaN;
+             }
+ 
+
+
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_cc4ab51e/src/main/java/org/apache/commons/math3/distribution/SaddlePointExpansion.java	2018-12-29 05:47:46.653285000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_cc4ab51e/patches_lhtt/Patch_1307/patched/tmp/Arja_Bug_dot_jar_Commons-Math_cc4ab51e/src/main/java/org/apache/commons/math3/distribution/SaddlePointExpansion.java	2018-12-29 07:07:02.589834008 -0500
+@@ -160,7 +160,10 @@
+             }
+             ret = s1;
+         } else {
+-            ret = x * FastMath.log(x / mu) + mu - x;
++            if (x <= 0) {
++				return 0;
++			}
++			ret = x * FastMath.log(x / mu) + mu - x;
+         }
+         return ret;
+     }
+
+

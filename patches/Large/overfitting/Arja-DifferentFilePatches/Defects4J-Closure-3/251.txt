@@ -1,0 +1,60 @@
+--- /tmp/Arja_Defects4J_Closure_3/src/com/google/javascript/jscomp/DataFlowAnalysis.java	2018-12-01 10:04:39.108213850 -0500
++++ /tmp/Arja_Defects4J_Closure_3/patches_ft34/Patch_1036/patched/tmp/Arja_Defects4J_Closure_3/src/com/google/javascript/jscomp/DataFlowAnalysis.java	2018-12-01 10:23:03.118850893 -0500
+@@ -572,7 +572,6 @@
+       Var var = i.next();
+       if (var.getParentNode().isCatch() ||
+           compiler.getCodingConvention().isExported(var.getName())) {
+-        escaped.add(var);
+       }
+     }
+   }
+
+
+--- /tmp/Arja_Defects4J_Closure_3/src/com/google/javascript/jscomp/FlowSensitiveInlineVariables.java	2018-12-01 10:04:42.028213916 -0500
++++ /tmp/Arja_Defects4J_Closure_3/patches_ft34/Patch_1036/patched/tmp/Arja_Defects4J_Closure_3/src/com/google/javascript/jscomp/FlowSensitiveInlineVariables.java	2018-12-01 10:23:03.122850934 -0500
+@@ -402,9 +402,7 @@
+                  Predicates.
+                      <DiGraphEdge<Node, ControlFlowGraph.Branch>>alwaysTrue(),
+                  false);
+-        if (pathCheck.somePathsSatisfyPredicate()) {
+-          return false;
+-        }
++        return false;
+       }
+ 
+       return true;
+
+
+--- /tmp/Arja_Defects4J_Closure_3/src/com/google/javascript/jscomp/CheckPathsBetweenNodes.java	2018-12-01 10:04:38.760213842 -0500
++++ /tmp/Arja_Defects4J_Closure_3/patches_ft34/Patch_1036/patched/tmp/Arja_Defects4J_Closure_3/src/com/google/javascript/jscomp/CheckPathsBetweenNodes.java	2018-12-01 10:23:03.122850934 -0500
+@@ -119,7 +119,6 @@
+    *     predicate
+    */
+   public boolean somePathsSatisfyPredicate() {
+-    setUp();
+     boolean result = checkSomePathsWithoutBackEdges(start, end);
+     tearDown();
+     return result;
+@@ -198,10 +197,6 @@
+    */
+   private boolean checkSomePathsWithoutBackEdges(DiGraphNode<N, E> a,
+       DiGraphNode<N, E> b) {
+-    if (nodePredicate.apply(a.getValue()) &&
+-        (inclusive || (a != start && a != end))) {
+-      return true;
+-    }
+     if (a == b) {
+       return false;
+     }
+@@ -221,9 +216,6 @@
+       }
+ 
+       DiGraphNode<N, E> next = e.getDestination();
+-      if (checkSomePathsWithoutBackEdges(next, b)) {
+-        return true;
+-      }
+     }
+     return false;
+   }
+
+

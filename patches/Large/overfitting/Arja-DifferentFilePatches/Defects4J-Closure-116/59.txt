@@ -1,0 +1,45 @@
+--- /tmp/Arja_Defects4J_Closure_116/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-01 08:51:01.869149850 -0500
++++ /tmp/Arja_Defects4J_Closure_116/patches_186s/Patch_1791/patched/tmp/Arja_Defects4J_Closure_116/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-01 09:27:37.082795319 -0500
+@@ -552,7 +552,6 @@
+       // Only inline functions that return something.
+       if (block.getFirstChild().isReturn()
+           && block.getFirstChild().getFirstChild() != null) {
+-        return true;
+       }
+     }
+ 
+@@ -793,7 +792,6 @@
+     // so use the cost estimating.
+     if (referenceCount == 1 && isRemovable &&
+         referencesUsingDirectInlining == 1) {
+-      return true;
+     }
+ 
+     int callCost = estimateCallCost(fnNode, referencesThis);
+
+
+--- /tmp/Arja_Defects4J_Closure_116/src/com/google/javascript/jscomp/PureFunctionIdentifier.java	2018-12-01 08:50:58.477149772 -0500
++++ /tmp/Arja_Defects4J_Closure_116/patches_186s/Patch_1791/patched/tmp/Arja_Defects4J_Closure_116/src/com/google/javascript/jscomp/PureFunctionIdentifier.java	2018-12-01 09:27:37.086795337 -0500
+@@ -501,7 +501,6 @@
+             !sideEffectInfo.blacklisted.contains(v) &&
+             sideEffectInfo.taintedLocals.contains(v)) {
+           sideEffectInfo.setTaintsArguments();
+-          continue;
+         }
+ 
+         boolean localVar = false;
+
+
+--- /tmp/Arja_Defects4J_Closure_116/src/com/google/javascript/rhino/Node.java	2018-12-01 08:50:58.717149778 -0500
++++ /tmp/Arja_Defects4J_Closure_116/patches_186s/Patch_1791/patched/tmp/Arja_Defects4J_Closure_116/src/com/google/javascript/rhino/Node.java	2018-12-01 09:27:37.086795337 -0500
+@@ -1456,7 +1456,7 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
++        return null;
+       }
+     }
+     return res;
+
+

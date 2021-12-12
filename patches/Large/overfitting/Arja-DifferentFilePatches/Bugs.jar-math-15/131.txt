@@ -1,0 +1,13 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/geometry/enclosing/WelzlEncloser.java	2018-12-29 02:28:54.137653000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_faf99727/patches_ryas/Patch_811/patched/tmp/Arja_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/geometry/enclosing/WelzlEncloser.java	2018-12-29 02:56:14.718292863 -0500
+@@ -86,8 +86,6 @@
+         List<P> extreme = new ArrayList<P>(max);
+         List<P> support = new ArrayList<P>(max);
+ 
+-        // start with only first point selected as a candidate support
+-        extreme.add(points.get(0));
+         EnclosingBall<S, P> ball = moveToFrontBall(extreme, support);
+ 
+         while (true) {
+
+

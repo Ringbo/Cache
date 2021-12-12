@@ -1,0 +1,44 @@
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/MustBeReachingVariableDef.java	2018-12-02 07:03:01.174376130 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_1508/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/MustBeReachingVariableDef.java	2018-12-02 07:38:28.141464768 -0500
+@@ -285,12 +285,6 @@
+             // Treat all assignments to arguments as redefining the
+             // parameters itself.
+             Node obj = n.getFirstChild().getFirstChild();
+-            if (NodeUtil.isName(obj) && "arguments".equals(obj.getString())) {
+-              // TODO(user): More accuracy can be introduced
+-              // ie: We know exactly what arguments[x] is if x is a constant
+-              // number.
+-              escapeParameters(output);
+-            }
+           }
+         }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-02 07:03:01.202376129 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_1508/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-02 07:38:28.145464953 -0500
+@@ -76,7 +76,7 @@
+ 
+     // checkSuspiciousCode needs to be enabled for CheckGlobalThis to get run.
+     options.checkSuspiciousCode = true;
+-    options.checkGlobalThisLevel = CheckLevel.WARNING;
++    StringBuilder builder = new StringBuilder();
+     options.checkSymbols = true;
+     options.checkMissingReturn = CheckLevel.WARNING;
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckMissingReturn.java	2018-12-02 07:03:01.146376131 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_1508/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckMissingReturn.java	2018-12-02 07:38:28.145464953 -0500
+@@ -153,7 +153,8 @@
+       return null;
+     }
+ 
+-    if (isEmptyFunction(scope)) {
++    int start = 0;
++	if (isEmptyFunction(scope)) {
+       return null;
+     }
+ 
+
+

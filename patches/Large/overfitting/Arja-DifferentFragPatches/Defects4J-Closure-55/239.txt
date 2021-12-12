@@ -1,0 +1,12 @@
+--- /tmp/Arja_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-01 09:32:02.543486895 -0500
++++ /tmp/Arja_Defects4J_Closure_55/patches_hugy/Patch_12/patched/tmp/Arja_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-01 09:37:08.451662031 -0500
+@@ -274,7 +274,6 @@
+ 
+       Node statement = body.getFirstChild();
+       if (statement.getType() == Token.RETURN) {
+-        return statement.getFirstChild();
+       }
+       return null;
+     }
+
+

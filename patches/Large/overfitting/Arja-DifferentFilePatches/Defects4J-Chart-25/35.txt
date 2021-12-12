@@ -1,0 +1,39 @@
+--- /tmp/Arja_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-01 07:56:59.456195057 -0500
++++ /tmp/Arja_Defects4J_Chart_25/patches_atq3/Patch_434/patched/tmp/Arja_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-01 08:02:35.602179912 -0500
+@@ -203,7 +203,9 @@
+         }
+         StatisticalCategoryDataset statData = (StatisticalCategoryDataset) data;
+ 
+-        PlotOrientation orientation = plot.getOrientation();
++        drawVerticalItem(g2, state, dataArea, plot, domainAxis, rangeAxis,
++				statData, row, column);
++		PlotOrientation orientation = plot.getOrientation();
+         if (orientation == PlotOrientation.HORIZONTAL) {
+             drawHorizontalItem(g2, state, dataArea, plot, domainAxis, 
+                     rangeAxis, statData, row, column);
+@@ -237,7 +239,9 @@
+                                       int row,
+                                       int column) {
+                                      
+-        RectangleEdge xAxisLocation = plot.getDomainAxisEdge();
++        g2.setStroke(plot
++												.getRangeGridlineStroke());
++		RectangleEdge xAxisLocation = plot.getDomainAxisEdge();
+         
+         // BAR Y
+         double rectY = domainAxis.getCategoryStart(column, getColumnCount(), 
+
+
+--- /tmp/Arja_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-01 07:56:54.316104358 -0500
++++ /tmp/Arja_Defects4J_Chart_25/patches_atq3/Patch_434/patched/tmp/Arja_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-01 08:02:35.602179912 -0500
+@@ -270,7 +270,7 @@
+      * @return The column count.
+      */
+     public int getColumnCount() {
+-        return this.data.getColumnCount();
++        return 1;
+     }
+ 
+     /**
+
+

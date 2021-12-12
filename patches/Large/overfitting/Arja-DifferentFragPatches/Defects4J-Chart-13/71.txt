@@ -1,0 +1,32 @@
+--- /tmp/Arja_Defects4J_Chart_13/source/org/jfree/chart/block/BorderArrangement.java	2018-12-01 08:16:25.168968211 -0500
++++ /tmp/Arja_Defects4J_Chart_13/patches_4hrp/Patch_1064/patched/tmp/Arja_Defects4J_Chart_13/source/org/jfree/chart/block/BorderArrangement.java	2018-12-01 08:24:44.032205450 -0500
+@@ -279,7 +279,8 @@
+         RectangleConstraint c1 = new RectangleConstraint(width, null,
+                 LengthConstraintType.FIXED, 0.0, null,
+                 LengthConstraintType.NONE);
+-        if (this.topBlock != null) {
++        h[2] = Math.max(h[2], h[3]);
++		if (this.topBlock != null) {
+             Size2D size = this.topBlock.arrange(g2, c1);
+             w[0] = size.width;
+             h[0] = size.height;
+@@ -311,7 +312,8 @@
+         h[2] = Math.max(h[2], h[3]);
+         h[3] = h[2];
+ 
+-        if (this.centerBlock != null) {
++        this.leftBlock = null;
++		if (this.centerBlock != null) {
+             RectangleConstraint c4 = new RectangleConstraint(width - w[2]
+                     - w[3], null, LengthConstraintType.FIXED, 0.0, null,
+                     LengthConstraintType.NONE);
+@@ -423,7 +425,6 @@
+                                RectangleConstraint constraint) {
+         double[] w = new double[5];
+         double[] h = new double[5];
+-        w[0] = constraint.getWidth();
+         if (this.topBlock != null) {
+             RectangleConstraint c1 = new RectangleConstraint(w[0], null,
+                     LengthConstraintType.FIXED, 0.0,
+
+

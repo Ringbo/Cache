@@ -1,0 +1,74 @@
+--- /tmp/GenProg_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-02 02:37:11.037757212 -0500
++++ /tmp/GenProg_Defects4J_Chart_25/patches_xdwj/Patch_685/patched/tmp/GenProg_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-02 02:46:35.174141398 -0500
+@@ -201,17 +201,11 @@
+             throw new IllegalArgumentException(
+                 "Requires StatisticalCategoryDataset.");
+         }
+-        StatisticalCategoryDataset statData = (StatisticalCategoryDataset) data;
++        g2.setStroke(plot.getRangeGridlineStroke());
++		double y0 = dataArea.getMaxY();
+ 
+         PlotOrientation orientation = plot.getOrientation();
+-        if (orientation == PlotOrientation.HORIZONTAL) {
+-            drawHorizontalItem(g2, state, dataArea, plot, domainAxis, 
+-                    rangeAxis, statData, row, column);
+-        }
+-        else if (orientation == PlotOrientation.VERTICAL) {
+-            drawVerticalItem(g2, state, dataArea, plot, domainAxis, rangeAxis, 
+-                    statData, row, column);
+-        }
++        RectangleEdge edge = plot.getRangeAxisEdge();
+     }
+                 
+     /**
+@@ -260,7 +254,14 @@
+         double value = meanValue.doubleValue();
+         double base = 0.0;
+         double lclip = getLowerClip();
+-        double uclip = getUpperClip();
++        if (seriesCount > 1) {
++			double seriesGap = dataArea.getHeight() * getItemMargin()
++					/ (categoryCount * (seriesCount - 1));
++			rectY = rectY + row * (state.getBarWidth() + seriesGap);
++		} else {
++			rectY = rectY + row * state.getBarWidth();
++		}
++		double uclip = getUpperClip();
+ 
+         if (uclip <= 0.0) {  // cases 1, 2, 3 and 4
+             if (value >= uclip) {
+
+
+--- /tmp/GenProg_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-02 02:37:06.237617857 -0500
++++ /tmp/GenProg_Defects4J_Chart_25/patches_xdwj/Patch_685/patched/tmp/GenProg_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-02 02:46:35.178141515 -0500
+@@ -107,9 +107,6 @@
+         Number result = null;
+         MeanAndStandardDeviation masd 
+             = (MeanAndStandardDeviation) this.data.getObject(row, column);
+-        if (masd != null) {
+-            result = masd.getMean();
+-        }
+         return result;
+     }
+ 
+@@ -170,7 +167,7 @@
+         MeanAndStandardDeviation masd 
+             = (MeanAndStandardDeviation) this.data.getObject(row, column);
+         if (masd != null) {
+-            result = masd.getStandardDeviation();
++            result = masd.getMean();
+         }
+         return result;
+     }
+@@ -243,7 +240,8 @@
+      * @return The row key.
+      */
+     public Comparable getRowKey(int row) {
+-        return this.data.getRowKey(row);
++        double x = 0.0;
++		return this.data.getRowKey(row);
+     }
+ 
+     /**
+
+

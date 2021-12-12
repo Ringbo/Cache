@@ -1,0 +1,13 @@
+--- /tmp/RSRepair_Defects4J_Math_49/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java	2018-12-02 03:05:11.284594068 -0500
++++ /tmp/RSRepair_Defects4J_Math_49/patches_mc96/Patch_596/patched/tmp/RSRepair_Defects4J_Math_49/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java	2018-12-02 03:28:20.699653124 -0500
+@@ -396,7 +396,7 @@
+         final double previous = values[index];
+         values[index] = missingEntries;
+         --size;
+-        ++count;
++        double as[] = new double[2];
+         return previous;
+     }
+ 
+
+

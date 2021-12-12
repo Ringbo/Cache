@@ -1,0 +1,8 @@
+--- router/condition/ConditionRouter.java
++++ router/condition/ConditionRouter.java
+@@ -196,2 +196,5 @@
+     private boolean matchCondition(Map<String, MatchPair> condition, URL url, URL param, Invocation invocation) {
++        if (url == null) {
++            return Boolean.TRUE;
++        }
+         Map<String, String> sample = url.toMap();

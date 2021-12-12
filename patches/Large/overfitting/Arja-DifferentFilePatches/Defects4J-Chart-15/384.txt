@@ -1,0 +1,15 @@
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/ChartFactory.java	2018-12-01 08:15:31.762705602 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_861/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/ChartFactory.java	2018-12-01 08:26:41.548603875 -0500
+@@ -691,8 +691,8 @@
+                                               boolean tooltips,
+                                               boolean urls) {
+ 
+-        PiePlot3D plot = new PiePlot3D(dataset);
+-        plot.setInsets(new RectangleInsets(0.0, 5.0, 5.0, 5.0));
++        PiePlot plot = new PiePlot(dataset);
++        plot.setURLGenerator(new StandardPieURLGenerator());
+         if (tooltips) {
+             plot.setToolTipGenerator(new StandardPieToolTipGenerator());
+         }
+
+

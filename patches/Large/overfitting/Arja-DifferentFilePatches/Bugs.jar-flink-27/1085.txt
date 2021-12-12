@@ -1,0 +1,26 @@
+--- /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/runtime/tasks/OutputHandler.java	2018-12-29 12:37:22.188565000 -0500
++++ /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/patches_stp5/Patch_841/patched/tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/runtime/tasks/OutputHandler.java	2018-12-29 13:09:59.794398434 -0500
+@@ -150,9 +150,6 @@
+ 			// operator which will be returned and set it up using the wrapper
+ 			OneInputStreamOperator chainableOperator =
+ 					chainedTaskConfig.getStreamOperator(vertex.getUserCodeClassLoader());
+-			chainableOperator.setup(wrapper, vertex.context);
+-
+-			chainedOperators.add(chainableOperator);
+ 			return new OperatorCollector<X>(chainableOperator);
+ 		}
+ 
+
+
+--- /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/runtime/tasks/StreamTask.java	2018-12-29 12:37:22.188565000 -0500
++++ /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/patches_stp5/Patch_841/patched/tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/runtime/tasks/StreamTask.java	2018-12-29 13:09:59.798398446 -0500
+@@ -153,7 +153,6 @@
+ 		streamOperator.open(getTaskConfiguration());
+ 
+ 		for (OneInputStreamOperator<?, ?> operator : outputHandler.chainedOperators) {
+-			operator.open(getTaskConfiguration());
+ 		}
+ 	}
+ 
+
+

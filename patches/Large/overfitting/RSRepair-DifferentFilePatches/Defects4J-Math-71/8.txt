@@ -1,0 +1,27 @@
+--- /tmp/RSRepair_Defects4J_Math_71/src/main/java/org/apache/commons/math/ode/events/EventState.java	2018-12-02 02:58:11.597856320 -0500
++++ /tmp/RSRepair_Defects4J_Math_71/patches_qzqe/Patch_633/patched/tmp/RSRepair_Defects4J_Math_71/src/main/java/org/apache/commons/math/ode/events/EventState.java	2018-12-02 03:58:31.516142703 -0500
+@@ -245,7 +245,21 @@
+                         // either we were not waiting for the event or it has
+                         // moved in such a way the step cannot be accepted
+                         pendingEvent = true;
+-                        return true;
++                        if ((Math.abs(root - ta) <= convergence)
++								&& (Math.abs(root - previousEventTime) <= convergence)) {
++							ta = tb;
++							ga = gb;
++						} else if (Double.isNaN(previousEventTime)
++								|| (Math.abs(previousEventTime - root) > convergence)) {
++							pendingEventTime = root;
++							if (pendingEvent
++									&& (Math.abs(t1 - pendingEventTime) <= convergence)) {
++								return false;
++							}
++							pendingEvent = true;
++							return true;
++						}
++						return true;
+                     }
+ 
+                 } else {
+
+

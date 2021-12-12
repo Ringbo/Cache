@@ -1,0 +1,15 @@
+--- /tmp/Arja_Defects4J_Closure_119/src/com/google/javascript/jscomp/CheckGlobalNames.java	2018-12-01 08:50:13.675964832 -0500
++++ /tmp/Arja_Defects4J_Closure_119/patches_yqon/Patch_216/patched/tmp/Arja_Defects4J_Closure_119/src/com/google/javascript/jscomp/CheckGlobalNames.java	2018-12-01 08:58:27.455819369 -0500
+@@ -219,10 +219,6 @@
+            name.parent.globalSets + name.parent.localSets == 0) {
+       name = name.parent;
+     }
+-
+-    compiler.report(
+-        JSError.make(ref.getSourceName(), ref.node, level,
+-            UNDEFINED_NAME_WARNING, name.getFullName()));
+   }
+ 
+   /**
+
+

@@ -1,0 +1,13 @@
+--- /tmp/RSRepair_Defects4J_Math_5/src/main/java/org/apache/commons/math3/complex/Complex.java	2018-12-02 03:44:05.397146379 -0500
++++ /tmp/RSRepair_Defects4J_Math_5/patches_lb64/Patch_153/patched/tmp/RSRepair_Defects4J_Math_5/src/main/java/org/apache/commons/math3/complex/Complex.java	2018-12-02 04:22:12.930049427 -0500
+@@ -302,7 +302,7 @@
+         }
+ 
+         if (real == 0.0 && imaginary == 0.0) {
+-            return NaN;
++            return INF;
+         }
+ 
+         if (isInfinite) {
+
+

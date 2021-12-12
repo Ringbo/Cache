@@ -1,0 +1,28 @@
+--- /src/main/java/org/apache/commons/math/optimization/linear/SimplexTableau.java
++++ /src/main/java/org/apache/commons/math/optimization/linear/SimplexTableau.java
+@@ -349,7 +349,11 @@
+               coefficients[i] = 0;
+           } else {
+               basicRows.add(basicRow);
+-              coefficients[i] =
++              for (int artificialVar = 0; artificialVar < numArtificialVariables; artificialVar++) {
++                int row = getBasicRow(getArtificialVariableOffset() + artificialVar);
++                subtractRow(0, row, 1.0);
++            }
++            coefficients[i] =
+                   (basicRow == null ? 0 : getEntry(basicRow, getRhsOffset())) -
+                   (restrictToNonNegative ? 0 : mostNegative);
+           }
+
+
+--- /src/main/java/org/apache/commons/math/optimization/linear/SimplexSolver.java
++++ /src/main/java/org/apache/commons/math/optimization/linear/SimplexSolver.java
+@@ -60,7 +60,6 @@
+         Integer minPos = null;
+         for (int i = tableau.getNumObjectiveFunctions(); i < tableau.getWidth() - 1; i++) {
+             if (MathUtils.compareTo(tableau.getEntry(0, i), minValue, epsilon) < 0) {
+-                minValue = tableau.getEntry(0, i);
+                 minPos = i;
+             }
+         }
+

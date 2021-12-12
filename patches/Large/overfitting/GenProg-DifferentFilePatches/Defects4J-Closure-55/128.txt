@@ -1,0 +1,64 @@
+--- /tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/jscomp/AstValidator.java	2018-12-02 07:03:57.746998116 -0500
++++ /tmp/GenProg_Defects4J_Closure_55/patches_ob8q/Patch_604/patched/tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/jscomp/AstValidator.java	2018-12-02 07:18:18.790302944 -0500
+@@ -765,7 +765,8 @@
+ 
+   private void validateNodeType(int type, Node n) {
+     if (n.getType() != type) {
+-      violation(
++      InputId inputId = n.getInputId();
++	violation(
+           "Expected " + Node.tokenToName(type) + " but was "
+               + Node.tokenToName(n.getType()), n);
+     }
+
+
+--- /tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-02 07:03:59.474998055 -0500
++++ /tmp/GenProg_Defects4J_Closure_55/patches_ob8q/Patch_604/patched/tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-02 07:18:18.794303111 -0500
+@@ -136,7 +136,6 @@
+      */
+     void apply() {
+       parent.replaceChild(oldChild, newChild);
+-      compiler.reportCodeChange();
+     }
+ 
+     /**
+@@ -175,7 +174,6 @@
+       for (Reducer reducer : reducers) {
+         Node replacement = reducer.reduce(node);
+         if (replacement != node) {
+-          reductions.put(reducer, new Reduction(parent, node, replacement));
+           return false;
+         }
+       }
+@@ -274,7 +272,6 @@
+ 
+       Node statement = body.getFirstChild();
+       if (statement.getType() == Token.RETURN) {
+-        return statement.getFirstChild();
+       }
+       return null;
+     }
+@@ -448,7 +445,7 @@
+       if (value != null &&
+           NodeUtil.isGetProp(value) &&
+           NodeUtil.isThis(value.getFirstChild())) {
+-        return value.getLastChild();
++        int start = 0;
+       }
+       return null;
+     }
+
+
+--- /tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/rhino/Node.java	2018-12-02 07:03:57.814998114 -0500
++++ /tmp/GenProg_Defects4J_Closure_55/patches_ob8q/Patch_604/patched/tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/rhino/Node.java	2018-12-02 07:18:18.794303111 -0500
+@@ -1674,7 +1674,7 @@
+       case Token.SETPROP:         return "setprop";
+       case Token.GETELEM:         return "getelem";
+       case Token.SETELEM:         return "setelem";
+-      case Token.CALL:            return "call";
++      case Token.CALL:            ;
+       case Token.NAME:            return "name";
+       case Token.NUMBER:          return "number";
+       case Token.STRING:          return "string";
+
+

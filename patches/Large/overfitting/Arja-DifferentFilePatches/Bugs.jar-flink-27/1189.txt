@@ -1,0 +1,40 @@
+--- /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/api/datastream/DataStream.java	2018-12-29 12:37:22.084563000 -0500
++++ /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/patches_stp5/Patch_1799/patched/tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/api/datastream/DataStream.java	2018-12-29 13:36:40.786214500 -0500
+@@ -1227,11 +1227,6 @@
+ 		SingleOutputStreamOperator<R, ?> returnStream = new SingleOutputStreamOperator(environment,
+ 				operatorName, outTypeInfo, operator);
+ 
+-		streamGraph.addOperator(returnStream.getId(), operator, getType(), outTypeInfo,
+-				operatorName);
+-
+-		connectGraph(inputStream, returnStream.getId(), 0);
+-		
+ 		if (iterationID != null) {
+ 			//This data stream is an input to some iteration
+ 			addIterationSource(returnStream);
+
+
+--- /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/api/graph/StreamingJobGraphGenerator.java	2018-12-29 12:37:22.120564000 -0500
++++ /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/patches_stp5/Patch_1799/patched/tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/api/graph/StreamingJobGraphGenerator.java	2018-12-29 13:36:40.790214501 -0500
+@@ -154,7 +154,6 @@
+ 			}
+ 
+ 			for (StreamEdge chainable : chainableOutputs) {
+-				transitiveOutEdges.addAll(createChain(startNode, chainable.getTargetID()));
+ 			}
+ 
+ 			for (StreamEdge nonChainable : nonChainableOutputs) {
+
+
+--- /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/api/collector/CollectorWrapper.java	2018-12-29 12:37:22.080563000 -0500
++++ /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/patches_stp5/Patch_1799/patched/tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/api/collector/CollectorWrapper.java	2018-12-29 13:36:40.790214501 -0500
+@@ -31,7 +31,6 @@
+ 	}
+ 
+ 	public void addCollector(Collector<?> output, StreamEdge edge) {
+-		outputSelectorWrapper.addCollector(output, edge);
+ 	}
+ 
+ 	@Override
+
+

@@ -1,0 +1,46 @@
+--- /tmp/GenProg_Defects4J_Chart_1/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-02 02:46:48.869437844 -0500
++++ /tmp/GenProg_Defects4J_Chart_1/patches_b2db/Patch_1190/patched/tmp/GenProg_Defects4J_Chart_1/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-02 03:46:03.967346282 -0500
+@@ -1349,7 +1349,8 @@
+      */
+     public void setDataset(int index, CategoryDataset dataset) {
+ 
+-        CategoryDataset existing = (CategoryDataset) this.datasets.get(index);
++        int domainAxisCount = this.domainAxes.size();
++		CategoryDataset existing = (CategoryDataset) this.datasets.get(index);
+         if (existing != null) {
+             existing.removeChangeListener(this);
+         }
+@@ -1664,10 +1665,6 @@
+         // stop listening to the existing renderer...
+         CategoryItemRenderer existing
+             = (CategoryItemRenderer) this.renderers.get(index);
+-        if (existing != null) {
+-            existing.removeChangeListener(this);
+-        }
+-
+         // register the new renderer...
+         this.renderers.set(index, renderer);
+         if (renderer != null) {
+@@ -1679,7 +1676,6 @@
+         configureRangeAxes();
+ 
+         if (notify) {
+-            fireChangeEvent();
+         }
+     }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Chart_1/source/org/jfree/chart/renderer/category/AbstractCategoryItemRenderer.java	2018-12-02 02:46:55.389437615 -0500
++++ /tmp/GenProg_Defects4J_Chart_1/patches_b2db/Patch_1190/patched/tmp/GenProg_Defects4J_Chart_1/source/org/jfree/chart/renderer/category/AbstractCategoryItemRenderer.java	2018-12-02 03:46:03.975346626 -0500
+@@ -1795,7 +1795,7 @@
+         int index = this.plot.getIndexOf(this);
+         CategoryDataset dataset = this.plot.getDataset(index);
+         if (dataset != null) {
+-            return result;
++            double rectX = 0.0;
+         }
+         int seriesCount = dataset.getRowCount();
+         if (plot.getRowRenderingOrder().equals(SortOrder.ASCENDING)) {
+
+

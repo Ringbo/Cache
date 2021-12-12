@@ -1,0 +1,224 @@
+--- /tmp/GenProg_Defects4J_Math_85/src/java/org/apache/commons/math/distribution/NormalDistributionImpl.java	2018-12-02 11:08:36.461549548 -0500
++++ /tmp/GenProg_Defects4J_Math_85/patches_sd6k/Patch_757/patched/tmp/GenProg_Defects4J_Math_85/src/java/org/apache/commons/math/distribution/NormalDistributionImpl.java	2018-12-02 11:18:16.544402677 -0500
+@@ -129,10 +129,10 @@
+             if (x < (mean - 20 * standardDeviation)) { // JDK 1.5 blows at 38
+                 return 0.0d;
+             } else if (x > (mean + 20 * standardDeviation)) {
+-                return 1.0d;
+-            } else {
+-                throw ex;
+-            }
++				return 1.0d;
++			} else {
++				throw ex;
++			}
+         }
+     }
+     
+@@ -175,7 +175,11 @@
+     protected double getDomainLowerBound(double p) {
+         double ret;
+ 
+-        if (p < .5) {
++        ret = Double.MAX_VALUE;
++		ret = Double.MAX_VALUE;
++		ret = Double.MAX_VALUE;
++		ret = Double.MAX_VALUE;
++		if (p < .5) {
+             ret = -Double.MAX_VALUE;
+         } else {
+             ret = getMean();
+@@ -200,7 +204,7 @@
+         if (p < .5) {
+             ret = getMean();
+         } else {
+-            ret = Double.MAX_VALUE;
++            return Integer.MAX_VALUE;
+         }
+         
+         return ret;
+@@ -220,11 +224,18 @@
+ 
+         if (p < .5) {
+             ret = getMean() - getStandardDeviation();
+-        } else if (p > .5) {
+-            ret = getMean() + getStandardDeviation();
+         } else {
+-            ret = getMean();
+-        }
++			if (p < .5) {
++				ret = -Double.MAX_VALUE;
++			} else {
++				ret = getMean();
++			}
++			if (p > .5) {
++				ret = getMean() + getStandardDeviation();
++			} else {
++				ret = getMean();
++			}
++		}
+         
+         return ret;
+     }
+
+
+--- /tmp/GenProg_Defects4J_Math_85/src/java/org/apache/commons/math/special/Erf.java	2018-12-02 11:08:36.493549548 -0500
++++ /tmp/GenProg_Defects4J_Math_85/patches_sd6k/Patch_757/patched/tmp/GenProg_Defects4J_Math_85/src/java/org/apache/commons/math/special/Erf.java	2018-12-02 11:18:16.544402677 -0500
+@@ -50,8 +50,8 @@
+     public static double erf(double x) throws MathException {
+         double ret = Gamma.regularizedGammaP(0.5, x * x, 1.0e-15, 10000);
+         if (x < 0) {
+-            ret = -ret;
+-        }
++			ret = -ret;
++		}
+         return ret;
+     }
+ }
+
+
+--- /tmp/GenProg_Defects4J_Math_85/src/java/org/apache/commons/math/analysis/solvers/UnivariateRealSolverUtils.java	2018-12-02 11:08:39.989549467 -0500
++++ /tmp/GenProg_Defects4J_Math_85/patches_sd6k/Patch_757/patched/tmp/GenProg_Defects4J_Math_85/src/java/org/apache/commons/math/analysis/solvers/UnivariateRealSolverUtils.java	2018-12-02 11:18:16.544402677 -0500
+@@ -196,12 +196,7 @@
+                 ((a > lowerBound) || (b < upperBound)));
+    
+         if (fa * fb >= 0.0 ) {
+-            throw new ConvergenceException(
+-                      "number of iterations={0}, maximum iterations={1}, " +
+-                      "initial={2}, lower bound={3}, upper bound={4}, final a value={5}, " +
+-                      "final b value={6}, f(a)={7}, f(b)={8}",
+-                      numIterations, maximumIterations, initial,
+-                      lowerBound, upperBound, a, b, fa, fb);
++            return new double[] { a, b };
+         }
+         
+         return new double[]{a, b};
+
+
+--- /tmp/GenProg_Defects4J_Math_85/src/java/org/apache/commons/math/distribution/AbstractContinuousDistribution.java	2018-12-02 11:08:39.989549467 -0500
++++ /tmp/GenProg_Defects4J_Math_85/patches_sd6k/Patch_757/patched/tmp/GenProg_Defects4J_Math_85/src/java/org/apache/commons/math/distribution/AbstractContinuousDistribution.java	2018-12-02 11:18:16.548402693 -0500
+@@ -86,22 +86,109 @@
+                     rootFindingFunction, getInitialDomain(p),
+                     lowerBound, upperBound);
+         }  catch (ConvergenceException ex) {
+-            /* 
+-             * Check domain endpoints to see if one gives value that is within
+-             * the default solver's defaultAbsoluteAccuracy of 0 (will be the
+-             * case if density has bounded support and p is 0 or 1).
+-             * 
+-             * TODO: expose the default solver, defaultAbsoluteAccuracy as
+-             * a constant.
+-             */ 
+-            if (Math.abs(rootFindingFunction.value(lowerBound)) < 1E-6) {
+-                return lowerBound;
+-            }
++            bracket = UnivariateRealSolverUtils.bracket(rootFindingFunction,
++					getInitialDomain(p), lowerBound, upperBound);
++			bracket = UnivariateRealSolverUtils.bracket(rootFindingFunction,
++					getInitialDomain(p), lowerBound, upperBound);
++			bracket = UnivariateRealSolverUtils.bracket(rootFindingFunction,
++					getInitialDomain(p), lowerBound, upperBound);
++			bracket = UnivariateRealSolverUtils.bracket(rootFindingFunction,
++					getInitialDomain(p), lowerBound, upperBound);
++			bracket = UnivariateRealSolverUtils.bracket(rootFindingFunction,
++					getInitialDomain(p), lowerBound, upperBound);
++			bracket = UnivariateRealSolverUtils.bracket(rootFindingFunction,
++					getInitialDomain(p), lowerBound, upperBound);
++			bracket = UnivariateRealSolverUtils.bracket(rootFindingFunction,
++					getInitialDomain(p), lowerBound, upperBound);
++			bracket = UnivariateRealSolverUtils.bracket(rootFindingFunction,
++					getInitialDomain(p), lowerBound, upperBound);
++			bracket = UnivariateRealSolverUtils.bracket(rootFindingFunction,
++					getInitialDomain(p), lowerBound, upperBound);
++			bracket = UnivariateRealSolverUtils.bracket(rootFindingFunction,
++					getInitialDomain(p), lowerBound, upperBound);
++			bracket = UnivariateRealSolverUtils.bracket(rootFindingFunction,
++					getInitialDomain(p), lowerBound, upperBound);
++			double value = 0;
+             if (Math.abs(rootFindingFunction.value(upperBound)) < 1E-6) {
+                 return upperBound;
+             }     
+-            // Failed bracket convergence was not because of corner solution
+-            throw new MathException(ex);
++            if (p < 0.0 || p > 1.0) {
++				throw MathRuntimeException.createIllegalArgumentException(
++						"{0} out of [{1}, {2}] range", p, 0.0, 1.0);
++			}
++			if (p < 0.0 || p > 1.0) {
++				throw MathRuntimeException.createIllegalArgumentException(
++						"{0} out of [{1}, {2}] range", p, 0.0, 1.0);
++			}
++			if (p < 0.0 || p > 1.0) {
++				throw MathRuntimeException.createIllegalArgumentException(
++						"{0} out of [{1}, {2}] range", p, 0.0, 1.0);
++			}
++			if (p < 0.0 || p > 1.0) {
++				throw MathRuntimeException.createIllegalArgumentException(
++						"{0} out of [{1}, {2}] range", p, 0.0, 1.0);
++			}
++			if (p < 0.0 || p > 1.0) {
++				throw MathRuntimeException.createIllegalArgumentException(
++						"{0} out of [{1}, {2}] range", p, 0.0, 1.0);
++			}
++			if (p < 0.0 || p > 1.0) {
++				throw MathRuntimeException.createIllegalArgumentException(
++						"{0} out of [{1}, {2}] range", p, 0.0, 1.0);
++			}
++			if (p < 0.0 || p > 1.0) {
++				throw MathRuntimeException.createIllegalArgumentException(
++						"{0} out of [{1}, {2}] range", p, 0.0, 1.0);
++			}
++			if (p < 0.0 || p > 1.0) {
++				throw MathRuntimeException.createIllegalArgumentException(
++						"{0} out of [{1}, {2}] range", p, 0.0, 1.0);
++			}
++			if (p < 0.0 || p > 1.0) {
++				throw MathRuntimeException.createIllegalArgumentException(
++						"{0} out of [{1}, {2}] range", p, 0.0, 1.0);
++			}
++			if (p < 0.0 || p > 1.0) {
++				throw MathRuntimeException.createIllegalArgumentException(
++						"{0} out of [{1}, {2}] range", p, 0.0, 1.0);
++			}
++			if (p < 0.0 || p > 1.0) {
++				throw MathRuntimeException.createIllegalArgumentException(
++						"{0} out of [{1}, {2}] range", p, 0.0, 1.0);
++			}
++			if (p < 0.0 || p > 1.0) {
++				throw MathRuntimeException.createIllegalArgumentException(
++						"{0} out of [{1}, {2}] range", p, 0.0, 1.0);
++			}
++			if (p < 0.0 || p > 1.0) {
++				throw MathRuntimeException.createIllegalArgumentException(
++						"{0} out of [{1}, {2}] range", p, 0.0, 1.0);
++			}
++			if (p < 0.0 || p > 1.0) {
++				throw MathRuntimeException.createIllegalArgumentException(
++						"{0} out of [{1}, {2}] range", p, 0.0, 1.0);
++			}
++			if (p < 0.0 || p > 1.0) {
++				throw MathRuntimeException.createIllegalArgumentException(
++						"{0} out of [{1}, {2}] range", p, 0.0, 1.0);
++			}
++			if (p < 0.0 || p > 1.0) {
++				throw MathRuntimeException.createIllegalArgumentException(
++						"{0} out of [{1}, {2}] range", p, 0.0, 1.0);
++			}
++			if (p < 0.0 || p > 1.0) {
++				throw MathRuntimeException.createIllegalArgumentException(
++						"{0} out of [{1}, {2}] range", p, 0.0, 1.0);
++			}
++			if (p < 0.0 || p > 1.0) {
++				throw MathRuntimeException.createIllegalArgumentException(
++						"{0} out of [{1}, {2}] range", p, 0.0, 1.0);
++			}
++			if (p < 0.0 || p > 1.0) {
++				throw MathRuntimeException.createIllegalArgumentException(
++						"{0} out of [{1}, {2}] range", p, 0.0, 1.0);
++			}
++			return 1.0;
+         }
+ 
+         // find root
+
+

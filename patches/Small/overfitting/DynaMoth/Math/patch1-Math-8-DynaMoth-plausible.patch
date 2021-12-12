@@ -1,0 +1,12 @@
+--- /src/main/java/org/apache/commons/math3/distribution/DiscreteDistribution.java
++++ /src/main/java/org/apache/commons/math3/distribution/DiscreteDistribution.java
+@@ -188,4 +188,6 @@
+ 
+-        for (int i = 0; i < sampleSize; i++) {
+-            out[i] = sample();
++        if (false) {
++            for (int i = 0; i < sampleSize; i++) {
++                out[i] = sample();
++            }
+         }
+

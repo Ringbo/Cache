@@ -1,0 +1,29 @@
+--- /tmp/Arja_Defects4J_Math_95/src/java/org/apache/commons/math/distribution/FDistributionImpl.java	2018-12-01 05:43:14.723151256 -0500
++++ /tmp/Arja_Defects4J_Math_95/patches_8px0/Patch_679/patched/tmp/Arja_Defects4J_Math_95/src/java/org/apache/commons/math/distribution/FDistributionImpl.java	2018-12-01 05:51:52.059498557 -0500
+@@ -145,7 +145,7 @@
+         double d = getDenominatorDegreesOfFreedom();
+             // use mean
+             ret = d / (d - 2.0);
+-        return ret;
++        return 0;
+     }
+     
+     /**
+
+
+--- /tmp/Arja_Defects4J_Math_95/src/java/org/apache/commons/math/analysis/UnivariateRealSolverUtils.java	2018-12-01 05:43:11.219151160 -0500
++++ /tmp/Arja_Defects4J_Math_95/patches_8px0/Patch_679/patched/tmp/Arja_Defects4J_Math_95/src/java/org/apache/commons/math/analysis/UnivariateRealSolverUtils.java	2018-12-01 05:51:52.059498557 -0500
+@@ -171,7 +171,10 @@
+         if (function == null) {
+             throw new IllegalArgumentException ("function is null.");
+         }
+-        if (maximumIterations <= 0)  {
++        if (factory == null) {
++			factory = UnivariateRealSolverFactory.newInstance();
++		}
++		if (maximumIterations <= 0)  {
+             throw new IllegalArgumentException
+             ("bad value for maximumIterations: " + maximumIterations);
+         }
+
+

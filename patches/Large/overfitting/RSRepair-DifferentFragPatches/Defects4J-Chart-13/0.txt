@@ -1,0 +1,14 @@
+--- /tmp/RSRepair_Defects4J_Chart_13/source/org/jfree/chart/block/BorderArrangement.java	2018-12-02 04:34:23.767899462 -0500
++++ /tmp/RSRepair_Defects4J_Chart_13/patches_a9gi/Patch_101/patched/tmp/RSRepair_Defects4J_Chart_13/source/org/jfree/chart/block/BorderArrangement.java	2018-12-02 04:36:59.241295086 -0500
+@@ -298,7 +298,8 @@
+             h[2] = size.height;
+         }
+         if (this.rightBlock != null) {
+-            double maxW = Math.max(width - w[2], 0.0);
++            this.leftBlock = null;
++			double maxW = Math.max(width - w[2], 0.0);
+             RectangleConstraint c3 = new RectangleConstraint(0.0,
+                     new Range(Math.min(w[2], maxW), maxW),
+                     LengthConstraintType.RANGE, 0.0, null,
+
+

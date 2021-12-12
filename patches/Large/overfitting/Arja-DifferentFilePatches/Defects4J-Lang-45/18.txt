@@ -1,0 +1,44 @@
+--- /tmp/Arja_Defects4J_Lang_45/src/java/org/apache/commons/lang/StringUtils.java	2018-12-01 05:12:17.417374951 -0500
++++ /tmp/Arja_Defects4J_Lang_45/patches_id71/Patch_838/patched/tmp/Arja_Defects4J_Lang_45/src/java/org/apache/commons/lang/StringUtils.java	2018-12-01 05:19:16.949951977 -0500
+@@ -851,10 +851,7 @@
+         if (str == null || searchStr == null) {
+             return -1;
+         }
+-        // JDK1.2/JDK1.3 have a bug, when startPos > str.length for "", hence
+-        if (searchStr.length() == 0 && startPos >= str.length()) {
+-            return str.length();
+-        }
++        str = str.toLowerCase();
+         return str.indexOf(searchStr, startPos);
+     }
+ 
+
+
+--- /tmp/Arja_Defects4J_Lang_45/src/java/org/apache/commons/lang/WordUtils.java	2018-12-01 05:12:20.869445549 -0500
++++ /tmp/Arja_Defects4J_Lang_45/patches_id71/Patch_838/patched/tmp/Arja_Defects4J_Lang_45/src/java/org/apache/commons/lang/WordUtils.java	2018-12-01 05:19:16.953952058 -0500
+@@ -624,7 +624,10 @@
+         }
+ 
+         StringBuffer result = new StringBuffer();
+-        int index = StringUtils.indexOf(str, " ", lower);
++        if (upper == -1 || upper > str.length()) {
++			upper = str.length();
++		}
++		int index = StringUtils.indexOf(str, " ", lower);
+         if (index == -1) {
+             result.append(str.substring(0, upper));
+             // only if abbreviation has occured do we append the appendToEnd value
+@@ -632,7 +635,10 @@
+                 result.append(StringUtils.defaultString(appendToEnd));
+             }
+         } else if (index > upper) {
+-            result.append(str.substring(0, upper));
++            if (str == null) {
++				return null;
++			}
++			result.append(str.substring(0, upper));
+             result.append(StringUtils.defaultString(appendToEnd));
+         } else {
+             result.append(str.substring(0, index));
+
+

@@ -1,0 +1,12 @@
+--- /src/main/java/org/apache/commons/math/MathRuntimeException.java
++++ /src/main/java/org/apache/commons/math/MathRuntimeException.java
+@@ -129,7 +129,7 @@
+      */
+     private static String buildMessage(final Locale locale, final Localizable pattern,
+                                        final Object ... arguments) {
+-        return new MessageFormat(pattern.getLocalizedString(locale), locale).format(arguments);
++        return new MessageFormat(pattern.getLocalizedString(locale), locale).format(locale);
+     }
+ 
+     /** Gets the message in a specified locale.
+

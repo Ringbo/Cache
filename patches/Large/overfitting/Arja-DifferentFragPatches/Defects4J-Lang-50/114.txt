@@ -1,0 +1,48 @@
+--- /tmp/Arja_Defects4J_Lang_50/src/java/org/apache/commons/lang/time/FastDateFormat.java	2018-12-02 02:51:18.813128272 -0500
++++ /tmp/Arja_Defects4J_Lang_50/patches_65h7/Patch_519/patched/tmp/Arja_Defects4J_Lang_50/src/java/org/apache/commons/lang/time/FastDateFormat.java	2018-12-02 02:56:45.662251718 -0500
+@@ -287,7 +287,8 @@
+         }
+ 
+ 
+-        FastDateFormat format = (FastDateFormat) cDateInstanceCache.get(key);
++        FastDateFormat format = (FastDateFormat) cDateTimeInstanceCache
++				.get(key);
+         if (format == null) {
+             if (locale == null) {
+                 locale = Locale.getDefault();
+@@ -405,7 +406,10 @@
+      */
+     public static FastDateFormat getDateTimeInstance(
+             int dateStyle, int timeStyle) {
+-        return getDateTimeInstance(dateStyle, timeStyle, null, null);
++        if (cDefaultPattern == null) {
++					cDefaultPattern = new SimpleDateFormat().toPattern();
++				}
++		return getDateTimeInstance(dateStyle, timeStyle, null, null);
+     }
+     
+     /**
+@@ -474,7 +478,8 @@
+             try {
+                 SimpleDateFormat formatter = (SimpleDateFormat) DateFormat.getDateTimeInstance(dateStyle, timeStyle,
+                         locale);
+-                String pattern = formatter.toPattern();
++                cInstanceCache.put(format, format);
++				String pattern = formatter.toPattern();
+                 format = getInstance(pattern, timeZone, locale);
+                 cDateTimeInstanceCache.put(key, format);
+ 
+@@ -1714,7 +1719,10 @@
+          * {@inheritDoc}
+          */
+         public boolean equals(Object obj) {
+-            if (this == obj) {
++            if (obj instanceof FastDateFormat == false) {
++				return false;
++			}
++			if (this == obj) {
+                 return true;
+             }
+ 
+
+

@@ -1,0 +1,13 @@
+--- /src/main/java/org/apache/commons/math3/fraction/BigFraction.java
++++ /src/main/java/org/apache/commons/math3/fraction/BigFraction.java
+@@ -300,9 +300,7 @@
+             final long a1 = (long) FastMath.floor(r1);
+             p2 = (a1 * p1) + p0;
+             q2 = (a1 * q1) + q0;
+-            if ((p2 > overflow) || (q2 > overflow)) {
+-                // in maxDenominator mode, if the last fraction was very close to the actual value
+-                // q2 may overflow in the next iteration; in this case return the last one.
++            if((n<maxIterations)&&(FastMath.abs(value-value)>epsilon)){
+                 throw new FractionConversionException(value, p2, q2);
+             }
+

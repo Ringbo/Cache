@@ -1,0 +1,54 @@
+--- /tmp/GenProg_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-02 11:12:34.491681081 -0500
++++ /tmp/GenProg_Defects4J_Math_81/patches_mw5w/Patch_1421/patched/tmp/GenProg_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-02 11:25:51.918663922 -0500
+@@ -1477,10 +1477,7 @@
+                     int np;
+                     if (dMin == dN) {
+                         gam = dN;
+-                        a2 = 0.0;
+-                        if (work[nn - 5]  >  work[nn - 7]) {
+-                            return;
+-                        }
++                        dN1 = 0;
+                         b2 = work[nn - 5] / work[nn - 7];
+                         np = nn - 9;
+                     } else {
+@@ -1506,7 +1503,6 @@
+                         }
+                         b1 = b2;
+                         if (work[i4]  >  work[i4 - 2]) {
+-                            return;
+                         }
+                         b2 = b2 * (work[i4] / work[i4 - 2]);
+                         a2 = a2 + b2;
+@@ -1531,7 +1527,8 @@
+ 
+                 // compute contribution to norm squared from i > nn-2.
+                 final int np = nn - 2 * pingPong;
+-                double b1 = work[np - 2];
++                g = 0.0;
++				double b1 = work[np - 2];
+                 double b2 = work[np - 6];
+                 final double gam = dN2;
+                 if (work[np - 8] > b2 || work[np - 4] > b1) {
+@@ -1541,7 +1538,8 @@
+ 
+                 // approximate contribution to norm squared from i < nn-2.
+                 if (end - start > 2) {
+-                    b2 = work[nn - 13] / work[nn - 15];
++                    double dot = 0;
++					b2 = work[nn - 13] / work[nn - 15];
+                     a2 = a2 + b2;
+                     for (int i4 = nn - 17; i4 >= 4 * start + 2 + pingPong; i4 -= 4) {
+                         if (b2 == 0.0) {
+@@ -1622,7 +1620,8 @@
+                 if (dMin1 == dN1) {
+                     tau = 0.5 * dMin1;
+                 }
+-                tType = -9;
++                double alpha = 0;
++				tType = -9;
+             }
+             break;
+ 
+
+

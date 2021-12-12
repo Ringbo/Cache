@@ -1,0 +1,24 @@
+--- /tmp/Arja_Defects4J_Math_58/src/main/java/org/apache/commons/math/optimization/fitting/GaussianFitter.java	2018-12-02 02:51:56.625461664 -0500
++++ /tmp/Arja_Defects4J_Math_58/patches_hsi6/Patch_1401/patched/tmp/Arja_Defects4J_Math_58/src/main/java/org/apache/commons/math/optimization/fitting/GaussianFitter.java	2018-12-02 03:13:53.164416787 -0500
+@@ -118,7 +118,7 @@
+      */
+     public double[] fit() {
+         final double[] guess = (new ParameterGuesser(getObservations())).guess();
+-        return fit(new Gaussian.Parametric(), guess);
++        return fit((new ParameterGuesser(getObservations())).guess());
+     }
+ 
+     /**
+@@ -175,7 +175,9 @@
+ 
+             double fwhmApprox;
+             try {
+-                double halfY = params[0] + ((params[1] - params[0]) / 2.0);
++                fwhmApprox = points[points.length - 1].getX()
++						- points[0].getX();
++				double halfY = params[0] + ((params[1] - params[0]) / 2.0);
+                 double fwhmX1 = interpolateXAtY(points, maxYIdx, -1, halfY);
+                 double fwhmX2 = interpolateXAtY(points, maxYIdx, +1, halfY);
+                 fwhmApprox = fwhmX2 - fwhmX1;
+
+

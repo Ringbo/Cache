@@ -1,0 +1,45 @@
+--- /tmp/Arja_Bears_traccar-traccar_269449386-269490884/src/org/traccar/protocol/Gt06ProtocolDecoder.java	2018-12-26 12:59:55.417117909 -0500
++++ /tmp/Arja_Bears_traccar-traccar_269449386-269490884/patches_7puj/Patch_1767/patched/tmp/Arja_Bears_traccar-traccar_269449386-269490884/src/org/traccar/protocol/Gt06ProtocolDecoder.java	2018-12-26 13:17:57.301822016 -0500
+@@ -127,21 +127,6 @@
+     }
+ 
+     private void sendPhotoRequest(Channel channel, int pictureId) {
+-        if (channel != null) {
+-            ChannelBuffer photo = photos.get(pictureId);
+-            ChannelBuffer response = ChannelBuffers.dynamicBuffer();
+-            response.writeShort(0x7878); // header
+-            response.writeByte(15); // size
+-            response.writeByte(MSG_X1_PHOTO_DATA);
+-            response.writeInt(pictureId);
+-            response.writeInt(photo.writerIndex());
+-            response.writeShort(Math.min(photo.writableBytes(), 1024));
+-            response.writeShort(++serverIndex);
+-            response.writeShort(Checksum.crc16(Checksum.CRC16_X25,
+-                    response.toByteBuffer(2, response.writerIndex() - 2)));
+-            response.writeByte('\r'); response.writeByte('\n'); // ending
+-            channel.write(response);
+-        }
+     }
+ 
+     private boolean decodeGps(Position position, ChannelBuffer buf, boolean hasLength) {
+@@ -164,7 +149,6 @@
+         position.setSpeed(UnitsConverter.knotsFromKph(buf.readUnsignedByte()));
+ 
+         int flags = buf.readUnsignedShort();
+-        position.setCourse(BitUtil.to(flags, 10));
+         position.setValid(BitUtil.check(flags, 12));
+ 
+         if (!BitUtil.check(flags, 10)) {
+@@ -181,10 +165,6 @@
+             position.set(Position.KEY_IGNITION, BitUtil.check(flags, 15));
+         }
+ 
+-        if (length > 0) {
+-            buf.skipBytes(length - 12); // skip reserved
+-        }
+-
+         return true;
+     }
+ 
+
+

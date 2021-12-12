@@ -1,0 +1,27 @@
+--- /tmp/Arja_Defects4J_Closure_75/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-01 09:23:24.635726572 -0500
++++ /tmp/Arja_Defects4J_Closure_75/patches_z70m/Patch_500/patched/tmp/Arja_Defects4J_Closure_75/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-01 09:33:46.439063548 -0500
+@@ -355,8 +355,7 @@
+         if (NodeUtil.isNumericResult(left)) {
+           // POS does nothing to numeric values.
+           parent.replaceChild(n, left.detachFromParent());
+-          reportCodeChange();
+-          return left;
++          return null;
+         }
+         return n;
+       case Token.NEG:
+
+
+--- /tmp/Arja_Defects4J_Closure_75/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-01 09:23:26.391734914 -0500
++++ /tmp/Arja_Defects4J_Closure_75/patches_z70m/Patch_500/patched/tmp/Arja_Defects4J_Closure_75/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-01 09:33:46.439063548 -0500
+@@ -346,7 +346,7 @@
+     }
+ 
+     try {
+-      return Double.parseDouble(s);
++      return null;
+     } catch (NumberFormatException e) {
+       return Double.NaN;
+     }
+
+

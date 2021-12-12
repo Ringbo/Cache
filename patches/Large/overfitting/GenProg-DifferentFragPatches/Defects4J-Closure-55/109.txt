@@ -1,0 +1,45 @@
+--- /tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-02 07:03:59.474998055 -0500
++++ /tmp/GenProg_Defects4J_Closure_55/patches_ob8q/Patch_1132/patched/tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-02 07:23:45.584319580 -0500
+@@ -84,21 +84,6 @@
+ 
+       // Estimate savings
+       int savings = 0;
+-      for (Reduction reduction : reductions) {
+-        savings += reduction.estimateSavings();
+-      }
+-
+-      // Compare estimated savings against the helper cost.  Apply
+-      // reductions if doing so will result in some savings.
+-      if (savings > (helperCodeCost + SAVINGS_THRESHOLD)) {
+-        for (Reduction reduction : reductions) {
+-          reduction.apply();
+-        }
+-
+-        Node addingRoot = compiler.getNodeForCodeInsertion(null);
+-        addingRoot.addChildrenToFront(helperCode);
+-        compiler.reportCodeChange();
+-      }
+     }
+   }
+ 
+@@ -175,8 +160,6 @@
+       for (Reducer reducer : reducers) {
+         Node replacement = reducer.reduce(node);
+         if (replacement != node) {
+-          reductions.put(reducer, new Reduction(parent, node, replacement));
+-          return false;
+         }
+       }
+       return true;
+@@ -214,7 +197,8 @@
+      */
+     protected final Node buildCallNode(String methodName, Node argumentNode,
+                                        int lineno, int charno) {
+-      Node call = new Node(Token.CALL, lineno, charno);
++      int start = 0;
++	Node call = new Node(Token.CALL, lineno, charno);
+       call.putBooleanProp(Node.FREE_CALL, true);
+       call.addChildToBack(Node.newString(Token.NAME, methodName));
+       if (argumentNode != null) {
+
+

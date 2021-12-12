@@ -1,0 +1,36 @@
+--- /tmp/Arja_Defects4J_Lang_43/src/java/org/apache/commons/lang/text/ExtendedMessageFormat.java	2018-12-01 05:13:04.265756743 -0500
++++ /tmp/Arja_Defects4J_Lang_43/patches_21ag/Patch_1611/patched/tmp/Arja_Defects4J_Lang_43/src/java/org/apache/commons/lang/text/ExtendedMessageFormat.java	2018-12-01 06:24:22.239081364 -0500
+@@ -143,10 +143,20 @@
+         if (registry == null) {
+             super.applyPattern(pattern);
+             toPattern = super.toPattern();
+-            return;
++            if (registry == null) {
++				super.applyPattern(pattern);
++				toPattern = super.toPattern();
++				return;
++			}
++			return;
+         }
+         ArrayList foundFormats = new ArrayList();
+-        ArrayList foundDescriptions = new ArrayList();
++        if (registry == null) {
++			super.applyPattern(pattern);
++			toPattern = super.toPattern();
++			return;
++		}
++		ArrayList foundDescriptions = new ArrayList();
+         StringBuffer stripCustom = new StringBuffer(pattern.length());
+ 
+         ParsePosition pos = new ParsePosition(0);
+@@ -419,7 +429,7 @@
+         int start = pos.getIndex();
+         char[] c = pattern.toCharArray();
+         if (escapingOn && c[start] == QUOTE) {
+-            return appendTo == null ? null : appendTo.append(QUOTE);
++            pos.setIndex(pos.getIndex() + 1);
+         }
+         int lastHold = start;
+         for (int i = pos.getIndex(); i < pattern.length(); i++) {
+
+

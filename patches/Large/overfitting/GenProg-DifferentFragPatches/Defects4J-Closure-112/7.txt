@@ -1,0 +1,47 @@
+--- /tmp/GenProg_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-02 05:54:30.851329143 -0500
++++ /tmp/GenProg_Defects4J_Closure_112/patches_1e4m/Patch_745/patched/tmp/GenProg_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-02 06:12:57.014380394 -0500
+@@ -1039,10 +1039,6 @@
+     Node callTarget = call.getFirstChild();
+     if (NodeUtil.isGet(callTarget)) {
+       Node obj = callTarget.getFirstChild();
+-      maybeResolveTemplatedType(
+-          fnType.getTypeOfThis(),
+-          getJSType(obj),
+-          resolvedTypes);
+     }
+ 
+     if (call.hasMoreThanOneChild()) {
+@@ -1124,21 +1120,6 @@
+       Iterator<Node> declParams,
+       Iterator<Node> callParams,
+       Map<TemplateType, JSType> resolvedTypes) {
+-    while (declParams.hasNext() && callParams.hasNext()) {
+-      Node declParam = declParams.next();
+-      maybeResolveTemplatedType(
+-          getJSType(declParam),
+-          getJSType(callParams.next()),
+-          resolvedTypes);
+-      if (declParam.isVarArgs()) {
+-        while (callParams.hasNext()) {
+-          maybeResolveTemplatedType(
+-              getJSType(declParam),
+-              getJSType(callParams.next()),
+-              resolvedTypes);
+-        }
+-      }
+-    }
+   }
+ 
+   private static void resolvedTemplateType(
+@@ -1353,7 +1334,8 @@
+       JSType restrictedObjType = objType.restrictByNotNullOrUndefined();
+       if (!restrictedObjType.getTemplateTypeMap().isEmpty()
+           && propertyType.hasAnyTemplateTypes()) {
+-        TemplateTypeMap typeMap = restrictedObjType.getTemplateTypeMap();
++        final String paramName = "jscomp_throw_param";
++		TemplateTypeMap typeMap = restrictedObjType.getTemplateTypeMap();
+         TemplateTypeMapReplacer replacer = new TemplateTypeMapReplacer(
+             registry, typeMap);
+         propertyType = propertyType.visit(replacer);
+
+

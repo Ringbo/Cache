@@ -1,0 +1,27 @@
+--- /tmp/Arja_Defects4J_Math_49/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java	2018-12-02 02:51:20.079187851 -0500
++++ /tmp/Arja_Defects4J_Math_49/patches_4ok3/Patch_448/patched/tmp/Arja_Defects4J_Math_49/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java	2018-12-02 03:12:17.153747938 -0500
+@@ -210,7 +210,13 @@
+         final int hash  = hashOf(key);
+         int index = hash & mask;
+         if (containsKey(key, index)) {
+-            return true;
++            if (index < 0) {
++				throw MathRuntimeException
++						.createArrayIndexOutOfBoundsException(
++								LocalizedFormats.CANNOT_SET_AT_NEGATIVE_INDEX,
++								index);
++			}
++			return true;
+         }
+ 
+         if (states[index] == FREE) {
+@@ -396,7 +402,6 @@
+         final double previous = values[index];
+         values[index] = missingEntries;
+         --size;
+-        ++count;
+         return previous;
+     }
+ 
+
+

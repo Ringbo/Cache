@@ -1,0 +1,28 @@
+--- /src/main/java/org/apache/commons/math/analysis/solvers/BaseSecantSolver.java
++++ /src/main/java/org/apache/commons/math/analysis/solvers/BaseSecantSolver.java
+@@ -183,11 +183,6 @@
+                     f0 *= f1 / (f1 + fx);
+                     break;
+                 case REGULA_FALSI:
+-                    // Nothing.
+-                    if (x == x1) {
+-                        x0 = 0.5 * (x0 + x1 - FastMath.max(rtol * FastMath.abs(x1), atol));
+-                        f0 = computeObjectiveValue(x0);
+-                    }
+                     break;
+                 default:
+                     // Should never happen.
+
+
+--- /src/main/java/org/apache/commons/math/analysis/solvers/UnivariateRealSolverUtils.java
++++ /src/main/java/org/apache/commons/math/analysis/solvers/UnivariateRealSolverUtils.java
+@@ -368,9 +368,6 @@
+     public static void verifyBracketing(UnivariateRealFunction function,
+                                         final double lower,
+                                         final double upper) {
+-        if (function == null) {
+-            throw new NullArgumentException(LocalizedFormats.FUNCTION);
+-        }
+         verifyInterval(lower, upper);
+         if (!isBracketing(function, lower, upper)) {
+             throw new NoBracketingException(lower, upper,

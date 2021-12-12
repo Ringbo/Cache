@@ -1,0 +1,36 @@
+--- /src/main/java/org/apache/commons/math3/genetics/ElitisticListPopulation.java
++++ /src/main/java/org/apache/commons/math3/genetics/ElitisticListPopulation.java
+@@ -15,6 +15,7 @@
+  * limitations under the License.
+  */
+ package org.apache.commons.math3.genetics;
++import  org.apache.commons.math3.exception.OutOfRangeException;
+ 
+ import java.util.Collections;
+ import java.util.List;
+@@ -48,6 +49,12 @@
+                                    final int populationLimit,
+                                    final double elitismRate) {
+         super(chromosomes, populationLimit);
++        if (elitismRate>(double)1.0){
++                throw new OutOfRangeException(null,null,null);
++        }
++        if (elitismRate<(double)0.0){
++                throw new OutOfRangeException(null,null,null);
++        }
+         this.elitismRate = elitismRate;
+     }
+ 
+@@ -62,6 +69,12 @@
+      */
+     public ElitisticListPopulation(final int populationLimit, final double elitismRate) {
+         super(populationLimit);
++        if (elitismRate>(double)1.0){
++                throw new OutOfRangeException(null,null,null);
++        }
++        if (elitismRate<(double)0.0){
++                throw new OutOfRangeException(null,null,null);
++        }
+         this.elitismRate = elitismRate;
+     }
+ 

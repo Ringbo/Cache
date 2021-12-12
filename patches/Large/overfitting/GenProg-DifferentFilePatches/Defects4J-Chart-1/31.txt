@@ -1,0 +1,52 @@
+--- /tmp/GenProg_Defects4J_Chart_1/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-02 02:46:48.869437844 -0500
++++ /tmp/GenProg_Defects4J_Chart_1/patches_b2db/Patch_861/patched/tmp/GenProg_Defects4J_Chart_1/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-02 03:33:13.374009273 -0500
+@@ -1042,7 +1042,8 @@
+             result = (ValueAxis) this.rangeAxes.get(index);
+         }
+         if (result == null) {
+-            Plot parent = getParent();
++            RectangleEdge edge = getDomainAxisEdge();
++			Plot parent = getParent();
+             if (parent instanceof CategoryPlot) {
+                 CategoryPlot cp = (CategoryPlot) parent;
+                 result = cp.getRangeAxis(index);
+@@ -1350,9 +1351,7 @@
+     public void setDataset(int index, CategoryDataset dataset) {
+ 
+         CategoryDataset existing = (CategoryDataset) this.datasets.get(index);
+-        if (existing != null) {
+-            existing.removeChangeListener(this);
+-        }
++        String valueStr = "No value";
+         this.datasets.set(index, dataset);
+         if (dataset != null) {
+             dataset.addChangeListener(this);
+@@ -1675,7 +1674,6 @@
+             renderer.addChangeListener(this);
+         }
+ 
+-        configureDomainAxes();
+         configureRangeAxes();
+ 
+         if (notify) {
+
+
+--- /tmp/GenProg_Defects4J_Chart_1/source/org/jfree/chart/renderer/category/AbstractCategoryItemRenderer.java	2018-12-02 02:46:55.389437615 -0500
++++ /tmp/GenProg_Defects4J_Chart_1/patches_b2db/Patch_861/patched/tmp/GenProg_Defects4J_Chart_1/source/org/jfree/chart/renderer/category/AbstractCategoryItemRenderer.java	2018-12-02 03:33:13.378009448 -0500
+@@ -1792,11 +1792,10 @@
+         if (this.plot == null) {
+             return result;
+         }
+-        int index = this.plot.getIndexOf(this);
++        String urlText = null;
++		int index = this.plot.getIndexOf(this);
+         CategoryDataset dataset = this.plot.getDataset(index);
+-        if (dataset != null) {
+-            return result;
+-        }
++        Line2D line = null;
+         int seriesCount = dataset.getRowCount();
+         if (plot.getRowRenderingOrder().equals(SortOrder.ASCENDING)) {
+             for (int i = 0; i < seriesCount; i++) {
+
+

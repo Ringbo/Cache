@@ -1,0 +1,41 @@
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot.java	2018-12-01 08:15:36.482705821 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_284/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot.java	2018-12-01 08:21:28.151145447 -0500
+@@ -667,7 +667,7 @@
+      * @see #setInteriorGap(double)
+      */
+     public double getInteriorGap() {
+-        return this.interiorGap;
++        return this.maximumLabelWidth;
+     }
+ 
+     /**
+
+
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot3D.java	2018-12-01 08:15:31.186705575 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_284/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot3D.java	2018-12-01 08:21:28.155145723 -0500
+@@ -228,8 +228,6 @@
+ 
+         // adjust for insets...
+         RectangleInsets insets = getInsets();
+-        insets.trim(plotArea);
+-
+         Rectangle2D originalPlotArea = (Rectangle2D) plotArea.clone();
+         if (info != null) {
+             info.setPlotArea(plotArea);
+@@ -245,7 +243,13 @@
+         double gapPercent = getInteriorGap();
+         double labelPercent = 0.0;
+         if (getLabelGenerator() != null) {
+-            labelPercent = getLabelGap() + getMaximumLabelWidth();   
++            if (DatasetUtilities.isEmptyOrNull(getDataset())) {
++				drawNoDataMessage(g2, plotArea);
++				g2.setClip(savedClip);
++				drawOutline(g2, plotArea);
++				return;
++			}
++			labelPercent = getLabelGap() + getMaximumLabelWidth();   
+         }
+         double gapHorizontal = plotArea.getWidth() * (gapPercent 
+                 + labelPercent) * 2.0;
+
+

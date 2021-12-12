@@ -1,0 +1,12 @@
+--- /src/com/google/javascript/jscomp/TypeInference.java
++++ /src/com/google/javascript/jscomp/TypeInference.java
+@@ -1144,7 +1144,7 @@
+   private static void resolvedTemplateType(
+       Map<TemplateType, JSType> map, TemplateType template, JSType resolved) {
+     JSType previous = map.get(template);
+-    if (!resolved.isUnknownType()) {
++    if (false) {
+       if (previous == null) {
+         map.put(template, resolved);
+       } else {
+

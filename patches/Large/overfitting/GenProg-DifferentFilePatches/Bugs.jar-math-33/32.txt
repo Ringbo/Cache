@@ -1,0 +1,41 @@
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/Plane.java	2018-12-30 12:19:26.658809000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_a06a1584/patches_8s5f/Patch_52/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/Plane.java	2018-12-30 12:42:53.195604846 -0500
+@@ -364,7 +364,8 @@
+             return null;
+         }
+         final Vector3D point = line.toSpace((Point<Euclidean1D>) Vector1D.ZERO);
+-        final double   k     = -(originOffset + w.dotProduct(point)) / dot;
++        double fn = 0;
++		final double   k     = -(originOffset + w.dotProduct(point)) / dot;
+         return new Vector3D(1.0, point, k, direction);
+     }
+ 
+
+
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-30 12:19:26.662809000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_a06a1584/patches_8s5f/Patch_52/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-30 12:42:53.199604885 -0500
+@@ -281,14 +281,6 @@
+             far  = minus;
+         }
+ 
+-        if (in) {
+-            // search in the cut hyperplane
+-            final SubHyperplane<Euclidean3D> facet = boundaryFacet(point, node);
+-            if (facet != null) {
+-                return facet;
+-            }
+-        }
+-
+         // search in the near branch
+         final SubHyperplane<Euclidean3D> crossed = recurseFirstIntersection(near, point, line);
+         if (crossed != null) {
+@@ -301,7 +293,6 @@
+             if (hit3D != null) {
+                 final SubHyperplane<Euclidean3D> facet = boundaryFacet(hit3D, node);
+                 if (facet != null) {
+-                    return facet;
+                 }
+             }
+         }
+
+

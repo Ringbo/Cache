@@ -1,0 +1,29 @@
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/oak-mk/src/main/java/org/apache/jackrabbit/mk/model/CommitBuilder.java	2018-12-29 07:26:38.080559000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/patches_s7ag/Patch_1837/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/oak-mk/src/main/java/org/apache/jackrabbit/mk/model/CommitBuilder.java	2018-12-29 08:07:11.424826772 -0500
+@@ -178,11 +178,6 @@
+             }
+             newCommit.setChanges(diff.toString());
+             newCommit.setRootNodeId(rootNodeId);
+-            if (createBranch) {
+-                newCommit.setBranchRootId(baseCommit.getId());
+-            } else {
+-                newCommit.setBranchRootId(baseCommit.getBranchRootId());
+-            }
+             newRevId = store.putCommit(token, newCommit);
+         }
+ 
+
+
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/oak-mk/src/main/java/org/apache/jackrabbit/mk/store/DefaultRevisionStore.java	2018-12-29 07:26:38.092560000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/patches_s7ag/Patch_1837/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/oak-mk/src/main/java/org/apache/jackrabbit/mk/store/DefaultRevisionStore.java	2018-12-29 08:07:11.428826785 -0500
+@@ -340,8 +340,6 @@
+     }
+ 
+     public Id putCommit(PutToken token, MutableCommit commit) throws Exception {
+-        verifyInitialized();
+-
+         Id commitId = writeCommit(token, commit);
+         putTokens.remove(token);
+ 
+
+

@@ -1,0 +1,35 @@
+--- /tmp/Arja_Defects4J_Lang_63/src/java/org/apache/commons/lang/time/DurationFormatUtils.java	2018-12-01 05:15:44.533037303 -0500
++++ /tmp/Arja_Defects4J_Lang_63/patches_g3j7/Patch_963/patched/tmp/Arja_Defects4J_Lang_63/src/java/org/apache/commons/lang/time/DurationFormatUtils.java	2018-12-01 05:25:00.518036086 -0500
+@@ -279,7 +279,10 @@
+         // initial estimates
+         int milliseconds = end.get(Calendar.MILLISECOND) - start.get(Calendar.MILLISECOND);
+         int seconds = end.get(Calendar.SECOND) - start.get(Calendar.SECOND);
+-        int minutes = end.get(Calendar.MINUTE) - start.get(Calendar.MINUTE);
++        if (millis < 28 * DateUtils.MILLIS_PER_DAY) {
++			return formatDuration(millis, format, padWithZeros);
++		}
++		int minutes = end.get(Calendar.MINUTE) - start.get(Calendar.MINUTE);
+         int hours = end.get(Calendar.HOUR_OF_DAY) - start.get(Calendar.HOUR_OF_DAY);
+         int days = end.get(Calendar.DAY_OF_MONTH) - start.get(Calendar.DAY_OF_MONTH);
+         int months = end.get(Calendar.MONTH) - start.get(Calendar.MONTH);
+@@ -311,10 +314,6 @@
+ // be doing no calculating here.
+             months -= 1;
+         }
+-        while (months < 0) {
+-            months += 12;
+-            years -= 1;
+-        }
+         milliseconds -= reduceAndCorrect(start, end, Calendar.MILLISECOND, milliseconds);
+         seconds -= reduceAndCorrect(start, end, Calendar.SECOND, seconds);
+         minutes -= reduceAndCorrect(start, end, Calendar.MINUTE, minutes);
+@@ -435,7 +434,6 @@
+         int startValue = start.get(field);
+         if (endValue < startValue) {
+             int newdiff = startValue - endValue;
+-            end.add( field, newdiff );
+             return newdiff;
+         } else {
+             return 0;
+
+

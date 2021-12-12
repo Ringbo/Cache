@@ -1,0 +1,13 @@
+--- /tmp/Kali_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/AbstractIntegerDistribution.java	2018-12-01 18:09:20.555146778 -0500
++++ /tmp/Kali_Defects4J_Math_2/patches_jbci/Patch_6/patched/tmp/Kali_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/AbstractIntegerDistribution.java	2018-12-01 18:29:12.670587072 -0500
+@@ -134,7 +134,7 @@
+             }
+             k = 1.0 / k;
+             tmp = mu + k * sigma;
+-            if (tmp < upper) {
++            if (false) {
+                 upper = ((int) Math.ceil(tmp)) - 1;
+             }
+         }
+
+

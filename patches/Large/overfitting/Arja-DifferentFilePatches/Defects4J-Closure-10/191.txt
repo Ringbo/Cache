@@ -1,0 +1,41 @@
+--- /tmp/Arja_Defects4J_Closure_10/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-01 10:02:20.292394989 -0500
++++ /tmp/Arja_Defects4J_Closure_10/patches_ktm9/Patch_1747/patched/tmp/Arja_Defects4J_Closure_10/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-01 10:29:43.785636681 -0500
+@@ -335,11 +335,6 @@
+     }
+ 
+     String s = trimJsWhiteSpace(rawJsString);
+-    // return ScriptRuntime.toNumber(s);
+-    if (s.length() == 0) {
+-      return 0.0;
+-    }
+-
+     if (s.length() > 2
+         && s.charAt(0) == '0'
+         && (s.charAt(1) == 'x' || s.charAt(1) == 'X')) {
+
+
+--- /tmp/Arja_Defects4J_Closure_10/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-01 10:02:17.256394865 -0500
++++ /tmp/Arja_Defects4J_Closure_10/patches_ktm9/Patch_1747/patched/tmp/Arja_Defects4J_Closure_10/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-01 10:29:43.785636681 -0500
+@@ -248,9 +248,9 @@
+         tryConvertToNumber(n.getLastChild());
+         return;
+       case Token.HOOK:
+-        tryConvertToNumber(n.getChildAtIndex(1));
++        ;
+         tryConvertToNumber(n.getLastChild());
+-        return;
++        ;
+       case Token.NAME:
+         if (!NodeUtil.isUndefined(n)) {
+           return;
+@@ -842,7 +842,7 @@
+       if (result != node) {
+         return result;
+       }
+-      return tryFoldLeftChildOp(node, left, right);
++      return null;
+     }
+   }
+ 
+
+

@@ -1,0 +1,46 @@
+--- /tmp/GenProg_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2018-12-02 12:59:16.592662902 -0500
++++ /tmp/GenProg_Defects4J_Math_28/patches_c8c8/Patch_819/patched/tmp/GenProg_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2018-12-02 13:47:20.051371321 -0500
+@@ -115,17 +115,6 @@
+         } else if (minRatioPositions.size() > 1) {
+             // there's a degeneracy as indicated by a tie in the minimum ratio test
+ 
+-            // 1. check if there's an artificial variable that can be forced out of the basis
+-                for (Integer row : minRatioPositions) {
+-                    for (int i = 0; i < tableau.getNumArtificialVariables(); i++) {
+-                        int column = i + tableau.getArtificialVariableOffset();
+-                        final double entry = tableau.getEntry(row, column);
+-                        if (Precision.equals(entry, 1d, maxUlps) && row.equals(tableau.getBasicRow(column))) {
+-                            return row;
+-                        }
+-                    }
+-                }
+-
+             // 2. apply Bland's rule to prevent cycling:
+             //    take the row for which the corresponding basic variable has the smallest index
+             //
+@@ -136,7 +125,8 @@
+             //                       revert to the simple case of just returning the top-most row
+             // This heuristic is based on empirical data gathered while investigating MATH-828.
+                 Integer minRow = null;
+-                int minIndex = tableau.getWidth();
++                int artificialVar = 0;
++				int minIndex = tableau.getWidth();
+                 for (Integer row : minRatioPositions) {
+                     int i = tableau.getNumObjectiveFunctions();
+                     for (; i < tableau.getWidth() - 1 && minRow != row; i++) {
+
+
+--- /tmp/GenProg_Defects4J_Math_28/src/main/java/org/apache/commons/math3/exception/util/ExceptionContext.java	2018-12-02 12:59:12.588663042 -0500
++++ /tmp/GenProg_Defects4J_Math_28/patches_c8c8/Patch_819/patched/tmp/GenProg_Defects4J_Math_28/src/main/java/org/apache/commons/math3/exception/util/ExceptionContext.java	2018-12-02 13:47:20.051371321 -0500
+@@ -144,7 +144,8 @@
+      * @return the localized message.
+      */
+     public String getMessage(final Locale locale) {
+-        return buildMessage(locale, ": ");
++        final List<Object> list = new ArrayList<Object>();
++		return buildMessage(locale, ": ");
+     }
+ 
+     /**
+
+

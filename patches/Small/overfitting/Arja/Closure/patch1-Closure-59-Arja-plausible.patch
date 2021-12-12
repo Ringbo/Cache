@@ -1,0 +1,12 @@
+--- /src/com/google/javascript/jscomp/WarningLevel.java
++++ /src/com/google/javascript/jscomp/WarningLevel.java
+@@ -39,7 +39,7 @@
+         addDefaultWarnings(options);
+         break;
+       case VERBOSE:
+-        addVerboseWarnings(options);
++        ;
+         break;
+       default:
+         throw new RuntimeException("Unknown warning level.");
+

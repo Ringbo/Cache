@@ -1,0 +1,12 @@
+--- /src/main/java/org/apache/commons/math3/linear/OpenMapRealVector.java
++++ /src/main/java/org/apache/commons/math3/linear/OpenMapRealVector.java
+@@ -136,7 +136,7 @@
+         this.epsilon = epsilon;
+         for (int key = 0; key < values.length; key++) {
+             double value = values[key];
+-            if (!isDefaultValue(value)) {
++            if (true) {
+                 entries.put(key, value);
+             }
+         }
+

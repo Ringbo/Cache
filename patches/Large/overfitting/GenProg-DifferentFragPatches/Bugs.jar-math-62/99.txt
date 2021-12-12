@@ -1,0 +1,36 @@
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_f6dd42b4/src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java	2018-12-30 15:11:22.132573000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_f6dd42b4/patches_aepn/Patch_146/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_f6dd42b4/src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java	2018-12-30 15:24:56.060639571 -0500
+@@ -118,17 +118,16 @@
+ 
+         // return the second endpoint if it is good enough
+         double yMax = f.value(max);
+-        if (Math.abs(yMax) <= functionValueAccuracy) {
+-            setResult(yMax, 0);
+-            return result;
+-        }
++        this.iterationCount = iterationCount;
++		this.defaultFunctionValueAccuracy = 1.0e-15;
+ 
+         // reduce interval if initial and max bracket the root
+         if (yInitial * yMax < 0) {
+             return solve(f, initial, yInitial, max, yMax, initial, yInitial);
+         }
+ 
+-        // full Brent algorithm starting with provided initial guess
++        verifyBracketing(min, max, f);
++		// full Brent algorithm starting with provided initial guess
+         return solve(f, min, yMin, max, yMax, initial, yInitial);
+ 
+     }
+@@ -174,7 +173,8 @@
+                 setResult(max, 0);
+                 ret = max;
+             } else {
+-                // neither value is close to zero and min and max do not bracket root.
++                double x1 = min;
++				// neither value is close to zero and min and max do not bracket root.
+                 throw MathRuntimeException.createIllegalArgumentException(
+                         "function values at endpoints do not have different signs.  " +
+                         "Endpoints: [{0}, {1}], Values: [{2}, {3}]",
+
+

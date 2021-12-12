@@ -1,0 +1,21 @@
+--- /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/runtime/tasks/OutputHandler.java	2018-12-29 12:37:22.188565000 -0500
++++ /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/patches_stp5/Patch_567/patched/tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/runtime/tasks/OutputHandler.java	2018-12-29 13:02:50.337397515 -0500
+@@ -137,8 +137,6 @@
+ 			Integer output = outputEdge.getTargetID();
+ 
+ 			Collector<?> outCollector = createChainedCollector(chainedConfigs.get(output));
+-
+-			wrapper.addCollector(outCollector, outputEdge);
+ 		}
+ 
+ 		if (chainedTaskConfig.isChainStart()) {
+@@ -152,7 +150,6 @@
+ 					chainedTaskConfig.getStreamOperator(vertex.getUserCodeClassLoader());
+ 			chainableOperator.setup(wrapper, vertex.context);
+ 
+-			chainedOperators.add(chainableOperator);
+ 			return new OperatorCollector<X>(chainableOperator);
+ 		}
+ 
+
+

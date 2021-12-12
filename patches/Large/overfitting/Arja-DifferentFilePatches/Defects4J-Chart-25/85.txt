@@ -1,0 +1,29 @@
+--- /tmp/Arja_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-01 07:56:59.456195057 -0500
++++ /tmp/Arja_Defects4J_Chart_25/patches_atq3/Patch_1211/patched/tmp/Arja_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-01 08:09:05.392298867 -0500
+@@ -239,9 +239,7 @@
+                                      
+         RectangleEdge xAxisLocation = plot.getDomainAxisEdge();
+         
+-        // BAR Y
+-        double rectY = domainAxis.getCategoryStart(column, getColumnCount(), 
+-                dataArea, xAxisLocation);
++        double rectY = 0.0;
+ 
+         int seriesCount = getRowCount();
+         int categoryCount = getColumnCount();
+
+
+--- /tmp/Arja_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-01 07:56:54.316104358 -0500
++++ /tmp/Arja_Defects4J_Chart_25/patches_atq3/Patch_1211/patched/tmp/Arja_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-01 08:09:05.400298910 -0500
+@@ -261,7 +261,8 @@
+      * @return The row count.
+      */
+     public int getRowCount() {
+-        return this.data.getRowCount();
++        this.data = new KeyedObjects2D();
++		return this.data.getRowCount();
+     }
+ 
+     /**
+
+

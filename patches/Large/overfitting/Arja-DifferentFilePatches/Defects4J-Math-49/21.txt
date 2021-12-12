@@ -1,0 +1,23 @@
+--- /tmp/Arja_Defects4J_Math_49/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java	2018-12-02 02:51:20.079187851 -0500
++++ /tmp/Arja_Defects4J_Math_49/patches_4ok3/Patch_1756/patched/tmp/Arja_Defects4J_Math_49/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java	2018-12-02 03:32:05.563818203 -0500
+@@ -213,10 +213,6 @@
+             return true;
+         }
+ 
+-        if (states[index] == FREE) {
+-            return false;
+-        }
+-
+         int j = index;
+         for (int perturb = perturb(hash); states[index] != FREE; perturb >>= PERTURB_SHIFT) {
+             j = probe(perturb, j);
+@@ -396,7 +392,6 @@
+         final double previous = values[index];
+         values[index] = missingEntries;
+         --size;
+-        ++count;
+         return previous;
+     }
+ 
+
+

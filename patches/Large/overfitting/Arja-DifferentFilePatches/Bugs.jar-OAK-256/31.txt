@@ -1,0 +1,45 @@
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/store/DefaultRevisionStore.java	2018-12-29 10:48:57.960251000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/patches_10w1/Patch_382/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/store/DefaultRevisionStore.java	2018-12-29 10:56:08.103027062 -0500
+@@ -132,10 +132,6 @@
+     }
+ 
+     public void initialize() throws Exception {
+-        if (initialized) {
+-            throw new IllegalStateException("already initialized");
+-        }
+-
+         initialCacheSize = determineInitialCacheSize();
+         
+         cache = CacheBuilder.newBuilder()
+@@ -161,7 +157,6 @@
+             initialCommit.setCommitTS(System.currentTimeMillis());
+             initialCommit.setRootNodeId(rootNodeId);
+             pm.writeCommit(head, initialCommit);
+-            pm.writeHead(head);
+         } else {
+             Id lastCommitId = head;
+             if (ids[1] != null && ids[1].compareTo(lastCommitId) > 0) {
+@@ -239,7 +234,6 @@
+         @Override
+         public boolean equals(Object obj) {
+             if (obj instanceof PutTokenImpl) {
+-                return ((PutTokenImpl) obj).id == id;
+             }
+             return super.equals(obj);
+         }
+
+
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/persistence/InMemPersistence.java	2018-12-29 10:48:53.096149000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/patches_10w1/Patch_382/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/persistence/InMemPersistence.java	2018-12-29 10:56:08.107027071 -0500
+@@ -54,7 +54,8 @@
+     
+     @Override
+     public Id[] readIds() throws Exception {
+-        return new Id[2];
++        objects.putAll(marked);
++		return new Id[2];
+     }
+ 
+     public void writeHead(Id id) {
+
+

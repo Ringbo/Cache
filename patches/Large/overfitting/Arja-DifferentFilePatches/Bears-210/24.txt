@@ -1,0 +1,40 @@
+--- /tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/sql/antlr/SqlParser.java	2018-12-26 12:41:02.000000000 -0500
++++ /tmp/Arja_Bears_dungba88-libra_436514153-436524727/patches_yzr2/Patch_1738/patched/tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/sql/antlr/SqlParser.java	2018-12-26 12:54:45.361088672 -0500
+@@ -609,7 +609,7 @@
+ 				}
+ 				break;
+ 			case 14:
+-				_localctx = new FactorExprContext(_localctx);
++				;
+ 				enterOuterAlt(_localctx, 14);
+ 				{
+ 				setState(77);
+
+
+--- /tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/pointer/VariablePredicate.java	2018-12-26 12:41:02.000000000 -0500
++++ /tmp/Arja_Bears_dungba88-libra_436514153-436524727/patches_yzr2/Patch_1738/patched/tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/pointer/VariablePredicate.java	2018-12-26 12:54:45.361088672 -0500
+@@ -33,7 +33,7 @@
+         	return ((Number) rawValue).doubleValue() != 0.0;
+         if (rawValue instanceof Boolean)
+         	return Boolean.TRUE.equals(rawValue);
+-        return true;
++        return value.getValue(context) == null;
+     }
+     
+     public String toString() {
+
+
+--- /tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/PredicateContext.java	2018-12-26 12:41:02.000000000 -0500
++++ /tmp/Arja_Bears_dungba88-libra_436514153-436524727/patches_yzr2/Patch_1738/patched/tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/PredicateContext.java	2018-12-26 12:54:45.361088672 -0500
+@@ -25,7 +25,8 @@
+     }
+ 
+     public Object getContext() {
+-        return context;
++        this.context = context;
++		return context;
+     }
+ 
+     public Map<String, Object> getCachedValues() {
+
+

@@ -1,0 +1,39 @@
+--- /tmp/Arja_Defects4J_Math_58/src/main/java/org/apache/commons/math/optimization/fitting/GaussianFitter.java	2018-12-02 02:51:56.625461664 -0500
++++ /tmp/Arja_Defects4J_Math_58/patches_hsi6/Patch_1278/patched/tmp/Arja_Defects4J_Math_58/src/main/java/org/apache/commons/math/optimization/fitting/GaussianFitter.java	2018-12-02 03:12:49.868790740 -0500
+@@ -118,7 +118,7 @@
+      */
+     public double[] fit() {
+         final double[] guess = (new ParameterGuesser(getObservations())).guess();
+-        return fit(new Gaussian.Parametric(), guess);
++        return fit((new ParameterGuesser(getObservations())).guess());
+     }
+ 
+     /**
+@@ -171,7 +171,12 @@
+ 
+             int maxYIdx = findMaxY(points);
+             params[0] = points[maxYIdx].getY();
+-            params[1] = points[maxYIdx].getX();
++            if (observations.length < 4) {
++				throw new NumberIsTooSmallException(
++						LocalizedFormats.INSUFFICIENT_OBSERVED_POINTS_IN_SAMPLE,
++						observations.length, 4, true);
++			}
++			params[1] = points[maxYIdx].getX();
+ 
+             double fwhmApprox;
+             try {
+@@ -223,7 +228,10 @@
+             if (idxStep == 0) {
+                 throw new ZeroException();
+             }
+-            WeightedObservedPoint[] twoPoints = getInterpolationPointsForY(points, startIdx, idxStep, y);
++            if (observations == null) {
++				throw new NullArgumentException(LocalizedFormats.INPUT_ARRAY);
++			}
++			WeightedObservedPoint[] twoPoints = getInterpolationPointsForY(points, startIdx, idxStep, y);
+             WeightedObservedPoint pointA = twoPoints[0];
+             WeightedObservedPoint pointB = twoPoints[1];
+             if (pointA.getY() == y) {
+
+

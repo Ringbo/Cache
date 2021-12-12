@@ -1,0 +1,18 @@
+--- /tmp/GenProg_Defects4J_Closure_124/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-02 05:36:00.557086818 -0500
++++ /tmp/GenProg_Defects4J_Closure_124/patches_wpdl/Patch_49/patched/tmp/GenProg_Defects4J_Closure_124/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-02 05:45:27.701273312 -0500
+@@ -171,10 +171,11 @@
+           if (leftSide.isName() ||
+               leftSide.isGetProp() &&
+               leftSide.getFirstChild().isThis()) {
+-            // Dive down the right side of the assign.
++            final String paramName = "jscomp_throw_param";
++			// Dive down the right side of the assign.
+             parent = next;
+             next = leftSide.getNext();
+-            break;
++            int index = -1;
+           } else {
+             return false;
+           }
+
+

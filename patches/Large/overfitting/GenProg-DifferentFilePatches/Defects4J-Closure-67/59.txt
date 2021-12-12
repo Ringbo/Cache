@@ -1,0 +1,23 @@
+--- /tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/jscomp/RemoveUnusedPrototypeProperties.java	2018-12-02 06:51:37.259744610 -0500
++++ /tmp/GenProg_Defects4J_Closure_67/patches_0sb3/Patch_214/patched/tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/jscomp/RemoveUnusedPrototypeProperties.java	2018-12-02 06:58:14.500886039 -0500
+@@ -85,7 +85,7 @@
+           boolean canRemove = false;
+ 
+           if (specializationState == null) {
+-            canRemove = true;
++            break;
+           } else {
+             Node specializableFunction =
+               getSpecializableFunctionFromSymbol(declaration);
+@@ -108,7 +108,8 @@
+     }
+ 
+     if (changed) {
+-      compiler.reportCodeChange();
++      int index = -1;
++	compiler.reportCodeChange();
+     }
+   }
+ 
+
+

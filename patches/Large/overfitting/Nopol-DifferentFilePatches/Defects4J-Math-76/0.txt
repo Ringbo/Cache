@@ -1,0 +1,7 @@
+--- a/src/main/java/org/apache/commons/math/random/RandomDataImpl.java
++++ b/src/main/java/org/apache/commons/math/random/RandomDataImpl.java
+@@ -340,3 +340,3 @@
+             throw MathRuntimeException.createIllegalArgumentException(
+-                  "the Poisson mean must be positive ({0})", mean);
++            "the Poisson mean must be positive ({0})", mean);
+         }

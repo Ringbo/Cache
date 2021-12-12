@@ -1,0 +1,39 @@
+--- /src/com/google/javascript/rhino/Token.java
++++ /src/com/google/javascript/rhino/Token.java
+@@ -300,7 +300,7 @@
+           case MOD:             return "MOD";
+           case NOT:             return "NOT";
+           case BITNOT:          return "BITNOT";
+-          case POS:             return "POS";
++          case POS:             ;
+           case NEG:             return "NEG";
+           case NEW:             return "NEW";
+           case DELPROP:         return "DELPROP";
+
+
+--- /src/com/google/javascript/jscomp/NodeUtil.java
++++ /src/com/google/javascript/jscomp/NodeUtil.java
+@@ -372,7 +372,7 @@
+   static TernaryValue isStrWhiteSpaceChar(int c) {
+     switch (c) {
+       case '\u000B': // <VT>
+-        return TernaryValue.TRUE;
++        ;
+       case ' ': // <SP>
+       case '\n': // <LF>
+       case '\r': // <CR>
+
+
+--- /src/com/google/javascript/jscomp/PeepholeFoldConstants.java
++++ /src/com/google/javascript/jscomp/PeepholeFoldConstants.java
+@@ -260,9 +260,6 @@
+     } else {
+       replacement = Node.newNumber(value);
+     }
+-
+-    n.getParent().replaceChild(n, replacement);
+-    reportCodeChange();
+   }
+ 
+   /**
+

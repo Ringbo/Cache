@@ -1,0 +1,24 @@
+--- /tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/jscomp/FunctionTypeBuilder.java	2018-12-01 09:01:10.906036203 -0500
++++ /tmp/Arja_Defects4J_Closure_112/patches_famj/Patch_111/patched/tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/jscomp/FunctionTypeBuilder.java	2018-12-01 09:09:21.032056501 -0500
+@@ -355,7 +355,6 @@
+             builder.add(typeRegistry.createTemplateType(typeParameter));
+           }
+           classTemplateTypeNames = builder.build();
+-          typeRegistry.setTemplateTypeNames(classTemplateTypeNames);
+         }
+       }
+ 
+
+
+--- /tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-01 09:01:13.654047680 -0500
++++ /tmp/Arja_Defects4J_Closure_112/patches_famj/Patch_111/patched/tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-01 09:09:21.036056525 -0500
+@@ -1146,7 +1146,6 @@
+     JSType previous = map.get(template);
+     if (!resolved.isUnknownType()) {
+       if (previous == null) {
+-        map.put(template, resolved);
+       } else {
+         JSType join = previous.getLeastSupertype(resolved);
+         map.put(template, join);
+
+

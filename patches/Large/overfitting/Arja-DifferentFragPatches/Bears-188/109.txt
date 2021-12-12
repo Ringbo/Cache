@@ -1,0 +1,34 @@
+--- /tmp/Arja_Bears_SzFMV2018-Tavasz-AutomatedCar_351742666-351759763/src/main/java/hu/oe/nik/szfmv/visualization/Dashboard.java	2018-12-26 12:44:43.911927988 -0500
++++ /tmp/Arja_Bears_SzFMV2018-Tavasz-AutomatedCar_351742666-351759763/patches_ezo9/Patch_408/patched/tmp/Arja_Bears_SzFMV2018-Tavasz-AutomatedCar_351742666-351759763/src/main/java/hu/oe/nik/szfmv/visualization/Dashboard.java	2018-12-26 12:47:40.800352015 -0500
+@@ -56,7 +56,7 @@
+         breakProgressBar.setValue(inputPacket.getBreakPedalPosition());
+         speedAngle = calculateSpeedometer(0);
+         rpmAngle = calculateTachometer(0);
+-        paintComponent(getGraphics());
++        speedAngle = calculateSpeedometer(0);
+     }
+ 
+     /**
+@@ -69,6 +69,7 @@
+         setBounds(dashboardBoundsX, dashboardBoundsY, width, height);
+ 
+         initializeProgressBars();
++		initializeProgressBars();
+     }
+ 
+     /**
+@@ -76,11 +77,7 @@
+      */
+     private void initializeProgressBars() {
+         progressBarsPanel.setBackground(new Color(backgroundColor));
+-        progressBarsPanel.setBounds(
+-                progressBarsPanelX,
+-                progressBarsPanelY,
+-                progressBarsPanelWidth,
+-                progressBarsPanelHeight);
++        progressBarsPanel.add(gasProgressBar);
+ 
+         gasLabel.setText("gas pedal");
+         breakLabel.setText("break pedal");
+
+

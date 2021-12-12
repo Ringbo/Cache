@@ -1,0 +1,11 @@
+--- /src/java/org/apache/commons/math/optimization/linear/SimplexTableau.java
++++ /src/java/org/apache/commons/math/optimization/linear/SimplexTableau.java
+@@ -160,4 +160,6 @@
+                     if (!restrictToNonNegative) {
+-                        matrix[row][getSlackVariableOffset() - 1] =
++                        if (org.apache.commons.math.optimization.linear.SimplexTableau.this.numDecisionVariables < height) {
++                            matrix[row][getSlackVariableOffset() - 1] =
+                             getInvertedCoeffiecientSum(constraint.getCoefficients());
++                        }
+                     }
+

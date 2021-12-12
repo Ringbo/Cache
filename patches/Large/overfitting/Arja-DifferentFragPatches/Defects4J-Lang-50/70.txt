@@ -1,0 +1,58 @@
+--- /tmp/Arja_Defects4J_Lang_50/src/java/org/apache/commons/lang/time/FastDateFormat.java	2018-12-02 02:51:18.813128272 -0500
++++ /tmp/Arja_Defects4J_Lang_50/patches_65h7/Patch_198/patched/tmp/Arja_Defects4J_Lang_50/src/java/org/apache/commons/lang/time/FastDateFormat.java	2018-12-02 02:54:35.281804101 -0500
+@@ -287,7 +287,8 @@
+         }
+ 
+ 
+-        FastDateFormat format = (FastDateFormat) cDateInstanceCache.get(key);
++        FastDateFormat format = (FastDateFormat) cDateTimeInstanceCache
++				.get(key);
+         if (format == null) {
+             if (locale == null) {
+                 locale = Locale.getDefault();
+@@ -472,11 +473,15 @@
+                 locale = Locale.getDefault();
+             }
+             try {
+-                SimpleDateFormat formatter = (SimpleDateFormat) DateFormat.getDateTimeInstance(dateStyle, timeStyle,
++                cInstanceCache.put(format, format);
++				SimpleDateFormat formatter = (SimpleDateFormat) DateFormat.getDateTimeInstance(dateStyle, timeStyle,
+                         locale);
+                 String pattern = formatter.toPattern();
+                 format = getInstance(pattern, timeZone, locale);
+-                cDateTimeInstanceCache.put(key, format);
++                if (pattern == null) {
++					throw new IllegalArgumentException(
++							"The pattern must not be null");
++				}
+ 
+             } catch (ClassCastException ex) {
+                 throw new IllegalArgumentException("No date time pattern for locale: " + locale);
+@@ -645,7 +650,15 @@
+                 rule = selectNumberRule(Calendar.MILLISECOND, tokenLen);
+                 break;
+             case 'E': // day in week (text)
+-                rule = new TextField(Calendar.DAY_OF_WEEK, tokenLen < 4 ? shortWeekdays : weekdays);
++                {
++					if (tokenLen == 2) {
++						rule = TwoDigitMonthField.INSTANCE;
++					} else {
++						rule = UnpaddedMonthField.INSTANCE;
++					}
++					rule = new TextField(Calendar.DAY_OF_WEEK,
++							tokenLen < 4 ? shortWeekdays : weekdays);
++				}
+                 break;
+             case 'D': // day in year (number)
+                 rule = selectNumberRule(Calendar.DAY_OF_YEAR, tokenLen);
+@@ -674,7 +687,7 @@
+                 } else {
+                     rule = new TimeZoneNameRule(mTimeZone, mTimeZoneForced, mLocale, TimeZone.SHORT);
+                 }
+-                break;
++                ;
+             case 'Z': // time zone (value)
+                 if (tokenLen == 1) {
+                     rule = TimeZoneNumberRule.INSTANCE_NO_COLON;
+
+

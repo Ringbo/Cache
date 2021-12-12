@@ -1,0 +1,41 @@
+--- /tmp/Arja_Defects4J_Closure_126/src/com/google/javascript/jscomp/MinimizeExitPoints.java	2018-12-01 08:46:30.980378793 -0500
++++ /tmp/Arja_Defects4J_Closure_126/patches_shfw/Patch_1777/patched/tmp/Arja_Defects4J_Closure_126/src/com/google/javascript/jscomp/MinimizeExitPoints.java	2018-12-01 09:08:52.925773783 -0500
+@@ -109,7 +109,6 @@
+     if (matchingExitNode(n, exitType, labelName)) {
+       NodeUtil.removeChild(n.getParent(), n);
+       compiler.reportCodeChange();
+-      return;
+     }
+ 
+     // Just an 'if'.
+@@ -129,7 +128,6 @@
+       tryMinimizeExits(tryBlock, exitType, labelName);
+       Node allCatchNodes = NodeUtil.getCatchBlock(n);
+       if (NodeUtil.hasCatchHandler(allCatchNodes)) {
+-        Preconditions.checkState(allCatchNodes.hasOneChild());
+         Node catchNode = allCatchNodes.getFirstChild();
+         Node catchCodeBlock = catchNode.getLastChild();
+         tryMinimizeExits(catchCodeBlock, exitType, labelName);
+@@ -140,7 +138,6 @@
+        */
+       if (NodeUtil.hasFinally(n)) {
+         Node finallyBlock = n.getLastChild();
+-        tryMinimizeExits(finallyBlock, exitType, labelName);
+       }
+     }
+ 
+
+
+--- /tmp/Arja_Defects4J_Closure_126/src/com/google/javascript/rhino/Token.java	2018-12-01 08:46:28.147479956 -0500
++++ /tmp/Arja_Defects4J_Closure_126/patches_shfw/Patch_1777/patched/tmp/Arja_Defects4J_Closure_126/src/com/google/javascript/rhino/Token.java	2018-12-01 09:08:52.925773783 -0500
+@@ -221,7 +221,7 @@
+           case SHEQ:            return "SHEQ";
+           case SHNE:            return "SHNE";
+           case REGEXP:          return "REGEXP";
+-          case THROW:           return "THROW";
++          case THROW:           return "SUB";
+           case IN:              return "IN";
+           case INSTANCEOF:      return "INSTANCEOF";
+           case ARRAYLIT:        return "ARRAYLIT";
+
+

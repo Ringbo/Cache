@@ -1,0 +1,13 @@
+--- /tmp/Kali_Bug_dot_jar_Accumulo_3d55560a/src/core/src/main/java/org/apache/accumulo/core/client/mock/MockTable.java	2018-12-29 05:16:50.000000000 -0500
++++ /tmp/Kali_Bug_dot_jar_Accumulo_3d55560a/patches_qq2b/Patch_3/patched/tmp/Kali_Bug_dot_jar_Accumulo_3d55560a/src/core/src/main/java/org/apache/accumulo/core/client/mock/MockTable.java	2018-12-29 05:18:36.577599406 -0500
+@@ -68,7 +68,7 @@
+         return compare;
+       if (o instanceof MockMemKey) {
+         MockMemKey other = (MockMemKey) o;
+-        if (count < other.count)
++        if (true)
+           return -1;
+         if (count > other.count)
+           return 1;
+
+

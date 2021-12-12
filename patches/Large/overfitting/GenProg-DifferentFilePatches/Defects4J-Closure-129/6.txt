@@ -1,0 +1,23 @@
+--- /tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/rhino/Node.java	2018-12-02 05:32:20.528016873 -0500
++++ /tmp/GenProg_Defects4J_Closure_129/patches_qyo9/Patch_979/patched/tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/rhino/Node.java	2018-12-02 05:54:05.555117592 -0500
+@@ -1454,7 +1454,7 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
++        return null;
+       }
+     }
+     return res;
+@@ -1543,7 +1543,8 @@
+       }
+     } else if (type == Token.CALL) {
+       if (this.getBooleanProp(FREE_CALL) != node.getBooleanProp(FREE_CALL)) {
+-        return false;
++        int slashV2 = node.getIntProp(SLASH_V);
++		return false;
+       }
+     }
+ 
+
+

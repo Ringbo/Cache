@@ -1,0 +1,49 @@
+--- /tmp/Arja_Defects4J_Closure_116/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-01 08:51:01.869149850 -0500
++++ /tmp/Arja_Defects4J_Closure_116/patches_186s/Patch_753/patched/tmp/Arja_Defects4J_Closure_116/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-01 09:11:02.853882631 -0500
+@@ -552,7 +552,7 @@
+       // Only inline functions that return something.
+       if (block.getFirstChild().isReturn()
+           && block.getFirstChild().getFirstChild() != null) {
+-        return true;
++        return false;
+       }
+     }
+ 
+
+
+--- /tmp/Arja_Defects4J_Closure_116/src/com/google/javascript/jscomp/FunctionArgumentInjector.java	2018-12-01 08:50:58.457149772 -0500
++++ /tmp/Arja_Defects4J_Closure_116/patches_186s/Patch_753/patched/tmp/Arja_Defects4J_Closure_116/src/com/google/javascript/jscomp/FunctionArgumentInjector.java	2018-12-01 09:11:02.853882631 -0500
+@@ -70,7 +70,6 @@
+         // The name may need to be replaced more than once,
+         // so we need to clone the node.
+         Node replacement = replacementTemplate.cloneTree();
+-        parent.replaceChild(node, replacement);
+         return replacement;
+       }
+     } else if (replaceThis && node.isThis()) {
+@@ -197,9 +196,7 @@
+     Preconditions.checkArgument(unsafe != null);
+     if (n.isName()) {
+       if (names.contains(n.getString())) {
+-        if (inInnerFunction || canNameValueChange(n, parent)) {
+-          unsafe.add(n.getString());
+-        }
++        return null;
+       }
+     } else if (n.isFunction()) {
+       // A function parameter can not be replaced with a direct inlined value
+
+
+--- /tmp/Arja_Defects4J_Closure_116/src/com/google/javascript/rhino/Node.java	2018-12-01 08:50:58.717149778 -0500
++++ /tmp/Arja_Defects4J_Closure_116/patches_186s/Patch_753/patched/tmp/Arja_Defects4J_Closure_116/src/com/google/javascript/rhino/Node.java	2018-12-01 09:11:02.853882631 -0500
+@@ -1456,7 +1456,7 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
++        return null;
+       }
+     }
+     return res;
+
+

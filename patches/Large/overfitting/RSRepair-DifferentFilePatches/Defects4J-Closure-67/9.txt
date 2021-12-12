@@ -1,0 +1,39 @@
+--- /tmp/RSRepair_Defects4J_Closure_67/src/com/google/javascript/rhino/Token.java	2018-12-02 08:29:01.593227355 -0500
++++ /tmp/RSRepair_Defects4J_Closure_67/patches_z92j/Patch_180/patched/tmp/RSRepair_Defects4J_Closure_67/src/com/google/javascript/rhino/Token.java	2018-12-02 08:35:21.602812894 -0500
+@@ -307,7 +307,7 @@
+           case TYPEOF:          return "TYPEOF";
+           case GETPROP:         return "GETPROP";
+           case SETPROP:         return "SETPROP";
+-          case GETELEM:         return "GETELEM";
++          case GETELEM:         ;
+           case SETELEM:         return "SETELEM";
+           case CALL:            return "CALL";
+           case NAME:            return "NAME";
+
+
+--- /tmp/RSRepair_Defects4J_Closure_67/src/com/google/javascript/jscomp/RemoveUnusedPrototypeProperties.java	2018-12-02 08:29:01.569227355 -0500
++++ /tmp/RSRepair_Defects4J_Closure_67/patches_z92j/Patch_180/patched/tmp/RSRepair_Defects4J_Closure_67/src/com/google/javascript/jscomp/RemoveUnusedPrototypeProperties.java	2018-12-02 08:35:21.602812894 -0500
+@@ -84,21 +84,7 @@
+         for (Symbol declaration : nameInfo.getDeclarations()) {
+           boolean canRemove = false;
+ 
+-          if (specializationState == null) {
+-            canRemove = true;
+-          } else {
+-            Node specializableFunction =
+-              getSpecializableFunctionFromSymbol(declaration);
+-
+-            if (specializableFunction != null) {
+-              specializationState.reportRemovedFunction(
+-                  specializableFunction, null);
+-              canRemove = true;
+-            }
+-          }
+-
+           if (canRemove) {
+-            declaration.remove();
+             changed = true;
+           }
+         }
+
+

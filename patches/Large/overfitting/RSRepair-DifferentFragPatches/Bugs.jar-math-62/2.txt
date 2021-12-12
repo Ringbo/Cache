@@ -1,0 +1,14 @@
+--- /tmp/RSRepair_Bug_dot_jar_Commons-Math_f6dd42b4/src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java	2018-12-30 01:27:28.893226000 -0500
++++ /tmp/RSRepair_Bug_dot_jar_Commons-Math_f6dd42b4/patches_0m1a/Patch_145/patched/tmp/RSRepair_Bug_dot_jar_Commons-Math_f6dd42b4/src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java	2018-12-30 01:35:10.160778252 -0500
+@@ -104,7 +104,8 @@
+             return result;
+         }
+ 
+-        // return the first endpoint if it is good enough
++        verifyBracketing(min, max, f);
++		// return the first endpoint if it is good enough
+         double yMin = f.value(min);
+         if (Math.abs(yMin) <= functionValueAccuracy) {
+             setResult(yMin, 0);
+
+

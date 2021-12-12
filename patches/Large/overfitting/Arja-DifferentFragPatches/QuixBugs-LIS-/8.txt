@@ -1,0 +1,35 @@
+--- /tmp/Arja_QuixBugs_LIS_/src/main/java/LIS.java	2018-12-02 05:37:18.902230939 -0500
++++ /tmp/Arja_QuixBugs_LIS_/patches_nmk9/Patch_1731/patched/tmp/Arja_QuixBugs_LIS_/src/main/java/LIS.java	2018-12-02 05:42:37.659510498 -0500
+@@ -20,7 +20,9 @@
+             ArrayList<Integer> prefix_lengths = new ArrayList<Integer>(100);
+             for (int j=1; j < longest+1; j++) {
+                 if (arr[ends.get(j)] < val) {
+-                    prefix_lengths.add(j);
++                    if (arr[ends.get(j)] < val) {
++						prefix_lengths.add(j);
++					}
+                 }
+             }
+ 
+@@ -28,10 +30,17 @@
+ 
+             if (length == longest || val < arr[ends.get(length+1)]) {
+                 ends.put(length+1, i);
+-                longest = length + 1;
++                if (length == longest || val < arr[ends.get(length + 1)]) {
++					ends.put(length + 1, i);
++					longest = length + 1;
++				}
+             }
+ 
+-            i++;
++            if (length == longest || val < arr[ends.get(length + 1)]) {
++				ends.put(length + 1, i);
++				longest = length + 1;
++			}
++			i++;
+         }
+         return longest;
+     }
+
+

@@ -1,0 +1,28 @@
+--- /tmp/Arja_Defects4J_Math_95/src/java/org/apache/commons/math/distribution/FDistributionImpl.java	2018-12-01 05:43:14.723151256 -0500
++++ /tmp/Arja_Defects4J_Math_95/patches_8px0/Patch_526/patched/tmp/Arja_Defects4J_Math_95/src/java/org/apache/commons/math/distribution/FDistributionImpl.java	2018-12-01 05:49:51.179383052 -0500
+@@ -100,7 +100,11 @@
+         if (p == 0) {
+             return 0d;
+         }
+-        if (p == 1) {
++        if (p <= 0) {
++			throw new IllegalArgumentException(
++					"The Poisson mean must be positive");
++		}
++		if (p == 1) {
+             return Double.POSITIVE_INFINITY;
+         }
+         return super.inverseCumulativeProbability(p);
+@@ -143,9 +147,7 @@
+     protected double getInitialDomain(double p) {
+         double ret;
+         double d = getDenominatorDegreesOfFreedom();
+-            // use mean
+-            ret = d / (d - 2.0);
+-        return ret;
++            return numeratorDegreesOfFreedom;
+     }
+     
+     /**
+
+

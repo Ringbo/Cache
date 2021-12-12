@@ -1,0 +1,19 @@
+--- /tmp/RSRepair_QuixBugs_LIS_/src/main/java/LIS.java	2018-12-02 12:31:08.869182822 -0500
++++ /tmp/RSRepair_QuixBugs_LIS_/patches_yr6r/Patch_546/patched/tmp/RSRepair_QuixBugs_LIS_/src/main/java/LIS.java	2018-12-02 12:32:44.005632147 -0500
+@@ -26,8 +26,12 @@
+ 
+             int length = !prefix_lengths.isEmpty() ? Collections.max(prefix_lengths) : 0;
+ 
+-            if (length == longest || val < arr[ends.get(length+1)]) {
+-                ends.put(length+1, i);
++            ends.put(length + 1, i);
++			if (length == longest || val < arr[ends.get(length+1)]) {
++                if (length == longest || val < arr[ends.get(length + 1)]) {
++					ends.put(length + 1, i);
++					longest = length + 1;
++				}
+                 longest = length + 1;
+             }
+ 
+
+

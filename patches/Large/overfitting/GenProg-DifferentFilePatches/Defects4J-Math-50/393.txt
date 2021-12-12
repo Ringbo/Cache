@@ -1,0 +1,31 @@
+--- /tmp/GenProg_Defects4J_Math_50/src/main/java/org/apache/commons/math/analysis/solvers/BaseSecantSolver.java	2018-12-02 11:55:35.505022862 -0500
++++ /tmp/GenProg_Defects4J_Math_50/patches_sses/Patch_1086/patched/tmp/GenProg_Defects4J_Math_50/src/main/java/org/apache/commons/math/analysis/solvers/BaseSecantSolver.java	2018-12-02 12:24:07.062759222 -0500
+@@ -183,11 +183,7 @@
+                     f0 *= f1 / (f1 + fx);
+                     break;
+                 case REGULA_FALSI:
+-                    // Nothing.
+-                    if (x == x1) {
+-                        x0 = 0.5 * (x0 + x1 - FastMath.max(rtol * FastMath.abs(x1), atol));
+-                        f0 = computeObjectiveValue(x0);
+-                    }
++                    ;
+                     break;
+                 default:
+                     // Should never happen.
+
+
+--- /tmp/GenProg_Defects4J_Math_50/src/main/java/org/apache/commons/math/analysis/solvers/UnivariateRealSolverUtils.java	2018-12-02 11:55:31.845022991 -0500
++++ /tmp/GenProg_Defects4J_Math_50/patches_sses/Patch_1086/patched/tmp/GenProg_Defects4J_Math_50/src/main/java/org/apache/commons/math/analysis/solvers/UnivariateRealSolverUtils.java	2018-12-02 12:24:07.062759222 -0500
+@@ -302,9 +302,6 @@
+     public static boolean isBracketing(UnivariateRealFunction function,
+                                        final double lower,
+                                        final double upper) {
+-        if (function == null) {
+-            throw new NullArgumentException(LocalizedFormats.FUNCTION);
+-        }
+         final double fLo = function.value(lower);
+         final double fHi = function.value(upper);
+         return (fLo >= 0 && fHi <= 0) || (fLo <= 0 && fHi >= 0);
+
+

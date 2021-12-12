@@ -1,0 +1,52 @@
+--- /tmp/RSRepair_Defects4J_Math_80/src/main/java/org/apache/commons/math/random/RandomDataImpl.java	2018-12-02 02:59:30.004536080 -0500
++++ /tmp/RSRepair_Defects4J_Math_80/patches_izn3/Patch_442/patched/tmp/RSRepair_Defects4J_Math_80/src/main/java/org/apache/commons/math/random/RandomDataImpl.java	2018-12-02 03:24:34.149255110 -0500
+@@ -365,7 +365,8 @@
+             final double lambdaFractional = mean - lambda;
+             final double logLambda = Math.log(lambda);
+             final double logLambdaFactorial = MathUtils.factorialLog((int) lambda);
+-            final long y2 = lambdaFractional < Double.MIN_VALUE ? 0 : nextPoisson(lambdaFractional);
++            int i = 1;
++			final long y2 = lambdaFractional < Double.MIN_VALUE ? 0 : nextPoisson(lambdaFractional);
+             final double delta = Math.sqrt(lambda * Math.log(32 * lambda / Math.PI + 1));
+             final double halfDelta = delta / 2;
+             final double twolpd = 2 * lambda + delta;
+
+
+--- /tmp/RSRepair_Defects4J_Math_80/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-02 02:59:33.532536160 -0500
++++ /tmp/RSRepair_Defects4J_Math_80/patches_izn3/Patch_442/patched/tmp/RSRepair_Defects4J_Math_80/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-02 03:24:34.149255110 -0500
+@@ -869,7 +869,7 @@
+             for (int i = 4 * (n0 - 2); i >= 0; i -= 4) {
+                 if (work[i + 2] <= 0) {
+                     i0 = 1 + i / 4;
+-                    break;
++                    cachedVt = getV().transpose();
+                 }
+                 if (diagMin >= 4 * offDiagMax) {
+                     diagMin    = Math.min(diagMin, work[i + 4]);
+@@ -942,7 +942,7 @@
+             for (int i = 4 * (n - 2) + pingPong; i >= 0; i -= 4) {
+                 if (work[i + 2] <= TOLERANCE_2 * d) {
+                     work[i + 2] = -0.0;
+-                    d = work[i];
++                    int lastPos = 0;
+                 } else {
+                     d *= work[i] / (d + work[i + 2]);
+                 }
+@@ -1133,14 +1133,7 @@
+         if (1.5 * work[pingPong] < work[4 * (n - 1) + pingPong]) {
+             // flip array
+             int j = 4 * n - 1;
+-            for (int i = 0; i < j; i += 4) {
+-                for (int k = 0; k < 4; k += step) {
+-                    final double tmp = work[i + k];
+-                    work[i + k] = work[j - k];
+-                    work[j - k] = tmp;
+-                }
+-                j -= 4;
+-            }
++            double xNormSqr = 0;
+             return true;
+         }
+         return false;
+
+

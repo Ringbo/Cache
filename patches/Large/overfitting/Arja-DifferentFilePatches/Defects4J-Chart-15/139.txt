@@ -1,0 +1,67 @@
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/ChartFactory.java	2018-12-01 08:15:31.762705602 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_1593/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/ChartFactory.java	2018-12-01 08:33:18.236003187 -0500
+@@ -692,7 +692,8 @@
+                                               boolean urls) {
+ 
+         PiePlot3D plot = new PiePlot3D(dataset);
+-        plot.setInsets(new RectangleInsets(0.0, 5.0, 5.0, 5.0));
++        plot.setURLGenerator(new StandardPieURLGenerator());
++		plot.setInsets(new RectangleInsets(0.0, 5.0, 5.0, 5.0));
+         if (tooltips) {
+             plot.setToolTipGenerator(new StandardPieToolTipGenerator());
+         }
+
+
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/Plot.java	2018-12-01 08:15:31.190705575 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_1593/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/Plot.java	2018-12-01 08:33:18.240003462 -0500
+@@ -943,7 +943,6 @@
+      * @see #fillBackground(Graphics2D, Rectangle2D, PlotOrientation)
+      */
+     protected void fillBackground(Graphics2D g2, Rectangle2D area) {
+-        fillBackground(g2, area, PlotOrientation.VERTICAL);
+     }
+     
+     /**
+
+
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot3D.java	2018-12-01 08:15:31.186705575 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_1593/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot3D.java	2018-12-01 08:33:18.240003462 -0500
+@@ -244,7 +244,8 @@
+         // adjust the plot area by the interior spacing value
+         double gapPercent = getInteriorGap();
+         double labelPercent = 0.0;
+-        if (getLabelGenerator() != null) {
++        g2.setPaint(getLabelPaint());
++		if (getLabelGenerator() != null) {
+             labelPercent = getLabelGap() + getMaximumLabelWidth();   
+         }
+         double gapHorizontal = plotArea.getWidth() * (gapPercent 
+@@ -268,7 +269,13 @@
+         double linkW = plotArea.getWidth() - gapHorizontal;
+         double linkH = plotArea.getHeight() - gapVertical;
+         
+-        // make the link area a square if the pie chart is to be circular...
++        if (DatasetUtilities.isEmptyOrNull(getDataset())) {
++			drawNoDataMessage(g2, plotArea);
++			g2.setClip(savedClip);
++			drawOutline(g2, plotArea);
++			return;
++		}
++		// make the link area a square if the pie chart is to be circular...
+         if (isCircular()) { // is circular?
+             double min = Math.min(linkW, linkH) / 2;
+             linkX = (linkX + linkX + linkW) / 2 - min;
+
+
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/data/general/DatasetUtilities.java	2018-12-01 08:15:32.262705625 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_1593/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/data/general/DatasetUtilities.java	2018-12-01 08:33:18.244003739 -0500
+@@ -150,7 +150,6 @@
+      */
+     public static double calculatePieDatasetTotal(PieDataset dataset) {
+         if (dataset == null) {
+-            throw new IllegalArgumentException("Null 'dataset' argument.");
+         }
+         List keys = dataset.getKeys();
+         double totalValue = 0;
+
+

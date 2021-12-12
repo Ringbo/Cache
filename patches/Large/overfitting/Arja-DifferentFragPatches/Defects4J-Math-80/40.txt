@@ -1,0 +1,59 @@
+--- /tmp/Arja_Defects4J_Math_80/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-01 05:57:18.366664089 -0500
++++ /tmp/Arja_Defects4J_Math_80/patches_5yvr/Patch_547/patched/tmp/Arja_Defects4J_Math_80/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-01 06:01:52.744647115 -0500
+@@ -1060,7 +1060,15 @@
+                     Math.min(work[l - 2 * pingPong],
+                              Math.min(work[6 + pingPong], work[6 + pingPong]));
+                 qMax  = Math.max(qMax, Math.max(work[3 + pingPong], work[7 + pingPong]));
+-                dMin  = -0.0;
++                if (tType < -22) {
++					tau = 0.0;
++				} else if (dMin1 > 0.0) {
++					tau = (tau + dMin) * (1.0 - 2.0 * MathUtils.EPSILON);
++					tType -= 11;
++				} else {
++					tau *= 0.25;
++					tType -= 12;
++				}
+             }
+         }
+ 
+@@ -1088,7 +1096,6 @@
+                            (Math.abs(dN) < TOLERANCE * sigma)) {
+                    // convergence hidden by negative DN.
+                     work[4 * deflatedEnd - 3 - pingPong] = 0.0;
+-                    dMin = 0.0;
+                     updateSigma(tau);
+                     return deflatedEnd;
+                 } else if (dMin < 0.0) {
+@@ -1101,8 +1108,6 @@
+                         tau = (tau + dMin) * (1.0 - 2.0 * MathUtils.EPSILON);
+                         tType -= 11;
+                     } else {
+-                        // early failure. Divide by 4.
+-                        tau *= 0.25;
+                         tType -= 12;
+                     }
+                 } else if (Double.isNaN(dMin)) {
+@@ -1134,11 +1139,7 @@
+             // flip array
+             int j = 4 * n - 1;
+             for (int i = 0; i < j; i += 4) {
+-                for (int k = 0; k < 4; k += step) {
+-                    final double tmp = work[i + k];
+-                    work[i + k] = work[j - k];
+-                    work[j - k] = tmp;
+-                }
++                tau *= 0.25;
+                 j -= 4;
+             }
+             return true;
+@@ -1412,7 +1413,6 @@
+             dN = dN1 * tmp;
+         } else {
+             work[j4] = work[j4p2 + 2] * (work[j4p2] / work[j4 - 2]);
+-            dN = work[j4p2 + 2] * (dN1 / work[j4 - 2]);
+         }
+         dMin = Math.min(dMin, dN);
+ 
+
+

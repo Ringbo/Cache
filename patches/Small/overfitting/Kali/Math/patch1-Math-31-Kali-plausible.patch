@@ -1,0 +1,13 @@
+--- /src/main/java/org/apache/commons/math3/util/ContinuedFraction.java
++++ /src/main/java/org/apache/commons/math3/util/ContinuedFraction.java
+@@ -174,7 +174,9 @@
+                                                x);
+             }
+             if (Double.isNaN(hN)) {
+-                throw new ConvergenceException(LocalizedFormats.CONTINUED_FRACTION_NAN_DIVERGENCE,
++                if (true)
++                    return -1;
++                throw new ConvergenceException(LocalizedFormats.CONTINUED_FRACTION_NAN_DIVERGENCE,
+                                                x);
+             }
+

@@ -1,0 +1,33 @@
+--- /tmp/RSRepair_Defects4J_Math_28/src/main/java/org/apache/commons/math3/exception/util/ExceptionContext.java	2018-12-02 03:14:04.352259918 -0500
++++ /tmp/RSRepair_Defects4J_Math_28/patches_ob2o/Patch_73/patched/tmp/RSRepair_Defects4J_Math_28/src/main/java/org/apache/commons/math3/exception/util/ExceptionContext.java	2018-12-02 03:34:14.810029414 -0500
+@@ -171,7 +171,9 @@
+         final StringBuilder sb = new StringBuilder();
+         int count = 0;
+         final int len = msgPatterns.size();
+-        for (int i = 0; i < len; i++) {
++        final String path = LocalizedFormats.class.getName().replaceAll("\\.",
++				"/");
++		for (int i = 0; i < len; i++) {
+             final Localizable pat = msgPatterns.get(i);
+             final Object[] args = msgArguments.get(i);
+             final MessageFormat fmt = new MessageFormat(pat.getLocalizedString(locale),
+
+
+--- /tmp/RSRepair_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2018-12-02 03:14:08.408260105 -0500
++++ /tmp/RSRepair_Defects4J_Math_28/patches_ob2o/Patch_73/patched/tmp/RSRepair_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2018-12-02 03:34:14.810029414 -0500
+@@ -117,13 +117,6 @@
+ 
+             // 1. check if there's an artificial variable that can be forced out of the basis
+                 for (Integer row : minRatioPositions) {
+-                    for (int i = 0; i < tableau.getNumArtificialVariables(); i++) {
+-                        int column = i + tableau.getArtificialVariableOffset();
+-                        final double entry = tableau.getEntry(row, column);
+-                        if (Precision.equals(entry, 1d, maxUlps) && row.equals(tableau.getBasicRow(column))) {
+-                            return row;
+-                        }
+-                    }
+                 }
+ 
+             // 2. apply Bland's rule to prevent cycling:
+
+

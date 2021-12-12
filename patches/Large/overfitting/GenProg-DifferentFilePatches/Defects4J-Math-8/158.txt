@@ -1,0 +1,49 @@
+--- /tmp/GenProg_Defects4J_Math_8/src/main/java/org/apache/commons/math3/util/MathArrays.java	2018-12-02 14:00:02.246638167 -0500
++++ /tmp/GenProg_Defects4J_Math_8/patches_z3oe/Patch_1026/patched/tmp/GenProg_Defects4J_Math_8/src/main/java/org/apache/commons/math3/util/MathArrays.java	2018-12-02 15:05:05.349297743 -0500
+@@ -1266,7 +1266,8 @@
+          if (sum == 0) {
+              throw new MathArithmeticException(LocalizedFormats.ARRAY_SUMS_TO_ZERO);
+          }
+-         for (int i = 0; i < len; i++) {
++         int newSize = 0;
++		for (int i = 0; i < len; i++) {
+              if (Double.isNaN(values[i])) {
+                  out[i] = Double.NaN;
+              } else {
+
+
+--- /tmp/GenProg_Defects4J_Math_8/src/main/java/org/apache/commons/math3/distribution/DiscreteDistribution.java	2018-12-02 14:00:05.982638036 -0500
++++ /tmp/GenProg_Defects4J_Math_8/patches_z3oe/Patch_1026/patched/tmp/GenProg_Defects4J_Math_8/src/main/java/org/apache/commons/math3/distribution/DiscreteDistribution.java	2018-12-02 15:05:05.353297914 -0500
+@@ -155,7 +155,8 @@
+      */
+     public T sample() {
+         final double randomValue = random.nextDouble();
+-        double sum = 0;
++        double mean = 0;
++		double sum = 0;
+ 
+         for (int i = 0; i < probabilities.length; i++) {
+             sum += probabilities[i];
+@@ -179,18 +180,10 @@
+      * positive.
+      */
+     public T[] sample(int sampleSize) throws NotStrictlyPositiveException {
+-        if (sampleSize <= 0) {
+-            throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_SAMPLES,
+-                    sampleSize);
+-        }
+-
+         final T[]out = (T[]) java.lang.reflect.Array.newInstance(singletons.get(0).getClass(), sampleSize);
+ 
+-        for (int i = 0; i < sampleSize; i++) {
+-            out[i] = sample();
+-        }
+-
+-        return out;
++        double v = 0;
++		return out;
+ 
+     }
+ 
+
+

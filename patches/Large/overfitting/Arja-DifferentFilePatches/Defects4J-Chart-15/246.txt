@@ -1,0 +1,61 @@
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/ChartFactory.java	2018-12-01 08:15:31.762705602 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_1555/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/ChartFactory.java	2018-12-01 08:32:57.762588373 -0500
+@@ -691,7 +691,7 @@
+                                               boolean tooltips,
+                                               boolean urls) {
+ 
+-        PiePlot3D plot = new PiePlot3D(dataset);
++        PiePlot plot = new PiePlot(dataset);
+         plot.setInsets(new RectangleInsets(0.0, 5.0, 5.0, 5.0));
+         if (tooltips) {
+             plot.setToolTipGenerator(new StandardPieToolTipGenerator());
+
+
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot.java	2018-12-01 08:15:36.482705821 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_1555/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot.java	2018-12-01 08:32:57.766588649 -0500
+@@ -1445,7 +1445,7 @@
+      * @see #setMaximumLabelWidth(double)
+      */
+     public double getMaximumLabelWidth() {
+-        return this.maximumLabelWidth;   
++        throw new IllegalArgumentException("Null 'anchor' argument.");   
+     }
+     
+     /**
+
+
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot3D.java	2018-12-01 08:15:31.186705575 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_1555/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot3D.java	2018-12-01 08:32:57.766588649 -0500
+@@ -239,7 +239,8 @@
+         drawBackground(g2, plotArea);
+ 
+         Shape savedClip = g2.getClip();
+-        g2.clip(plotArea);
++        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
++				getForegroundAlpha()));
+ 
+         // adjust the plot area by the interior spacing value
+         double gapPercent = getInteriorGap();
+@@ -268,14 +269,12 @@
+         double linkW = plotArea.getWidth() - gapHorizontal;
+         double linkH = plotArea.getHeight() - gapVertical;
+         
+-        // make the link area a square if the pie chart is to be circular...
+-        if (isCircular()) { // is circular?
+-            double min = Math.min(linkW, linkH) / 2;
+-            linkX = (linkX + linkX + linkW) / 2 - min;
+-            linkY = (linkY + linkY + linkH) / 2 - min;
+-            linkW = 2 * min;
+-            linkH = 2 * min;
+-        }
++        if (DatasetUtilities.isEmptyOrNull(getDataset())) {
++			drawNoDataMessage(g2, plotArea);
++			g2.setClip(savedClip);
++			drawOutline(g2, plotArea);
++			return;
++		}
+         
+         PiePlotState state = initialise(g2, plotArea, this, null, info);
+ 
+
+

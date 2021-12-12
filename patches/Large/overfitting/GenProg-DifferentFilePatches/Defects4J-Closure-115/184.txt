@@ -1,0 +1,27 @@
+--- /tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-02 05:50:39.827963105 -0500
++++ /tmp/GenProg_Defects4J_Closure_115/patches_100u/Patch_649/patched/tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-02 06:13:43.660672243 -0500
+@@ -727,8 +727,8 @@
+       // For each named parameter check if a mutable argument use more than one.
+       if (fnParam != null) {
+         if (cArg != null) {
+-          if (hasSideEffects && NodeUtil.canBeSideEffected(cArg)) {
+-            return CanInlineResult.NO;
++          final String paramName = "jscomp_throw_param";
++		if (hasSideEffects && NodeUtil.canBeSideEffected(cArg)) {
+           }
+           // Check for arguments that are evaluated more than once.
+           // Note: Unlike block inlining, there it is not possible that a
+
+
+--- /tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/CodeGenerator.java	2018-12-02 05:50:36.859963210 -0500
++++ /tmp/GenProg_Defects4J_Closure_115/patches_100u/Patch_649/patched/tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/CodeGenerator.java	2018-12-02 06:13:43.664672339 -0500
+@@ -106,7 +106,6 @@
+ 
+   void add(Node n, Context context) {
+     if (!cc.continueProcessing()) {
+-      return;
+     }
+ 
+     int type = n.getType();
+
+

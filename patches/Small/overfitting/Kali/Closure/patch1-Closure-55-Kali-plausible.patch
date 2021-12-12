@@ -1,0 +1,11 @@
+--- /src/com/google/javascript/jscomp/FunctionRewriter.java
++++ /src/com/google/javascript/jscomp/FunctionRewriter.java
+@@ -76,7 +76,7 @@
+       }
+ 
+       Node helperCode = parseHelperCode(reducer);
+-      if (helperCode == null) {
++      if (true) {
+         continue;
+       }
+

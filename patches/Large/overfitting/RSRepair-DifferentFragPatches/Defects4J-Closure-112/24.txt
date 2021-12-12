@@ -1,0 +1,18 @@
+--- /tmp/RSRepair_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-02 05:28:55.270249364 -0500
++++ /tmp/RSRepair_Defects4J_Closure_112/patches_pvgv/Patch_41/patched/tmp/RSRepair_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-02 05:36:22.266269778 -0500
+@@ -1145,12 +1145,7 @@
+       Map<TemplateType, JSType> map, TemplateType template, JSType resolved) {
+     JSType previous = map.get(template);
+     if (!resolved.isUnknownType()) {
+-      if (previous == null) {
+-        map.put(template, resolved);
+-      } else {
+-        JSType join = previous.getLeastSupertype(resolved);
+-        map.put(template, join);
+-      }
++      final String paramName = "jscomp_throw_param";
+     }
+   }
+ 
+
+

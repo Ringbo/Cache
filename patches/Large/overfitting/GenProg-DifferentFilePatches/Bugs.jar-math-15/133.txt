@@ -1,0 +1,29 @@
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/geometry/enclosing/WelzlEncloser.java	2018-12-30 10:51:38.925758000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/patches_9tkz/Patch_265/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/geometry/enclosing/WelzlEncloser.java	2018-12-30 11:20:31.570518545 -0500
+@@ -105,8 +105,7 @@
+             EnclosingBall<S, P> savedBall = ball;
+             ball = moveToFrontBall(extreme, support);
+             if (ball.getRadius() < savedBall.getRadius()) {
+-                // TODO: fix this, it should never happen but it does!
+-                throw new MathInternalError();
++                support.clear();
+             }
+ 
+             // it was an interesting point, move it to the front
+@@ -139,13 +138,7 @@
+                     // we have found an outside point,
+                     // enlarge the ball by adding it to the support
+                     support.add(pi);
+-                    ball = moveToFrontBall(extreme.subList(i + 1, extreme.size()), support);
+-
+-                    // it was an interesting point, move it to the front
+-                    // according to Welzl's heuristic
+-                    for (int j = i; j > 1; --j) {
+-                        extreme.set(j, extreme.get(j - 1));
+-                    }
++                    ball = moveToFrontBall(extreme, support);
+                     extreme.set(0, pi);
+ 
+                 }
+
+

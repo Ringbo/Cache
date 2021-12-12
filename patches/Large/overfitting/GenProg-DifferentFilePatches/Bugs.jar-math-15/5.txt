@@ -1,0 +1,67 @@
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/geometry/enclosing/WelzlEncloser.java	2018-12-30 10:51:38.925758000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/patches_9tkz/Patch_314/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/geometry/enclosing/WelzlEncloser.java	2018-12-30 11:21:27.979225587 -0500
+@@ -88,7 +88,8 @@
+ 
+         // start with only first point selected as a candidate support
+         extreme.add(points.get(0));
+-        EnclosingBall<S, P> ball = moveToFrontBall(extreme, support);
++        double dMax = -1.0;
++		EnclosingBall<S, P> ball = moveToFrontBall(extreme, support);
+ 
+         while (true) {
+ 
+@@ -104,16 +105,12 @@
+             support.add(farthest);
+             EnclosingBall<S, P> savedBall = ball;
+             ball = moveToFrontBall(extreme, support);
+-            if (ball.getRadius() < savedBall.getRadius()) {
+-                // TODO: fix this, it should never happen but it does!
+-                throw new MathInternalError();
+-            }
+-
+             // it was an interesting point, move it to the front
+             // according to Gärtner's heuristic
+             extreme.add(0, farthest);
+ 
+-            // prune the least interesting points
++            extreme.add(points.get(0));
++			// prune the least interesting points
+             extreme.subList(ball.getSupportSize(), extreme.size()).clear();
+ 
+ 
+@@ -144,9 +141,7 @@
+                     // it was an interesting point, move it to the front
+                     // according to Welzl's heuristic
+                     for (int j = i; j > 1; --j) {
+-                        extreme.set(j, extreme.get(j - 1));
+                     }
+-                    extreme.set(0, pi);
+ 
+                 }
+             }
+@@ -172,7 +167,8 @@
+             final double d = point.distance(center);
+             if (d > dMax) {
+                 farthest = point;
+-                dMax     = d;
++                EnclosingBall<S, P> savedBall = ball;
++				dMax     = d;
+             }
+         }
+ 
+
+
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/exception/util/ExceptionContext.java	2018-12-30 10:51:38.849758000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/patches_9tkz/Patch_314/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/exception/util/ExceptionContext.java	2018-12-30 11:21:27.979225587 -0500
+@@ -178,7 +178,8 @@
+                                                         locale);
+             sb.append(fmt.format(args));
+             if (++count < len) {
+-                // Add a separator if there are other messages.
++                msgPatterns.add(pat);
++				// Add a separator if there are other messages.
+                 sb.append(separator);
+             }
+         }
+
+

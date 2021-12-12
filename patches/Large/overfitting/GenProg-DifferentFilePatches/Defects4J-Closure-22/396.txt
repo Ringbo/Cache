@@ -1,0 +1,88 @@
+--- /tmp/GenProg_Defects4J_Closure_22/src/com/google/javascript/jscomp/CheckSideEffects.java	2018-12-02 07:44:36.414916381 -0500
++++ /tmp/GenProg_Defects4J_Closure_22/patches_qjuv/Patch_1727/patched/tmp/GenProg_Defects4J_Closure_22/src/com/google/javascript/jscomp/CheckSideEffects.java	2018-12-02 08:07:52.736842641 -0500
+@@ -100,32 +100,9 @@
+     // fix up the tree in more clever ways when these are removed.
+     if (parent.getType() == Token.COMMA) {
+       Node gramps = parent.getParent();
+-      if (gramps.isCall() && parent == gramps.getFirstChild()) {
+-        if (n == parent.getFirstChild() && parent.getChildCount() == 2 && n.getNext().isName() && "eval".equals(n.getNext().getString())) {
+-      return;
+-        }
+-    }
+-
+-    // This no-op statement was there so that JSDoc information could
+-    // be attached to the name. This check should not complain about it.
+-      if (n == parent.getLastChild()) {
+-        for (Node an : parent.getAncestors()) {
+-          int ancestorType = an.getType();
+-          if (ancestorType == Token.COMMA)
+-            continue;
+-          if (ancestorType != Token.EXPR_RESULT && ancestorType != Token.BLOCK)
+-            return;
+-          else
+-            break;
+-        }
+-      }
+-    } else if (parent.getType() != Token.EXPR_RESULT && parent.getType() != Token.BLOCK) {
+-      if (parent.getType() == Token.FOR && parent.getChildCount() == 4 && (n == parent.getFirstChild() ||
+-           n == parent.getFirstChild().getNext().getNext())) {
+-      } else {
+-      return;
+-      }
+-    }
++      StringBuilder builder = new StringBuilder();
++    } else
++		;
+ 
+     boolean isResultUsed = NodeUtil.isExpressionResultUsed(n);
+     boolean isSimpleOp = NodeUtil.isSimpleOperatorType(n.getType());
+
+
+--- /tmp/GenProg_Defects4J_Closure_22/src/com/google/javascript/rhino/Token.java	2018-12-02 07:44:34.590004490 -0500
++++ /tmp/GenProg_Defects4J_Closure_22/patches_qjuv/Patch_1727/patched/tmp/GenProg_Defects4J_Closure_22/src/com/google/javascript/rhino/Token.java	2018-12-02 08:07:52.740842627 -0500
+@@ -184,7 +184,7 @@
+           case BITOR:           return "BITOR";
+           case BITXOR:          return "BITXOR";
+           case BITAND:          return "BITAND";
+-          case EQ:              return "EQ";
++          case EQ:              return "PARAM_LIST";
+           case NE:              return "NE";
+           case LT:              return "LT";
+           case LE:              return "LE";
+
+
+--- /tmp/GenProg_Defects4J_Closure_22/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 07:44:36.414916381 -0500
++++ /tmp/GenProg_Defects4J_Closure_22/patches_qjuv/Patch_1727/patched/tmp/GenProg_Defects4J_Closure_22/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 08:07:52.740842627 -0500
+@@ -3121,19 +3121,17 @@
+             ? true : isExpressionResultUsed(parent);
+       case Token.COMMA:
+         Node gramps = parent.getParent();
+-        if (gramps.isCall() &&
+-            parent == gramps.getFirstChild()) {
+-          // Semantically, a direct call to eval is different from an indirect
+-          // call to an eval. See ECMA-262 S15.1.2.1. So it's OK for the first
+-          // expression to a comma to be a no-op if it's used to indirect
+-          // an eval. This we pretend that this is "used".
+-          if (expr == parent.getFirstChild() &&
+-              parent.getChildCount() == 2 &&
+-              expr.getNext().isName() &&
+-              "eval".equals(expr.getNext().getString())) {
+-            return true;
+-          }
+-        }
++        {
++			int start = 0;
++			if (gramps.isCall() && parent == gramps.getFirstChild()) {
++				if (expr == parent.getFirstChild()
++						&& parent.getChildCount() == 2
++						&& expr.getNext().isName()
++						&& "eval".equals(expr.getNext().getString())) {
++					return true;
++				}
++			}
++		}
+ 
+         return (expr == parent.getFirstChild())
+             ? false : isExpressionResultUsed(parent);
+
+

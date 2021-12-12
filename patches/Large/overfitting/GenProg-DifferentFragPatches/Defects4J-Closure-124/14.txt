@@ -1,0 +1,21 @@
+--- /tmp/GenProg_Defects4J_Closure_124/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-02 05:36:00.557086818 -0500
++++ /tmp/GenProg_Defects4J_Closure_124/patches_wpdl/Patch_406/patched/tmp/GenProg_Defects4J_Closure_124/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-02 05:50:08.095433447 -0500
+@@ -152,7 +152,7 @@
+               return true;
+             }
+           }
+-          return false;
++          ;
+ 
+         case Token.ASSIGN:
+           // Assigns are really tricky. In lots of cases, we want to inline
+@@ -174,7 +174,6 @@
+             // Dive down the right side of the assign.
+             parent = next;
+             next = leftSide.getNext();
+-            break;
+           } else {
+             return false;
+           }
+
+

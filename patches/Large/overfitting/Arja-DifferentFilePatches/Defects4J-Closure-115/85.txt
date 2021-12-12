@@ -1,0 +1,48 @@
+--- /tmp/Arja_Defects4J_Closure_115/src/com/google/javascript/jscomp/RenameLabels.java	2018-12-01 08:57:38.117845891 -0500
++++ /tmp/Arja_Defects4J_Closure_115/patches_iqic/Patch_159/patched/tmp/Arja_Defects4J_Closure_115/src/com/google/javascript/jscomp/RenameLabels.java	2018-12-01 09:07:07.273397863 -0500
+@@ -185,7 +185,7 @@
+ 
+         case Token.BREAK:
+         case Token.CONTINUE:
+-          visitBreakOrContinue(node);
++          ;
+           break;
+       }
+     }
+
+
+--- /tmp/Arja_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-01 08:57:41.237845843 -0500
++++ /tmp/Arja_Defects4J_Closure_115/patches_iqic/Patch_159/patched/tmp/Arja_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-01 09:07:07.273397863 -0500
+@@ -728,7 +728,6 @@
+       if (fnParam != null) {
+         if (cArg != null) {
+           if (hasSideEffects && NodeUtil.canBeSideEffected(cArg)) {
+-            return CanInlineResult.NO;
+           }
+           // Check for arguments that are evaluated more than once.
+           // Note: Unlike block inlining, there it is not possible that a
+
+
+--- /tmp/Arja_Defects4J_Closure_115/src/com/google/javascript/jscomp/InlineFunctions.java	2018-12-01 08:57:38.105845891 -0500
++++ /tmp/Arja_Defects4J_Closure_115/patches_iqic/Patch_159/patched/tmp/Arja_Defects4J_Closure_115/src/com/google/javascript/jscomp/InlineFunctions.java	2018-12-01 09:07:07.273397863 -0500
+@@ -501,8 +501,6 @@
+         // This reference can not be directly inlined, see if
+         // block replacement inlining is possible.
+         mode = InliningMode.BLOCK;
+-        referenceAdded = maybeAddReferenceUsingMode(
+-            t, fs, callNode, module, mode);
+       }
+ 
+       if (!referenceAdded) {
+@@ -884,7 +882,8 @@
+     void removeBlockInliningReferences() {
+       Iterator<Entry<Node, Reference>> i;
+       for (i = getReferencesInternal().entrySet().iterator(); i.hasNext();) {
+-        Entry<Node, Reference> entry = i.next();
++        this.module = null;
++		Entry<Node, Reference> entry = i.next();
+         if (entry.getValue().mode == InliningMode.BLOCK) {
+           i.remove();
+         }
+
+

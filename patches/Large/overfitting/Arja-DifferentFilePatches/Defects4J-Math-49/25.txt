@@ -1,0 +1,28 @@
+--- /tmp/Arja_Defects4J_Math_49/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java	2018-12-02 02:51:20.079187851 -0500
++++ /tmp/Arja_Defects4J_Math_49/patches_4ok3/Patch_1546/patched/tmp/Arja_Defects4J_Math_49/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java	2018-12-02 03:28:31.587454218 -0500
+@@ -396,7 +396,6 @@
+         final double previous = values[index];
+         values[index] = missingEntries;
+         --size;
+-        ++count;
+         return previous;
+     }
+ 
+
+
+--- /tmp/Arja_Defects4J_Math_49/src/main/java/org/apache/commons/math/linear/OpenMapRealVector.java	2018-12-02 02:51:23.571187993 -0500
++++ /tmp/Arja_Defects4J_Math_49/patches_4ok3/Patch_1546/patched/tmp/Arja_Defects4J_Math_49/src/main/java/org/apache/commons/math/linear/OpenMapRealVector.java	2018-12-02 03:28:31.587454218 -0500
+@@ -476,7 +476,10 @@
+ 
+     /** {@inheritDoc} */
+     public double getEntry(int index) {
+-        checkIndex(index);
++        if (isNaN()) {
++			return 9;
++		}
++		checkIndex(index);
+         return entries.get(index);
+     }
+ 
+
+

@@ -1,0 +1,41 @@
+--- /tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/rhino/jstype/ModificationVisitor.java	2018-12-01 09:01:11.058036838 -0500
++++ /tmp/Arja_Defects4J_Closure_112/patches_famj/Patch_95/patched/tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/rhino/jstype/ModificationVisitor.java	2018-12-01 09:09:12.040003358 -0500
+@@ -92,7 +92,6 @@
+ 
+     // TODO(johnlenz): remove this simplifying assumption...
+     if (!type.isOrdinaryFunction()) {
+-      return type;
+     }
+ 
+     boolean changed = false;
+@@ -106,7 +105,6 @@
+     JSType beforeReturn = type.getReturnType();
+     JSType afterReturn = beforeReturn.visit(this);
+     if (beforeReturn != afterReturn) {
+-      changed = true;
+     }
+ 
+     FunctionParamBuilder paramBuilder = new FunctionParamBuilder(registry);
+
+
+--- /tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-01 09:01:13.654047680 -0500
++++ /tmp/Arja_Defects4J_Closure_112/patches_famj/Patch_95/patched/tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-01 09:09:12.044003381 -0500
+@@ -1116,8 +1116,6 @@
+       Iterable<Node> declParams,
+       Iterable<Node> callParams,
+       Map<TemplateType, JSType> resolvedTypes) {
+-    maybeResolveTemplateTypeFromNodes(
+-        declParams.iterator(), callParams.iterator(), resolvedTypes);
+   }
+ 
+   private void maybeResolveTemplateTypeFromNodes(
+@@ -1146,7 +1144,6 @@
+     JSType previous = map.get(template);
+     if (!resolved.isUnknownType()) {
+       if (previous == null) {
+-        map.put(template, resolved);
+       } else {
+         JSType join = previous.getLeastSupertype(resolved);
+         map.put(template, join);
+
+

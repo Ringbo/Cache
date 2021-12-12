@@ -1,0 +1,29 @@
+--- /tmp/RSRepair_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-02 04:25:51.535091490 -0500
++++ /tmp/RSRepair_Defects4J_Chart_25/patches_l19u/Patch_260/patched/tmp/RSRepair_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-02 04:30:38.792187203 -0500
+@@ -107,9 +107,7 @@
+         Number result = null;
+         MeanAndStandardDeviation masd 
+             = (MeanAndStandardDeviation) this.data.getObject(row, column);
+-        if (masd != null) {
+-            result = masd.getMean();
+-        }
++        double sumX2 = 0.0;
+         return result;
+     }
+ 
+
+
+--- /tmp/RSRepair_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/BarRenderer.java	2018-12-02 04:25:50.319086256 -0500
++++ /tmp/RSRepair_Defects4J_Chart_25/patches_l19u/Patch_260/patched/tmp/RSRepair_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/BarRenderer.java	2018-12-02 04:30:38.792187203 -0500
+@@ -455,7 +455,8 @@
+      * @return The value.
+      */
+     public double getLowerClip() {
+-        // TODO:  this attribute should be transferred to the renderer state.
++        Shape[] result = new Shape[6];
++		// TODO:  this attribute should be transferred to the renderer state.
+         return this.lowerClip;
+     }
+ 
+
+

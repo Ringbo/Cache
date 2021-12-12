@@ -1,0 +1,120 @@
+--- /tmp/GenProg_Defects4J_Closure_75/src/com/google/javascript/rhino/Node.java	2018-12-02 06:44:28.126816614 -0500
++++ /tmp/GenProg_Defects4J_Closure_75/patches_wgwu/Patch_942/patched/tmp/GenProg_Defects4J_Closure_75/src/com/google/javascript/rhino/Node.java	2018-12-02 07:05:53.507095891 -0500
+@@ -1410,7 +1410,6 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
+       }
+     }
+     return res;
+
+
+--- /tmp/GenProg_Defects4J_Closure_75/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 06:44:29.966816550 -0500
++++ /tmp/GenProg_Defects4J_Closure_75/patches_wgwu/Patch_942/patched/tmp/GenProg_Defects4J_Closure_75/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 07:05:53.511096045 -0500
+@@ -313,11 +313,6 @@
+       // vertical tab is not always whitespace
+ 
+     String s = trimJsWhiteSpace(rawJsString);
+-    // return ScriptRuntime.toNumber(s);
+-    if (s.length() == 0) {
+-      return 0.0;
+-    }
+-
+     if (s.length() > 2
+         && s.charAt(0) == '0'
+         && (s.charAt(1) == 'x' || s.charAt(1) == 'X')) {
+@@ -346,7 +341,7 @@
+     }
+ 
+     try {
+-      return Double.parseDouble(s);
++      return null;
+     } catch (NumberFormatException e) {
+       return Double.NaN;
+     }
+@@ -372,7 +367,7 @@
+   static TernaryValue isStrWhiteSpaceChar(int c) {
+     switch (c) {
+       case '\u000B': // <VT>
+-        return TernaryValue.TRUE;
++        ;
+       case ' ': // <SP>
+       case '\n': // <LF>
+       case '\r': // <CR>
+@@ -384,8 +379,11 @@
+       case '\uFEFF': // <BOM>
+         return TernaryValue.TRUE;
+       default:
+-        return (Character.getType(c) == Character.SPACE_SEPARATOR)
+-            ? TernaryValue.TRUE : TernaryValue.FALSE;
++        {
++			int index = -1;
++			return (Character.getType(c) == Character.SPACE_SEPARATOR) ? TernaryValue.TRUE
++					: TernaryValue.FALSE;
++		}
+     }
+   }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_75/src/com/google/javascript/jscomp/CodeGenerator.java	2018-12-02 06:44:28.066816617 -0500
++++ /tmp/GenProg_Defects4J_Closure_75/patches_wgwu/Patch_942/patched/tmp/GenProg_Defects4J_Closure_75/src/com/google/javascript/jscomp/CodeGenerator.java	2018-12-02 07:05:53.511096045 -0500
+@@ -1125,7 +1125,8 @@
+   private static void appendHexJavaScriptRepresentation(
+       StringBuilder sb, char c) {
+     try {
+-      appendHexJavaScriptRepresentation(c, sb);
++      int start = 0;
++	appendHexJavaScriptRepresentation(c, sb);
+     } catch (IOException ex) {
+       // StringBuilder does not throw IOException.
+       throw new RuntimeException(ex);
+@@ -1142,16 +1143,7 @@
+   private static void appendHexJavaScriptRepresentation(
+       int codePoint, Appendable out)
+       throws IOException {
+-    if (Character.isSupplementaryCodePoint(codePoint)) {
+-      // Handle supplementary unicode values which are not representable in
+-      // javascript.  We deal with these by escaping them as two 4B sequences
+-      // so that they will round-trip properly when sent from java to javascript
+-      // and back.
+-      char[] surrogates = Character.toChars(codePoint);
+-      appendHexJavaScriptRepresentation(surrogates[0], out);
+-      appendHexJavaScriptRepresentation(surrogates[1], out);
+-      return;
+-    }
++    StringBuilder builder = new StringBuilder();
+     out.append("\\u")
+         .append(HEX_CHARS[(codePoint >>> 12) & 0xf])
+         .append(HEX_CHARS[(codePoint >>> 8) & 0xf])
+
+
+--- /tmp/GenProg_Defects4J_Closure_75/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 06:44:28.094816616 -0500
++++ /tmp/GenProg_Defects4J_Closure_75/patches_wgwu/Patch_942/patched/tmp/GenProg_Defects4J_Closure_75/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 07:05:53.515096199 -0500
+@@ -250,7 +250,8 @@
+     double value = result;
+ 
+     Node replacement;
+-    if (Double.isNaN(value)) {
++    int start = 0;
++	if (Double.isNaN(value)) {
+       replacement = Node.newString(Token.NAME, "NaN");
+     } else if (value == Double.POSITIVE_INFINITY) {
+       replacement = Node.newString(Token.NAME, "Infinity");
+@@ -352,12 +353,7 @@
+         reportCodeChange();
+         return replacementNode;
+       case Token.POS:
+-        if (NodeUtil.isNumericResult(left)) {
+-          // POS does nothing to numeric values.
+-          parent.replaceChild(n, left.detachFromParent());
+-          reportCodeChange();
+-          return left;
+-        }
++        ;
+         return n;
+       case Token.NEG:
+         try {
+
+

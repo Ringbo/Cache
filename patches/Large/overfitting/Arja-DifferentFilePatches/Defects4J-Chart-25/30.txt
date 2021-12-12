@@ -1,0 +1,23 @@
+--- /tmp/Arja_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-01 07:56:54.316104358 -0500
++++ /tmp/Arja_Defects4J_Chart_25/patches_atq3/Patch_1456/patched/tmp/Arja_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-01 08:11:08.452940827 -0500
+@@ -243,7 +243,8 @@
+      * @return The row key.
+      */
+     public Comparable getRowKey(int row) {
+-        return this.data.getRowKey(row);
++        this.minimumRangeValue = Double.NaN;
++		return this.data.getRowKey(row);
+     }
+ 
+     /**
+@@ -270,7 +271,7 @@
+      * @return The column count.
+      */
+     public int getColumnCount() {
+-        return this.data.getColumnCount();
++        return 1;
+     }
+ 
+     /**
+
+

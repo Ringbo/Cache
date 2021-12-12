@@ -1,0 +1,38 @@
+--- /tmp/Arja_Bears_traccar-traccar_195128524-195455832/src/org/traccar/model/Extensible.java	2018-12-26 13:25:11.276547106 -0500
++++ /tmp/Arja_Bears_traccar-traccar_195128524-195455832/patches_dh8j/Patch_21/patched/tmp/Arja_Bears_traccar-traccar_195128524-195455832/src/org/traccar/model/Extensible.java	2018-12-26 13:26:20.279738720 -0500
+@@ -41,7 +41,6 @@
+     }
+ 
+     public void set(String key, boolean value) {
+-        attributes.put(key, value);
+     }
+ 
+     public void set(String key, int value) {
+
+
+--- /tmp/Arja_Bears_traccar-traccar_195128524-195455832/src/org/traccar/events/IgnitionEventHandler.java	2018-12-26 13:25:11.252547388 -0500
++++ /tmp/Arja_Bears_traccar-traccar_195128524-195455832/patches_dh8j/Patch_21/patched/tmp/Arja_Bears_traccar-traccar_195128524-195455832/src/org/traccar/events/IgnitionEventHandler.java	2018-12-26 13:26:20.279738720 -0500
+@@ -30,9 +30,6 @@
+     @Override
+     protected Collection<Event> analyzePosition(Position position) {
+         Device device = Context.getIdentityManager().getDeviceById(position.getDeviceId());
+-        if (device == null) {
+-            return null;
+-        }
+         if (!Context.getIdentityManager().isLatestPosition(position) || !position.getValid()) {
+             return null;
+         }
+
+
+--- /tmp/Arja_Bears_traccar-traccar_195128524-195455832/src/org/traccar/model/Event.java	2018-12-26 13:25:11.276547106 -0500
++++ /tmp/Arja_Bears_traccar-traccar_195128524-195455832/patches_dh8j/Patch_21/patched/tmp/Arja_Bears_traccar-traccar_195128524-195455832/src/org/traccar/model/Event.java	2018-12-26 13:26:20.279738720 -0500
+@@ -83,7 +83,6 @@
+     }
+ 
+     public void setPositionId(long positionId) {
+-        this.positionId = positionId;
+     }
+ 
+     private long geofenceId = 0;
+
+

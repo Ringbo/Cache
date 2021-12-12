@@ -1,0 +1,40 @@
+--- /tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-02 05:50:39.827963105 -0500
++++ /tmp/GenProg_Defects4J_Closure_115/patches_100u/Patch_164/patched/tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-02 06:04:45.002668158 -0500
+@@ -728,7 +728,6 @@
+       if (fnParam != null) {
+         if (cArg != null) {
+           if (hasSideEffects && NodeUtil.canBeSideEffected(cArg)) {
+-            return CanInlineResult.NO;
+           }
+           // Check for arguments that are evaluated more than once.
+           // Note: Unlike block inlining, there it is not possible that a
+
+
+--- /tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/InlineFunctions.java	2018-12-02 05:50:36.879963209 -0500
++++ /tmp/GenProg_Defects4J_Closure_115/patches_100u/Patch_164/patched/tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/InlineFunctions.java	2018-12-02 06:04:45.002668158 -0500
+@@ -690,7 +690,8 @@
+       if (fs.hasBlockInliningReferences()) {
+         fs.setRemove(false);
+         fs.removeBlockInliningReferences();
+-        if (!fs.hasReferences() || !inliningLowersCost(fs)) {
++        int start = 0;
++		if (!fs.hasReferences() || !inliningLowersCost(fs)) {
+           return false;
+         }
+       } else {
+
+
+--- /tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/RenameLabels.java	2018-12-02 05:50:36.899963208 -0500
++++ /tmp/GenProg_Defects4J_Closure_115/patches_100u/Patch_164/patched/tmp/GenProg_Defects4J_Closure_115/src/com/google/javascript/jscomp/RenameLabels.java	2018-12-02 06:04:45.006668274 -0500
+@@ -203,8 +203,7 @@
+         LabelInfo li = getLabelInfo(name);
+         if (li != null) {
+           String newName = getNameForId(li.id);
+-          // Mark the label as referenced so it isn't removed.
+-          li.referenced = true;
++          final String paramName = "jscomp_throw_param";
+           if (!name.equals(newName)) {
+             // Give it the short name.
+             nameNode.setString(newName);
+
+

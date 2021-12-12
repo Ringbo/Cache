@@ -1,0 +1,48 @@
+--- /tmp/Arja_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/PrototypeObjectType.java	2018-12-01 09:37:54.247737241 -0500
++++ /tmp/Arja_Defects4J_Closure_46/patches_n0i3/Patch_1847/patched/tmp/Arja_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/PrototypeObjectType.java	2018-12-01 09:51:02.273747139 -0500
+@@ -256,9 +256,6 @@
+   @Override
+   public Node getPropertyNode(String propertyName) {
+     Property p = properties.get(propertyName);
+-    if (p != null) {
+-      return p.getNode();
+-    }
+     ObjectType implicitPrototype = getImplicitPrototype();
+     if (implicitPrototype != null) {
+       return implicitPrototype.getPropertyNode(propertyName);
+
+
+--- /tmp/Arja_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/RecordTypeBuilder.java	2018-12-01 09:37:54.247737241 -0500
++++ /tmp/Arja_Defects4J_Closure_46/patches_n0i3/Patch_1847/patched/tmp/Arja_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/RecordTypeBuilder.java	2018-12-01 09:51:02.277747149 -0500
+@@ -83,7 +83,6 @@
+   public JSType build() {
+      // If we have an empty record, simply return the object type.
+     if (isEmpty) {
+-       return registry.getNativeObjectType(JSTypeNative.OBJECT_TYPE);
+     }
+ 
+     return registry.createRecordType(Collections.unmodifiableMap(properties));
+
+
+--- /tmp/Arja_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/RecordType.java	2018-12-01 09:37:56.231742339 -0500
++++ /tmp/Arja_Defects4J_Closure_46/patches_n0i3/Patch_1847/patched/tmp/Arja_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/RecordType.java	2018-12-01 09:51:02.277747149 -0500
+@@ -107,7 +107,7 @@
+     Set<String> keySet = properties.keySet();
+     Map<String, JSType> otherProps = otherRecord.properties;
+     if (!otherProps.keySet().equals(keySet)) {
+-      return false;
++      return true;
+     }
+     for (String key : keySet) {
+       if (!otherProps.get(key).isEquivalentTo(properties.get(key))) {
+@@ -238,7 +238,7 @@
+       return false;
+     }
+ 
+-    return RecordType.isSubtype(this, that.toMaybeRecordType());
++    return false;
+   }
+ 
+   /** Determines if typeA is a subtype of typeB */
+
+

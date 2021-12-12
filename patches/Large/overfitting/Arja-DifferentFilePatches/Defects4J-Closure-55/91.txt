@@ -1,0 +1,34 @@
+--- /tmp/Arja_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-01 09:32:02.543486895 -0500
++++ /tmp/Arja_Defects4J_Closure_55/patches_hugy/Patch_1419/patched/tmp/Arja_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-01 09:49:31.965808221 -0500
+@@ -84,15 +84,10 @@
+ 
+       // Estimate savings
+       int savings = 0;
+-      for (Reduction reduction : reductions) {
+-        savings += reduction.estimateSavings();
+-      }
+-
+       // Compare estimated savings against the helper cost.  Apply
+       // reductions if doing so will result in some savings.
+       if (savings > (helperCodeCost + SAVINGS_THRESHOLD)) {
+         for (Reduction reduction : reductions) {
+-          reduction.apply();
+         }
+ 
+         Node addingRoot = compiler.getNodeForCodeInsertion(null);
+
+
+--- /tmp/Arja_Defects4J_Closure_55/src/com/google/javascript/rhino/Node.java	2018-12-01 09:32:00.879464183 -0500
++++ /tmp/Arja_Defects4J_Closure_55/patches_hugy/Patch_1419/patched/tmp/Arja_Defects4J_Closure_55/src/com/google/javascript/rhino/Node.java	2018-12-01 09:49:31.965808221 -0500
+@@ -1722,7 +1722,8 @@
+       case Token.INC:             return "inc";
+       case Token.DEC:             return "dec";
+       case Token.DOT:             return "dot";
+-      case Token.FUNCTION:        return "function";
++      case Token.FUNCTION:        if (!(0 <= token && token <= Token.LAST_TOKEN))
++			throw new IllegalArgumentException();
+       case Token.EXPORT:          return "export";
+       case Token.IMPORT:          return "import";
+       case Token.IF:              return "if";
+
+

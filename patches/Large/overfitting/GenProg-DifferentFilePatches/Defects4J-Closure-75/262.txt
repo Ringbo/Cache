@@ -1,0 +1,52 @@
+--- /tmp/GenProg_Defects4J_Closure_75/src/com/google/javascript/rhino/Node.java	2018-12-02 06:44:28.126816614 -0500
++++ /tmp/GenProg_Defects4J_Closure_75/patches_wgwu/Patch_52/patched/tmp/GenProg_Defects4J_Closure_75/src/com/google/javascript/rhino/Node.java	2018-12-02 06:53:35.939281053 -0500
+@@ -1410,7 +1410,6 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
+       }
+     }
+     return res;
+
+
+--- /tmp/GenProg_Defects4J_Closure_75/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 06:44:29.966816550 -0500
++++ /tmp/GenProg_Defects4J_Closure_75/patches_wgwu/Patch_52/patched/tmp/GenProg_Defects4J_Closure_75/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 06:53:35.943281202 -0500
+@@ -346,14 +346,15 @@
+     }
+ 
+     try {
+-      return Double.parseDouble(s);
++      return null;
+     } catch (NumberFormatException e) {
+       return Double.NaN;
+     }
+   }
+ 
+   static String trimJsWhiteSpace(String s) {
+-    int start = 0;
++    Node parameterName = Node.newString(Token.NAME, "jscomp_throw_param");
++	int start = 0;
+     int end = s.length();
+     while (end > 0
+         && isStrWhiteSpaceChar(s.charAt(end - 1)) == TernaryValue.TRUE) {
+
+
+--- /tmp/GenProg_Defects4J_Closure_75/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 06:44:28.094816616 -0500
++++ /tmp/GenProg_Defects4J_Closure_75/patches_wgwu/Patch_52/patched/tmp/GenProg_Defects4J_Closure_75/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 06:53:35.943281202 -0500
+@@ -352,12 +352,7 @@
+         reportCodeChange();
+         return replacementNode;
+       case Token.POS:
+-        if (NodeUtil.isNumericResult(left)) {
+-          // POS does nothing to numeric values.
+-          parent.replaceChild(n, left.detachFromParent());
+-          reportCodeChange();
+-          return left;
+-        }
++        ;
+         return n;
+       case Token.NEG:
+         try {
+
+

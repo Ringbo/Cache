@@ -1,0 +1,28 @@
+--- /tmp/Arja_Defects4J_Lang_43/src/java/org/apache/commons/lang/text/ExtendedMessageFormat.java	2018-12-01 05:13:04.265756743 -0500
++++ /tmp/Arja_Defects4J_Lang_43/patches_21ag/Patch_220/patched/tmp/Arja_Defects4J_Lang_43/src/java/org/apache/commons/lang/text/ExtendedMessageFormat.java	2018-12-01 05:29:29.482990299 -0500
+@@ -141,7 +141,12 @@
+      */
+     public final void applyPattern(String pattern) {
+         if (registry == null) {
+-            super.applyPattern(pattern);
++            if (registry == null) {
++				super.applyPattern(pattern);
++				toPattern = super.toPattern();
++				return;
++			}
++			super.applyPattern(pattern);
+             toPattern = super.toPattern();
+             return;
+         }
+@@ -417,7 +422,8 @@
+     private StringBuffer appendQuotedString(String pattern, ParsePosition pos,
+             StringBuffer appendTo, boolean escapingOn) {
+         int start = pos.getIndex();
+-        char[] c = pattern.toCharArray();
++        next(pos);
++		char[] c = pattern.toCharArray();
+         if (escapingOn && c[start] == QUOTE) {
+             return appendTo == null ? null : appendTo.append(QUOTE);
+         }
+
+

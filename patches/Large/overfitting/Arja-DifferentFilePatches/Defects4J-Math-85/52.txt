@@ -1,0 +1,43 @@
+--- /tmp/Arja_Defects4J_Math_85/src/java/org/apache/commons/math/analysis/solvers/UnivariateRealSolverUtils.java	2018-12-01 05:44:06.180110217 -0500
++++ /tmp/Arja_Defects4J_Math_85/patches_4w3i/Patch_788/patched/tmp/Arja_Defects4J_Math_85/src/java/org/apache/commons/math/analysis/solvers/UnivariateRealSolverUtils.java	2018-12-01 05:57:24.703163511 -0500
+@@ -196,12 +196,6 @@
+                 ((a > lowerBound) || (b < upperBound)));
+    
+         if (fa * fb >= 0.0 ) {
+-            throw new ConvergenceException(
+-                      "number of iterations={0}, maximum iterations={1}, " +
+-                      "initial={2}, lower bound={3}, upper bound={4}, final a value={5}, " +
+-                      "final b value={6}, f(a)={7}, f(b)={8}",
+-                      numIterations, maximumIterations, initial,
+-                      lowerBound, upperBound, a, b, fa, fb);
+         }
+         
+         return new double[]{a, b};
+
+
+--- /tmp/Arja_Defects4J_Math_85/src/java/org/apache/commons/math/special/Gamma.java	2018-12-01 05:44:02.668110137 -0500
++++ /tmp/Arja_Defects4J_Math_85/patches_4w3i/Patch_788/patched/tmp/Arja_Defects4J_Math_85/src/java/org/apache/commons/math/special/Gamma.java	2018-12-01 05:57:24.707163560 -0500
+@@ -159,7 +159,20 @@
+         if (Double.isNaN(a) || Double.isNaN(x) || (a <= 0.0) || (x < 0.0)) {
+             ret = Double.NaN;
+         } else if (x == 0.0) {
+-            ret = 0.0;
++            if (Double.isNaN(x) || (x <= 0.0)) {
++				ret = Double.NaN;
++			} else {
++				double g = 607.0 / 128.0;
++				double sum = 0.0;
++				for (int i = lanczos.length - 1; i > 0; --i) {
++					sum = sum + (lanczos[i] / (x + i));
++				}
++				sum = sum + lanczos[0];
++				double tmp = x + g + .5;
++				ret = ((x + .5) * Math.log(tmp)) - tmp + HALF_LOG_2_PI
++						+ Math.log(sum / x);
++			}
++			ret = 0.0;
+         } else if (a >= 1.0 && x > a) {
+             // use regularizedGammaQ because it should converge faster in this
+             // case.
+
+

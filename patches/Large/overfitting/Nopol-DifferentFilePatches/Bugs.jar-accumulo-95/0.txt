@@ -1,0 +1,9 @@
+--- a/core/src/main/java/org/apache/accumulo/core/client/mock/MockBatchScanner.java
++++ b/core/src/main/java/org/apache/accumulo/core/client/mock/MockBatchScanner.java
+@@ -63,4 +63,4 @@
+       for (Range r : ranges) {
+-        if (r.contains(k))
+-          return true;
++        if (k!=null)
++        return true;
+       }

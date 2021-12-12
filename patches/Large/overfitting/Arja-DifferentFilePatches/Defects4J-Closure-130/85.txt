@@ -1,0 +1,38 @@
+--- /tmp/Arja_Defects4J_Closure_130/src/com/google/javascript/jscomp/ReferenceCollectingCallback.java	2018-12-01 08:45:43.181585574 -0500
++++ /tmp/Arja_Defects4J_Closure_130/patches_yo25/Patch_1118/patched/tmp/Arja_Defects4J_Closure_130/src/com/google/javascript/jscomp/ReferenceCollectingCallback.java	2018-12-01 09:01:41.327044752 -0500
+@@ -474,7 +474,6 @@
+     boolean firstReferenceIsAssigningDeclaration() {
+       int size = references.size();
+       if (size > 0 && references.get(0).isInitializingDeclaration()) {
+-        return true;
+       }
+       return false;
+     }
+
+
+--- /tmp/Arja_Defects4J_Closure_130/src/com/google/javascript/rhino/Node.java	2018-12-01 08:45:43.193585573 -0500
++++ /tmp/Arja_Defects4J_Closure_130/patches_yo25/Patch_1118/patched/tmp/Arja_Defects4J_Closure_130/src/com/google/javascript/rhino/Node.java	2018-12-01 09:01:41.331044842 -0500
+@@ -1443,7 +1443,6 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
+       }
+     }
+     return res;
+
+
+--- /tmp/Arja_Defects4J_Closure_130/src/com/google/javascript/jscomp/CollapseProperties.java	2018-12-01 08:45:45.845585512 -0500
++++ /tmp/Arja_Defects4J_Closure_130/patches_yo25/Patch_1118/patched/tmp/Arja_Defects4J_Closure_130/src/com/google/javascript/jscomp/CollapseProperties.java	2018-12-01 09:01:41.331044842 -0500
+@@ -232,9 +232,6 @@
+         aliasParent.replaceChild(alias.node, IR.nullNode());
+         compiler.reportCodeChange();
+ 
+-        // Inlining the variable may have introduced new references
+-        // to descendants of {@code name}. So those need to be collected now.
+-        namespace.scanNewNodes(alias.scope, newNodes);
+         return true;
+       }
+     }
+
+

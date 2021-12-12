@@ -1,0 +1,42 @@
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/store/DefaultRevisionStore.java	2018-12-29 10:48:57.960251000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/patches_10w1/Patch_2110/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/store/DefaultRevisionStore.java	2018-12-29 11:16:08.214587248 -0500
+@@ -160,7 +160,6 @@
+             MutableCommit initialCommit = new MutableCommit();
+             initialCommit.setCommitTS(System.currentTimeMillis());
+             initialCommit.setRootNodeId(rootNodeId);
+-            pm.writeCommit(head, initialCommit);
+             pm.writeHead(head);
+         } else {
+             Id lastCommitId = head;
+@@ -206,9 +205,6 @@
+     }
+ 
+     protected void verifyInitialized() {
+-        if (!initialized) {
+-            throw new IllegalStateException("not initialized");
+-        }
+     }
+ 
+     protected static int determineInitialCacheSize() {
+@@ -239,7 +235,6 @@
+         @Override
+         public boolean equals(Object obj) {
+             if (obj instanceof PutTokenImpl) {
+-                return ((PutTokenImpl) obj).id == id;
+             }
+             return super.equals(obj);
+         }
+
+
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/core/MicroKernelImpl.java	2018-12-29 10:48:57.948251000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/patches_10w1/Patch_2110/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/core/MicroKernelImpl.java	2018-12-29 11:16:08.218587261 -0500
+@@ -100,7 +100,6 @@
+             } catch (Exception ignore) {
+                 // fail silently
+             }
+-            rep = null;
+         }
+     }
+ 
+
+

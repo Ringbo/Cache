@@ -1,0 +1,26 @@
+--- /tmp/Arja_Defects4J_Closure_130/src/com/google/javascript/jscomp/ReferenceCollectingCallback.java	2018-12-01 08:45:43.181585574 -0500
++++ /tmp/Arja_Defects4J_Closure_130/patches_yo25/Patch_48/patched/tmp/Arja_Defects4J_Closure_130/src/com/google/javascript/jscomp/ReferenceCollectingCallback.java	2018-12-01 08:52:21.375123399 -0500
+@@ -473,9 +473,6 @@
+ 
+     boolean firstReferenceIsAssigningDeclaration() {
+       int size = references.size();
+-      if (size > 0 && references.get(0).isInitializingDeclaration()) {
+-        return true;
+-      }
+       return false;
+     }
+   }
+
+
+--- /tmp/Arja_Defects4J_Closure_130/src/com/google/javascript/jscomp/GlobalNamespace.java	2018-12-01 08:45:43.173585574 -0500
++++ /tmp/Arja_Defects4J_Closure_130/patches_yo25/Patch_48/patched/tmp/Arja_Defects4J_Closure_130/src/com/google/javascript/jscomp/GlobalNamespace.java	2018-12-01 08:52:21.379123475 -0500
+@@ -179,7 +179,6 @@
+   void scanNewNodes(Scope scope, Set<Node> newNodes) {
+     NodeTraversal t = new NodeTraversal(compiler,
+         new BuildGlobalNamespace(new NodeFilter(newNodes)));
+-    t.traverseAtScope(scope);
+   }
+ 
+   /**
+
+

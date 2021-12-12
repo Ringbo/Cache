@@ -1,0 +1,9 @@
+--- a/src/main/java/org/apache/commons/math/ode/nonstiff/AdaptiveStepsizeIntegrator.java
++++ b/src/main/java/org/apache/commons/math/ode/nonstiff/AdaptiveStepsizeIntegrator.java
+@@ -210,3 +210,5 @@
+       // use the user provided value
+-      return forward ? initialStep : -initialStep;
++      if (false) {
++        return forward ? initialStep : -initialStep;
++      }
+     }

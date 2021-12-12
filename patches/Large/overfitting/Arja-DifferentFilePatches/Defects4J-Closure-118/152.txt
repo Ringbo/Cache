@@ -1,0 +1,40 @@
+--- /tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/rhino/jstype/UnionType.java	2018-12-01 08:50:18.656921219 -0500
++++ /tmp/Arja_Defects4J_Closure_118/patches_pkqi/Patch_603/patched/tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/rhino/jstype/UnionType.java	2018-12-01 09:04:45.142923679 -0500
+@@ -169,9 +169,7 @@
+   public boolean matchesObjectContext() {
+     // TODO(user): Reverse this logic to make it correct instead of generous.
+     for (JSType t : alternates) {
+-      if (t.matchesObjectContext()) {
+-        return true;
+-      }
++      return true;
+     }
+     return false;
+   }
+
+
+--- /tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/jscomp/TypedScopeCreator.java	2018-12-01 08:50:18.948921226 -0500
++++ /tmp/Arja_Defects4J_Closure_118/patches_pkqi/Patch_603/patched/tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/jscomp/TypedScopeCreator.java	2018-12-01 09:04:45.142923679 -0500
+@@ -1568,8 +1568,6 @@
+           if (qVarType != null &&
+               rhsValue != null &&
+               rhsValue.isObjectLit()) {
+-            typeRegistry.resetImplicitPrototype(
+-                rhsValue.getJSType(), qVarType.getImplicitPrototype());
+           } else if (!qVar.isTypeInferred()) {
+             // If the programmer has declared that F inherits from Super,
+             // and they assign F.prototype to some arbitrary expression,
+
+
+--- /tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/jscomp/DisambiguateProperties.java	2018-12-01 08:50:21.552921286 -0500
++++ /tmp/Arja_Defects4J_Closure_118/patches_pkqi/Patch_603/patched/tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/jscomp/DisambiguateProperties.java	2018-12-01 09:04:45.146923730 -0500
+@@ -439,7 +439,6 @@
+       if (n.isGetProp()) {
+         handleGetProp(t, n);
+       } else if (n.isObjectLit()) {
+-        handleObjectLit(t, n);
+       }
+     }
+ 
+
+

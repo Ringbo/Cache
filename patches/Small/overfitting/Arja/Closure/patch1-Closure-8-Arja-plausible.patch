@@ -1,0 +1,52 @@
+--- /src/com/google/javascript/jscomp/CollapseVariableDeclarations.java
++++ /src/com/google/javascript/jscomp/CollapseVariableDeclarations.java
+@@ -114,7 +114,6 @@
+ 
+     if (!collapses.isEmpty()) {
+       applyCollapses();
+-      compiler.reportCodeChange();
+     }
+   }
+ 
+@@ -207,40 +206,5 @@
+ 
+ 
+   private void applyCollapses() {
+-    for (Collapse collapse : collapses) {
+-
+-      Node var = new Node(Token.VAR);
+-      var.copyInformationFrom(collapse.startNode);
+-      collapse.parent.addChildBefore(var, collapse.startNode);
+-
+-      boolean redeclaration = false;
+-      for (Node n = collapse.startNode; n != collapse.endNode;) {
+-        Node next = n.getNext();
+-
+-        Preconditions.checkState(var.getNext() == n);
+-        collapse.parent.removeChildAfter(var);
+-
+-        if (n.isVar()) {
+-          while(n.hasChildren()) {
+-            var.addChildToBack(n.removeFirstChild());
+-          }
+-        } else {
+-          Node assign = n.getFirstChild();
+-          Node lhs = assign.getFirstChild();
+-          Preconditions.checkState(lhs.isName());
+-          Node rhs = assign.getLastChild();
+-          lhs.addChildToBack(rhs.detachFromParent());
+-          var.addChildToBack(lhs.detachFromParent());
+-          redeclaration = true;
+-        }
+-        n = next;
+-      }
+-
+-      if (redeclaration) {
+-        JSDocInfo info = new JSDocInfo();
+-        info.addSuppression("duplicate");
+-        var.setJSDocInfo(info);
+-      }
+-    }
+   }
+ }
+

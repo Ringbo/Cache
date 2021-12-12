@@ -1,0 +1,37 @@
+--- /tmp/Arja_Bears_traccar-traccar_212058933-212061222/src/org/traccar/protocol/SuntechProtocolDecoder.java	2018-12-26 13:24:02.202494680 -0500
++++ /tmp/Arja_Bears_traccar-traccar_212058933-212061222/patches_7b3l/Patch_1994/patched/tmp/Arja_Bears_traccar-traccar_212058933-212061222/src/org/traccar/protocol/SuntechProtocolDecoder.java	2018-12-26 13:43:43.189708402 -0500
+@@ -107,9 +107,6 @@
+         }
+ 
+         DeviceSession deviceSession = getDeviceSession(channel, remoteAddress, values[index++]);
+-        if (deviceSession == null) {
+-            return null;
+-        }
+         position.setDeviceId(deviceSession.getDeviceId());
+ 
+         if (protocol.equals("ST300")) {
+@@ -133,7 +130,6 @@
+ 
+         position.setValid(values[index++].equals("1"));
+ 
+-        position.set(Position.KEY_ODOMETER, Integer.parseInt(values[index++]));
+         position.set(Position.KEY_POWER, Double.parseDouble(values[index++]));
+ 
+         position.set(Position.PREFIX_IO + 1, values[index++]);
+@@ -144,14 +140,6 @@
+             position.set(Position.KEY_INDEX, Integer.parseInt(values[index++]));
+         }
+ 
+-        if (index < values.length) {
+-            position.set(Position.KEY_HOURS, Integer.parseInt(values[index++]));
+-        }
+-
+-        if (index < values.length) {
+-            position.set(Position.KEY_BATTERY, Double.parseDouble(values[index]));
+-        }
+-
+         return position;
+     }
+ 
+
+

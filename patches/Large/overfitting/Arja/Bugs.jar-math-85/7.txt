@@ -1,0 +1,17 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_2123f780/src/main/java/org/apache/commons/math/complex/Complex.java	2018-12-29 05:13:52.230427000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_2123f780/patches_nzc2/Patch_1034/patched/tmp/Arja_Bug_dot_jar_Commons-Math_2123f780/src/main/java/org/apache/commons/math/complex/Complex.java	2018-12-29 05:37:52.496997367 -0500
+@@ -149,8 +149,10 @@
+      */
+     public Complex add(Complex rhs)
+         throws NullArgumentException {
+-        MathUtils.checkNotNull(rhs);
+-        return createComplex(real + rhs.getReal(),
++        if (isNaN || rhs.isNaN) {
++			return NaN;
++		}
++		return createComplex(real + rhs.getReal(),
+             imaginary + rhs.getImaginary());
+     }
+ 
+
+

@@ -1,0 +1,50 @@
+--- /tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/sql/antlr/SqlParser.java	2018-12-26 12:41:02.000000000 -0500
++++ /tmp/Arja_Bears_dungba88-libra_436514153-436524727/patches_yzr2/Patch_535/patched/tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/sql/antlr/SqlParser.java	2018-12-26 12:46:21.545212380 -0500
+@@ -610,7 +610,7 @@
+ 				break;
+ 			case 14:
+ 				_localctx = new FactorExprContext(_localctx);
+-				enterOuterAlt(_localctx, 14);
++				;
+ 				{
+ 				setState(77);
+ 				factor(0);
+@@ -812,8 +812,6 @@
+ 				_localctx = new VariableExprContext(_localctx);
+ 				_ctx = _localctx;
+ 				_prevctx = _localctx;
+-				setState(88);
+-				match(VARIABLE);
+ 				}
+ 				break;
+ 			case LPAREN:
+
+
+--- /tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/pointer/VariablePredicate.java	2018-12-26 12:41:02.000000000 -0500
++++ /tmp/Arja_Bears_dungba88-libra_436514153-436524727/patches_yzr2/Patch_535/patched/tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/pointer/VariablePredicate.java	2018-12-26 12:46:21.545212380 -0500
+@@ -33,7 +33,7 @@
+         	return ((Number) rawValue).doubleValue() != 0.0;
+         if (rawValue instanceof Boolean)
+         	return Boolean.TRUE.equals(rawValue);
+-        return true;
++        return value.getValue(context) == null;
+     }
+     
+     public String toString() {
+
+
+--- /tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/sql/node/VariableExpressionNode.java	2018-12-26 12:41:02.000000000 -0500
++++ /tmp/Arja_Bears_dungba88-libra_436514153-436524727/patches_yzr2/Patch_535/patched/tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/sql/node/VariableExpressionNode.java	2018-12-26 12:46:21.549212412 -0500
+@@ -27,10 +27,6 @@
+             return null;
+         Map<String, Object> cachedValues = context.getCachedValues();
+         Object value = cachedValues.get(variableName);
+-        if (value == null) {
+-            value = getValueNoCache(context);
+-            cachedValues.put(variableName, value);
+-        }
+         return value;
+     }
+ 
+
+

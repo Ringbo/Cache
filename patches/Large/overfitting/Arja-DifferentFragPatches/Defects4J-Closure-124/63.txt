@@ -1,0 +1,30 @@
+--- /tmp/Arja_Defects4J_Closure_124/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-01 08:47:09.466479311 -0500
++++ /tmp/Arja_Defects4J_Closure_124/patches_uw31/Patch_285/patched/tmp/Arja_Defects4J_Closure_124/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-01 08:56:16.550610743 -0500
+@@ -121,7 +121,7 @@
+           // Dive down the left side
+           parent = next;
+           next = next.getFirstChild();
+-          break;
++          ;
+ 
+         case Token.VAR:
+           if (next.getFirstChild().hasChildren()) {
+@@ -152,7 +152,7 @@
+               return true;
+             }
+           }
+-          return false;
++          ;
+ 
+         case Token.ASSIGN:
+           // Assigns are really tricky. In lots of cases, we want to inline
+@@ -174,7 +174,6 @@
+             // Dive down the right side of the assign.
+             parent = next;
+             next = leftSide.getNext();
+-            break;
+           } else {
+             return false;
+           }
+
+

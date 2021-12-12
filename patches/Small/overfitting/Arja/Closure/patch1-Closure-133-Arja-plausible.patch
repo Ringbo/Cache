@@ -1,0 +1,10 @@
+--- /src/com/google/javascript/jscomp/parsing/JsDocInfoParser.java
++++ /src/com/google/javascript/jscomp/parsing/JsDocInfoParser.java
+@@ -1835,7 +1835,6 @@
+       }
+     }
+ 
+-    restoreLookAhead(token);
+     return reportGenericTypeSyntaxWarning();
+   }
+

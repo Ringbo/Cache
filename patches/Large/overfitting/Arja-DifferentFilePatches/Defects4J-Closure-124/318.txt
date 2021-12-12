@@ -1,0 +1,55 @@
+--- /tmp/Arja_Defects4J_Closure_124/src/com/google/javascript/rhino/Node.java	2018-12-01 08:47:06.743841353 -0500
++++ /tmp/Arja_Defects4J_Closure_124/patches_uw31/Patch_1406/patched/tmp/Arja_Defects4J_Closure_124/src/com/google/javascript/rhino/Node.java	2018-12-01 09:06:39.845431669 -0500
+@@ -1454,7 +1454,6 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
+       }
+     }
+     return res;
+
+
+--- /tmp/Arja_Defects4J_Closure_124/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-01 08:47:09.466479311 -0500
++++ /tmp/Arja_Defects4J_Closure_124/patches_uw31/Patch_1406/patched/tmp/Arja_Defects4J_Closure_124/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-01 09:06:39.849431680 -0500
+@@ -54,8 +54,6 @@
+         collapseAssignEqualTo(expr, exprParent, rightValue)) {
+       reportCodeChange();
+     } else if (rightValue.isAssign()) {
+-      // Recursively deal with nested assigns.
+-      collapseAssign(rightValue, expr, exprParent);
+     }
+   }
+ 
+@@ -141,11 +139,6 @@
+               // qualified name, and that qualified name is used again
+               // shortly, then we can exploit the assign here.
+ 
+-              // Verify the assignment doesn't change its own value.
+-              if (!isSafeReplacement(next, assign)) {
+-                return false;
+-              }
+-
+               exprParent.removeChild(expr);
+               expr.removeChild(assign);
+               parent.replaceChild(next, assign);
+@@ -168,16 +161,7 @@
+           // To protect against this, we simply only inline when the left side
+           // is guaranteed to evaluate to the same L-value no matter what.
+           Node leftSide = next.getFirstChild();
+-          if (leftSide.isName() ||
+-              leftSide.isGetProp() &&
+-              leftSide.getFirstChild().isThis()) {
+-            // Dive down the right side of the assign.
+-            parent = next;
+-            next = leftSide.getNext();
+-            break;
+-          } else {
+-            return false;
+-          }
++          return false;
+ 
+         default:
+           if (NodeUtil.isImmutableValue(next)
+
+

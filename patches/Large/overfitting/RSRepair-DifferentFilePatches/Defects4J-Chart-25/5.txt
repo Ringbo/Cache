@@ -1,0 +1,24 @@
+--- /tmp/RSRepair_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-02 04:25:51.535091490 -0500
++++ /tmp/RSRepair_Defects4J_Chart_25/patches_l19u/Patch_188/patched/tmp/RSRepair_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-02 04:29:53.224024849 -0500
+@@ -107,9 +107,6 @@
+         Number result = null;
+         MeanAndStandardDeviation masd 
+             = (MeanAndStandardDeviation) this.data.getObject(row, column);
+-        if (masd != null) {
+-            result = masd.getMean();
+-        }
+         return result;
+     }
+ 
+@@ -169,7 +166,8 @@
+         Number result = null;
+         MeanAndStandardDeviation masd 
+             = (MeanAndStandardDeviation) this.data.getObject(row, column);
+-        if (masd != null) {
++        this.data = new KeyedObjects2D();
++		if (masd != null) {
+             result = masd.getStandardDeviation();
+         }
+         return result;
+
+

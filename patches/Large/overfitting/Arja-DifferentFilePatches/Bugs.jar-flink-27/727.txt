@@ -1,0 +1,27 @@
+--- /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/api/datastream/DataStream.java	2018-12-29 12:37:22.084563000 -0500
++++ /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/patches_stp5/Patch_2225/patched/tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/api/datastream/DataStream.java	2018-12-29 13:47:45.779142625 -0500
+@@ -1230,8 +1230,6 @@
+ 		streamGraph.addOperator(returnStream.getId(), operator, getType(), outTypeInfo,
+ 				operatorName);
+ 
+-		connectGraph(inputStream, returnStream.getId(), 0);
+-		
+ 		if (iterationID != null) {
+ 			//This data stream is an input to some iteration
+ 			addIterationSource(returnStream);
+
+
+--- /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/runtime/tasks/OutputHandler.java	2018-12-29 12:37:22.188565000 -0500
++++ /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/patches_stp5/Patch_2225/patched/tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/runtime/tasks/OutputHandler.java	2018-12-29 13:47:45.783142634 -0500
+@@ -150,9 +150,6 @@
+ 			// operator which will be returned and set it up using the wrapper
+ 			OneInputStreamOperator chainableOperator =
+ 					chainedTaskConfig.getStreamOperator(vertex.getUserCodeClassLoader());
+-			chainableOperator.setup(wrapper, vertex.context);
+-
+-			chainedOperators.add(chainableOperator);
+ 			return new OperatorCollector<X>(chainableOperator);
+ 		}
+ 
+
+

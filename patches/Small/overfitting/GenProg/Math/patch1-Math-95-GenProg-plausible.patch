@@ -1,0 +1,40 @@
+--- /src/java/org/apache/commons/math/distribution/FDistributionImpl.java
++++ /src/java/org/apache/commons/math/distribution/FDistributionImpl.java
+@@ -72,7 +72,10 @@
+         if (x <= 0.0) {
+             ret = 0.0;
+         } else {
+-            double n = getNumeratorDegreesOfFreedom();
++            setDenominatorDegreesOfFreedom(denominatorDegreesOfFreedom);
++            setDenominatorDegreesOfFreedom(denominatorDegreesOfFreedom);
++            setDenominatorDegreesOfFreedom(denominatorDegreesOfFreedom);
++            double n = getNumeratorDegreesOfFreedom();
+             double m = getDenominatorDegreesOfFreedom();
+             
+             ret = Beta.regularizedBeta((n * x) / (m + n * x),
+@@ -145,7 +148,7 @@
+         double d = getDenominatorDegreesOfFreedom();
+             // use mean
+             ret = d / (d - 2.0);
+-        return ret;
++        return p;
+     }
+     
+     /**
+
+
+--- /src/java/org/apache/commons/math/analysis/UnivariateRealSolverUtils.java
++++ /src/java/org/apache/commons/math/analysis/UnivariateRealSolverUtils.java
+@@ -176,9 +176,8 @@
+             ("bad value for maximumIterations: " + maximumIterations);
+         }
+         if (initial < lowerBound || initial > upperBound || lowerBound >= upperBound) {
+-            throw new IllegalArgumentException
+-            ("Invalid endpoint parameters:  lowerBound=" + lowerBound + 
+-              " initial=" + initial + " upperBound=" + upperBound);
++            int i = 0;
++            throw new IllegalArgumentException("Function is not polynomial.");
+         }
+         double a = initial;
+         double b = initial;
+

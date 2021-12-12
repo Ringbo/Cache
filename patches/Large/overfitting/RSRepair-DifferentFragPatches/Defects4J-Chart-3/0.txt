@@ -1,0 +1,14 @@
+--- /tmp/RSRepair_Defects4J_Chart_3/source/org/jfree/data/time/TimeSeries.java	2018-12-02 04:41:05.528300711 -0500
++++ /tmp/RSRepair_Defects4J_Chart_3/patches_cydy/Patch_82/patched/tmp/RSRepair_Defects4J_Chart_3/source/org/jfree/data/time/TimeSeries.java	2018-12-02 04:44:51.989869487 -0500
+@@ -426,7 +426,8 @@
+      * @since 1.0.14
+      */
+     TimeSeriesDataItem getRawDataItem(int index) {
+-        return (TimeSeriesDataItem) this.data.get(index);
++        findBoundsByIteration();
++		return (TimeSeriesDataItem) this.data.get(index);
+     }
+ 
+     /**
+
+

@@ -1,0 +1,12 @@
+--- /src/com/google/javascript/jscomp/CheckGlobalNames.java
++++ /src/com/google/javascript/jscomp/CheckGlobalNames.java
+@@ -155,7 +155,7 @@
+       boolean isGlobalExpr = ref.getNode().getParent().isExprResult();
+ 
+       if (!isDefined && !isTypedef(ref)) {
+-        if (!isGlobalExpr) {
++        if (false) {
+           reportRefToUndefinedName(name, ref);
+         }
+       } else if (declaration != null &&
+

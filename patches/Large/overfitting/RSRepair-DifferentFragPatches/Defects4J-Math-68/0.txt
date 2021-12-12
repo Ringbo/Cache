@@ -1,0 +1,18 @@
+--- /tmp/RSRepair_Defects4J_Math_68/src/main/java/org/apache/commons/math/optimization/general/LevenbergMarquardtOptimizer.java	2018-12-02 03:00:30.049365470 -0500
++++ /tmp/RSRepair_Defects4J_Math_68/patches_xrdd/Patch_1046/patched/tmp/RSRepair_Defects4J_Math_68/src/main/java/org/apache/commons/math/optimization/general/LevenbergMarquardtOptimizer.java	2018-12-02 03:11:54.959169242 -0500
+@@ -402,7 +402,12 @@
+                     cost = previousCost;
+                     for (int j = 0; j < solvedCols; ++j) {
+                         int pj = permutation[j];
+-                        point[pj] = oldX[pj];
++                        if (((Math.abs(actRed) <= costRelativeTolerance)
++								&& (preRed <= costRelativeTolerance) && (ratio <= 2.0))
++								|| (delta <= parRelativeTolerance * xNorm)) {
++							return new VectorialPointValuePair(point, objective);
++						}
++						point[pj] = oldX[pj];
+                     }
+                     tmpVec    = residuals;
+                     residuals = oldRes;
+
+

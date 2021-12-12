@@ -1,0 +1,13 @@
+--- /tmp/Kali_QuixBugs_QUICKSORT_/src/main/java/QUICKSORT.java	2018-12-02 05:18:03.911398987 -0500
++++ /tmp/Kali_QuixBugs_QUICKSORT_/patches_hww4/Patch_1/patched/tmp/Kali_QuixBugs_QUICKSORT_/src/main/java/QUICKSORT.java	2018-12-02 05:18:14.555399230 -0500
+@@ -23,7 +23,7 @@
+         for (Integer x : arr.subList(1, arr.size())) {
+             if (x < pivot) {
+                 lesser.add(x);
+-            } else if (x > pivot) {
++            } else if (true) {
+                 greater.add(x);
+             }
+         }
+
+

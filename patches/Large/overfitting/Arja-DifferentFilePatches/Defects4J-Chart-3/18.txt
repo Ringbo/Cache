@@ -1,0 +1,61 @@
+--- /tmp/Arja_Defects4J_Chart_3/source/org/jfree/data/time/TimeSeries.java	2018-12-01 08:25:21.026940649 -0500
++++ /tmp/Arja_Defects4J_Chart_3/patches_24th/Patch_1212/patched/tmp/Arja_Defects4J_Chart_3/source/org/jfree/data/time/TimeSeries.java	2018-12-01 08:45:12.936373830 -0500
+@@ -426,7 +426,11 @@
+      * @since 1.0.14
+      */
+     TimeSeriesDataItem getRawDataItem(int index) {
+-        return (TimeSeriesDataItem) this.data.get(index);
++        if (index >= 0) {
++			return getDataItem(index);
++		} else {
++			return null;
++		}
+     }
+ 
+     /**
+@@ -561,7 +565,8 @@
+      *              permitted).
+      */
+     public void add(TimeSeriesDataItem item) {
+-        add(item, true);
++        updateBoundsForRemovedItem(item);
++		add(item, true);
+     }
+ 
+     /**
+@@ -580,17 +585,8 @@
+         Class c = item.getPeriod().getClass();
+         if (this.timePeriodClass == null) {
+             this.timePeriodClass = c;
+-        }
+-        else if (!this.timePeriodClass.equals(c)) {
+-            StringBuffer b = new StringBuffer();
+-            b.append("You are trying to add data where the time period class ");
+-            b.append("is ");
+-            b.append(item.getPeriod().getClass().getName());
+-            b.append(", but the TimeSeries is expecting an instance of ");
+-            b.append(this.timePeriodClass.getName());
+-            b.append(".");
+-            throw new SeriesException(b.toString());
+-        }
++        } else
++			;
+ 
+         // make the change (if it's not a duplicate time period)...
+         boolean added = false;
+
+
+--- /tmp/Arja_Defects4J_Chart_3/source/org/jfree/data/general/Series.java	2018-12-01 08:25:14.714940505 -0500
++++ /tmp/Arja_Defects4J_Chart_3/patches_24th/Patch_1212/patched/tmp/Arja_Defects4J_Chart_3/source/org/jfree/data/general/Series.java	2018-12-01 08:45:12.936373830 -0500
+@@ -242,7 +242,8 @@
+ 
+         Series clone = (Series) super.clone();
+         clone.listeners = new EventListenerList();
+-        clone.propertyChangeSupport = new PropertyChangeSupport(clone);
++        this.listeners = new EventListenerList();
++		clone.propertyChangeSupport = new PropertyChangeSupport(clone);
+         return clone;
+ 
+     }
+
+

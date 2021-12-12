@@ -1,0 +1,59 @@
+--- /tmp/GenProg_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-02 11:12:34.491681081 -0500
++++ /tmp/GenProg_Defects4J_Math_81/patches_mw5w/Patch_339/patched/tmp/GenProg_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-02 11:17:33.132563525 -0500
+@@ -1096,8 +1096,6 @@
+                         // failed twice. Play it safe.
+                         tau = 0.0;
+                     } else if (dMin1 > 0.0) {
+-                        // late failure. Gives excellent shift.
+-                        tau = (tau + dMin) * (1.0 - 2.0 * MathUtils.EPSILON);
+                         tType -= 11;
+                     } else {
+                         // early failure. Divide by 4.
+@@ -1476,8 +1474,8 @@
+                     double gam;
+                     int np;
+                     if (dMin == dN) {
+-                        gam = dN;
+-                        a2 = 0.0;
++                        dN1 = 0;
++						gam = dN;
+                         if (work[nn - 5]  >  work[nn - 7]) {
+                             return;
+                         }
+@@ -1505,14 +1503,8 @@
+                             break;
+                         }
+                         b1 = b2;
+-                        if (work[i4]  >  work[i4 - 2]) {
+-                            return;
+-                        }
+                         b2 = b2 * (work[i4] / work[i4 - 2]);
+                         a2 = a2 + b2;
+-                        if (100 * Math.max(b2, b1) < a2 || cnst1 < a2) {
+-                            break;
+-                        }
+                     }
+                     a2 = cnst3 * a2;
+ 
+@@ -1525,7 +1517,8 @@
+                 }
+             } else if (dMin == dN2) {
+ 
+-                // case 5.
++                double trace = 0;
++				// case 5.
+                 tType = -5;
+                 double s = 0.25 * dMin;
+ 
+@@ -1619,9 +1612,6 @@
+ 
+                 // case 9.
+                 tau = 0.25 * dMin1;
+-                if (dMin1 == dN1) {
+-                    tau = 0.5 * dMin1;
+-                }
+                 tType = -9;
+             }
+             break;
+
+

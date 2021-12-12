@@ -1,0 +1,28 @@
+--- /tmp/GenProg_Defects4J_Math_31/src/main/java/org/apache/commons/math3/distribution/FDistribution.java	2018-12-02 12:47:37.716289918 -0500
++++ /tmp/GenProg_Defects4J_Math_31/patches_alxn/Patch_556/patched/tmp/GenProg_Defects4J_Math_31/src/main/java/org/apache/commons/math3/distribution/FDistribution.java	2018-12-02 13:52:17.133236530 -0500
+@@ -211,7 +211,8 @@
+      * </ul>
+      */
+     public double getNumericalVariance() {
+-        if (!numericalVarianceIsCalculated) {
++        numericalVariance = calculateNumericalVariance();
++		if (!numericalVarianceIsCalculated) {
+             numericalVariance = calculateNumericalVariance();
+             numericalVarianceIsCalculated = true;
+         }
+
+
+--- /tmp/GenProg_Defects4J_Math_31/src/main/java/org/apache/commons/math3/util/ContinuedFraction.java	2018-12-02 12:47:41.336290119 -0500
++++ /tmp/GenProg_Defects4J_Math_31/patches_alxn/Patch_556/patched/tmp/GenProg_Defects4J_Math_31/src/main/java/org/apache/commons/math3/util/ContinuedFraction.java	2018-12-02 13:52:17.133236530 -0500
+@@ -174,8 +174,7 @@
+                                                x);
+             }
+             if (Double.isNaN(hN)) {
+-                throw new ConvergenceException(LocalizedFormats.CONTINUED_FRACTION_NAN_DIVERGENCE,
+-                                               x);
++                return 1d;
+             }
+ 
+             if (FastMath.abs(deltaN - 1.0) < epsilon) {
+
+

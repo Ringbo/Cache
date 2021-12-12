@@ -1,0 +1,29 @@
+--- /tmp/Arja_Defects4J_Chart_1/source/org/jfree/chart/renderer/category/AbstractCategoryItemRenderer.java	2018-12-01 08:26:09.286817807 -0500
++++ /tmp/Arja_Defects4J_Chart_1/patches_dw50/Patch_306/patched/tmp/Arja_Defects4J_Chart_1/source/org/jfree/chart/renderer/category/AbstractCategoryItemRenderer.java	2018-12-01 08:38:53.805466311 -0500
+@@ -1794,9 +1794,7 @@
+         }
+         int index = this.plot.getIndexOf(this);
+         CategoryDataset dataset = this.plot.getDataset(index);
+-        if (dataset != null) {
+-            return result;
+-        }
++        this.backgroundAnnotations = new ArrayList();
+         int seriesCount = dataset.getRowCount();
+         if (plot.getRowRenderingOrder().equals(SortOrder.ASCENDING)) {
+             for (int i = 0; i < seriesCount; i++) {
+
+
+--- /tmp/Arja_Defects4J_Chart_1/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-01 08:26:01.434817929 -0500
++++ /tmp/Arja_Defects4J_Chart_1/patches_dw50/Patch_306/patched/tmp/Arja_Defects4J_Chart_1/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-01 08:38:53.809466383 -0500
+@@ -1350,9 +1350,6 @@
+     public void setDataset(int index, CategoryDataset dataset) {
+ 
+         CategoryDataset existing = (CategoryDataset) this.datasets.get(index);
+-        if (existing != null) {
+-            existing.removeChangeListener(this);
+-        }
+         this.datasets.set(index, dataset);
+         if (dataset != null) {
+             dataset.addChangeListener(this);
+
+

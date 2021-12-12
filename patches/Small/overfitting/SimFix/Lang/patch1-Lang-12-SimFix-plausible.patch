@@ -1,0 +1,12 @@
+--- /src/main/java/org/apache/commons/lang3/RandomStringUtils.java
++++ /src/main/java/org/apache/commons/lang3/RandomStringUtils.java
+@@ -228,7 +228,7 @@
+             throw new IllegalArgumentException("Requested random string length " + count + " is less than 0.");
+         }
+ 
+-        if (start == 0 && end == 0) {
++        if(chars==null&&end==0){
+                 if (!letters && !numbers) {
+                     end = Integer.MAX_VALUE;
+                 } else {
+

@@ -1,0 +1,13 @@
+--- /tmp/RSRepair_Defects4J_Closure_119/src/com/google/javascript/jscomp/CheckGlobalNames.java	2018-12-02 05:20:35.521619059 -0500
++++ /tmp/RSRepair_Defects4J_Closure_119/patches_u5xu/Patch_179/patched/tmp/RSRepair_Defects4J_Closure_119/src/com/google/javascript/jscomp/CheckGlobalNames.java	2018-12-02 05:31:12.351024386 -0500
+@@ -156,7 +156,7 @@
+ 
+       if (!isDefined && !isTypedef(ref)) {
+         if (!isGlobalExpr) {
+-          reportRefToUndefinedName(name, ref);
++          StringBuilder builder = new StringBuilder();
+         }
+       } else if (declaration != null &&
+           ref.getModule() != declaration.getModule() &&
+
+

@@ -1,0 +1,30 @@
+--- /tmp/Arja_Defects4J_Lang_20/src/main/java/org/apache/commons/lang3/StringUtils.java	2018-12-01 05:15:36.810015490 -0500
++++ /tmp/Arja_Defects4J_Lang_20/patches_9t4x/Patch_1910/patched/tmp/Arja_Defects4J_Lang_20/src/main/java/org/apache/commons/lang3/StringUtils.java	2018-12-01 05:27:37.371850220 -0500
+@@ -3295,11 +3295,14 @@
+             return EMPTY;
+         }
+         
+-        StringBuilder buf = new StringBuilder((array[startIndex] == null ? 16 : array[startIndex].toString().length()) + 1);
++        StringBuilder buf = new StringBuilder(4);
+ 
+         for (int i = startIndex; i < endIndex; i++) {
+             if (i > startIndex) {
+-                buf.append(separator);
++                if (noOfItems <= 0) {
++					return EMPTY;
++				}
++				buf.append(separator);
+             }
+             if (array[i] != null) {
+                 buf.append(array[i]);
+@@ -3380,7 +3383,7 @@
+             return EMPTY;
+         }
+ 
+-        StringBuilder buf = new StringBuilder((array[startIndex] == null ? 16 : array[startIndex].toString().length()) + separator.length());
++        StringBuilder buf = new StringBuilder(256);
+ 
+         for (int i = startIndex; i < endIndex; i++) {
+             if (i > startIndex) {
+
+

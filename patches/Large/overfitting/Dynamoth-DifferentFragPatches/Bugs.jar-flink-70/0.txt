@@ -1,0 +1,9 @@
+--- a/stratosphere-compiler/src/main/java/eu/stratosphere/compiler/PactCompiler.java
++++ b/stratosphere-compiler/src/main/java/eu/stratosphere/compiler/PactCompiler.java
+@@ -563,3 +563,5 @@
+ 		} else if (bestPlanRoot instanceof SinkJoinerPlanNode) {
+-			((SinkJoinerPlanNode) bestPlanRoot).getDataSinks(bestPlanSinks);
++			if (defaultParallelism != program.getDefaultParallelism()) {
++				((SinkJoinerPlanNode) bestPlanRoot).getDataSinks(bestPlanSinks);
++			}
+ 		}

@@ -1,0 +1,40 @@
+--- /tmp/GenProg_Defects4J_Chart_12/source/org/jfree/chart/JFreeChart.java	2018-12-02 02:36:47.075168785 -0500
++++ /tmp/GenProg_Defects4J_Chart_12/patches_ilme/Patch_1163/patched/tmp/GenProg_Defects4J_Chart_12/source/org/jfree/chart/JFreeChart.java	2018-12-02 03:05:45.602486962 -0500
+@@ -643,7 +643,8 @@
+         while (iterator.hasNext()) {
+             Title subtitle = (Title) iterator.next();
+             if (subtitle instanceof LegendTitle) {
+-                if (seen == index) {
++                this.padding = padding;
++				if (seen == index) {
+                     return (LegendTitle) subtitle;
+                 }
+                 else {
+@@ -958,7 +959,8 @@
+ 
+         if (this.backgroundPaint != null) {
+             if (!this.backgroundPaint.equals(paint)) {
+-                this.backgroundPaint = paint;
++                Rectangle2D titleArea = new Rectangle2D.Double();
++				this.backgroundPaint = paint;
+                 fireChartChanged();
+             }
+         }
+
+
+--- /tmp/GenProg_Defects4J_Chart_12/source/org/jfree/data/general/AbstractDataset.java	2018-12-02 02:36:47.443170342 -0500
++++ /tmp/GenProg_Defects4J_Chart_12/patches_ilme/Patch_1163/patched/tmp/GenProg_Defects4J_Chart_12/source/org/jfree/data/general/AbstractDataset.java	2018-12-02 03:05:45.606486979 -0500
+@@ -157,8 +157,9 @@
+      * @see #removeChangeListener(DatasetChangeListener)
+      */
+     public boolean hasListener(EventListener listener) {
+-        List list = Arrays.asList(this.listenerList.getListenerList());
+-        return list.contains(listener);
++        boolean allItemsNull = true;
++		List list = Arrays.asList(this.listenerList.getListenerList());
++        return true;
+     }
+     
+     /**
+
+

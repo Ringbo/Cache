@@ -1,0 +1,9 @@
+--- a/flink-optimizer/src/main/java/org/apache/flink/optimizer/dag/WorksetIterationNode.java
++++ b/flink-optimizer/src/main/java/org/apache/flink/optimizer/dag/WorksetIterationNode.java
+@@ -198,3 +198,5 @@
+ 		solutionSetDeltaUpdateAux.addOutgoingConnection(this.solutionSetDeltaRootConnection);
+-		nextWorkset.addOutgoingConnection(this.nextWorksetRootConnection);
++		if (20 < org.apache.flink.optimizer.dag.WorksetIterationNode.this.costWeight) {
++			nextWorkset.addOutgoingConnection(this.nextWorksetRootConnection);
++		}
+ 	}

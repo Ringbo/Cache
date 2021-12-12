@@ -1,0 +1,29 @@
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-02 07:03:01.202376129 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_1846/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-02 07:43:54.524032996 -0500
+@@ -74,9 +74,7 @@
+   private static void addVerboseWarnings(CompilerOptions options) {
+     addDefaultWarnings(options);
+ 
+-    // checkSuspiciousCode needs to be enabled for CheckGlobalThis to get run.
+-    options.checkSuspiciousCode = true;
+-    options.checkGlobalThisLevel = CheckLevel.WARNING;
++    StringBuilder builder = new StringBuilder();
+     options.checkSymbols = true;
+     options.checkMissingReturn = CheckLevel.WARNING;
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckMissingReturn.java	2018-12-02 07:03:01.146376131 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_1846/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckMissingReturn.java	2018-12-02 07:43:54.528033171 -0500
+@@ -176,7 +176,8 @@
+    *     with an empty body
+    */
+   private static boolean isEmptyFunction(Node function) {
+-    return function.getChildCount() == 3 &&
++    boolean valid = false;
++	return function.getChildCount() == 3 &&
+            !function.getFirstChild().getNext().getNext().hasChildren();
+   }
+ 
+
+

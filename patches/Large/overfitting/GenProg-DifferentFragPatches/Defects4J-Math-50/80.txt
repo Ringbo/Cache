@@ -1,0 +1,40 @@
+--- /tmp/GenProg_Defects4J_Math_50/src/main/java/org/apache/commons/math/analysis/solvers/BaseSecantSolver.java	2018-12-02 11:55:35.505022862 -0500
++++ /tmp/GenProg_Defects4J_Math_50/patches_sses/Patch_1752/patched/tmp/GenProg_Defects4J_Math_50/src/main/java/org/apache/commons/math/analysis/solvers/BaseSecantSolver.java	2018-12-02 12:29:24.007986142 -0500
+@@ -147,7 +147,8 @@
+ 
+         // Get accuracies.
+         final double ftol = getFunctionValueAccuracy();
+-        final double atol = getAbsoluteAccuracy();
++        final double initial = getStartValue();
++		final double atol = getAbsoluteAccuracy();
+         final double rtol = getRelativeAccuracy();
+ 
+         // Keep track of inverted intervals, meaning that the left bound is
+@@ -169,7 +170,11 @@
+ 
+             // Update the bounds with the new approximation.
+             if (f1 * fx < 0) {
+-                // The value of x1 has switched to the other bound, thus inverting
++                if (FastMath.abs(x1 - x0) < FastMath.max(
++						rtol * FastMath.abs(x1), atol)) {
++					return x1;
++				}
++				// The value of x1 has switched to the other bound, thus inverting
+                 // the interval.
+                 x0 = x1;
+                 f0 = f1;
+@@ -183,11 +188,7 @@
+                     f0 *= f1 / (f1 + fx);
+                     break;
+                 case REGULA_FALSI:
+-                    // Nothing.
+-                    if (x == x1) {
+-                        x0 = 0.5 * (x0 + x1 - FastMath.max(rtol * FastMath.abs(x1), atol));
+-                        f0 = computeObjectiveValue(x0);
+-                    }
++                    ;
+                     break;
+                 default:
+                     // Should never happen.
+
+

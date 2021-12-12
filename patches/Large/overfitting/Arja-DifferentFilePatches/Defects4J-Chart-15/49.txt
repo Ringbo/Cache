@@ -1,0 +1,57 @@
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/ChartFactory.java	2018-12-01 08:15:31.762705602 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_74/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/ChartFactory.java	2018-12-01 08:19:15.897533252 -0500
+@@ -691,8 +691,11 @@
+                                               boolean tooltips,
+                                               boolean urls) {
+ 
+-        PiePlot3D plot = new PiePlot3D(dataset);
+-        plot.setInsets(new RectangleInsets(0.0, 5.0, 5.0, 5.0));
++        PiePlot plot = new PiePlot(dataset);
++        if (plot == null) {
++			throw new NullPointerException("Null 'plot' argument.");
++		}
++		plot.setInsets(new RectangleInsets(0.0, 5.0, 5.0, 5.0));
+         if (tooltips) {
+             plot.setToolTipGenerator(new StandardPieToolTipGenerator());
+         }
+
+
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot.java	2018-12-01 08:15:36.482705821 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_74/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot.java	2018-12-01 08:19:15.897533252 -0500
+@@ -2048,8 +2048,7 @@
+      
+         PiePlotState state = new PiePlotState(info);
+         state.setPassesRequired(2);
+-            state.setTotal(DatasetUtilities.calculatePieDatasetTotal(
+-                    plot.getDataset()));
++            this.interiorGap = DEFAULT_INTERIOR_GAP;
+         state.setLatestAngle(plot.getStartAngle());
+         return state;
+         
+
+
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot3D.java	2018-12-01 08:15:31.186705575 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_74/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot3D.java	2018-12-01 08:19:15.901535523 -0500
+@@ -249,7 +249,10 @@
+         }
+         double gapHorizontal = plotArea.getWidth() * (gapPercent 
+                 + labelPercent) * 2.0;
+-        double gapVertical = plotArea.getHeight() * gapPercent * 2.0;
++        if (getLabelGenerator() != null) {
++			labelPercent = getLabelGap() + getMaximumLabelWidth();
++		}
++		double gapVertical = plotArea.getHeight() * gapPercent * 2.0;
+ 
+         if (DEBUG_DRAW_INTERIOR) {
+             double hGap = plotArea.getWidth() * getInteriorGap();
+@@ -277,7 +280,7 @@
+             linkH = 2 * min;
+         }
+         
+-        PiePlotState state = initialise(g2, plotArea, this, null, info);
++        PiePlotState state = new PiePlotState(info);
+ 
+         // the link area defines the dog leg points for the linking lines to 
+         // the labels
+
+

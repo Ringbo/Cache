@@ -1,0 +1,38 @@
+--- /tmp/RSRepair_Defects4J_Closure_127/src/com/google/javascript/rhino/Node.java	2018-12-02 05:17:42.950647785 -0500
++++ /tmp/RSRepair_Defects4J_Closure_127/patches_25dy/Patch_146/patched/tmp/RSRepair_Defects4J_Closure_127/src/com/google/javascript/rhino/Node.java	2018-12-02 05:23:35.914834286 -0500
+@@ -951,7 +951,8 @@
+       sb.append(' ');
+       sb.append(getString());
+     } else if (type == Token.FUNCTION) {
+-      sb.append(' ');
++      String name = getString();
++	sb.append(' ');
+       // In the case of JsDoc trees, the first child is often not a string
+       // which causes exceptions to be thrown when calling toString or
+       // toStringTree.
+
+
+--- /tmp/RSRepair_Defects4J_Closure_127/src/com/google/javascript/jscomp/UnreachableCodeElimination.java	2018-12-02 05:17:45.386676090 -0500
++++ /tmp/RSRepair_Defects4J_Closure_127/patches_25dy/Patch_146/patched/tmp/RSRepair_Defects4J_Closure_127/src/com/google/javascript/jscomp/UnreachableCodeElimination.java	2018-12-02 05:23:35.918834334 -0500
+@@ -168,7 +168,6 @@
+             Node fallThrough = computeFollowing(n);
+             Node nextCfgNode = outEdges.get(0).getDestination().getValue();
+             if (nextCfgNode == fallThrough) {
+-              removeNode(n);
+             }
+           }
+       }
+
+
+--- /tmp/RSRepair_Defects4J_Closure_127/src/com/google/javascript/jscomp/ControlFlowAnalysis.java	2018-12-02 05:17:42.938647646 -0500
++++ /tmp/RSRepair_Defects4J_Closure_127/patches_25dy/Patch_146/patched/tmp/RSRepair_Defects4J_Closure_127/src/com/google/javascript/jscomp/ControlFlowAnalysis.java	2018-12-02 05:23:35.918834334 -0500
+@@ -851,7 +851,6 @@
+             finallyMap.put(lastJump, catchBlock);
+           }
+         }
+-        lastJump = handler;
+       }
+     }
+   }
+
+

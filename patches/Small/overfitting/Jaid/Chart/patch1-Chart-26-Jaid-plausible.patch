@@ -1,0 +1,10 @@
+--- /source/org/jfree/chart/axis/Axis.java
++++ /source/org/jfree/chart/axis/Axis.java
+@@ -1187,6 +1187,7 @@
+                     + insets.getRight());
+ 
+         }
++        hotspot=null;
+         if (plotState != null && hotspot != null) {
+             ChartRenderingInfo owner = plotState.getOwner();
+                 EntityCollection entities = owner.getEntityCollection();

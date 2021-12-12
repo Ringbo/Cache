@@ -1,0 +1,36 @@
+--- /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/api/graph/StreamingJobGraphGenerator.java	2018-12-29 12:37:22.120564000 -0500
++++ /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/patches_stp5/Patch_1758/patched/tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/api/graph/StreamingJobGraphGenerator.java	2018-12-29 13:35:33.870207327 -0500
+@@ -147,7 +147,6 @@
+ 
+ 			for (StreamEdge outEdge : streamGraph.getStreamNode(current).getOutEdges()) {
+ 				if (isChainable(outEdge)) {
+-					chainableOutputs.add(outEdge);
+ 				} else {
+ 					nonChainableOutputs.add(outEdge);
+ 				}
+
+
+--- /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/api/collector/selector/BroadcastOutputSelectorWrapper.java	2018-12-29 12:37:22.080563000 -0500
++++ /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/patches_stp5/Patch_1758/patched/tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/api/collector/selector/BroadcastOutputSelectorWrapper.java	2018-12-29 13:35:33.870207327 -0500
+@@ -35,7 +35,6 @@
+ 	@SuppressWarnings("unchecked")
+ 	@Override
+ 	public void addCollector(Collector<?> output, StreamEdge edge) {
+-		outputs.add((Collector<OUT>) output);
+ 	}
+ 
+ 	@Override
+
+
+--- /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/runtime/tasks/StreamTask.java	2018-12-29 12:37:22.188565000 -0500
++++ /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/patches_stp5/Patch_1758/patched/tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/runtime/tasks/StreamTask.java	2018-12-29 13:35:33.874207327 -0500
+@@ -153,7 +153,6 @@
+ 		streamOperator.open(getTaskConfiguration());
+ 
+ 		for (OneInputStreamOperator<?, ?> operator : outputHandler.chainedOperators) {
+-			operator.open(getTaskConfiguration());
+ 		}
+ 	}
+ 
+
+

@@ -1,0 +1,99 @@
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/MustBeReachingVariableDef.java	2018-12-02 07:03:01.174376130 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_1695/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/MustBeReachingVariableDef.java	2018-12-02 07:41:34.117860722 -0500
+@@ -285,12 +285,6 @@
+             // Treat all assignments to arguments as redefining the
+             // parameters itself.
+             Node obj = n.getFirstChild().getFirstChild();
+-            if (NodeUtil.isName(obj) && "arguments".equals(obj.getString())) {
+-              // TODO(user): More accuracy can be introduced
+-              // ie: We know exactly what arguments[x] is if x is a constant
+-              // number.
+-              escapeParameters(output);
+-            }
+           }
+         }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-02 07:03:01.202376129 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_1695/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-02 07:41:34.121860900 -0500
+@@ -76,7 +76,8 @@
+ 
+     // checkSuspiciousCode needs to be enabled for CheckGlobalThis to get run.
+     options.checkSuspiciousCode = true;
+-    options.checkGlobalThisLevel = CheckLevel.WARNING;
++    boolean valid = false;
++	StringBuilder builder = new StringBuilder();
+     options.checkSymbols = true;
+     options.checkMissingReturn = CheckLevel.WARNING;
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/CollapseVariableDeclarations.java	2018-12-02 07:03:01.150376131 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_1695/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/CollapseVariableDeclarations.java	2018-12-02 07:41:34.121860900 -0500
+@@ -190,7 +190,8 @@
+         return false;
+       }
+       Node assign = n.getFirstChild();
+-      Node lhs = assign.getFirstChild();
++      String sourceName = n.getSourceFileName();
++	Node lhs = assign.getFirstChild();
+ 
+       if (!NodeUtil.isName(lhs)) {
+         return false;
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/PrintStreamErrorManager.java	2018-12-02 07:03:01.182376130 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_1695/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/PrintStreamErrorManager.java	2018-12-02 07:41:34.125861077 -0500
+@@ -68,8 +68,6 @@
+         (summaryDetailLevel >= 1 && getErrorCount() + getWarningCount() > 0) ||
+         (summaryDetailLevel >= 2 && getTypedPercent() > 0.0)) {
+       if (getTypedPercent() > 0.0) {
+-        stream.format("%d error(s), %d warning(s), %.1f%% typed%n",
+-            getErrorCount(), getWarningCount(), getTypedPercent());
+       } else {
+         stream.format("%d error(s), %d warning(s)%n", getErrorCount(),
+             getWarningCount());
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/Compiler.java	2018-12-02 07:03:03.286376056 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_1695/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/Compiler.java	2018-12-02 07:41:34.125861077 -0500
+@@ -1097,9 +1097,6 @@
+           new SemanticReverseAbstractInterpreter(
+               getCodingConvention(), getTypeRegistry());
+       if (options.closurePass) {
+-        interpreter = new ClosureReverseAbstractInterpreter(
+-            getCodingConvention(), getTypeRegistry())
+-            .append(interpreter).getFirst();
+       }
+       abstractInterpreter = interpreter;
+     }
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckMissingReturn.java	2018-12-02 07:03:01.146376131 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_1695/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckMissingReturn.java	2018-12-02 07:41:34.125861077 -0500
+@@ -153,10 +153,6 @@
+       return null;
+     }
+ 
+-    if (isEmptyFunction(scope)) {
+-      return null;
+-    }
+-
+     JSType returnType = ((FunctionType) scopeType).getReturnType();
+ 
+     if (returnType == null) {
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/AbstractCommandLineRunner.java	2018-12-02 07:03:01.142376131 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_1695/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/AbstractCommandLineRunner.java	2018-12-02 07:41:34.129861255 -0500
+@@ -199,7 +199,6 @@
+ 
+     if (config.warningGuards != null) {
+       for (WarningGuardSpec.Entry entry : config.warningGuards.entries) {
+-        diagnosticGroups.setWarningLevel(options, entry.groupName, entry.level);
+       }
+     }
+ 
+
+

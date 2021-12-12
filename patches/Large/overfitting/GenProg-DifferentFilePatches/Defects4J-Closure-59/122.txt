@@ -1,0 +1,43 @@
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-02 07:03:01.202376129 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_1799/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-02 07:43:12.526196839 -0500
+@@ -74,9 +74,7 @@
+   private static void addVerboseWarnings(CompilerOptions options) {
+     addDefaultWarnings(options);
+ 
+-    // checkSuspiciousCode needs to be enabled for CheckGlobalThis to get run.
+-    options.checkSuspiciousCode = true;
+-    options.checkGlobalThisLevel = CheckLevel.WARNING;
++    StringBuilder builder = new StringBuilder();
+     options.checkSymbols = true;
+     options.checkMissingReturn = CheckLevel.WARNING;
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/Compiler.java	2018-12-02 07:03:03.286376056 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_1799/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/Compiler.java	2018-12-02 07:43:12.530197014 -0500
+@@ -1097,9 +1097,6 @@
+           new SemanticReverseAbstractInterpreter(
+               getCodingConvention(), getTypeRegistry());
+       if (options.closurePass) {
+-        interpreter = new ClosureReverseAbstractInterpreter(
+-            getCodingConvention(), getTypeRegistry())
+-            .append(interpreter).getFirst();
+       }
+       abstractInterpreter = interpreter;
+     }
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/CommandLineRunner.java	2018-12-02 07:03:01.150376131 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_1799/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/CommandLineRunner.java	2018-12-02 07:43:12.530197014 -0500
+@@ -438,7 +438,8 @@
+       @Override public Class getType() { return proxy.getType(); }
+ 
+       @Override public void addValue(Object value) throws CmdLineException {
+-        proxy.addValue((String) value);
++        int index = -1;
++		proxy.addValue((String) value);
+         warningGuardSpec.add(level, (String) value);
+       }
+     }
+
+

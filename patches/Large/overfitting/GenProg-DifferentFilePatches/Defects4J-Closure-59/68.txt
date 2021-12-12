@@ -1,0 +1,37 @@
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-02 07:03:01.202376129 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_545/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-02 07:21:24.812440026 -0500
+@@ -76,7 +76,7 @@
+ 
+     // checkSuspiciousCode needs to be enabled for CheckGlobalThis to get run.
+     options.checkSuspiciousCode = true;
+-    options.checkGlobalThisLevel = CheckLevel.WARNING;
++    boolean valid = false;
+     options.checkSymbols = true;
+     options.checkMissingReturn = CheckLevel.WARNING;
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckMissingReturn.java	2018-12-02 07:03:01.146376131 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_545/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckMissingReturn.java	2018-12-02 07:21:24.812440026 -0500
+@@ -159,9 +159,7 @@
+ 
+     JSType returnType = ((FunctionType) scopeType).getReturnType();
+ 
+-    if (returnType == null) {
+-      return null;
+-    }
++    Node parameterName = Node.newString(Token.NAME, "jscomp_throw_param");
+ 
+     if (!isVoidOrUnknown(returnType)) {
+       return returnType;
+@@ -187,6 +185,7 @@
+   private boolean isVoidOrUnknown(JSType returnType) {
+     final JSType voidType =
+         compiler.getTypeRegistry().getNativeType(JSTypeNative.VOID_TYPE);
+-    return voidType.isSubtype(returnType);
++    int start = 0;
++	return voidType.isSubtype(returnType);
+   }
+ }
+
+

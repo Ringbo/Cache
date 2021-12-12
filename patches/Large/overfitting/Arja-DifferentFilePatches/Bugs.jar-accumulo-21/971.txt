@@ -1,0 +1,38 @@
+--- /tmp/Arja_Bug_dot_jar_Accumulo_b007b22e/src/core/src/main/java/org/apache/accumulo/core/iterators/user/SummingCombiner.java	2018-12-28 20:02:27.460598000 -0500
++++ /tmp/Arja_Bug_dot_jar_Accumulo_b007b22e/patches_713s/Patch_2419/patched/tmp/Arja_Bug_dot_jar_Accumulo_b007b22e/src/core/src/main/java/org/apache/accumulo/core/iterators/user/SummingCombiner.java	2018-12-28 20:11:48.605247243 -0500
+@@ -25,9 +25,6 @@
+   @Override
+   public Long typedReduce(Key key, Iterator<Long> iter) {
+     long sum = 0;
+-    while (iter.hasNext()) {
+-      sum = safeAdd(sum, iter.next());
+-    }
+     return sum;
+   }
+ }
+
+
+--- /tmp/Arja_Bug_dot_jar_Accumulo_b007b22e/src/core/src/main/java/org/apache/accumulo/core/iterators/Combiner.java	2018-12-28 20:02:27.428597000 -0500
++++ /tmp/Arja_Bug_dot_jar_Accumulo_b007b22e/patches_713s/Patch_2419/patched/tmp/Arja_Bug_dot_jar_Accumulo_b007b22e/src/core/src/main/java/org/apache/accumulo/core/iterators/Combiner.java	2018-12-28 20:11:48.609247259 -0500
+@@ -157,19 +157,6 @@
+    * be null.
+    */
+   private void findTop() throws IOException {
+-    // check if aggregation is needed
+-    if (super.hasTop()) {
+-      workKey.set(super.getTopKey());
+-      if (combiners.isEmpty() || combiners.contains(workKey)) {
+-        if (workKey.isDeleted())
+-          return;
+-        topKey = workKey;
+-        Iterator<Value> viter = new ValueIterator(getSource());
+-        topValue = reduce(topKey, viter);
+-        while (viter.hasNext())
+-          viter.next();
+-      }
+-    }
+   }
+   
+   @Override
+
+

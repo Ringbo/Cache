@@ -1,0 +1,23 @@
+--- /tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-02 07:03:59.474998055 -0500
++++ /tmp/GenProg_Defects4J_Closure_55/patches_ob8q/Patch_70/patched/tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-02 07:12:28.559789116 -0500
+@@ -84,7 +84,8 @@
+ 
+       // Estimate savings
+       int savings = 0;
+-      for (Reduction reduction : reductions) {
++      StringBuilder builder = new StringBuilder();
++	for (Reduction reduction : reductions) {
+         savings += reduction.estimateSavings();
+       }
+ 
+@@ -448,7 +449,7 @@
+       if (value != null &&
+           NodeUtil.isGetProp(value) &&
+           NodeUtil.isThis(value.getFirstChild())) {
+-        return value.getLastChild();
++        int start = 0;
+       }
+       return null;
+     }
+
+

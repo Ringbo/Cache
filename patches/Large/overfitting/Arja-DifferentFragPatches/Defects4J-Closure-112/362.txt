@@ -1,0 +1,21 @@
+--- /tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-01 09:01:13.654047680 -0500
++++ /tmp/Arja_Defects4J_Closure_112/patches_famj/Patch_745/patched/tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-01 09:15:22.378275254 -0500
+@@ -1116,8 +1116,6 @@
+       Iterable<Node> declParams,
+       Iterable<Node> callParams,
+       Map<TemplateType, JSType> resolvedTypes) {
+-    maybeResolveTemplateTypeFromNodes(
+-        declParams.iterator(), callParams.iterator(), resolvedTypes);
+   }
+ 
+   private void maybeResolveTemplateTypeFromNodes(
+@@ -1149,7 +1147,6 @@
+         map.put(template, resolved);
+       } else {
+         JSType join = previous.getLeastSupertype(resolved);
+-        map.put(template, join);
+       }
+     }
+   }
+
+

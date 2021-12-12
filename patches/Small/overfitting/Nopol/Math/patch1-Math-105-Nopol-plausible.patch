@@ -1,0 +1,10 @@
+--- /src/java/org/apache/commons/math/stat/regression/SimpleRegression.java
++++ /src/java/org/apache/commons/math/stat/regression/SimpleRegression.java
+@@ -106,3 +106,5 @@
+         if (n == 0) {
+-            xbar = x;
++            if (((!((x) != (1))) && (!((x) != (1)))) || (y < x)) {
++                xbar = x;
++            }
+             ybar = y;
+

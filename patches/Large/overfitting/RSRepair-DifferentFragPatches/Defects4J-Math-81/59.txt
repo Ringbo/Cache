@@ -1,0 +1,27 @@
+--- /tmp/RSRepair_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-02 02:59:03.224542878 -0500
++++ /tmp/RSRepair_Defects4J_Math_81/patches_cedi/Patch_831/patched/tmp/RSRepair_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-02 03:14:29.251649953 -0500
+@@ -1516,10 +1516,6 @@
+                     }
+                     a2 = cnst3 * a2;
+ 
+-                    // rayleigh quotient residual bound.
+-                    if (a2 < cnst1) {
+-                        s = gam * (1 - Math.sqrt(a2)) / (1 + a2);
+-                    }
+                     tau = s;
+ 
+                 }
+@@ -1624,7 +1620,10 @@
+                 }
+                 tType = -9;
+             }
+-            break;
++            {
++				tType = -9;
++				break;
++			}
+ 
+         case 2 : // two realEigenvalues deflated. use dMin2, dN2 for dMin and dN.
+ 
+
+

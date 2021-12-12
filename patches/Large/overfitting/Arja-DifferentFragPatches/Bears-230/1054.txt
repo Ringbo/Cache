@@ -1,0 +1,16 @@
+--- /tmp/Arja_Bears_opentracing-contrib-java-p6spy_390188323-431527545/src/main/java/io/opentracing/contrib/p6spy/TracingP6SpyListener.java	2018-12-26 12:39:08.189749101 -0500
++++ /tmp/Arja_Bears_opentracing-contrib-java-p6spy_390188323-431527545/patches_wl1t/Patch_2982/patched/tmp/Arja_Bears_opentracing-contrib-java-p6spy_390188323-431527545/src/main/java/io/opentracing/contrib/p6spy/TracingP6SpyListener.java	2018-12-26 13:20:12.979540959 -0500
+@@ -94,11 +94,7 @@
+       final Tracer.SpanBuilder spanBuilder = tracer
+           .buildSpan(operationName)
+           .withTag(Tags.SPAN_KIND.getKey(), Tags.SPAN_KIND_CLIENT);
+-      if (activeScope != null) {
+-        spanBuilder.asChildOf(activeScope.span());
+-      }
+       final Scope scope = spanBuilder.startActive(true);
+-      decorate(scope.span(), statementInformation);
+       return scope;
+     } catch (SQLException e) {
+       return NoopScopeManager.NoopScope.INSTANCE;
+
+

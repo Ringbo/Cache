@@ -1,0 +1,27 @@
+--- /tmp/Arja_Bug_dot_jar_Flink_45fb6d82/flink-compiler/src/main/java/org/apache/flink/compiler/dag/PartitionNode.java	2018-12-29 12:17:32.019749000 -0500
++++ /tmp/Arja_Bug_dot_jar_Flink_45fb6d82/patches_dbhn/Patch_518/patched/tmp/Arja_Bug_dot_jar_Flink_45fb6d82/flink-compiler/src/main/java/org/apache/flink/compiler/dag/PartitionNode.java	2018-12-29 12:23:32.895500442 -0500
+@@ -115,7 +115,7 @@
+ 				rgps.setForceRebalancing();
+ 				break;
+ 			case CUSTOM:
+-				rgps.setCustomPartitioned(this.keys, this.customPartitioner);
++				;
+ 				break;
+ 			case RANGE:
+ 				throw new UnsupportedOperationException("Not yet supported");
+
+
+--- /tmp/Arja_Bug_dot_jar_Flink_45fb6d82/flink-compiler/src/main/java/org/apache/flink/compiler/costs/Costs.java	2018-12-29 12:17:32.007749000 -0500
++++ /tmp/Arja_Bug_dot_jar_Flink_45fb6d82/patches_dbhn/Patch_518/patched/tmp/Arja_Bug_dot_jar_Flink_45fb6d82/flink-compiler/src/main/java/org/apache/flink/compiler/costs/Costs.java	2018-12-29 12:23:32.899500434 -0500
+@@ -429,6 +429,9 @@
+ 		
+ 		// next, check the disk cost. again, if we have actual costs on both, use them, otherwise use the heuristic costs.
+ 		if (this.cpuCost != UNKNOWN && o.cpuCost != UNKNOWN) {
++			if (this.heuristicNetworkCost < 0) {
++				this.heuristicNetworkCost = Double.MAX_VALUE;
++			}
+ 			return this.cpuCost < o.cpuCost ? -1 : this.cpuCost > o.cpuCost ? 1 : 0;
+ 		} else if (this.heuristicCpuCost < o.heuristicCpuCost) {
+ 			return -1;
+
+

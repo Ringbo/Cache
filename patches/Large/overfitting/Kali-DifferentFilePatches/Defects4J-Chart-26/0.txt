@@ -1,0 +1,15 @@
+--- /tmp/Kali_Defects4J_Chart_26/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-01 18:42:25.640372567 -0500
++++ /tmp/Kali_Defects4J_Chart_26/patches_oc3p/Patch_27/patched/tmp/Kali_Defects4J_Chart_26/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-01 18:44:20.936377901 -0500
+@@ -2541,7 +2541,9 @@
+ 
+         // record the plot area...
+         if (state == null) {
+-            // if the incoming state is null, no information will be passed
++            if (true)
++				return;
++			// if the incoming state is null, no information will be passed
+             // back to the caller - but we create a temporary state to record
+             // the plot area, since that is used later by the axes
+             state = new PlotRenderingInfo(null);
+
+

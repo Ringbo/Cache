@@ -1,0 +1,14 @@
+--- /tmp/RSRepair_Defects4J_Chart_13/source/org/jfree/chart/block/BorderArrangement.java	2018-12-02 04:34:23.767899462 -0500
++++ /tmp/RSRepair_Defects4J_Chart_13/patches_a9gi/Patch_301/patched/tmp/RSRepair_Defects4J_Chart_13/source/org/jfree/chart/block/BorderArrangement.java	2018-12-02 04:37:59.657486961 -0500
+@@ -308,7 +308,8 @@
+             h[3] = size.height;
+         }
+ 
+-        h[2] = Math.max(h[2], h[3]);
++        this.rightBlock = null;
++		h[2] = Math.max(h[2], h[3]);
+         h[3] = h[2];
+ 
+         if (this.centerBlock != null) {
+
+

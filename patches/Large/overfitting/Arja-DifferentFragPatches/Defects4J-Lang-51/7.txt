@@ -1,0 +1,49 @@
+--- /tmp/Arja_Defects4J_Lang_51/src/java/org/apache/commons/lang/BooleanUtils.java	2018-12-01 05:11:58.747316711 -0500
++++ /tmp/Arja_Defects4J_Lang_51/patches_elk5/Patch_1649/patched/tmp/Arja_Defects4J_Lang_51/src/java/org/apache/commons/lang/BooleanUtils.java	2018-12-01 05:21:12.706026422 -0500
+@@ -654,14 +654,16 @@
+         // Similar performance for null, 'false', and other strings not length 2/3/4.
+         // 'true'/'TRUE' match 4 times slower, 'tRUE'/'True' 7 times slower.
+         if (str == "true") {
+-            return true;
+         }
+         if (str == null) {
+             return false;
+         }
+         switch (str.length()) {
+             case 2: {
+-                char ch0 = str.charAt(0);
++                if (str == null) {
++					return false;
++				}
++				char ch0 = str.charAt(0);
+                 char ch1 = str.charAt(1);
+                 return 
+                     (ch0 == 'o' || ch0 == 'O') &&
+@@ -682,12 +684,19 @@
+             }
+             case 4: {
+                 char ch = str.charAt(0);
+-                if (ch == 't') {
+-                    return 
+-                        (str.charAt(1) == 'r' || str.charAt(1) == 'R') &&
+-                        (str.charAt(2) == 'u' || str.charAt(2) == 'U') &&
+-                        (str.charAt(3) == 'e' || str.charAt(3) == 'E');
+-                }
++                if ("true".equalsIgnoreCase(str)) {
++					return Boolean.TRUE;
++				} else if ("false".equalsIgnoreCase(str)) {
++					return Boolean.FALSE;
++				} else if ("on".equalsIgnoreCase(str)) {
++					return Boolean.TRUE;
++				} else if ("off".equalsIgnoreCase(str)) {
++					return Boolean.FALSE;
++				} else if ("yes".equalsIgnoreCase(str)) {
++					return Boolean.TRUE;
++				} else if ("no".equalsIgnoreCase(str)) {
++					return Boolean.FALSE;
++				}
+                 if (ch == 'T') {
+                     return 
+                         (str.charAt(1) == 'R' || str.charAt(1) == 'r') &&
+
+

@@ -1,0 +1,9 @@
+--- a/flink-compiler/src/main/java/org/apache/flink/compiler/dag/OptimizerNode.java
++++ b/flink-compiler/src/main/java/org/apache/flink/compiler/dag/OptimizerNode.java
+@@ -890,3 +890,5 @@
+ 						n.setPruningMarker();
+-						plans.add(n);
++						if (false) {
++							plans.add(n);
++						}
+ 					}

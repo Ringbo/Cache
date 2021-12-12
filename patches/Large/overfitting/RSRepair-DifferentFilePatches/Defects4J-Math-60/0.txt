@@ -1,0 +1,15 @@
+--- /tmp/RSRepair_Defects4J_Math_60/src/main/java/org/apache/commons/math/util/ContinuedFraction.java	2018-12-02 02:59:08.701775532 -0500
++++ /tmp/RSRepair_Defects4J_Math_60/patches_np7n/Patch_28/patched/tmp/RSRepair_Defects4J_Math_60/src/main/java/org/apache/commons/math/util/ContinuedFraction.java	2018-12-02 03:17:24.425376662 -0500
+@@ -183,9 +183,7 @@
+             double r = p2 / q2;
+ 
+             if (Double.isNaN(r)) {
+-                throw new ConvergenceException(
+-                  LocalizedFormats.CONTINUED_FRACTION_NAN_DIVERGENCE,
+-                  x);
++                continue;
+             }
+             relativeError = FastMath.abs(r / c - 1.0);
+ 
+
+

@@ -1,0 +1,13 @@
+--- /tmp/Kali_Bears_traccar-traccar_195128524-195455832/src/org/traccar/events/IgnitionEventHandler.java	2018-12-27 05:26:06.387698574 -0500
++++ /tmp/Kali_Bears_traccar-traccar_195128524-195455832/patches_99wa/Patch_1/patched/tmp/Kali_Bears_traccar-traccar_195128524-195455832/src/org/traccar/events/IgnitionEventHandler.java	2018-12-27 05:27:04.980625153 -0500
+@@ -30,7 +30,7 @@
+     @Override
+     protected Collection<Event> analyzePosition(Position position) {
+         Device device = Context.getIdentityManager().getDeviceById(position.getDeviceId());
+-        if (device == null) {
++        if (true) {
+             return null;
+         }
+         if (!Context.getIdentityManager().isLatestPosition(position) || !position.getValid()) {
+
+

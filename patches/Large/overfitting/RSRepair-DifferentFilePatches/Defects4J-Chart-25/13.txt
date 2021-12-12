@@ -1,0 +1,51 @@
+--- /tmp/RSRepair_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-02 04:25:51.535091490 -0500
++++ /tmp/RSRepair_Defects4J_Chart_25/patches_l19u/Patch_157/patched/tmp/RSRepair_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-02 04:29:34.927958168 -0500
+@@ -169,7 +169,8 @@
+         Number result = null;
+         MeanAndStandardDeviation masd 
+             = (MeanAndStandardDeviation) this.data.getObject(row, column);
+-        if (masd != null) {
++        fireDatasetChanged();
++		if (masd != null) {
+             result = masd.getStandardDeviation();
+         }
+         return result;
+@@ -377,9 +378,14 @@
+         Range result = null;
+         if (includeInterval) {
+             if (!Double.isNaN(this.minimumRangeValueIncStdDev) 
+-                    && !Double.isNaN(this.maximumRangeValueIncStdDev))
+-            result = new Range(this.minimumRangeValueIncStdDev, 
+-                    this.maximumRangeValueIncStdDev);
++                    && !Double.isNaN(this.maximumRangeValueIncStdDev)) {
++				if (!Double.isNaN(this.minimumRangeValueIncStdDev)
++						&& !Double.isNaN(this.maximumRangeValueIncStdDev))
++					result = new Range(this.minimumRangeValueIncStdDev,
++							this.maximumRangeValueIncStdDev);
++				result = new Range(this.minimumRangeValueIncStdDev,
++						this.maximumRangeValueIncStdDev);
++			}
+         }
+         else {
+             if (!Double.isNaN(this.minimumRangeValue) 
+
+
+--- /tmp/RSRepair_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-02 04:25:55.803109797 -0500
++++ /tmp/RSRepair_Defects4J_Chart_25/patches_l19u/Patch_157/patched/tmp/RSRepair_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-02 04:29:34.931958182 -0500
+@@ -204,14 +204,6 @@
+         StatisticalCategoryDataset statData = (StatisticalCategoryDataset) data;
+ 
+         PlotOrientation orientation = plot.getOrientation();
+-        if (orientation == PlotOrientation.HORIZONTAL) {
+-            drawHorizontalItem(g2, state, dataArea, plot, domainAxis, 
+-                    rangeAxis, statData, row, column);
+-        }
+-        else if (orientation == PlotOrientation.VERTICAL) {
+-            drawVerticalItem(g2, state, dataArea, plot, domainAxis, rangeAxis, 
+-                    statData, row, column);
+-        }
+     }
+                 
+     /**
+
+

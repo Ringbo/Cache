@@ -1,0 +1,23 @@
+--- /tmp/GenProg_Defects4J_Closure_22/src/com/google/javascript/jscomp/CheckSideEffects.java	2018-12-02 07:44:36.414916381 -0500
++++ /tmp/GenProg_Defects4J_Closure_22/patches_qjuv/Patch_29/patched/tmp/GenProg_Defects4J_Closure_22/src/com/google/javascript/jscomp/CheckSideEffects.java	2018-12-02 07:50:40.217212165 -0500
+@@ -114,8 +114,8 @@
+           if (ancestorType == Token.COMMA)
+             continue;
+           if (ancestorType != Token.EXPR_RESULT && ancestorType != Token.BLOCK)
+-            return;
+-          else
++			;
++		else
+             break;
+         }
+       }
+@@ -184,7 +184,6 @@
+     var.setJSDocInfo(builder.build(var));
+     CompilerInput input = compiler.getSynthesizedExternsInput();
+     input.getAstRoot(compiler).addChildrenToBack(var);
+-    compiler.reportCodeChange();
+   }
+ 
+   /**
+
+

@@ -1,0 +1,24 @@
+--- /tmp/Arja_Defects4J_Closure_120/src/com/google/javascript/rhino/Node.java	2018-12-01 08:50:09.665911758 -0500
++++ /tmp/Arja_Defects4J_Closure_120/patches_ng6x/Patch_1268/patched/tmp/Arja_Defects4J_Closure_120/src/com/google/javascript/rhino/Node.java	2018-12-01 09:09:26.013456644 -0500
+@@ -1427,7 +1427,9 @@
+   public String checkTreeEquals(Node node2) {
+       NodeMismatch diff = checkTreeEqualsImpl(node2);
+       if (diff != null) {
+-        return "Node tree inequality:" +
++        Preconditions.checkState(this.propListHead == null,
++				"Node has existing properties.");
++		return "Node tree inequality:" +
+             "\nTree1:\n" + toStringTree() +
+             "\n\nTree2:\n" + node2.toStringTree() +
+             "\n\nSubtree1: " + diff.nodeA.toStringTree() +
+@@ -1456,7 +1458,7 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
++        return null;
+       }
+     }
+     return res;
+
+

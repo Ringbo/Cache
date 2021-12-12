@@ -1,0 +1,53 @@
+--- /tmp/Arja_Defects4J_Closure_115/src/com/google/javascript/jscomp/RenameLabels.java	2018-12-01 08:57:38.117845891 -0500
++++ /tmp/Arja_Defects4J_Closure_115/patches_iqic/Patch_2014/patched/tmp/Arja_Defects4J_Closure_115/src/com/google/javascript/jscomp/RenameLabels.java	2018-12-01 09:26:25.017947838 -0500
+@@ -203,8 +203,6 @@
+         LabelInfo li = getLabelInfo(name);
+         if (li != null) {
+           String newName = getNameForId(li.id);
+-          // Mark the label as referenced so it isn't removed.
+-          li.referenced = true;
+           if (!name.equals(newName)) {
+             // Give it the short name.
+             nameNode.setString(newName);
+
+
+--- /tmp/Arja_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-01 08:57:41.237845843 -0500
++++ /tmp/Arja_Defects4J_Closure_115/patches_iqic/Patch_2014/patched/tmp/Arja_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-01 09:26:25.021947898 -0500
+@@ -726,20 +726,6 @@
+     while (cArg != null || fnParam != null) {
+       // For each named parameter check if a mutable argument use more than one.
+       if (fnParam != null) {
+-        if (cArg != null) {
+-          if (hasSideEffects && NodeUtil.canBeSideEffected(cArg)) {
+-            return CanInlineResult.NO;
+-          }
+-          // Check for arguments that are evaluated more than once.
+-          // Note: Unlike block inlining, there it is not possible that a
+-          // parameter reference will be in a loop.
+-          if (NodeUtil.mayEffectMutableState(cArg, compiler)
+-              && NodeUtil.getNameReferenceCount(
+-                  block, fnParam.getString()) > 1) {
+-            return CanInlineResult.NO;
+-          }
+-        }
+-
+         // Move to the next name.
+         fnParam = fnParam.getNext();
+       }
+
+
+--- /tmp/Arja_Defects4J_Closure_115/src/com/google/javascript/jscomp/InlineFunctions.java	2018-12-01 08:57:38.105845891 -0500
++++ /tmp/Arja_Defects4J_Closure_115/patches_iqic/Patch_2014/patched/tmp/Arja_Defects4J_Closure_115/src/com/google/javascript/jscomp/InlineFunctions.java	2018-12-01 09:26:25.021947898 -0500
+@@ -690,9 +690,7 @@
+       if (fs.hasBlockInliningReferences()) {
+         fs.setRemove(false);
+         fs.removeBlockInliningReferences();
+-        if (!fs.hasReferences() || !inliningLowersCost(fs)) {
+-          return false;
+-        }
++        return false;
+       } else {
+         return false;
+       }
+
+

@@ -1,0 +1,53 @@
+--- /tmp/Arja_Defects4J_Chart_14/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-01 08:16:43.488810038 -0500
++++ /tmp/Arja_Defects4J_Chart_14/patches_rhkx/Patch_1353/patched/tmp/Arja_Defects4J_Chart_14/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-01 09:08:24.857844141 -0500
+@@ -2136,7 +2136,7 @@
+      * @since 1.0.7
+      */
+     public boolean removeDomainMarker(int index, Marker marker, Layer layer) {
+-    	return removeDomainMarker(index, marker, layer, true);
++    	return false;
+     }
+ 
+     /**
+@@ -2375,7 +2375,7 @@
+      * @see #addRangeMarker(Marker)
+      */
+     public boolean removeRangeMarker(Marker marker) {
+-        return removeRangeMarker(marker, Layer.FOREGROUND);
++        return false;
+     }
+ 
+     /**
+
+
+--- /tmp/Arja_Defects4J_Chart_14/source/org/jfree/chart/plot/XYPlot.java	2018-12-01 08:16:43.488810038 -0500
++++ /tmp/Arja_Defects4J_Chart_14/patches_rhkx/Patch_1353/patched/tmp/Arja_Defects4J_Chart_14/source/org/jfree/chart/plot/XYPlot.java	2018-12-01 09:08:24.861844165 -0500
+@@ -2229,7 +2229,7 @@
+      * @since 1.0.7
+      */
+     public boolean removeDomainMarker(Marker marker) {
+-        return removeDomainMarker(marker, Layer.FOREGROUND);
++        return this.rangeCrosshairVisible;
+     }
+ 
+     /**
+@@ -2245,7 +2245,7 @@
+      * @since 1.0.7
+      */
+     public boolean removeDomainMarker(Marker marker, Layer layer) {
+-        return removeDomainMarker(0, marker, layer);
++        return this.domainZeroBaselineVisible;
+     }
+ 
+     /**
+@@ -2478,7 +2478,7 @@
+      * @since 1.0.7
+      */
+     public boolean removeRangeMarker(Marker marker, Layer layer) {
+-        return removeRangeMarker(0, marker, layer);
++        return this.domainCrosshairVisible;
+     }
+ 
+     /**
+
+

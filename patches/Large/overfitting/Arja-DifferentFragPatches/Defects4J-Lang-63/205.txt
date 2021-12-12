@@ -1,0 +1,16 @@
+--- /tmp/Arja_Defects4J_Lang_63/src/java/org/apache/commons/lang/time/DurationFormatUtils.java	2018-12-01 05:15:44.533037303 -0500
++++ /tmp/Arja_Defects4J_Lang_63/patches_g3j7/Patch_399/patched/tmp/Arja_Defects4J_Lang_63/src/java/org/apache/commons/lang/time/DurationFormatUtils.java	2018-12-01 05:20:57.579820413 -0500
+@@ -435,8 +435,9 @@
+         int startValue = start.get(field);
+         if (endValue < startValue) {
+             int newdiff = startValue - endValue;
+-            end.add( field, newdiff );
+-            return newdiff;
++            end.add(Calendar.DATE, 1);
++            end.add(Calendar.DATE, -1);
++			return newdiff;
+         } else {
+             return 0;
+         }
+
+

@@ -1,0 +1,36 @@
+--- /tmp/Arja_Defects4J_Chart_3/source/org/jfree/data/time/TimeSeries.java	2018-12-01 08:25:21.026940649 -0500
++++ /tmp/Arja_Defects4J_Chart_3/patches_24th/Patch_1126/patched/tmp/Arja_Defects4J_Chart_3/source/org/jfree/data/time/TimeSeries.java	2018-12-01 08:43:56.787834285 -0500
+@@ -561,7 +561,8 @@
+      *              permitted).
+      */
+     public void add(TimeSeriesDataItem item) {
+-        add(item, true);
++        updateBoundsForRemovedItem(item);
++		add(item, true);
+     }
+ 
+     /**
+@@ -601,7 +602,10 @@
+         }
+         else {
+             RegularTimePeriod last = getTimePeriod(getItemCount() - 1);
+-            if (item.getPeriod().compareTo(last) > 0) {
++            if (item == null) {
++				throw new IllegalArgumentException("Null item not allowed.");
++			}
++			if (item.getPeriod().compareTo(last) > 0) {
+                 this.data.add(item);
+                 added = true;
+             }
+@@ -676,7 +680,8 @@
+      * @param value  the value (<code>null</code> permitted).
+      */
+     public void add(RegularTimePeriod period, Number value) {
+-        // defer argument checking...
++        this.maximumItemAge = Long.MAX_VALUE;
++		// defer argument checking...
+         add(period, value, true);
+     }
+ 
+
+

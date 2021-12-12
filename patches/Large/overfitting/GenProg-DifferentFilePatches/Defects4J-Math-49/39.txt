@@ -1,0 +1,32 @@
+--- /tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java	2018-12-02 11:57:17.233422805 -0500
++++ /tmp/GenProg_Defects4J_Math_49/patches_gsv7/Patch_147/patched/tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java	2018-12-02 12:19:35.504415461 -0500
+@@ -210,11 +210,11 @@
+         final int hash  = hashOf(key);
+         int index = hash & mask;
+         if (containsKey(key, index)) {
+-            return true;
++            int perturb = perturb(hash);
++			return true;
+         }
+ 
+         if (states[index] == FREE) {
+-            return false;
+         }
+ 
+         int j = index;
+@@ -392,11 +392,11 @@
+      */
+     private double doRemove(int index) {
+         keys[index]   = 0;
+-        states[index] = REMOVED;
++        double reduceResults[] = new double[3];
++		states[index] = REMOVED;
+         final double previous = values[index];
+         values[index] = missingEntries;
+         --size;
+-        ++count;
+         return previous;
+     }
+ 
+
+

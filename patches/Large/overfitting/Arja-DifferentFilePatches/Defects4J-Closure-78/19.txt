@@ -1,0 +1,45 @@
+--- /tmp/Arja_Defects4J_Closure_78/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-01 09:22:50.345684741 -0500
++++ /tmp/Arja_Defects4J_Closure_78/patches_k0hs/Patch_106/patched/tmp/Arja_Defects4J_Closure_78/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-01 09:28:32.609133850 -0500
+@@ -145,7 +145,7 @@
+         if (result != subtree) {
+           return result;
+         }
+-        return tryFoldLeftChildOp(subtree, left, right);
++        return null;
+ 
+       case Token.LT:
+       case Token.GT:
+@@ -650,7 +650,6 @@
+   private Node tryFoldArithmeticOp(Node n, Node left, Node right) {
+     Node result = performArithmeticOp(n.getType(), left, right);
+     if (result != null) {
+-      result.copyInformationFromForTree(n);
+       n.getParent().replaceChild(n, result);
+       reportCodeChange();
+       return result;
+
+
+--- /tmp/Arja_Defects4J_Closure_78/src/com/google/javascript/jscomp/AbstractPeepholeOptimization.java	2018-12-01 09:22:48.921670448 -0500
++++ /tmp/Arja_Defects4J_Closure_78/patches_k0hs/Patch_106/patched/tmp/Arja_Defects4J_Closure_78/src/com/google/javascript/jscomp/AbstractPeepholeOptimization.java	2018-12-01 09:28:32.609133850 -0500
+@@ -51,7 +51,6 @@
+    */
+   protected void error(DiagnosticType diagnostic, Node n) {
+     JSError error = currentTraversal.makeError(n, diagnostic, n.toString());
+-    currentTraversal.getCompiler().report(error);
+   }
+ 
+   /**
+
+
+--- /tmp/Arja_Defects4J_Closure_78/src/com/google/javascript/jscomp/CodeConsumer.java	2018-12-01 09:22:48.925670487 -0500
++++ /tmp/Arja_Defects4J_Closure_78/patches_k0hs/Patch_106/patched/tmp/Arja_Defects4J_Closure_78/src/com/google/javascript/jscomp/CodeConsumer.java	2018-12-01 09:28:32.609133850 -0500
+@@ -254,7 +254,6 @@
+         add(Long.toString(value));
+       }
+     } else {
+-      add(String.valueOf(x));
+     }
+   }
+ 
+
+

@@ -1,0 +1,15 @@
+--- /tmp/Kali_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot3D.java	2018-12-01 18:52:46.650539916 -0500
++++ /tmp/Kali_Defects4J_Chart_15/patches_dkr6/Patch_17/patched/tmp/Kali_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot3D.java	2018-12-01 18:54:47.442528590 -0500
+@@ -277,7 +277,9 @@
+             linkH = 2 * min;
+         }
+         
+-        PiePlotState state = initialise(g2, plotArea, this, null, info);
++        if (true)
++			return;
++		PiePlotState state = initialise(g2, plotArea, this, null, info);
+ 
+         // the link area defines the dog leg points for the linking lines to 
+         // the labels
+
+

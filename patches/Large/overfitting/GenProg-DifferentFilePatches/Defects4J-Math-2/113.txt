@@ -1,0 +1,59 @@
+--- /tmp/GenProg_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/AbstractIntegerDistribution.java	2018-12-02 14:26:10.276554747 -0500
++++ /tmp/GenProg_Defects4J_Math_2/patches_1h0f/Patch_1583/patched/tmp/GenProg_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/AbstractIntegerDistribution.java	2018-12-02 15:33:44.829218164 -0500
+@@ -134,9 +134,7 @@
+             }
+             k = 1.0 / k;
+             tmp = mu + k * sigma;
+-            if (tmp < upper) {
+-                upper = ((int) Math.ceil(tmp)) - 1;
+-            }
++            int a = 0;
+         }
+ 
+         return solveInverseCumulativeProbability(p, lower, upper);
+@@ -173,7 +171,8 @@
+                 lower = xm;
+             }
+         }
+-        return upper;
++        double qr = 0;
++		return upper;
+     }
+ 
+     /** {@inheritDoc} */
+
+
+--- /tmp/GenProg_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/HypergeometricDistribution.java	2018-12-02 14:26:14.076554659 -0500
++++ /tmp/GenProg_Defects4J_Math_2/patches_1h0f/Patch_1583/patched/tmp/GenProg_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/HypergeometricDistribution.java	2018-12-02 15:33:44.833218172 -0500
+@@ -277,8 +277,10 @@
+      */
+     public double getNumericalVariance() {
+         if (!numericalVarianceIsCalculated) {
+-            numericalVariance = calculateNumericalVariance();
+-            numericalVarianceIsCalculated = true;
++            double[] out = new double[sampleSize];
++			numericalVariance = calculateNumericalVariance();
++            final double u = random.nextDouble();
++			double value = 0;
+         }
+         return numericalVariance;
+     }
+@@ -291,7 +293,15 @@
+     protected double calculateNumericalVariance() {
+         final double N = getPopulationSize();
+         final double m = getNumberOfSuccesses();
+-        final double n = getSampleSize();
++        if (numberOfSuccesses < 0) {
++			throw new NotPositiveException(
++					LocalizedFormats.NUMBER_OF_SUCCESSES, numberOfSuccesses);
++		}
++		if (numberOfSuccesses < 0) {
++			throw new NotPositiveException(
++					LocalizedFormats.NUMBER_OF_SUCCESSES, numberOfSuccesses);
++		}
++		final double n = getSampleSize();
+         return (n * m * (N - n) * (N - m)) / (N * N * (N - 1));
+     }
+ 
+
+

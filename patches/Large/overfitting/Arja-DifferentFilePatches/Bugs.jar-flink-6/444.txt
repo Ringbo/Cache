@@ -1,0 +1,47 @@
+--- /tmp/Arja_Bug_dot_jar_Flink_45fb6d82/flink-compiler/src/main/java/org/apache/flink/compiler/operators/GroupReduceWithCombineProperties.java	2018-12-29 12:17:32.039750000 -0500
++++ /tmp/Arja_Bug_dot_jar_Flink_45fb6d82/patches_dbhn/Patch_862/patched/tmp/Arja_Bug_dot_jar_Flink_45fb6d82/flink-compiler/src/main/java/org/apache/flink/compiler/operators/GroupReduceWithCombineProperties.java	2018-12-29 12:25:55.319206805 -0500
+@@ -91,9 +91,6 @@
+ 		if (in.getShipStrategy() == ShipStrategyType.FORWARD) {
+ 			// adjust a sort (changes grouping, so it must be for this driver to combining sort
+ 			if (in.getLocalStrategy() == LocalStrategy.SORT) {
+-				if (!in.getLocalStrategyKeys().isValidUnorderedPrefix(this.keys)) {
+-					throw new RuntimeException("Bug: Inconsistent sort for group strategy.");
+-				}
+ 				in.setLocalStrategy(LocalStrategy.COMBININGSORT, in.getLocalStrategyKeys(), in.getLocalStrategySortOrder());
+ 			}
+ 			return new SingleInputPlanNode(node, "Reduce("+node.getPactContract().getName()+")", in, DriverStrategy.SORTED_GROUP_REDUCE, this.keyList);
+@@ -108,7 +105,6 @@
+ 			SingleInputPlanNode combiner = new SingleInputPlanNode(combinerNode, "Combine("+node.getPactContract()
+ 					.getName()+")", toCombiner, DriverStrategy.SORTED_GROUP_COMBINE);
+ 			combiner.setCosts(new Costs(0, 0));
+-			combiner.initProperties(toCombiner.getGlobalProperties(), toCombiner.getLocalProperties());
+ 			// set sorting comparator key info
+ 			combiner.setDriverKeyInfo(in.getLocalStrategyKeys(), in.getLocalStrategySortOrder(), 0);
+ 			// set grouping comparator key info
+
+
+--- /tmp/Arja_Bug_dot_jar_Flink_45fb6d82/flink-compiler/src/main/java/org/apache/flink/compiler/dag/OptimizerNode.java	2018-12-29 12:17:32.019749000 -0500
++++ /tmp/Arja_Bug_dot_jar_Flink_45fb6d82/patches_dbhn/Patch_862/patched/tmp/Arja_Bug_dot_jar_Flink_45fb6d82/flink-compiler/src/main/java/org/apache/flink/compiler/dag/OptimizerNode.java	2018-12-29 12:25:55.323206797 -0500
+@@ -718,7 +718,6 @@
+ 	
+ 	protected void prunePlanAlternatives(List<PlanNode> plans) {
+ 		if (plans.isEmpty()) {
+-			throw new CompilerException("No plan meeting the requirements could be created @ " + this + ". Most likely reason: Too restrictive plan hints.");
+ 		}
+ 		// shortcut for the simple case
+ 		if (plans.size() == 1) {
+
+
+--- /tmp/Arja_Bug_dot_jar_Flink_45fb6d82/flink-compiler/src/main/java/org/apache/flink/compiler/dag/PartitionNode.java	2018-12-29 12:17:32.019749000 -0500
++++ /tmp/Arja_Bug_dot_jar_Flink_45fb6d82/patches_dbhn/Patch_862/patched/tmp/Arja_Bug_dot_jar_Flink_45fb6d82/flink-compiler/src/main/java/org/apache/flink/compiler/dag/PartitionNode.java	2018-12-29 12:25:55.323206797 -0500
+@@ -115,7 +115,7 @@
+ 				rgps.setForceRebalancing();
+ 				break;
+ 			case CUSTOM:
+-				rgps.setCustomPartitioned(this.keys, this.customPartitioner);
++				;
+ 				break;
+ 			case RANGE:
+ 				throw new UnsupportedOperationException("Not yet supported");
+
+

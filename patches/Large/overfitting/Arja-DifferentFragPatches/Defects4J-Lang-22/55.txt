@@ -1,0 +1,22 @@
+--- /tmp/Arja_Defects4J_Lang_22/src/main/java/org/apache/commons/lang3/math/Fraction.java	2018-12-01 05:13:18.647839255 -0500
++++ /tmp/Arja_Defects4J_Lang_22/patches_2h8q/Patch_689/patched/tmp/Arja_Defects4J_Lang_22/src/main/java/org/apache/commons/lang3/math/Fraction.java	2018-12-01 05:29:30.248026330 -0500
+@@ -473,6 +473,9 @@
+      */
+     public Fraction reduce() {
+         if (numerator == 0) {
++			return equals(ZERO) ? this : ZERO;
++		}
++		if (numerator == 0) {
+             return equals(ZERO) ? this : ZERO;
+         }
+         int gcd = greatestCommonDivisor(Math.abs(numerator), denominator);
+@@ -582,7 +585,6 @@
+         // From Commons Math:
+         //if either operand is abs 1, return 1:
+         if (Math.abs(u) <= 1 || Math.abs(v) <= 1) {
+-            return 1;
+         }
+         // keep u and v negative, as negative integers range down to
+         // -2^31, while positive numbers can only be as large as 2^31-1
+
+

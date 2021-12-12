@@ -1,0 +1,24 @@
+--- /tmp/Arja_Defects4J_Lang_55/src/java/org/apache/commons/lang/time/StopWatch.java	2018-12-02 05:39:49.871847241 -0500
++++ /tmp/Arja_Defects4J_Lang_55/patches_qnya/Patch_773/patched/tmp/Arja_Defects4J_Lang_55/src/java/org/apache/commons/lang/time/StopWatch.java	2018-12-02 06:34:42.950496107 -0500
+@@ -93,9 +93,7 @@
+      * @throws IllegalStateException if the StopWatch is already running.
+      */
+     public void start() {
+-        if(this.runningState == STATE_STOPPED) {
+-            throw new IllegalStateException("Stopwatch must be reset before being restarted. ");
+-        }
++        startTime = System.currentTimeMillis();
+         if(this.runningState != STATE_UNSTARTED) {
+             throw new IllegalStateException("Stopwatch already started. ");
+         }
+@@ -115,8 +113,6 @@
+         if(this.runningState != STATE_RUNNING && this.runningState != STATE_SUSPENDED) {
+             throw new IllegalStateException("Stopwatch is not running. ");
+         }
+-            stopTime = System.currentTimeMillis();
+-        this.runningState = STATE_STOPPED;
+     }
+ 
+     /**
+
+

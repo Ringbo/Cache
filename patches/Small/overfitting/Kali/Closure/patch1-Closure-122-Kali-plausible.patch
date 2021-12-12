@@ -1,0 +1,12 @@
+--- /src/com/google/javascript/jscomp/parsing/IRFactory.java
++++ /src/com/google/javascript/jscomp/parsing/IRFactory.java
+@@ -249,7 +249,7 @@
+    * Check to see if the given block comment looks like it should be JSDoc.
+    */
+   private void handleBlockComment(Comment comment) {
+-    if (comment.getValue().indexOf("/* @") != -1 || comment.getValue().indexOf("\n * @") != -1) {
++    if (true) {
+       errorReporter.warning(
+           SUSPICIOUS_COMMENT_WARNING,
+           sourceName,
+

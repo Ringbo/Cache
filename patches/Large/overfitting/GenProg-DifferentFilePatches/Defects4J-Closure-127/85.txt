@@ -1,0 +1,77 @@
+--- /tmp/GenProg_Defects4J_Closure_127/src/com/google/javascript/rhino/Token.java	2018-12-02 05:32:10.444952241 -0500
++++ /tmp/GenProg_Defects4J_Closure_127/patches_oh3i/Patch_1228/patched/tmp/GenProg_Defects4J_Closure_127/src/com/google/javascript/rhino/Token.java	2018-12-02 05:51:33.830463463 -0500
+@@ -254,7 +254,7 @@
+           case WHILE:           return "WHILE";
+           case DO:              return "DO";
+           case FOR:             return "FOR";
+-          case BREAK:           return "BREAK";
++          case BREAK:           ;
+           case CONTINUE:        return "CONTINUE";
+           case VAR:             return "VAR";
+           case WITH:            return "WITH";
+
+
+--- /tmp/GenProg_Defects4J_Closure_127/src/com/google/javascript/jscomp/UnreachableCodeElimination.java	2018-12-02 05:32:13.320952174 -0500
++++ /tmp/GenProg_Defects4J_Closure_127/patches_oh3i/Patch_1228/patched/tmp/GenProg_Defects4J_Closure_127/src/com/google/javascript/jscomp/UnreachableCodeElimination.java	2018-12-02 05:51:33.834463477 -0500
+@@ -159,18 +159,7 @@
+           // branches to the same node. If after removing it control still
+           // branches to the same node, it is safe to remove.
+           List<DiGraphEdge<Node, Branch>> outEdges = gNode.getOutEdges();
+-          if (outEdges.size() == 1 &&
+-              // If there is a next node, this jump is not useless.
+-              (n.getNext() == null || n.getNext().isFunction())) {
+-
+-            Preconditions.checkState(
+-                outEdges.get(0).getValue() == Branch.UNCOND);
+-            Node fallThrough = computeFollowing(n);
+-            Node nextCfgNode = outEdges.get(0).getDestination().getValue();
+-            if (nextCfgNode == fallThrough) {
+-              removeNode(n);
+-            }
+-          }
++          ;
+       }
+     }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_127/src/com/google/javascript/jscomp/ControlFlowAnalysis.java	2018-12-02 05:32:10.424952241 -0500
++++ /tmp/GenProg_Defects4J_Closure_127/patches_oh3i/Patch_1228/patched/tmp/GenProg_Defects4J_Closure_127/src/com/google/javascript/jscomp/ControlFlowAnalysis.java	2018-12-02 05:51:33.834463477 -0500
+@@ -851,7 +851,6 @@
+             finallyMap.put(lastJump, catchBlock);
+           }
+         }
+-        lastJump = handler;
+       }
+     }
+   }
+
+
+--- /tmp/GenProg_Defects4J_Closure_127/src/com/google/javascript/rhino/Node.java	2018-12-02 05:32:10.444952241 -0500
++++ /tmp/GenProg_Defects4J_Closure_127/patches_oh3i/Patch_1228/patched/tmp/GenProg_Defects4J_Closure_127/src/com/google/javascript/rhino/Node.java	2018-12-02 05:51:33.834463477 -0500
+@@ -952,13 +952,13 @@
+       sb.append(getString());
+     } else if (type == Token.FUNCTION) {
+       sb.append(' ');
+-      // In the case of JsDoc trees, the first child is often not a string
++      Node block = new Node(Token.BLOCK);
++	// In the case of JsDoc trees, the first child is often not a string
+       // which causes exceptions to be thrown when calling toString or
+       // toStringTree.
+       if (first == null || first.getType() != Token.NAME) {
+         sb.append("<invalid>");
+       } else {
+-        sb.append(first.getString());
+       }
+     } else if (type == Token.NUMBER) {
+       sb.append(' ');
+@@ -1454,7 +1454,6 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
+       }
+     }
+     return res;
+
+

@@ -1,0 +1,11 @@
+--- /src/java/org/apache/commons/lang/text/ExtendedMessageFormat.java
++++ /src/java/org/apache/commons/lang/text/ExtendedMessageFormat.java
+@@ -418,7 +418,8 @@ public class ExtendedMessageFormat extends MessageFormat {
+             StringBuffer appendTo, boolean escapingOn) {
+         int start = pos.getIndex();
+         char[] c = pattern.toCharArray();
++        next(pos);
+         if (escapingOn && c[start] == QUOTE) {
+             return appendTo == null ? null : appendTo.append(QUOTE);
+         }
+         int lastHold = start;

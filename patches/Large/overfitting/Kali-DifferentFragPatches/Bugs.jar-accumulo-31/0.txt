@@ -1,0 +1,15 @@
+--- /tmp/Kali_Bug_dot_jar_Accumulo_cd7feb4d/src/core/src/main/java/org/apache/accumulo/core/iterators/user/RegExFilter.java	2018-12-29 05:27:19.487998000 -0500
++++ /tmp/Kali_Bug_dot_jar_Accumulo_cd7feb4d/patches_xdmh/Patch_45/patched/tmp/Kali_Bug_dot_jar_Accumulo_cd7feb4d/src/core/src/main/java/org/apache/accumulo/core/iterators/user/RegExFilter.java	2018-12-29 05:28:58.771297974 -0500
+@@ -38,7 +38,9 @@
+   @Override
+   public SortedKeyValueIterator<Key,Value> deepCopy(IteratorEnvironment env) {
+     RegExFilter result = new RegExFilter();
+-    result.setSource(getSource().deepCopy(env));
++    if (true)
++		return null;
++	result.setSource(getSource().deepCopy(env));
+     result.rowMatcher = rowMatcher.pattern().matcher("");
+     result.colfMatcher = colfMatcher.pattern().matcher("");
+     result.colqMatcher = colqMatcher.pattern().matcher("");
+
+

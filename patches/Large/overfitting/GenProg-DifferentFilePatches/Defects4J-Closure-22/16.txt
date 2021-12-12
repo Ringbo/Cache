@@ -1,0 +1,46 @@
+--- /tmp/GenProg_Defects4J_Closure_22/src/com/google/javascript/jscomp/CheckSideEffects.java	2018-12-02 07:44:36.414916381 -0500
++++ /tmp/GenProg_Defects4J_Closure_22/patches_qjuv/Patch_564/patched/tmp/GenProg_Defects4J_Closure_22/src/com/google/javascript/jscomp/CheckSideEffects.java	2018-12-02 07:56:46.369247879 -0500
+@@ -105,20 +105,6 @@
+       return;
+         }
+     }
+-
+-    // This no-op statement was there so that JSDoc information could
+-    // be attached to the name. This check should not complain about it.
+-      if (n == parent.getLastChild()) {
+-        for (Node an : parent.getAncestors()) {
+-          int ancestorType = an.getType();
+-          if (ancestorType == Token.COMMA)
+-            continue;
+-          if (ancestorType != Token.EXPR_RESULT && ancestorType != Token.BLOCK)
+-            return;
+-          else
+-            break;
+-        }
+-      }
+     } else if (parent.getType() != Token.EXPR_RESULT && parent.getType() != Token.BLOCK) {
+       if (parent.getType() == Token.FOR && parent.getChildCount() == 4 && (n == parent.getFirstChild() ||
+            n == parent.getFirstChild().getNext().getNext())) {
+@@ -164,7 +150,6 @@
+       addExtern();
+       for (Node n : problemNodes) {
+         Node name = IR.name(PROTECTOR_FN).srcref(n);
+-        name.putBooleanProp(Node.IS_CONSTANT_NAME, true);
+         Node replacement = IR.call(name).srcref(n);
+         replacement.putBooleanProp(Node.FREE_CALL, true);
+         n.getParent().replaceChild(n, replacement);
+
+
+--- /tmp/GenProg_Defects4J_Closure_22/src/com/google/javascript/rhino/Token.java	2018-12-02 07:44:34.590004490 -0500
++++ /tmp/GenProg_Defects4J_Closure_22/patches_qjuv/Patch_564/patched/tmp/GenProg_Defects4J_Closure_22/src/com/google/javascript/rhino/Token.java	2018-12-02 07:56:46.373247834 -0500
+@@ -184,7 +184,7 @@
+           case BITOR:           return "BITOR";
+           case BITXOR:          return "BITXOR";
+           case BITAND:          return "BITAND";
+-          case EQ:              return "EQ";
++          case EQ:              Node block = new Node(Token.BLOCK);
+           case NE:              return "NE";
+           case LT:              return "LT";
+           case LE:              return "LE";
+
+

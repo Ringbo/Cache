@@ -1,0 +1,47 @@
+--- /source/org/jfree/chart/plot/CategoryPlot.java
++++ /source/org/jfree/chart/plot/CategoryPlot.java
+@@ -2163,6 +2163,9 @@
+             markers = (ArrayList) this.backgroundDomainMarkers.get(new Integer(
+                     index));
+         }
++        if (markers == null) {
++            return false;
++        }
+         boolean removed = markers.remove(marker);
+         if (removed && notify) {
+             fireChangeEvent();
+@@ -2445,6 +2448,9 @@
+             markers = (ArrayList) this.backgroundRangeMarkers.get(new Integer(
+                     index));
+         }
++        if (markers == null) {
++            return false;
++        }
+         boolean removed = markers.remove(marker);
+         if (removed && notify) {
+             fireChangeEvent();
+
+
+--- /source/org/jfree/chart/plot/XYPlot.java
++++ /source/org/jfree/chart/plot/XYPlot.java
+@@ -2290,6 +2290,9 @@
+             markers = (ArrayList) this.backgroundDomainMarkers.get(new Integer(
+                     index));
+         }
++        if (markers == null) {
++            return false;
++        }
+         boolean removed = markers.remove(marker);
+         if (removed && notify) {
+             fireChangeEvent();
+@@ -2526,6 +2529,9 @@
+             markers = (ArrayList) this.backgroundRangeMarkers.get(new Integer(
+                     index));
+         }
++        if (markers == null) {
++            return false;
++        }
+         boolean removed = markers.remove(marker);
+         if (removed && notify) {
+             fireChangeEvent();
+

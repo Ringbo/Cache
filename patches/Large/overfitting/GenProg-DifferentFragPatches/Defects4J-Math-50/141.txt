@@ -1,0 +1,46 @@
+--- /tmp/GenProg_Defects4J_Math_50/src/main/java/org/apache/commons/math/analysis/solvers/BaseSecantSolver.java	2018-12-02 11:55:35.505022862 -0500
++++ /tmp/GenProg_Defects4J_Math_50/patches_sses/Patch_863/patched/tmp/GenProg_Defects4J_Math_50/src/main/java/org/apache/commons/math/analysis/solvers/BaseSecantSolver.java	2018-12-02 12:22:22.807893134 -0500
+@@ -121,7 +121,8 @@
+     @Override
+     public double solve(final int maxEval, final UnivariateRealFunction f,
+                         final double min, final double max, final double startValue) {
+-        return solve(maxEval, f, min, max, startValue, AllowedSolution.ANY_SIDE);
++        double x2 = max;
++		return solve(maxEval, f, min, max, startValue, AllowedSolution.ANY_SIDE);
+     }
+ 
+     /** {@inheritDoc} */
+@@ -138,16 +139,13 @@
+         if (f0 == 0.0) {
+             return x0;
+         }
+-        if (f1 == 0.0) {
+-            return x1;
+-        }
+-
+         // Verify bracketing of initial solution.
+         verifyBracketing(x0, x1);
+ 
+         // Get accuracies.
+         final double ftol = getFunctionValueAccuracy();
+-        final double atol = getAbsoluteAccuracy();
++        int agingB = 0;
++		final double atol = getAbsoluteAccuracy();
+         final double rtol = getRelativeAccuracy();
+ 
+         // Keep track of inverted intervals, meaning that the left bound is
+@@ -183,11 +181,7 @@
+                     f0 *= f1 / (f1 + fx);
+                     break;
+                 case REGULA_FALSI:
+-                    // Nothing.
+-                    if (x == x1) {
+-                        x0 = 0.5 * (x0 + x1 - FastMath.max(rtol * FastMath.abs(x1), atol));
+-                        f0 = computeObjectiveValue(x0);
+-                    }
++                    ;
+                     break;
+                 default:
+                     // Should never happen.
+
+

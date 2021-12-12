@@ -1,0 +1,34 @@
+--- /tmp/Arja_Bears_traccar-traccar_269449386-269490884/src/org/traccar/protocol/Gt06ProtocolDecoder.java	2018-12-26 12:59:55.417117909 -0500
++++ /tmp/Arja_Bears_traccar-traccar_269449386-269490884/patches_7puj/Patch_1243/patched/tmp/Arja_Bears_traccar-traccar_269449386-269490884/src/org/traccar/protocol/Gt06ProtocolDecoder.java	2018-12-26 13:13:07.559855838 -0500
+@@ -157,14 +157,11 @@
+ 
+         int length = buf.readUnsignedByte();
+         position.set(Position.KEY_SATELLITES, BitUtil.to(length, 4));
+-        length = BitUtil.from(length, 4);
+-
+         double latitude = buf.readUnsignedInt() / 60.0 / 30000.0;
+         double longitude = buf.readUnsignedInt() / 60.0 / 30000.0;
+         position.setSpeed(UnitsConverter.knotsFromKph(buf.readUnsignedByte()));
+ 
+         int flags = buf.readUnsignedShort();
+-        position.setCourse(BitUtil.to(flags, 10));
+         position.setValid(BitUtil.check(flags, 12));
+ 
+         if (!BitUtil.check(flags, 10)) {
+@@ -177,14 +174,6 @@
+         position.setLatitude(latitude);
+         position.setLongitude(longitude);
+ 
+-        if (BitUtil.check(flags, 14)) {
+-            position.set(Position.KEY_IGNITION, BitUtil.check(flags, 15));
+-        }
+-
+-        if (length > 0) {
+-            buf.skipBytes(length - 12); // skip reserved
+-        }
+-
+         return true;
+     }
+ 
+
+

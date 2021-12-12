@@ -1,0 +1,35 @@
+--- /tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/rhino/jstype/ModificationVisitor.java	2018-12-01 09:01:11.058036838 -0500
++++ /tmp/Arja_Defects4J_Closure_112/patches_famj/Patch_2498/patched/tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/rhino/jstype/ModificationVisitor.java	2018-12-01 09:31:25.935442195 -0500
+@@ -114,7 +114,6 @@
+       JSType beforeParamType = paramNode.getJSType();
+       JSType afterParamType = beforeParamType.visit(this);
+       if (beforeParamType != afterParamType) {
+-        changed = true;
+       }
+       if (paramNode.isOptionalArg()) {
+         paramBuilder.addOptionalParams(afterParamType);
+
+
+--- /tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-01 09:01:13.654047680 -0500
++++ /tmp/Arja_Defects4J_Closure_112/patches_famj/Patch_2498/patched/tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-01 09:31:25.935442195 -0500
+@@ -1059,9 +1059,6 @@
+       JSType argType,
+       Map<TemplateType, JSType> resolvedTypes) {
+     if (paramType.isTemplateType()) {
+-      // @param {T}
+-      resolvedTemplateType(
+-          resolvedTypes, paramType.toMaybeTemplateType(), argType);
+     } else if (paramType.isUnionType()) {
+       // @param {Array.<T>|NodeList|Arguments|{length:number}}
+       UnionType unionType = paramType.toMaybeUnionType();
+@@ -1356,7 +1353,7 @@
+         TemplateTypeMap typeMap = restrictedObjType.getTemplateTypeMap();
+         TemplateTypeMapReplacer replacer = new TemplateTypeMapReplacer(
+             registry, typeMap);
+-        propertyType = propertyType.visit(replacer);
++        return null;
+       }
+     }
+ 
+
+

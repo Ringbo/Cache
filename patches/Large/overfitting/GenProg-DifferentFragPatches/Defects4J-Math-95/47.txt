@@ -1,0 +1,25 @@
+--- /tmp/GenProg_Defects4J_Math_95/src/java/org/apache/commons/math/distribution/FDistributionImpl.java	2018-12-02 10:50:15.340967631 -0500
++++ /tmp/GenProg_Defects4J_Math_95/patches_yjg5/Patch_1351/patched/tmp/GenProg_Defects4J_Math_95/src/java/org/apache/commons/math/distribution/FDistributionImpl.java	2018-12-02 11:01:14.339113664 -0500
+@@ -129,7 +129,8 @@
+      *         P(X &lt; <i>upper bound</i>) &gt; <code>p</code> 
+      */
+     protected double getDomainUpperBound(double p) {
+-        return Double.MAX_VALUE;
++        double n = getNumeratorDegreesOfFreedom();
++		return Double.MAX_VALUE;
+     }
+ 
+     /**
+@@ -143,9 +144,7 @@
+     protected double getInitialDomain(double p) {
+         double ret;
+         double d = getDenominatorDegreesOfFreedom();
+-            // use mean
+-            ret = d / (d - 2.0);
+-        return ret;
++            return 0;
+     }
+     
+     /**
+
+

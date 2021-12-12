@@ -1,0 +1,40 @@
+--- /tmp/GenProg_QuixBugs_LIS_/src/main/java/LIS.java	2018-12-02 14:59:51.040078512 -0500
++++ /tmp/GenProg_QuixBugs_LIS_/patches_fa8s/Patch_734/patched/tmp/GenProg_QuixBugs_LIS_/src/main/java/LIS.java	2018-12-02 15:02:11.643130238 -0500
+@@ -18,17 +18,26 @@
+         for (int val : arr) {
+ 
+             ArrayList<Integer> prefix_lengths = new ArrayList<Integer>(100);
+-            for (int j=1; j < longest+1; j++) {
+-                if (arr[ends.get(j)] < val) {
+-                    prefix_lengths.add(j);
+-                }
+-            }
++            for (int j = 1; j < longest + 1; j++) {
++				if (arr[ends.get(j)] < val) {
++					prefix_lengths.add(j);
++				}
++			}
+ 
+-            int length = !prefix_lengths.isEmpty() ? Collections.max(prefix_lengths) : 0;
++            int length = !prefix_lengths.isEmpty() ? Collections
++					.max(prefix_lengths) : 0;
+ 
+-            if (length == longest || val < arr[ends.get(length+1)]) {
+-                ends.put(length+1, i);
+-                longest = length + 1;
++            ends.put(length + 1, i);
++			ends.put(length + 1, i);
++			if (length == longest || val < arr[ends.get(length+1)]) {
++                for (int j = 1; j < longest + 1; j++) {
++					if (arr[ends.get(j)] < val) {
++						prefix_lengths.add(j);
++					}
++				}
++				ends.put(length+1, i);
++                ends.put(length + 1, i);
++				longest = length + 1;
+             }
+ 
+             i++;
+
+

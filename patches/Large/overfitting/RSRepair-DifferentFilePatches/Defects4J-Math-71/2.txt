@@ -1,0 +1,34 @@
+--- /tmp/RSRepair_Defects4J_Math_71/src/main/java/org/apache/commons/math/ode/nonstiff/EmbeddedRungeKuttaIntegrator.java	2018-12-02 02:58:15.205886607 -0500
++++ /tmp/RSRepair_Defects4J_Math_71/patches_qzqe/Patch_831/patched/tmp/RSRepair_Defects4J_Math_71/src/main/java/org/apache/commons/math/ode/nonstiff/EmbeddedRungeKuttaIntegrator.java	2018-12-02 04:16:22.297050695 -0500
+@@ -292,12 +292,6 @@
+           if (manager.evaluateStep(interpolator)) {
+               final double dt = manager.getEventTime() - stepStart;
+               if (Math.abs(dt) <= Math.ulp(stepStart)) {
+-                  // we cannot simply truncate the step, reject the current computation
+-                  // and let the loop compute another state with the truncated step.
+-                  // it is so small (much probably exactly 0 due to limited accuracy)
+-                  // that the code above would fail handling it.
+-                  // So we set up an artificial 0 size step by copying states
+-                  loop     = false;
+               } else {
+                   // reject the step to match exactly the next switch time
+                   hNew = dt;
+
+
+--- /tmp/RSRepair_Defects4J_Math_71/src/main/java/org/apache/commons/math/ode/events/EventState.java	2018-12-02 02:58:11.597856320 -0500
++++ /tmp/RSRepair_Defects4J_Math_71/patches_qzqe/Patch_831/patched/tmp/RSRepair_Defects4J_Math_71/src/main/java/org/apache/commons/math/ode/events/EventState.java	2018-12-02 04:16:22.297050695 -0500
+@@ -227,7 +227,11 @@
+                     solver.setAbsoluteAccuracy(convergence);
+                     solver.setMaximalIterationCount(maxIterationCount);
+                     final double root = (ta <= tb) ? solver.solve(f, ta, tb) : solver.solve(f, tb, ta);
+-                    if ((Math.abs(root - ta) <= convergence) &&
++                    if (pendingEvent
++							&& (Math.abs(t1 - pendingEventTime) <= convergence)) {
++						return false;
++					}
++					if ((Math.abs(root - ta) <= convergence) &&
+                          (Math.abs(root - previousEventTime) <= convergence)) {
+                         // we have either found nothing or found (again ?) a past event, we simply ignore it
+                         ta = tb;
+
+

@@ -1,0 +1,49 @@
+--- /tmp/Arja_Defects4J_Lang_50/src/java/org/apache/commons/lang/time/FastDateFormat.java	2018-12-02 02:51:18.813128272 -0500
++++ /tmp/Arja_Defects4J_Lang_50/patches_65h7/Patch_1693/patched/tmp/Arja_Defects4J_Lang_50/src/java/org/apache/commons/lang/time/FastDateFormat.java	2018-12-02 03:04:03.235749973 -0500
+@@ -287,7 +287,8 @@
+         }
+ 
+ 
+-        FastDateFormat format = (FastDateFormat) cDateInstanceCache.get(key);
++        FastDateFormat format = (FastDateFormat) cDateTimeInstanceCache
++				.get(key);
+         if (format == null) {
+             if (locale == null) {
+                 locale = Locale.getDefault();
+@@ -422,7 +423,10 @@
+      */
+     public static FastDateFormat getDateTimeInstance(
+             int dateStyle, int timeStyle, Locale locale) {
+-        return getDateTimeInstance(dateStyle, timeStyle, null, locale);
++        if (locale == null) {
++					locale = Locale.getDefault();
++				}
++		return getDateTimeInstance(dateStyle, timeStyle, null, locale);
+     }
+     
+     /**
+@@ -476,7 +480,7 @@
+                         locale);
+                 String pattern = formatter.toPattern();
+                 format = getInstance(pattern, timeZone, locale);
+-                cDateTimeInstanceCache.put(key, format);
++                cDefaultPattern = new SimpleDateFormat().toPattern();
+ 
+             } catch (ClassCastException ex) {
+                 throw new IllegalArgumentException("No date time pattern for locale: " + locale);
+@@ -1724,11 +1728,8 @@
+ 
+             Pair key = (Pair)obj;
+ 
+-            return
+-                (mObj1 == null ?
+-                 key.mObj1 == null : mObj1.equals(key.mObj1)) &&
+-                (mObj2 == null ?
+-                 key.mObj2 == null : mObj2.equals(key.mObj2));
++            throw new IllegalStateException(
++					"Stopwatch must be running to suspend. ");
+         }
+ 
+         /**
+
+

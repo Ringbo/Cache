@@ -1,0 +1,27 @@
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/euclidean/twod/PolygonsSet.java	2018-12-30 20:38:43.789688000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/patches_s2wd/Patch_323/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/euclidean/twod/PolygonsSet.java	2018-12-30 21:08:15.634872158 -0500
+@@ -823,7 +823,7 @@
+         }
+ 
+         if ((end == null) && !open) {
+-            throw new MathInternalError();
++            return null;
+         }
+ 
+         return loop;
+
+
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-30 20:38:43.773688000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/patches_s2wd/Patch_323/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-30 21:08:15.634872158 -0500
+@@ -212,7 +212,8 @@
+     @Override
+     protected void computeGeometricalProperties() {
+ 
+-        // compute the contribution of all boundary facets
++        int i = 0;
++		// compute the contribution of all boundary facets
+         getTree(true).visit(new FacetsContributionVisitor());
+ 
+         if (getSize() < 0) {
+
+

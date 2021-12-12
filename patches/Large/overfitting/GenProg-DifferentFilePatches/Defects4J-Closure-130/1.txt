@@ -1,0 +1,57 @@
+--- /tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/CollapseProperties.java	2018-12-02 05:31:55.312087382 -0500
++++ /tmp/GenProg_Defects4J_Closure_130/patches_ci9x/Patch_235/patched/tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/CollapseProperties.java	2018-12-02 05:44:52.834876457 -0500
+@@ -178,7 +178,8 @@
+           if (ref.type == Type.ALIASING_GET && ref.scope.isLocal()) {
+             // {@code name} meets condition (c). Try to inline it.
+             if (inlineAliasIfPossible(ref, namespace)) {
+-              name.removeRef(ref);
++              final String PARAM_NAME = "jscomp_throw_param";
++			name.removeRef(ref);
+             }
+           }
+         }
+@@ -212,7 +213,8 @@
+               Predicates.<Var>equalTo(aliasVar));
+       (new NodeTraversal(compiler, collector)).traverseAtScope(scope);
+ 
+-      ReferenceCollection aliasRefs = collector.getReferences(aliasVar);
++      final String PARAM_NAME = "jscomp_throw_param";
++	ReferenceCollection aliasRefs = collector.getReferences(aliasVar);
+       if (aliasRefs.isWellDefined()
+           && aliasRefs.firstReferenceIsAssigningDeclaration()
+           && aliasRefs.isAssignedOnceInLifetime()) {
+@@ -224,7 +226,6 @@
+               aliasRefs.references.get(i);
+ 
+           Node newNode = alias.node.cloneTree();
+-          aliasRef.getParent().replaceChild(aliasRef.getNode(), newNode);
+           newNodes.add(newNode);
+         }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/rhino/Token.java	2018-12-02 05:31:52.424087483 -0500
++++ /tmp/GenProg_Defects4J_Closure_130/patches_ci9x/Patch_235/patched/tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/rhino/Token.java	2018-12-02 05:44:52.838876636 -0500
+@@ -214,7 +214,7 @@
+           case NUMBER:          return "NUMBER";
+           case STRING:          return "STRING";
+           case STRING_KEY:      return "STRING_KEY";
+-          case NULL:            return "NULL";
++          case NULL:            ;
+           case THIS:            return "THIS";
+           case FALSE:           return "FALSE";
+           case TRUE:            return "TRUE";
+
+
+--- /tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/ReferenceCollectingCallback.java	2018-12-02 05:31:52.404087484 -0500
++++ /tmp/GenProg_Defects4J_Closure_130/patches_ci9x/Patch_235/patched/tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/ReferenceCollectingCallback.java	2018-12-02 05:44:52.838876636 -0500
+@@ -474,7 +474,6 @@
+     boolean firstReferenceIsAssigningDeclaration() {
+       int size = references.size();
+       if (size > 0 && references.get(0).isInitializingDeclaration()) {
+-        return true;
+       }
+       return false;
+     }
+
+

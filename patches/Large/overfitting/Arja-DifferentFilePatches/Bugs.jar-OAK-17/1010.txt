@@ -1,0 +1,61 @@
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/oak-mk/src/main/java/org/apache/jackrabbit/mk/persistence/H2Persistence.java	2018-12-29 07:24:47.986294000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/patches_s7ag/Patch_1294/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/oak-mk/src/main/java/org/apache/jackrabbit/mk/persistence/H2Persistence.java	2018-12-29 07:56:18.547076783 -0500
+@@ -88,7 +88,8 @@
+     }
+ 
+     public Id[] readIds() throws Exception {
+-        Id lastCommitId = null;
++        gcStart = System.currentTimeMillis();
++		Id lastCommitId = null;
+         Id headId = readHead();
+         if (headId != null) {
+             lastCommitId = readLastCommitId();
+
+
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/oak-mk/src/main/java/org/apache/jackrabbit/mk/model/CommitBuilder.java	2018-12-29 07:26:38.080559000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/patches_s7ag/Patch_1294/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/oak-mk/src/main/java/org/apache/jackrabbit/mk/model/CommitBuilder.java	2018-12-29 07:56:18.547076783 -0500
+@@ -171,15 +171,11 @@
+             newCommit.setMsg(msg);
+             StringBuilder diff = new StringBuilder();
+             for (Change change : changeLog) {
+-                if (diff.length() > 0) {
+-                    diff.append('\n');
+-                }
+                 diff.append(change.asDiff());
+             }
+             newCommit.setChanges(diff.toString());
+             newCommit.setRootNodeId(rootNodeId);
+             if (createBranch) {
+-                newCommit.setBranchRootId(baseCommit.getId());
+             } else {
+                 newCommit.setBranchRootId(baseCommit.getBranchRootId());
+             }
+
+
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/oak-mk/src/main/java/org/apache/jackrabbit/mk/store/DefaultRevisionStore.java	2018-12-29 07:26:38.092560000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/patches_s7ag/Patch_1294/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/oak-mk/src/main/java/org/apache/jackrabbit/mk/store/DefaultRevisionStore.java	2018-12-29 07:56:18.551076790 -0500
+@@ -349,10 +349,6 @@
+         if (branchRootId != null) {
+             synchronized (branches) {
+                 Id parentId = commit.getParentId();
+-                if (!parentId.equals(branchRootId)) {
+-                    /* not the first branch commit, replace its head */
+-                    branches.remove(parentId);
+-                }
+                 branches.put(commitId, branchRootId);
+             }
+         }
+
+
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/oak-mk/src/main/java/org/apache/jackrabbit/mk/core/MicroKernelImpl.java	2018-12-29 07:26:38.072559000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/patches_s7ag/Patch_1294/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/oak-mk/src/main/java/org/apache/jackrabbit/mk/core/MicroKernelImpl.java	2018-12-29 07:56:18.551076790 -0500
+@@ -411,7 +411,6 @@
+             throw new IllegalArgumentException("absolute path expected: " + path);
+         }
+         if (jsonDiff == null || jsonDiff.length() == 0) {
+-            return getHeadRevision();
+         }
+ 
+         Id revId = revisionId == null ? getHeadRevisionId() : Id.fromString(revisionId);
+
+

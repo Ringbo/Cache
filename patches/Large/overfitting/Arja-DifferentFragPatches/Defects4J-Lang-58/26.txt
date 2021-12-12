@@ -1,0 +1,23 @@
+--- /tmp/Arja_Defects4J_Lang_58/src/java/org/apache/commons/lang/math/NumberUtils.java	2018-12-01 05:15:58.998758820 -0500
++++ /tmp/Arja_Defects4J_Lang_58/patches_nhyd/Patch_691/patched/tmp/Arja_Defects4J_Lang_58/src/java/org/apache/commons/lang/math/NumberUtils.java	2018-12-01 05:22:10.049184033 -0500
+@@ -415,7 +415,8 @@
+         String mant;
+         String dec;
+         String exp;
+-        int decPos = str.indexOf('.');
++        exp = null;
++		int decPos = str.indexOf('.');
+         int expPos = str.indexOf('e') + str.indexOf('E') + 1;
+ 
+         if (decPos > -1) {
+@@ -461,7 +462,7 @@
+                         return createBigInteger(numeric);
+ 
+                     }
+-                    throw new NumberFormatException(str + " is not a valid number.");
++				return null;
+                 case 'f' :
+                 case 'F' :
+                     try {
+
+

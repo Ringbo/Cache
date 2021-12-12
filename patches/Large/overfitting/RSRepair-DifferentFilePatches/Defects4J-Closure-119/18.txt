@@ -1,0 +1,15 @@
+--- /tmp/RSRepair_Defects4J_Closure_119/src/com/google/javascript/jscomp/CheckGlobalNames.java	2018-12-02 05:20:35.521619059 -0500
++++ /tmp/RSRepair_Defects4J_Closure_119/patches_u5xu/Patch_158/patched/tmp/RSRepair_Defects4J_Closure_119/src/com/google/javascript/jscomp/CheckGlobalNames.java	2018-12-02 05:30:19.632918973 -0500
+@@ -220,9 +220,7 @@
+       name = name.parent;
+     }
+ 
+-    compiler.report(
+-        JSError.make(ref.getSourceName(), ref.node, level,
+-            UNDEFINED_NAME_WARNING, name.getFullName()));
++    final String paramName = "jscomp_throw_param";
+   }
+ 
+   /**
+
+

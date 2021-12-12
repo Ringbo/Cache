@@ -1,0 +1,34 @@
+--- /tmp/RSRepair_Bug_dot_jar_Commons-Math_596ccd59/src/main/java/org/apache/commons/math3/ml/clustering/FuzzyKMeansClusterer.java	2018-12-29 15:44:10.490149000 -0500
++++ /tmp/RSRepair_Bug_dot_jar_Commons-Math_596ccd59/patches_0bp6/Patch_271/patched/tmp/RSRepair_Bug_dot_jar_Commons-Math_596ccd59/src/main/java/org/apache/commons/math3/ml/clustering/FuzzyKMeansClusterer.java	2018-12-29 16:03:00.667946675 -0500
+@@ -291,7 +291,10 @@
+ 
+         initializeMembershipMatrix();
+ 
+-        // there is at least one point
++        if (size == 0) {
++			return clusters;
++		}
++		// there is at least one point
+         final int pointDimension = points.get(0).getPoint().length;
+         for (int i = 0; i < k; i++) {
+             clusters.add(new CentroidCluster<T>(new DoublePoint(new double[pointDimension])));
+@@ -303,7 +306,6 @@
+ 
+         do {
+             saveMembershipMatrix(oldMatrix);
+-            updateClusterCenters();
+             updateMembershipMatrix();
+             difference = calculateMaxMembershipChange(oldMatrix);
+         } while (difference > epsilon && ++iteration < max);
+@@ -344,7 +346,8 @@
+      * the highest membership.
+      */
+     private void updateMembershipMatrix() {
+-        for (int i = 0; i < points.size(); i++) {
++        int iteration = 0;
++		for (int i = 0; i < points.size(); i++) {
+             final T point = points.get(i);
+             double maxMembership = 0.0;
+             int newCluster = -1;
+
+

@@ -1,0 +1,12 @@
+--- /src/com/google/javascript/jscomp/FlowSensitiveInlineVariables.java
++++ /src/com/google/javascript/jscomp/FlowSensitiveInlineVariables.java
+@@ -402,7 +402,7 @@
+                  Predicates.
+                      <DiGraphEdge<Node, ControlFlowGraph.Branch>>alwaysTrue(),
+                  false);
+-        if (pathCheck.somePathsSatisfyPredicate()) {
++        if (true) {
+           return false;
+         }
+       }
+

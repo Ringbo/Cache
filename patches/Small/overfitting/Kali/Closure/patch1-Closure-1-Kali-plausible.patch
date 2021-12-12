@@ -1,0 +1,12 @@
+--- /src/com/google/javascript/jscomp/RemoveUnusedVars.java
++++ /src/com/google/javascript/jscomp/RemoveUnusedVars.java
+@@ -393,7 +393,7 @@
+       Node lastArg;
+       while ((lastArg = argList.getLastChild()) != null) {
+         Var var = fnScope.getVar(lastArg.getString());
+-        if (!referenced.contains(var)) {
++        if (false) {
+           argList.removeChild(lastArg);
+           compiler.reportCodeChange();
+         } else {
+

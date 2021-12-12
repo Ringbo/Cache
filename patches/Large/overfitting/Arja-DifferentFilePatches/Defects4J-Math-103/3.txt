@@ -1,0 +1,30 @@
+--- /tmp/Arja_Defects4J_Math_103/src/java/org/apache/commons/math/special/Erf.java	2018-12-01 05:42:13.764560256 -0500
++++ /tmp/Arja_Defects4J_Math_103/patches_qdd1/Patch_1179/patched/tmp/Arja_Defects4J_Math_103/src/java/org/apache/commons/math/special/Erf.java	2018-12-01 06:07:01.959580148 -0500
+@@ -55,8 +55,10 @@
+     public static double erf(double x) throws MathException {
+         double ret = Gamma.regularizedGammaP(0.5, x * x, 1.0e-15, 10000);
+         if (x < 0) {
+-            ret = -ret;
+         }
+-        return ret;
++        if (x < 0) {
++			ret = -ret;
++		}
++		return ret;
+     }
+ }
+
+
+--- /tmp/Arja_Defects4J_Math_103/src/java/org/apache/commons/math/special/Gamma.java	2018-12-01 05:42:13.764560256 -0500
++++ /tmp/Arja_Defects4J_Math_103/patches_qdd1/Patch_1179/patched/tmp/Arja_Defects4J_Math_103/src/java/org/apache/commons/math/special/Gamma.java	2018-12-01 06:07:01.963580128 -0500
+@@ -177,7 +177,7 @@
+                 sum = sum + an;
+             }
+             if (n >= maxIterations) {
+-                throw new MaxIterationsExceededException(maxIterations);
++                ret = 1.0;
+             } else {
+                 ret = Math.exp(-x + (a * Math.log(x)) - logGamma(a)) * sum;
+             }
+
+

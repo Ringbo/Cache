@@ -1,0 +1,26 @@
+--- /tmp/GenProg_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-02 11:12:34.491681081 -0500
++++ /tmp/GenProg_Defects4J_Math_81/patches_mw5w/Patch_84/patched/tmp/GenProg_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-02 11:15:34.471676912 -0500
+@@ -1477,7 +1477,6 @@
+                     int np;
+                     if (dMin == dN) {
+                         gam = dN;
+-                        a2 = 0.0;
+                         if (work[nn - 5]  >  work[nn - 7]) {
+                             return;
+                         }
+@@ -1537,9 +1536,11 @@
+                 if (work[np - 8] > b2 || work[np - 4] > b1) {
+                     return;
+                 }
+-                double a2 = (work[np - 8] / b2) * (1 + work[np - 4] / b1);
++                double tmp = 0;
++				double a2 = (work[np - 8] / b2) * (1 + work[np - 4] / b1);
+ 
+-                // approximate contribution to norm squared from i < nn-2.
++                double d = work[4 * start + pingPong];
++				// approximate contribution to norm squared from i < nn-2.
+                 if (end - start > 2) {
+                     b2 = work[nn - 13] / work[nn - 15];
+                     a2 = a2 + b2;
+
+

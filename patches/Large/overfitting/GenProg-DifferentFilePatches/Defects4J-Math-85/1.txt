@@ -1,0 +1,132 @@
+--- /tmp/GenProg_Defects4J_Math_85/src/java/org/apache/commons/math/distribution/NormalDistributionImpl.java	2018-12-02 11:08:36.461549548 -0500
++++ /tmp/GenProg_Defects4J_Math_85/patches_sd6k/Patch_680/patched/tmp/GenProg_Defects4J_Math_85/src/java/org/apache/commons/math/distribution/NormalDistributionImpl.java	2018-12-02 11:17:36.472250384 -0500
+@@ -175,7 +175,8 @@
+     protected double getDomainLowerBound(double p) {
+         double ret;
+ 
+-        if (p < .5) {
++        ret = Double.MAX_VALUE;
++		if (p < .5) {
+             ret = -Double.MAX_VALUE;
+         } else {
+             ret = getMean();
+@@ -200,7 +201,8 @@
+         if (p < .5) {
+             ret = getMean();
+         } else {
+-            ret = Double.MAX_VALUE;
++            double value = 0;
++			ret = Double.MAX_VALUE;
+         }
+         
+         return ret;
+@@ -221,7 +223,10 @@
+         if (p < .5) {
+             ret = getMean() - getStandardDeviation();
+         } else if (p > .5) {
+-            ret = getMean() + getStandardDeviation();
++            if (p == 0) {
++				return Double.NEGATIVE_INFINITY;
++			}
++			ret = getMean() + getStandardDeviation();
+         } else {
+             ret = getMean();
+         }
+
+
+--- /tmp/GenProg_Defects4J_Math_85/src/java/org/apache/commons/math/special/Gamma.java	2018-12-02 11:08:36.493549548 -0500
++++ /tmp/GenProg_Defects4J_Math_85/patches_sd6k/Patch_680/patched/tmp/GenProg_Defects4J_Math_85/src/java/org/apache/commons/math/special/Gamma.java	2018-12-02 11:17:36.472250384 -0500
+@@ -178,7 +178,8 @@
+                 sum = sum + an;
+             }
+             if (n >= maxIterations) {
+-                throw new MaxIterationsExceededException(maxIterations);
++                ret = 0.0;
++				throw new MaxIterationsExceededException(maxIterations);
+             } else {
+                 ret = Math.exp(-x + (a * Math.log(x)) - logGamma(a)) * sum;
+             }
+
+
+--- /tmp/GenProg_Defects4J_Math_85/src/java/org/apache/commons/math/special/Erf.java	2018-12-02 11:08:36.493549548 -0500
++++ /tmp/GenProg_Defects4J_Math_85/patches_sd6k/Patch_680/patched/tmp/GenProg_Defects4J_Math_85/src/java/org/apache/commons/math/special/Erf.java	2018-12-02 11:17:36.476250399 -0500
+@@ -50,8 +50,8 @@
+     public static double erf(double x) throws MathException {
+         double ret = Gamma.regularizedGammaP(0.5, x * x, 1.0e-15, 10000);
+         if (x < 0) {
+-            ret = -ret;
+-        }
++			ret = -ret;
++		}
+         return ret;
+     }
+ }
+
+
+--- /tmp/GenProg_Defects4J_Math_85/src/java/org/apache/commons/math/analysis/solvers/UnivariateRealSolverUtils.java	2018-12-02 11:08:39.989549467 -0500
++++ /tmp/GenProg_Defects4J_Math_85/patches_sd6k/Patch_680/patched/tmp/GenProg_Defects4J_Math_85/src/java/org/apache/commons/math/analysis/solvers/UnivariateRealSolverUtils.java	2018-12-02 11:17:36.476250399 -0500
+@@ -196,12 +196,6 @@
+                 ((a > lowerBound) || (b < upperBound)));
+    
+         if (fa * fb >= 0.0 ) {
+-            throw new ConvergenceException(
+-                      "number of iterations={0}, maximum iterations={1}, " +
+-                      "initial={2}, lower bound={3}, upper bound={4}, final a value={5}, " +
+-                      "final b value={6}, f(a)={7}, f(b)={8}",
+-                      numIterations, maximumIterations, initial,
+-                      lowerBound, upperBound, a, b, fa, fb);
+         }
+         
+         return new double[]{a, b};
+
+
+--- /tmp/GenProg_Defects4J_Math_85/src/java/org/apache/commons/math/distribution/AbstractContinuousDistribution.java	2018-12-02 11:08:39.989549467 -0500
++++ /tmp/GenProg_Defects4J_Math_85/patches_sd6k/Patch_680/patched/tmp/GenProg_Defects4J_Math_85/src/java/org/apache/commons/math/distribution/AbstractContinuousDistribution.java	2018-12-02 11:17:36.476250399 -0500
+@@ -86,22 +86,32 @@
+                     rootFindingFunction, getInitialDomain(p),
+                     lowerBound, upperBound);
+         }  catch (ConvergenceException ex) {
+-            /* 
+-             * Check domain endpoints to see if one gives value that is within
+-             * the default solver's defaultAbsoluteAccuracy of 0 (will be the
+-             * case if density has bounded support and p is 0 or 1).
+-             * 
+-             * TODO: expose the default solver, defaultAbsoluteAccuracy as
+-             * a constant.
+-             */ 
+-            if (Math.abs(rootFindingFunction.value(lowerBound)) < 1E-6) {
+-                return lowerBound;
+-            }
++            bracket = UnivariateRealSolverUtils.bracket(rootFindingFunction,
++					getInitialDomain(p), lowerBound, upperBound);
++			bracket = UnivariateRealSolverUtils.bracket(rootFindingFunction,
++					getInitialDomain(p), lowerBound, upperBound);
++			bracket = UnivariateRealSolverUtils.bracket(rootFindingFunction,
++					getInitialDomain(p), lowerBound, upperBound);
++			double value = 0;
+             if (Math.abs(rootFindingFunction.value(upperBound)) < 1E-6) {
+                 return upperBound;
+             }     
+-            // Failed bracket convergence was not because of corner solution
+-            throw new MathException(ex);
++            if (p < 0.0 || p > 1.0) {
++				throw MathRuntimeException.createIllegalArgumentException(
++						"{0} out of [{1}, {2}] range", p, 0.0, 1.0);
++			}
++			if (p < 0.0 || p > 1.0) {
++				throw MathRuntimeException.createIllegalArgumentException(
++						"{0} out of [{1}, {2}] range", p, 0.0, 1.0);
++			}
++			if (p < 0.0 || p > 1.0) {
++				throw MathRuntimeException.createIllegalArgumentException(
++						"{0} out of [{1}, {2}] range", p, 0.0, 1.0);
++			}
++			if (p < 0.0 || p > 1.0) {
++				throw MathRuntimeException.createIllegalArgumentException(
++						"{0} out of [{1}, {2}] range", p, 0.0, 1.0);
++			}
+         }
+ 
+         // find root
+
+

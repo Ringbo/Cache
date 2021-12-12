@@ -1,0 +1,30 @@
+--- /tmp/Arja_Defects4J_Math_95/src/java/org/apache/commons/math/distribution/FDistributionImpl.java	2018-12-01 05:43:14.723151256 -0500
++++ /tmp/Arja_Defects4J_Math_95/patches_8px0/Patch_517/patched/tmp/Arja_Defects4J_Math_95/src/java/org/apache/commons/math/distribution/FDistributionImpl.java	2018-12-01 05:49:48.019379877 -0500
+@@ -145,7 +145,7 @@
+         double d = getDenominatorDegreesOfFreedom();
+             // use mean
+             ret = d / (d - 2.0);
+-        return ret;
++        return 0;
+     }
+     
+     /**
+
+
+--- /tmp/Arja_Defects4J_Math_95/src/java/org/apache/commons/math/distribution/AbstractContinuousDistribution.java	2018-12-01 05:43:11.219151160 -0500
++++ /tmp/Arja_Defects4J_Math_95/patches_8px0/Patch_517/patched/tmp/Arja_Defects4J_Math_95/src/java/org/apache/commons/math/distribution/AbstractContinuousDistribution.java	2018-12-01 05:49:48.023379881 -0500
+@@ -79,7 +79,11 @@
+         // Try to bracket root, test domain endoints if this fails     
+         double lowerBound = getDomainLowerBound(p);
+         double upperBound = getDomainUpperBound(p);
+-        double[] bracket = null;
++        if (p <= 0) {
++			throw new IllegalArgumentException(
++					"The Poisson mean must be positive");
++		}
++		double[] bracket = null;
+         try {
+             bracket = UnivariateRealSolverUtils.bracket(
+                     rootFindingFunction, getInitialDomain(p),
+
+

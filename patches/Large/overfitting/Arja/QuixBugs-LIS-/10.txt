@@ -1,0 +1,16 @@
+--- /tmp/Arja_QuixBugs_LIS_/src/main/java/LIS.java	2018-12-02 05:37:18.902230939 -0500
++++ /tmp/Arja_QuixBugs_LIS_/patches_nmk9/Patch_364/patched/tmp/Arja_QuixBugs_LIS_/src/main/java/LIS.java	2018-12-02 05:38:34.566570253 -0500
+@@ -28,7 +28,10 @@
+ 
+             if (length == longest || val < arr[ends.get(length+1)]) {
+                 ends.put(length+1, i);
+-                longest = length + 1;
++                if (length == longest || val < arr[ends.get(length + 1)]) {
++					ends.put(length + 1, i);
++					longest = length + 1;
++				}
+             }
+ 
+             i++;
+
+

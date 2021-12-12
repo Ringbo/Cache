@@ -1,0 +1,17 @@
+--- /tmp/Arja_Defects4J_Math_71/src/main/java/org/apache/commons/math/ode/events/EventState.java	2018-12-01 06:00:01.503483649 -0500
++++ /tmp/Arja_Defects4J_Math_71/patches_6k3o/Patch_157/patched/tmp/Arja_Defects4J_Math_71/src/main/java/org/apache/commons/math/ode/events/EventState.java	2018-12-01 06:15:34.492761554 -0500
+@@ -225,7 +225,11 @@
+                     };
+                     final BrentSolver solver = new BrentSolver();
+                     solver.setAbsoluteAccuracy(convergence);
+-                    solver.setMaximalIterationCount(maxIterationCount);
++                    if (pendingEvent
++							&& (Math.abs(t1 - pendingEventTime) <= convergence)) {
++						return false;
++					}
++					solver.setMaximalIterationCount(maxIterationCount);
+                     final double root = (ta <= tb) ? solver.solve(f, ta, tb) : solver.solve(f, tb, ta);
+                     if ((Math.abs(root - ta) <= convergence) &&
+                          (Math.abs(root - previousEventTime) <= convergence)) {
+
+

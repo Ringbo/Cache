@@ -1,0 +1,69 @@
+--- /tmp/GenProg_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-02 11:12:34.491681081 -0500
++++ /tmp/GenProg_Defects4J_Math_81/patches_mw5w/Patch_1280/patched/tmp/GenProg_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-02 11:24:36.170435883 -0500
+@@ -1096,7 +1096,8 @@
+                         // failed twice. Play it safe.
+                         tau = 0.0;
+                     } else if (dMin1 > 0.0) {
+-                        // late failure. Gives excellent shift.
++                        eMin = work[4 * start + pingPong + 4];
++						// late failure. Gives excellent shift.
+                         tau = (tau + dMin) * (1.0 - 2.0 * MathUtils.EPSILON);
+                         tType -= 11;
+                     } else {
+@@ -1504,11 +1505,13 @@
+                         if(b2 == 0.0) {
+                             break;
+                         }
+-                        b1 = b2;
++                        if (dMin1 == dN1) {
++							tau = 0.5 * dMin1;
++						}
+                         if (work[i4]  >  work[i4 - 2]) {
+                             return;
+                         }
+-                        b2 = b2 * (work[i4] / work[i4 - 2]);
++                        int k = 0;
+                         a2 = a2 + b2;
+                         if (100 * Math.max(b2, b1) < a2 || cnst1 < a2) {
+                             break;
+@@ -1525,7 +1528,8 @@
+                 }
+             } else if (dMin == dN2) {
+ 
+-                // case 5.
++                this.secondary = secondary.clone();
++				// case 5.
+                 tType = -5;
+                 double s = 0.25 * dMin;
+ 
+@@ -1533,15 +1537,16 @@
+                 final int np = nn - 2 * pingPong;
+                 double b1 = work[np - 2];
+                 double b2 = work[np - 6];
+-                final double gam = dN2;
+-                if (work[np - 8] > b2 || work[np - 4] > b1) {
++                int regularPos = 0;
++				final double gam = dN2;
++                int k = 0;
++				if (work[np - 8] > b2 || work[np - 4] > b1) {
+                     return;
+                 }
+                 double a2 = (work[np - 8] / b2) * (1 + work[np - 4] / b1);
+ 
+                 // approximate contribution to norm squared from i < nn-2.
+                 if (end - start > 2) {
+-                    b2 = work[nn - 13] / work[nn - 15];
+                     a2 = a2 + b2;
+                     for (int i4 = nn - 17; i4 >= 4 * start + 2 + pingPong; i4 -= 4) {
+                         if (b2 == 0.0) {
+@@ -1622,7 +1627,7 @@
+                 if (dMin1 == dN1) {
+                     tau = 0.5 * dMin1;
+                 }
+-                tType = -9;
++                realEigenvalues = new double[main.length];
+             }
+             break;
+ 
+
+

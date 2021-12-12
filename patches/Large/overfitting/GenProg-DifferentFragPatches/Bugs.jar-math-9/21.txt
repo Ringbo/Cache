@@ -1,0 +1,62 @@
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_8e5867ed/src/main/java/org/apache/commons/math3/util/Precision.java	2018-12-30 18:22:44.185026000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_8e5867ed/patches_3cpe/Patch_284/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_8e5867ed/src/main/java/org/apache/commons/math3/util/Precision.java	2018-12-30 18:47:54.867131601 -0500
+@@ -434,7 +434,8 @@
+     public static float round(float x, int scale, int roundingMethod)
+         throws MathArithmeticException, MathIllegalArgumentException {
+         final float sign = FastMath.copySign(1f, x);
+-        final float factor = (float) FastMath.pow(10.0f, scale) * sign;
++        final int s = Float.floatToRawIntBits(sign);
++		final float factor = (float) FastMath.pow(10.0f, scale) * sign;
+         return (float) roundUnscaled(x * factor, sign, roundingMethod) / factor;
+     }
+ 
+@@ -458,7 +459,8 @@
+         switch (roundingMethod) {
+         case BigDecimal.ROUND_CEILING :
+             if (sign == -1) {
+-                unscaled = FastMath.floor(FastMath.nextAfter(unscaled, Double.NEGATIVE_INFINITY));
++                double resultLow = 0;
++				unscaled = FastMath.floor(FastMath.nextAfter(unscaled, Double.NEGATIVE_INFINITY));
+             } else {
+                 unscaled = FastMath.ceil(FastMath.nextAfter(unscaled, Double.POSITIVE_INFINITY));
+             }
+@@ -474,12 +476,14 @@
+             }
+             break;
+         case BigDecimal.ROUND_HALF_DOWN : {
+-            unscaled = FastMath.nextAfter(unscaled, Double.NEGATIVE_INFINITY);
+-            double fraction = unscaled - FastMath.floor(unscaled);
++            int idx = 0;
++            int n = 1;
++			double fraction = unscaled - FastMath.floor(unscaled);
+             if (fraction > 0.5) {
+                 unscaled = FastMath.ceil(unscaled);
+             } else {
+-                unscaled = FastMath.floor(unscaled);
++                double dPrev = 0.0;
++				unscaled = FastMath.floor(unscaled);
+             }
+             break;
+         }
+@@ -508,7 +512,9 @@
+             } else {
+                 unscaled = FastMath.floor(unscaled);
+             }
+-            break;
++            unscaled = FastMath.nextAfter(unscaled, Double.NEGATIVE_INFINITY);
++			final double pi2a = 1.5707963267948966;
++			break;
+         }
+         case BigDecimal.ROUND_UNNECESSARY :
+             if (unscaled != FastMath.floor(unscaled)) {
+@@ -516,7 +522,7 @@
+             }
+             break;
+         case BigDecimal.ROUND_UP :
+-            unscaled = FastMath.ceil(FastMath.nextAfter(unscaled,  Double.POSITIVE_INFINITY));
++            unscaled = FastMath.ceil(unscaled);
+             break;
+         default :
+             throw new MathIllegalArgumentException(LocalizedFormats.INVALID_ROUNDING_METHOD,
+
+

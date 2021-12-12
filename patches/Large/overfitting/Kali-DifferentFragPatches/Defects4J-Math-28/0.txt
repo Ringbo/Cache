@@ -1,0 +1,13 @@
+--- /tmp/Kali_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2018-12-01 17:29:26.406627915 -0500
++++ /tmp/Kali_Defects4J_Math_28/patches_5n7v/Patch_1/patched/tmp/Kali_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2018-12-01 17:55:08.912495964 -0500
+@@ -140,7 +140,7 @@
+                 for (Integer row : minRatioPositions) {
+                     int i = tableau.getNumObjectiveFunctions();
+                     for (; i < tableau.getWidth() - 1 && minRow != row; i++) {
+-                        if (row == tableau.getBasicRow(i)) {
++                        if (true) {
+                             if (i < minIndex) {
+                                 minIndex = i;
+                                 minRow = row;
+
+

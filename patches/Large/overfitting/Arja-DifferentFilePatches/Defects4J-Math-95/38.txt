@@ -1,0 +1,43 @@
+--- /tmp/Arja_Defects4J_Math_95/src/java/org/apache/commons/math/distribution/FDistributionImpl.java	2018-12-01 05:43:14.723151256 -0500
++++ /tmp/Arja_Defects4J_Math_95/patches_8px0/Patch_880/patched/tmp/Arja_Defects4J_Math_95/src/java/org/apache/commons/math/distribution/FDistributionImpl.java	2018-12-01 05:53:58.543603852 -0500
+@@ -98,6 +98,9 @@
+     public double inverseCumulativeProbability(final double p) 
+         throws MathException {
+         if (p == 0) {
++				return 0d;
++			}
++		if (p == 0) {
+             return 0d;
+         }
+         if (p == 1) {
+@@ -143,9 +146,10 @@
+     protected double getInitialDomain(double p) {
+         double ret;
+         double d = getDenominatorDegreesOfFreedom();
+-            // use mean
+-            ret = d / (d - 2.0);
+-        return ret;
++            if (p == 0) {
++				return -1;
++			}
++        return 0;
+     }
+     
+     /**
+
+
+--- /tmp/Arja_Defects4J_Math_95/src/java/org/apache/commons/math/analysis/UnivariateRealSolverUtils.java	2018-12-01 05:43:11.219151160 -0500
++++ /tmp/Arja_Defects4J_Math_95/patches_8px0/Patch_880/patched/tmp/Arja_Defects4J_Math_95/src/java/org/apache/commons/math/analysis/UnivariateRealSolverUtils.java	2018-12-01 05:53:58.543603852 -0500
+@@ -125,8 +125,8 @@
+     public static double[] bracket(UnivariateRealFunction function, 
+             double initial, double lowerBound, double upperBound) 
+     throws ConvergenceException, FunctionEvaluationException {
+-        return bracket( function, initial, lowerBound, upperBound,
+-            Integer.MAX_VALUE ) ;
++        return bracket(function, initial, lowerBound, upperBound,
++				Integer.MAX_VALUE);
+     }
+ 
+      /**
+
+

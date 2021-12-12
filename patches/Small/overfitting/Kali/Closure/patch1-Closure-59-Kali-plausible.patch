@@ -1,0 +1,14 @@
+--- /src/com/google/javascript/jscomp/DefaultPassConfig.java
++++ /src/com/google/javascript/jscomp/DefaultPassConfig.java
+@@ -260,7 +260,9 @@
+     if (options.checkTypes &&
+         (options.enables(DiagnosticGroups.ACCESS_CONTROLS)
+          || options.enables(DiagnosticGroups.CONSTANT_PROPERTY))) {
+-      checks.add(checkAccessControls);
++      if (true)
++            return null;
++   checks.add(checkAccessControls);
+     }
+ 
+     if (options.checkGlobalNamesLevel.isOn()) {
+

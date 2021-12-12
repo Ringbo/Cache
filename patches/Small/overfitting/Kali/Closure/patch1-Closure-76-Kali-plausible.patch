@@ -1,0 +1,14 @@
+--- /src/com/google/javascript/rhino/Node.java
++++ /src/com/google/javascript/rhino/Node.java
+@@ -1408,7 +1408,9 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
++        if (true)
++            return null;
++        return res;
+       }
+     }
+     return res;
+

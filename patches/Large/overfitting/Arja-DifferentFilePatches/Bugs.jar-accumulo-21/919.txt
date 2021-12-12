@@ -1,0 +1,48 @@
+--- /tmp/Arja_Bug_dot_jar_Accumulo_b007b22e/src/core/src/main/java/org/apache/accumulo/core/iterators/LongCombiner.java	2018-12-28 20:02:27.432597000 -0500
++++ /tmp/Arja_Bug_dot_jar_Accumulo_b007b22e/patches_713s/Patch_245/patched/tmp/Arja_Bug_dot_jar_Accumulo_b007b22e/src/core/src/main/java/org/apache/accumulo/core/iterators/LongCombiner.java	2018-12-28 20:04:44.994552346 -0500
+@@ -50,19 +50,6 @@
+     super.init(source, options, env);
+     if (options.get(TYPE) == null)
+       throw new IllegalArgumentException("no type specified");
+-    switch (Type.valueOf(options.get(TYPE))) {
+-      case VARNUM:
+-        encoder = new VarNumEncoder();
+-        return;
+-      case LONG:
+-        encoder = new LongEncoder();
+-        return;
+-      case STRING:
+-        encoder = new StringEncoder();
+-        return;
+-      default:
+-        throw new IllegalArgumentException();
+-    }
+   }
+   
+   @Override
+
+
+--- /tmp/Arja_Bug_dot_jar_Accumulo_b007b22e/src/core/src/main/java/org/apache/accumulo/core/iterators/Combiner.java	2018-12-28 20:02:27.428597000 -0500
++++ /tmp/Arja_Bug_dot_jar_Accumulo_b007b22e/patches_713s/Patch_245/patched/tmp/Arja_Bug_dot_jar_Accumulo_b007b22e/src/core/src/main/java/org/apache/accumulo/core/iterators/Combiner.java	2018-12-28 20:04:44.994552346 -0500
+@@ -157,19 +157,6 @@
+    * be null.
+    */
+   private void findTop() throws IOException {
+-    // check if aggregation is needed
+-    if (super.hasTop()) {
+-      workKey.set(super.getTopKey());
+-      if (combiners.isEmpty() || combiners.contains(workKey)) {
+-        if (workKey.isDeleted())
+-          return;
+-        topKey = workKey;
+-        Iterator<Value> viter = new ValueIterator(getSource());
+-        topValue = reduce(topKey, viter);
+-        while (viter.hasNext())
+-          viter.next();
+-      }
+-    }
+   }
+   
+   @Override
+
+

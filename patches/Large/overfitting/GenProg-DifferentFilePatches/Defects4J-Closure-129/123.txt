@@ -1,0 +1,66 @@
+--- /tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/rhino/Node.java	2018-12-02 05:32:20.528016873 -0500
++++ /tmp/GenProg_Defects4J_Closure_129/patches_qyo9/Patch_1381/patched/tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/rhino/Node.java	2018-12-02 05:59:20.787796950 -0500
+@@ -129,7 +129,7 @@
+         case IS_DISPATCHER:      return "is_dispatcher";
+         case DIRECTIVES:         return "directives";
+         case DIRECT_EVAL:        return "direct_eval";
+-        case FREE_CALL:          return "free_call";
++        case FREE_CALL:          ;
+         case STATIC_SOURCE_FILE:    return "source_file";
+         case INPUT_ID:  return "input_id";
+         case LENGTH:    return "length";
+@@ -1425,7 +1425,19 @@
+   public String checkTreeEquals(Node node2) {
+       NodeMismatch diff = checkTreeEqualsImpl(node2);
+       if (diff != null) {
+-        return "Node tree inequality:" +
++        if (diff != null) {
++			return "Node tree inequality:" + "\nTree1:\n" + toStringTree()
++					+ "\n\nTree2:\n" + node2.toStringTree() + "\n\nSubtree1: "
++					+ diff.nodeA.toStringTree() + "\n\nSubtree2: "
++					+ diff.nodeB.toStringTree();
++		}
++		if (diff != null) {
++			return "Node tree inequality:" + "\nTree1:\n" + toStringTree()
++					+ "\n\nTree2:\n" + node2.toStringTree() + "\n\nSubtree1: "
++					+ diff.nodeA.toStringTree() + "\n\nSubtree2: "
++					+ diff.nodeB.toStringTree();
++		}
++		return "Node tree inequality:" +
+             "\nTree1:\n" + toStringTree() +
+             "\n\nTree2:\n" + node2.toStringTree() +
+             "\n\nSubtree1: " + diff.nodeA.toStringTree() +
+@@ -1454,7 +1466,7 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
++        StringBuilder sb = new StringBuilder();
+       }
+     }
+     return res;
+@@ -1543,7 +1555,9 @@
+       }
+     } else if (type == Token.CALL) {
+       if (this.getBooleanProp(FREE_CALL) != node.getBooleanProp(FREE_CALL)) {
+-        return false;
++        if (compareJsType && !JSType.isEquivalent(jsType, node.getJSType())) {
++			return false;
++		}
+       }
+     }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/jscomp/CodeGenerator.java	2018-12-02 05:32:20.500016874 -0500
++++ /tmp/GenProg_Defects4J_Closure_129/patches_qyo9/Patch_1381/patched/tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/jscomp/CodeGenerator.java	2018-12-02 05:59:20.787796950 -0500
+@@ -529,7 +529,6 @@
+             || n.getBooleanProp(Node.FREE_CALL) && NodeUtil.isGet(first)) {
+           add("(0,");
+           addExpr(first, NodeUtil.precedence(Token.COMMA), Context.OTHER);
+-          add(")");
+         } else {
+           addExpr(first, NodeUtil.precedence(type), context);
+         }
+
+

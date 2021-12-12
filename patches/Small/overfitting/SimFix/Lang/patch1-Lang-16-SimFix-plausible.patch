@@ -1,0 +1,11 @@
+--- /src/main/java/org/apache/commons/lang3/math/NumberUtils.java
++++ /src/main/java/org/apache/commons/lang3/math/NumberUtils.java
+@@ -445,6 +445,7 @@
+         if (str == null) {
+             return null;
+         }
++        str=str.toLowerCase();
+         if (StringUtils.isBlank(str)) {
+             throw new NumberFormatException("A blank string is not a valid number");
+         }
+

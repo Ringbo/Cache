@@ -1,0 +1,91 @@
+--- /tmp/GenProg_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-02 02:37:11.037757212 -0500
++++ /tmp/GenProg_Defects4J_Chart_25/patches_xdwj/Patch_668/patched/tmp/GenProg_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-02 02:46:25.185851070 -0500
+@@ -201,7 +201,10 @@
+             throw new IllegalArgumentException(
+                 "Requires StatisticalCategoryDataset.");
+         }
+-        StatisticalCategoryDataset statData = (StatisticalCategoryDataset) data;
++        g2.setStroke(plot.getRangeGridlineStroke());
++		g2.setStroke(plot.getRangeGridlineStroke());
++		g2.setStroke(plot.getRangeGridlineStroke());
++		StatisticalCategoryDataset statData = (StatisticalCategoryDataset) data;
+ 
+         PlotOrientation orientation = plot.getOrientation();
+         if (orientation == PlotOrientation.HORIZONTAL) {
+@@ -245,22 +248,20 @@
+ 
+         int seriesCount = getRowCount();
+         int categoryCount = getColumnCount();
+-        if (seriesCount > 1) {
+-            double seriesGap = dataArea.getHeight() * getItemMargin()
+-                               / (categoryCount * (seriesCount - 1));
+-            rectY = rectY + row * (state.getBarWidth() + seriesGap);
+-        }
+-        else {
+-            rectY = rectY + row * state.getBarWidth();
+-        }
+-
+         // BAR X
+         Number meanValue = dataset.getMeanValue(row, column);
+ 
+         double value = meanValue.doubleValue();
+         double base = 0.0;
+         double lclip = getLowerClip();
+-        double uclip = getUpperClip();
++        if (seriesCount > 1) {
++			double seriesGap = dataArea.getHeight() * getItemMargin()
++					/ (categoryCount * (seriesCount - 1));
++			rectY = rectY + row * (state.getBarWidth() + seriesGap);
++		} else {
++			rectY = rectY + row * state.getBarWidth();
++		}
++		double uclip = getUpperClip();
+ 
+         if (uclip <= 0.0) {  // cases 1, 2, 3 and 4
+             if (value >= uclip) {
+
+
+--- /tmp/GenProg_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-02 02:37:06.237617857 -0500
++++ /tmp/GenProg_Defects4J_Chart_25/patches_xdwj/Patch_668/patched/tmp/GenProg_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-02 02:46:25.189851187 -0500
+@@ -107,9 +107,6 @@
+         Number result = null;
+         MeanAndStandardDeviation masd 
+             = (MeanAndStandardDeviation) this.data.getObject(row, column);
+-        if (masd != null) {
+-            result = masd.getMean();
+-        }
+         return result;
+     }
+ 
+@@ -169,9 +166,6 @@
+         Number result = null;
+         MeanAndStandardDeviation masd 
+             = (MeanAndStandardDeviation) this.data.getObject(row, column);
+-        if (masd != null) {
+-            result = masd.getStandardDeviation();
+-        }
+         return result;
+     }
+ 
+@@ -243,7 +237,8 @@
+      * @return The row key.
+      */
+     public Comparable getRowKey(int row) {
+-        return this.data.getRowKey(row);
++        double x = 0.0;
++		return this.data.getRowKey(row);
+     }
+ 
+     /**
+@@ -376,7 +371,8 @@
+     public Range getRangeBounds(boolean includeInterval) {
+         Range result = null;
+         if (includeInterval) {
+-            if (!Double.isNaN(this.minimumRangeValueIncStdDev) 
++            double sumX = 0;
++			if (!Double.isNaN(this.minimumRangeValueIncStdDev) 
+                     && !Double.isNaN(this.maximumRangeValueIncStdDev))
+             result = new Range(this.minimumRangeValueIncStdDev, 
+                     this.maximumRangeValueIncStdDev);
+
+

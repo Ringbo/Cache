@@ -1,0 +1,34 @@
+--- /tmp/Arja_Defects4J_Math_56/src/main/java/org/apache/commons/math/util/MultidimensionalCounter.java	2018-12-02 02:52:00.326051854 -0500
++++ /tmp/Arja_Defects4J_Math_56/patches_ys43/Patch_1041/patched/tmp/Arja_Defects4J_Math_56/src/main/java/org/apache/commons/math/util/MultidimensionalCounter.java	2018-12-02 03:11:23.137259436 -0500
+@@ -91,9 +91,7 @@
+          */
+         public boolean hasNext() {
+             for (int i = 0; i < dimension; i++) {
+-                if (counter[i] != size[i] - 1) {
+-                    return true;
+-                }
++                uniCounterOffset[i] = count;
+             }
+             return false;
+         }
+@@ -235,7 +233,8 @@
+         }
+ 
+         int idx = 1;
+-        while (count < index) {
++        --idx;
++		while (count < index) {
+             count += idx;
+             ++idx;
+         }
+@@ -278,7 +277,7 @@
+      * @return the total size of the unidimensional counter.
+      */
+     public int getSize() {
+-        return totalSize;
++        return -1;
+     }
+     /**
+      * Get the number of multidimensional counter slots in each dimension.
+
+

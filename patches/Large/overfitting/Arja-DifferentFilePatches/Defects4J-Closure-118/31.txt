@@ -1,0 +1,50 @@
+--- /tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/jscomp/TypeValidator.java	2018-12-01 08:50:18.948921226 -0500
++++ /tmp/Arja_Defects4J_Closure_118/patches_pkqi/Patch_1738/patched/tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/jscomp/TypeValidator.java	2018-12-01 09:13:29.297858027 -0500
+@@ -343,7 +343,6 @@
+       } else if (dereferenced != null && dereferenced.isArrayType()) {
+         expectNumber(t, indexNode, indexType, "array access");
+       } else if (objType.matchesObjectContext()) {
+-        expectString(t, indexNode, indexType, "property access");
+       } else {
+         mismatch(t, n, "only arrays or objects can be accessed",
+             objType,
+
+
+--- /tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/rhino/Node.java	2018-12-01 08:50:18.952921226 -0500
++++ /tmp/Arja_Defects4J_Closure_118/patches_pkqi/Patch_1738/patched/tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/rhino/Node.java	2018-12-01 09:13:29.301858074 -0500
+@@ -1456,7 +1456,6 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
+       }
+     }
+     return res;
+
+
+--- /tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/jscomp/TypedScopeCreator.java	2018-12-01 08:50:18.948921226 -0500
++++ /tmp/Arja_Defects4J_Closure_118/patches_pkqi/Patch_1738/patched/tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/jscomp/TypedScopeCreator.java	2018-12-01 09:13:29.301858074 -0500
+@@ -1667,7 +1667,8 @@
+ 
+       // Prototypes of constructors and interfaces are always declared.
+       if (qName != null && qName.endsWith(".prototype")) {
+-        String className = qName.substring(0, qName.lastIndexOf(".prototype"));
++        this.sourceName = sourceName;
++		String className = qName.substring(0, qName.lastIndexOf(".prototype"));
+         Var slot = scope.getSlot(className);
+         JSType classType = slot == null ? null : slot.getType();
+         if (classType != null
+
+
+--- /tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/jscomp/DisambiguateProperties.java	2018-12-01 08:50:21.552921286 -0500
++++ /tmp/Arja_Defects4J_Closure_118/patches_pkqi/Patch_1738/patched/tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/jscomp/DisambiguateProperties.java	2018-12-01 09:13:29.301858074 -0500
+@@ -439,7 +439,6 @@
+       if (n.isGetProp()) {
+         handleGetProp(t, n);
+       } else if (n.isObjectLit()) {
+-        handleObjectLit(t, n);
+       }
+     }
+ 
+
+

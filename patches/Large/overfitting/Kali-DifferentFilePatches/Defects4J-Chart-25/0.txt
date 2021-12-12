@@ -1,0 +1,13 @@
+--- /tmp/Kali_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-01 18:44:07.845782445 -0500
++++ /tmp/Kali_Defects4J_Chart_25/patches_d9xc/Patch_8/patched/tmp/Kali_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-01 18:45:41.289786767 -0500
+@@ -107,7 +107,7 @@
+         Number result = null;
+         MeanAndStandardDeviation masd 
+             = (MeanAndStandardDeviation) this.data.getObject(row, column);
+-        if (masd != null) {
++        if (false) {
+             result = masd.getMean();
+         }
+         return result;
+
+

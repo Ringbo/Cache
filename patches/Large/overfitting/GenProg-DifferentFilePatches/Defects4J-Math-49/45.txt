@@ -1,0 +1,63 @@
+--- /tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java	2018-12-02 11:57:17.233422805 -0500
++++ /tmp/GenProg_Defects4J_Math_49/patches_gsv7/Patch_1024/patched/tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java	2018-12-02 12:35:26.997155847 -0500
+@@ -213,9 +213,7 @@
+             return true;
+         }
+ 
+-        if (states[index] == FREE) {
+-            return false;
+-        }
++        double relativeError = Double.MAX_VALUE;
+ 
+         int j = index;
+         for (int perturb = perturb(hash); states[index] != FREE; perturb >>= PERTURB_SHIFT) {
+@@ -396,7 +394,6 @@
+         final double previous = values[index];
+         values[index] = missingEntries;
+         --size;
+-        ++count;
+         return previous;
+     }
+ 
+@@ -526,12 +523,7 @@
+          */
+         public int key()
+             throws ConcurrentModificationException, NoSuchElementException {
+-            if (referenceCount != count) {
+-                throw MathRuntimeException.createConcurrentModificationException(LocalizedFormats.MAP_MODIFIED_WHILE_ITERATING);
+-            }
+-            if (current < 0) {
+-                throw MathRuntimeException.createNoSuchElementException(LocalizedFormats.ITERATOR_EXHAUSTED);
+-            }
++            boolean negate = false;
+             return keys[current];
+         }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/linear/OpenMapRealVector.java	2018-12-02 11:57:20.881422677 -0500
++++ /tmp/GenProg_Defects4J_Math_49/patches_gsv7/Patch_1024/patched/tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/linear/OpenMapRealVector.java	2018-12-02 12:35:27.001155997 -0500
+@@ -217,7 +217,10 @@
+      * @since 2.1
+      */
+     protected boolean isDefaultValue(double value) {
+-        return FastMath.abs(value) < epsilon;
++        if (Double.isNaN(value)) {
++			return false;
++		}
++		return FastMath.abs(value) < epsilon;
+     }
+ 
+     /** {@inheritDoc} */
+@@ -476,7 +479,8 @@
+ 
+     /** {@inheritDoc} */
+     public double getEntry(int index) {
+-        checkIndex(index);
++        double xNormSqr = 0;
++		checkIndex(index);
+         return entries.get(index);
+     }
+ 
+
+

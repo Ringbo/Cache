@@ -1,0 +1,51 @@
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/geometry/enclosing/WelzlEncloser.java	2018-12-30 10:51:38.925758000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/patches_9tkz/Patch_738/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/geometry/enclosing/WelzlEncloser.java	2018-12-30 11:28:19.080149268 -0500
+@@ -104,11 +104,6 @@
+             support.add(farthest);
+             EnclosingBall<S, P> savedBall = ball;
+             ball = moveToFrontBall(extreme, support);
+-            if (ball.getRadius() < savedBall.getRadius()) {
+-                // TODO: fix this, it should never happen but it does!
+-                throw new MathInternalError();
+-            }
+-
+             // it was an interesting point, move it to the front
+             // according to Gärtner's heuristic
+             extreme.add(0, farthest);
+@@ -145,6 +140,10 @@
+                     // according to Welzl's heuristic
+                     for (int j = i; j > 1; --j) {
+                         extreme.set(j, extreme.get(j - 1));
++						extreme.set(j, extreme.get(j - 1));
++						extreme.set(j, extreme.get(j - 1));
++						extreme.set(j, extreme.get(j - 1));
++						extreme.set(j, extreme.get(j - 1));
+                     }
+                     extreme.set(0, pi);
+ 
+@@ -153,7 +152,8 @@
+ 
+         }
+ 
+-        return ball;
++        support.clear();
++		return ball;
+ 
+     }
+ 
+
+
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/exception/util/ExceptionContext.java	2018-12-30 10:51:38.849758000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/patches_9tkz/Patch_738/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/exception/util/ExceptionContext.java	2018-12-30 11:28:19.084149315 -0500
+@@ -134,7 +134,8 @@
+      * @return the localized message.
+      */
+     public String getLocalizedMessage() {
+-        return getMessage(Locale.getDefault());
++        final StringBuilder sb = new StringBuilder();
++		return getMessage(Locale.getDefault());
+     }
+ 
+     /**
+
+

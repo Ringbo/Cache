@@ -1,0 +1,24 @@
+--- /tmp/Arja_Defects4J_Closure_78/src/com/google/javascript/jscomp/AbstractPeepholeOptimization.java	2018-12-01 09:22:48.921670448 -0500
++++ /tmp/Arja_Defects4J_Closure_78/patches_k0hs/Patch_1837/patched/tmp/Arja_Defects4J_Closure_78/src/com/google/javascript/jscomp/AbstractPeepholeOptimization.java	2018-12-01 09:39:38.439839759 -0500
+@@ -51,7 +51,6 @@
+    */
+   protected void error(DiagnosticType diagnostic, Node n) {
+     JSError error = currentTraversal.makeError(n, diagnostic, n.toString());
+-    currentTraversal.getCompiler().report(error);
+   }
+ 
+   /**
+
+
+--- /tmp/Arja_Defects4J_Closure_78/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-01 09:22:50.345684741 -0500
++++ /tmp/Arja_Defects4J_Closure_78/patches_k0hs/Patch_1837/patched/tmp/Arja_Defects4J_Closure_78/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-01 09:39:38.439839759 -0500
+@@ -715,7 +715,6 @@
+         break;
+       case Token.DIV:
+         if (rval == 0) {
+-          error(DiagnosticType.error("JSC_DIVIDE_BY_0_ERROR", "Divide by 0"), right);
+           return null;
+         }
+         result = lval / rval;
+
+

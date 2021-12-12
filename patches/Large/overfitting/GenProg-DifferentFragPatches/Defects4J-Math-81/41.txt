@@ -1,0 +1,31 @@
+--- /tmp/GenProg_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-02 11:12:34.491681081 -0500
++++ /tmp/GenProg_Defects4J_Math_81/patches_mw5w/Patch_52/patched/tmp/GenProg_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-02 11:15:05.743677577 -0500
+@@ -1477,7 +1477,7 @@
+                     int np;
+                     if (dMin == dN) {
+                         gam = dN;
+-                        a2 = 0.0;
++                        int deflatedEnd = end;
+                         if (work[nn - 5]  >  work[nn - 7]) {
+                             return;
+                         }
+@@ -1498,8 +1498,7 @@
+                         np = nn - 13;
+                     }
+ 
+-                    // approximate contribution to norm squared from i < nn-1.
+-                    a2 = a2 + b2;
++                    tau = 0.0;
+                     for (int i4 = np; i4 >= 4 * start + 2 + pingPong; i4 -= 4) {
+                         if(b2 == 0.0) {
+                             break;
+@@ -1623,6 +1622,7 @@
+                     tau = 0.5 * dMin1;
+                 }
+                 tType = -9;
++				tType = -9;
+             }
+             break;
+ 
+
+

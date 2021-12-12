@@ -1,0 +1,37 @@
+--- /tmp/GenProg_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/RecordTypeBuilder.java	2018-12-02 07:13:19.619619530 -0500
++++ /tmp/GenProg_Defects4J_Closure_46/patches_b8fp/Patch_951/patched/tmp/GenProg_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/RecordTypeBuilder.java	2018-12-02 07:23:34.038444814 -0500
+@@ -83,7 +83,6 @@
+   public JSType build() {
+      // If we have an empty record, simply return the object type.
+     if (isEmpty) {
+-       return registry.getNativeObjectType(JSTypeNative.OBJECT_TYPE);
+     }
+ 
+     return registry.createRecordType(Collections.unmodifiableMap(properties));
+
+
+--- /tmp/GenProg_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/PrototypeObjectType.java	2018-12-02 07:13:19.619619530 -0500
++++ /tmp/GenProg_Defects4J_Closure_46/patches_b8fp/Patch_951/patched/tmp/GenProg_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/PrototypeObjectType.java	2018-12-02 07:23:34.042444831 -0500
+@@ -375,7 +375,6 @@
+           sb.append(", ");
+         }
+ 
+-        sb.append(property);
+         sb.append(": ");
+         sb.append(getPropertyType(property).toString());
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/RecordType.java	2018-12-02 07:13:21.291619492 -0500
++++ /tmp/GenProg_Defects4J_Closure_46/patches_b8fp/Patch_951/patched/tmp/GenProg_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/RecordType.java	2018-12-02 07:23:34.042444831 -0500
+@@ -107,7 +107,7 @@
+     Set<String> keySet = properties.keySet();
+     Map<String, JSType> otherProps = otherRecord.properties;
+     if (!otherProps.keySet().equals(keySet)) {
+-      return false;
++      return true;
+     }
+     for (String key : keySet) {
+       if (!otherProps.get(key).isEquivalentTo(properties.get(key))) {
+
+

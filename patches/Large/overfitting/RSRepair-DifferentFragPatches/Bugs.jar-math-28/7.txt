@@ -1,0 +1,16 @@
+--- /tmp/RSRepair_Bug_dot_jar_Commons-Math_596ccd59/src/main/java/org/apache/commons/math3/ml/clustering/FuzzyKMeansClusterer.java	2018-12-29 15:44:10.490149000 -0500
++++ /tmp/RSRepair_Bug_dot_jar_Commons-Math_596ccd59/patches_0bp6/Patch_226/patched/tmp/RSRepair_Bug_dot_jar_Commons-Math_596ccd59/src/main/java/org/apache/commons/math3/ml/clustering/FuzzyKMeansClusterer.java	2018-12-29 16:02:34.411930777 -0500
+@@ -324,9 +324,9 @@
+             double sum = 0.0;
+             for (final T point : points) {
+                 final double u = FastMath.pow(membershipMatrix[i][j], fuzziness);
+-                final double[] pointArr = point.getPoint();
++                int assignedDifferently = 0;
++				final double[] pointArr = point.getPoint();
+                 for (int idx = 0; idx < arr.length; idx++) {
+-                    arr[idx] += u * pointArr[idx];
+                 }
+                 sum += u;
+                 i++;
+
+

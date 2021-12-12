@@ -1,0 +1,17 @@
+--- /tmp/Kali_Defects4J_Closure_117/src/com/google/javascript/jscomp/TypedScopeCreator.java	2018-12-01 19:37:03.477325581 -0500
++++ /tmp/Kali_Defects4J_Closure_117/patches_06en/Patch_3/patched/tmp/Kali_Defects4J_Closure_117/src/com/google/javascript/jscomp/TypedScopeCreator.java	2018-12-01 19:41:15.725715759 -0500
+@@ -1802,7 +1802,11 @@
+                   child.getLastChild());
+               break;
+             case Token.GETPROP:
+-              maybeCollectMember(child, child, null);
++              {
++				if (true)
++					return;
++				maybeCollectMember(child, child, null);
++			}
+               break;
+           }
+         }
+
+

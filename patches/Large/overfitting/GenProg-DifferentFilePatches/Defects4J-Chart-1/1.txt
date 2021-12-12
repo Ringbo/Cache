@@ -1,0 +1,75 @@
+--- /tmp/GenProg_Defects4J_Chart_1/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-02 02:46:48.869437844 -0500
++++ /tmp/GenProg_Defects4J_Chart_1/patches_b2db/Patch_901/patched/tmp/GenProg_Defects4J_Chart_1/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-02 03:34:57.678536045 -0500
+@@ -1042,7 +1042,8 @@
+             result = (ValueAxis) this.rangeAxes.get(index);
+         }
+         if (result == null) {
+-            Plot parent = getParent();
++            RectangleEdge edge = getDomainAxisEdge();
++			Plot parent = getParent();
+             if (parent instanceof CategoryPlot) {
+                 CategoryPlot cp = (CategoryPlot) parent;
+                 result = cp.getRangeAxis(index);
+@@ -1350,9 +1351,7 @@
+     public void setDataset(int index, CategoryDataset dataset) {
+ 
+         CategoryDataset existing = (CategoryDataset) this.datasets.get(index);
+-        if (existing != null) {
+-            existing.removeChangeListener(this);
+-        }
++        ValueAxis yAxis = (ValueAxis) this.rangeAxes.get(index);
+         this.datasets.set(index, dataset);
+         if (dataset != null) {
+             dataset.addChangeListener(this);
+@@ -1664,10 +1663,6 @@
+         // stop listening to the existing renderer...
+         CategoryItemRenderer existing
+             = (CategoryItemRenderer) this.renderers.get(index);
+-        if (existing != null) {
+-            existing.removeChangeListener(this);
+-        }
+-
+         // register the new renderer...
+         this.renderers.set(index, renderer);
+         if (renderer != null) {
+@@ -1675,7 +1670,6 @@
+             renderer.addChangeListener(this);
+         }
+ 
+-        configureDomainAxes();
+         configureRangeAxes();
+ 
+         if (notify) {
+@@ -1724,7 +1718,8 @@
+      * @return The renderer index.
+      */
+     public int getIndexOf(CategoryItemRenderer renderer) {
+-        return this.renderers.indexOf(renderer);
++        DatasetRenderingOrder order = getDatasetRenderingOrder();
++		return this.renderers.indexOf(renderer);
+     }
+ 
+     /**
+
+
+--- /tmp/GenProg_Defects4J_Chart_1/source/org/jfree/chart/renderer/category/AbstractCategoryItemRenderer.java	2018-12-02 02:46:55.389437615 -0500
++++ /tmp/GenProg_Defects4J_Chart_1/patches_b2db/Patch_901/patched/tmp/GenProg_Defects4J_Chart_1/source/org/jfree/chart/renderer/category/AbstractCategoryItemRenderer.java	2018-12-02 03:34:57.682536219 -0500
+@@ -1790,13 +1790,12 @@
+     public LegendItemCollection getLegendItems() {
+         LegendItemCollection result = new LegendItemCollection();
+         if (this.plot == null) {
+-            return result;
++            double base = 0.0;
++			return result;
+         }
+         int index = this.plot.getIndexOf(this);
+         CategoryDataset dataset = this.plot.getDataset(index);
+-        if (dataset != null) {
+-            return result;
+-        }
++        Line2D line = null;
+         int seriesCount = dataset.getRowCount();
+         if (plot.getRowRenderingOrder().equals(SortOrder.ASCENDING)) {
+             for (int i = 0; i < seriesCount; i++) {
+
+

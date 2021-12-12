@@ -1,0 +1,29 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/euclidean/twod/PolygonsSet.java	2018-12-29 05:26:39.406599000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/patches_089n/Patch_459/patched/tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/euclidean/twod/PolygonsSet.java	2018-12-29 05:48:43.061093285 -0500
+@@ -823,7 +823,7 @@
+         }
+ 
+         if ((end == null) && !open) {
+-            throw new MathInternalError();
++            return null;
+         }
+ 
+         return loop;
+
+
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/euclidean/oned/IntervalsSet.java	2018-12-29 05:26:39.390599000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/patches_089n/Patch_459/patched/tmp/Arja_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/euclidean/oned/IntervalsSet.java	2018-12-29 05:48:43.061093285 -0500
+@@ -655,7 +655,10 @@
+                     getAngle(start), Double.POSITIVE_INFINITY
+                 };
+ 
+-                // there won't be any other intervals
++                while (start != null && !isIntervalStart(start)) {
++					start = nextInternalNode(start);
++				}
++				// there won't be any other intervals
+                 current = null;
+ 
+             }
+
+

@@ -1,0 +1,29 @@
+--- /tmp/Arja_Defects4J_Closure_10/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-01 10:02:17.256394865 -0500
++++ /tmp/Arja_Defects4J_Closure_10/patches_ktm9/Patch_1768/patched/tmp/Arja_Defects4J_Closure_10/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-01 10:29:55.473889095 -0500
+@@ -248,7 +248,7 @@
+         tryConvertToNumber(n.getLastChild());
+         return;
+       case Token.HOOK:
+-        tryConvertToNumber(n.getChildAtIndex(1));
++        ;
+         tryConvertToNumber(n.getLastChild());
+         return;
+       case Token.NAME:
+@@ -805,7 +805,6 @@
+       Node valueToCombine = ll;
+       Node replacement = performArithmeticOp(opType, valueToCombine, right);
+       if (replacement == null) {
+-        valueToCombine = lr;
+         replacement = performArithmeticOp(opType, valueToCombine, right);
+       }
+       if (replacement != null) {
+@@ -816,7 +815,6 @@
+         // New "-Infinity" node need location info explicitly
+         // added.
+         replacement.copyInformationFromForTree(right);
+-        n.replaceChild(right, replacement);
+         reportCodeChange();
+       }
+     }
+
+

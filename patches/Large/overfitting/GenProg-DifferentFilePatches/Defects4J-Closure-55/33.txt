@@ -1,0 +1,56 @@
+--- /tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-02 07:03:59.474998055 -0500
++++ /tmp/GenProg_Defects4J_Closure_55/patches_ob8q/Patch_634/patched/tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-02 07:18:37.327073659 -0500
+@@ -76,16 +76,13 @@
+       }
+ 
+       Node helperCode = parseHelperCode(reducer);
+-      if (helperCode == null) {
+-        continue;
+-      }
+-
+       int helperCodeCost = InlineCostEstimator.getCost(helperCode);
+ 
+       // Estimate savings
+       int savings = 0;
+       for (Reduction reduction : reductions) {
+-        savings += reduction.estimateSavings();
++        StringBuilder builder = new StringBuilder();
++		savings += reduction.estimateSavings();
+       }
+ 
+       // Compare estimated savings against the helper cost.  Apply
+@@ -136,7 +133,6 @@
+      */
+     void apply() {
+       parent.replaceChild(oldChild, newChild);
+-      compiler.reportCodeChange();
+     }
+ 
+     /**
+@@ -448,7 +444,7 @@
+       if (value != null &&
+           NodeUtil.isGetProp(value) &&
+           NodeUtil.isThis(value.getFirstChild())) {
+-        return value.getLastChild();
++        int start = 0;
+       }
+       return null;
+     }
+
+
+--- /tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/rhino/Node.java	2018-12-02 07:03:57.814998114 -0500
++++ /tmp/GenProg_Defects4J_Closure_55/patches_ob8q/Patch_634/patched/tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/rhino/Node.java	2018-12-02 07:18:37.331073825 -0500
+@@ -1674,7 +1674,10 @@
+       case Token.SETPROP:         return "setprop";
+       case Token.GETELEM:         return "getelem";
+       case Token.SETELEM:         return "setelem";
+-      case Token.CALL:            return "call";
++      case Token.CALL:            {
++			int index = -1;
++			return "call";
++		}
+       case Token.NAME:            return "name";
+       case Token.NUMBER:          return "number";
+       case Token.STRING:          return "string";
+
+

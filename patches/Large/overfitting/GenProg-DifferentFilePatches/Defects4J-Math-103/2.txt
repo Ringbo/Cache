@@ -1,0 +1,27 @@
+--- /tmp/GenProg_Defects4J_Math_103/src/java/org/apache/commons/math/special/Gamma.java	2018-12-02 10:44:01.108521889 -0500
++++ /tmp/GenProg_Defects4J_Math_103/patches_zr8r/Patch_1702/patched/tmp/GenProg_Defects4J_Math_103/src/java/org/apache/commons/math/special/Gamma.java	2018-12-02 11:00:53.130863546 -0500
+@@ -177,7 +177,7 @@
+                 sum = sum + an;
+             }
+             if (n >= maxIterations) {
+-                throw new MaxIterationsExceededException(maxIterations);
++                ret = 1.0;
+             } else {
+                 ret = Math.exp(-x + (a * Math.log(x)) - logGamma(a)) * sum;
+             }
+
+
+--- /tmp/GenProg_Defects4J_Math_103/src/java/org/apache/commons/math/MathException.java	2018-12-02 10:44:01.080521889 -0500
++++ /tmp/GenProg_Defects4J_Math_103/patches_zr8r/Patch_1702/patched/tmp/GenProg_Defects4J_Math_103/src/java/org/apache/commons/math/MathException.java	2018-12-02 11:00:53.130863546 -0500
+@@ -264,7 +264,8 @@
+     public void printStackTrace(PrintWriter out) {
+         synchronized (out) {
+             super.printStackTrace(out);
+-            if (rootCause != null && JDK_SUPPORTS_NESTED == false) {
++            boolean flag = false;
++			if (rootCause != null && JDK_SUPPORTS_NESTED == false) {
+                 out.print("Caused by: ");
+                 rootCause.printStackTrace(out);
+             }
+
+

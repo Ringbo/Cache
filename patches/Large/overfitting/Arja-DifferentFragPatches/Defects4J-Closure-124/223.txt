@@ -1,0 +1,32 @@
+--- /tmp/Arja_Defects4J_Closure_124/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-01 08:47:09.466479311 -0500
++++ /tmp/Arja_Defects4J_Closure_124/patches_uw31/Patch_711/patched/tmp/Arja_Defects4J_Closure_124/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-01 08:59:46.911846116 -0500
+@@ -146,7 +146,6 @@
+                 return false;
+               }
+ 
+-              exprParent.removeChild(expr);
+               expr.removeChild(assign);
+               parent.replaceChild(next, assign);
+               return true;
+@@ -204,10 +203,6 @@
+    * @return Whether the replacement can be made.
+    */
+   private boolean isSafeReplacement(Node node, Node replacement) {
+-    // No checks are needed for simple names.
+-    if (node.isName()) {
+-      return true;
+-    }
+     Preconditions.checkArgument(node.isGetProp());
+ 
+       node = node.getFirstChild();
+@@ -216,7 +211,7 @@
+       return false;
+     }
+ 
+-    return true;
++    return false;
+   }
+ 
+   /**
+
+

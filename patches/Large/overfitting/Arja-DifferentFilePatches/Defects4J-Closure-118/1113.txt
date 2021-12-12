@@ -1,0 +1,42 @@
+--- /tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/rhino/jstype/JSTypeRegistry.java	2018-12-01 08:50:18.952921226 -0500
++++ /tmp/Arja_Defects4J_Closure_118/patches_pkqi/Patch_2049/patched/tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/rhino/jstype/JSTypeRegistry.java	2018-12-01 09:15:56.731668604 -0500
+@@ -1414,12 +1414,6 @@
+    */
+   public boolean resetImplicitPrototype(
+       JSType type, ObjectType newImplicitProto) {
+-    if (type instanceof PrototypeObjectType) {
+-      PrototypeObjectType poType = (PrototypeObjectType) type;
+-      poType.clearCachedValues();
+-      poType.setImplicitPrototype(newImplicitProto);
+-      return true;
+-    }
+     return false;
+   }
+ 
+
+
+--- /tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/jscomp/CodeGenerator.java	2018-12-01 08:50:18.936921226 -0500
++++ /tmp/Arja_Defects4J_Closure_118/patches_pkqi/Patch_2049/patched/tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/jscomp/CodeGenerator.java	2018-12-01 09:15:56.731668604 -0500
+@@ -655,7 +655,7 @@
+       case Token.STRING_KEY:
+         Preconditions.checkState(
+             childCount == 1, "Object lit key must have 1 child");
+-        addJsString(n);
++        ;
+         break;
+ 
+       case Token.STRING:
+
+
+--- /tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/jscomp/DisambiguateProperties.java	2018-12-01 08:50:21.552921286 -0500
++++ /tmp/Arja_Defects4J_Closure_118/patches_pkqi/Patch_2049/patched/tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/jscomp/DisambiguateProperties.java	2018-12-01 09:15:56.735668655 -0500
+@@ -439,7 +439,6 @@
+       if (n.isGetProp()) {
+         handleGetProp(t, n);
+       } else if (n.isObjectLit()) {
+-        handleObjectLit(t, n);
+       }
+     }
+ 
+
+

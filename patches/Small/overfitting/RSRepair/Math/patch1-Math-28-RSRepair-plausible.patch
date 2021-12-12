@@ -1,0 +1,11 @@
+--- /src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java
++++ /src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java
+@@ -148,7 +148,6 @@
+                         }
+                     }
+                 }
+-                return minRow;
+         }
+         return minRatioPositions.get(0);
+     }
+

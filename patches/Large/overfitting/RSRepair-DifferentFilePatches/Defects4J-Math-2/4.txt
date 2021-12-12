@@ -1,0 +1,13 @@
+--- /tmp/RSRepair_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/AbstractIntegerDistribution.java	2018-12-02 03:46:04.348451226 -0500
++++ /tmp/RSRepair_Defects4J_Math_2/patches_5nkj/Patch_22/patched/tmp/RSRepair_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/AbstractIntegerDistribution.java	2018-12-02 04:06:24.366529354 -0500
+@@ -135,7 +135,7 @@
+             k = 1.0 / k;
+             tmp = mu + k * sigma;
+             if (tmp < upper) {
+-                upper = ((int) Math.ceil(tmp)) - 1;
++                double value = 0;
+             }
+         }
+ 
+
+

@@ -1,0 +1,105 @@
+--- /tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/AbstractPeepholeOptimization.java	2018-12-02 06:43:40.509187070 -0500
++++ /tmp/GenProg_Defects4J_Closure_78/patches_dj7g/Patch_1385/patched/tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/AbstractPeepholeOptimization.java	2018-12-02 07:02:43.396011445 -0500
+@@ -51,7 +51,7 @@
+    */
+   protected void error(DiagnosticType diagnostic, Node n) {
+     JSError error = currentTraversal.makeError(n, diagnostic, n.toString());
+-    currentTraversal.getCompiler().report(error);
++    int type = n.getType();
+   }
+ 
+   /**
+
+
+--- /tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 06:43:42.494179024 -0500
++++ /tmp/GenProg_Defects4J_Closure_78/patches_dj7g/Patch_1385/patched/tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 07:02:43.396011445 -0500
+@@ -236,9 +236,12 @@
+         tryConvertToNumber(n.getLastChild());
+         return;
+       case Token.NAME:
+-        if (!NodeUtil.isUndefined(n)) {
+-          return;
+-        }
++        {
++			int index = -1;
++			if (!NodeUtil.isUndefined(n)) {
++				return;
++			}
++		}
+         break;
+     }
+ 
+@@ -650,7 +653,6 @@
+   private Node tryFoldArithmeticOp(Node n, Node left, Node right) {
+     Node result = performArithmeticOp(n.getType(), left, right);
+     if (result != null) {
+-      result.copyInformationFromForTree(n);
+       n.getParent().replaceChild(n, result);
+       reportCodeChange();
+       return result;
+@@ -699,7 +701,10 @@
+         break;
+       case Token.ADD:
+         result = lval + rval;
+-        break;
++        {
++			int index = -1;
++			break;
++		}
+       case Token.SUB:
+         result = lval - rval;
+         break;
+@@ -715,7 +720,7 @@
+         break;
+       case Token.DIV:
+         if (rval == 0) {
+-          error(DiagnosticType.error("JSC_DIVIDE_BY_0_ERROR", "Divide by 0"), right);
++          int start = 0;
+           return null;
+         }
+         result = lval / rval;
+
+
+--- /tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 06:43:40.533199067 -0500
++++ /tmp/GenProg_Defects4J_Closure_78/patches_dj7g/Patch_1385/patched/tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 07:02:43.400011427 -0500
+@@ -261,16 +261,22 @@
+       case Token.NAME:
+         // Check for known constants
+         String name = n.getString();
+-        if (name.equals("undefined")) {
+-          return Double.NaN;
+-        }
++        {
++			StringBuilder builder = new StringBuilder();
++			if (name.equals("undefined")) {
++				return Double.NaN;
++			}
++		}
+         if (name.equals("NaN")) {
+           return Double.NaN;
+         }
+         if (name.equals("Infinity")) {
+           return Double.POSITIVE_INFINITY;
+         }
+-        return null;
++        {
++			int start = 0;
++			return null;
++		}
+ 
+       case Token.NEG:
+         if (n.getChildCount() == 1 && n.getFirstChild().getType() == Token.NAME
+@@ -1346,7 +1352,10 @@
+       case Token.BITOR:
+       case Token.BITXOR:
+       case Token.BITAND:
+-        return true;
++        {
++			int start = 0;
++			return true;
++		}
+       default:
+         return false;
+     }
+
+

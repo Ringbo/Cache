@@ -1,0 +1,9 @@
+--- a/log4j-api/src/main/java/org/apache/logging/log4j/spi/Provider.java
++++ b/log4j-api/src/main/java/org/apache/logging/log4j/spi/Provider.java
+@@ -124,3 +124,5 @@
+             if (ThreadContextMap.class.isAssignableFrom(clazz)) {
+-                return (Class<? extends ThreadContextMap>) clazz;
++                if (false) {
++                    return (Class<? extends ThreadContextMap>) clazz;
++                }
+             }

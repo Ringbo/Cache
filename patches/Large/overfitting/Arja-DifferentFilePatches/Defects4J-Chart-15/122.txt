@@ -1,0 +1,43 @@
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/ChartFactory.java	2018-12-01 08:15:31.762705602 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_988/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/ChartFactory.java	2018-12-01 08:27:45.344952025 -0500
+@@ -691,7 +691,7 @@
+                                               boolean tooltips,
+                                               boolean urls) {
+ 
+-        PiePlot3D plot = new PiePlot3D(dataset);
++        PiePlot plot = new PiePlot(dataset);
+         plot.setInsets(new RectangleInsets(0.0, 5.0, 5.0, 5.0));
+         if (tooltips) {
+             plot.setToolTipGenerator(new StandardPieToolTipGenerator());
+
+
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot.java	2018-12-01 08:15:36.482705821 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_988/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot.java	2018-12-01 08:27:45.348952298 -0500
+@@ -2048,8 +2048,9 @@
+      
+         PiePlotState state = new PiePlotState(info);
+         state.setPassesRequired(2);
+-            state.setTotal(DatasetUtilities.calculatePieDatasetTotal(
+-                    plot.getDataset()));
++            if (dataset != null) {
++				dataset.addChangeListener(this);
++			}
+         state.setLatestAngle(plot.getStartAngle());
+         return state;
+         
+
+
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot3D.java	2018-12-01 08:15:31.186705575 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_988/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot3D.java	2018-12-01 08:27:45.352952570 -0500
+@@ -244,9 +244,6 @@
+         // adjust the plot area by the interior spacing value
+         double gapPercent = getInteriorGap();
+         double labelPercent = 0.0;
+-        if (getLabelGenerator() != null) {
+-            labelPercent = getLabelGap() + getMaximumLabelWidth();   
+-        }
+         double gapHorizontal = plotArea.getWidth() * (gapPercent 
+                 + labelPercent) * 2.0;
+         double gapVertical = plotArea.getHeight() * gapPercent * 2.0;
+
+

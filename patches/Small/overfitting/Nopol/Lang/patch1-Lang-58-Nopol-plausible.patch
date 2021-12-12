@@ -1,0 +1,10 @@
+--- /src/java/org/apache/commons/lang/math/NumberUtils.java
++++ /src/java/org/apache/commons/lang/math/NumberUtils.java
+@@ -463,3 +463,5 @@
+                     }
+-                    throw new NumberFormatException(str + " is not a valid number.");
++                    if ((numeric.length()) != (short) 1) {
++                        throw new NumberFormatException(str + " is not a valid number.");
++                    }
+                 case 'f' :
+

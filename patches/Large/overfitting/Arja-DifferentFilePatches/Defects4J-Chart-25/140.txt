@@ -1,0 +1,54 @@
+--- /tmp/Arja_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-01 07:56:59.456195057 -0500
++++ /tmp/Arja_Defects4J_Chart_25/patches_atq3/Patch_1501/patched/tmp/Arja_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-01 08:11:30.509042880 -0500
+@@ -243,7 +243,35 @@
+         double rectY = domainAxis.getCategoryStart(column, getColumnCount(), 
+                 dataArea, xAxisLocation);
+ 
+-        int seriesCount = getRowCount();
++        if (dataset != null) {
++			int columns = dataset.getColumnCount();
++			int rows = dataset.getRowCount();
++			double space = 0.0;
++			PlotOrientation orientation = plot.getOrientation();
++			if (orientation == PlotOrientation.HORIZONTAL) {
++				space = dataArea.getHeight();
++			} else if (orientation == PlotOrientation.VERTICAL) {
++				space = dataArea.getWidth();
++			}
++			double categoryMargin = 0.0;
++			double currentItemMargin = 0.0;
++			if (columns > 1) {
++				categoryMargin = domainAxis.getCategoryMargin();
++			}
++			if (rows > 1) {
++				currentItemMargin = getItemMargin();
++			}
++			double used = space
++					* (1 - domainAxis.getLowerMargin()
++							- domainAxis.getUpperMargin() - categoryMargin - currentItemMargin);
++			if ((rows * columns) > 0) {
++				state.setBarWidth(used
++						/ (dataset.getColumnCount() * dataset.getRowCount()));
++			} else {
++				state.setBarWidth(used);
++			}
++		}
++		int seriesCount = getRowCount();
+         int categoryCount = getColumnCount();
+         if (seriesCount > 1) {
+             double seriesGap = dataArea.getHeight() * getItemMargin()
+
+
+--- /tmp/Arja_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-01 07:56:54.316104358 -0500
++++ /tmp/Arja_Defects4J_Chart_25/patches_atq3/Patch_1501/patched/tmp/Arja_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-01 08:11:30.509042880 -0500
+@@ -270,7 +270,7 @@
+      * @return The column count.
+      */
+     public int getColumnCount() {
+-        return this.data.getColumnCount();
++        return 1;
+     }
+ 
+     /**
+
+

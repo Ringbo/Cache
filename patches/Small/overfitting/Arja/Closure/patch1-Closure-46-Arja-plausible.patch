@@ -1,0 +1,52 @@
+--- /src/com/google/javascript/rhino/jstype/PrototypeObjectType.java
++++ /src/com/google/javascript/rhino/jstype/PrototypeObjectType.java
+@@ -380,10 +380,6 @@
+         sb.append(getPropertyType(property).toString());
+ 
+         ++i;
+-        if (i == MAX_PRETTY_PRINTED_PROPERTIES) {
+-          sb.append(", ...");
+-          break;
+-        }
+       }
+ 
+       sb.append("}");
+
+
+--- /src/com/google/javascript/rhino/jstype/RecordTypeBuilder.java
++++ /src/com/google/javascript/rhino/jstype/RecordTypeBuilder.java
+@@ -83,7 +83,6 @@
+   public JSType build() {
+      // If we have an empty record, simply return the object type.
+     if (isEmpty) {
+-       return registry.getNativeObjectType(JSTypeNative.OBJECT_TYPE);
+     }
+ 
+     return registry.createRecordType(Collections.unmodifiableMap(properties));
+
+
+--- /src/com/google/javascript/rhino/jstype/RecordType.java
++++ /src/com/google/javascript/rhino/jstype/RecordType.java
+@@ -107,7 +107,7 @@
+     Set<String> keySet = properties.keySet();
+     Map<String, JSType> otherProps = otherRecord.properties;
+     if (!otherProps.keySet().equals(keySet)) {
+-      return false;
++      return true;
+     }
+     for (String key : keySet) {
+       if (!otherProps.get(key).isEquivalentTo(properties.get(key))) {
+@@ -172,13 +172,6 @@
+             getPropertyNode(property));
+       }
+ 
+-      for (String property : thatRecord.properties.keySet()) {
+-        if (!hasProperty(property)) {
+-          builder.addProperty(property, thatRecord.getPropertyType(property),
+-              thatRecord.getPropertyNode(property));
+-        }
+-      }
+-
+       return builder.build();
+     }
+

@@ -1,0 +1,13 @@
+--- /tmp/Kali_Defects4J_Closure_21/src/com/google/javascript/jscomp/CheckSideEffects.java	2018-12-01 20:17:04.425243768 -0500
++++ /tmp/Kali_Defects4J_Closure_21/patches_k7vg/Patch_1/patched/tmp/Kali_Defects4J_Closure_21/src/com/google/javascript/jscomp/CheckSideEffects.java	2018-12-01 20:23:23.810602242 -0500
+@@ -117,7 +117,7 @@
+       if (n == parent.getLastChild()) {
+         for (Node an : parent.getAncestors()) {
+           int ancestorType = an.getType();
+-          if (ancestorType == Token.COMMA) continue;
++          if (true) continue;
+           if (ancestorType != Token.EXPR_RESULT && ancestorType != Token.BLOCK) return;
+           else break;
+         }
+
+

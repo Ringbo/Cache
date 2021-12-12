@@ -1,0 +1,14 @@
+--- /tmp/Arja_Defects4J_Closure_125/src/com/google/javascript/jscomp/type/SemanticReverseAbstractInterpreter.java	2018-12-01 08:47:19.455896889 -0500
++++ /tmp/Arja_Defects4J_Closure_125/patches_0gzx/Patch_3068/patched/tmp/Arja_Defects4J_Closure_125/src/com/google/javascript/jscomp/type/SemanticReverseAbstractInterpreter.java	2018-12-01 09:15:32.139854655 -0500
+@@ -200,9 +200,7 @@
+ 
+       case Token.SHEQ:
+         if (outcome) {
+-          return caseEquality(condition, blindScope, SHEQ);
+         } else {
+-          return caseEquality(condition, blindScope, SHNE);
+         }
+ 
+       case Token.SHNE:
+
+

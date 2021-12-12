@@ -1,0 +1,15 @@
+--- /tmp/Kali_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/euclidean/twod/PolygonsSet.java	2018-12-29 17:11:23.896666000 -0500
++++ /tmp/Kali_Bug_dot_jar_Commons-Math_2a6c6409/patches_83da/Patch_3/patched/tmp/Kali_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/euclidean/twod/PolygonsSet.java	2018-12-29 17:35:52.689698080 -0500
+@@ -823,7 +823,9 @@
+         }
+ 
+         if ((end == null) && !open) {
+-            throw new MathInternalError();
++            if (true)
++				return null;
++			throw new MathInternalError();
+         }
+ 
+         return loop;
+
+

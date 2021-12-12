@@ -1,0 +1,67 @@
+--- /tmp/GenProg_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/RecordTypeBuilder.java	2018-12-02 07:13:19.619619530 -0500
++++ /tmp/GenProg_Defects4J_Closure_46/patches_b8fp/Patch_1044/patched/tmp/GenProg_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/RecordTypeBuilder.java	2018-12-02 07:24:00.930563158 -0500
+@@ -83,7 +83,6 @@
+   public JSType build() {
+      // If we have an empty record, simply return the object type.
+     if (isEmpty) {
+-       return registry.getNativeObjectType(JSTypeNative.OBJECT_TYPE);
+     }
+ 
+     return registry.createRecordType(Collections.unmodifiableMap(properties));
+
+
+--- /tmp/GenProg_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/PrototypeObjectType.java	2018-12-02 07:13:19.619619530 -0500
++++ /tmp/GenProg_Defects4J_Closure_46/patches_b8fp/Patch_1044/patched/tmp/GenProg_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/PrototypeObjectType.java	2018-12-02 07:24:00.930563158 -0500
+@@ -455,7 +455,6 @@
+ 
+     // record types
+     if (that.isRecordType()) {
+-      return RecordType.isSubtype(this, that.toMaybeRecordType());
+     }
+ 
+     // Interfaces
+
+
+--- /tmp/GenProg_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/RecordType.java	2018-12-02 07:13:21.291619492 -0500
++++ /tmp/GenProg_Defects4J_Closure_46/patches_b8fp/Patch_1044/patched/tmp/GenProg_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/RecordType.java	2018-12-02 07:24:00.934563176 -0500
+@@ -107,7 +107,7 @@
+     Set<String> keySet = properties.keySet();
+     Map<String, JSType> otherProps = otherRecord.properties;
+     if (!otherProps.keySet().equals(keySet)) {
+-      return false;
++      return true;
+     }
+     for (String key : keySet) {
+       if (!otherProps.get(key).isEquivalentTo(properties.get(key))) {
+@@ -147,8 +147,6 @@
+       if (that.toMaybeRecordType().hasProperty(property) &&
+           that.toMaybeRecordType().getPropertyType(property).isEquivalentTo(
+               getPropertyType(property))) {
+-        builder.addProperty(property, getPropertyType(property),
+-            getPropertyNode(property));
+       }
+     }
+     return builder.build();
+@@ -162,20 +160,12 @@
+       // record types. If any property conflicts, then the NO_TYPE type
+       // is returned.
+       for (String property : properties.keySet()) {
+-        if (thatRecord.hasProperty(property) &&
+-            !thatRecord.getPropertyType(property).isEquivalentTo(
+-                getPropertyType(property))) {
+-          return registry.getNativeObjectType(JSTypeNative.NO_TYPE);
+-        }
+-
+         builder.addProperty(property, getPropertyType(property),
+             getPropertyNode(property));
+       }
+ 
+       for (String property : thatRecord.properties.keySet()) {
+         if (!hasProperty(property)) {
+-          builder.addProperty(property, thatRecord.getPropertyType(property),
+-              thatRecord.getPropertyNode(property));
+         }
+       }
+ 
+
+

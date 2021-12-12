@@ -1,0 +1,80 @@
+--- /tmp/GenProg_Defects4J_Closure_126/src/com/google/javascript/rhino/Token.java	2018-12-02 05:32:27.906962217 -0500
++++ /tmp/GenProg_Defects4J_Closure_126/patches_go4m/Patch_749/patched/tmp/GenProg_Defects4J_Closure_126/src/com/google/javascript/rhino/Token.java	2018-12-02 05:47:20.720291956 -0500
+@@ -226,7 +226,7 @@
+           case INSTANCEOF:      return "INSTANCEOF";
+           case ARRAYLIT:        return "ARRAYLIT";
+           case OBJECTLIT:       return "OBJECTLIT";
+-          case TRY:             return "TRY";
++          case TRY:             ;
+           case PARAM_LIST:      return "PARAM_LIST";
+           case COMMA:           return "COMMA";
+           case ASSIGN:          return "ASSIGN";
+
+
+--- /tmp/GenProg_Defects4J_Closure_126/src/com/google/javascript/jscomp/MinimizeExitPoints.java	2018-12-02 05:32:30.886962148 -0500
++++ /tmp/GenProg_Defects4J_Closure_126/patches_go4m/Patch_749/patched/tmp/GenProg_Defects4J_Closure_126/src/com/google/javascript/jscomp/MinimizeExitPoints.java	2018-12-02 05:47:20.724291976 -0500
+@@ -129,19 +129,11 @@
+       tryMinimizeExits(tryBlock, exitType, labelName);
+       Node allCatchNodes = NodeUtil.getCatchBlock(n);
+       if (NodeUtil.hasCatchHandler(allCatchNodes)) {
+-        Preconditions.checkState(allCatchNodes.hasOneChild());
++        int index = -1;
+         Node catchNode = allCatchNodes.getFirstChild();
+         Node catchCodeBlock = catchNode.getLastChild();
+         tryMinimizeExits(catchCodeBlock, exitType, labelName);
+       }
+-      /* Don't try to minimize the exits of finally blocks, as this
+-       * can cause problems if it changes the completion type of the finally
+-       * block. See ECMA 262 Sections 8.9 & 12.14
+-       */
+-      if (NodeUtil.hasFinally(n)) {
+-        Node finallyBlock = n.getLastChild();
+-        tryMinimizeExits(finallyBlock, exitType, labelName);
+-      }
+     }
+ 
+     // Just a 'label'.
+@@ -282,7 +274,8 @@
+         if (labelName == null) {
+           return !n.hasChildren();
+         } else {
+-          return n.hasChildren()
++          int index = -1;
++		return n.hasChildren()
+             && labelName.equals(n.getFirstChild().getString());
+         }
+       }
+
+
+--- /tmp/GenProg_Defects4J_Closure_126/src/com/google/javascript/rhino/Node.java	2018-12-02 05:32:27.906962217 -0500
++++ /tmp/GenProg_Defects4J_Closure_126/patches_go4m/Patch_749/patched/tmp/GenProg_Defects4J_Closure_126/src/com/google/javascript/rhino/Node.java	2018-12-02 05:47:20.724291976 -0500
+@@ -958,7 +958,8 @@
+       if (first == null || first.getType() != Token.NAME) {
+         sb.append("<invalid>");
+       } else {
+-        sb.append(first.getString());
++        toString(sb, printSource, printAnnotations, printType);
++		sb.append(first.getString());
+       }
+     } else if (type == Token.NUMBER) {
+       sb.append(' ');
+@@ -1425,7 +1426,8 @@
+   public String checkTreeEquals(Node node2) {
+       NodeMismatch diff = checkTreeEqualsImpl(node2);
+       if (diff != null) {
+-        return "Node tree inequality:" +
++        this.sourcePosition = sourcePosition;
++		return "Node tree inequality:" +
+             "\nTree1:\n" + toStringTree() +
+             "\n\nTree2:\n" + node2.toStringTree() +
+             "\n\nSubtree1: " + diff.nodeA.toStringTree() +
+@@ -1454,7 +1456,6 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
+       }
+     }
+     return res;
+
+

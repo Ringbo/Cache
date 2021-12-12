@@ -1,0 +1,10 @@
+--- /src/main/java/org/apache/commons/math3/optimization/direct/CMAESOptimizer.java
++++ /src/main/java/org/apache/commons/math3/optimization/direct/CMAESOptimizer.java
+@@ -703,3 +703,5 @@
+             double oldFac = hsig ? 0 : ccov1 * cc * (2. - cc);
+-            oldFac += 1. - ccov1 - ccovmu;
++            if (org.apache.commons.math3.optimization.direct.CMAESOptimizer.this.inputSigma!=null) {
++                oldFac += 1. - ccov1 - ccovmu;
++            }
+             if (isActiveCMA) {
+

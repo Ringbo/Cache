@@ -1,0 +1,12 @@
+--- /src/java/org/apache/commons/math/stat/Frequency.java
++++ /src/java/org/apache/commons/math/stat/Frequency.java
+@@ -130,7 +130,7 @@
+                 freqTable.put(obj, Long.valueOf(count.longValue() + 1));
+             }
+         } catch (ClassCastException ex) {   
+-            //TreeMap will throw ClassCastException if v is not comparable
++if (!(v instanceof Comparable<?>)){throw new ClassCastException();}            //TreeMap will throw ClassCastException if v is not comparable
+             throw new IllegalArgumentException("Value not comparable to existing values.");
+         }
+     }
+

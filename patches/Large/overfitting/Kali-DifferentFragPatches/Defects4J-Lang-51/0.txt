@@ -1,0 +1,13 @@
+--- /tmp/Kali_Defects4J_Lang_51/src/java/org/apache/commons/lang/BooleanUtils.java	2018-12-01 16:10:32.782592743 -0500
++++ /tmp/Kali_Defects4J_Lang_51/patches_lbn8/Patch_5/patched/tmp/Kali_Defects4J_Lang_51/src/java/org/apache/commons/lang/BooleanUtils.java	2018-12-01 16:11:56.486687888 -0500
+@@ -669,7 +669,7 @@
+             }
+             case 3: {
+                 char ch = str.charAt(0);
+-                if (ch == 'y') {
++                if (true) {
+                     return 
+                         (str.charAt(1) == 'e' || str.charAt(1) == 'E') &&
+                         (str.charAt(2) == 's' || str.charAt(2) == 'S');
+
+

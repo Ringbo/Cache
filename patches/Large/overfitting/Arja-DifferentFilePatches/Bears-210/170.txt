@@ -1,0 +1,39 @@
+--- /tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/sql/antlr/SqlParser.java	2018-12-26 12:41:02.000000000 -0500
++++ /tmp/Arja_Bears_dungba88-libra_436514153-436524727/patches_yzr2/Patch_971/patched/tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/sql/antlr/SqlParser.java	2018-12-26 12:49:26.602682551 -0500
+@@ -812,7 +812,6 @@
+ 				_localctx = new VariableExprContext(_localctx);
+ 				_ctx = _localctx;
+ 				_prevctx = _localctx;
+-				setState(88);
+ 				match(VARIABLE);
+ 				}
+ 				break;
+
+
+--- /tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/pointer/VariablePredicate.java	2018-12-26 12:41:02.000000000 -0500
++++ /tmp/Arja_Bears_dungba88-libra_436514153-436524727/patches_yzr2/Patch_971/patched/tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/pointer/VariablePredicate.java	2018-12-26 12:49:26.602682551 -0500
+@@ -31,9 +31,7 @@
+         	return !((String)rawValue).isEmpty();
+         if (rawValue instanceof Number)
+         	return ((Number) rawValue).doubleValue() != 0.0;
+-        if (rawValue instanceof Boolean)
+-        	return Boolean.TRUE.equals(rawValue);
+-        return true;
++        return value.getValue(context) == null;
+     }
+     
+     public String toString() {
+
+
+--- /tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/sql/node/VariableExpressionNode.java	2018-12-26 12:41:02.000000000 -0500
++++ /tmp/Arja_Bears_dungba88-libra_436514153-436524727/patches_yzr2/Patch_971/patched/tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/sql/node/VariableExpressionNode.java	2018-12-26 12:49:26.602682551 -0500
+@@ -28,7 +28,6 @@
+         Map<String, Object> cachedValues = context.getCachedValues();
+         Object value = cachedValues.get(variableName);
+         if (value == null) {
+-            value = getValueNoCache(context);
+             cachedValues.put(variableName, value);
+         }
+         return value;
+
+

@@ -1,0 +1,23 @@
+--- /tmp/Arja_Defects4J_Closure_75/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-01 09:23:26.391734914 -0500
++++ /tmp/Arja_Defects4J_Closure_75/patches_z70m/Patch_593/patched/tmp/Arja_Defects4J_Closure_75/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-01 09:34:42.359372386 -0500
+@@ -298,7 +298,7 @@
+         break;
+ 
+       case Token.STRING:
+-        return getStringNumberValue(n.getString());
++        return null;
+ 
+       case Token.ARRAYLIT:
+       case Token.OBJECTLIT:
+@@ -361,7 +361,8 @@
+     }
+     while (start < end
+         && isStrWhiteSpaceChar(s.charAt(start)) == TernaryValue.TRUE) {
+-      start++;
++      start = end + 1;
++	start++;
+     }
+     return s.substring(start, end);
+   }
+
+

@@ -1,0 +1,15 @@
+--- a/src/main/java/org/apache/commons/math/stat/descriptive/moment/Variance.java
++++ b/src/main/java/org/apache/commons/math/stat/descriptive/moment/Variance.java
+@@ -512,6 +512,8 @@
+                 double accum2 = 0.0;
+-                for (int i = begin; i < begin + length; i++) {
+-                    dev = values[i] - mean;
+-                    accum += weights[i] * (dev * dev);
+-                    accum2 += weights[i] * dev;
++                if (mean <= length) {
++                    for (int i = begin; i < begin + length; i++) {
++                        dev = values[i] - mean;
++                        accum += weights[i] * (dev * dev);
++                        accum2 += weights[i] * dev;
++                    }
+                 }

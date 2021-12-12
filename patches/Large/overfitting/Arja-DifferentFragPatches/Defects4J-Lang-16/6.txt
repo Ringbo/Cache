@@ -1,0 +1,35 @@
+--- /tmp/Arja_Defects4J_Lang_16/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-01 05:13:40.712736534 -0500
++++ /tmp/Arja_Defects4J_Lang_16/patches_of36/Patch_750/patched/tmp/Arja_Defects4J_Lang_16/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-01 05:18:20.463964248 -0500
+@@ -448,7 +448,10 @@
+         if (StringUtils.isBlank(str)) {
+             throw new NumberFormatException("A blank string is not a valid number");
+         }  
+-        if (str.startsWith("--")) {
++        if (str == null) {
++			throw new IllegalArgumentException("The string must not be null");
++		}
++		if (str.startsWith("--")) {
+             // this is protection for poorness in java.lang.BigDecimal.
+             // it accepts this as a legal value, but it does not appear 
+             // to be in specification of class. OS X Java parses it to 
+@@ -530,7 +533,8 @@
+                     try {
+                         Double d = NumberUtils.createDouble(numeric);
+                         if (!(d.isInfinite() || (d.floatValue() == 0.0D && !allZeros))) {
+-                            return d;
++                            mant = str;
++							return d;
+                         }
+                     } catch (NumberFormatException nfe) { // NOPMD
+                         // ignore the bad number
+@@ -542,7 +546,7 @@
+                     }
+                     //$FALL-THROUGH$
+                 default :
+-                    throw new NumberFormatException(str + " is not a valid number.");
++				return Integer.decode(str);
+ 
+             }
+         } else {
+
+

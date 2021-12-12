@@ -1,0 +1,12 @@
+--- /src/com/google/javascript/jscomp/parsing/JsDocInfoParser.java
++++ /src/com/google/javascript/jscomp/parsing/JsDocInfoParser.java
+@@ -956,7 +956,7 @@
+                         // Find the return's description (if applicable).
+                         if (jsdocBuilder.shouldParseDocumentation()) {
+                           ExtractionInfo returnDescriptionInfo =
+-                              extractMultilineTextualBlock(token);
++                              extractMultilineTextualBlock(current());
+ 
+                           String returnDescription =
+                               returnDescriptionInfo.string;
+

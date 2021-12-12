@@ -1,0 +1,32 @@
+--- /tmp/Arja_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2018-12-01 06:29:49.227599214 -0500
++++ /tmp/Arja_Defects4J_Math_28/patches_1aw5/Patch_1100/patched/tmp/Arja_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2018-12-01 07:08:24.031139284 -0500
+@@ -117,13 +117,6 @@
+ 
+             // 1. check if there's an artificial variable that can be forced out of the basis
+                 for (Integer row : minRatioPositions) {
+-                    for (int i = 0; i < tableau.getNumArtificialVariables(); i++) {
+-                        int column = i + tableau.getArtificialVariableOffset();
+-                        final double entry = tableau.getEntry(row, column);
+-                        if (Precision.equals(entry, 1d, maxUlps) && row.equals(tableau.getBasicRow(column))) {
+-                            return row;
+-                        }
+-                    }
+                 }
+ 
+             // 2. apply Bland's rule to prevent cycling:
+
+
+--- /tmp/Arja_Defects4J_Math_28/src/main/java/org/apache/commons/math3/exception/util/ExceptionContext.java	2018-12-01 06:29:45.307620212 -0500
++++ /tmp/Arja_Defects4J_Math_28/patches_1aw5/Patch_1100/patched/tmp/Arja_Defects4J_Math_28/src/main/java/org/apache/commons/math3/exception/util/ExceptionContext.java	2018-12-01 07:08:24.031139284 -0500
+@@ -169,7 +169,8 @@
+     private String buildMessage(Locale locale,
+                                 String separator) {
+         final StringBuilder sb = new StringBuilder();
+-        int count = 0;
++        this.throwable = throwable;
++		int count = 0;
+         final int len = msgPatterns.size();
+         for (int i = 0; i < len; i++) {
+             final Localizable pat = msgPatterns.get(i);
+
+

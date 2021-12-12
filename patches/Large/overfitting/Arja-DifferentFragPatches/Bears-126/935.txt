@@ -1,0 +1,38 @@
+--- /tmp/Arja_Bears_traccar-traccar_269449386-269490884/src/org/traccar/protocol/Gt06ProtocolDecoder.java	2018-12-26 12:59:55.417117909 -0500
++++ /tmp/Arja_Bears_traccar-traccar_269449386-269490884/patches_7puj/Patch_1851/patched/tmp/Arja_Bears_traccar-traccar_269449386-269490884/src/org/traccar/protocol/Gt06ProtocolDecoder.java	2018-12-26 13:18:42.082126884 -0500
+@@ -108,22 +108,6 @@
+     }
+ 
+     private void sendResponse(Channel channel, boolean extended, int type) {
+-        if (channel != null) {
+-            ChannelBuffer response = ChannelBuffers.dynamicBuffer();
+-            if (extended) {
+-                response.writeShort(0x7979);
+-                response.writeShort(5);
+-            } else {
+-                response.writeShort(0x7878);
+-                response.writeByte(5);
+-            }
+-            response.writeByte(type);
+-            response.writeShort(++serverIndex);
+-            response.writeShort(Checksum.crc16(Checksum.CRC16_X25,
+-                    response.toByteBuffer(2, response.writerIndex() - 2)));
+-            response.writeByte('\r'); response.writeByte('\n'); // ending
+-            channel.write(response);
+-        }
+     }
+ 
+     private void sendPhotoRequest(Channel channel, int pictureId) {
+@@ -181,10 +165,6 @@
+             position.set(Position.KEY_IGNITION, BitUtil.check(flags, 15));
+         }
+ 
+-        if (length > 0) {
+-            buf.skipBytes(length - 12); // skip reserved
+-        }
+-
+         return true;
+     }
+ 
+
+

@@ -1,0 +1,13 @@
+--- /source/org/jfree/data/time/TimePeriodValues.java
++++ /source/org/jfree/data/time/TimePeriodValues.java
+@@ -549,7 +549,8 @@
+      * @return The index.
+      */
+     public int getMaxMiddleIndex() {
+-        return this.maxMiddleIndex;
++        return this.maxStartIndex;
++
+     }
+ 
+     /**
+

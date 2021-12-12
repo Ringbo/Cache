@@ -1,0 +1,23 @@
+--- a/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/api/functions/source/FileMonitoringFunction.java
++++ b/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/api/functions/source/FileMonitoringFunction.java
+@@ -97,10 +97,12 @@
+ 
+-		for (FileStatus status : statuses) {
+-			Path filePath = status.getPath();
+-			String fileName = filePath.getName();
+-			long modificationTime = status.getModificationTime();
+-
+-			if (!isFiltered(fileName, modificationTime)) {
+-				files.add(filePath.toString());
+-				modificationTimes.put(fileName, modificationTime);
++		if (statuses!=null) {
++			for (FileStatus status : statuses) {
++				Path filePath = status.getPath();
++				String fileName = filePath.getName();
++				long modificationTime = status.getModificationTime();
++				
++				if (!isFiltered(fileName, modificationTime)) {
++					files.add(filePath.toString());
++					modificationTimes.put(fileName, modificationTime);
++				}
+ 			}

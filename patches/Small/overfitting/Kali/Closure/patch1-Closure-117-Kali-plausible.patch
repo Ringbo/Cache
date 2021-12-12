@@ -1,0 +1,16 @@
+--- /src/com/google/javascript/jscomp/TypedScopeCreator.java
++++ /src/com/google/javascript/jscomp/TypedScopeCreator.java
+@@ -1802,7 +1802,11 @@
+                   child.getLastChild());
+               break;
+             case Token.GETPROP:
+-              maybeCollectMember(child, child, null);
++              {
++                if (true)
++                    return;
++                maybeCollectMember(child, child, null);
++            }
+               break;
+           }
+         }
+

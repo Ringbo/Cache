@@ -1,0 +1,38 @@
+--- /tmp/RSRepair_Defects4J_Math_85/src/java/org/apache/commons/math/analysis/solvers/UnivariateRealSolverUtils.java	2018-12-02 02:58:34.231180826 -0500
++++ /tmp/RSRepair_Defects4J_Math_85/patches_xvmy/Patch_264/patched/tmp/RSRepair_Defects4J_Math_85/src/java/org/apache/commons/math/analysis/solvers/UnivariateRealSolverUtils.java	2018-12-02 03:04:39.463814435 -0500
+@@ -196,12 +196,6 @@
+                 ((a > lowerBound) || (b < upperBound)));
+    
+         if (fa * fb >= 0.0 ) {
+-            throw new ConvergenceException(
+-                      "number of iterations={0}, maximum iterations={1}, " +
+-                      "initial={2}, lower bound={3}, upper bound={4}, final a value={5}, " +
+-                      "final b value={6}, f(a)={7}, f(b)={8}",
+-                      numIterations, maximumIterations, initial,
+-                      lowerBound, upperBound, a, b, fa, fb);
+         }
+         
+         return new double[]{a, b};
+
+
+--- /tmp/RSRepair_Defects4J_Math_85/src/java/org/apache/commons/math/distribution/NormalDistributionImpl.java	2018-12-02 02:58:30.627180744 -0500
++++ /tmp/RSRepair_Defects4J_Math_85/patches_xvmy/Patch_264/patched/tmp/RSRepair_Defects4J_Math_85/src/java/org/apache/commons/math/distribution/NormalDistributionImpl.java	2018-12-02 03:04:39.463814435 -0500
+@@ -178,7 +178,15 @@
+         if (p < .5) {
+             ret = -Double.MAX_VALUE;
+         } else {
+-            ret = getMean();
++            if (p < 0.0 || p > 1.0) {
++				throw MathRuntimeException.createIllegalArgumentException(
++						"{0} out of [{1}, {2}] range", p, 0.0, 1.0);
++			} else if (p == 1.0) {
++				ret = Double.POSITIVE_INFINITY;
++			} else {
++				ret = -getMean() * Math.log(1.0 - p);
++			}
++			ret = getMean();
+         }
+         
+         return ret;
+
+

@@ -1,0 +1,9 @@
+--- a/flink-optimizer/src/main/java/org/apache/flink/optimizer/traversals/BranchesVisitor.java
++++ b/flink-optimizer/src/main/java/org/apache/flink/optimizer/traversals/BranchesVisitor.java
+@@ -40,3 +40,5 @@
+ 		if (node instanceof IterationNode) {
+-			((IterationNode) node).acceptForStepFunction(this);
++			if (node.getCostWeight() != 1) {
++				((IterationNode) node).acceptForStepFunction(this);
++			}
+ 		}

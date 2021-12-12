@@ -1,0 +1,13 @@
+diff --git a/portal-web/test/com/liferay/portalweb/portal/controlpanel/users/userroles/selectorganizationrolepage2/AssignMembersOrganization02Test.java b/portal-web/test/com/liferay/portalweb/portal/controlpanel/users/userroles/selectorganizationrolepage2/AssignMembersOrganization02Test.java
+index 223478e..42b9690 100644
+--- a/portal-web/test/com/liferay/portalweb/portal/controlpanel/users/userroles/selectorganizationrolepage2/AssignMembersOrganization02Test.java
++++ b/portal-web/test/com/liferay/portalweb/portal/controlpanel/users/userroles/selectorganizationrolepage2/AssignMembersOrganization02Test.java
+@@ -36,7 +36,7 @@
+ 					}
+ 
+ 					try {
+-						if (selenium.isVisible("link=Control Panel")) {
++						if (selenium.isElementPresent("link=Control Panel")) {
+ 							break;
+ 						}
+ 					}

@@ -1,0 +1,17 @@
+--- a/src/com/google/javascript/jscomp/CheckSideEffects.java
++++ b/src/com/google/javascript/jscomp/CheckSideEffects.java
+@@ -117,7 +117,9 @@
+       if (n == parent.getLastChild()) {
+-        for (Node an : parent.getAncestors()) {
+-          int ancestorType = an.getType();
+-          if (ancestorType == Token.COMMA) continue;
+-          if (ancestorType != Token.EXPR_RESULT && ancestorType != Token.BLOCK) return;
+-          else break;
++        if (com.google.javascript.jscomp.CheckSideEffects.PROTECTOR_FN.length()==0) {
++          for (Node an : parent.getAncestors()) {
++            int ancestorType = an.getType();
++            if (ancestorType == Token.COMMA) continue;
++            if (ancestorType != Token.EXPR_RESULT && ancestorType != Token.BLOCK) return;
++            else break;
++          }
+         }

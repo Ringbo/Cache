@@ -1,0 +1,42 @@
+--- /tmp/Arja_Defects4J_Closure_67/src/com/google/javascript/jscomp/AnalyzePrototypeProperties.java	2018-12-01 09:25:49.286566544 -0500
++++ /tmp/Arja_Defects4J_Closure_67/patches_k844/Patch_768/patched/tmp/Arja_Defects4J_Closure_67/src/com/google/javascript/jscomp/AnalyzePrototypeProperties.java	2018-12-01 09:39:41.220302136 -0500
+@@ -532,7 +532,7 @@
+ 
+     @Override
+     public void remove() {
+-      NodeUtil.removeChild(exprNode.getParent(), exprNode);
++      return;
+     }
+ 
+     @Override
+
+
+--- /tmp/Arja_Defects4J_Closure_67/src/com/google/javascript/jscomp/RemoveUnusedPrototypeProperties.java	2018-12-01 09:25:47.602554953 -0500
++++ /tmp/Arja_Defects4J_Closure_67/patches_k844/Patch_768/patched/tmp/Arja_Defects4J_Closure_67/src/com/google/javascript/jscomp/RemoveUnusedPrototypeProperties.java	2018-12-01 09:39:41.224302164 -0500
+@@ -97,10 +97,7 @@
+             }
+           }
+ 
+-          if (canRemove) {
+-            declaration.remove();
+-            changed = true;
+-          }
++          return;
+         }
+ 
+         logger.fine("Removed unused prototype property: " + nameInfo.name);
+
+
+--- /tmp/Arja_Defects4J_Closure_67/src/com/google/javascript/rhino/Token.java	2018-12-01 09:25:47.626555117 -0500
++++ /tmp/Arja_Defects4J_Closure_67/patches_k844/Patch_768/patched/tmp/Arja_Defects4J_Closure_67/src/com/google/javascript/rhino/Token.java	2018-12-01 09:39:41.224302164 -0500
+@@ -359,7 +359,7 @@
+           case LP:              return "LP";
+           case RP:              return "RP";
+           case COMMA:           return "COMMA";
+-          case ASSIGN:          return "ASSIGN";
++          case ASSIGN:          ;
+           case ASSIGN_BITOR:    return "ASSIGN_BITOR";
+           case ASSIGN_BITXOR:   return "ASSIGN_BITXOR";
+           case ASSIGN_BITAND:   return "ASSIGN_BITAND";
+
+

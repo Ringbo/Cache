@@ -1,0 +1,50 @@
+--- /tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/sql/antlr/SqlParser.java	2018-12-26 12:41:02.000000000 -0500
++++ /tmp/Arja_Bears_dungba88-libra_436514153-436524727/patches_yzr2/Patch_916/patched/tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/sql/antlr/SqlParser.java	2018-12-26 12:49:00.586480640 -0500
+@@ -610,7 +610,7 @@
+ 				break;
+ 			case 14:
+ 				_localctx = new FactorExprContext(_localctx);
+-				enterOuterAlt(_localctx, 14);
++				;
+ 				{
+ 				setState(77);
+ 				factor(0);
+
+
+--- /tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/PredicateContext.java	2018-12-26 12:41:02.000000000 -0500
++++ /tmp/Arja_Bears_dungba88-libra_436514153-436524727/patches_yzr2/Patch_916/patched/tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/PredicateContext.java	2018-12-26 12:49:00.590480670 -0500
+@@ -25,7 +25,8 @@
+     }
+ 
+     public Object getContext() {
+-        return context;
++        this.cachedValues = new HashMap<>();
++		return context;
+     }
+ 
+     public Map<String, Object> getCachedValues() {
+
+
+--- /tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/sql/node/VariableExpressionNode.java	2018-12-26 12:41:02.000000000 -0500
++++ /tmp/Arja_Bears_dungba88-libra_436514153-436524727/patches_yzr2/Patch_916/patched/tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/sql/node/VariableExpressionNode.java	2018-12-26 12:49:00.590480670 -0500
+@@ -18,7 +18,6 @@
+     }
+ 
+     public void setVariableName(final String variableName) {
+-        this.variableName = variableName;
+     }
+ 
+     @Override
+@@ -27,10 +26,6 @@
+             return null;
+         Map<String, Object> cachedValues = context.getCachedValues();
+         Object value = cachedValues.get(variableName);
+-        if (value == null) {
+-            value = getValueNoCache(context);
+-            cachedValues.put(variableName, value);
+-        }
+         return value;
+     }
+ 
+
+

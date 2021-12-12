@@ -1,0 +1,31 @@
+--- /tmp/Arja_Defects4J_Math_85/src/java/org/apache/commons/math/analysis/solvers/UnivariateRealSolverUtils.java	2018-12-01 05:44:06.180110217 -0500
++++ /tmp/Arja_Defects4J_Math_85/patches_4w3i/Patch_721/patched/tmp/Arja_Defects4J_Math_85/src/java/org/apache/commons/math/analysis/solvers/UnivariateRealSolverUtils.java	2018-12-01 05:55:56.934026633 -0500
+@@ -180,7 +180,12 @@
+                   lowerBound, initial, upperBound);
+         }
+         double a = initial;
+-        double b = initial;
++        if (maximumIterations <= 0) {
++			throw MathRuntimeException.createIllegalArgumentException(
++					"bad value for maximum iterations number: {0}",
++					maximumIterations);
++		}
++		double b = initial;
+         double fa;
+         double fb;
+         int numIterations = 0 ;
+@@ -196,12 +201,6 @@
+                 ((a > lowerBound) || (b < upperBound)));
+    
+         if (fa * fb >= 0.0 ) {
+-            throw new ConvergenceException(
+-                      "number of iterations={0}, maximum iterations={1}, " +
+-                      "initial={2}, lower bound={3}, upper bound={4}, final a value={5}, " +
+-                      "final b value={6}, f(a)={7}, f(b)={8}",
+-                      numIterations, maximumIterations, initial,
+-                      lowerBound, upperBound, a, b, fa, fb);
+         }
+         
+         return new double[]{a, b};
+
+

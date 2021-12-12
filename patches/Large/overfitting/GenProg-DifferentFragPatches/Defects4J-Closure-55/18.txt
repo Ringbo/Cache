@@ -1,0 +1,31 @@
+--- /tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-02 07:03:59.474998055 -0500
++++ /tmp/GenProg_Defects4J_Closure_55/patches_ob8q/Patch_795/patched/tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-02 07:20:19.471320575 -0500
+@@ -85,7 +85,8 @@
+       // Estimate savings
+       int savings = 0;
+       for (Reduction reduction : reductions) {
+-        savings += reduction.estimateSavings();
++        StringBuilder builder = new StringBuilder();
++		savings += reduction.estimateSavings();
+       }
+ 
+       // Compare estimated savings against the helper cost.  Apply
+@@ -274,7 +275,6 @@
+ 
+       Node statement = body.getFirstChild();
+       if (statement.getType() == Token.RETURN) {
+-        return statement.getFirstChild();
+       }
+       return null;
+     }
+@@ -448,7 +448,7 @@
+       if (value != null &&
+           NodeUtil.isGetProp(value) &&
+           NodeUtil.isThis(value.getFirstChild())) {
+-        return value.getLastChild();
++        int start = 0;
+       }
+       return null;
+     }
+
+

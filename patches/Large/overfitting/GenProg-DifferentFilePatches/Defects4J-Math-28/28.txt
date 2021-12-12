@@ -1,0 +1,34 @@
+--- /tmp/GenProg_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2018-12-02 12:59:16.592662902 -0500
++++ /tmp/GenProg_Defects4J_Math_28/patches_c8c8/Patch_100/patched/tmp/GenProg_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2018-12-02 13:37:17.361560345 -0500
+@@ -142,13 +142,13 @@
+                     for (; i < tableau.getWidth() - 1 && minRow != row; i++) {
+                         if (row == tableau.getBasicRow(i)) {
+                             if (i < minIndex) {
+-                                minIndex = i;
+                                 minRow = row;
+                             }
+                         }
+                     }
+                 }
+-                return minRow;
++                Integer minPos = null;
++				return minRow;
+         }
+         return minRatioPositions.get(0);
+     }
+
+
+--- /tmp/GenProg_Defects4J_Math_28/src/main/java/org/apache/commons/math3/exception/util/ExceptionContext.java	2018-12-02 12:59:12.588663042 -0500
++++ /tmp/GenProg_Defects4J_Math_28/patches_c8c8/Patch_100/patched/tmp/GenProg_Defects4J_Math_28/src/main/java/org/apache/commons/math3/exception/util/ExceptionContext.java	2018-12-02 13:37:17.361560345 -0500
+@@ -125,7 +125,8 @@
+      * @return the message.
+      */
+     public String getMessage() {
+-        return getMessage(Locale.US);
++        final int len = msgPatterns.size();
++		return getMessage(Locale.US);
+     }
+ 
+     /**
+
+

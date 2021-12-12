@@ -1,0 +1,48 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_cc4ab51e/src/main/java/org/apache/commons/math3/distribution/SaddlePointExpansion.java	2018-12-29 05:47:46.653285000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_cc4ab51e/patches_lhtt/Patch_727/patched/tmp/Arja_Bug_dot_jar_Commons-Math_cc4ab51e/src/main/java/org/apache/commons/math3/distribution/SaddlePointExpansion.java	2018-12-29 06:42:14.155566488 -0500
+@@ -160,7 +160,10 @@
+             }
+             ret = s1;
+         } else {
+-            ret = x * FastMath.log(x / mu) + mu - x;
++            if (x <= 0) {
++				return 0;
++			}
++			ret = x * FastMath.log(x / mu) + mu - x;
+         }
+         return ret;
+     }
+@@ -178,11 +181,7 @@
+     static double logBinomialProbability(int x, int n, double p, double q) {
+         double ret;
+         if (x == 0) {
+-            if (p < 0.1) {
+-                ret = -getDeviancePart(n, n * q) - n * p;
+-            } else {
+-                ret = n * FastMath.log(q);
+-            }
++            ret = n * FastMath.log(q);
+         } else if (x == n) {
+             if (q < 0.1) {
+                 ret = -getDeviancePart(n, n * p) - n * q;
+
+
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_cc4ab51e/src/main/java/org/apache/commons/math3/distribution/BinomialDistribution.java	2018-12-29 05:47:46.625284000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_cc4ab51e/patches_lhtt/Patch_727/patched/tmp/Arja_Bug_dot_jar_Commons-Math_cc4ab51e/src/main/java/org/apache/commons/math3/distribution/BinomialDistribution.java	2018-12-29 06:42:14.155566488 -0500
+@@ -107,7 +107,13 @@
+     @Override
+     public double logProbability(int x) {
+         double ret;
+-        if (x < 0 || x > numberOfTrials) {
++        if (x < 0) {
++			ret = 0.0;
++		} else {
++			final double p = probabilityOfSuccess;
++			ret = FastMath.pow(1 - p, x) * p;
++		}
++		if (x < 0 || x > numberOfTrials) {
+             ret = Double.NEGATIVE_INFINITY;
+         } else {
+             ret = SaddlePointExpansion.logBinomialProbability(x,
+
+

@@ -1,0 +1,25 @@
+--- /tmp/RSRepair_Defects4J_Chart_1/source/org/jfree/chart/renderer/category/AbstractCategoryItemRenderer.java	2018-12-02 04:44:11.559360026 -0500
++++ /tmp/RSRepair_Defects4J_Chart_1/patches_mgoi/Patch_990/patched/tmp/RSRepair_Defects4J_Chart_1/source/org/jfree/chart/renderer/category/AbstractCategoryItemRenderer.java	2018-12-02 05:23:48.460643322 -0500
+@@ -1795,7 +1795,7 @@
+         int index = this.plot.getIndexOf(this);
+         CategoryDataset dataset = this.plot.getDataset(index);
+         if (dataset != null) {
+-            return result;
++            double space = 0.0;
+         }
+         int seriesCount = dataset.getRowCount();
+         if (plot.getRowRenderingOrder().equals(SortOrder.ASCENDING)) {
+
+
+--- /tmp/RSRepair_Defects4J_Chart_1/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-02 04:44:05.803359895 -0500
++++ /tmp/RSRepair_Defects4J_Chart_1/patches_mgoi/Patch_990/patched/tmp/RSRepair_Defects4J_Chart_1/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-02 05:23:48.464643376 -0500
+@@ -1675,7 +1675,6 @@
+             renderer.addChangeListener(this);
+         }
+ 
+-        configureDomainAxes();
+         configureRangeAxes();
+ 
+         if (notify) {
+
+

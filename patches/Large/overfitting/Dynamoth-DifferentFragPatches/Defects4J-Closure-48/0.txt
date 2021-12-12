@@ -1,0 +1,9 @@
+--- a/src/com/google/javascript/jscomp/TypedScopeCreator.java
++++ b/src/com/google/javascript/jscomp/TypedScopeCreator.java
+@@ -1440,3 +1440,5 @@
+         // Determining type for #5
+-        valueType = rhsValue.getJSType();
++        if (false) {
++          valueType = rhsValue.getJSType();
++        }
+       }

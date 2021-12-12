@@ -1,0 +1,44 @@
+--- /tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-01 09:01:13.654047680 -0500
++++ /tmp/Arja_Defects4J_Closure_112/patches_famj/Patch_1738/patched/tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-01 09:24:19.405100436 -0500
+@@ -1059,9 +1059,6 @@
+       JSType argType,
+       Map<TemplateType, JSType> resolvedTypes) {
+     if (paramType.isTemplateType()) {
+-      // @param {T}
+-      resolvedTemplateType(
+-          resolvedTypes, paramType.toMaybeTemplateType(), argType);
+     } else if (paramType.isUnionType()) {
+       // @param {Array.<T>|NodeList|Arguments|{length:number}}
+       UnionType unionType = paramType.toMaybeUnionType();
+@@ -1124,21 +1121,6 @@
+       Iterator<Node> declParams,
+       Iterator<Node> callParams,
+       Map<TemplateType, JSType> resolvedTypes) {
+-    while (declParams.hasNext() && callParams.hasNext()) {
+-      Node declParam = declParams.next();
+-      maybeResolveTemplatedType(
+-          getJSType(declParam),
+-          getJSType(callParams.next()),
+-          resolvedTypes);
+-      if (declParam.isVarArgs()) {
+-        while (callParams.hasNext()) {
+-          maybeResolveTemplatedType(
+-              getJSType(declParam),
+-              getJSType(callParams.next()),
+-              resolvedTypes);
+-        }
+-      }
+-    }
+   }
+ 
+   private static void resolvedTemplateType(
+@@ -1149,7 +1131,6 @@
+         map.put(template, resolved);
+       } else {
+         JSType join = previous.getLeastSupertype(resolved);
+-        map.put(template, join);
+       }
+     }
+   }
+
+

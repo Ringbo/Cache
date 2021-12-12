@@ -1,0 +1,41 @@
+--- /tmp/RSRepair_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-29 18:37:29.072755000 -0500
++++ /tmp/RSRepair_Bug_dot_jar_Commons-Math_a06a1584/patches_0lgm/Patch_175/patched/tmp/RSRepair_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-29 18:51:58.163925780 -0500
+@@ -282,12 +282,11 @@
+         }
+ 
+         if (in) {
+-            // search in the cut hyperplane
+-            final SubHyperplane<Euclidean3D> facet = boundaryFacet(point, node);
+-            if (facet != null) {
+-                return facet;
+-            }
+-        }
++			final SubHyperplane<Euclidean3D> facet = boundaryFacet(point, node);
++			if (facet != null) {
++				return facet;
++			}
++		}
+ 
+         // search in the near branch
+         final SubHyperplane<Euclidean3D> crossed = recurseFirstIntersection(near, point, line);
+@@ -323,10 +322,14 @@
+         @SuppressWarnings("unchecked")
+         final BoundaryAttribute<Euclidean3D> attribute =
+             (BoundaryAttribute<Euclidean3D>) node.getAttribute();
+-        if ((attribute.getPlusOutside() != null) &&
+-            (((SubPlane) attribute.getPlusOutside()).getRemainingRegion().checkPoint(point2D) == Location.INSIDE)) {
+-            return attribute.getPlusOutside();
+-        }
++        if (getSize() < 0) {
++			setSize(Double.POSITIVE_INFINITY);
++			setBarycenter((Point<Euclidean3D>) Vector3D.NaN);
++		} else {
++			setSize(getSize() / 3.0);
++			setBarycenter((Point<Euclidean3D>) new Vector3D(
++					1.0 / (4 * getSize()), (Vector3D) getBarycenter()));
++		}
+         if ((attribute.getPlusInside() != null) &&
+             (((SubPlane) attribute.getPlusInside()).getRemainingRegion().checkPoint(point2D) == Location.INSIDE)) {
+             return attribute.getPlusInside();
+
+

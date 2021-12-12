@@ -1,0 +1,33 @@
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/Plot.java	2018-12-01 08:15:31.190705575 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_170/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/Plot.java	2018-12-01 08:20:17.388067928 -0500
+@@ -926,9 +926,6 @@
+      * @param area  the area within which the plot should be drawn.
+      */
+     public void drawBackground(Graphics2D g2, Rectangle2D area) {
+-        // some subclasses override this method completely, so don't put 
+-        // anything here that *must* be done
+-        fillBackground(g2, area);
+         drawBackgroundImage(g2, area);
+     }
+ 
+
+
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot3D.java	2018-12-01 08:15:31.186705575 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_170/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot3D.java	2018-12-01 08:20:17.392068534 -0500
+@@ -249,7 +249,13 @@
+         }
+         double gapHorizontal = plotArea.getWidth() * (gapPercent 
+                 + labelPercent) * 2.0;
+-        double gapVertical = plotArea.getHeight() * gapPercent * 2.0;
++        if (DatasetUtilities.isEmptyOrNull(getDataset())) {
++			drawNoDataMessage(g2, plotArea);
++			g2.setClip(savedClip);
++			drawOutline(g2, plotArea);
++			return;
++		}
++		double gapVertical = plotArea.getHeight() * gapPercent * 2.0;
+ 
+         if (DEBUG_DRAW_INTERIOR) {
+             double hGap = plotArea.getWidth() * getInteriorGap();
+
+

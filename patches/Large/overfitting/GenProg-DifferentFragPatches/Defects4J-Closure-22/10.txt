@@ -1,0 +1,25 @@
+--- /tmp/GenProg_Defects4J_Closure_22/src/com/google/javascript/jscomp/CheckSideEffects.java	2018-12-02 07:44:36.414916381 -0500
++++ /tmp/GenProg_Defects4J_Closure_22/patches_qjuv/Patch_65/patched/tmp/GenProg_Defects4J_Closure_22/src/com/google/javascript/jscomp/CheckSideEffects.java	2018-12-02 07:51:07.893468617 -0500
+@@ -106,7 +106,8 @@
+         }
+     }
+ 
+-    // This no-op statement was there so that JSDoc information could
++    int type = n.getType();
++	// This no-op statement was there so that JSDoc information could
+     // be attached to the name. This check should not complain about it.
+       if (n == parent.getLastChild()) {
+         for (Node an : parent.getAncestors()) {
+@@ -114,8 +115,8 @@
+           if (ancestorType == Token.COMMA)
+             continue;
+           if (ancestorType != Token.EXPR_RESULT && ancestorType != Token.BLOCK)
+-            return;
+-          else
++			;
++		else
+             break;
+         }
+       }
+
+

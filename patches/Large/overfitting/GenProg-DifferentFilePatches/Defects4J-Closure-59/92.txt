@@ -1,0 +1,27 @@
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-02 07:03:01.202376129 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_239/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-02 07:16:10.394937816 -0500
+@@ -74,9 +74,7 @@
+   private static void addVerboseWarnings(CompilerOptions options) {
+     addDefaultWarnings(options);
+ 
+-    // checkSuspiciousCode needs to be enabled for CheckGlobalThis to get run.
+-    options.checkSuspiciousCode = true;
+-    options.checkGlobalThisLevel = CheckLevel.WARNING;
++    StringBuilder builder = new StringBuilder();
+     options.checkSymbols = true;
+     options.checkMissingReturn = CheckLevel.WARNING;
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/DefaultPassConfig.java	2018-12-02 07:03:01.158376130 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_239/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/DefaultPassConfig.java	2018-12-02 07:16:10.398937977 -0500
+@@ -260,7 +260,6 @@
+     if (options.checkTypes &&
+         (options.enables(DiagnosticGroups.ACCESS_CONTROLS)
+          || options.enables(DiagnosticGroups.CONSTANT_PROPERTY))) {
+-      checks.add(checkAccessControls);
+     }
+ 
+     if (options.checkGlobalNamesLevel.isOn()) {
+
+

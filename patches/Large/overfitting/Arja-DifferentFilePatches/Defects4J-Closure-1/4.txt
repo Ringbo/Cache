@@ -1,0 +1,39 @@
+--- /tmp/Arja_Defects4J_Closure_1/src/com/google/javascript/rhino/Node.java	2018-12-01 10:04:32.176731300 -0500
++++ /tmp/Arja_Defects4J_Closure_1/patches_blz6/Patch_1605/patched/tmp/Arja_Defects4J_Closure_1/src/com/google/javascript/rhino/Node.java	2018-12-01 10:53:36.084111943 -0500
+@@ -936,7 +936,6 @@
+       sb.append(' ');
+       sb.append(getString());
+     } else if (type == Token.FUNCTION) {
+-      sb.append(' ');
+       // In the case of JsDoc trees, the first child is often not a string
+       // which causes exceptions to be thrown when calling toString or
+       // toStringTree.
+@@ -964,7 +963,7 @@
+         PropListItem x = lookupProperty(type);
+         sb.append(" [");
+         sb.append(propToString(type));
+-        sb.append(": ");
++        x = x.getNext();
+         String value;
+         switch (type) {
+           default:
+
+
+--- /tmp/Arja_Defects4J_Closure_1/src/com/google/javascript/jscomp/RemoveUnusedVars.java	2018-12-01 10:04:35.192731368 -0500
++++ /tmp/Arja_Defects4J_Closure_1/patches_blz6/Patch_1605/patched/tmp/Arja_Defects4J_Closure_1/src/com/google/javascript/jscomp/RemoveUnusedVars.java	2018-12-01 10:53:36.084111943 -0500
+@@ -393,12 +393,7 @@
+       Node lastArg;
+       while ((lastArg = argList.getLastChild()) != null) {
+         Var var = fnScope.getVar(lastArg.getString());
+-        if (!referenced.contains(var)) {
+-          argList.removeChild(lastArg);
+-          compiler.reportCodeChange();
+-        } else {
+-          break;
+-        }
++        break;
+       }
+     } else {
+       callSiteOptimizer.optimize(fnScope, referenced);
+
+

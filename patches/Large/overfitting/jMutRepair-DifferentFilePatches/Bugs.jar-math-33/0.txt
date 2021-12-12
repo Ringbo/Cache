@@ -1,0 +1,13 @@
+/var/lib/oar/.batch_job_bashrc: line 5: /home/tdurieux/.bashrc: No such file or directory
+--- /tmp/jMutRepair_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSetjava
++++ /tmp/jMutRepair_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSetjava
+@@ -261,7 +261,7 @@
+ 	org.apache.commons.math4.geometry.euclidean.threed.Line line) {
+ 
+ 		final org.apache.commons.math4.geometry.partitioning.SubHyperplane<org.apache.commons.math4.geometry.euclidean.threed.Euclidean3D> cut = node.getCut();
+-		if (cut == null) {
++		if (cut != null) {
+ 			return null;
+ 		}
+ 		final org.apache.commons.math4.geometry.partitioning.BSPTree<org.apache.commons.math4.geometry.euclidean.threed.Euclidean3D> minus = node.getMinus();
+

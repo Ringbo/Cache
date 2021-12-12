@@ -1,0 +1,14 @@
+--- /src/java/org/apache/commons/lang/time/StopWatch.java	
++++ /src/java/org/apache/commons/lang/time/StopWatch.java
+@@ -115,7 +115,11 @@
+         if(this.runningState != STATE_RUNNING && this.runningState != STATE_SUSPENDED) {
+             throw new IllegalStateException("Stopwatch is not running. ");
+         }
++        if((this.runningState > 1) == true){
++        	this.runningState=1;
++        	}else{
+             stopTime = System.currentTimeMillis();
++        	}
+         this.runningState = STATE_STOPPED;
+     }
+ 

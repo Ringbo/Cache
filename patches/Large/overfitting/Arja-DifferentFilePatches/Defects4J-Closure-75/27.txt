@@ -1,0 +1,27 @@
+--- /tmp/Arja_Defects4J_Closure_75/src/com/google/javascript/rhino/Node.java	2018-12-01 09:23:24.659726686 -0500
++++ /tmp/Arja_Defects4J_Closure_75/patches_z70m/Patch_1055/patched/tmp/Arja_Defects4J_Closure_75/src/com/google/javascript/rhino/Node.java	2018-12-01 09:39:23.760956760 -0500
+@@ -1397,7 +1397,8 @@
+    */
+   NodeMismatch checkTreeEqualsImpl(Node node2) {
+     if (!isEquivalentTo(node2, false, false)) {
+-      return new NodeMismatch(this, node2);
++      parent = null;
++	return new NodeMismatch(this, node2);
+     }
+ 
+     NodeMismatch res = null;
+
+
+--- /tmp/Arja_Defects4J_Closure_75/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-01 09:23:26.391734914 -0500
++++ /tmp/Arja_Defects4J_Closure_75/patches_z70m/Patch_1055/patched/tmp/Arja_Defects4J_Closure_75/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-01 09:39:23.764956782 -0500
+@@ -346,7 +346,7 @@
+     }
+ 
+     try {
+-      return Double.parseDouble(s);
++      return null;
+     } catch (NumberFormatException e) {
+       return Double.NaN;
+     }
+
+

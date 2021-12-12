@@ -1,0 +1,25 @@
+--- /tmp/RSRepair_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-02 02:59:03.224542878 -0500
++++ /tmp/RSRepair_Defects4J_Math_81/patches_cedi/Patch_725/patched/tmp/RSRepair_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-02 03:12:55.951939601 -0500
+@@ -1481,7 +1481,6 @@
+                         if (work[nn - 5]  >  work[nn - 7]) {
+                             return;
+                         }
+-                        b2 = work[nn - 5] / work[nn - 7];
+                         np = nn - 9;
+                     } else {
+                         np = nn - 2 * pingPong;
+@@ -1622,7 +1621,11 @@
+                 if (dMin1 == dN1) {
+                     tau = 0.5 * dMin1;
+                 }
+-                tType = -9;
++                if (tType == -18) {
++					g = 0.25 * 0.333;
++				} else {
++					g = 0.25;
++				}
+             }
+             break;
+ 
+
+

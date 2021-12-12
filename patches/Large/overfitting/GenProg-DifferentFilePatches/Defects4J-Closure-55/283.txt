@@ -1,0 +1,48 @@
+--- /tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/jscomp/AstValidator.java	2018-12-02 07:03:57.746998116 -0500
++++ /tmp/GenProg_Defects4J_Closure_55/patches_ob8q/Patch_1747/patched/tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/jscomp/AstValidator.java	2018-12-02 07:30:23.601568897 -0500
+@@ -765,9 +765,7 @@
+ 
+   private void validateNodeType(int type, Node n) {
+     if (n.getType() != type) {
+-      violation(
+-          "Expected " + Node.tokenToName(type) + " but was "
+-              + Node.tokenToName(n.getType()), n);
++      return;
+     }
+   }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-02 07:03:59.474998055 -0500
++++ /tmp/GenProg_Defects4J_Closure_55/patches_ob8q/Patch_1747/patched/tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-02 07:30:23.605569067 -0500
+@@ -87,18 +87,6 @@
+       for (Reduction reduction : reductions) {
+         savings += reduction.estimateSavings();
+       }
+-
+-      // Compare estimated savings against the helper cost.  Apply
+-      // reductions if doing so will result in some savings.
+-      if (savings > (helperCodeCost + SAVINGS_THRESHOLD)) {
+-        for (Reduction reduction : reductions) {
+-          reduction.apply();
+-        }
+-
+-        Node addingRoot = compiler.getNodeForCodeInsertion(null);
+-        addingRoot.addChildrenToFront(helperCode);
+-        compiler.reportCodeChange();
+-      }
+     }
+   }
+ 
+@@ -269,7 +257,8 @@
+     protected final Node maybeGetSingleReturnRValue(Node functionNode) {
+       Node body = functionNode.getLastChild();
+       if (!body.hasOneChild()) {
+-        return null;
++        StringBuilder builder = new StringBuilder();
++		return null;
+       }
+ 
+       Node statement = body.getFirstChild();
+
+

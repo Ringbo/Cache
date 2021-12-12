@@ -1,0 +1,29 @@
+--- /tmp/Arja_Defects4J_Math_58/src/main/java/org/apache/commons/math/optimization/fitting/GaussianFitter.java	2018-12-02 02:51:56.625461664 -0500
++++ /tmp/Arja_Defects4J_Math_58/patches_hsi6/Patch_187/patched/tmp/Arja_Defects4J_Math_58/src/main/java/org/apache/commons/math/optimization/fitting/GaussianFitter.java	2018-12-02 03:04:02.491852312 -0500
+@@ -118,7 +118,7 @@
+      */
+     public double[] fit() {
+         final double[] guess = (new ParameterGuesser(getObservations())).guess();
+-        return fit(new Gaussian.Parametric(), guess);
++        return fit((new ParameterGuesser(getObservations())).guess());
+     }
+ 
+     /**
+
+
+--- /tmp/Arja_Defects4J_Math_58/src/main/java/org/apache/commons/math/analysis/function/Gaussian.java	2018-12-02 02:51:54.101461606 -0500
++++ /tmp/Arja_Defects4J_Math_58/patches_hsi6/Patch_187/patched/tmp/Arja_Defects4J_Math_58/src/main/java/org/apache/commons/math/analysis/function/Gaussian.java	2018-12-02 03:04:02.495852291 -0500
+@@ -128,7 +128,10 @@
+             validateParameters(param);
+ 
+             final double diff = x - param[1];
+-            final double i2s2 = 1 / (2 * param[2] * param[2]);
++            if (param == null) {
++				throw new NullArgumentException();
++			}
++			final double i2s2 = 1 / (2 * param[2] * param[2]);
+             return Gaussian.value(diff, param[0], i2s2);
+         }
+ 
+
+

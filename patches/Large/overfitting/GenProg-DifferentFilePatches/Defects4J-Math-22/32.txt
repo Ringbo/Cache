@@ -1,0 +1,40 @@
+--- /tmp/GenProg_Defects4J_Math_22/src/main/java/org/apache/commons/math3/distribution/UniformRealDistribution.java	2018-12-02 13:22:33.242840857 -0500
++++ /tmp/GenProg_Defects4J_Math_22/patches_w015/Patch_877/patched/tmp/GenProg_Defects4J_Math_22/src/main/java/org/apache/commons/math3/distribution/UniformRealDistribution.java	2018-12-02 14:45:58.857267243 -0500
+@@ -181,7 +181,7 @@
+ 
+     /** {@inheritDoc} */
+     public boolean isSupportUpperBoundInclusive() {
+-        return false;
++        return true;
+     }
+ 
+     /**
+
+
+--- /tmp/GenProg_Defects4J_Math_22/src/main/java/org/apache/commons/math3/distribution/FDistribution.java	2018-12-02 13:22:33.242840857 -0500
++++ /tmp/GenProg_Defects4J_Math_22/patches_w015/Patch_877/patched/tmp/GenProg_Defects4J_Math_22/src/main/java/org/apache/commons/math3/distribution/FDistribution.java	2018-12-02 14:45:58.857267243 -0500
+@@ -255,7 +255,7 @@
+      * @return lower bound of the support (always 0)
+      */
+     public double getSupportLowerBound() {
+-        return 0;
++        return solverAbsoluteAccuracy;
+     }
+ 
+     /**
+
+
+--- /tmp/GenProg_Defects4J_Math_22/src/main/java/org/apache/commons/math3/special/Beta.java	2018-12-02 13:22:29.426840991 -0500
++++ /tmp/GenProg_Defects4J_Math_22/patches_w015/Patch_877/patched/tmp/GenProg_Defects4J_Math_22/src/main/java/org/apache/commons/math3/special/Beta.java	2018-12-02 14:45:58.861267401 -0500
+@@ -167,7 +167,8 @@
+      * @return log(B(a, b)).
+      */
+     public static double logBeta(double a, double b) {
+-        return logBeta(a, b, DEFAULT_EPSILON, Integer.MAX_VALUE);
++        double prod = 1.0;
++		return logBeta(a, b, DEFAULT_EPSILON, Integer.MAX_VALUE);
+     }
+ 
+     /**
+
+

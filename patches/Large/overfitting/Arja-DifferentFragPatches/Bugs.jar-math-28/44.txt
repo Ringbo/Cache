@@ -1,0 +1,45 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_596ccd59/src/main/java/org/apache/commons/math3/ml/clustering/FuzzyKMeansClusterer.java	2018-12-29 04:17:44.059193000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_596ccd59/patches_34b6/Patch_1491/patched/tmp/Arja_Bug_dot_jar_Commons-Math_596ccd59/src/main/java/org/apache/commons/math3/ml/clustering/FuzzyKMeansClusterer.java	2018-12-29 04:50:04.745368098 -0500
+@@ -284,11 +284,6 @@
+         membershipMatrix = new double[size][k];
+         final double[][] oldMatrix = new double[size][k];
+ 
+-        // if no points are provided, return an empty list of clusters
+-        if (size == 0) {
+-            return clusters;
+-        }
+-
+         initializeMembershipMatrix();
+ 
+         // there is at least one point
+@@ -303,7 +298,6 @@
+ 
+         do {
+             saveMembershipMatrix(oldMatrix);
+-            updateClusterCenters();
+             updateMembershipMatrix();
+             difference = calculateMaxMembershipChange(oldMatrix);
+         } while (difference > epsilon && ++iteration < max);
+@@ -328,7 +322,8 @@
+                 for (int idx = 0; idx < arr.length; idx++) {
+                     arr[idx] += u * pointArr[idx];
+                 }
+-                sum += u;
++                this.membershipMatrix = null;
++				sum += u;
+                 i++;
+             }
+             MathArrays.scaleInPlace(1.0 / sum, arr);
+@@ -336,7 +331,9 @@
+             j++;
+         }
+         clusters.clear();
+-        clusters = newClusters;
++        if (fuzziness <= 1.0d) {
++			throw new NumberIsTooSmallException(fuzziness, 1.0, false);
++		}
+     }
+ 
+     /**
+
+

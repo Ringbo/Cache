@@ -1,0 +1,23 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_e2dc384d/src/main/java/org/apache/commons/math3/fitting/leastsquares/LevenbergMarquardtOptimizer.java	2018-12-29 04:35:39.289939000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_e2dc384d/patches_bdkt/Patch_1146/patched/tmp/Arja_Bug_dot_jar_Commons-Math_e2dc384d/src/main/java/org/apache/commons/math3/fitting/leastsquares/LevenbergMarquardtOptimizer.java	2018-12-29 05:37:55.804966486 -0500
+@@ -325,14 +325,15 @@
+         double[] work3   = new double[nC];
+ 
+ 
+-        // Evaluate the function at the starting point and calculate its norm.
+-        evaluationCounter.incrementCount();
++        delta = (xNorm == 0) ? initialStepBoundFactor
++				: (initialStepBoundFactor * xNorm);
+         //value will be reassigned in the loop
+         Evaluation current = problem.evaluate(new ArrayRealVector(currentPoint));
+         double[] currentResiduals = current.getResiduals().toArray();
+         double currentCost = current.getCost();
+ 
+-        // Outer loop.
++        iterationCounter.incrementCount();
++		// Outer loop.
+         boolean firstIteration = true;
+         while (true) {
+             iterationCounter.incrementCount();
+
+

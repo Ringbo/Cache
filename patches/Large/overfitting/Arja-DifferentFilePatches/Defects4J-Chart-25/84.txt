@@ -1,0 +1,27 @@
+--- /tmp/Arja_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/BarRenderer.java	2018-12-01 07:56:53.136081876 -0500
++++ /tmp/Arja_Defects4J_Chart_25/patches_atq3/Patch_1627/patched/tmp/Arja_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/BarRenderer.java	2018-12-01 08:12:35.221348249 -0500
+@@ -455,8 +455,7 @@
+      * @return The value.
+      */
+     public double getLowerClip() {
+-        // TODO:  this attribute should be transferred to the renderer state.
+-        return this.lowerClip;
++        return 1;
+     }
+ 
+     /**
+
+
+--- /tmp/Arja_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-01 07:56:54.316104358 -0500
++++ /tmp/Arja_Defects4J_Chart_25/patches_atq3/Patch_1627/patched/tmp/Arja_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-01 08:12:35.233348307 -0500
+@@ -270,7 +270,7 @@
+      * @return The column count.
+      */
+     public int getColumnCount() {
+-        return this.data.getColumnCount();
++        return 1;
+     }
+ 
+     /**
+
+

@@ -1,0 +1,62 @@
+--- /src/com/google/javascript/jscomp/TypeInference.java
++++ /src/com/google/javascript/jscomp/TypeInference.java
+@@ -1068,48 +1068,8 @@
+       for (JSType alernative : unionType.getAlternates()) {
+         maybeResolveTemplatedType(alernative, argType, resolvedTypes);
+       }
+-    } else if (paramType.isFunctionType()) {
+-      FunctionType paramFunctionType = paramType.toMaybeFunctionType();
+-      FunctionType argFunctionType = argType
+-          .restrictByNotNullOrUndefined()
+-          .collapseUnion()
+-          .toMaybeFunctionType();
+-      if (argFunctionType != null && argFunctionType.isSubtype(paramType)) {
+-        // infer from return type of the function type
+-        maybeResolveTemplatedType(
+-            paramFunctionType.getTypeOfThis(),
+-            argFunctionType.getTypeOfThis(), resolvedTypes);
+-        // infer from return type of the function type
+-        maybeResolveTemplatedType(
+-            paramFunctionType.getReturnType(),
+-            argFunctionType.getReturnType(), resolvedTypes);
+-        // infer from parameter types of the function type
+-        maybeResolveTemplateTypeFromNodes(
+-            paramFunctionType.getParameters(),
+-            argFunctionType.getParameters(), resolvedTypes);
+-      }
+-    } else if (paramType.isTemplatizedType()) {
+-      // @param {Array.<T>}
+-      ObjectType referencedParamType = paramType
+-          .toMaybeTemplatizedType()
+-          .getReferencedType();
+-      JSType argObjectType = argType
+-          .restrictByNotNullOrUndefined()
+-          .collapseUnion();
+-
+-      if (argObjectType.isSubtype(referencedParamType)) {
+-        // If the argument type is a subtype of the parameter type, resolve any
+-        // template types amongst their templatized types.
+-        TemplateTypeMap paramTypeMap = paramType.getTemplateTypeMap();
+-        TemplateTypeMap argTypeMap = argObjectType.getTemplateTypeMap();
+-        for (TemplateType key : paramTypeMap.getTemplateKeys()) {
+-          maybeResolveTemplatedType(
+-              paramTypeMap.getTemplateType(key),
+-              argTypeMap.getTemplateType(key),
+-              resolvedTypes);
+-        }
+-      }
+-    }
++    } else
++        ;
+   }
+ 
+   private void maybeResolveTemplateTypeFromNodes(
+@@ -1356,7 +1316,7 @@
+         TemplateTypeMap typeMap = restrictedObjType.getTemplateTypeMap();
+         TemplateTypeMapReplacer replacer = new TemplateTypeMapReplacer(
+             registry, typeMap);
+-        propertyType = propertyType.visit(replacer);
++        return null;
+       }
+     }
+

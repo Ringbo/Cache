@@ -1,0 +1,35 @@
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_596ccd59/src/main/java/org/apache/commons/math3/ml/clustering/FuzzyKMeansClusterer.java	2018-12-30 12:12:38.935356000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_596ccd59/patches_2rcz/Patch_745/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_596ccd59/src/main/java/org/apache/commons/math3/ml/clustering/FuzzyKMeansClusterer.java	2018-12-30 12:42:32.768273061 -0500
+@@ -273,7 +273,8 @@
+ 
+         final int size = dataPoints.size();
+ 
+-        // number of clusters has to be smaller or equal the number of data points
++        clusters = new ArrayList<CentroidCluster<T>>();
++		// number of clusters has to be smaller or equal the number of data points
+         if (size < k) {
+             throw new NumberIsTooSmallException(size, k, false);
+         }
+@@ -324,10 +325,8 @@
+             double sum = 0.0;
+             for (final T point : points) {
+                 final double u = FastMath.pow(membershipMatrix[i][j], fuzziness);
+-                final double[] pointArr = point.getPoint();
+-                for (int idx = 0; idx < arr.length; idx++) {
+-                    arr[idx] += u * pointArr[idx];
+-                }
++                membershipMatrix[i][j] = random.nextDouble();
++                int index = 0;
+                 sum += u;
+                 i++;
+             }
+@@ -335,7 +334,6 @@
+             newClusters.add(new CentroidCluster<T>(new DoublePoint(arr)));
+             j++;
+         }
+-        clusters.clear();
+         clusters = newClusters;
+     }
+ 
+
+

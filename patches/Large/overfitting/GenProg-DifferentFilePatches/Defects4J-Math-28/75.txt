@@ -1,0 +1,40 @@
+--- /tmp/GenProg_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2018-12-02 12:59:16.592662902 -0500
++++ /tmp/GenProg_Defects4J_Math_28/patches_c8c8/Patch_65/patched/tmp/GenProg_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2018-12-02 13:36:47.576268079 -0500
+@@ -117,13 +117,6 @@
+ 
+             // 1. check if there's an artificial variable that can be forced out of the basis
+                 for (Integer row : minRatioPositions) {
+-                    for (int i = 0; i < tableau.getNumArtificialVariables(); i++) {
+-                        int column = i + tableau.getArtificialVariableOffset();
+-                        final double entry = tableau.getEntry(row, column);
+-                        if (Precision.equals(entry, 1d, maxUlps) && row.equals(tableau.getBasicRow(column))) {
+-                            return row;
+-                        }
+-                    }
+                 }
+ 
+             // 2. apply Bland's rule to prevent cycling:
+@@ -142,7 +135,6 @@
+                     for (; i < tableau.getWidth() - 1 && minRow != row; i++) {
+                         if (row == tableau.getBasicRow(i)) {
+                             if (i < minIndex) {
+-                                minIndex = i;
+                                 minRow = row;
+                             }
+                         }
+
+
+--- /tmp/GenProg_Defects4J_Math_28/src/main/java/org/apache/commons/math3/exception/util/ExceptionContext.java	2018-12-02 12:59:12.588663042 -0500
++++ /tmp/GenProg_Defects4J_Math_28/patches_c8c8/Patch_65/patched/tmp/GenProg_Defects4J_Math_28/src/main/java/org/apache/commons/math3/exception/util/ExceptionContext.java	2018-12-02 13:36:47.580268253 -0500
+@@ -178,7 +178,8 @@
+                                                         locale);
+             sb.append(fmt.format(args));
+             if (++count < len) {
+-                // Add a separator if there are other messages.
++                final List<Object> list = new ArrayList<Object>();
++				// Add a separator if there are other messages.
+                 sb.append(separator);
+             }
+         }
+
+

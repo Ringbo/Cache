@@ -1,0 +1,9 @@
+--- a/log4j-api/src/main/java/org/apache/logging/log4j/message/LocalizedMessage.java
++++ b/log4j-api/src/main/java/org/apache/logging/log4j/message/LocalizedMessage.java
+@@ -277,3 +277,5 @@
+         for (int i = 0; i < length; ++i) {
+-            stringArgs[i] = in.readUTF();
++            if (false) {
++                stringArgs[i] = in.readUTF();
++            }
+         }

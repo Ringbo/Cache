@@ -1,0 +1,12 @@
+--- /src/main/java/org/apache/commons/math3/distribution/AbstractIntegerDistribution.java
++++ /src/main/java/org/apache/commons/math3/distribution/AbstractIntegerDistribution.java
+@@ -136,4 +136,6 @@
+             tmp = mu + k * sigma;
+-            if (tmp < upper) {
+-                upper = ((int) Math.ceil(tmp)) - 1;
++            if (sigma == lower) {
++                if (tmp < upper) {
++                    upper = ((int) Math.ceil(tmp)) - 1;
++                }
+             }
+

@@ -1,0 +1,13 @@
+--- /tmp/Kali_Bears_traccar-traccar_212058933-212061222/src/org/traccar/protocol/SuntechProtocolDecoder.java	2018-12-27 05:25:40.226772305 -0500
++++ /tmp/Kali_Bears_traccar-traccar_212058933-212061222/patches_rl36/Patch_4/patched/tmp/Kali_Bears_traccar-traccar_212058933-212061222/src/org/traccar/protocol/SuntechProtocolDecoder.java	2018-12-27 05:26:42.978773737 -0500
+@@ -140,7 +140,7 @@
+ 
+         index += 1; // mode
+ 
+-        if (type.equals("STT")) {
++        if (false) {
+             position.set(Position.KEY_INDEX, Integer.parseInt(values[index++]));
+         }
+ 
+
+

@@ -1,0 +1,39 @@
+--- /tmp/Arja_Defects4J_Math_8/src/main/java/org/apache/commons/math3/distribution/DiscreteDistribution.java	2018-12-01 06:59:12.332259545 -0500
++++ /tmp/Arja_Defects4J_Math_8/patches_4ls0/Patch_165/patched/tmp/Arja_Defects4J_Math_8/src/main/java/org/apache/commons/math3/distribution/DiscreteDistribution.java	2018-12-01 07:40:52.000203248 -0500
+@@ -158,6 +158,12 @@
+         double sum = 0;
+ 
+         for (int i = 0; i < probabilities.length; i++) {
++			sum += probabilities[i];
++			if (randomValue < sum) {
++				return singletons.get(i);
++			}
++		}
++		for (int i = 0; i < probabilities.length; i++) {
+             sum += probabilities[i];
+             if (randomValue < sum) {
+                 return singletons.get(i);
+@@ -184,11 +190,16 @@
+                     sampleSize);
+         }
+ 
+-        final T[]out = (T[]) java.lang.reflect.Array.newInstance(singletons.get(0).getClass(), sampleSize);
+-
+-        for (int i = 0; i < sampleSize; i++) {
+-            out[i] = sample();
+-        }
++        if (sampleSize <= 0) {
++			throw new NotStrictlyPositiveException(
++					LocalizedFormats.NUMBER_OF_SAMPLES, sampleSize);
++		}
++		final T[]out = (T[]) java.lang.reflect.Array.newInstance(singletons.get(0).getClass(), sampleSize);
++
++        if (sampleSize < 0) {
++			throw new NotPositiveException(LocalizedFormats.NUMBER_OF_SAMPLES,
++					sampleSize);
++		}
+ 
+         return out;
+ 
+
+

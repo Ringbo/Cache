@@ -1,0 +1,61 @@
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/geometry/enclosing/WelzlEncloser.java	2018-12-30 10:51:38.925758000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/patches_9tkz/Patch_116/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/geometry/enclosing/WelzlEncloser.java	2018-12-30 11:18:13.472721360 -0500
+@@ -105,8 +105,7 @@
+             EnclosingBall<S, P> savedBall = ball;
+             ball = moveToFrontBall(extreme, support);
+             if (ball.getRadius() < savedBall.getRadius()) {
+-                // TODO: fix this, it should never happen but it does!
+-                throw new MathInternalError();
++                support.clear();
+             }
+ 
+             // it was an interesting point, move it to the front
+@@ -131,6 +130,34 @@
+         EnclosingBall<S, P> ball = generator.ballOnSupport(support);
+ 
+         if (ball.getSupportSize() < max) {
++			for (int i = 0; i < extreme.size(); ++i) {
++				final P pi = extreme.get(i);
++				if (!ball.contains(pi, tolerance)) {
++					support.add(pi);
++					ball = moveToFrontBall(
++							extreme.subList(i + 1, extreme.size()), support);
++					for (int j = i; j > 1; --j) {
++						extreme.set(j, extreme.get(j - 1));
++					}
++					extreme.set(0, pi);
++				}
++			}
++		}
++		if (ball.getSupportSize() < max) {
++			for (int i = 0; i < extreme.size(); ++i) {
++				final P pi = extreme.get(i);
++				if (!ball.contains(pi, tolerance)) {
++					support.add(pi);
++					ball = moveToFrontBall(
++							extreme.subList(i + 1, extreme.size()), support);
++					for (int j = i; j > 1; --j) {
++						extreme.set(j, extreme.get(j - 1));
++					}
++					extreme.set(0, pi);
++				}
++			}
++		}
++		if (ball.getSupportSize() < max) {
+ 
+             for (int i = 0; i < extreme.size(); ++i) {
+                 final P pi = extreme.get(i);
+
+
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/exception/MathIllegalStateException.java	2018-12-30 10:51:38.833758000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/patches_9tkz/Patch_116/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/exception/MathIllegalStateException.java	2018-12-30 11:18:13.472721360 -0500
+@@ -83,6 +83,6 @@
+     /** {@inheritDoc} */
+     @Override
+     public String getLocalizedMessage() {
+-        return context.getLocalizedMessage();
++        return context.getMessage();
+     }
+ }
+
+

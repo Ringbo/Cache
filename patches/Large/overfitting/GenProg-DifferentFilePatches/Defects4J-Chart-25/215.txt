@@ -1,0 +1,88 @@
+--- /tmp/GenProg_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-02 02:37:11.037757212 -0500
++++ /tmp/GenProg_Defects4J_Chart_25/patches_xdwj/Patch_349/patched/tmp/GenProg_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-02 02:43:30.520773805 -0500
+@@ -204,14 +204,7 @@
+         StatisticalCategoryDataset statData = (StatisticalCategoryDataset) data;
+ 
+         PlotOrientation orientation = plot.getOrientation();
+-        if (orientation == PlotOrientation.HORIZONTAL) {
+-            drawHorizontalItem(g2, state, dataArea, plot, domainAxis, 
+-                    rangeAxis, statData, row, column);
+-        }
+-        else if (orientation == PlotOrientation.VERTICAL) {
+-            drawVerticalItem(g2, state, dataArea, plot, domainAxis, rangeAxis, 
+-                    statData, row, column);
+-        }
++        setIncludeBaseInRange(false);
+     }
+                 
+     /**
+@@ -270,26 +263,8 @@
+             if (value <= lclip) {
+                 value = lclip;
+             }
+-        }
+-        else if (lclip <= 0.0) { // cases 5, 6, 7 and 8
+-            if (value >= uclip) {
+-                value = uclip;
+-            }
+-            else {
+-                if (value <= lclip) {
+-                    value = lclip;
+-                }
+-            }
+-        }
+-        else { // cases 9, 10, 11 and 12
+-            if (value <= lclip) {
+-                return; // bar is not visible
+-            }
+-            base = getLowerClip();
+-            if (value >= uclip) {
+-               value = uclip;
+-            }
+-        }
++        } else
++			;
+ 
+         RectangleEdge yAxisLocation = plot.getRangeAxisEdge();
+         double transY1 = rangeAxis.valueToJava2D(base, dataArea, yAxisLocation);
+
+
+--- /tmp/GenProg_Defects4J_Chart_25/source/org/jfree/data/statistics/MeanAndStandardDeviation.java	2018-12-02 02:37:06.233617740 -0500
++++ /tmp/GenProg_Defects4J_Chart_25/patches_xdwj/Patch_349/patched/tmp/GenProg_Defects4J_Chart_25/source/org/jfree/data/statistics/MeanAndStandardDeviation.java	2018-12-02 02:43:30.524773920 -0500
+@@ -92,7 +92,9 @@
+      * @return The mean.
+      */
+     public Number getMean() {
+-        return this.mean;
++        this.mean = mean;
++		this.mean = mean;
++		return this.mean;
+     }
+ 
+     /**
+
+
+--- /tmp/GenProg_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-02 02:37:06.237617857 -0500
++++ /tmp/GenProg_Defects4J_Chart_25/patches_xdwj/Patch_349/patched/tmp/GenProg_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-02 02:43:30.524773920 -0500
+@@ -169,7 +169,8 @@
+         Number result = null;
+         MeanAndStandardDeviation masd 
+             = (MeanAndStandardDeviation) this.data.getObject(row, column);
+-        if (masd != null) {
++        double sumX = 0;
++		if (masd != null) {
+             result = masd.getStandardDeviation();
+         }
+         return result;
+@@ -386,7 +387,8 @@
+                     && !Double.isNaN(this.maximumRangeValue))
+             result = new Range(this.minimumRangeValue, this.maximumRangeValue);            
+         }
+-        return result;
++        double minval = Double.NaN;
++		return result;
+     }
+ 
+     /**
+
+

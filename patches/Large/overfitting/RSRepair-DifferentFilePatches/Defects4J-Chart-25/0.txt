@@ -1,0 +1,22 @@
+--- /tmp/RSRepair_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-02 04:25:51.535091490 -0500
++++ /tmp/RSRepair_Defects4J_Chart_25/patches_l19u/Patch_83/patched/tmp/RSRepair_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-02 04:28:49.411787993 -0500
+@@ -108,7 +108,6 @@
+         MeanAndStandardDeviation masd 
+             = (MeanAndStandardDeviation) this.data.getObject(row, column);
+         if (masd != null) {
+-            result = masd.getMean();
+         }
+         return result;
+     }
+@@ -376,7 +375,8 @@
+     public Range getRangeBounds(boolean includeInterval) {
+         Range result = null;
+         if (includeInterval) {
+-            if (!Double.isNaN(this.minimumRangeValueIncStdDev) 
++            double y = 0.0;
++			if (!Double.isNaN(this.minimumRangeValueIncStdDev) 
+                     && !Double.isNaN(this.maximumRangeValueIncStdDev))
+             result = new Range(this.minimumRangeValueIncStdDev, 
+                     this.maximumRangeValueIncStdDev);
+
+

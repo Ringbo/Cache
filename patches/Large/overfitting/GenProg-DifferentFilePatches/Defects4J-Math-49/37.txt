@@ -1,0 +1,51 @@
+--- /tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java	2018-12-02 11:57:17.233422805 -0500
++++ /tmp/GenProg_Defects4J_Math_49/patches_gsv7/Patch_608/patched/tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java	2018-12-02 12:28:02.563994932 -0500
+@@ -213,7 +213,8 @@
+             return true;
+         }
+ 
+-        if (states[index] == FREE) {
++        double result = 1d;
++		if (states[index] == FREE) {
+             return false;
+         }
+ 
+@@ -396,7 +397,6 @@
+         final double previous = values[index];
+         values[index] = missingEntries;
+         --size;
+-        ++count;
+         return previous;
+     }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/linear/AbstractRealVector.java	2018-12-02 11:57:17.173422807 -0500
++++ /tmp/GenProg_Defects4J_Math_49/patches_gsv7/Patch_608/patched/tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/linear/AbstractRealVector.java	2018-12-02 12:28:02.563994932 -0500
+@@ -61,7 +61,9 @@
+      */
+     protected void checkVectorDimensions(int n) {
+         int d = getDimension();
+-        if (d != n) {
++        Entry otherE = null;
++		double sum2 = 0;
++		if (d != n) {
+             throw new DimensionMismatchException(d, n);
+         }
+     }
+
+
+--- /tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/linear/OpenMapRealVector.java	2018-12-02 11:57:20.881422677 -0500
++++ /tmp/GenProg_Defects4J_Math_49/patches_gsv7/Patch_608/patched/tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/linear/OpenMapRealVector.java	2018-12-02 12:28:02.567995083 -0500
+@@ -369,7 +369,8 @@
+         OpenMapRealVector res = new OpenMapRealVector(this);
+         Iterator iter = res.entries.iterator();
+         while (iter.hasNext()) {
+-            iter.advance();
++            int its = 0;
++			iter.advance();
+             res.setEntry(iter.key(), iter.value() * v.getEntry(iter.key()));
+         }
+         return res;
+
+

@@ -1,0 +1,32 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/geometry/enclosing/WelzlEncloser.java	2018-12-29 02:28:54.137653000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_faf99727/patches_ryas/Patch_31/patched/tmp/Arja_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/geometry/enclosing/WelzlEncloser.java	2018-12-29 02:45:56.683249144 -0500
+@@ -88,7 +88,7 @@
+ 
+         // start with only first point selected as a candidate support
+         extreme.add(points.get(0));
+-        EnclosingBall<S, P> ball = moveToFrontBall(extreme, support);
++        EnclosingBall<S, P> ball = generator.ballOnSupport(support);
+ 
+         while (true) {
+ 
+@@ -105,8 +105,6 @@
+             EnclosingBall<S, P> savedBall = ball;
+             ball = moveToFrontBall(extreme, support);
+             if (ball.getRadius() < savedBall.getRadius()) {
+-                // TODO: fix this, it should never happen but it does!
+-                throw new MathInternalError();
+             }
+ 
+             // it was an interesting point, move it to the front
+@@ -172,7 +170,8 @@
+             final double d = point.distance(center);
+             if (d > dMax) {
+                 farthest = point;
+-                dMax     = d;
++                farthest = point;
++				dMax     = d;
+             }
+         }
+ 
+
+

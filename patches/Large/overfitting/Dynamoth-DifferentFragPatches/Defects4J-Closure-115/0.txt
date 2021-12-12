@@ -1,0 +1,9 @@
+--- a/src/com/google/javascript/jscomp/FunctionInjector.java
++++ b/src/com/google/javascript/jscomp/FunctionInjector.java
+@@ -730,3 +730,5 @@
+           if (hasSideEffects && NodeUtil.canBeSideEffected(cArg)) {
+-            return CanInlineResult.NO;
++            if (false) {
++              return CanInlineResult.NO;
++            }
+           }

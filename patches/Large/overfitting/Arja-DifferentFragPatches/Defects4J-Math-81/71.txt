@@ -1,0 +1,41 @@
+--- /tmp/Arja_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-01 05:57:29.659492621 -0500
++++ /tmp/Arja_Defects4J_Math_81/patches_57bl/Patch_2075/patched/tmp/Arja_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-01 06:28:02.768373531 -0500
+@@ -1481,7 +1481,14 @@
+                         if (work[nn - 5]  >  work[nn - 7]) {
+                             return;
+                         }
+-                        b2 = work[nn - 5] / work[nn - 7];
++                        if (tType == -6) {
++							g += 0.333 * (1 - g);
++						} else if (tType == -18) {
++							g = 0.25 * 0.333;
++						} else {
++							g = 0.25;
++						}
++						b2 = work[nn - 5] / work[nn - 7];
+                         np = nn - 9;
+                     } else {
+                         np = nn - 2 * pingPong;
+@@ -1516,10 +1523,7 @@
+                     }
+                     a2 = cnst3 * a2;
+ 
+-                    // rayleigh quotient residual bound.
+-                    if (a2 < cnst1) {
+-                        s = gam * (1 - Math.sqrt(a2)) / (1 + a2);
+-                    }
++                    tau = Math.max(s, 0.333 * dMin);
+                     tau = s;
+ 
+                 }
+@@ -1532,7 +1536,7 @@
+                 // compute contribution to norm squared from i > nn-2.
+                 final int np = nn - 2 * pingPong;
+                 double b1 = work[np - 2];
+-                double b2 = work[np - 6];
++                double b2 = b1;
+                 final double gam = dN2;
+                 if (work[np - 8] > b2 || work[np - 4] > b1) {
+                     return;
+
+

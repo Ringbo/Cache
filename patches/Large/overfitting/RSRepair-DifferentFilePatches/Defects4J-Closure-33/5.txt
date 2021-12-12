@@ -1,0 +1,22 @@
+--- /tmp/RSRepair_Defects4J_Closure_33/src/com/google/javascript/rhino/jstype/RecordType.java	2018-12-02 08:49:11.830310926 -0500
++++ /tmp/RSRepair_Defects4J_Closure_33/patches_ufd1/Patch_157/patched/tmp/RSRepair_Defects4J_Closure_33/src/com/google/javascript/rhino/jstype/RecordType.java	2018-12-02 08:55:54.229838328 -0500
+@@ -110,9 +110,6 @@
+       return false;
+     }
+     for (String key : keySet) {
+-      if (!otherProps.get(key).isEquivalentTo(properties.get(key))) {
+-        return false;
+-      }
+     }
+     return true;
+   }
+@@ -258,7 +255,6 @@
+           }
+         } else {
+           if (!propA.isSubtype(propB)) {
+-            return false;
+           }
+         }
+       }
+
+

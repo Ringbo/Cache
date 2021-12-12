@@ -1,0 +1,57 @@
+--- /tmp/Arja_Bears_traccar-traccar_198464113-198488474/src/org/traccar/model/Network.java	2018-12-26 13:24:52.370457385 -0500
++++ /tmp/Arja_Bears_traccar-traccar_198464113-198488474/patches_vzjn/Patch_44/patched/tmp/Arja_Bears_traccar-traccar_198464113-198488474/src/org/traccar/model/Network.java	2018-12-26 13:26:28.246999015 -0500
+@@ -108,9 +108,6 @@
+     }
+ 
+     public void addWifiAccessPoint(WifiAccessPoint wifiAccessPoint) {
+-        if (wifiAccessPoints == null) {
+-            wifiAccessPoints = new ArrayList<>();
+-        }
+         wifiAccessPoints.add(wifiAccessPoint);
+     }
+ 
+
+
+--- /tmp/Arja_Bears_traccar-traccar_198464113-198488474/src/org/traccar/helper/PatternBuilder.java	2018-12-26 13:24:52.362457340 -0500
++++ /tmp/Arja_Bears_traccar-traccar_198464113-198488474/patches_vzjn/Patch_44/patched/tmp/Arja_Bears_traccar-traccar_198464113-198488474/src/org/traccar/helper/PatternBuilder.java	2018-12-26 13:26:28.246999015 -0500
+@@ -79,7 +79,9 @@
+     }
+ 
+     public PatternBuilder groupEnd(String s) {
+-        return expression(")" + s);
++        s = s.replace("dddd", "d{4}").replace("ddd", "d{3}")
++				.replace("dd", "d{2}");
++		return expression(")" + s);
+     }
+ 
+     public Pattern compile() {
+
+
+--- /tmp/Arja_Bears_traccar-traccar_198464113-198488474/src/org/traccar/protocol/Gl200ProtocolDecoder.java	2018-12-26 13:24:52.382457453 -0500
++++ /tmp/Arja_Bears_traccar-traccar_198464113-198488474/patches_vzjn/Patch_44/patched/tmp/Arja_Bears_traccar-traccar_198464113-198488474/src/org/traccar/protocol/Gl200ProtocolDecoder.java	2018-12-26 13:26:28.250999037 -0500
+@@ -621,11 +621,6 @@
+         Network network = new Network();
+ 
+         int count = parser.nextInt();
+-        for (int i = 0; i < count; i++) {
+-            String mac = parser.next().replaceAll("(..)", "$1:");
+-            network.addWifiAccessPoint(WifiAccessPoint.from(mac.substring(0, mac.length() - 1), parser.nextInt()));
+-        }
+-
+         return position;
+     }
+ 
+
+
+--- /tmp/Arja_Bears_traccar-traccar_198464113-198488474/src/org/traccar/model/WifiAccessPoint.java	2018-12-26 13:24:52.374457407 -0500
++++ /tmp/Arja_Bears_traccar-traccar_198464113-198488474/patches_vzjn/Patch_44/patched/tmp/Arja_Bears_traccar-traccar_198464113-198488474/src/org/traccar/model/WifiAccessPoint.java	2018-12-26 13:26:28.250999037 -0500
+@@ -40,7 +40,6 @@
+     }
+ 
+     public void setMacAddress(String macAddress) {
+-        this.macAddress = macAddress;
+     }
+ 
+     private Integer signalStrength;
+
+

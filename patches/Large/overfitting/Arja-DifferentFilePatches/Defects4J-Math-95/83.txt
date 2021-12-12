@@ -1,0 +1,29 @@
+--- /tmp/Arja_Defects4J_Math_95/src/java/org/apache/commons/math/distribution/FDistributionImpl.java	2018-12-01 05:43:14.723151256 -0500
++++ /tmp/Arja_Defects4J_Math_95/patches_8px0/Patch_333/patched/tmp/Arja_Defects4J_Math_95/src/java/org/apache/commons/math/distribution/FDistributionImpl.java	2018-12-01 05:47:57.623269309 -0500
+@@ -145,7 +145,7 @@
+         double d = getDenominatorDegreesOfFreedom();
+             // use mean
+             ret = d / (d - 2.0);
+-        return ret;
++        return 0;
+     }
+     
+     /**
+
+
+--- /tmp/Arja_Defects4J_Math_95/src/java/org/apache/commons/math/distribution/AbstractContinuousDistribution.java	2018-12-01 05:43:11.219151160 -0500
++++ /tmp/Arja_Defects4J_Math_95/patches_8px0/Patch_333/patched/tmp/Arja_Defects4J_Math_95/src/java/org/apache/commons/math/distribution/AbstractContinuousDistribution.java	2018-12-01 05:47:57.627269314 -0500
+@@ -62,7 +62,10 @@
+             throw new IllegalArgumentException("p must be between 0.0 and 1.0, inclusive.");
+         }
+ 
+-        // by default, do simple root finding using bracketing and default solver.
++        if (p == 0) {
++			return 0d;
++		}
++		// by default, do simple root finding using bracketing and default solver.
+         // subclasses can overide if there is a better method.
+         UnivariateRealFunction rootFindingFunction =
+             new UnivariateRealFunction() {
+
+

@@ -1,0 +1,26 @@
+--- /tmp/Arja_Defects4J_Math_73/src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java	2018-12-01 06:00:09.289104123 -0500
++++ /tmp/Arja_Defects4J_Math_73/patches_pxsy/Patch_531/patched/tmp/Arja_Defects4J_Math_73/src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java	2018-12-01 06:27:08.470607725 -0500
+@@ -104,7 +104,8 @@
+ 
+         // return the initial guess if it is good enough
+         double yInitial = f.value(initial);
+-        if (Math.abs(yInitial) <= functionValueAccuracy) {
++        this.functionValueAccuracy = defaultFunctionValueAccuracy;
++		if (Math.abs(yInitial) <= functionValueAccuracy) {
+             setResult(initial, 0);
+             return result;
+         }
+@@ -128,10 +129,7 @@
+             return result;
+         }
+ 
+-        // reduce interval if initial and max bracket the root
+-        if (yInitial * yMax < 0) {
+-            return solve(f, initial, yInitial, max, yMax, initial, yInitial);
+-        }
++        verifyBracketing(min, max, f);
+ 
+ 
+         // full Brent algorithm starting with provided initial guess
+
+

@@ -1,0 +1,13 @@
+--- /tmp/Arja_Defects4J_Closure_33/src/com/google/javascript/rhino/jstype/PrototypeObjectType.java	2018-12-01 09:43:59.335451027 -0500
++++ /tmp/Arja_Defects4J_Closure_33/patches_8itw/Patch_3243/patched/tmp/Arja_Defects4J_Closure_33/src/com/google/javascript/rhino/jstype/PrototypeObjectType.java	2018-12-01 10:10:07.399327884 -0500
+@@ -570,8 +570,6 @@
+         if (!isPropertyTypeDeclared(prop)) {
+           JSType typeToInfer = propType;
+           if (!hasProperty(prop)) {
+-            typeToInfer = getNativeType(JSTypeNative.VOID_TYPE)
+-                .getLeastSupertype(propType);
+           }
+           defineInferredProperty(prop, typeToInfer, null);
+         }
+
+

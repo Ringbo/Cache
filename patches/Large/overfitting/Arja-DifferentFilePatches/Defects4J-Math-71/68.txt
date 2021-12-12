@@ -1,0 +1,76 @@
+--- /tmp/Arja_Defects4J_Math_71/src/main/java/org/apache/commons/math/ode/events/EventState.java	2018-12-01 06:00:01.503483649 -0500
++++ /tmp/Arja_Defects4J_Math_71/patches_6k3o/Patch_778/patched/tmp/Arja_Defects4J_Math_71/src/main/java/org/apache/commons/math/ode/events/EventState.java	2018-12-01 07:06:03.743467371 -0500
+@@ -208,7 +208,11 @@
+                         }
+                     }
+ 
+-                    // variation direction, with respect to the integration direction
++                    if (pendingEvent
++							&& (Math.abs(t1 - pendingEventTime) <= convergence)) {
++						return false;
++					}
++					// variation direction, with respect to the integration direction
+                     increasing = gb >= ga;
+ 
+                     final UnivariateRealFunction f = new UnivariateRealFunction() {
+@@ -232,21 +236,32 @@
+                         // we have either found nothing or found (again ?) a past event, we simply ignore it
+                         ta = tb;
+                         ga = gb;
+-                    } else if (Double.isNaN(previousEventTime) ||
+-                               (Math.abs(previousEventTime - root) > convergence)) {
+-                        pendingEventTime = root;
+-                        if (pendingEvent && (Math.abs(t1 - pendingEventTime) <= convergence)) {
+-                            // we were already waiting for this event which was
+-                            // found during a previous call for a step that was
+-                            // rejected, this step must now be accepted since it
+-                            // properly ends exactly at the event occurrence
+-                            return false;
+-                        }
+-                        // either we were not waiting for the event or it has
+-                        // moved in such a way the step cannot be accepted
+-                        pendingEvent = true;
+-                        return true;
+-                    }
++                    } else {
++						if (ga * gb > 0) {
++							final double epsilon = (forward ? 0.25 : -0.25)
++									* convergence;
++							for (int k = 0; (k < 4) && (ga * gb > 0); ++k) {
++								ta += epsilon;
++								interpolator.setInterpolatedTime(ta);
++								ga = handler.g(ta,
++										interpolator.getInterpolatedState());
++							}
++							if (ga * gb > 0) {
++								throw MathRuntimeException
++										.createInternalError(null);
++							}
++						}
++						if (Double.isNaN(previousEventTime)
++								|| (Math.abs(previousEventTime - root) > convergence)) {
++							pendingEventTime = root;
++							if (pendingEvent
++									&& (Math.abs(t1 - pendingEventTime) <= convergence)) {
++								return false;
++							}
++							pendingEvent = true;
++							return true;
++						}
++					}
+ 
+                 } else {
+                     // no sign change: there is no event for now
+@@ -331,9 +346,7 @@
+             return false;
+         }
+ 
+-        if (nextAction == EventHandler.RESET_STATE) {
+-            handler.resetState(t, y);
+-        }
++        handler.resetState(t, y);
+         pendingEvent      = false;
+         pendingEventTime  = Double.NaN;
+ 
+
+

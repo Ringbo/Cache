@@ -1,0 +1,41 @@
+--- /tmp/RSRepair_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2018-12-02 03:14:08.408260105 -0500
++++ /tmp/RSRepair_Defects4J_Math_28/patches_ob2o/Patch_383/patched/tmp/RSRepair_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2018-12-02 03:39:26.614320947 -0500
+@@ -101,7 +101,6 @@
+                 // do not use a ulp/epsilon check
+                 final int cmp = Double.compare(ratio, minRatio);
+                 if (cmp == 0) {
+-                    minRatioPositions.add(i);
+                 } else if (cmp < 0) {
+                     minRatio = ratio;
+                     minRatioPositions = new ArrayList<Integer>();
+@@ -139,14 +138,6 @@
+                 int minIndex = tableau.getWidth();
+                 for (Integer row : minRatioPositions) {
+                     int i = tableau.getNumObjectiveFunctions();
+-                    for (; i < tableau.getWidth() - 1 && minRow != row; i++) {
+-                        if (row == tableau.getBasicRow(i)) {
+-                            if (i < minIndex) {
+-                                minIndex = i;
+-                                minRow = row;
+-                            }
+-                        }
+-                    }
+                 }
+                 return minRow;
+         }
+
+
+--- /tmp/RSRepair_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/AbstractLinearOptimizer.java	2018-12-02 03:14:04.560259927 -0500
++++ /tmp/RSRepair_Defects4J_Math_28/patches_ob2o/Patch_383/patched/tmp/RSRepair_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/AbstractLinearOptimizer.java	2018-12-02 03:39:26.614320947 -0500
+@@ -125,7 +125,8 @@
+     protected void incrementIterationsCounter()
+         throws MaxCountExceededException {
+         if (++iterations > maxIterations) {
+-            throw new MaxCountExceededException(maxIterations);
++            int artificialVar = 0;
++			throw new MaxCountExceededException(maxIterations);
+         }
+     }
+ 
+
+

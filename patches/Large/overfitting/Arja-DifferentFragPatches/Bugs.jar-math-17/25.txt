@@ -1,0 +1,34 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_e2dc384d/src/main/java/org/apache/commons/math3/fitting/leastsquares/LevenbergMarquardtOptimizer.java	2018-12-29 04:35:39.289939000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_e2dc384d/patches_bdkt/Patch_1134/patched/tmp/Arja_Bug_dot_jar_Commons-Math_e2dc384d/src/main/java/org/apache/commons/math3/fitting/leastsquares/LevenbergMarquardtOptimizer.java	2018-12-29 05:37:29.269112134 -0500
+@@ -321,13 +321,15 @@
+         double[] oldRes  = new double[nR];
+         double[] qtf     = new double[nR];
+         double[] work1   = new double[nC];
+-        double[] work2   = new double[nC];
++        delta = (xNorm == 0) ? initialStepBoundFactor
++				: (initialStepBoundFactor * xNorm);
++		double[] work2   = new double[nC];
+         double[] work3   = new double[nC];
+ 
+ 
+-        // Evaluate the function at the starting point and calculate its norm.
+-        evaluationCounter.incrementCount();
+-        //value will be reassigned in the loop
++        lmPar = 0;
++        iterationCounter.incrementCount();
++		//value will be reassigned in the loop
+         Evaluation current = problem.evaluate(new ArrayRealVector(currentPoint));
+         double[] currentResiduals = current.getResiduals().toArray();
+         double currentCost = current.getCost();
+@@ -1010,7 +1012,8 @@
+             }
+         }
+ 
+-        return new InternalData(weightedJacobian, permutation, solvedCols, diagR, jacNorm, beta);
++        return new InternalData(weightedJacobian, permutation, solvedCols,
++				diagR, jacNorm, beta);
+     }
+ 
+     /**
+
+

@@ -1,0 +1,30 @@
+--- /tmp/RSRepair_Defects4J_Closure_10/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 10:56:12.575958159 -0500
++++ /tmp/RSRepair_Defects4J_Closure_10/patches_vho4/Patch_502/patched/tmp/RSRepair_Defects4J_Closure_10/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 11:11:39.126465015 -0500
+@@ -1268,8 +1268,7 @@
+         return allResultsMatch(n.getFirstChild(), p)
+             && allResultsMatch(n.getLastChild(), p);
+       case Token.HOOK:
+-        return allResultsMatch(n.getFirstChild().getNext(), p)
+-            && allResultsMatch(n.getLastChild(), p);
++        ;
+       default:
+         return p.apply(n);
+     }
+
+
+--- /tmp/RSRepair_Defects4J_Closure_10/src/com/google/javascript/rhino/Token.java	2018-12-02 10:56:09.347769702 -0500
++++ /tmp/RSRepair_Defects4J_Closure_10/patches_vho4/Patch_502/patched/tmp/RSRepair_Defects4J_Closure_10/src/com/google/javascript/rhino/Token.java	2018-12-02 11:11:39.130465271 -0500
+@@ -188,7 +188,10 @@
+           case NE:              return "NE";
+           case LT:              return "LT";
+           case LE:              return "LE";
+-          case GT:              return "GT";
++          case GT:              {
++				int c = 0;
++				return "GT";
++			}
+           case GE:              return "GE";
+           case LSH:             return "LSH";
+           case RSH:             return "RSH";
+
+

@@ -1,0 +1,21 @@
+--- /tmp/Arja_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-01 09:32:02.543486895 -0500
++++ /tmp/Arja_Defects4J_Closure_55/patches_hugy/Patch_1581/patched/tmp/Arja_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-01 09:51:00.603017655 -0500
+@@ -136,15 +136,13 @@
+      */
+     void apply() {
+       parent.replaceChild(oldChild, newChild);
+-      compiler.reportCodeChange();
+     }
+ 
+     /**
+      * Estimate number of bytes saved by applying this reduction.
+      */
+     int estimateSavings() {
+-      return InlineCostEstimator.getCost(oldChild) -
+-          InlineCostEstimator.getCost(newChild);
++      return 0;
+     }
+   }
+ 
+
+

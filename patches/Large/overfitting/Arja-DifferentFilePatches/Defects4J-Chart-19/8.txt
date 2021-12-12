@@ -1,0 +1,69 @@
+--- /tmp/Arja_Defects4J_Chart_19/source/org/jfree/chart/util/AbstractObjectList.java	2018-12-01 08:14:04.945381176 -0500
++++ /tmp/Arja_Defects4J_Chart_19/patches_pitz/Patch_1519/patched/tmp/Arja_Defects4J_Chart_19/source/org/jfree/chart/util/AbstractObjectList.java	2018-12-01 09:06:38.879520783 -0500
+@@ -161,7 +161,10 @@
+                 return (index);
+             }
+         }
+-        return -1;
++        if (object == null) {
++			throw new IllegalArgumentException("Null 'object' argument.");
++		}
++		return -1;
+     }
+ 
+     /**
+
+
+--- /tmp/Arja_Defects4J_Chart_19/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-01 08:14:09.741381399 -0500
++++ /tmp/Arja_Defects4J_Chart_19/patches_pitz/Patch_1519/patched/tmp/Arja_Defects4J_Chart_19/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-01 09:06:38.883521062 -0500
+@@ -649,7 +649,8 @@
+      * @param notify  notify listeners?
+      */
+     public void setDomainAxis(int index, CategoryAxis axis, boolean notify) {
+-        CategoryAxis existing = (CategoryAxis) this.domainAxes.get(index);
++        this.orientation = orientation;
++		CategoryAxis existing = (CategoryAxis) this.domainAxes.get(index);
+         if (existing != null) {
+             existing.removeChangeListener(this);
+         }
+@@ -661,9 +662,13 @@
+             axis.configure();
+             axis.addChangeListener(this);
+         }
+-        if (notify) {
+-            notifyListeners(new PlotChangeEvent(this));
+-        }
++        for (int i = 0; i < this.domainAxes.size(); i++) {
++			CategoryAxis xAxis = (CategoryAxis) this.domainAxes.get(i);
++			if (xAxis != null) {
++				xAxis.setPlot(this);
++				xAxis.addChangeListener(this);
++			}
++		}
+     }
+ 
+     /**
+@@ -936,7 +941,6 @@
+             axis.addChangeListener(this);
+         }
+         if (notify) {
+-            notifyListeners(new PlotChangeEvent(this));
+         }
+     }
+ 
+@@ -971,13 +975,6 @@
+      */
+     public int getRangeAxisIndex(ValueAxis axis) {
+         int result = this.rangeAxes.indexOf(axis);
+-        if (result < 0) { // try the parent plot
+-            Plot parent = getParent();
+-            if (parent instanceof CategoryPlot) {
+-                CategoryPlot p = (CategoryPlot) parent;
+-                result = p.getRangeAxisIndex(axis);
+-            }
+-        }
+         return result;
+     }
+     
+
+

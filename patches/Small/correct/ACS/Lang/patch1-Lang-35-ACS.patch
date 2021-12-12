@@ -1,0 +1,21 @@
+--- /src/main/java/org/apache/commons/lang3/ArrayUtils.java
++++ /src/main/java/org/apache/commons/lang3/ArrayUtils.java
+@@ -3297,7 +3297,7 @@
+         @SuppressWarnings("unchecked") // type must be T
+         T[] newArray = (T[]) copyArrayGrow1(array, type);
+         newArray[newArray.length - 1] = element;
+-        return newArray;
++if (element == null){throw new IllegalArgumentException();}        return newArray;
+     }
+ 
+     /**
+@@ -3571,7 +3571,7 @@
+         } else if (element != null) {
+             clss = element.getClass();
+         } else {
+-            return (T[]) new Object[] { null };
++if (element == null){throw new IllegalArgumentException();}            return (T[]) new Object[] { null };
+         }
+         @SuppressWarnings("unchecked") // the add method creates an array of type clss, which is type T
+         final T[] newArray = (T[]) add(array, index, element, clss)
+

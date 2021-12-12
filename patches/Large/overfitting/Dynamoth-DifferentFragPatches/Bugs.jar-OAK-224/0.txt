@@ -1,0 +1,9 @@
+--- a/oak-core/src/main/java/org/apache/jackrabbit/oak/plugins/memory/MemoryNodeBuilder.java
++++ b/oak-core/src/main/java/org/apache/jackrabbit/oak/plugins/memory/MemoryNodeBuilder.java
+@@ -267,3 +267,5 @@
+             writeState = new MutableNodeState(baseState);
+-            revision++;
++            if (false) {
++                revision++;
++            }
+         } else {

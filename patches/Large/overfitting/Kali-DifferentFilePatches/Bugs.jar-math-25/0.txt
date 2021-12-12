@@ -1,0 +1,13 @@
+--- /tmp/Kali_Bug_dot_jar_Commons-Math_cc4ab51e/src/main/java/org/apache/commons/math3/distribution/SaddlePointExpansion.java	2018-12-29 16:33:10.735668000 -0500
++++ /tmp/Kali_Bug_dot_jar_Commons-Math_cc4ab51e/patches_9qwc/Patch_4/patched/tmp/Kali_Bug_dot_jar_Commons-Math_cc4ab51e/src/main/java/org/apache/commons/math3/distribution/SaddlePointExpansion.java	2018-12-29 16:59:56.427339061 -0500
+@@ -178,7 +178,7 @@
+     static double logBinomialProbability(int x, int n, double p, double q) {
+         double ret;
+         if (x == 0) {
+-            if (p < 0.1) {
++            if (false) {
+                 ret = -getDeviancePart(n, n * q) - n * p;
+             } else {
+                 ret = n * FastMath.log(q);
+
+

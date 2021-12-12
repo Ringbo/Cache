@@ -1,0 +1,24 @@
+--- /tmp/GenProg_Defects4J_Math_95/src/java/org/apache/commons/math/distribution/FDistributionImpl.java	2018-12-02 10:50:15.340967631 -0500
++++ /tmp/GenProg_Defects4J_Math_95/patches_yjg5/Patch_250/patched/tmp/GenProg_Defects4J_Math_95/src/java/org/apache/commons/math/distribution/FDistributionImpl.java	2018-12-02 10:53:48.184962701 -0500
+@@ -145,7 +145,7 @@
+         double d = getDenominatorDegreesOfFreedom();
+             // use mean
+             ret = d / (d - 2.0);
+-        return ret;
++        return 0;
+     }
+     
+     /**
+@@ -156,6 +156,10 @@
+      */
+     public void setNumeratorDegreesOfFreedom(double degreesOfFreedom) {
+         if (degreesOfFreedom <= 0.0) {
++			throw new IllegalArgumentException(
++					"degrees of freedom must be positive.");
++		}
++		if (degreesOfFreedom <= 0.0) {
+             throw new IllegalArgumentException(
+                 "degrees of freedom must be positive.");
+         }
+
+

@@ -1,0 +1,14 @@
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-02 07:03:01.202376129 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_984/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-02 07:29:20.909183461 -0500
+@@ -76,8 +76,7 @@
+ 
+     // checkSuspiciousCode needs to be enabled for CheckGlobalThis to get run.
+     options.checkSuspiciousCode = true;
+-    options.checkGlobalThisLevel = CheckLevel.WARNING;
+-    options.checkSymbols = true;
++    StringBuilder builder = new StringBuilder();
+     options.checkMissingReturn = CheckLevel.WARNING;
+ 
+     // checkTypes has the side-effect of asserting that the
+
+

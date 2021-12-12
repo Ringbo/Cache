@@ -1,0 +1,26 @@
+--- /tmp/RSRepair_Defects4J_Lang_7/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-02 02:43:48.618053998 -0500
++++ /tmp/RSRepair_Defects4J_Lang_7/patches_gx6z/Patch_147/patched/tmp/RSRepair_Defects4J_Lang_7/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-02 02:47:11.783837801 -0500
+@@ -450,7 +450,6 @@
+             throw new NumberFormatException("A blank string is not a valid number");
+         }  
+         if (str.startsWith("--")) {
+-            return null;
+         }
+         if (str.startsWith("0x") || str.startsWith("-0x") || str.startsWith("0X") || str.startsWith("-0X")) {
+             int hexDigits = str.length() - 2; // drop 0x
+
+
+--- /tmp/RSRepair_Defects4J_Lang_7/src/main/java/org/apache/commons/lang3/event/EventListenerSupport.java	2018-12-02 02:43:45.162024349 -0500
++++ /tmp/RSRepair_Defects4J_Lang_7/patches_gx6z/Patch_147/patched/tmp/RSRepair_Defects4J_Lang_7/src/main/java/org/apache/commons/lang3/event/EventListenerSupport.java	2018-12-02 02:47:11.787837839 -0500
+@@ -227,8 +227,7 @@
+                 testObjectOutputStream.writeObject(listener);
+                 serializableListeners.add(listener);
+             } catch (IOException exception) {
+-                //recreate test stream in case of indeterminate state
+-                testObjectOutputStream = new ObjectOutputStream(new ByteArrayOutputStream());
++                listeners.add(listener);
+             }
+         }
+         /*
+
+

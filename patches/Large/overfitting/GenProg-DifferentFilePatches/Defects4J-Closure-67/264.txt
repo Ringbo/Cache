@@ -1,0 +1,60 @@
+--- /tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/jscomp/RemoveUnusedPrototypeProperties.java	2018-12-02 06:51:37.259744610 -0500
++++ /tmp/GenProg_Defects4J_Closure_67/patches_0sb3/Patch_21/patched/tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/jscomp/RemoveUnusedPrototypeProperties.java	2018-12-02 06:56:28.339305012 -0500
+@@ -81,28 +81,6 @@
+     boolean changed = false;
+     for (NameInfo nameInfo : allNameInfo) {
+       if (!nameInfo.isReferenced()) {
+-        for (Symbol declaration : nameInfo.getDeclarations()) {
+-          boolean canRemove = false;
+-
+-          if (specializationState == null) {
+-            canRemove = true;
+-          } else {
+-            Node specializableFunction =
+-              getSpecializableFunctionFromSymbol(declaration);
+-
+-            if (specializableFunction != null) {
+-              specializationState.reportRemovedFunction(
+-                  specializableFunction, null);
+-              canRemove = true;
+-            }
+-          }
+-
+-          if (canRemove) {
+-            declaration.remove();
+-            changed = true;
+-          }
+-        }
+-
+         logger.fine("Removed unused prototype property: " + nameInfo.name);
+       }
+     }
+
+
+--- /tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/rhino/Node.java	2018-12-02 06:51:37.279734609 -0500
++++ /tmp/GenProg_Defects4J_Closure_67/patches_0sb3/Patch_21/patched/tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/rhino/Node.java	2018-12-02 06:56:28.339305012 -0500
+@@ -1382,7 +1382,8 @@
+   public String checkTreeEquals(Node node2) {
+       NodeMismatch diff = checkTreeEqualsImpl(node2);
+       if (diff != null) {
+-        return "Node tree inequality:" +
++        int[] keys = getSortedPropTypes();
++		return "Node tree inequality:" +
+             "\nTree1:\n" + toStringTree() +
+             "\n\nTree2:\n" + node2.toStringTree() +
+             "\n\nSubtree1: " + diff.nodeA.toStringTree() +
+
+
+--- /tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/rhino/Token.java	2018-12-02 06:51:37.283732609 -0500
++++ /tmp/GenProg_Defects4J_Closure_67/patches_0sb3/Patch_21/patched/tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/rhino/Token.java	2018-12-02 06:56:28.343305113 -0500
+@@ -307,7 +307,7 @@
+           case TYPEOF:          return "TYPEOF";
+           case GETPROP:         return "GETPROP";
+           case SETPROP:         return "SETPROP";
+-          case GETELEM:         return "GETELEM";
++          case GETELEM:         ;
+           case SETELEM:         return "SETELEM";
+           case CALL:            return "CALL";
+           case NAME:            return "NAME";
+
+

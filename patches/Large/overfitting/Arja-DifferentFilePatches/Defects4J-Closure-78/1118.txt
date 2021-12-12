@@ -1,0 +1,56 @@
+--- /tmp/Arja_Defects4J_Closure_78/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-01 09:22:50.345684741 -0500
++++ /tmp/Arja_Defects4J_Closure_78/patches_k0hs/Patch_1080/patched/tmp/Arja_Defects4J_Closure_78/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-01 09:34:46.628883365 -0500
+@@ -653,7 +653,6 @@
+       result.copyInformationFromForTree(n);
+       n.getParent().replaceChild(n, result);
+       reportCodeChange();
+-      return result;
+     }
+     return n;
+   }
+@@ -766,31 +765,6 @@
+     // Use getNumberValue to handle constants like "NaN" and "Infinity"
+     // other values are converted to numbers elsewhere.
+     Double rightValObj = NodeUtil.getNumberValue(right);
+-    if (rightValObj != null && left.getType() == opType) {
+-      Preconditions.checkState(left.getChildCount() == 2);
+-
+-      Node ll = left.getFirstChild();
+-      Node lr = ll.getNext();
+-
+-      Node valueToCombine = ll;
+-      Node replacement = performArithmeticOp(opType, valueToCombine, right);
+-      if (replacement == null) {
+-        valueToCombine = lr;
+-        replacement = performArithmeticOp(opType, valueToCombine, right);
+-      }
+-      if (replacement != null) {
+-        // Remove the child that has been combined
+-        left.removeChild(valueToCombine);
+-        // Replace the left op with the remaining child.
+-        n.replaceChild(left, left.removeFirstChild());
+-        // New "-Infinity" node need location info explicitly
+-        // added.
+-        replacement.copyInformationFromForTree(right);
+-        n.replaceChild(right, replacement);
+-        reportCodeChange();
+-      }
+-    }
+-
+     return n;
+   }
+ 
+
+
+--- /tmp/Arja_Defects4J_Closure_78/src/com/google/javascript/jscomp/AbstractPeepholeOptimization.java	2018-12-01 09:22:48.921670448 -0500
++++ /tmp/Arja_Defects4J_Closure_78/patches_k0hs/Patch_1080/patched/tmp/Arja_Defects4J_Closure_78/src/com/google/javascript/jscomp/AbstractPeepholeOptimization.java	2018-12-01 09:34:46.628883365 -0500
+@@ -51,7 +51,6 @@
+    */
+   protected void error(DiagnosticType diagnostic, Node n) {
+     JSError error = currentTraversal.makeError(n, diagnostic, n.toString());
+-    currentTraversal.getCompiler().report(error);
+   }
+ 
+   /**
+
+

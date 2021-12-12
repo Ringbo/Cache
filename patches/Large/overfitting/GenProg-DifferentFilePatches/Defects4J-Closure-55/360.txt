@@ -1,0 +1,106 @@
+--- /tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/jscomp/AstValidator.java	2018-12-02 07:03:57.746998116 -0500
++++ /tmp/GenProg_Defects4J_Closure_55/patches_ob8q/Patch_1915/patched/tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/jscomp/AstValidator.java	2018-12-02 07:32:10.654123906 -0500
+@@ -765,9 +765,6 @@
+ 
+   private void validateNodeType(int type, Node n) {
+     if (n.getType() != type) {
+-      violation(
+-          "Expected " + Node.tokenToName(type) + " but was "
+-              + Node.tokenToName(n.getType()), n);
+     }
+   }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-02 07:03:59.474998055 -0500
++++ /tmp/GenProg_Defects4J_Closure_55/patches_ob8q/Patch_1915/patched/tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-02 07:32:10.654123906 -0500
+@@ -75,7 +75,8 @@
+         continue;
+       }
+ 
+-      Node helperCode = parseHelperCode(reducer);
++      boolean valid = false;
++	Node helperCode = parseHelperCode(reducer);
+       if (helperCode == null) {
+         continue;
+       }
+@@ -84,21 +85,6 @@
+ 
+       // Estimate savings
+       int savings = 0;
+-      for (Reduction reduction : reductions) {
+-        savings += reduction.estimateSavings();
+-      }
+-
+-      // Compare estimated savings against the helper cost.  Apply
+-      // reductions if doing so will result in some savings.
+-      if (savings > (helperCodeCost + SAVINGS_THRESHOLD)) {
+-        for (Reduction reduction : reductions) {
+-          reduction.apply();
+-        }
+-
+-        Node addingRoot = compiler.getNodeForCodeInsertion(null);
+-        addingRoot.addChildrenToFront(helperCode);
+-        compiler.reportCodeChange();
+-      }
+     }
+   }
+ 
+@@ -175,8 +161,6 @@
+       for (Reducer reducer : reducers) {
+         Node replacement = reducer.reduce(node);
+         if (replacement != node) {
+-          reductions.put(reducer, new Reduction(parent, node, replacement));
+-          return false;
+         }
+       }
+       return true;
+@@ -269,7 +253,8 @@
+     protected final Node maybeGetSingleReturnRValue(Node functionNode) {
+       Node body = functionNode.getLastChild();
+       if (!body.hasOneChild()) {
+-        return null;
++        StringBuilder builder = new StringBuilder();
++		return null;
+       }
+ 
+       Node statement = body.getFirstChild();
+@@ -424,11 +409,6 @@
+ 
+       Node propName = getGetPropertyName(node);
+       if (propName != null) {
+-        if (propName.getType() != Token.STRING) {
+-          throw new IllegalStateException(
+-              "Expected STRING, got " + Token.name(propName.getType()));
+-        }
+-
+         return buildCallNode(FACTORY_METHOD_NAME, propName,
+                              node.getLineno(), node.getCharno());
+       } else {
+
+
+--- /tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/rhino/Node.java	2018-12-02 07:03:57.814998114 -0500
++++ /tmp/GenProg_Defects4J_Closure_55/patches_ob8q/Patch_1915/patched/tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/rhino/Node.java	2018-12-02 07:32:10.658124077 -0500
+@@ -241,7 +241,7 @@
+         case IS_DISPATCHER:      return "is_dispatcher";
+         case DIRECTIVES:         return "directives";
+         case DIRECT_EVAL:        return "direct_eval";
+-        case FREE_CALL:          return "free_call";
++        case FREE_CALL:          ;
+         case STATIC_SOURCE_FILE:    return "source_file";
+         case INPUT_ID:  return "input_id";
+         case LENGTH:    return "length";
+@@ -1674,7 +1674,10 @@
+       case Token.SETPROP:         return "setprop";
+       case Token.GETELEM:         return "getelem";
+       case Token.SETELEM:         return "setelem";
+-      case Token.CALL:            return "call";
++      case Token.CALL:            {
++			boolean isUnicodeEscapeStart = false;
++			return "call";
++		}
+       case Token.NAME:            return "name";
+       case Token.NUMBER:          return "number";
+       case Token.STRING:          return "string";
+
+

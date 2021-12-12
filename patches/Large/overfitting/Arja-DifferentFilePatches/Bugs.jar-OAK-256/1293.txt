@@ -1,0 +1,29 @@
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/store/DefaultRevisionStore.java	2018-12-29 10:48:57.960251000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/patches_10w1/Patch_910/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/store/DefaultRevisionStore.java	2018-12-29 11:02:11.048034520 -0500
+@@ -178,14 +178,6 @@
+                             return new Thread(r, "RevisionStore-GC");
+                         }
+                     });
+-            gcExecutor.scheduleWithFixedDelay(new Runnable() {
+-                @Override
+-                public void run() {
+-                    if (cache.size() >= initialCacheSize) {
+-                        gc();
+-                    }
+-                }
+-            }, 60, 1, TimeUnit.MINUTES); // TODO: Should start earlier
+         }
+ 
+         initialized = true;
+@@ -238,9 +230,6 @@
+ 
+         @Override
+         public boolean equals(Object obj) {
+-            if (obj instanceof PutTokenImpl) {
+-                return ((PutTokenImpl) obj).id == id;
+-            }
+             return super.equals(obj);
+         }
+ 
+
+

@@ -1,0 +1,38 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_69273dca/src/main/java/org/apache/commons/math3/ode/nonstiff/RungeKuttaIntegrator.java	2018-12-29 06:15:22.627928000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_69273dca/patches_nwue/Patch_1228/patched/tmp/Arja_Bug_dot_jar_Commons-Math_69273dca/src/main/java/org/apache/commons/math3/ode/nonstiff/RungeKuttaIntegrator.java	2018-12-29 07:22:02.091861248 -0500
+@@ -106,6 +106,9 @@
+     final int stages       = c.length + 1;
+     final double[][] yDotK = new double[stages][];
+     for (int i = 0; i < stages; ++i) {
++		yDotK[i] = new double[y0.length];
++	}
++	for (int i = 0; i < stages; ++i) {
+       yDotK [i] = new double[y0.length];
+     }
+     final double[] yTmp    = y0.clone();
+@@ -115,14 +118,20 @@
+     final RungeKuttaStepInterpolator interpolator = (RungeKuttaStepInterpolator) prototype.copy();
+     interpolator.reinitialize(this, yTmp, yDotK, forward,
+                               equations.getPrimaryMapper(), equations.getSecondaryMappers());
+-    interpolator.storeTime(equations.getTime());
+-
+     // set up integration control objects
+     stepStart = equations.getTime();
+     stepSize  = forward ? step : -step;
+     initIntegration(equations.getTime(), y0, t);
+ 
+-    // main integration loop
++    if (!isLastStep) {
++		interpolator.storeTime(stepStart);
++		final double nextT = stepStart + stepSize;
++		final boolean nextIsLast = forward ? (nextT >= t) : (nextT <= t);
++		if (nextIsLast) {
++			stepSize = t - stepStart;
++		}
++	}
++	// main integration loop
+     isLastStep = false;
+     do {
+ 
+
+

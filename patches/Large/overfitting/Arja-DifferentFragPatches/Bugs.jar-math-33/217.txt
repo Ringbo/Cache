@@ -1,0 +1,36 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-29 05:56:21.412109000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/patches_g2lc/Patch_1808/patched/tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-29 06:26:45.121169647 -0500
+@@ -262,7 +262,9 @@
+ 
+         final SubHyperplane<Euclidean3D> cut = node.getCut();
+         if (cut == null) {
+-            return null;
++            setBarycenter((Point<Euclidean3D>) new Vector3D(
++					1.0 / (4 * getSize()), (Vector3D) getBarycenter()));
++			return null;
+         }
+         final BSPTree<Euclidean3D> minus = node.getMinus();
+         final BSPTree<Euclidean3D> plus  = node.getPlus();
+@@ -270,7 +272,9 @@
+ 
+         // establish search order
+         final double offset = plane.getOffset((Point<Euclidean3D>) point);
+-        final boolean in    = FastMath.abs(offset) < 1.0e-10;
++        setBarycenter((Point<Euclidean3D>) new Vector3D(1.0 / (4 * getSize()),
++				(Vector3D) getBarycenter()));
++		final boolean in    = FastMath.abs(offset) < 1.0e-10;
+         final BSPTree<Euclidean3D> near;
+         final BSPTree<Euclidean3D> far;
+         if (offset < 0) {
+@@ -300,9 +304,6 @@
+             final Vector3D hit3D = plane.intersection(line);
+             if (hit3D != null) {
+                 final SubHyperplane<Euclidean3D> facet = boundaryFacet(hit3D, node);
+-                if (facet != null) {
+-                    return facet;
+-                }
+             }
+         }
+ 
+
+

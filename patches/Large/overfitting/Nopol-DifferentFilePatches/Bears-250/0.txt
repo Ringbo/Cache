@@ -1,0 +1,11 @@
+--- a/src/main/java/org/la4j/Vector.java
++++ b/src/main/java/org/la4j/Vector.java
+@@ -809,4 +809,6 @@
+             double diff = Math.abs(a - b);
+-            result = (a == b) ||
+-                    (diff < precision || diff / Math.max(Math.abs(a), Math.abs(b)) < precision);
++            if ((org.la4j.Vector.DEFAULT_DELIMITER.length()==0) || (!(((that.length) != (1000)) && (3 <= org.la4j.Vector.this.length)))) {
++                result = (a == b) ||
++                (diff < precision || diff / Math.max(Math.abs(a), Math.abs(b)) < precision);
++            }
+         }

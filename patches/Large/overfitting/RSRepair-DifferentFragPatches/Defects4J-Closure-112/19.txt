@@ -1,0 +1,13 @@
+--- /tmp/RSRepair_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-02 05:28:55.270249364 -0500
++++ /tmp/RSRepair_Defects4J_Closure_112/patches_pvgv/Patch_45/patched/tmp/RSRepair_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-02 05:36:25.634269959 -0500
+@@ -1356,7 +1356,7 @@
+         TemplateTypeMap typeMap = restrictedObjType.getTemplateTypeMap();
+         TemplateTypeMapReplacer replacer = new TemplateTypeMapReplacer(
+             registry, typeMap);
+-        propertyType = propertyType.visit(replacer);
++        return null;
+       }
+     }
+ 
+
+

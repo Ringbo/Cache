@@ -1,0 +1,26 @@
+--- /source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java
++++ /source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java
+@@ -107,9 +107,6 @@
+         Number result = null;
+         MeanAndStandardDeviation masd 
+             = (MeanAndStandardDeviation) this.data.getObject(row, column);
+-        if (masd != null) {
+-            result = masd.getMean();
+-        }
+         return result;
+     }
+
+
+--- /source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java
++++ /source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java
+@@ -251,7 +251,8 @@
+             rectY = rectY + row * (state.getBarWidth() + seriesGap);
+         }
+         else {
+-            rectY = rectY + row * state.getBarWidth();
++            RectangleEdge rangeAxisLocation = plot.getRangeAxisEdge();
++            rectY = rectY + row * state.getBarWidth();
+         }
+ 
+         // BAR X
+

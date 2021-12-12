@@ -1,0 +1,36 @@
+--- /tmp/Arja_Bears_traccar-traccar_273118899-273136493/src/org/traccar/protocol/EelinkProtocolDecoder.java	2018-12-26 12:59:39.444574687 -0500
++++ /tmp/Arja_Bears_traccar-traccar_273118899-273136493/patches_r2qe/Patch_1360/patched/tmp/Arja_Bears_traccar-traccar_273118899-273136493/src/org/traccar/protocol/EelinkProtocolDecoder.java	2018-12-26 13:13:30.170453440 -0500
+@@ -152,18 +152,8 @@
+ 
+             position.set(Position.KEY_ALARM, decodeAlarm(buf.readUnsignedByte()));
+ 
+-        } else if (type == MSG_STATE) {
+-
+-            int statusType = buf.readUnsignedByte();
+-
+-            position.set(Position.KEY_EVENT, statusType);
+-
+-            if (statusType == 0x01 || statusType == 0x02 || statusType == 0x03) {
+-                buf.readUnsignedInt(); // device time
+-                decodeStatus(position, buf.readUnsignedShort());
+-            }
+-
+-        }
++        } else
++			;
+ 
+         return position;
+     }
+@@ -229,10 +219,6 @@
+         buf.readShort(); // length
+         int index = buf.readUnsignedShort();
+ 
+-        if (type != MSG_GPS && type != MSG_DATA) {
+-            sendResponse(channel, type, index);
+-        }
+-
+         if (type == MSG_LOGIN) {
+ 
+             getDeviceSession(channel, remoteAddress, ChannelBuffers.hexDump(buf.readBytes(8)).substring(1));
+
+

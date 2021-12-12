@@ -1,0 +1,22 @@
+--- /tmp/RSRepair_Bug_dot_jar_Commons-Math_69273dca/src/main/java/org/apache/commons/math3/ode/nonstiff/RungeKuttaIntegrator.java	2018-12-29 22:39:07.379252000 -0500
++++ /tmp/RSRepair_Bug_dot_jar_Commons-Math_69273dca/patches_r00r/Patch_278/patched/tmp/RSRepair_Bug_dot_jar_Commons-Math_69273dca/src/main/java/org/apache/commons/math3/ode/nonstiff/RungeKuttaIntegrator.java	2018-12-29 23:02:29.885924970 -0500
+@@ -135,7 +135,16 @@
+       for (int k = 1; k < stages; ++k) {
+ 
+           for (int j = 0; j < y0.length; ++j) {
+-              double sum = a[k-1][0] * yDotK[0][j];
++              if (!isLastStep) {
++				interpolator.storeTime(stepStart);
++				final double nextT = stepStart + stepSize;
++				final boolean nextIsLast = forward ? (nextT >= t)
++						: (nextT <= t);
++				if (nextIsLast) {
++					stepSize = t - stepStart;
++				}
++			}
++			double sum = a[k-1][0] * yDotK[0][j];
+               for (int l = 1; l < k; ++l) {
+                   sum += a[k-1][l] * yDotK[l][j];
+               }
+
+

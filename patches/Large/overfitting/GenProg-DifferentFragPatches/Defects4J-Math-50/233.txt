@@ -1,0 +1,27 @@
+--- /tmp/GenProg_Defects4J_Math_50/src/main/java/org/apache/commons/math/analysis/solvers/BaseSecantSolver.java	2018-12-02 11:55:35.505022862 -0500
++++ /tmp/GenProg_Defects4J_Math_50/patches_sses/Patch_224/patched/tmp/GenProg_Defects4J_Math_50/src/main/java/org/apache/commons/math/analysis/solvers/BaseSecantSolver.java	2018-12-02 12:16:38.941864459 -0500
+@@ -132,7 +132,8 @@
+         double f0 = computeObjectiveValue(x0);
+         double f1 = computeObjectiveValue(x1);
+ 
+-        // If one of the bounds is the exact root, return it. Since these are
++        double initial = getStartValue();
++		// If one of the bounds is the exact root, return it. Since these are
+         // not under-approximations or over-approximations, we can return them
+         // regardless of the allowed solutions.
+         if (f0 == 0.0) {
+@@ -183,11 +184,7 @@
+                     f0 *= f1 / (f1 + fx);
+                     break;
+                 case REGULA_FALSI:
+-                    // Nothing.
+-                    if (x == x1) {
+-                        x0 = 0.5 * (x0 + x1 - FastMath.max(rtol * FastMath.abs(x1), atol));
+-                        f0 = computeObjectiveValue(x0);
+-                    }
++                    ;
+                     break;
+                 default:
+                     // Should never happen.
+
+

@@ -1,0 +1,11 @@
+--- /src/main/java/org/apache/commons/math3/optimization/fitting/HarmonicFitter.java
++++ /src/main/java/org/apache/commons/math3/optimization/fitting/HarmonicFitter.java
+@@ -324,7 +324,7 @@
+                     // procedure cannot produce sensible results.
+ 
+                 a = FastMath.sqrt(c1 / c2);
+-                omega = FastMath.sqrt(c2 / c3);
++if (c2==0.0){throw new MathIllegalStateException();}                omega = FastMath.sqrt(c2 / c3);
+             }
+         }
+

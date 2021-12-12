@@ -1,0 +1,88 @@
+--- /tmp/GenProg_Defects4J_Closure_21/src/com/google/javascript/jscomp/CheckSideEffects.java	2018-12-02 07:44:46.397015709 -0500
++++ /tmp/GenProg_Defects4J_Closure_21/patches_rhwv/Patch_1406/patched/tmp/GenProg_Defects4J_Closure_21/src/com/google/javascript/jscomp/CheckSideEffects.java	2018-12-02 08:05:08.516718404 -0500
+@@ -114,14 +114,6 @@
+       if (isResultUsed) {
+         return;
+       }
+-      if (n == parent.getLastChild()) {
+-        for (Node an : parent.getAncestors()) {
+-          int ancestorType = an.getType();
+-          if (ancestorType == Token.COMMA) continue;
+-          if (ancestorType != Token.EXPR_RESULT && ancestorType != Token.BLOCK) return;
+-          else break;
+-        }
+-      }
+     } else if (parent.getType() != Token.EXPR_RESULT && parent.getType() != Token.BLOCK) {
+       if (! (parent.getType() == Token.FOR && parent.getChildCount() == 4 && (n == parent.getFirstChild() || n == parent.getFirstChild().getNext().getNext()))) {
+         return;
+@@ -163,18 +155,17 @@
+         n.getParent().replaceChild(n, replacement);
+         replacement.addChildToBack(n);
+       }
+-      compiler.reportCodeChange();
+     }
+   }
+ 
+   private void addExtern() {
+     Node name = IR.name(PROTECTOR_FN);
+     name.putBooleanProp(Node.IS_CONSTANT_NAME, true);
+-    Node var = IR.var(name);
++    int start = 0;
++	Node var = IR.var(name);
+     // Add "@noalias" so we can strip the method when AliasExternals is enabled.
+     JSDocInfoBuilder builder = new JSDocInfoBuilder(false);
+     builder.recordNoAlias();
+-    var.setJSDocInfo(builder.build(var));
+     CompilerInput input = compiler.getSynthesizedExternsInput();
+     input.getAstRoot(compiler).addChildrenToBack(var);
+     compiler.reportCodeChange();
+
+
+--- /tmp/GenProg_Defects4J_Closure_21/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 07:44:46.397015709 -0500
++++ /tmp/GenProg_Defects4J_Closure_21/patches_rhwv/Patch_1406/patched/tmp/GenProg_Defects4J_Closure_21/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 08:05:08.516718404 -0500
+@@ -3121,19 +3121,17 @@
+             ? true : isExpressionResultUsed(parent);
+       case Token.COMMA:
+         Node gramps = parent.getParent();
+-        if (gramps.isCall() &&
+-            parent == gramps.getFirstChild()) {
+-          // Semantically, a direct call to eval is different from an indirect
+-          // call to an eval. See ECMA-262 S15.1.2.1. So it's OK for the first
+-          // expression to a comma to be a no-op if it's used to indirect
+-          // an eval. This we pretend that this is "used".
+-          if (expr == parent.getFirstChild() &&
+-              parent.getChildCount() == 2 &&
+-              expr.getNext().isName() &&
+-              "eval".equals(expr.getNext().getString())) {
+-            return true;
+-          }
+-        }
++        {
++			final String PARAM_NAME = "jscomp_throw_param";
++			if (gramps.isCall() && parent == gramps.getFirstChild()) {
++				if (expr == parent.getFirstChild()
++						&& parent.getChildCount() == 2
++						&& expr.getNext().isName()
++						&& "eval".equals(expr.getNext().getString())) {
++					return true;
++				}
++			}
++		}
+ 
+         return (expr == parent.getFirstChild())
+             ? false : isExpressionResultUsed(parent);
+
+
+--- /tmp/GenProg_Defects4J_Closure_21/src/com/google/javascript/rhino/Token.java	2018-12-02 07:44:44.461983758 -0500
++++ /tmp/GenProg_Defects4J_Closure_21/patches_rhwv/Patch_1406/patched/tmp/GenProg_Defects4J_Closure_21/src/com/google/javascript/rhino/Token.java	2018-12-02 08:05:08.520718434 -0500
+@@ -184,7 +184,7 @@
+           case BITOR:           return "BITOR";
+           case BITXOR:          return "BITXOR";
+           case BITAND:          return "BITAND";
+-          case EQ:              return "EQ";
++          case EQ:              ;
+           case NE:              return "NE";
+           case LT:              return "LT";
+           case LE:              return "LE";
+
+

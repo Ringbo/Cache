@@ -1,0 +1,35 @@
+--- /tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/rhino/Node.java	2018-12-02 05:32:20.528016873 -0500
++++ /tmp/GenProg_Defects4J_Closure_129/patches_qyo9/Patch_1851/patched/tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/rhino/Node.java	2018-12-02 06:05:15.668545911 -0500
+@@ -129,7 +129,7 @@
+         case IS_DISPATCHER:      return "is_dispatcher";
+         case DIRECTIVES:         return "directives";
+         case DIRECT_EVAL:        return "direct_eval";
+-        case FREE_CALL:          return "free_call";
++        case FREE_CALL:          ;
+         case STATIC_SOURCE_FILE:    return "source_file";
+         case INPUT_ID:  return "input_id";
+         case LENGTH:    return "length";
+@@ -1454,7 +1454,7 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
++        return null;
+       }
+     }
+     return res;
+
+
+--- /tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/jscomp/CodeGenerator.java	2018-12-02 05:32:20.500016874 -0500
++++ /tmp/GenProg_Defects4J_Closure_129/patches_qyo9/Patch_1851/patched/tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/jscomp/CodeGenerator.java	2018-12-02 06:05:15.672545920 -0500
+@@ -528,8 +528,6 @@
+         if (isIndirectEval(first)
+             || n.getBooleanProp(Node.FREE_CALL) && NodeUtil.isGet(first)) {
+           add("(0,");
+-          addExpr(first, NodeUtil.precedence(Token.COMMA), Context.OTHER);
+-          add(")");
+         } else {
+           addExpr(first, NodeUtil.precedence(type), context);
+         }
+
+

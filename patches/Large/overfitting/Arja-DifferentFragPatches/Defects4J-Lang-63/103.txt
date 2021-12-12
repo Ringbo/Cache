@@ -1,0 +1,24 @@
+--- /tmp/Arja_Defects4J_Lang_63/src/java/org/apache/commons/lang/time/DurationFormatUtils.java	2018-12-01 05:15:44.533037303 -0500
++++ /tmp/Arja_Defects4J_Lang_63/patches_g3j7/Patch_1495/patched/tmp/Arja_Defects4J_Lang_63/src/java/org/apache/commons/lang/time/DurationFormatUtils.java	2018-12-01 05:28:08.023583119 -0500
+@@ -345,7 +345,7 @@
+             days = 0;
+         }
+         if (!Token.containsTokenWithValue(tokens, H)) {
+-            minutes += 60 * hours;
++            seconds += 60 * minutes;
+             hours = 0;
+         }
+         if (!Token.containsTokenWithValue(tokens, m)) {
+@@ -435,8 +435,8 @@
+         int startValue = start.get(field);
+         if (endValue < startValue) {
+             int newdiff = startValue - endValue;
+-            end.add( field, newdiff );
+-            return newdiff;
++            end.add(Calendar.DATE, -1);
++			return newdiff;
+         } else {
+             return 0;
+         }
+
+

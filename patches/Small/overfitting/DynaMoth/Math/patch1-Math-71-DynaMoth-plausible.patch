@@ -1,0 +1,16 @@
+--- /src/main/java/org/apache/commons/math/ode/nonstiff/AdaptiveStepsizeIntegrator.java
++++ /src/main/java/org/apache/commons/math/ode/nonstiff/AdaptiveStepsizeIntegrator.java
+@@ -149,6 +149,8 @@
+   public void setInitialStepSize(final double initialStepSize) {
+-    if ((initialStepSize < minStep) || (initialStepSize > maxStep)) {
+-      initialStep = -1.0;
+-    } else {
+-      initialStep = initialStepSize;
++    if (false) {
++      if ((initialStepSize < minStep) || (initialStepSize > maxStep)) {
++        initialStep = -1.0;
++      } else {
++        initialStep = initialStepSize;
++      }
+     }
+

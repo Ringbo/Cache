@@ -1,0 +1,9 @@
+--- a/flink-runtime/src/main/java/org/apache/flink/runtime/io/network/netty/PartitionRequestClientHandler.java
++++ b/flink-runtime/src/main/java/org/apache/flink/runtime/io/network/netty/PartitionRequestClientHandler.java
+@@ -200,3 +200,5 @@
+ 						buffer.setSize(bufferOrEvent.getSize());
+-						bufferOrEvent.getNettyBuffer().readBytes(buffer.getNioBuffer());
++						if (false) {
++							bufferOrEvent.getNettyBuffer().readBytes(buffer.getNioBuffer());
++						}
+ 

@@ -1,0 +1,24 @@
+--- /tmp/Arja_Defects4J_Math_71/src/main/java/org/apache/commons/math/ode/events/EventState.java	2018-12-01 06:00:01.503483649 -0500
++++ /tmp/Arja_Defects4J_Math_71/patches_6k3o/Patch_943/patched/tmp/Arja_Defects4J_Math_71/src/main/java/org/apache/commons/math/ode/events/EventState.java	2018-12-01 07:19:34.155371774 -0500
+@@ -208,7 +208,8 @@
+                         }
+                     }
+ 
+-                    // variation direction, with respect to the integration direction
++                    pendingEvent = true;
++					// variation direction, with respect to the integration direction
+                     increasing = gb >= ga;
+ 
+                     final UnivariateRealFunction f = new UnivariateRealFunction() {
+@@ -242,9 +243,6 @@
+                             // properly ends exactly at the event occurrence
+                             return false;
+                         }
+-                        // either we were not waiting for the event or it has
+-                        // moved in such a way the step cannot be accepted
+-                        pendingEvent = true;
+                         return true;
+                     }
+ 
+
+

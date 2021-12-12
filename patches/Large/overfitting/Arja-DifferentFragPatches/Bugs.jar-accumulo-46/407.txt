@@ -1,0 +1,44 @@
+--- /tmp/Arja_Bug_dot_jar_Accumulo_a64151e6/server/gc/src/main/java/org/apache/accumulo/gc/GarbageCollectionAlgorithm.java	2018-12-28 21:24:11.344985000 -0500
++++ /tmp/Arja_Bug_dot_jar_Accumulo_a64151e6/patches_p5ou/Patch_2929/patched/tmp/Arja_Bug_dot_jar_Accumulo_a64151e6/server/gc/src/main/java/org/apache/accumulo/gc/GarbageCollectionAlgorithm.java	2018-12-28 21:49:44.740671410 -0500
+@@ -54,9 +54,6 @@
+   private String makeRelative(String path, int expectedLen) {
+     String relPath = path;
+ 
+-    if (relPath.startsWith("../"))
+-      relPath = relPath.substring(3);
+-
+     while (relPath.endsWith("/"))
+       relPath = relPath.substring(0, relPath.length() - 1);
+ 
+@@ -74,17 +71,6 @@
+       }
+     }
+ 
+-    if (containsEmpty) {
+-      ArrayList<String> tmp = new ArrayList<String>();
+-      for (String token : tokens) {
+-        if (!token.equals("")) {
+-          tmp.add(token);
+-        }
+-      }
+-
+-      tokens = tmp.toArray(new String[tmp.size()]);
+-    }
+-
+     if (tokens.length > 3) {
+       if (!path.contains(":"))
+         throw new IllegalArgumentException(path);
+@@ -111,11 +97,6 @@
+ 
+     SortedMap<String,String> ret = new TreeMap<String,String>();
+ 
+-    for (String candidate : candidates) {
+-      String relPath = makeRelative(candidate, 0);
+-      ret.put(relPath, candidate);
+-    }
+-
+     return ret;
+   }
+ 
+
+

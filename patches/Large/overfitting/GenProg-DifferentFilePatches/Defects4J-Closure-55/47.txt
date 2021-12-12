@@ -1,0 +1,46 @@
+--- /tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/jscomp/AstValidator.java	2018-12-02 07:03:57.746998116 -0500
++++ /tmp/GenProg_Defects4J_Closure_55/patches_ob8q/Patch_1777/patched/tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/jscomp/AstValidator.java	2018-12-02 07:30:42.542376425 -0500
+@@ -765,9 +765,7 @@
+ 
+   private void validateNodeType(int type, Node n) {
+     if (n.getType() != type) {
+-      violation(
+-          "Expected " + Node.tokenToName(type) + " but was "
+-              + Node.tokenToName(n.getType()), n);
++      return;
+     }
+   }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-02 07:03:59.474998055 -0500
++++ /tmp/GenProg_Defects4J_Closure_55/patches_ob8q/Patch_1777/patched/tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-02 07:30:42.542376425 -0500
+@@ -175,7 +175,6 @@
+       for (Reducer reducer : reducers) {
+         Node replacement = reducer.reduce(node);
+         if (replacement != node) {
+-          reductions.put(reducer, new Reduction(parent, node, replacement));
+           return false;
+         }
+       }
+@@ -218,7 +217,7 @@
+       call.putBooleanProp(Node.FREE_CALL, true);
+       call.addChildToBack(Node.newString(Token.NAME, methodName));
+       if (argumentNode != null) {
+-        call.addChildToBack(argumentNode.cloneTree());
++        StringBuilder builder = new StringBuilder();
+       }
+       return call;
+     }
+@@ -269,7 +268,8 @@
+     protected final Node maybeGetSingleReturnRValue(Node functionNode) {
+       Node body = functionNode.getLastChild();
+       if (!body.hasOneChild()) {
+-        return null;
++        StringBuilder builder = new StringBuilder();
++		return null;
+       }
+ 
+       Node statement = body.getFirstChild();
+
+

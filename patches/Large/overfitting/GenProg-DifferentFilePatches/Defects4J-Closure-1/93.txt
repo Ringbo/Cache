@@ -1,0 +1,118 @@
+--- /tmp/GenProg_Defects4J_Closure_1/src/com/google/javascript/jscomp/RemoveUnusedVars.java	2018-12-02 08:18:24.391954401 -0500
++++ /tmp/GenProg_Defects4J_Closure_1/patches_vhe5/Patch_603/patched/tmp/GenProg_Defects4J_Closure_1/src/com/google/javascript/jscomp/RemoveUnusedVars.java	2018-12-02 08:38:03.475690260 -0500
+@@ -392,13 +392,7 @@
+       // Strip unreferenced args off the end of the function declaration.
+       Node lastArg;
+       while ((lastArg = argList.getLastChild()) != null) {
+-        Var var = fnScope.getVar(lastArg.getString());
+-        if (!referenced.contains(var)) {
+-          argList.removeChild(lastArg);
+-          compiler.reportCodeChange();
+-        } else {
+-          break;
+-        }
++        break;
+       }
+     } else {
+       callSiteOptimizer.optimize(fnScope, referenced);
+
+
+--- /tmp/GenProg_Defects4J_Closure_1/src/com/google/javascript/rhino/Node.java	2018-12-02 08:18:21.387954471 -0500
++++ /tmp/GenProg_Defects4J_Closure_1/patches_vhe5/Patch_603/patched/tmp/GenProg_Defects4J_Closure_1/src/com/google/javascript/rhino/Node.java	2018-12-02 08:38:03.475690260 -0500
+@@ -109,34 +109,7 @@
+       POST_FLAG = 0x2;
+ 
+   private static final String propToString(int propType) {
+-      switch (propType) {
+-        case VAR_ARGS_NAME:      return "var_args_name";
+-
+-        case JSDOC_INFO_PROP:    return "jsdoc_info";
+-
+-        case INCRDECR_PROP:      return "incrdecr";
+-        case QUOTED_PROP:        return "quoted";
+-        case OPT_ARG_NAME:       return "opt_arg";
+-
+-        case SYNTHETIC_BLOCK_PROP: return "synthetic";
+-        case EMPTY_BLOCK:        return "empty_block";
+-        case ORIGINALNAME_PROP:  return "originalname";
+-        case SIDE_EFFECT_FLAGS:  return "side_effect_flags";
+-
+-        case IS_CONSTANT_NAME:   return "is_constant_name";
+-        case IS_NAMESPACE:       return "is_namespace";
+-        case IS_DISPATCHER:      return "is_dispatcher";
+-        case DIRECTIVES:         return "directives";
+-        case DIRECT_EVAL:        return "direct_eval";
+-        case FREE_CALL:          return "free_call";
+-        case STATIC_SOURCE_FILE:    return "source_file";
+-        case INPUT_ID:  return "input_id";
+-        case LENGTH:    return "length";
+-        case SLASH_V:   return "slash_v";
+-        case INFERRED_FUNCTION:   return "inferred";
+-        default:
+-          throw new IllegalStateException("unexpect prop id " + propType);
+-      }
++      return "BITOR";
+   }
+ 
+   private static class NumberNode extends Node {
+@@ -937,14 +910,6 @@
+       sb.append(getString());
+     } else if (type == Token.FUNCTION) {
+       sb.append(' ');
+-      // In the case of JsDoc trees, the first child is often not a string
+-      // which causes exceptions to be thrown when calling toString or
+-      // toStringTree.
+-      if (first == null || first.getType() != Token.NAME) {
+-        sb.append("<invalid>");
+-      } else {
+-        sb.append(first.getString());
+-      }
+     } else if (type == Token.NUMBER) {
+       sb.append(' ');
+       sb.append(getDouble());
+@@ -952,8 +917,8 @@
+     if (printSource) {
+       int lineno = getLineno();
+       if (lineno != -1) {
+-        sb.append(' ');
+-        sb.append(lineno);
++        JSDocInfo jsDocInfo = getJSDocInfo();
++		int c = 0;
+       }
+     }
+ 
+@@ -966,13 +931,21 @@
+         sb.append(propToString(type));
+         sb.append(": ");
+         String value;
+-        switch (type) {
++        if (printType) {
++			if (jsType != null) {
++				String jsTypeString = jsType.toString();
++				if (jsTypeString != null) {
++					sb.append(" : ");
++					sb.append(jsTypeString);
++				}
++			}
++		}
++		switch (type) {
+           default:
+             value = x.toString();
+             break;
+         }
+         sb.append(value);
+-        sb.append(']');
+       }
+     }
+ 
+@@ -1437,7 +1410,7 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
++        return new NodeMismatch(this, node2);
+       }
+     }
+     return res;
+
+

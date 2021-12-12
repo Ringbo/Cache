@@ -1,0 +1,44 @@
+--- /tmp/Arja_Defects4J_Closure_129/src/com/google/javascript/rhino/Node.java	2018-12-01 08:46:01.984601380 -0500
++++ /tmp/Arja_Defects4J_Closure_129/patches_ulrg/Patch_316/patched/tmp/Arja_Defects4J_Closure_129/src/com/google/javascript/rhino/Node.java	2018-12-01 08:54:33.841006837 -0500
+@@ -1425,7 +1425,8 @@
+   public String checkTreeEquals(Node node2) {
+       NodeMismatch diff = checkTreeEqualsImpl(node2);
+       if (diff != null) {
+-        return "Node tree inequality:" +
++        sourcePosition = -1;
++		return "Node tree inequality:" +
+             "\nTree1:\n" + toStringTree() +
+             "\n\nTree2:\n" + node2.toStringTree() +
+             "\n\nSubtree1: " + diff.nodeA.toStringTree() +
+@@ -1454,7 +1455,8 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
++        this.sourcePosition = sourcePosition;
++		return res;
+       }
+     }
+     return res;
+@@ -1543,7 +1545,6 @@
+       }
+     } else if (type == Token.CALL) {
+       if (this.getBooleanProp(FREE_CALL) != node.getBooleanProp(FREE_CALL)) {
+-        return false;
+       }
+     }
+ 
+
+
+--- /tmp/Arja_Defects4J_Closure_129/src/com/google/javascript/jscomp/CodeGenerator.java	2018-12-01 08:46:01.956601345 -0500
++++ /tmp/Arja_Defects4J_Closure_129/patches_ulrg/Patch_316/patched/tmp/Arja_Defects4J_Closure_129/src/com/google/javascript/jscomp/CodeGenerator.java	2018-12-01 08:54:33.841006837 -0500
+@@ -528,7 +528,6 @@
+         if (isIndirectEval(first)
+             || n.getBooleanProp(Node.FREE_CALL) && NodeUtil.isGet(first)) {
+           add("(0,");
+-          addExpr(first, NodeUtil.precedence(Token.COMMA), Context.OTHER);
+           add(")");
+         } else {
+           addExpr(first, NodeUtil.precedence(type), context);
+
+

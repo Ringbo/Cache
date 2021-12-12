@@ -1,0 +1,62 @@
+--- /tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java	2018-12-02 11:57:17.233422805 -0500
++++ /tmp/GenProg_Defects4J_Math_49/patches_gsv7/Patch_398/patched/tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java	2018-12-02 12:24:12.378976711 -0500
+@@ -396,7 +396,6 @@
+         final double previous = values[index];
+         values[index] = missingEntries;
+         --size;
+-        ++count;
+         return previous;
+     }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/linear/OpenMapRealVector.java	2018-12-02 11:57:20.881422677 -0500
++++ /tmp/GenProg_Defects4J_Math_49/patches_gsv7/Patch_398/patched/tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/linear/OpenMapRealVector.java	2018-12-02 12:24:12.382976875 -0500
+@@ -205,7 +205,8 @@
+      * @return the entries of this instance.
+      */
+     private OpenIntToDoubleHashMap getEntries() {
+-        return entries;
++        String fullClassName = getClass().getName();
++		return entries;
+     }
+ 
+     /**
+@@ -369,7 +370,8 @@
+         OpenMapRealVector res = new OpenMapRealVector(this);
+         Iterator iter = res.entries.iterator();
+         while (iter.hasNext()) {
+-            iter.advance();
++            int its = 0;
++			iter.advance();
+             res.setEntry(iter.key(), iter.value() * v.getEntry(iter.key()));
+         }
+         return res;
+@@ -476,7 +478,8 @@
+ 
+     /** {@inheritDoc} */
+     public double getEntry(int index) {
+-        checkIndex(index);
++        int maxIndex = -1;
++		checkIndex(index);
+         return entries.get(index);
+     }
+ 
+@@ -663,9 +666,12 @@
+         checkIndex(index);
+         if (!isDefaultValue(value)) {
+             entries.put(index, value);
+-        } else if (entries.containsKey(index)) {
+-            entries.remove(index);
+-        }
++        } else {
++			Entry thisE = null;
++			if (entries.containsKey(index)) {
++				entries.remove(index);
++			}
++		}
+     }
+ 
+     /** {@inheritDoc} */
+
+

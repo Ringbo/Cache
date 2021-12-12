@@ -1,0 +1,40 @@
+--- /tmp/Arja_Defects4J_Lang_63/src/java/org/apache/commons/lang/time/DurationFormatUtils.java	2018-12-01 05:15:44.533037303 -0500
++++ /tmp/Arja_Defects4J_Lang_63/patches_g3j7/Patch_1490/patched/tmp/Arja_Defects4J_Lang_63/src/java/org/apache/commons/lang/time/DurationFormatUtils.java	2018-12-01 05:28:06.691572506 -0500
+@@ -283,7 +283,11 @@
+         int hours = end.get(Calendar.HOUR_OF_DAY) - start.get(Calendar.HOUR_OF_DAY);
+         int days = end.get(Calendar.DAY_OF_MONTH) - start.get(Calendar.DAY_OF_MONTH);
+         int months = end.get(Calendar.MONTH) - start.get(Calendar.MONTH);
+-        int years = end.get(Calendar.YEAR) - start.get(Calendar.YEAR);
++        while (days < 0) {
++			days += 31;
++			months -= 1;
++		}
++		int years = end.get(Calendar.YEAR) - start.get(Calendar.YEAR);
+ 
+         // each initial estimate is adjusted in case it is under 0
+         while (milliseconds < 0) {
+@@ -298,10 +302,10 @@
+             minutes += 60;
+             hours -= 1;
+         }
+-        while (hours < 0) {
+-            hours += 24;
+-            days -= 1;
+-        }
++        while (months < 0) {
++			months += 12;
++			years -= 1;
++		}
+         while (days < 0) {
+             days += 31;
+ //days += 31; // TODO: Need tests to show this is bad and the new code is good.
+@@ -435,7 +439,6 @@
+         int startValue = start.get(field);
+         if (endValue < startValue) {
+             int newdiff = startValue - endValue;
+-            end.add( field, newdiff );
+             return newdiff;
+         } else {
+             return 0;
+
+

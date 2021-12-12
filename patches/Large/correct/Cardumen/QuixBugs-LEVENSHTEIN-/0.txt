@@ -1,0 +1,13 @@
+/var/lib/oar/.batch_job_bashrc: line 5: /home/tdurieux/.bashrc: No such file or directory
+--- java_programs/LEVENSHTEIN.java
++++ java_programs/LEVENSHTEIN.java
+@@ -14,7 +14,7 @@
+ 		if ((source.isEmpty()) || (target.isEmpty())) {
+ 			return source.isEmpty() ? target.length() : source.length();
+ 		}else 			if ((source.charAt(0)) == (target.charAt(0))) {
+-				return 1 + (java_programs.LEVENSHTEIN.levenshtein(source.substring(1), target.substring(1)));
++				return java_programs.LEVENSHTEIN.levenshtein(target.substring(1), source.substring(1));
+ 			}else {
+ 				return 1 + (java.lang.Math.min(java.lang.Math.min(
+ 				java_programs.LEVENSHTEIN.levenshtein(source, target.substring(1)), 
+

@@ -1,0 +1,24 @@
+--- /tmp/RSRepair_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2018-12-02 03:14:08.408260105 -0500
++++ /tmp/RSRepair_Defects4J_Math_28/patches_ob2o/Patch_403/patched/tmp/RSRepair_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2018-12-02 03:39:42.322336561 -0500
+@@ -148,7 +148,6 @@
+                         }
+                     }
+                 }
+-                return minRow;
+         }
+         return minRatioPositions.get(0);
+     }
+
+
+--- /tmp/RSRepair_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/AbstractLinearOptimizer.java	2018-12-02 03:14:04.560259927 -0500
++++ /tmp/RSRepair_Defects4J_Math_28/patches_ob2o/Patch_403/patched/tmp/RSRepair_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/AbstractLinearOptimizer.java	2018-12-02 03:39:42.326336564 -0500
+@@ -125,7 +125,6 @@
+     protected void incrementIterationsCounter()
+         throws MaxCountExceededException {
+         if (++iterations > maxIterations) {
+-            throw new MaxCountExceededException(maxIterations);
+         }
+     }
+ 
+
+

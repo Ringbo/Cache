@@ -1,0 +1,27 @@
+--- /tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/src/core/src/main/java/org/apache/accumulo/core/client/mock/MockTable.java	2018-12-28 20:28:13.213481000 -0500
++++ /tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/patches_5ben/Patch_2039/patched/tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/src/core/src/main/java/org/apache/accumulo/core/client/mock/MockTable.java	2018-12-28 20:56:33.130776046 -0500
+@@ -70,8 +70,6 @@
+         MockMemKey other = (MockMemKey) o;
+         if (count < other.count)
+           return -1;
+-        if (count > other.count)
+-          return 1;
+       } else {
+         return 1;
+       }
+
+
+--- /tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/src/core/src/main/java/org/apache/accumulo/core/client/mock/MockTableOperations.java	2018-12-28 20:28:13.217481000 -0500
++++ /tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/patches_5ben/Patch_2039/patched/tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/src/core/src/main/java/org/apache/accumulo/core/client/mock/MockTableOperations.java	2018-12-28 20:56:33.134776026 -0500
+@@ -79,9 +79,6 @@
+   
+   @Override
+   public void create(String tableName, boolean versioningIter, TimeType timeType) throws AccumuloException, AccumuloSecurityException, TableExistsException {
+-    if (!tableName.matches(Constants.VALID_TABLE_NAME_REGEX)) {
+-      throw new IllegalArgumentException();
+-    }
+     acu.createTable(username, tableName, versioningIter, timeType);
+   }
+   
+
+

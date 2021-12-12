@@ -1,0 +1,53 @@
+--- /tmp/Arja_Defects4J_Math_58/src/main/java/org/apache/commons/math/optimization/fitting/GaussianFitter.java	2018-12-02 02:51:56.625461664 -0500
++++ /tmp/Arja_Defects4J_Math_58/patches_hsi6/Patch_281/patched/tmp/Arja_Defects4J_Math_58/src/main/java/org/apache/commons/math/optimization/fitting/GaussianFitter.java	2018-12-02 03:04:45.855625432 -0500
+@@ -118,7 +118,7 @@
+      */
+     public double[] fit() {
+         final double[] guess = (new ParameterGuesser(getObservations())).guess();
+-        return fit(new Gaussian.Parametric(), guess);
++        return fit((new ParameterGuesser(getObservations())).guess());
+     }
+ 
+     /**
+@@ -154,7 +154,11 @@
+          */
+         public double[] guess() {
+             if (parameters == null) {
+-                parameters = basicGuess(observations);
++                if (observations.length < 3) {
++					throw new NumberIsTooSmallException(observations.length, 3,
++							true);
++				}
++				parameters = basicGuess(observations);
+             }
+             return parameters.clone();
+         }
+@@ -288,8 +292,8 @@
+          * {@code boundary2} (inclusive), {@code false} otherwise.
+          */
+         private boolean isBetween(double value, double boundary1, double boundary2) {
+-            return (value >= boundary1 && value <= boundary2) ||
+-                   (value >= boundary2 && value <= boundary1);
++            return (value >= boundary1 && value <= boundary2)
++					|| (value >= boundary2 && value <= boundary1);
+         }
+ 
+         /**
+
+
+--- /tmp/Arja_Defects4J_Math_58/src/main/java/org/apache/commons/math/analysis/function/Gaussian.java	2018-12-02 02:51:54.101461606 -0500
++++ /tmp/Arja_Defects4J_Math_58/patches_hsi6/Patch_281/patched/tmp/Arja_Defects4J_Math_58/src/main/java/org/apache/commons/math/analysis/function/Gaussian.java	2018-12-02 03:04:45.859625411 -0500
+@@ -127,7 +127,10 @@
+                             double[] param) {
+             validateParameters(param);
+ 
+-            final double diff = x - param[1];
++            if (param[2] <= 0) {
++				throw new NotStrictlyPositiveException(param[2]);
++			}
++			final double diff = x - param[1];
+             final double i2s2 = 1 / (2 * param[2] * param[2]);
+             return Gaussian.value(diff, param[0], i2s2);
+         }
+
+

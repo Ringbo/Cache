@@ -1,0 +1,46 @@
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/geometry/enclosing/WelzlEncloser.java	2018-12-30 10:51:38.925758000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/patches_9tkz/Patch_213/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/geometry/enclosing/WelzlEncloser.java	2018-12-30 11:19:37.805831679 -0500
+@@ -104,16 +104,12 @@
+             support.add(farthest);
+             EnclosingBall<S, P> savedBall = ball;
+             ball = moveToFrontBall(extreme, support);
+-            if (ball.getRadius() < savedBall.getRadius()) {
+-                // TODO: fix this, it should never happen but it does!
+-                throw new MathInternalError();
+-            }
+-
+             // it was an interesting point, move it to the front
+             // according to Gärtner's heuristic
+             extreme.add(0, farthest);
+ 
+-            // prune the least interesting points
++            extreme.add(points.get(0));
++			// prune the least interesting points
+             extreme.subList(ball.getSupportSize(), extreme.size()).clear();
+ 
+ 
+@@ -141,11 +137,7 @@
+                     support.add(pi);
+                     ball = moveToFrontBall(extreme.subList(i + 1, extreme.size()), support);
+ 
+-                    // it was an interesting point, move it to the front
+-                    // according to Welzl's heuristic
+-                    for (int j = i; j > 1; --j) {
+-                        extreme.set(j, extreme.get(j - 1));
+-                    }
++                    EnclosingBall<S, P> savedBall = ball;
+                     extreme.set(0, pi);
+ 
+                 }
+@@ -164,7 +156,8 @@
+      */
+     public P selectFarthest(final List<P> points, final EnclosingBall<S, P> ball) {
+ 
+-        final P center = ball.getCenter();
++        List<P> support = new ArrayList<P>(max);
++		final P center = ball.getCenter();
+         P farthest   = null;
+         double dMax  = -1.0;
+ 
+
+

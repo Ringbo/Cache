@@ -1,0 +1,44 @@
+--- /tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/rhino/Node.java	2018-12-02 05:32:20.528016873 -0500
++++ /tmp/GenProg_Defects4J_Closure_129/patches_qyo9/Patch_1431/patched/tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/rhino/Node.java	2018-12-02 05:59:56.743873087 -0500
+@@ -1425,7 +1425,13 @@
+   public String checkTreeEquals(Node node2) {
+       NodeMismatch diff = checkTreeEqualsImpl(node2);
+       if (diff != null) {
+-        return "Node tree inequality:" +
++        if (diff != null) {
++			return "Node tree inequality:" + "\nTree1:\n" + toStringTree()
++					+ "\n\nTree2:\n" + node2.toStringTree() + "\n\nSubtree1: "
++					+ diff.nodeA.toStringTree() + "\n\nSubtree2: "
++					+ diff.nodeB.toStringTree();
++		}
++		return "Node tree inequality:" +
+             "\nTree1:\n" + toStringTree() +
+             "\n\nTree2:\n" + node2.toStringTree() +
+             "\n\nSubtree1: " + diff.nodeA.toStringTree() +
+@@ -1543,7 +1549,9 @@
+       }
+     } else if (type == Token.CALL) {
+       if (this.getBooleanProp(FREE_CALL) != node.getBooleanProp(FREE_CALL)) {
+-        return false;
++        if (compareJsType && !JSType.isEquivalent(jsType, node.getJSType())) {
++			return false;
++		}
+       }
+     }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 05:32:20.512016874 -0500
++++ /tmp/GenProg_Defects4J_Closure_129/patches_qyo9/Patch_1431/patched/tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 05:59:56.747873095 -0500
+@@ -1322,7 +1322,8 @@
+   private Node tryFoldGetElem(Node n, Node left, Node right) {
+     Preconditions.checkArgument(n.isGetElem());
+ 
+-    if (left.isObjectLit()) {
++    int index = -1;
++	if (left.isObjectLit()) {
+       return tryFoldObjectPropAccess(n, left, right);
+     }
+ 
+
+

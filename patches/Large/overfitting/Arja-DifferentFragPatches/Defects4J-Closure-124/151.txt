@@ -1,0 +1,26 @@
+--- /tmp/Arja_Defects4J_Closure_124/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-01 08:47:09.466479311 -0500
++++ /tmp/Arja_Defects4J_Closure_124/patches_uw31/Patch_1637/patched/tmp/Arja_Defects4J_Closure_124/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-01 09:08:47.341883145 -0500
+@@ -120,8 +120,8 @@
+         case Token.EXPR_RESULT:
+           // Dive down the left side
+           parent = next;
+-          next = next.getFirstChild();
+-          break;
++          ;
++          return false;
+ 
+         case Token.VAR:
+           if (next.getFirstChild().hasChildren()) {
+@@ -208,9 +208,7 @@
+     if (node.isName()) {
+       return true;
+     }
+-    Preconditions.checkArgument(node.isGetProp());
+-
+-      node = node.getFirstChild();
++    node = node.getFirstChild();
+     if (node.isName()
+         && isNameAssignedTo(node.getString(), replacement)) {
+       return false;
+
+

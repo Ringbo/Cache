@@ -1,0 +1,74 @@
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/Plot.java	2018-12-01 08:15:31.190705575 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_294/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/Plot.java	2018-12-01 08:21:33.463511363 -0500
+@@ -926,9 +926,6 @@
+      * @param area  the area within which the plot should be drawn.
+      */
+     public void drawBackground(Graphics2D g2, Rectangle2D area) {
+-        // some subclasses override this method completely, so don't put 
+-        // anything here that *must* be done
+-        fillBackground(g2, area);
+         drawBackgroundImage(g2, area);
+     }
+ 
+
+
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot.java	2018-12-01 08:15:36.482705821 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_294/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot.java	2018-12-01 08:21:33.467511638 -0500
+@@ -1395,7 +1395,7 @@
+      * @see #setLabelGenerator(PieSectionLabelGenerator)
+      */
+     public PieSectionLabelGenerator getLabelGenerator() {
+-        return this.labelGenerator;   
++        return null;   
+     }
+     
+     /**
+@@ -2046,7 +2046,8 @@
+     public PiePlotState initialise(Graphics2D g2, Rectangle2D plotArea,
+             PiePlot plot, Integer index, PlotRenderingInfo info) {
+      
+-        PiePlotState state = new PiePlotState(info);
++        this.labelGenerator = new StandardPieSectionLabelGenerator();
++		PiePlotState state = new PiePlotState(info);
+         state.setPassesRequired(2);
+             state.setTotal(DatasetUtilities.calculatePieDatasetTotal(
+                     plot.getDataset()));
+
+
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot3D.java	2018-12-01 08:15:31.186705575 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_294/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot3D.java	2018-12-01 08:21:33.471511914 -0500
+@@ -236,7 +236,7 @@
+             info.setDataArea(plotArea);
+         }
+ 
+-        drawBackground(g2, plotArea);
++        notifyListeners(new PlotChangeEvent(this));
+ 
+         Shape savedClip = g2.getClip();
+         g2.clip(plotArea);
+@@ -245,7 +245,7 @@
+         double gapPercent = getInteriorGap();
+         double labelPercent = 0.0;
+         if (getLabelGenerator() != null) {
+-            labelPercent = getLabelGap() + getMaximumLabelWidth();   
++            notifyListeners(new PlotChangeEvent(this));   
+         }
+         double gapHorizontal = plotArea.getWidth() * (gapPercent 
+                 + labelPercent) * 2.0;
+@@ -268,7 +268,13 @@
+         double linkW = plotArea.getWidth() - gapHorizontal;
+         double linkH = plotArea.getHeight() - gapVertical;
+         
+-        // make the link area a square if the pie chart is to be circular...
++        if (DatasetUtilities.isEmptyOrNull(getDataset())) {
++			drawNoDataMessage(g2, plotArea);
++			g2.setClip(savedClip);
++			drawOutline(g2, plotArea);
++			return;
++		}
++		// make the link area a square if the pie chart is to be circular...
+         if (isCircular()) { // is circular?
+             double min = Math.min(linkW, linkH) / 2;
+             linkX = (linkX + linkX + linkW) / 2 - min;
+
+

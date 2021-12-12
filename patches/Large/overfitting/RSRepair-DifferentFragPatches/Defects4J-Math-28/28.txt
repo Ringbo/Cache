@@ -1,0 +1,13 @@
+--- /tmp/RSRepair_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2018-12-02 03:14:08.408260105 -0500
++++ /tmp/RSRepair_Defects4J_Math_28/patches_ob2o/Patch_245/patched/tmp/RSRepair_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2018-12-02 03:37:31.038211785 -0500
+@@ -148,7 +148,7 @@
+                         }
+                     }
+                 }
+-                return minRow;
++                Integer minPos = null;
+         }
+         return minRatioPositions.get(0);
+     }
+
+

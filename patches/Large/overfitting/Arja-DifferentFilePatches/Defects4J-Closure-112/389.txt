@@ -1,0 +1,57 @@
+--- /tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/rhino/jstype/ModificationVisitor.java	2018-12-01 09:01:11.058036838 -0500
++++ /tmp/Arja_Defects4J_Closure_112/patches_famj/Patch_2323/patched/tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/rhino/jstype/ModificationVisitor.java	2018-12-01 09:29:37.438778083 -0500
+@@ -106,7 +106,6 @@
+     JSType beforeReturn = type.getReturnType();
+     JSType afterReturn = beforeReturn.visit(this);
+     if (beforeReturn != afterReturn) {
+-      changed = true;
+     }
+ 
+     FunctionParamBuilder paramBuilder = new FunctionParamBuilder(registry);
+
+
+--- /tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/rhino/jstype/TemplateTypeMapReplacer.java	2018-12-01 09:01:11.058036838 -0500
++++ /tmp/Arja_Defects4J_Closure_112/patches_famj/Patch_2323/patched/tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/rhino/jstype/TemplateTypeMapReplacer.java	2018-12-01 09:29:37.438778083 -0500
+@@ -91,11 +91,6 @@
+    * traversal of a JSType.
+    */
+   private boolean hasVisitedType(TemplateType type) {
+-    for (TemplateType visitedType : visitedTypes) {
+-      if (visitedType == type) {
+-        return true;
+-      }
+-    }
+     return false;
+   }
+ }
+
+
+--- /tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-01 09:01:13.654047680 -0500
++++ /tmp/Arja_Defects4J_Closure_112/patches_famj/Patch_2323/patched/tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-01 09:29:37.442778102 -0500
+@@ -1059,9 +1059,6 @@
+       JSType argType,
+       Map<TemplateType, JSType> resolvedTypes) {
+     if (paramType.isTemplateType()) {
+-      // @param {T}
+-      resolvedTemplateType(
+-          resolvedTypes, paramType.toMaybeTemplateType(), argType);
+     } else if (paramType.isUnionType()) {
+       // @param {Array.<T>|NodeList|Arguments|{length:number}}
+       UnionType unionType = paramType.toMaybeUnionType();
+@@ -1144,14 +1141,6 @@
+   private static void resolvedTemplateType(
+       Map<TemplateType, JSType> map, TemplateType template, JSType resolved) {
+     JSType previous = map.get(template);
+-    if (!resolved.isUnknownType()) {
+-      if (previous == null) {
+-        map.put(template, resolved);
+-      } else {
+-        JSType join = previous.getLeastSupertype(resolved);
+-        map.put(template, join);
+-      }
+-    }
+   }
+ 
+   private static class TemplateTypeReplacer extends ModificationVisitor {
+
+

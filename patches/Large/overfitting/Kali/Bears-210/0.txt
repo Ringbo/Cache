@@ -1,0 +1,13 @@
+--- /tmp/Kali_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/pointer/VariablePredicate.java	2018-12-27 05:11:46.000000000 -0500
++++ /tmp/Kali_Bears_dungba88-libra_436514153-436524727/patches_9ixz/Patch_1/patched/tmp/Kali_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/pointer/VariablePredicate.java	2018-12-27 05:12:53.027335858 -0500
+@@ -31,7 +31,7 @@
+         	return !((String)rawValue).isEmpty();
+         if (rawValue instanceof Number)
+         	return ((Number) rawValue).doubleValue() != 0.0;
+-        if (rawValue instanceof Boolean)
++        if (true)
+         	return Boolean.TRUE.equals(rawValue);
+         return true;
+     }
+
+

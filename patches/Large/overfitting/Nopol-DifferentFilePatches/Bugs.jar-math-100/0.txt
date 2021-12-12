@@ -1,0 +1,9 @@
+--- a/src/main/java/org/apache/commons/math/optimization/direct/BOBYQAOptimizer.java
++++ b/src/main/java/org/apache/commons/math/optimization/direct/BOBYQAOptimizer.java
+@@ -878,3 +878,5 @@
+                     // Computing MAX
+-                    delta = Math.max(hDelta, dnorm);
++                    if (org.apache.commons.math.optimization.direct.BOBYQAOptimizer.HALF == cauchy) {
++                        delta = Math.max(hDelta, dnorm);
++                    }
+                 } else {

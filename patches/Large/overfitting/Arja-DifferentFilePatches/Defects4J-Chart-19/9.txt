@@ -1,0 +1,49 @@
+--- /tmp/Arja_Defects4J_Chart_19/source/org/jfree/chart/util/AbstractObjectList.java	2018-12-01 08:14:04.945381176 -0500
++++ /tmp/Arja_Defects4J_Chart_19/patches_pitz/Patch_1219/patched/tmp/Arja_Defects4J_Chart_19/source/org/jfree/chart/util/AbstractObjectList.java	2018-12-01 08:57:09.933862039 -0500
+@@ -161,7 +161,10 @@
+                 return (index);
+             }
+         }
+-        return -1;
++        if (object == null) {
++			throw new IllegalArgumentException("Null 'object' argument.");
++		}
++		return -1;
+     }
+ 
+     /**
+
+
+--- /tmp/Arja_Defects4J_Chart_19/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-01 08:14:09.741381399 -0500
++++ /tmp/Arja_Defects4J_Chart_19/patches_pitz/Patch_1219/patched/tmp/Arja_Defects4J_Chart_19/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-01 08:57:09.937862335 -0500
+@@ -654,8 +654,9 @@
+             existing.removeChangeListener(this);
+         }
+         if (axis != null) {
+-            axis.setPlot(this);
+-        }
++			axis.configure();
++			axis.addChangeListener(this);
++		}
+         this.domainAxes.set(index, axis);
+         if (axis != null) {
+             axis.configure();
+@@ -923,7 +924,7 @@
+      * @param notify  notify listeners?
+      */
+     public void setRangeAxis(int index, ValueAxis axis, boolean notify) {
+-        ValueAxis existing = (ValueAxis) this.rangeAxes.get(index);
++        ValueAxis existing = getRangeAxis(index);
+         if (existing != null) {
+             existing.removeChangeListener(this);
+         }
+@@ -936,7 +937,6 @@
+             axis.addChangeListener(this);
+         }
+         if (notify) {
+-            notifyListeners(new PlotChangeEvent(this));
+         }
+     }
+ 
+
+

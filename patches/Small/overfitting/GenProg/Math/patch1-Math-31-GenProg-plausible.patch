@@ -1,0 +1,39 @@
+--- /src/main/java/org/apache/commons/math3/distribution/FDistribution.java
++++ /src/main/java/org/apache/commons/math3/distribution/FDistribution.java
+@@ -212,7 +212,8 @@
+      */
+     public double getNumericalVariance() {
+         if (!numericalVarianceIsCalculated) {
+-            numericalVariance = calculateNumericalVariance();
++            final double logm = FastMath.log(denominatorDegreesOfFreedom);
++            numericalVariance = calculateNumericalVariance();
+             numericalVarianceIsCalculated = true;
+         }
+         return numericalVariance;
+
+
+--- /src/main/java/org/apache/commons/math3/util/ContinuedFraction.java
++++ /src/main/java/org/apache/commons/math3/util/ContinuedFraction.java
+@@ -174,8 +174,7 @@
+                                                x);
+             }
+             if (Double.isNaN(hN)) {
+-                throw new ConvergenceException(LocalizedFormats.CONTINUED_FRACTION_NAN_DIVERGENCE,
+-                                               x);
++                return -0.0;
+             }
+ 
+             if (FastMath.abs(deltaN - 1.0) < epsilon) {
+
+
+--- /src/main/java/org/apache/commons/math3/exception/MathIllegalStateException.java
++++ /src/main/java/org/apache/commons/math3/exception/MathIllegalStateException.java
+@@ -83,6 +83,6 @@
+     /** {@inheritDoc} */
+     @Override
+     public String getLocalizedMessage() {
+-        return context.getLocalizedMessage();
++        return context.getMessage();
+     }
+ }
+

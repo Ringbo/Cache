@@ -1,0 +1,26 @@
+--- /tmp/Arja_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-01 05:57:29.659492621 -0500
++++ /tmp/Arja_Defects4J_Math_81/patches_57bl/Patch_616/patched/tmp/Arja_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-01 06:08:41.897619980 -0500
+@@ -1508,7 +1508,8 @@
+                         if (work[i4]  >  work[i4 - 2]) {
+                             return;
+                         }
+-                        b2 = b2 * (work[i4] / work[i4 - 2]);
++                        tau = 0.0;
++						b2 = b2 * (work[i4] / work[i4 - 2]);
+                         a2 = a2 + b2;
+                         if (100 * Math.max(b2, b1) < a2 || cnst1 < a2) {
+                             break;
+@@ -1516,10 +1517,7 @@
+                     }
+                     a2 = cnst3 * a2;
+ 
+-                    // rayleigh quotient residual bound.
+-                    if (a2 < cnst1) {
+-                        s = gam * (1 - Math.sqrt(a2)) / (1 + a2);
+-                    }
++                    a2 = a2 + b2;
+                     tau = s;
+ 
+                 }
+
+

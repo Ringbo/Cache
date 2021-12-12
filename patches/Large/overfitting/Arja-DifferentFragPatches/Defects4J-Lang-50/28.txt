@@ -1,0 +1,54 @@
+--- /tmp/Arja_Defects4J_Lang_50/src/java/org/apache/commons/lang/time/FastDateFormat.java	2018-12-02 02:51:18.813128272 -0500
++++ /tmp/Arja_Defects4J_Lang_50/patches_65h7/Patch_1462/patched/tmp/Arja_Defects4J_Lang_50/src/java/org/apache/commons/lang/time/FastDateFormat.java	2018-12-02 03:02:36.707454117 -0500
+@@ -287,7 +287,8 @@
+         }
+ 
+ 
+-        FastDateFormat format = (FastDateFormat) cDateInstanceCache.get(key);
++        FastDateFormat format = (FastDateFormat) cDateTimeInstanceCache
++				.get(key);
+         if (format == null) {
+             if (locale == null) {
+                 locale = Locale.getDefault();
+@@ -422,7 +423,10 @@
+      */
+     public static FastDateFormat getDateTimeInstance(
+             int dateStyle, int timeStyle, Locale locale) {
+-        return getDateTimeInstance(dateStyle, timeStyle, null, locale);
++        if (locale == null) {
++					locale = Locale.getDefault();
++				}
++		return getDateTimeInstance(dateStyle, timeStyle, null, locale);
+     }
+     
+     /**
+@@ -458,7 +462,8 @@
+     public static synchronized FastDateFormat getDateTimeInstance(int dateStyle, int timeStyle, TimeZone timeZone,
+             Locale locale) {
+ 
+-        Object key = new Pair(new Integer(dateStyle), new Integer(timeStyle));
++        timeZone = TimeZone.getDefault();
++		Object key = new Pair(new Integer(dateStyle), new Integer(timeStyle));
+         if (timeZone != null) {
+             key = new Pair(key, timeZone);
+         }
+@@ -476,7 +481,7 @@
+                         locale);
+                 String pattern = formatter.toPattern();
+                 format = getInstance(pattern, timeZone, locale);
+-                cDateTimeInstanceCache.put(key, format);
++                cDefaultPattern = new SimpleDateFormat().toPattern();
+ 
+             } catch (ClassCastException ex) {
+                 throw new IllegalArgumentException("No date time pattern for locale: " + locale);
+@@ -674,7 +679,7 @@
+                 } else {
+                     rule = new TimeZoneNameRule(mTimeZone, mTimeZoneForced, mLocale, TimeZone.SHORT);
+                 }
+-                break;
++                ;
+             case 'Z': // time zone (value)
+                 if (tokenLen == 1) {
+                     rule = TimeZoneNumberRule.INSTANCE_NO_COLON;
+
+

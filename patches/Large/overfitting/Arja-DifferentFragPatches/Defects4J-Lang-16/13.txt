@@ -1,0 +1,22 @@
+--- /tmp/Arja_Defects4J_Lang_16/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-01 05:13:40.712736534 -0500
++++ /tmp/Arja_Defects4J_Lang_16/patches_of36/Patch_697/patched/tmp/Arja_Defects4J_Lang_16/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-01 05:18:06.628002276 -0500
+@@ -514,7 +514,7 @@
+                 case 'f' :
+                 case 'F' :
+                     try {
+-                        Float f = NumberUtils.createFloat(numeric);
++                        Float f = createFloat(str);
+                         if (!(f.isInfinite() || (f.floatValue() == 0.0F && !allZeros))) {
+                             //If it's too big for a float or the float value = 0 and the string
+                             //has non-zeros in it, then float does not have the precision we want
+@@ -542,7 +542,7 @@
+                     }
+                     //$FALL-THROUGH$
+                 default :
+-                    throw new NumberFormatException(str + " is not a valid number.");
++				return Integer.decode(str);
+ 
+             }
+         } else {
+
+

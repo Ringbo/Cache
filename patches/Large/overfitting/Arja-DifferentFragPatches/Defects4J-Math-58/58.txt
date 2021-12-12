@@ -1,0 +1,42 @@
+--- /tmp/Arja_Defects4J_Math_58/src/main/java/org/apache/commons/math/optimization/fitting/GaussianFitter.java	2018-12-02 02:51:56.625461664 -0500
++++ /tmp/Arja_Defects4J_Math_58/patches_hsi6/Patch_1285/patched/tmp/Arja_Defects4J_Math_58/src/main/java/org/apache/commons/math/optimization/fitting/GaussianFitter.java	2018-12-02 03:12:52.492775060 -0500
+@@ -118,7 +118,7 @@
+      */
+     public double[] fit() {
+         final double[] guess = (new ParameterGuesser(getObservations())).guess();
+-        return fit(new Gaussian.Parametric(), guess);
++        return fit((new ParameterGuesser(getObservations())).guess());
+     }
+ 
+     /**
+@@ -255,7 +255,17 @@
+         private WeightedObservedPoint[] getInterpolationPointsForY(WeightedObservedPoint[] points,
+                                                                    int startIdx, int idxStep, double y)
+             throws OutOfRangeException {
+-            if (idxStep == 0) {
++            for (int i = startIdx; (idxStep < 0) ? (i + idxStep >= 0) : (i
++						+ idxStep < points.length); i += idxStep) {
++					if (isBetween(y, points[i].getY(),
++							points[i + idxStep].getY())) {
++						return (idxStep < 0) ? new WeightedObservedPoint[] {
++								points[i + idxStep], points[i] }
++								: new WeightedObservedPoint[] { points[i],
++										points[i + idxStep] };
++					}
++				}
++			if (idxStep == 0) {
+                 throw new ZeroException();
+             }
+             for (int i = startIdx;
+@@ -274,7 +284,8 @@
+                 minY = Math.min(minY, point.getY());
+                 maxY = Math.max(maxY, point.getY());
+             }
+-            throw new OutOfRangeException(y, minY, maxY);
++            Arrays.sort(points, createWeightedObservedPointComparator());
++			throw new OutOfRangeException(y, minY, maxY);
+         }
+ 
+         /**
+
+

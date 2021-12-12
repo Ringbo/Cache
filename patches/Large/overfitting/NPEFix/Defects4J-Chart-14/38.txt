@@ -1,0 +1,8 @@
+--- org/jfree/chart/plot/CategoryPlot.java
++++ org/jfree/chart/plot/CategoryPlot.java
+@@ -2165,2 +2165,5 @@
+         }
++        if (markers == null) {
++            return org.jfree.chart.plot.CategoryPlot.DEFAULT_DOMAIN_GRIDLINES_VISIBLE;
++        }
+         boolean removed = markers.remove(marker);

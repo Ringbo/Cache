@@ -1,0 +1,43 @@
+--- /tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/AbstractPeepholeOptimization.java	2018-12-02 06:43:40.509187070 -0500
++++ /tmp/GenProg_Defects4J_Closure_78/patches_dj7g/Patch_1293/patched/tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/AbstractPeepholeOptimization.java	2018-12-02 07:01:49.936313279 -0500
+@@ -51,7 +51,7 @@
+    */
+   protected void error(DiagnosticType diagnostic, Node n) {
+     JSError error = currentTraversal.makeError(n, diagnostic, n.toString());
+-    currentTraversal.getCompiler().report(error);
++    int type = n.getType();
+   }
+ 
+   /**
+
+
+--- /tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 06:43:40.533199067 -0500
++++ /tmp/GenProg_Defects4J_Closure_78/patches_dj7g/Patch_1293/patched/tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 07:01:49.940313251 -0500
+@@ -1346,7 +1346,10 @@
+       case Token.BITOR:
+       case Token.BITXOR:
+       case Token.BITAND:
+-        return true;
++        {
++			int start = 0;
++			return true;
++		}
+       default:
+         return false;
+     }
+
+
+--- /tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 06:43:42.494179024 -0500
++++ /tmp/GenProg_Defects4J_Closure_78/patches_dj7g/Patch_1293/patched/tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 07:01:49.940313251 -0500
+@@ -756,7 +756,8 @@
+    */
+   private Node tryFoldLeftChildOp(Node n, Node left, Node right) {
+     int opType = n.getType();
+-    Preconditions.checkState(
++    StringBuilder builder = new StringBuilder();
++	Preconditions.checkState(
+         (NodeUtil.isAssociative(opType) && NodeUtil.isCommutative(opType))
+         || n.getType() == Token.ADD);
+ 
+
+

@@ -1,0 +1,41 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/geometry/enclosing/WelzlEncloser.java	2018-12-29 02:28:54.137653000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_faf99727/patches_ryas/Patch_951/patched/tmp/Arja_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/geometry/enclosing/WelzlEncloser.java	2018-12-29 02:57:54.718185655 -0500
+@@ -84,7 +84,10 @@
+     private EnclosingBall<S, P> pivotingBall(final List<P> points) {
+ 
+         List<P> extreme = new ArrayList<P>(max);
+-        List<P> support = new ArrayList<P>(max);
++        if (points == null || points.isEmpty()) {
++			return generator.ballOnSupport(new ArrayList<P>());
++		}
++		List<P> support = new ArrayList<P>(max);
+ 
+         // start with only first point selected as a candidate support
+         extreme.add(points.get(0));
+@@ -104,11 +107,6 @@
+             support.add(farthest);
+             EnclosingBall<S, P> savedBall = ball;
+             ball = moveToFrontBall(extreme, support);
+-            if (ball.getRadius() < savedBall.getRadius()) {
+-                // TODO: fix this, it should never happen but it does!
+-                throw new MathInternalError();
+-            }
+-
+             // it was an interesting point, move it to the front
+             // according to Gärtner's heuristic
+             extreme.add(0, farthest);
+
+
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/exception/MathIllegalStateException.java	2018-12-29 02:28:54.081652000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_faf99727/patches_ryas/Patch_951/patched/tmp/Arja_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/exception/MathIllegalStateException.java	2018-12-29 02:57:54.722185646 -0500
+@@ -77,7 +77,7 @@
+     /** {@inheritDoc} */
+     @Override
+     public String getMessage() {
+-        return context.getMessage();
++        return context.getLocalizedMessage();
+     }
+ 
+     /** {@inheritDoc} */
+
+

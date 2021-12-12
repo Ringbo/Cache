@@ -1,0 +1,12 @@
+--- /tmp/Arja_Bears_albfernandez-GDS-PMD-Security-Rules_451155169-455669767/src/main/java/com/gdssecurity/pmd/rules/dfa/DfaSecurityRule.java	2018-12-26 12:42:04.669139482 -0500
++++ /tmp/Arja_Bears_albfernandez-GDS-PMD-Security-Rules_451155169-455669767/patches_bdow/Patch_1767/patched/tmp/Arja_Bears_albfernandez-GDS-PMD-Security-Rules_451155169-455669767/src/main/java/com/gdssecurity/pmd/rules/dfa/DfaSecurityRule.java	2018-12-26 13:20:10.904813064 -0500
+@@ -152,7 +152,6 @@
+ 		this.sinkAnnotations = getConfig(this.sinkAnnotationsDescriptor);
+ 		this.generatorAnnotations = getConfig(this.generatorAnnotationsDescriptor);
+ 		this.searchAnnotationsInPackages = getConfig(this.annotationsPackagesDescriptor);
+-		this.searchAnnotationsInPackagesArray = this.searchAnnotationsInPackages.toArray(new String[0]);
+ 		try {
+ 			this.MAX_DATAFLOWS = Integer.parseInt(getProperty(this.maxDataFlowsDescriptor));
+ 		}
+
+

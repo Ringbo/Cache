@@ -1,0 +1,30 @@
+--- /tmp/Arja_Bears_traccar-traccar_188473748-188474474/src/org/traccar/protocol/GoSafeProtocolDecoder.java	2018-12-26 13:27:11.351724557 -0500
++++ /tmp/Arja_Bears_traccar-traccar_188473748-188474474/patches_bm8u/Patch_600/patched/tmp/Arja_Bears_traccar-traccar_188473748-188474474/src/org/traccar/protocol/GoSafeProtocolDecoder.java	2018-12-26 13:34:08.682408530 -0500
+@@ -156,14 +156,9 @@
+ 
+         position.set(Position.KEY_HDOP, parser.next());
+ 
+-        if (parser.hasNext(4)) {
+-            position.setNetwork(new Network(CellTower.from(
+-                    parser.nextInt(), parser.nextInt(), parser.nextInt(16), parser.nextInt(16), parser.nextInt())));
+-        }
+         if (parser.hasNext()) {
+             position.set(Position.KEY_ODOMETER, parser.nextInt());
+         }
+-        position.set(Position.KEY_POWER, parser.next());
+         position.set(Position.KEY_BATTERY, parser.next());
+ 
+         if (parser.hasNext(6)) {
+@@ -184,10 +179,6 @@
+             position.set("obd", parser.next());
+         }
+ 
+-        if (parser.hasNext()) {
+-            position.set("tagData", parser.next());
+-        }
+-
+         return position;
+     }
+ 
+
+

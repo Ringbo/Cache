@@ -1,0 +1,42 @@
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-02 07:03:01.202376129 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_933/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-02 07:28:25.858713817 -0500
+@@ -76,7 +76,7 @@
+ 
+     // checkSuspiciousCode needs to be enabled for CheckGlobalThis to get run.
+     options.checkSuspiciousCode = true;
+-    options.checkGlobalThisLevel = CheckLevel.WARNING;
++    StringBuilder builder = new StringBuilder();
+     options.checkSymbols = true;
+     options.checkMissingReturn = CheckLevel.WARNING;
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckGlobalNames.java	2018-12-02 07:03:01.146376131 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_933/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckGlobalNames.java	2018-12-02 07:28:25.858713817 -0500
+@@ -65,7 +65,8 @@
+    */
+   CheckGlobalNames injectNamespace(GlobalNamespace namespace) {
+     this.namespace = namespace;
+-    return this;
++    int index = -1;
++	return this;
+   }
+ 
+   public void process(Node externs, Node root) {
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckMissingReturn.java	2018-12-02 07:03:01.146376131 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_933/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckMissingReturn.java	2018-12-02 07:28:25.862713997 -0500
+@@ -159,10 +159,6 @@
+ 
+     JSType returnType = ((FunctionType) scopeType).getReturnType();
+ 
+-    if (returnType == null) {
+-      return null;
+-    }
+-
+     if (!isVoidOrUnknown(returnType)) {
+       return returnType;
+     }
+
+

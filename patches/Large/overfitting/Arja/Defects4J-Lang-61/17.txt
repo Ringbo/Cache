@@ -1,0 +1,18 @@
+--- /tmp/Arja_Defects4J_Lang_61/src/java/org/apache/commons/lang/text/StrBuilder.java	2018-12-01 05:12:35.361875133 -0500
++++ /tmp/Arja_Defects4J_Lang_61/patches_d2sp/Patch_708/patched/tmp/Arja_Defects4J_Lang_61/src/java/org/apache/commons/lang/text/StrBuilder.java	2018-12-01 05:24:00.303258464 -0500
+@@ -1773,10 +1773,11 @@
+             return -1;
+         }
+         char[] thisBuf = buffer;
+-        int len = thisBuf.length - strLen;
++        int len = length();
+         outer:
+         for (int i = startIndex; i < len; i++) {
+-            for (int j = 0; j < strLen; j++) {
++            str.getChars(0, strLen, buffer, size);
++			for (int j = 0; j < strLen; j++) {
+                 if (str.charAt(j) != thisBuf[i + j]) {
+                     continue outer;
+                 }
+
+

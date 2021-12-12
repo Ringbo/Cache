@@ -1,0 +1,13 @@
+/var/lib/oar/.batch_job_bashrc: line 5: /home/tdurieux/.bashrc: No such file or directory
+--- org/apache/commons/math/optimization/linear/SimplexSolver.java
++++ org/apache/commons/math/optimization/linear/SimplexSolver.java
+@@ -80,7 +80,7 @@
+ 			double rhs = tableau.getEntry(i, ((tableau.getWidth()) - 1));
+ 			if ((org.apache.commons.math.util.MathUtils.compareTo(tableau.getEntry(i, col), 0, epsilon)) >= 0) {
+ 				double ratio = rhs / (tableau.getEntry(i, col));
+-				if (ratio < minRatio) {
++				if (ratio <= minRatio) {
+ 					minRatio = ratio;
+ 					minRatioPos = i;
+ 				}
+

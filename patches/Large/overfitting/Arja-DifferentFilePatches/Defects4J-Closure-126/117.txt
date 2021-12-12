@@ -1,0 +1,41 @@
+--- /tmp/Arja_Defects4J_Closure_126/src/com/google/javascript/jscomp/MinimizeExitPoints.java	2018-12-01 08:46:30.980378793 -0500
++++ /tmp/Arja_Defects4J_Closure_126/patches_shfw/Patch_950/patched/tmp/Arja_Defects4J_Closure_126/src/com/google/javascript/jscomp/MinimizeExitPoints.java	2018-12-01 09:01:41.330755965 -0500
+@@ -140,7 +140,6 @@
+        */
+       if (NodeUtil.hasFinally(n)) {
+         Node finallyBlock = n.getLastChild();
+-        tryMinimizeExits(finallyBlock, exitType, labelName);
+       }
+     }
+ 
+
+
+--- /tmp/Arja_Defects4J_Closure_126/src/com/google/javascript/rhino/Token.java	2018-12-01 08:46:28.147479956 -0500
++++ /tmp/Arja_Defects4J_Closure_126/patches_shfw/Patch_950/patched/tmp/Arja_Defects4J_Closure_126/src/com/google/javascript/rhino/Token.java	2018-12-01 09:01:41.334756210 -0500
+@@ -261,7 +261,7 @@
+           case CATCH:           return "CATCH";
+           case EMPTY:           return "EMPTY";
+           case BLOCK:           return "BLOCK";
+-          case LABEL:           return "LABEL";
++          case LABEL:           return "SUB";
+           case EXPR_RESULT:     return "EXPR_RESULT";
+           case SCRIPT:          return "SCRIPT";
+           case GETTER_DEF:      return "GETTER_DEF";
+
+
+--- /tmp/Arja_Defects4J_Closure_126/src/com/google/javascript/rhino/Node.java	2018-12-01 08:46:28.147479956 -0500
++++ /tmp/Arja_Defects4J_Closure_126/patches_shfw/Patch_950/patched/tmp/Arja_Defects4J_Closure_126/src/com/google/javascript/rhino/Node.java	2018-12-01 09:01:41.334756210 -0500
+@@ -1441,7 +1441,10 @@
+    */
+   NodeMismatch checkTreeEqualsImpl(Node node2) {
+     if (!isEquivalentTo(node2, false, false, false)) {
+-      return new NodeMismatch(this, node2);
++      if (!isEquivalentTo(node2, false, false, false)) {
++			return new NodeMismatch(this, node2);
++		}
++	return new NodeMismatch(this, node2);
+     }
+ 
+     NodeMismatch res = null;
+
+

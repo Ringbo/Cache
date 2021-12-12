@@ -1,0 +1,24 @@
+--- /tmp/Arja_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-01 09:32:02.543486895 -0500
++++ /tmp/Arja_Defects4J_Closure_55/patches_hugy/Patch_665/patched/tmp/Arja_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-01 09:42:43.200230354 -0500
+@@ -85,7 +85,6 @@
+       // Estimate savings
+       int savings = 0;
+       for (Reduction reduction : reductions) {
+-        savings += reduction.estimateSavings();
+       }
+ 
+       // Compare estimated savings against the helper cost.  Apply
+@@ -424,11 +423,6 @@
+ 
+       Node propName = getGetPropertyName(node);
+       if (propName != null) {
+-        if (propName.getType() != Token.STRING) {
+-          throw new IllegalStateException(
+-              "Expected STRING, got " + Token.name(propName.getType()));
+-        }
+-
+         return buildCallNode(FACTORY_METHOD_NAME, propName,
+                              node.getLineno(), node.getCharno());
+       } else {
+
+

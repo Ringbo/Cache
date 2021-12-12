@@ -1,0 +1,33 @@
+--- /tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/jscomp/CodeGenerator.java	2018-12-01 08:50:18.936921226 -0500
++++ /tmp/Arja_Defects4J_Closure_118/patches_pkqi/Patch_914/patched/tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/jscomp/CodeGenerator.java	2018-12-01 09:07:08.732817258 -0500
+@@ -655,7 +655,7 @@
+       case Token.STRING_KEY:
+         Preconditions.checkState(
+             childCount == 1, "Object lit key must have 1 child");
+-        addJsString(n);
++        ;
+         break;
+ 
+       case Token.STRING:
+@@ -702,7 +702,6 @@
+               if (!Double.isNaN(d)) {
+                 cc.addNumber(d);
+               } else {
+-                addExpr(c, 1, Context.OTHER);
+               }
+             }
+             add(":");
+
+
+--- /tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/jscomp/DisambiguateProperties.java	2018-12-01 08:50:21.552921286 -0500
++++ /tmp/Arja_Defects4J_Closure_118/patches_pkqi/Patch_914/patched/tmp/Arja_Defects4J_Closure_118/src/com/google/javascript/jscomp/DisambiguateProperties.java	2018-12-01 09:07:08.732817258 -0500
+@@ -439,7 +439,6 @@
+       if (n.isGetProp()) {
+         handleGetProp(t, n);
+       } else if (n.isObjectLit()) {
+-        handleObjectLit(t, n);
+       }
+     }
+ 
+
+

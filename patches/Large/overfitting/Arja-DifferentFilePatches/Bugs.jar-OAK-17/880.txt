@@ -1,0 +1,35 @@
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/oak-mk/src/main/java/org/apache/jackrabbit/mk/store/DefaultRevisionStore.java	2018-12-29 07:26:38.092560000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/patches_s7ag/Patch_618/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/oak-mk/src/main/java/org/apache/jackrabbit/mk/store/DefaultRevisionStore.java	2018-12-29 07:42:44.345294714 -0500
+@@ -343,8 +343,6 @@
+         verifyInitialized();
+ 
+         Id commitId = writeCommit(token, commit);
+-        putTokens.remove(token);
+-
+         Id branchRootId = commit.getBranchRootId();
+         if (branchRootId != null) {
+             synchronized (branches) {
+
+
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/oak-mk/src/main/java/org/apache/jackrabbit/mk/core/MicroKernelImpl.java	2018-12-29 07:26:38.072559000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/patches_s7ag/Patch_618/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/oak-mk/src/main/java/org/apache/jackrabbit/mk/core/MicroKernelImpl.java	2018-12-29 07:42:44.349294731 -0500
+@@ -103,9 +103,6 @@
+     }
+ 
+     public String getHeadRevision() throws MicroKernelException {
+-        if (rep == null) {
+-            throw new IllegalStateException("this instance has already been disposed");
+-        }
+         return getHeadRevisionId().toString();
+     }
+ 
+@@ -411,7 +408,6 @@
+             throw new IllegalArgumentException("absolute path expected: " + path);
+         }
+         if (jsonDiff == null || jsonDiff.length() == 0) {
+-            return getHeadRevision();
+         }
+ 
+         Id revId = revisionId == null ? getHeadRevisionId() : Id.fromString(revisionId);
+
+

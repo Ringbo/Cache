@@ -1,0 +1,48 @@
+--- /tmp/Arja_Defects4J_Closure_75/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-01 09:23:26.391734914 -0500
++++ /tmp/Arja_Defects4J_Closure_75/patches_z70m/Patch_583/patched/tmp/Arja_Defects4J_Closure_75/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-01 09:34:37.911347646 -0500
+@@ -346,7 +346,7 @@
+     }
+ 
+     try {
+-      return Double.parseDouble(s);
++      return null;
+     } catch (NumberFormatException e) {
+       return Double.NaN;
+     }
+@@ -361,7 +361,8 @@
+     }
+     while (start < end
+         && isStrWhiteSpaceChar(s.charAt(start)) == TernaryValue.TRUE) {
+-      start++;
++      start = end + 1;
++	start++;
+     }
+     return s.substring(start, end);
+   }
+@@ -370,23 +371,7 @@
+    * Copied from Rhino's ScriptRuntime
+    */
+   static TernaryValue isStrWhiteSpaceChar(int c) {
+-    switch (c) {
+-      case '\u000B': // <VT>
+-        return TernaryValue.TRUE;
+-      case ' ': // <SP>
+-      case '\n': // <LF>
+-      case '\r': // <CR>
+-      case '\t': // <TAB>
+-      case '\u00A0': // <NBSP>
+-      case '\u000C': // <FF>
+-      case '\u2028': // <LS>
+-      case '\u2029': // <PS>
+-      case '\uFEFF': // <BOM>
+-        return TernaryValue.TRUE;
+-      default:
+-        return (Character.getType(c) == Character.SPACE_SEPARATOR)
+-            ? TernaryValue.TRUE : TernaryValue.FALSE;
+-    }
++    return null;
+   }
+ 
+   /**
+
+

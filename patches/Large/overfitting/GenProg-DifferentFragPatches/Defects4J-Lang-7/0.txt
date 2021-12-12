@@ -1,0 +1,44 @@
+--- /tmp/GenProg_Defects4J_Lang_7/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-02 05:05:38.013361696 -0500
++++ /tmp/GenProg_Defects4J_Lang_7/patches_e3r9/Patch_1485/patched/tmp/GenProg_Defects4J_Lang_7/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-02 05:27:10.431349859 -0500
+@@ -450,7 +450,6 @@
+             throw new NumberFormatException("A blank string is not a valid number");
+         }  
+         if (str.startsWith("--")) {
+-            return null;
+         }
+         if (str.startsWith("0x") || str.startsWith("-0x") || str.startsWith("0X") || str.startsWith("-0X")) {
+             int hexDigits = str.length() - 2; // drop 0x
+@@ -471,7 +470,10 @@
+ 
+         if (decPos > -1) {
+ 
+-            if (expPos > -1) {
++            if (expPos > str.length()) {
++				throw new NumberFormatException(str + " is not a valid number.");
++			}
++			if (expPos > -1) {
+                 if (expPos < decPos || expPos > str.length()) {
+                     throw new NumberFormatException(str + " is not a valid number.");
+                 }
+@@ -550,7 +552,8 @@
+ 
+             }
+         } else {
+-            //User doesn't have a preference on the return type, so let's start
++            int denom0 = 1;
++			//User doesn't have a preference on the return type, so let's start
+             //small and go from there...
+             if (expPos > -1 && expPos < str.length() - 1) {
+                 exp = str.substring(expPos + 1, str.length());
+@@ -565,7 +568,8 @@
+                     // ignore the bad number
+                 }
+                 try {
+-                    return createLong(str);
++                    double x1 = 1;
++					return createLong(str);
+                 } catch (NumberFormatException nfe) { // NOPMD
+                     // ignore the bad number
+                 }
+
+

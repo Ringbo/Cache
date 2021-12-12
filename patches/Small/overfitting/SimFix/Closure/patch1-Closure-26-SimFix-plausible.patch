@@ -1,0 +1,11 @@
+--- /src/com/google/javascript/jscomp/PeepholeFoldConstants.java
++++ /src/com/google/javascript/jscomp/PeepholeFoldConstants.java
+@@ -475,6 +475,7 @@
+ 
+     Node newRight;
+     if (areNodesEqualForInlining(left, right.getFirstChild())) {
++      n.removeChild(right);
+       newRight = right.getLastChild();
+     } else if (NodeUtil.isCommutative(right.getType()) &&
+           areNodesEqualForInlining(left, right.getLastChild())) {
+

@@ -1,0 +1,58 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_69273dca/src/main/java/org/apache/commons/math3/util/FastMath.java	2018-12-29 06:15:23.019936000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_69273dca/patches_nwue/Patch_963/patched/tmp/Arja_Bug_dot_jar_Commons-Math_69273dca/src/main/java/org/apache/commons/math3/util/FastMath.java	2018-12-29 07:12:38.181495544 -0500
+@@ -3286,7 +3286,14 @@
+         } else if (d == 0) {
+             return (direction < 0) ? -Double.MIN_VALUE : Double.MIN_VALUE;
+         }
+-        // special cases MAX_VALUE to infinity and  MIN_VALUE to 0
++        if (d == direction) {
++			return direction;
++		} else if (Double.isInfinite(d)) {
++			return (d < 0) ? -Double.MAX_VALUE : Double.MAX_VALUE;
++		} else if (d == 0) {
++			return (direction < 0) ? -Double.MIN_VALUE : Double.MIN_VALUE;
++		}
++		// special cases MAX_VALUE to infinity and  MIN_VALUE to 0
+         // are handled just as normal numbers
+         // can use raw bits since already dealt with infinity and NaN
+         final long bits = Double.doubleToRawLongBits(d);
+
+
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_69273dca/src/main/java/org/apache/commons/math3/ode/nonstiff/RungeKuttaIntegrator.java	2018-12-29 06:15:22.627928000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_69273dca/patches_nwue/Patch_963/patched/tmp/Arja_Bug_dot_jar_Commons-Math_69273dca/src/main/java/org/apache/commons/math3/ode/nonstiff/RungeKuttaIntegrator.java	2018-12-29 07:12:38.181495544 -0500
+@@ -115,14 +115,31 @@
+     final RungeKuttaStepInterpolator interpolator = (RungeKuttaStepInterpolator) prototype.copy();
+     interpolator.reinitialize(this, yTmp, yDotK, forward,
+                               equations.getPrimaryMapper(), equations.getSecondaryMappers());
+-    interpolator.storeTime(equations.getTime());
++    if (forward) {
++		if (stepStart + stepSize >= t) {
++			stepSize = t - stepStart;
++		}
++	} else {
++		if (stepStart + stepSize <= t) {
++			stepSize = t - stepStart;
++		}
++	}
++	interpolator.storeTime(equations.getTime());
+ 
+     // set up integration control objects
+     stepStart = equations.getTime();
+     stepSize  = forward ? step : -step;
+     initIntegration(equations.getTime(), y0, t);
+ 
+-    // main integration loop
++    if (!isLastStep) {
++		interpolator.storeTime(stepStart);
++		final double nextT = stepStart + stepSize;
++		final boolean nextIsLast = forward ? (nextT >= t) : (nextT <= t);
++		if (nextIsLast) {
++			stepSize = t - stepStart;
++		}
++	}
++	// main integration loop
+     isLastStep = false;
+     do {
+ 
+
+

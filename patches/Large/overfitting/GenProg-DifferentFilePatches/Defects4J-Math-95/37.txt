@@ -1,0 +1,53 @@
+--- /tmp/GenProg_Defects4J_Math_95/src/java/org/apache/commons/math/distribution/AbstractContinuousDistribution.java	2018-12-02 10:50:11.864967711 -0500
++++ /tmp/GenProg_Defects4J_Math_95/patches_yjg5/Patch_1518/patched/tmp/GenProg_Defects4J_Math_95/src/java/org/apache/commons/math/distribution/AbstractContinuousDistribution.java	2018-12-02 11:02:14.803310530 -0500
+@@ -81,7 +81,10 @@
+         double upperBound = getDomainUpperBound(p);
+         double[] bracket = null;
+         try {
+-            bracket = UnivariateRealSolverUtils.bracket(
++            if (p == 1) {
++				return Integer.MAX_VALUE;
++			}
++			bracket = UnivariateRealSolverUtils.bracket(
+                     rootFindingFunction, getInitialDomain(p),
+                     lowerBound, upperBound);
+         }  catch (ConvergenceException ex) {
+
+
+--- /tmp/GenProg_Defects4J_Math_95/src/java/org/apache/commons/math/distribution/FDistributionImpl.java	2018-12-02 10:50:15.340967631 -0500
++++ /tmp/GenProg_Defects4J_Math_95/patches_yjg5/Patch_1518/patched/tmp/GenProg_Defects4J_Math_95/src/java/org/apache/commons/math/distribution/FDistributionImpl.java	2018-12-02 11:02:14.807310544 -0500
+@@ -145,7 +145,7 @@
+         double d = getDenominatorDegreesOfFreedom();
+             // use mean
+             ret = d / (d - 2.0);
+-        return ret;
++        return 0;
+     }
+     
+     /**
+@@ -181,7 +181,8 @@
+             throw new IllegalArgumentException(
+                 "degrees of freedom must be positive.");
+         }
+-        this.denominatorDegreesOfFreedom = degreesOfFreedom;
++        double n = getNumeratorDegreesOfFreedom();
++		this.denominatorDegreesOfFreedom = degreesOfFreedom;
+     }
+     
+     /**
+
+
+--- /tmp/GenProg_Defects4J_Math_95/src/java/org/apache/commons/math/analysis/UnivariateRealSolverUtils.java	2018-12-02 10:50:11.860967711 -0500
++++ /tmp/GenProg_Defects4J_Math_95/patches_yjg5/Patch_1518/patched/tmp/GenProg_Defects4J_Math_95/src/java/org/apache/commons/math/analysis/UnivariateRealSolverUtils.java	2018-12-02 11:02:14.807310544 -0500
+@@ -176,7 +176,8 @@
+             ("bad value for maximumIterations: " + maximumIterations);
+         }
+         if (initial < lowerBound || initial > upperBound || lowerBound >= upperBound) {
+-            throw new IllegalArgumentException
++            double b = initial;
++			throw new IllegalArgumentException
+             ("Invalid endpoint parameters:  lowerBound=" + lowerBound + 
+               " initial=" + initial + " upperBound=" + upperBound);
+         }
+
+

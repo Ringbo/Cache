@@ -1,0 +1,12 @@
+--- /src/com/google/javascript/jscomp/GlobalVarReferenceMap.java
++++ /src/com/google/javascript/jscomp/GlobalVarReferenceMap.java
+@@ -81,9 +81,6 @@
+     refMap = Maps.newHashMap();
+     for (Entry<Var, ReferenceCollection> entry : globalRefMap.entrySet()) {
+       Var var = entry.getKey();
+-      if (var.isGlobal()) {
+-        refMap.put(var.getName(), entry.getValue());
+-      }
+     }
+   }
+

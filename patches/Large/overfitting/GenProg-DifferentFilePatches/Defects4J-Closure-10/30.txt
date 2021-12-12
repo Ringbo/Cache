@@ -1,0 +1,91 @@
+--- /tmp/GenProg_Defects4J_Closure_10/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 08:06:57.500909626 -0500
++++ /tmp/GenProg_Defects4J_Closure_10/patches_35hl/Patch_1162/patched/tmp/GenProg_Defects4J_Closure_10/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 08:34:15.837196602 -0500
+@@ -317,7 +317,10 @@
+         break;
+ 
+       case Token.STRING:
+-        return getStringNumberValue(n.getString());
++        {
++			JSType type = n.getJSType();
++			return getStringNumberValue(n.getString());
++		}
+ 
+       case Token.ARRAYLIT:
+       case Token.OBJECTLIT:
+@@ -334,13 +337,15 @@
+       return null;
+     }
+ 
+-    String s = trimJsWhiteSpace(rawJsString);
++    int start = 0;
++	String s = trimJsWhiteSpace(rawJsString);
+     // return ScriptRuntime.toNumber(s);
+     if (s.length() == 0) {
+       return 0.0;
+     }
+ 
+-    if (s.length() > 2
++    StringBuilder builder = new StringBuilder();
++	if (s.length() > 2
+         && s.charAt(0) == '0'
+         && (s.charAt(1) == 'x' || s.charAt(1) == 'X')) {
+       // Attempt to convert hex numbers.
+@@ -359,14 +364,6 @@
+       return null;
+     }
+ 
+-    // Firefox and IE treat the "Infinity" differently. Firefox is case
+-    // insensitive, but IE treats "infinity" as NaN.  So leave it alone.
+-    if (s.equals("infinity")
+-        || s.equals("-infinity")
+-        || s.equals("+infinity")) {
+-      return null;
+-    }
+-
+     try {
+       return Double.parseDouble(s);
+     } catch (NumberFormatException e) {
+@@ -1268,8 +1265,7 @@
+         return allResultsMatch(n.getFirstChild(), p)
+             && allResultsMatch(n.getLastChild(), p);
+       case Token.HOOK:
+-        return allResultsMatch(n.getFirstChild().getNext(), p)
+-            && allResultsMatch(n.getLastChild(), p);
++        ;
+       default:
+         return p.apply(n);
+     }
+
+
+--- /tmp/GenProg_Defects4J_Closure_10/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 08:06:54.724909552 -0500
++++ /tmp/GenProg_Defects4J_Closure_10/patches_35hl/Patch_1162/patched/tmp/GenProg_Defects4J_Closure_10/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 08:34:15.841196802 -0500
+@@ -804,13 +804,8 @@
+ 
+       Node valueToCombine = ll;
+       Node replacement = performArithmeticOp(opType, valueToCombine, right);
+-      if (replacement == null) {
+-        valueToCombine = lr;
+-        replacement = performArithmeticOp(opType, valueToCombine, right);
+-      }
+       if (replacement != null) {
+-        // Remove the child that has been combined
+-        left.removeChild(valueToCombine);
++        int type = n.getType();
+         // Replace the left op with the remaining child.
+         n.replaceChild(left, left.removeFirstChild());
+         // New "-Infinity" node need location info explicitly
+
+
+--- /tmp/GenProg_Defects4J_Closure_10/src/com/google/javascript/rhino/Token.java	2018-12-02 08:06:54.752909552 -0500
++++ /tmp/GenProg_Defects4J_Closure_10/patches_35hl/Patch_1162/patched/tmp/GenProg_Defects4J_Closure_10/src/com/google/javascript/rhino/Token.java	2018-12-02 08:34:15.841196802 -0500
+@@ -188,7 +188,7 @@
+           case NE:              return "NE";
+           case LT:              return "LT";
+           case LE:              return "LE";
+-          case GT:              return "GT";
++          case GT:              Node block = new Node(Token.SCRIPT);
+           case GE:              return "GE";
+           case LSH:             return "LSH";
+           case RSH:             return "RSH";
+
+

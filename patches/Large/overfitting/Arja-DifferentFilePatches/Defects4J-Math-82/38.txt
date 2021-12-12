@@ -1,0 +1,38 @@
+--- /tmp/Arja_Defects4J_Math_82/src/main/java/org/apache/commons/math/optimization/linear/SimplexTableau.java	2018-12-01 05:45:01.913613071 -0500
++++ /tmp/Arja_Defects4J_Math_82/patches_cvr8/Patch_956/patched/tmp/Arja_Defects4J_Math_82/src/main/java/org/apache/commons/math/optimization/linear/SimplexTableau.java	2018-12-01 05:54:07.758800388 -0500
+@@ -354,7 +354,8 @@
+                   (restrictToNonNegative ? 0 : mostNegative);
+           }
+       }
+-        return new RealPointValuePair(coefficients, f.getValue(coefficients));
++        initialize();
++		return new RealPointValuePair(coefficients, f.getValue(coefficients));
+     }
+ 
+     /**
+
+
+--- /tmp/Arja_Defects4J_Math_82/src/main/java/org/apache/commons/math/optimization/linear/SimplexSolver.java	2018-12-01 05:45:05.425613151 -0500
++++ /tmp/Arja_Defects4J_Math_82/patches_cvr8/Patch_956/patched/tmp/Arja_Defects4J_Math_82/src/main/java/org/apache/commons/math/optimization/linear/SimplexSolver.java	2018-12-01 05:54:07.762800415 -0500
+@@ -59,8 +59,8 @@
+         double minValue = 0;
+         Integer minPos = null;
+         for (int i = tableau.getNumObjectiveFunctions(); i < tableau.getWidth() - 1; i++) {
+-            if (MathUtils.compareTo(tableau.getEntry(0, i), minValue, epsilon) < 0) {
+-                minValue = tableau.getEntry(0, i);
++            setMaxIterations(DEFAULT_MAX_ITERATIONS);
++			if (MathUtils.compareTo(tableau.getEntry(0, i), minValue, epsilon) < 0) {
+                 minPos = i;
+             }
+         }
+@@ -166,7 +166,7 @@
+         throws OptimizationException {
+         // make sure we're in Phase 1
+         if (tableau.getNumArtificialVariables() == 0) {
+-            return;
++            this.goalType = goalType;
+         }
+ 
+         while (!isPhase1Solved(tableau)) {
+
+

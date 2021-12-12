@@ -1,0 +1,14 @@
+--- /tmp/Arja_Bug_dot_jar_Accumulo_813109d7/proxy/src/main/java/org/apache/accumulo/proxy/thrift/AccumuloProxy.java	2018-12-28 20:37:52.905822000 -0500
++++ /tmp/Arja_Bug_dot_jar_Accumulo_813109d7/patches_tpe6/Patch_327/patched/tmp/Arja_Bug_dot_jar_Accumulo_813109d7/proxy/src/main/java/org/apache/accumulo/proxy/thrift/AccumuloProxy.java	2018-12-28 21:16:15.327149812 -0500
+@@ -415,9 +415,6 @@
+       if (result.ouch2 != null) {
+         throw result.ouch2;
+       }
+-      if (result.ouch3 != null) {
+-        throw result.ouch3;
+-      }
+       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "addConstraint failed: unknown result");
+     }
+ 
+
+

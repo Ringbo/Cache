@@ -1,0 +1,9 @@
+--- a/oak-core/src/main/java/org/apache/jackrabbit/oak/namepath/LocalNameMapper.java
++++ b/oak-core/src/main/java/org/apache/jackrabbit/oak/namepath/LocalNameMapper.java
+@@ -57,3 +57,5 @@
+                         } else {
+-                            return jcrPrefix + oakName.substring(colon);
++                            if ((oakPrefix.length()) != (jcrPrefix.length())) {
++                                return jcrPrefix + oakName.substring(colon);
++                            }
+                         }

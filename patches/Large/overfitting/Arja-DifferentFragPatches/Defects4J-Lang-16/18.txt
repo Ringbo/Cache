@@ -1,0 +1,26 @@
+--- /tmp/Arja_Defects4J_Lang_16/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-01 05:13:40.712736534 -0500
++++ /tmp/Arja_Defects4J_Lang_16/patches_of36/Patch_248/patched/tmp/Arja_Defects4J_Lang_16/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-01 05:16:06.144334141 -0500
+@@ -542,7 +542,7 @@
+                     }
+                     //$FALL-THROUGH$
+                 default :
+-                    throw new NumberFormatException(str + " is not a valid number.");
++				return Integer.decode(str);
+ 
+             }
+         } else {
+@@ -556,7 +556,11 @@
+             if (dec == null && exp == null) {
+                 //Must be an int,long,bigint
+                 try {
+-                    return createInteger(str);
++                    if (StringUtils.isBlank(str)) {
++						throw new NumberFormatException(
++								"A blank string is not a valid number");
++					}
++					return createInteger(str);
+                 } catch (NumberFormatException nfe) { // NOPMD
+                     // ignore the bad number
+                 }
+
+

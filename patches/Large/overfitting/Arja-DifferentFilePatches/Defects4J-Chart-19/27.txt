@@ -1,0 +1,50 @@
+--- /tmp/Arja_Defects4J_Chart_19/source/org/jfree/chart/util/AbstractObjectList.java	2018-12-01 08:14:04.945381176 -0500
++++ /tmp/Arja_Defects4J_Chart_19/patches_pitz/Patch_1602/patched/tmp/Arja_Defects4J_Chart_19/source/org/jfree/chart/util/AbstractObjectList.java	2018-12-01 09:09:11.854103358 -0500
+@@ -161,7 +161,10 @@
+                 return (index);
+             }
+         }
+-        return -1;
++        if (object == null) {
++			throw new IllegalArgumentException("Null 'object' argument.");
++		}
++		return -1;
+     }
+ 
+     /**
+
+
+--- /tmp/Arja_Defects4J_Chart_19/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-01 08:14:09.741381399 -0500
++++ /tmp/Arja_Defects4J_Chart_19/patches_pitz/Patch_1602/patched/tmp/Arja_Defects4J_Chart_19/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-01 09:09:11.858103633 -0500
+@@ -662,7 +662,15 @@
+             axis.addChangeListener(this);
+         }
+         if (notify) {
+-            notifyListeners(new PlotChangeEvent(this));
++            if (this.backgroundRangeMarkers != null) {
++				Set keys = this.backgroundRangeMarkers.keySet();
++				Iterator iterator = keys.iterator();
++				while (iterator.hasNext()) {
++					Integer key = (Integer) iterator.next();
++					clearRangeMarkers(key.intValue());
++				}
++				this.backgroundRangeMarkers.clear();
++			}
+         }
+     }
+ 
+@@ -1131,7 +1139,11 @@
+         for (int i = 0; i < this.rangeAxes.size(); i++) {
+             ValueAxis axis = (ValueAxis) this.rangeAxes.get(i);
+             if (axis != null) {
+-                axis.configure();
++                if (axis != null) {
++					axis.configure();
++					axis.addChangeListener(this);
++				}
++				axis.configure();
+             }
+         }
+     }
+
+

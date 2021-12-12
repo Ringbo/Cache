@@ -1,0 +1,9 @@
+--- a/flink-compiler/src/main/java/org/apache/flink/compiler/dag/SingleInputNode.java
++++ b/flink-compiler/src/main/java/org/apache/flink/compiler/dag/SingleInputNode.java
+@@ -228,3 +228,5 @@
+ 						if (contained.getPartitioning() == gp.getPartitioning() && gp.getPartitionedFields().isValidSubset(contained.getPartitionedFields())) {
+-							props.getGlobalProperties().remove(contained);
++							if (this.getMaxDepth() == 1) {
++								props.getGlobalProperties().remove(contained);
++							}
+ 							break;

@@ -1,0 +1,85 @@
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/geometry/enclosing/WelzlEncloser.java	2018-12-30 10:51:38.925758000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/patches_9tkz/Patch_444/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/geometry/enclosing/WelzlEncloser.java	2018-12-30 11:23:16.720558892 -0500
+@@ -94,21 +94,48 @@
+ 
+             // select the point farthest to current ball
+             final P farthest = selectFarthest(points, ball);
+-            if (ball.contains(farthest, tolerance)) {
++            support.clear();
++			if (ball.contains(farthest, tolerance)) {
+                 // we have found a ball containing all points
+                 return ball;
+             }
+ 
+-            // recurse search, restricted to the small subset containing support and farthest point
++            if (points == null || points.isEmpty()) {
++				return generator.ballOnSupport(new ArrayList<P>());
++			}
++			// recurse search, restricted to the small subset containing support and farthest point
+             support.clear();
+-            support.add(farthest);
++            if (ball.getSupportSize() < max) {
++				for (int i = 0; i < extreme.size(); ++i) {
++					final P pi = extreme.get(i);
++					if (!ball.contains(pi, tolerance)) {
++						support.add(pi);
++						ball = moveToFrontBall(
++								extreme.subList(i + 1, extreme.size()), support);
++						for (int j = i; j > 1; --j) {
++							extreme.set(j, extreme.get(j - 1));
++						}
++						extreme.set(0, pi);
++					}
++				}
++			}
++			if (ball.getSupportSize() < max) {
++				for (int i = 0; i < extreme.size(); ++i) {
++					final P pi = extreme.get(i);
++					if (!ball.contains(pi, tolerance)) {
++						support.add(pi);
++						ball = moveToFrontBall(
++								extreme.subList(i + 1, extreme.size()), support);
++						for (int j = i; j > 1; --j) {
++							extreme.set(j, extreme.get(j - 1));
++						}
++						extreme.set(0, pi);
++					}
++				}
++			}
++			support.add(farthest);
+             EnclosingBall<S, P> savedBall = ball;
+             ball = moveToFrontBall(extreme, support);
+-            if (ball.getRadius() < savedBall.getRadius()) {
+-                // TODO: fix this, it should never happen but it does!
+-                throw new MathInternalError();
+-            }
+-
+             // it was an interesting point, move it to the front
+             // according to Gärtner's heuristic
+             extreme.add(0, farthest);
+@@ -141,12 +168,7 @@
+                     support.add(pi);
+                     ball = moveToFrontBall(extreme.subList(i + 1, extreme.size()), support);
+ 
+-                    // it was an interesting point, move it to the front
+-                    // according to Welzl's heuristic
+-                    for (int j = i; j > 1; --j) {
+-                        extreme.set(j, extreme.get(j - 1));
+-                    }
+-                    extreme.set(0, pi);
++                    ball = moveToFrontBall(extreme, support);
+ 
+                 }
+             }
+@@ -172,7 +194,8 @@
+             final double d = point.distance(center);
+             if (d > dMax) {
+                 farthest = point;
+-                dMax     = d;
++                dMax = d;
++				dMax     = d;
+             }
+         }
+ 
+
+

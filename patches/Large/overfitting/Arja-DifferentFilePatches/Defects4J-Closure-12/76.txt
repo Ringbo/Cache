@@ -1,0 +1,56 @@
+--- /tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/FlowSensitiveInlineVariables.java	2018-12-01 09:58:46.388123331 -0500
++++ /tmp/Arja_Defects4J_Closure_12/patches_gf7j/Patch_561/patched/tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/FlowSensitiveInlineVariables.java	2018-12-01 10:11:09.490722970 -0500
+@@ -397,9 +397,7 @@
+                  Predicates.
+                      <DiGraphEdge<Node, ControlFlowGraph.Branch>>alwaysTrue(),
+                  false);
+-        if (pathCheck.somePathsSatisfyPredicate()) {
+-          return false;
+-        }
++        return false;
+       }
+ 
+       return true;
+
+
+--- /tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/CheckPathsBetweenNodes.java	2018-12-01 09:58:46.044123323 -0500
++++ /tmp/Arja_Defects4J_Closure_12/patches_gf7j/Patch_561/patched/tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/CheckPathsBetweenNodes.java	2018-12-01 10:11:09.490722970 -0500
+@@ -202,9 +202,6 @@
+         (inclusive || (a != start && a != end))) {
+       return true;
+     }
+-    if (a == b) {
+-      return false;
+-    }
+     for (DiGraphEdge<N, E> e : a.getOutEdges()) {
+       // Once we visited that edge once, we no longer need to
+       // re-visit it again.
+
+
+--- /tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/DataFlowAnalysis.java	2018-12-01 09:58:46.384123331 -0500
++++ /tmp/Arja_Defects4J_Closure_12/patches_gf7j/Patch_561/patched/tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/DataFlowAnalysis.java	2018-12-01 10:11:09.490722970 -0500
+@@ -572,7 +572,7 @@
+       Var var = i.next();
+       if (var.getParentNode().isCatch() ||
+           compiler.getCodingConvention().isExported(var.getName())) {
+-        escaped.add(var);
++        break;
+       }
+     }
+   }
+
+
+--- /tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/rhino/Node.java	2018-12-01 09:58:46.416123332 -0500
++++ /tmp/Arja_Defects4J_Closure_12/patches_gf7j/Patch_561/patched/tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/rhino/Node.java	2018-12-01 10:11:09.494723029 -0500
+@@ -1446,7 +1446,8 @@
+    */
+   NodeMismatch checkTreeEqualsImpl(Node node2) {
+     if (!isEquivalentTo(node2, false, false)) {
+-      return new NodeMismatch(this, node2);
++      sourcePosition = -1;
++	return new NodeMismatch(this, node2);
+     }
+ 
+     NodeMismatch res = null;
+
+

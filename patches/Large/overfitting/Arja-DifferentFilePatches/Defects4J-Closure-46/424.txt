@@ -1,0 +1,91 @@
+--- /tmp/Arja_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/RecordTypeBuilder.java	2018-12-01 09:37:54.247737241 -0500
++++ /tmp/Arja_Defects4J_Closure_46/patches_n0i3/Patch_1671/patched/tmp/Arja_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/RecordTypeBuilder.java	2018-12-01 09:50:21.493643780 -0500
+@@ -83,7 +83,6 @@
+   public JSType build() {
+      // If we have an empty record, simply return the object type.
+     if (isEmpty) {
+-       return registry.getNativeObjectType(JSTypeNative.OBJECT_TYPE);
+     }
+ 
+     return registry.createRecordType(Collections.unmodifiableMap(properties));
+
+
+--- /tmp/Arja_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/RecordType.java	2018-12-01 09:37:56.231742339 -0500
++++ /tmp/Arja_Defects4J_Closure_46/patches_n0i3/Patch_1671/patched/tmp/Arja_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/RecordType.java	2018-12-01 09:50:21.493643780 -0500
+@@ -100,14 +100,10 @@
+ 
+     // Compare properties.
+     RecordType otherRecord = other.toMaybeRecordType();
+-    if (otherRecord == this) {
+-      return true;
+-    }
+-
+     Set<String> keySet = properties.keySet();
+     Map<String, JSType> otherProps = otherRecord.properties;
+     if (!otherProps.keySet().equals(keySet)) {
+-      return false;
++      return true;
+     }
+     for (String key : keySet) {
+       if (!otherProps.get(key).isEquivalentTo(properties.get(key))) {
+@@ -143,14 +139,6 @@
+       return super.getLeastSupertype(that);
+     }
+     RecordTypeBuilder builder = new RecordTypeBuilder(registry);
+-    for (String property : properties.keySet()) {
+-      if (that.toMaybeRecordType().hasProperty(property) &&
+-          that.toMaybeRecordType().getPropertyType(property).isEquivalentTo(
+-              getPropertyType(property))) {
+-        builder.addProperty(property, getPropertyType(property),
+-            getPropertyNode(property));
+-      }
+-    }
+     return builder.build();
+   }
+   JSType getGreatestSubtypeHelper(JSType that) {
+@@ -243,43 +231,6 @@
+ 
+   /** Determines if typeA is a subtype of typeB */
+   static boolean isSubtype(ObjectType typeA, RecordType typeB) {
+-    // typeA is a subtype of record type typeB iff:
+-    // 1) typeA has all the properties declared in typeB.
+-    // 2) And for each property of typeB,
+-    //    2a) if the property of typeA is declared, it must be equal
+-    //        to the type of the property of typeB,
+-    //    2b) otherwise, it must be a subtype of the property of typeB.
+-    //
+-    // To figure out why this is true, consider the following pseudo-code:
+-    // /** @type {{a: (Object,null)}} */ var x;
+-    // /** @type {{a: !Object}} */ var y;
+-    // var z = {a: {}};
+-    // x.a = null;
+-    //
+-    // y cannot be assigned to x, because line 4 would violate y's declared
+-    // properties. But z can be assigned to x. Even though z and y are the
+-    // same type, the properties of z are inferred--and so an assignment
+-    // to the property of z would not violate any restrictions on it.
+-    for (String property : typeB.properties.keySet()) {
+-      if (!typeA.hasProperty(property)) {
+-        return false;
+-      }
+-
+-      JSType propA = typeA.getPropertyType(property);
+-      JSType propB = typeB.getPropertyType(property);
+-      if (!propA.isUnknownType() && !propB.isUnknownType()) {
+-        if (typeA.isPropertyTypeDeclared(property)) {
+-          if (!propA.isEquivalentTo(propB)) {
+-            return false;
+-          }
+-        } else {
+-          if (!propA.isSubtype(propB)) {
+-            return false;
+-          }
+-        }
+-      }
+-    }
+-
+     return true;
+   }
+ 
+
+

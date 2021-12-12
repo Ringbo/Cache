@@ -1,0 +1,51 @@
+--- /tmp/GenProg_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-02 05:54:30.851329143 -0500
++++ /tmp/GenProg_Defects4J_Closure_112/patches_1e4m/Patch_1764/patched/tmp/GenProg_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-02 06:27:59.325168221 -0500
+@@ -1124,34 +1124,10 @@
+       Iterator<Node> declParams,
+       Iterator<Node> callParams,
+       Map<TemplateType, JSType> resolvedTypes) {
+-    while (declParams.hasNext() && callParams.hasNext()) {
+-      Node declParam = declParams.next();
+-      maybeResolveTemplatedType(
+-          getJSType(declParam),
+-          getJSType(callParams.next()),
+-          resolvedTypes);
+-      if (declParam.isVarArgs()) {
+-        while (callParams.hasNext()) {
+-          maybeResolveTemplatedType(
+-              getJSType(declParam),
+-              getJSType(callParams.next()),
+-              resolvedTypes);
+-        }
+-      }
+-    }
+   }
+ 
+   private static void resolvedTemplateType(
+       Map<TemplateType, JSType> map, TemplateType template, JSType resolved) {
+-    JSType previous = map.get(template);
+-    if (!resolved.isUnknownType()) {
+-      if (previous == null) {
+-        map.put(template, resolved);
+-      } else {
+-        JSType join = previous.getLeastSupertype(resolved);
+-        map.put(template, join);
+-      }
+-    }
+   }
+ 
+   private static class TemplateTypeReplacer extends ModificationVisitor {
+
+
+--- /tmp/GenProg_Defects4J_Closure_112/src/com/google/javascript/rhino/jstype/JSType.java	2018-12-02 05:54:28.183329267 -0500
++++ /tmp/GenProg_Defects4J_Closure_112/patches_1e4m/Patch_1764/patched/tmp/GenProg_Defects4J_Closure_112/src/com/google/javascript/rhino/jstype/JSType.java	2018-12-02 06:27:59.325168221 -0500
+@@ -618,7 +618,6 @@
+     }
+ 
+     if (isTemplateType() && that.isTemplateType()) {
+-      return this == that;
+     }
+ 
+     // Unbox other proxies.
+
+

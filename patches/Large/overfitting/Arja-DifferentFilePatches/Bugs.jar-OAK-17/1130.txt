@@ -1,0 +1,24 @@
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/oak-mk/src/main/java/org/apache/jackrabbit/mk/model/CommitBuilder.java	2018-12-29 07:26:38.080559000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/patches_s7ag/Patch_1129/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_5286861d/oak-mk/src/main/java/org/apache/jackrabbit/mk/model/CommitBuilder.java	2018-12-29 07:53:00.342866624 -0500
+@@ -170,19 +170,8 @@
+             newCommit.setCommitTS(System.currentTimeMillis());
+             newCommit.setMsg(msg);
+             StringBuilder diff = new StringBuilder();
+-            for (Change change : changeLog) {
+-                if (diff.length() > 0) {
+-                    diff.append('\n');
+-                }
+-                diff.append(change.asDiff());
+-            }
+             newCommit.setChanges(diff.toString());
+             newCommit.setRootNodeId(rootNodeId);
+-            if (createBranch) {
+-                newCommit.setBranchRootId(baseCommit.getId());
+-            } else {
+-                newCommit.setBranchRootId(baseCommit.getBranchRootId());
+-            }
+             newRevId = store.putCommit(token, newCommit);
+         }
+ 
+
+

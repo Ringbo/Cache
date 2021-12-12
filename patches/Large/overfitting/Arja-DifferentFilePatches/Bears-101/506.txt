@@ -1,0 +1,40 @@
+--- /tmp/Arja_Bears_traccar-traccar_198464113-198488474/src/org/traccar/model/WifiAccessPoint.java	2018-12-26 13:24:52.374457407 -0500
++++ /tmp/Arja_Bears_traccar-traccar_198464113-198488474/patches_vzjn/Patch_740/patched/tmp/Arja_Bears_traccar-traccar_198464113-198488474/src/org/traccar/model/WifiAccessPoint.java	2018-12-26 13:33:01.565197249 -0500
+@@ -50,7 +50,6 @@
+     }
+ 
+     public void setSignalStrength(Integer signalStrength) {
+-        this.signalStrength = signalStrength;
+     }
+ 
+     private Integer channel;
+
+
+--- /tmp/Arja_Bears_traccar-traccar_198464113-198488474/src/org/traccar/protocol/Gl200ProtocolDecoder.java	2018-12-26 13:24:52.382457453 -0500
++++ /tmp/Arja_Bears_traccar-traccar_198464113-198488474/patches_vzjn/Patch_740/patched/tmp/Arja_Bears_traccar-traccar_198464113-198488474/src/org/traccar/protocol/Gl200ProtocolDecoder.java	2018-12-26 13:33:01.569197271 -0500
+@@ -621,11 +621,6 @@
+         Network network = new Network();
+ 
+         int count = parser.nextInt();
+-        for (int i = 0; i < count; i++) {
+-            String mac = parser.next().replaceAll("(..)", "$1:");
+-            network.addWifiAccessPoint(WifiAccessPoint.from(mac.substring(0, mac.length() - 1), parser.nextInt()));
+-        }
+-
+         return position;
+     }
+ 
+
+
+--- /tmp/Arja_Bears_traccar-traccar_198464113-198488474/src/org/traccar/BaseProtocolDecoder.java	2018-12-26 13:24:52.314457067 -0500
++++ /tmp/Arja_Bears_traccar-traccar_198464113-198488474/patches_vzjn/Patch_740/patched/tmp/Arja_Bears_traccar-traccar_198464113-198488474/src/org/traccar/BaseProtocolDecoder.java	2018-12-26 13:33:01.569197271 -0500
+@@ -154,7 +154,6 @@
+                 position.setSpeed(last.getSpeed());
+                 position.setCourse(last.getCourse());
+             } else {
+-                position.setFixTime(new Date(0));
+             }
+ 
+             if (deviceTime != null) {
+
+

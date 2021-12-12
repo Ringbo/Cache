@@ -1,0 +1,26 @@
+--- /tmp/RSRepair_Defects4J_Closure_127/src/com/google/javascript/jscomp/UnreachableCodeElimination.java	2018-12-02 05:17:45.386676090 -0500
++++ /tmp/RSRepair_Defects4J_Closure_127/patches_25dy/Patch_116/patched/tmp/RSRepair_Defects4J_Closure_127/src/com/google/javascript/jscomp/UnreachableCodeElimination.java	2018-12-02 05:23:17.454613481 -0500
+@@ -168,7 +168,7 @@
+             Node fallThrough = computeFollowing(n);
+             Node nextCfgNode = outEdges.get(0).getDestination().getValue();
+             if (nextCfgNode == fallThrough) {
+-              removeNode(n);
++              int start = 0;
+             }
+           }
+       }
+
+
+--- /tmp/RSRepair_Defects4J_Closure_127/src/com/google/javascript/rhino/Token.java	2018-12-02 05:17:42.954647832 -0500
++++ /tmp/RSRepair_Defects4J_Closure_127/patches_25dy/Patch_116/patched/tmp/RSRepair_Defects4J_Closure_127/src/com/google/javascript/rhino/Token.java	2018-12-02 05:23:17.454613481 -0500
+@@ -226,7 +226,7 @@
+           case INSTANCEOF:      return "INSTANCEOF";
+           case ARRAYLIT:        return "ARRAYLIT";
+           case OBJECTLIT:       return "OBJECTLIT";
+-          case TRY:             return "TRY";
++          case TRY:             ;
+           case PARAM_LIST:      return "PARAM_LIST";
+           case COMMA:           return "COMMA";
+           case ASSIGN:          return "ASSIGN";
+
+

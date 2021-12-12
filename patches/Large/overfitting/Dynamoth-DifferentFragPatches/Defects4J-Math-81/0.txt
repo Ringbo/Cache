@@ -1,0 +1,9 @@
+--- a/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java
++++ b/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java
+@@ -1543,3 +1543,5 @@
+                 if (end - start > 2) {
+-                    b2 = work[nn - 13] / work[nn - 15];
++                    if (false) {
++                        b2 = work[nn - 13] / work[nn - 15];
++                    }
+                     a2 = a2 + b2;

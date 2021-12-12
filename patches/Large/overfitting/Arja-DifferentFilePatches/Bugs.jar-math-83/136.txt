@@ -1,0 +1,40 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_328513f3/src/main/java/org/apache/commons/math/util/MathUtils.java	2018-12-29 03:24:09.831340000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_328513f3/patches_kc3h/Patch_1801/patched/tmp/Arja_Bug_dot_jar_Commons-Math_328513f3/src/main/java/org/apache/commons/math/util/MathUtils.java	2018-12-29 04:06:30.946786173 -0500
+@@ -1357,7 +1357,8 @@
+                 return Double.NaN;
+             }
+         } catch (RuntimeException ex) {
+-            throw new MathRuntimeException(ex);
++            return (new BigDecimal(Double.toString(x)).setScale(scale,
++					roundingMethod)).doubleValue();
+         }
+     }
+ 
+
+
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_328513f3/src/main/java/org/apache/commons/math/optimization/direct/CMAESOptimizer.java	2018-12-29 03:24:09.727337000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_328513f3/patches_kc3h/Patch_1801/patched/tmp/Arja_Bug_dot_jar_Commons-Math_328513f3/src/main/java/org/apache/commons/math/optimization/direct/CMAESOptimizer.java	2018-12-29 04:06:30.946786173 -0500
+@@ -485,10 +485,6 @@
+                 throw new MultiDimensionMismatchException(
+                         new Integer[] { boundaries[0].length },
+                         new Integer[] { init.length });
+-            if (boundaries[1].length != init.length)
+-                throw new MultiDimensionMismatchException(
+-                        new Integer[] { boundaries[1].length },
+-                        new Integer[] { init.length });
+             for (int i = 0; i < init.length; i++) {
+                 if (boundaries[0][i] > init[i] || boundaries[1][i] < init[i])
+                     throw new OutOfRangeException(init[i], boundaries[0][i],
+@@ -849,10 +845,6 @@
+             if (boundaries == null)
+                 return x;
+             double[] res = new double[x.length];
+-            for (int i = 0; i < x.length; i++) {
+-                double diff = boundaries[1][i] - boundaries[0][i];
+-                res[i] = (x[i] - boundaries[0][i]) / diff;
+-            }
+             return res;
+         }
+ 
+
+

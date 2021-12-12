@@ -1,0 +1,25 @@
+--- /tmp/Arja_Defects4J_Lang_16/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-01 05:13:40.712736534 -0500
++++ /tmp/Arja_Defects4J_Lang_16/patches_of36/Patch_846/patched/tmp/Arja_Defects4J_Lang_16/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-01 05:18:44.595897963 -0500
+@@ -462,7 +462,10 @@
+         String mant;
+         String dec;
+         String exp;
+-        int decPos = str.indexOf('.');
++        if (str == null) {
++			throw new IllegalArgumentException("The string must not be null");
++		}
++		int decPos = str.indexOf('.');
+         int expPos = str.indexOf('e') + str.indexOf('E') + 1;
+ 
+         if (decPos > -1) {
+@@ -542,7 +545,7 @@
+                     }
+                     //$FALL-THROUGH$
+                 default :
+-                    throw new NumberFormatException(str + " is not a valid number.");
++				return Integer.decode(str);
+ 
+             }
+         } else {
+
+

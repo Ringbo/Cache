@@ -1,0 +1,13 @@
+--- /tmp/Arja_Defects4J_Math_50/src/main/java/org/apache/commons/math/analysis/solvers/BaseSecantSolver.java	2018-12-01 06:06:15.435478746 -0500
++++ /tmp/Arja_Defects4J_Math_50/patches_rr9g/Patch_1022/patched/tmp/Arja_Defects4J_Math_50/src/main/java/org/apache/commons/math/analysis/solvers/BaseSecantSolver.java	2018-12-01 06:28:26.715636088 -0500
+@@ -185,7 +185,7 @@
+                 case REGULA_FALSI:
+                     // Nothing.
+                     if (x == x1) {
+-                        x0 = 0.5 * (x0 + x1 - FastMath.max(rtol * FastMath.abs(x1), atol));
++                        this.allowed = AllowedSolution.ANY_SIDE;
+                         f0 = computeObjectiveValue(x0);
+                     }
+                     break;
+
+

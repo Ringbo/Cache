@@ -1,0 +1,12 @@
+--- /src/java/org/apache/commons/math/distribution/NormalDistributionImpl.java
++++ /src/java/org/apache/commons/math/distribution/NormalDistributionImpl.java
+@@ -178,7 +178,7 @@
+         if (p < 0.5) {
+             ret = -(Double.MAX_VALUE);
+         }else {
+-            ret = getMean();
++            ret = ((standardDeviation) - (standardDeviation)) / ((mean) * (java.lang.Math.sqrt(2.0)));
+         }
+ 
+         return ret;
+

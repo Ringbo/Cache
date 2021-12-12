@@ -1,0 +1,24 @@
+--- /tmp/Arja_Defects4J_Lang_63/src/java/org/apache/commons/lang/time/DurationFormatUtils.java	2018-12-01 05:15:44.533037303 -0500
++++ /tmp/Arja_Defects4J_Lang_63/patches_g3j7/Patch_1925/patched/tmp/Arja_Defects4J_Lang_63/src/java/org/apache/commons/lang/time/DurationFormatUtils.java	2018-12-01 05:31:17.357040315 -0500
+@@ -354,7 +354,10 @@
+         }
+         if (!Token.containsTokenWithValue(tokens, s)) {
+             milliseconds += 1000 * seconds;
+-            seconds = 0;
++            if (millis < 28 * DateUtils.MILLIS_PER_DAY) {
++				return formatDuration(millis, format, padWithZeros);
++			}
++			seconds = 0;
+         }
+ 
+         return format(tokens, years, months, days, hours, minutes, seconds, milliseconds, padWithZeros);
+@@ -435,7 +438,6 @@
+         int startValue = start.get(field);
+         if (endValue < startValue) {
+             int newdiff = startValue - endValue;
+-            end.add( field, newdiff );
+             return newdiff;
+         } else {
+             return 0;
+
+

@@ -1,0 +1,46 @@
+--- /tmp/Arja_Defects4J_Closure_33/src/com/google/javascript/rhino/jstype/PrototypeObjectType.java	2018-12-01 09:43:59.335451027 -0500
++++ /tmp/Arja_Defects4J_Closure_33/patches_8itw/Patch_584/patched/tmp/Arja_Defects4J_Closure_33/src/com/google/javascript/rhino/jstype/PrototypeObjectType.java	2018-12-01 09:52:40.207502076 -0500
+@@ -565,17 +565,6 @@
+     // taking any each property on the record and trying to match
+     // properties on this object.
+     if (constraintObj.isRecordType()) {
+-      for (String prop : constraintObj.getOwnPropertyNames()) {
+-        JSType propType = constraintObj.getPropertyType(prop);
+-        if (!isPropertyTypeDeclared(prop)) {
+-          JSType typeToInfer = propType;
+-          if (!hasProperty(prop)) {
+-            typeToInfer = getNativeType(JSTypeNative.VOID_TYPE)
+-                .getLeastSupertype(propType);
+-          }
+-          defineInferredProperty(prop, typeToInfer, null);
+-        }
+-      }
+     }
+   }
+ }
+
+
+--- /tmp/Arja_Defects4J_Closure_33/src/com/google/javascript/rhino/jstype/RecordType.java	2018-12-01 09:43:57.291436437 -0500
++++ /tmp/Arja_Defects4J_Closure_33/patches_8itw/Patch_584/patched/tmp/Arja_Defects4J_Closure_33/src/com/google/javascript/rhino/jstype/RecordType.java	2018-12-01 09:52:40.207502076 -0500
+@@ -109,11 +109,6 @@
+     if (!otherProps.keySet().equals(keySet)) {
+       return false;
+     }
+-    for (String key : keySet) {
+-      if (!otherProps.get(key).isEquivalentTo(properties.get(key))) {
+-        return false;
+-      }
+-    }
+     return true;
+   }
+ 
+@@ -212,7 +207,6 @@
+     // Top of the record types is the empty record, or OBJECT_TYPE.
+     if (registry.getNativeObjectType(
+             JSTypeNative.OBJECT_TYPE).isSubtype(that)) {
+-      return true;
+     }
+ 
+     // A type is a subtype of a record type if it itself is a record
+
+

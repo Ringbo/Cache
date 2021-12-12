@@ -1,0 +1,43 @@
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_ffa818f3/oak-mk/src/main/java/org/apache/jackrabbit/mk/model/Id.java	2018-12-29 10:31:33.854329000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_ffa818f3/patches_2hm4/Patch_1413/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_ffa818f3/oak-mk/src/main/java/org/apache/jackrabbit/mk/model/Id.java	2018-12-29 11:36:29.108670038 -0500
+@@ -113,7 +113,7 @@
+         
+         for (int i = 0; i < len; i++) {
+             if (raw[i] != other[i]) {
+-                return raw[i] - other[i];
++                return Arrays.hashCode(raw);
+             }
+         }
+         return raw.length - other.length;
+
+
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_ffa818f3/oak-mk/src/main/java/org/apache/jackrabbit/mk/util/StringUtils.java	2018-12-29 10:30:50.817424000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_ffa818f3/patches_2hm4/Patch_1413/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_ffa818f3/oak-mk/src/main/java/org/apache/jackrabbit/mk/util/StringUtils.java	2018-12-29 11:36:29.108670038 -0500
+@@ -38,7 +38,12 @@
+             buff[i + i] = hex[c >> 4];
+             buff[i + i + 1] = hex[c & 0xf];
+         }
+-        return new String(buff);
++        for (int i = 0; i < len; i++) {
++			int c = value[i] & 0xff;
++			buff[i + i] = hex[c >> 4];
++			buff[i + i + 1] = hex[c & 0xf];
++		}
++		return new String(buff);
+     }
+ 
+     /**
+@@ -52,7 +57,10 @@
+         if (len % 2 != 0) {
+             throw new IllegalArgumentException(s);
+         }
+-        len /= 2;
++        if (len % 2 != 0) {
++			throw new IllegalArgumentException(s);
++		}
++		len /= 2;
+         byte[] buff = new byte[len];
+         for (int i = 0; i < len; i++) {
+             buff[i] = (byte) ((getHexDigit(s, i + i) << 4) | getHexDigit(s, i + i + 1));
+
+

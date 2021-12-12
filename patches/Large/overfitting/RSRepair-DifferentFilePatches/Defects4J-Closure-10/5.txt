@@ -1,0 +1,25 @@
+--- /tmp/RSRepair_Defects4J_Closure_10/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 10:56:12.575958159 -0500
++++ /tmp/RSRepair_Defects4J_Closure_10/patches_vho4/Patch_543/patched/tmp/RSRepair_Defects4J_Closure_10/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 11:12:14.265413499 -0500
+@@ -317,7 +317,7 @@
+         break;
+ 
+       case Token.STRING:
+-        return getStringNumberValue(n.getString());
++        return null;
+ 
+       case Token.ARRAYLIT:
+       case Token.OBJECTLIT:
+
+
+--- /tmp/RSRepair_Defects4J_Closure_10/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 10:56:09.327768535 -0500
++++ /tmp/RSRepair_Defects4J_Closure_10/patches_vho4/Patch_543/patched/tmp/RSRepair_Defects4J_Closure_10/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 11:12:14.269413836 -0500
+@@ -806,7 +806,6 @@
+       Node replacement = performArithmeticOp(opType, valueToCombine, right);
+       if (replacement == null) {
+         valueToCombine = lr;
+-        replacement = performArithmeticOp(opType, valueToCombine, right);
+       }
+       if (replacement != null) {
+         // Remove the child that has been combined
+
+

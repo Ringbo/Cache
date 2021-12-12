@@ -1,0 +1,23 @@
+--- /src/java/org/apache/commons/lang/text/StrBuilder.java
++++ /src/java/org/apache/commons/lang/text/StrBuilder.java
+@@ -1670,11 +1670,20 @@
+      */
+     public boolean contains(char ch) {
+         char[] thisBuf = buffer;
++    // start of generated patch
++        for(int i=0;i<size;i++){
++          if(thisBuf[i]==ch){
++            return true;
++          }
++        }
++    // end of generated patch
++    /* start of original code
+         for (int i = 0; i < thisBuf.length; i++) {
+             if (thisBuf[i] == ch) {
+                 return true;
+             }
+         }
++    end of original code*/
+         return false;
+     }
+

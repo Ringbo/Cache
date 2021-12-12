@@ -1,0 +1,31 @@
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/Plot.java	2018-12-01 08:15:31.190705575 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_1142/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/Plot.java	2018-12-01 08:29:03.586346507 -0500
+@@ -943,7 +943,6 @@
+      * @see #fillBackground(Graphics2D, Rectangle2D, PlotOrientation)
+      */
+     protected void fillBackground(Graphics2D g2, Rectangle2D area) {
+-        fillBackground(g2, area, PlotOrientation.VERTICAL);
+     }
+     
+     /**
+
+
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot3D.java	2018-12-01 08:15:31.186705575 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_1142/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot3D.java	2018-12-01 08:29:03.590346783 -0500
+@@ -268,7 +268,13 @@
+         double linkW = plotArea.getWidth() - gapHorizontal;
+         double linkH = plotArea.getHeight() - gapVertical;
+         
+-        // make the link area a square if the pie chart is to be circular...
++        if (DatasetUtilities.isEmptyOrNull(getDataset())) {
++			drawNoDataMessage(g2, plotArea);
++			g2.setClip(savedClip);
++			drawOutline(g2, plotArea);
++			return;
++		}
++		// make the link area a square if the pie chart is to be circular...
+         if (isCircular()) { // is circular?
+             double min = Math.min(linkW, linkH) / 2;
+             linkX = (linkX + linkX + linkW) / 2 - min;
+
+

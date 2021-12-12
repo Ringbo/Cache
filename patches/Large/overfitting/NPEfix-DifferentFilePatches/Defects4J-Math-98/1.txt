@@ -1,0 +1,19 @@
+--- linear/RealMatrixImpl.java
++++ linear/RealMatrixImpl.java
+@@ -532,3 +532,8 @@
+         }
+-        final int nRows = subMatrix.length;
++        final int nRows;
++        if (subMatrix == null) {
++            nRows = data.length;
++        } else {
++            nRows = subMatrix.length;
++        }
+         if (nRows == 0) {
+@@ -537,3 +542,5 @@
+         }
+-        final int nCols = subMatrix[0].length;
++        if (subMatrix != null) {
++            final int nCols = subMatrix[0].length;
++        }
+         if (nCols == 0) {

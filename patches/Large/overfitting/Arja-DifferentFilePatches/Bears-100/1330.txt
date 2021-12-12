@@ -1,0 +1,39 @@
+--- /tmp/Arja_Bears_traccar-traccar_195128524-195455832/src/org/traccar/model/Extensible.java	2018-12-26 13:25:11.276547106 -0500
++++ /tmp/Arja_Bears_traccar-traccar_195128524-195455832/patches_dh8j/Patch_193/patched/tmp/Arja_Bears_traccar-traccar_195128524-195455832/src/org/traccar/model/Extensible.java	2018-12-26 13:27:40.342796790 -0500
+@@ -41,7 +41,6 @@
+     }
+ 
+     public void set(String key, boolean value) {
+-        attributes.put(key, value);
+     }
+ 
+     public void set(String key, int value) {
+
+
+--- /tmp/Arja_Bears_traccar-traccar_195128524-195455832/src/org/traccar/model/Position.java	2018-12-26 13:25:11.280547060 -0500
++++ /tmp/Arja_Bears_traccar-traccar_195128524-195455832/patches_dh8j/Patch_193/patched/tmp/Arja_Bears_traccar-traccar_195128524-195455832/src/org/traccar/model/Position.java	2018-12-26 13:27:40.342796790 -0500
+@@ -176,7 +176,8 @@
+     private boolean valid;
+ 
+     public boolean getValid() {
+-        return valid;
++        this.protocol = protocol;
++		return valid;
+     }
+ 
+     public void setValid(boolean valid) {
+
+
+--- /tmp/Arja_Bears_traccar-traccar_195128524-195455832/src/org/traccar/events/IgnitionEventHandler.java	2018-12-26 13:25:11.252547388 -0500
++++ /tmp/Arja_Bears_traccar-traccar_195128524-195455832/patches_dh8j/Patch_193/patched/tmp/Arja_Bears_traccar-traccar_195128524-195455832/src/org/traccar/events/IgnitionEventHandler.java	2018-12-26 13:27:40.346796743 -0500
+@@ -48,8 +48,6 @@
+         }
+ 
+         if (ignition && !oldIgnition) {
+-            result = Collections.singleton(
+-                    new Event(Event.TYPE_IGNITION_ON, position.getDeviceId(), position.getId()));
+         } else if (!ignition && oldIgnition) {
+             result = Collections.singleton(
+                     new Event(Event.TYPE_IGNITION_OFF, position.getDeviceId(), position.getId()));
+
+

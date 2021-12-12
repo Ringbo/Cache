@@ -1,0 +1,7 @@
+--- a/source/org/jfree/data/xy/XYSeries.java
++++ b/source/org/jfree/data/xy/XYSeries.java
+@@ -562,3 +562,3 @@
+             // append the value to the list...
+-            if (this.autoSort) {
++            if (overwritten!=null) {
+                 this.data.add(-index - 1, new XYDataItem(x, y));

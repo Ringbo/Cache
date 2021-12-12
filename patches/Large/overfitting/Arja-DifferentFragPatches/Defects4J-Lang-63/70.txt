@@ -1,0 +1,33 @@
+--- /tmp/Arja_Defects4J_Lang_63/src/java/org/apache/commons/lang/time/DurationFormatUtils.java	2018-12-01 05:15:44.533037303 -0500
++++ /tmp/Arja_Defects4J_Lang_63/patches_g3j7/Patch_364/patched/tmp/Arja_Defects4J_Lang_63/src/java/org/apache/commons/lang/time/DurationFormatUtils.java	2018-12-01 05:20:47.651750534 -0500
+@@ -294,17 +294,14 @@
+             seconds += 60;
+             minutes -= 1;
+         }
+-        while (minutes < 0) {
+-            minutes += 60;
+-            hours -= 1;
+-        }
+         while (hours < 0) {
+             hours += 24;
+             days -= 1;
+         }
+         while (days < 0) {
+             days += 31;
+-//days += 31; // TODO: Need tests to show this is bad and the new code is good.
++start.add(Calendar.DATE, -1);
++			//days += 31; // TODO: Need tests to show this is bad and the new code is good.
+ // HEN: It's a tricky subject. Jan 15th to March 10th. If I count days-first it is 
+ // 1 month and 26 days, but if I count month-first then it is 1 month and 23 days.
+ // Also it's contextual - if asked for no M in the format then I should probably 
+@@ -349,7 +346,7 @@
+             hours = 0;
+         }
+         if (!Token.containsTokenWithValue(tokens, m)) {
+-            seconds += 60 * minutes;
++            milliseconds += 1000 * seconds;
+             minutes = 0;
+         }
+         if (!Token.containsTokenWithValue(tokens, s)) {
+
+

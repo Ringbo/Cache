@@ -1,0 +1,24 @@
+--- /tmp/GenProg_Defects4J_Closure_124/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-02 05:36:00.557086818 -0500
++++ /tmp/GenProg_Defects4J_Closure_124/patches_wpdl/Patch_330/patched/tmp/GenProg_Defects4J_Closure_124/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-02 05:49:10.553336306 -0500
+@@ -120,7 +120,10 @@
+         case Token.EXPR_RESULT:
+           // Dive down the left side
+           parent = next;
+-          next = next.getFirstChild();
++          {
++			int start = 0;
++			next = next.getFirstChild();
++		}
+           break;
+ 
+         case Token.VAR:
+@@ -174,7 +177,6 @@
+             // Dive down the right side of the assign.
+             parent = next;
+             next = leftSide.getNext();
+-            break;
+           } else {
+             return false;
+           }
+
+

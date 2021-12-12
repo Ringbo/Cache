@@ -1,0 +1,13 @@
+/var/lib/oar/.batch_job_bashrc: line 5: /home/tdurieux/.bashrc: No such file or directory
+--- com/google/javascript/rhino/Node.java
++++ com/google/javascript/rhino/Node.java
+@@ -1543,7 +1543,7 @@
+ 				}
+ 			}else 				if ((type) == (com.google.javascript.rhino.Token.CALL)) {
+ 					if ((this.getBooleanProp(com.google.javascript.rhino.Node.FREE_CALL)) != (node.getBooleanProp(com.google.javascript.rhino.Node.FREE_CALL))) {
+-						return false;
++
+ 					}
+ 				}
+ 
+

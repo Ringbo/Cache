@@ -1,0 +1,13 @@
+/var/lib/oar/.batch_job_bashrc: line 5: /home/tdurieux/.bashrc: No such file or directory
+--- org/traccar/protocol/MeitrackProtocolDecoder.java
++++ org/traccar/protocol/MeitrackProtocolDecoder.java
+@@ -241,7 +241,7 @@
+ 			}
+ 		}
+ 
+-		if (parser.hasNext(2)) {
++		if (false) {
+ 			decodeDataFields(position, parser.nextInt(), parser.next().split(\",\"));
+ 		}
+ 
+

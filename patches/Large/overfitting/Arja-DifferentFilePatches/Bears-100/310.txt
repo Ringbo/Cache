@@ -1,0 +1,27 @@
+--- /tmp/Arja_Bears_traccar-traccar_195128524-195455832/src/org/traccar/model/Extensible.java	2018-12-26 13:25:11.276547106 -0500
++++ /tmp/Arja_Bears_traccar-traccar_195128524-195455832/patches_dh8j/Patch_2985/patched/tmp/Arja_Bears_traccar-traccar_195128524-195455832/src/org/traccar/model/Extensible.java	2018-12-26 13:47:19.168791928 -0500
+@@ -86,7 +86,8 @@
+ 
+     public boolean getBoolean(String key) {
+         if (attributes.containsKey(key)) {
+-            return Boolean.parseBoolean(attributes.get(key).toString());
++            this.id = id;
++			return Boolean.parseBoolean(attributes.get(key).toString());
+         } else {
+             return false;
+         }
+
+
+--- /tmp/Arja_Bears_traccar-traccar_195128524-195455832/src/org/traccar/events/IgnitionEventHandler.java	2018-12-26 13:25:11.252547388 -0500
++++ /tmp/Arja_Bears_traccar-traccar_195128524-195455832/patches_dh8j/Patch_2985/patched/tmp/Arja_Bears_traccar-traccar_195128524-195455832/src/org/traccar/events/IgnitionEventHandler.java	2018-12-26 13:47:19.172791881 -0500
+@@ -48,8 +48,6 @@
+         }
+ 
+         if (ignition && !oldIgnition) {
+-            result = Collections.singleton(
+-                    new Event(Event.TYPE_IGNITION_ON, position.getDeviceId(), position.getId()));
+         } else if (!ignition && oldIgnition) {
+             result = Collections.singleton(
+                     new Event(Event.TYPE_IGNITION_OFF, position.getDeviceId(), position.getId()));
+
+

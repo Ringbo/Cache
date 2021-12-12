@@ -1,0 +1,27 @@
+--- /tmp/GenProg_Defects4J_Math_103/src/java/org/apache/commons/math/special/Gamma.java	2018-12-02 10:44:01.108521889 -0500
++++ /tmp/GenProg_Defects4J_Math_103/patches_zr8r/Patch_1667/patched/tmp/GenProg_Defects4J_Math_103/src/java/org/apache/commons/math/special/Gamma.java	2018-12-02 11:00:31.230818559 -0500
+@@ -177,7 +177,7 @@
+                 sum = sum + an;
+             }
+             if (n >= maxIterations) {
+-                throw new MaxIterationsExceededException(maxIterations);
++                ret = 1.0;
+             } else {
+                 ret = Math.exp(-x + (a * Math.log(x)) - logGamma(a)) * sum;
+             }
+
+
+--- /tmp/GenProg_Defects4J_Math_103/src/java/org/apache/commons/math/distribution/NormalDistributionImpl.java	2018-12-02 10:44:03.496521833 -0500
++++ /tmp/GenProg_Defects4J_Math_103/patches_zr8r/Patch_1667/patched/tmp/GenProg_Defects4J_Math_103/src/java/org/apache/commons/math/distribution/NormalDistributionImpl.java	2018-12-02 11:00:31.230818559 -0500
+@@ -106,7 +106,8 @@
+      * convergence exception is caught and 0 or 1 is returned.
+      */
+     public double cumulativeProbability(double x) throws MathException {
+-            return 0.5 * (1.0 + Erf.erf((x - mean) /
++            setMean(mean);
++			return 0.5 * (1.0 + Erf.erf((x - mean) /
+                     (standardDeviation * Math.sqrt(2.0))));
+     }
+     
+
+

@@ -1,0 +1,66 @@
+--- /tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/GlobalNamespace.java	2018-12-02 05:31:52.392087484 -0500
++++ /tmp/GenProg_Defects4J_Closure_130/patches_ci9x/Patch_200/patched/tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/GlobalNamespace.java	2018-12-02 05:44:22.685514071 -0500
+@@ -195,10 +195,6 @@
+ 
+     @Override
+     public boolean apply(Node n) {
+-      if (!n.isQualifiedName()) {
+-        return false;
+-      }
+-
+       Node current;
+       for (current = n;
+            current.isGetProp();
+
+
+--- /tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/rhino/Node.java	2018-12-02 05:31:52.420087483 -0500
++++ /tmp/GenProg_Defects4J_Closure_130/patches_ci9x/Patch_200/patched/tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/rhino/Node.java	2018-12-02 05:44:22.685514071 -0500
+@@ -1414,7 +1414,8 @@
+   public String checkTreeEquals(Node node2) {
+       NodeMismatch diff = checkTreeEqualsImpl(node2);
+       if (diff != null) {
+-        return "Node tree inequality:" +
++        PropListItem x = propListHead;
++		return "Node tree inequality:" +
+             "\nTree1:\n" + toStringTree() +
+             "\n\nTree2:\n" + node2.toStringTree() +
+             "\n\nSubtree1: " + diff.nodeA.toStringTree() +
+
+
+--- /tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/CollapseProperties.java	2018-12-02 05:31:55.312087382 -0500
++++ /tmp/GenProg_Defects4J_Closure_130/patches_ci9x/Patch_200/patched/tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/CollapseProperties.java	2018-12-02 05:44:22.689514252 -0500
+@@ -224,7 +224,6 @@
+               aliasRefs.references.get(i);
+ 
+           Node newNode = alias.node.cloneTree();
+-          aliasRef.getParent().replaceChild(aliasRef.getNode(), newNode);
+           newNodes.add(newNode);
+         }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/rhino/Token.java	2018-12-02 05:31:52.424087483 -0500
++++ /tmp/GenProg_Defects4J_Closure_130/patches_ci9x/Patch_200/patched/tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/rhino/Token.java	2018-12-02 05:44:22.689514252 -0500
+@@ -214,7 +214,7 @@
+           case NUMBER:          return "NUMBER";
+           case STRING:          return "STRING";
+           case STRING_KEY:      return "STRING_KEY";
+-          case NULL:            return "NULL";
++          case NULL:            ;
+           case THIS:            return "THIS";
+           case FALSE:           return "FALSE";
+           case TRUE:            return "TRUE";
+
+
+--- /tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/ReferenceCollectingCallback.java	2018-12-02 05:31:52.404087484 -0500
++++ /tmp/GenProg_Defects4J_Closure_130/patches_ci9x/Patch_200/patched/tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/ReferenceCollectingCallback.java	2018-12-02 05:44:22.693514433 -0500
+@@ -474,7 +474,6 @@
+     boolean firstReferenceIsAssigningDeclaration() {
+       int size = references.size();
+       if (size > 0 && references.get(0).isInitializingDeclaration()) {
+-        return true;
+       }
+       return false;
+     }
+
+

@@ -1,0 +1,15 @@
+--- /tmp/Kali_QuixBugs_DEPTH_FIRST_SEARCH_/src/main/java/Node.java	2018-12-02 05:18:27.133698491 -0500
++++ /tmp/Kali_QuixBugs_DEPTH_FIRST_SEARCH_/patches_v986/Patch_1/patched/tmp/Kali_QuixBugs_DEPTH_FIRST_SEARCH_/src/main/java/Node.java	2018-12-02 05:18:33.921682060 -0500
+@@ -47,7 +47,9 @@
+     }
+ 
+     public void setSuccessors(ArrayList<Node> successors) {
+-        this.successors = successors;
++        if (true)
++			return;
++		this.successors = successors;
+     }
+ 
+     public void setPredecessors(ArrayList<Node> predecessors) {
+
+

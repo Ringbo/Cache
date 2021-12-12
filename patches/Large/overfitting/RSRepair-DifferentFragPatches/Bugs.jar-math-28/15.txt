@@ -1,0 +1,30 @@
+--- /tmp/RSRepair_Bug_dot_jar_Commons-Math_596ccd59/src/main/java/org/apache/commons/math3/ml/clustering/FuzzyKMeansClusterer.java	2018-12-29 15:44:10.490149000 -0500
++++ /tmp/RSRepair_Bug_dot_jar_Commons-Math_596ccd59/patches_0bp6/Patch_315/patched/tmp/RSRepair_Bug_dot_jar_Commons-Math_596ccd59/src/main/java/org/apache/commons/math3/ml/clustering/FuzzyKMeansClusterer.java	2018-12-29 16:03:20.599957229 -0500
+@@ -289,8 +289,6 @@
+             return clusters;
+         }
+ 
+-        initializeMembershipMatrix();
+-
+         // there is at least one point
+         final int pointDimension = points.get(0).getPoint().length;
+         for (int i = 0; i < k; i++) {
+@@ -303,7 +301,6 @@
+ 
+         do {
+             saveMembershipMatrix(oldMatrix);
+-            updateClusterCenters();
+             updateMembershipMatrix();
+             difference = calculateMaxMembershipChange(oldMatrix);
+         } while (difference > epsilon && ++iteration < max);
+@@ -332,7 +329,7 @@
+                 i++;
+             }
+             MathArrays.scaleInPlace(1.0 / sum, arr);
+-            newClusters.add(new CentroidCluster<T>(new DoublePoint(arr)));
++            int newCluster = -1;
+             j++;
+         }
+         clusters.clear();
+
+

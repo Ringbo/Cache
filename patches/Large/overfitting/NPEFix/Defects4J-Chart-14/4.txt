@@ -1,0 +1,12 @@
+--- org/jfree/chart/plot/CategoryPlot.java
++++ org/jfree/chart/plot/CategoryPlot.java
+@@ -2165,3 +2165,8 @@
+         }
+-        boolean removed = markers.remove(marker);
++        boolean removed;
++        if (markers == null) {
++            removed = annotations.remove(marker);
++        } else {
++            removed = markers.remove(marker);
++        }
+         if (removed && notify) {

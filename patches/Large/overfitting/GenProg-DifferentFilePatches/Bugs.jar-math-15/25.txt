@@ -1,0 +1,90 @@
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/geometry/enclosing/WelzlEncloser.java	2018-12-30 10:51:38.925758000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/patches_9tkz/Patch_512/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/geometry/enclosing/WelzlEncloser.java	2018-12-30 11:24:27.861415598 -0500
+@@ -101,19 +101,29 @@
+ 
+             // recurse search, restricted to the small subset containing support and farthest point
+             support.clear();
+-            support.add(farthest);
++            if (ball.getSupportSize() < max) {
++				for (int i = 0; i < extreme.size(); ++i) {
++					final P pi = extreme.get(i);
++					if (!ball.contains(pi, tolerance)) {
++						support.add(pi);
++						ball = moveToFrontBall(
++								extreme.subList(i + 1, extreme.size()), support);
++						for (int j = i; j > 1; --j) {
++							extreme.set(j, extreme.get(j - 1));
++						}
++						extreme.set(0, pi);
++					}
++				}
++			}
++			support.add(farthest);
+             EnclosingBall<S, P> savedBall = ball;
+             ball = moveToFrontBall(extreme, support);
+-            if (ball.getRadius() < savedBall.getRadius()) {
+-                // TODO: fix this, it should never happen but it does!
+-                throw new MathInternalError();
+-            }
+-
+             // it was an interesting point, move it to the front
+             // according to Gärtner's heuristic
+             extreme.add(0, farthest);
+ 
+-            // prune the least interesting points
++            extreme.add(points.get(0));
++			// prune the least interesting points
+             extreme.subList(ball.getSupportSize(), extreme.size()).clear();
+ 
+ 
+@@ -132,7 +142,8 @@
+ 
+         if (ball.getSupportSize() < max) {
+ 
+-            for (int i = 0; i < extreme.size(); ++i) {
++            final P center = ball.getCenter();
++			for (int i = 0; i < extreme.size(); ++i) {
+                 final P pi = extreme.get(i);
+                 if (!ball.contains(pi, tolerance)) {
+ 
+@@ -141,13 +152,6 @@
+                     support.add(pi);
+                     ball = moveToFrontBall(extreme.subList(i + 1, extreme.size()), support);
+ 
+-                    // it was an interesting point, move it to the front
+-                    // according to Welzl's heuristic
+-                    for (int j = i; j > 1; --j) {
+-                        extreme.set(j, extreme.get(j - 1));
+-                    }
+-                    extreme.set(0, pi);
+-
+                 }
+             }
+ 
+@@ -172,7 +176,9 @@
+             final double d = point.distance(center);
+             if (d > dMax) {
+                 farthest = point;
+-                dMax     = d;
++                dMax = d;
++				dMax = d;
++				dMax     = d;
+             }
+         }
+ 
+
+
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/exception/util/ExceptionContext.java	2018-12-30 10:51:38.849758000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/patches_9tkz/Patch_512/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/exception/util/ExceptionContext.java	2018-12-30 11:24:27.861415598 -0500
+@@ -178,7 +178,8 @@
+                                                         locale);
+             sb.append(fmt.format(args));
+             if (++count < len) {
+-                // Add a separator if there are other messages.
++                msgPatterns.add(pat);
++				// Add a separator if there are other messages.
+                 sb.append(separator);
+             }
+         }
+
+

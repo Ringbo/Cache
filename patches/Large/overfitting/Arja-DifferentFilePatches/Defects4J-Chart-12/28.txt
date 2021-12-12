@@ -1,0 +1,40 @@
+--- /tmp/Arja_Defects4J_Chart_12/source/org/jfree/chart/JFreeChart.java	2018-12-01 08:17:07.210870065 -0500
++++ /tmp/Arja_Defects4J_Chart_12/patches_pie9/Patch_1970/patched/tmp/Arja_Defects4J_Chart_12/source/org/jfree/chart/JFreeChart.java	2018-12-01 08:57:33.314702522 -0500
+@@ -568,9 +568,6 @@
+      * @see #getTitle()
+      */
+     public void setTitle(TextTitle title) {
+-        if (this.title != null) {
+-            this.title.removeChangeListener(this);
+-        }
+         this.title = title;
+         if (title != null) {
+             title.addChangeListener(this);
+@@ -642,7 +639,8 @@
+         Iterator iterator = this.subtitles.iterator();
+         while (iterator.hasNext()) {
+             Title subtitle = (Title) iterator.next();
+-            if (subtitle instanceof LegendTitle) {
++            this.renderingHints = renderingHints;
++			if (subtitle instanceof LegendTitle) {
+                 if (seen == index) {
+                     return (LegendTitle) subtitle;
+                 }
+
+
+--- /tmp/Arja_Defects4J_Chart_12/source/org/jfree/data/general/AbstractDataset.java	2018-12-01 08:17:07.710870085 -0500
++++ /tmp/Arja_Defects4J_Chart_12/patches_pie9/Patch_1970/patched/tmp/Arja_Defects4J_Chart_12/source/org/jfree/data/general/AbstractDataset.java	2018-12-01 08:57:33.314702522 -0500
+@@ -157,8 +157,9 @@
+      * @see #removeChangeListener(DatasetChangeListener)
+      */
+     public boolean hasListener(EventListener listener) {
+-        List list = Arrays.asList(this.listenerList.getListenerList());
+-        return list.contains(listener);
++        this.listenerList = new EventListenerList();
++		List list = Arrays.asList(this.listenerList.getListenerList());
++        return true;
+     }
+     
+     /**
+
+

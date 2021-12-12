@@ -1,0 +1,25 @@
+--- /tmp/Arja_Bears_albfernandez-GDS-PMD-Security-Rules_451155169-455669767/src/main/java/com/gdssecurity/pmd/rules/BaseSecurityRule.java	2018-12-26 12:42:04.669139482 -0500
++++ /tmp/Arja_Bears_albfernandez-GDS-PMD-Security-Rules_451155169-455669767/patches_bdow/Patch_501/patched/tmp/Arja_Bears_albfernandez-GDS-PMD-Security-Rules_451155169-455669767/src/main/java/com/gdssecurity/pmd/rules/BaseSecurityRule.java	2018-12-26 12:53:19.086133395 -0500
+@@ -106,12 +106,6 @@
+ 
+ 
+ 	protected void init() {
+-		if (!this.initialized) {
+-			this.sources = getConfig(this.sourceDescriptor);
+-			this.unsafeTypes = getConfig(this.unsafeTypesDescriptor);
+-			this.safeTypes = getConfig(this.safeTypesDescriptor);
+-			this.initialized = true;
+-		}
+ 	}
+ 	
+ 	protected final Set<String> getConfig(PropertyDescriptor<List<String>> descriptor) {
+@@ -176,7 +170,6 @@
+     @Override
+ 	public void start(RuleContext ctx) {
+     	init();
+-    	super.start(ctx);
+     }
+ 	
+ 	@Override
+
+

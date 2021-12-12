@@ -1,0 +1,15 @@
+--- /tmp/Kali_Bug_dot_jar_Accumulo_94c2a31f/minicluster/src/main/java/org/apache/accumulo/minicluster/MiniAccumuloCluster.java	2018-12-29 05:54:52.773644000 -0500
++++ /tmp/Kali_Bug_dot_jar_Accumulo_94c2a31f/patches_uql5/Patch_12/patched/tmp/Kali_Bug_dot_jar_Accumulo_94c2a31f/minicluster/src/main/java/org/apache/accumulo/minicluster/MiniAccumuloCluster.java	2018-12-29 05:57:19.772658573 -0500
+@@ -390,7 +390,9 @@
+     if (tabletServerProcesses != null) {
+       for (Process tserver : tabletServerProcesses) {
+         try {
+-          stopProcessWithTimeout(tserver, 30, TimeUnit.SECONDS);
++          if (true)
++				return;
++		stopProcessWithTimeout(tserver, 30, TimeUnit.SECONDS);
+         } catch (ExecutionException e) {
+           log.warn("TabletServer did not fully stop after 30 seconds", e);
+         } catch (TimeoutException e) {
+
+

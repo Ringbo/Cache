@@ -1,0 +1,36 @@
+--- /tmp/Arja_Bug_dot_jar_Maven_c4002945/maven-plugin-api/src/main/java/org/apache/maven/plugin/descriptor/PluginDescriptor.java	2018-12-28 19:52:44.500203000 -0500
++++ /tmp/Arja_Bug_dot_jar_Maven_c4002945/patches_obrk/Patch_1510/patched/tmp/Arja_Bug_dot_jar_Maven_c4002945/maven-plugin-api/src/main/java/org/apache/maven/plugin/descriptor/PluginDescriptor.java	2018-12-29 02:36:04.796845700 -0500
+@@ -323,7 +323,6 @@
+ 
+     public void setName( String name )
+     {
+-        this.name = name;
+     }
+ 
+     public String getName()
+
+
+--- /tmp/Arja_Bug_dot_jar_Maven_c4002945/maven-plugin-api/src/main/java/org/apache/maven/plugin/descriptor/PluginDescriptorBuilder.java	2018-12-28 19:52:44.504203000 -0500
++++ /tmp/Arja_Bug_dot_jar_Maven_c4002945/patches_obrk/Patch_1510/patched/tmp/Arja_Bug_dot_jar_Maven_c4002945/maven-plugin-api/src/main/java/org/apache/maven/plugin/descriptor/PluginDescriptorBuilder.java	2018-12-29 02:36:04.796845700 -0500
+@@ -50,7 +50,6 @@
+ 
+         PluginDescriptor pluginDescriptor = new PluginDescriptor();
+ 
+-        pluginDescriptor.setSource( source );
+         pluginDescriptor.setGroupId( c.getChild( "groupId" ).getValue() );
+         pluginDescriptor.setArtifactId( c.getChild( "artifactId" ).getValue() );
+         pluginDescriptor.setVersion( c.getChild( "version" ).getValue() );
+@@ -61,11 +60,6 @@
+ 
+         String isolatedRealm = c.getChild( "isolatedRealm" ).getValue();
+ 
+-        if ( isolatedRealm != null )
+-        {
+-            pluginDescriptor.setIsolatedRealm( Boolean.parseBoolean( isolatedRealm ) );
+-        }
+-
+         String inheritedByDefault = c.getChild( "inheritedByDefault" ).getValue();
+ 
+         if ( inheritedByDefault != null )
+
+

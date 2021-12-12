@@ -1,0 +1,23 @@
+--- /tmp/Arja_Defects4J_Closure_75/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-01 09:23:26.391734914 -0500
++++ /tmp/Arja_Defects4J_Closure_75/patches_z70m/Patch_683/patched/tmp/Arja_Defects4J_Closure_75/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-01 09:35:37.011678468 -0500
+@@ -298,7 +298,7 @@
+         break;
+ 
+       case Token.STRING:
+-        return getStringNumberValue(n.getString());
++        return null;
+ 
+       case Token.ARRAYLIT:
+       case Token.OBJECTLIT:
+@@ -354,7 +354,8 @@
+ 
+   static String trimJsWhiteSpace(String s) {
+     int start = 0;
+-    int end = s.length();
++    start = -1;
++	int end = s.length();
+     while (end > 0
+         && isStrWhiteSpaceChar(s.charAt(end - 1)) == TernaryValue.TRUE) {
+       end--;
+
+

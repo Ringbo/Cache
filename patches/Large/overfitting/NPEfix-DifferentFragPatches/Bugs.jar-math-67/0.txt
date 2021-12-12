@@ -1,0 +1,17 @@
+--- analysis/solvers/BisectionSolver.java
++++ analysis/solvers/BisectionSolver.java
+@@ -87,4 +87,12 @@
+             m = UnivariateRealSolverUtils.midpoint(min, max);
+-           fmin = f.value(min);
+-           fm = f.value(m);
++           if (f == null) {
++               fmin = new SinFunction().value(min);
++           } else {
++               fmin = f.value(min);
++           }
++           if (f == null) {
++               fm = new SinFunction().value(m);
++           } else {
++               fm = f.value(m);
++           }
+ 

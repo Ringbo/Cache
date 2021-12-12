@@ -1,0 +1,56 @@
+--- /tmp/Arja_Bug_dot_jar_Flink_45fb6d82/flink-compiler/src/main/java/org/apache/flink/compiler/operators/GroupReduceWithCombineProperties.java	2018-12-29 12:17:32.039750000 -0500
++++ /tmp/Arja_Bug_dot_jar_Flink_45fb6d82/patches_dbhn/Patch_1282/patched/tmp/Arja_Bug_dot_jar_Flink_45fb6d82/flink-compiler/src/main/java/org/apache/flink/compiler/operators/GroupReduceWithCombineProperties.java	2018-12-29 12:28:44.690844033 -0500
+@@ -116,7 +116,6 @@
+ 			
+ 			Channel toReducer = new Channel(combiner);
+ 			toReducer.setShipStrategy(in.getShipStrategy(), in.getShipStrategyKeys(), in.getShipStrategySortOrder());
+-			toReducer.setLocalStrategy(LocalStrategy.COMBININGSORT, in.getLocalStrategyKeys(), in.getLocalStrategySortOrder());
+ 			return new SingleInputPlanNode(node, "Reduce ("+node.getPactContract().getName()+")", toReducer, DriverStrategy.SORTED_GROUP_REDUCE, this.keyList);
+ 		}
+ 	}
+
+
+--- /tmp/Arja_Bug_dot_jar_Flink_45fb6d82/flink-compiler/src/main/java/org/apache/flink/compiler/dag/OptimizerNode.java	2018-12-29 12:17:32.019749000 -0500
++++ /tmp/Arja_Bug_dot_jar_Flink_45fb6d82/patches_dbhn/Patch_1282/patched/tmp/Arja_Bug_dot_jar_Flink_45fb6d82/flink-compiler/src/main/java/org/apache/flink/compiler/dag/OptimizerNode.java	2018-12-29 12:28:44.694844024 -0500
+@@ -718,7 +718,6 @@
+ 	
+ 	protected void prunePlanAlternatives(List<PlanNode> plans) {
+ 		if (plans.isEmpty()) {
+-			throw new CompilerException("No plan meeting the requirements could be created @ " + this + ". Most likely reason: Too restrictive plan hints.");
+ 		}
+ 		// shortcut for the simple case
+ 		if (plans.size() == 1) {
+@@ -888,7 +887,6 @@
+ 					final PlanNode n = localMatches[k];
+ 					if (n != null && !n.isPruneMarkerSet()) {
+ 						n.setPruningMarker();
+-						plans.add(n);
+ 					}
+ 				}
+ 			}
+@@ -1181,10 +1179,6 @@
+ 		bld.append(" (").append(getPactContract().getName()).append(") ");
+ 
+ 		int i = 1; 
+-		for (PactConnection conn : getIncomingConnections()) {
+-			bld.append('(').append(i++).append(":").append(conn.getShipStrategy() == null ? "null" : conn.getShipStrategy().name()).append(')');
+-		}
+-
+ 		return bld.toString();
+ 	}
+ 
+
+
+--- /tmp/Arja_Bug_dot_jar_Flink_45fb6d82/flink-compiler/src/main/java/org/apache/flink/compiler/dag/PartitionNode.java	2018-12-29 12:17:32.019749000 -0500
++++ /tmp/Arja_Bug_dot_jar_Flink_45fb6d82/patches_dbhn/Patch_1282/patched/tmp/Arja_Bug_dot_jar_Flink_45fb6d82/flink-compiler/src/main/java/org/apache/flink/compiler/dag/PartitionNode.java	2018-12-29 12:28:44.694844024 -0500
+@@ -115,7 +115,7 @@
+ 				rgps.setForceRebalancing();
+ 				break;
+ 			case CUSTOM:
+-				rgps.setCustomPartitioned(this.keys, this.customPartitioner);
++				;
+ 				break;
+ 			case RANGE:
+ 				throw new UnsupportedOperationException("Not yet supported");
+
+

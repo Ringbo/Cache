@@ -1,0 +1,65 @@
+--- /tmp/Arja_Bears_traccar-traccar_273118899-273136493/src/org/traccar/protocol/EelinkProtocolDecoder.java	2018-12-26 12:59:39.444574687 -0500
++++ /tmp/Arja_Bears_traccar-traccar_273118899-273136493/patches_r2qe/Patch_2597/patched/tmp/Arja_Bears_traccar-traccar_273118899-273136493/src/org/traccar/protocol/EelinkProtocolDecoder.java	2018-12-26 13:24:45.084079007 -0500
+@@ -118,8 +118,6 @@
+         position.setDeviceId(deviceSession.getDeviceId());
+         position.setProtocol(getProtocolName());
+ 
+-        position.set(Position.KEY_INDEX, index);
+-
+         position.setTime(new Date(buf.readUnsignedInt() * 1000));
+         position.setLatitude(buf.readInt() / 1800000.0);
+         position.setLongitude(buf.readInt() / 1800000.0);
+@@ -131,40 +129,6 @@
+ 
+         position.setValid((buf.readUnsignedByte() & 0x01) != 0);
+ 
+-        if (type == MSG_GPS) {
+-
+-            if (buf.readableBytes() >= 2) {
+-                decodeStatus(position, buf.readUnsignedShort());
+-            }
+-
+-            if (buf.readableBytes() >= 2 * 4) {
+-
+-                position.set(Position.KEY_BATTERY, buf.readUnsignedShort() * 0.001);
+-
+-                position.set(Position.KEY_RSSI, buf.readUnsignedShort());
+-
+-                position.set(Position.PREFIX_ADC + 1, buf.readUnsignedShort());
+-                position.set(Position.PREFIX_ADC + 2, buf.readUnsignedShort());
+-
+-            }
+-
+-        } else if (type == MSG_ALARM) {
+-
+-            position.set(Position.KEY_ALARM, decodeAlarm(buf.readUnsignedByte()));
+-
+-        } else if (type == MSG_STATE) {
+-
+-            int statusType = buf.readUnsignedByte();
+-
+-            position.set(Position.KEY_EVENT, statusType);
+-
+-            if (statusType == 0x01 || statusType == 0x02 || statusType == 0x03) {
+-                buf.readUnsignedInt(); // device time
+-                decodeStatus(position, buf.readUnsignedShort());
+-            }
+-
+-        }
+-
+         return position;
+     }
+ 
+@@ -229,10 +193,6 @@
+         buf.readShort(); // length
+         int index = buf.readUnsignedShort();
+ 
+-        if (type != MSG_GPS && type != MSG_DATA) {
+-            sendResponse(channel, type, index);
+-        }
+-
+         if (type == MSG_LOGIN) {
+ 
+             getDeviceSession(channel, remoteAddress, ChannelBuffers.hexDump(buf.readBytes(8)).substring(1));
+
+

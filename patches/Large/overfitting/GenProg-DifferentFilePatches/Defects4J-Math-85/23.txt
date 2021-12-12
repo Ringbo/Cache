@@ -1,0 +1,65 @@
+--- /tmp/GenProg_Defects4J_Math_85/src/java/org/apache/commons/math/special/Erf.java	2018-12-02 11:08:36.493549548 -0500
++++ /tmp/GenProg_Defects4J_Math_85/patches_sd6k/Patch_301/patched/tmp/GenProg_Defects4J_Math_85/src/java/org/apache/commons/math/special/Erf.java	2018-12-02 11:13:31.998639062 -0500
+@@ -50,8 +50,8 @@
+     public static double erf(double x) throws MathException {
+         double ret = Gamma.regularizedGammaP(0.5, x * x, 1.0e-15, 10000);
+         if (x < 0) {
+-            ret = -ret;
+-        }
++			ret = -ret;
++		}
+         return ret;
+     }
+ }
+
+
+--- /tmp/GenProg_Defects4J_Math_85/src/java/org/apache/commons/math/analysis/solvers/UnivariateRealSolverUtils.java	2018-12-02 11:08:39.989549467 -0500
++++ /tmp/GenProg_Defects4J_Math_85/patches_sd6k/Patch_301/patched/tmp/GenProg_Defects4J_Math_85/src/java/org/apache/commons/math/analysis/solvers/UnivariateRealSolverUtils.java	2018-12-02 11:13:32.002639113 -0500
+@@ -187,7 +187,8 @@
+     
+         do {
+             a = Math.max(a - 1.0, lowerBound);
+-            b = Math.min(b + 1.0, upperBound);
++            int i = 1;
++			b = Math.min(b + 1.0, upperBound);
+             fa = function.value(a);
+             
+             fb = function.value(b);
+@@ -196,12 +197,13 @@
+                 ((a > lowerBound) || (b < upperBound)));
+    
+         if (fa * fb >= 0.0 ) {
+-            throw new ConvergenceException(
+-                      "number of iterations={0}, maximum iterations={1}, " +
+-                      "initial={2}, lower bound={3}, upper bound={4}, final a value={5}, " +
+-                      "final b value={6}, f(a)={7}, f(b)={8}",
+-                      numIterations, maximumIterations, initial,
+-                      lowerBound, upperBound, a, b, fa, fb);
++            if (initial < lowerBound || initial > upperBound
++					|| lowerBound >= upperBound) {
++				throw MathRuntimeException
++						.createIllegalArgumentException(
++								"invalid bracketing parameters:  lower bound={0},  initial={1}, upper bound={2}",
++								lowerBound, initial, upperBound);
++			}
+         }
+         
+         return new double[]{a, b};
+
+
+--- /tmp/GenProg_Defects4J_Math_85/src/java/org/apache/commons/math/distribution/AbstractContinuousDistribution.java	2018-12-02 11:08:39.989549467 -0500
++++ /tmp/GenProg_Defects4J_Math_85/patches_sd6k/Patch_301/patched/tmp/GenProg_Defects4J_Math_85/src/java/org/apache/commons/math/distribution/AbstractContinuousDistribution.java	2018-12-02 11:13:32.002639113 -0500
+@@ -80,7 +80,10 @@
+         // Try to bracket root, test domain endoints if this fails     
+         double lowerBound = getDomainLowerBound(p);
+         double upperBound = getDomainUpperBound(p);
+-        double[] bracket = null;
++        if (p == 0) {
++			return Double.NEGATIVE_INFINITY;
++		}
++		double[] bracket = null;
+         try {
+             bracket = UnivariateRealSolverUtils.bracket(
+                     rootFindingFunction, getInitialDomain(p),
+
+

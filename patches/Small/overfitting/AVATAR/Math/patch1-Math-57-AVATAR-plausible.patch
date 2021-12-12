@@ -1,0 +1,12 @@
+--- /src/main/java/org/apache/commons/math/stat/clustering/KMeansPlusPlusClusterer.java
++++ /src/main/java/org/apache/commons/math/stat/clustering/KMeansPlusPlusClusterer.java
+@@ -96,7 +96,7 @@
+         assignPointsToClusters(clusters, points);
+ 
+         // iterate through updating the centers until we're done
+-        final int max = (maxIterations < 0) ? Integer.MAX_VALUE : maxIterations;
++        final int max = (maxIterations <= 0) ? Integer.MAX_VALUE : maxIterations;
+         for (int count = 0; count < max; count++) {
+             boolean clusteringChanged = false;
+             List<Cluster<T>> newClusters = new ArrayList<Cluster<T>>();
+

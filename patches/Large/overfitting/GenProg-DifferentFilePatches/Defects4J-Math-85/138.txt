@@ -1,0 +1,46 @@
+--- /tmp/GenProg_Defects4J_Math_85/src/java/org/apache/commons/math/distribution/NormalDistributionImpl.java	2018-12-02 11:08:36.461549548 -0500
++++ /tmp/GenProg_Defects4J_Math_85/patches_sd6k/Patch_107/patched/tmp/GenProg_Defects4J_Math_85/src/java/org/apache/commons/math/distribution/NormalDistributionImpl.java	2018-12-02 11:11:27.481545587 -0500
+@@ -200,7 +200,8 @@
+         if (p < .5) {
+             ret = getMean();
+         } else {
+-            ret = Double.MAX_VALUE;
++            ret = 0.0;
++			ret = Double.MAX_VALUE;
+         }
+         
+         return ret;
+
+
+--- /tmp/GenProg_Defects4J_Math_85/src/java/org/apache/commons/math/special/Erf.java	2018-12-02 11:08:36.493549548 -0500
++++ /tmp/GenProg_Defects4J_Math_85/patches_sd6k/Patch_107/patched/tmp/GenProg_Defects4J_Math_85/src/java/org/apache/commons/math/special/Erf.java	2018-12-02 11:11:27.485545587 -0500
+@@ -50,8 +50,8 @@
+     public static double erf(double x) throws MathException {
+         double ret = Gamma.regularizedGammaP(0.5, x * x, 1.0e-15, 10000);
+         if (x < 0) {
+-            ret = -ret;
+-        }
++			ret = -ret;
++		}
+         return ret;
+     }
+ }
+
+
+--- /tmp/GenProg_Defects4J_Math_85/src/java/org/apache/commons/math/analysis/solvers/UnivariateRealSolverUtils.java	2018-12-02 11:08:39.989549467 -0500
++++ /tmp/GenProg_Defects4J_Math_85/patches_sd6k/Patch_107/patched/tmp/GenProg_Defects4J_Math_85/src/java/org/apache/commons/math/analysis/solvers/UnivariateRealSolverUtils.java	2018-12-02 11:11:27.485545587 -0500
+@@ -196,12 +196,6 @@
+                 ((a > lowerBound) || (b < upperBound)));
+    
+         if (fa * fb >= 0.0 ) {
+-            throw new ConvergenceException(
+-                      "number of iterations={0}, maximum iterations={1}, " +
+-                      "initial={2}, lower bound={3}, upper bound={4}, final a value={5}, " +
+-                      "final b value={6}, f(a)={7}, f(b)={8}",
+-                      numIterations, maximumIterations, initial,
+-                      lowerBound, upperBound, a, b, fa, fb);
+         }
+         
+         return new double[]{a, b};
+
+

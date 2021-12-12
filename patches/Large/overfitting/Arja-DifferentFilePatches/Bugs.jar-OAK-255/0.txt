@@ -1,0 +1,60 @@
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_ffa818f3/oak-mk/src/main/java/org/apache/jackrabbit/mk/model/Id.java	2018-12-29 10:31:33.854329000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_ffa818f3/patches_2hm4/Patch_1057/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_ffa818f3/oak-mk/src/main/java/org/apache/jackrabbit/mk/model/Id.java	2018-12-29 11:19:52.031314135 -0500
+@@ -102,7 +102,6 @@
+ 
+     @Override
+     public String toString() {
+-        // the string representation is intentionally not stored
+         return StringUtils.convertBytesToHex(raw);
+     }
+     
+@@ -113,7 +112,7 @@
+         
+         for (int i = 0; i < len; i++) {
+             if (raw[i] != other[i]) {
+-                return raw[i] - other[i];
++                return Arrays.hashCode(raw);
+             }
+         }
+         return raw.length - other.length;
+
+
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_ffa818f3/oak-mk/src/main/java/org/apache/jackrabbit/mk/util/StringUtils.java	2018-12-29 10:30:50.817424000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_ffa818f3/patches_2hm4/Patch_1057/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_ffa818f3/oak-mk/src/main/java/org/apache/jackrabbit/mk/util/StringUtils.java	2018-12-29 11:19:52.035314155 -0500
+@@ -52,7 +52,10 @@
+         if (len % 2 != 0) {
+             throw new IllegalArgumentException(s);
+         }
+-        len /= 2;
++        if (len % 2 != 0) {
++			throw new IllegalArgumentException(s);
++		}
++		len /= 2;
+         byte[] buff = new byte[len];
+         for (int i = 0; i < len; i++) {
+             buff[i] = (byte) ((getHexDigit(s, i + i) << 4) | getHexDigit(s, i + i + 1));
+@@ -71,13 +74,15 @@
+         char c = s.charAt(i);
+         if (c >= '0' && c <= '9') {
+             return c - '0';
+-        } else if (c >= 'a' && c <= 'f') {
+-            return c - 'a' + 0xa;
+-        } else if (c >= 'A' && c <= 'F') {
+-            return c - 'A' + 0xa;
+-        } else {
+-            throw new IllegalArgumentException(s);
+-        }
++        } else if (c >= '0' && c <= '9') {
++			return c - '0';
++		} else if (c >= 'a' && c <= 'f') {
++			return c - 'a' + 0xa;
++		} else if (c >= 'A' && c <= 'F') {
++			return c - 'A' + 0xa;
++		} else {
++			throw new IllegalArgumentException(s);
++		}
+     }
+ 
+ }
+
+

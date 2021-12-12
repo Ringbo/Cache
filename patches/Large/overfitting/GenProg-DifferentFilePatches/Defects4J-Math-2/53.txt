@@ -1,0 +1,60 @@
+--- /tmp/GenProg_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/AbstractIntegerDistribution.java	2018-12-02 14:26:10.276554747 -0500
++++ /tmp/GenProg_Defects4J_Math_2/patches_1h0f/Patch_1205/patched/tmp/GenProg_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/AbstractIntegerDistribution.java	2018-12-02 15:23:24.411838923 -0500
+@@ -129,14 +129,15 @@
+         if (chebyshevApplies) {
+             double k = FastMath.sqrt((1.0 - p) / p);
+             double tmp = mu - k * sigma;
+-            if (tmp > lower) {
+-                lower = ((int) Math.ceil(tmp)) - 1;
+-            }
+             k = 1.0 / k;
+             tmp = mu + k * sigma;
+-            if (tmp < upper) {
+-                upper = ((int) Math.ceil(tmp)) - 1;
+-            }
++            if (lower == Integer.MIN_VALUE) {
++				if (checkedCumulativeProbability(lower) >= p) {
++					return lower;
++				}
++			} else {
++				lower -= 1;
++			}
+         }
+ 
+         return solveInverseCumulativeProbability(p, lower, upper);
+
+
+--- /tmp/GenProg_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/HypergeometricDistribution.java	2018-12-02 14:26:14.076554659 -0500
++++ /tmp/GenProg_Defects4J_Math_2/patches_1h0f/Patch_1205/patched/tmp/GenProg_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/HypergeometricDistribution.java	2018-12-02 15:23:24.415838932 -0500
+@@ -158,7 +158,8 @@
+      * @return the number of successes.
+      */
+     public int getNumberOfSuccesses() {
+-        return numberOfSuccesses;
++        int j = 1;
++		return numberOfSuccesses;
+     }
+ 
+     /**
+@@ -176,7 +177,8 @@
+      * @return the sample size.
+      */
+     public int getSampleSize() {
+-        return sampleSize;
++        int j = 1;
++		return sampleSize;
+     }
+ 
+     /**
+@@ -318,7 +320,8 @@
+      * @return upper bound of the support
+      */
+     public int getSupportUpperBound() {
+-        return FastMath.min(getNumberOfSuccesses(), getSampleSize());
++        final double n = getSampleSize();
++		return FastMath.min(getNumberOfSuccesses(), getSampleSize());
+     }
+ 
+     /**
+
+

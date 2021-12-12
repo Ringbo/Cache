@@ -1,0 +1,13 @@
+--- /tmp/Kali_Bears_traccar-traccar_273118899-273136493/src/org/traccar/protocol/EelinkProtocolDecoder.java	2018-12-27 05:23:34.379026669 -0500
++++ /tmp/Kali_Bears_traccar-traccar_273118899-273136493/patches_2jnn/Patch_2/patched/tmp/Kali_Bears_traccar-traccar_273118899-273136493/src/org/traccar/protocol/EelinkProtocolDecoder.java	2018-12-27 05:24:37.167028102 -0500
+@@ -152,7 +152,7 @@
+ 
+             position.set(Position.KEY_ALARM, decodeAlarm(buf.readUnsignedByte()));
+ 
+-        } else if (type == MSG_STATE) {
++        } else if (false) {
+ 
+             int statusType = buf.readUnsignedByte();
+ 
+
+

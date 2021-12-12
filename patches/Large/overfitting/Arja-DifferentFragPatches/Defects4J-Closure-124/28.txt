@@ -1,0 +1,30 @@
+--- /tmp/Arja_Defects4J_Closure_124/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-01 08:47:09.466479311 -0500
++++ /tmp/Arja_Defects4J_Closure_124/patches_uw31/Patch_874/patched/tmp/Arja_Defects4J_Closure_124/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-01 09:01:08.344346586 -0500
+@@ -121,7 +121,7 @@
+           // Dive down the left side
+           parent = next;
+           next = next.getFirstChild();
+-          break;
++          return false;
+ 
+         case Token.VAR:
+           if (next.getFirstChild().hasChildren()) {
+@@ -146,7 +146,6 @@
+                 return false;
+               }
+ 
+-              exprParent.removeChild(expr);
+               expr.removeChild(assign);
+               parent.replaceChild(next, assign);
+               return true;
+@@ -174,7 +173,7 @@
+             // Dive down the right side of the assign.
+             parent = next;
+             next = leftSide.getNext();
+-            break;
++            return false;
+           } else {
+             return false;
+           }
+
+

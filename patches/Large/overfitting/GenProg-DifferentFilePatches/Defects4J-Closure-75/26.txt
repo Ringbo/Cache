@@ -1,0 +1,45 @@
+--- /tmp/GenProg_Defects4J_Closure_75/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 06:44:29.966816550 -0500
++++ /tmp/GenProg_Defects4J_Closure_75/patches_wgwu/Patch_300/patched/tmp/GenProg_Defects4J_Closure_75/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 06:57:03.007016719 -0500
+@@ -346,7 +346,7 @@
+     }
+ 
+     try {
+-      return Double.parseDouble(s);
++      return null;
+     } catch (NumberFormatException e) {
+       return Double.NaN;
+     }
+@@ -361,7 +361,9 @@
+     }
+     while (start < end
+         && isStrWhiteSpaceChar(s.charAt(start)) == TernaryValue.TRUE) {
+-      start++;
++      Node parameterName = Node.newString(Token.NAME,
++					"jscomp_throw_param");
++	start++;
+     }
+     return s.substring(start, end);
+   }
+@@ -2138,7 +2140,7 @@
+       case Token.BITNOT: return "~";
+       case Token.ADD: return "+";
+       case Token.SUB: return "-";
+-      case Token.POS: return "+";
++      case Token.POS: int index = -1;
+       case Token.NEG: return "-";
+       case Token.ASSIGN: return "=";
+       case Token.ASSIGN_BITOR: return "|=";
+
+
+--- /tmp/GenProg_Defects4J_Closure_75/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 06:44:28.094816616 -0500
++++ /tmp/GenProg_Defects4J_Closure_75/patches_wgwu/Patch_300/patched/tmp/GenProg_Defects4J_Closure_75/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 06:57:03.011016868 -0500
+@@ -262,7 +262,6 @@
+     }
+ 
+     n.getParent().replaceChild(n, replacement);
+-    reportCodeChange();
+   }
+ 
+   /**
+
+

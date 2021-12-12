@@ -1,0 +1,26 @@
+--- /tmp/Arja_Defects4J_Closure_117/src/com/google/javascript/jscomp/TypeInference.java	2018-12-01 08:50:25.999678223 -0500
++++ /tmp/Arja_Defects4J_Closure_117/patches_1kvo/Patch_1348/patched/tmp/Arja_Defects4J_Closure_117/src/com/google/javascript/jscomp/TypeInference.java	2018-12-01 09:07:19.250346586 -0500
+@@ -927,8 +927,6 @@
+ 
+     scope = scope.createChildFlowScope();
+     if (node.isGetProp()) {
+-      scope.inferQualifiedSlot(
+-          node, node.getQualifiedName(), getJSType(node), narrowed);
+     } else {
+       redeclareSimpleVar(scope, node, narrowed);
+     }
+
+
+--- /tmp/Arja_Defects4J_Closure_117/src/com/google/javascript/jscomp/TypedScopeCreator.java	2018-12-01 08:50:26.003678223 -0500
++++ /tmp/Arja_Defects4J_Closure_117/patches_1kvo/Patch_1348/patched/tmp/Arja_Defects4J_Closure_117/src/com/google/javascript/jscomp/TypedScopeCreator.java	2018-12-01 09:07:19.254346609 -0500
+@@ -1802,7 +1802,7 @@
+                   child.getLastChild());
+               break;
+             case Token.GETPROP:
+-              maybeCollectMember(child, child, null);
++              ;
+               break;
+           }
+         }
+
+

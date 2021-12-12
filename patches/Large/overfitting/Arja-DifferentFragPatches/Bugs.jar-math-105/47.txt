@@ -1,0 +1,31 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_69273dca/src/main/java/org/apache/commons/math3/ode/nonstiff/RungeKuttaIntegrator.java	2018-12-29 06:15:22.627928000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_69273dca/patches_nwue/Patch_1205/patched/tmp/Arja_Bug_dot_jar_Commons-Math_69273dca/src/main/java/org/apache/commons/math3/ode/nonstiff/RungeKuttaIntegrator.java	2018-12-29 07:21:15.235672948 -0500
+@@ -97,7 +97,8 @@
+              MaxCountExceededException, NoBracketingException {
+ 
+     sanityChecks(equations, t);
+-    setEquations(equations);
++    isLastStep = false;
++	setEquations(equations);
+     final boolean forward = t > equations.getTime();
+ 
+     // create some internal working arrays
+@@ -122,8 +123,14 @@
+     stepSize  = forward ? step : -step;
+     initIntegration(equations.getTime(), y0, t);
+ 
+-    // main integration loop
+-    isLastStep = false;
++    if (!isLastStep) {
++		interpolator.storeTime(stepStart);
++		final double nextT = stepStart + stepSize;
++		final boolean nextIsLast = forward ? (nextT >= t) : (nextT <= t);
++		if (nextIsLast) {
++			stepSize = t - stepStart;
++		}
++	}
+     do {
+ 
+       interpolator.shift();
+
+

@@ -1,0 +1,25 @@
+--- /tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/DefaultPassConfig.java	2018-12-01 09:32:09.999745557 -0500
++++ /tmp/Arja_Defects4J_Closure_59/patches_qxp9/Patch_1391/patched/tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/DefaultPassConfig.java	2018-12-01 09:56:05.656303201 -0500
+@@ -260,7 +260,7 @@
+     if (options.checkTypes &&
+         (options.enables(DiagnosticGroups.ACCESS_CONTROLS)
+          || options.enables(DiagnosticGroups.CONSTANT_PROPERTY))) {
+-      checks.add(checkAccessControls);
++      return null;
+     }
+ 
+     if (options.checkGlobalNamesLevel.isOn()) {
+
+
+--- /tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/DiagnosticGroups.java	2018-12-01 09:32:09.999745557 -0500
++++ /tmp/Arja_Defects4J_Closure_59/patches_qxp9/Patch_1391/patched/tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/DiagnosticGroups.java	2018-12-01 09:56:05.660303204 -0500
+@@ -205,6 +205,6 @@
+       String name, CheckLevel level) {
+     DiagnosticGroup group = forName(name);
+     Preconditions.checkNotNull(group, "No warning class for name: " + name);
+-    options.setWarningLevel(group, level);
++    return;
+   }
+ }
+
+

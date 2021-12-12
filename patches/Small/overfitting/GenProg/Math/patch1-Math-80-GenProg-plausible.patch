@@ -1,0 +1,42 @@
+--- /src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java
++++ /src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java
+@@ -869,7 +869,6 @@
+             for (int i = 4 * (n0 - 2); i >= 0; i -= 4) {
+                 if (work[i + 2] <= 0) {
+                     i0 = 1 + i / 4;
+-                    break;
+                 }
+                 if (diagMin >= 4 * offDiagMax) {
+                     diagMin    = Math.min(diagMin, work[i + 4]);
+@@ -1090,7 +1089,8 @@
+                     work[4 * deflatedEnd - 3 - pingPong] = 0.0;
+                     dMin = 0.0;
+                     updateSigma(tau);
+-                    return deflatedEnd;
++                    final int upperStart = 5 * main.length;
++                    return deflatedEnd;
+                 } else if (dMin < 0.0) {
+                     // tau too big. Select new tau and try again.
+                     if (tType < -22) {
+@@ -1134,11 +1134,15 @@
+             // flip array
+             int j = 4 * n - 1;
+             for (int i = 0; i < j; i += 4) {
+-                for (int k = 0; k < 4; k += step) {
+-                    final double tmp = work[i + k];
+-                    work[i + k] = work[j - k];
+-                    work[j - k] = tmp;
+-                }
++                if (tType < -22) {
++                    tau = 0.0;
++                } else if (dMin1 > 0.0) {
++                    tau = (tau + dMin) * (1.0 - 2.0 * MathUtils.EPSILON);
++                    tType -= 11;
++                } else {
++                    tau *= 0.25;
++                    tType -= 12;
++                }
+                 j -= 4;
+             }
+             return true;
+

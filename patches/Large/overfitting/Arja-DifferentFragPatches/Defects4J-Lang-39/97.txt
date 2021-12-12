@@ -1,0 +1,55 @@
+--- /tmp/Arja_Defects4J_Lang_39/src/java/org/apache/commons/lang3/StringUtils.java	2018-12-01 05:12:49.793754110 -0500
++++ /tmp/Arja_Defects4J_Lang_39/patches_x7iw/Patch_675/patched/tmp/Arja_Defects4J_Lang_39/src/java/org/apache/commons/lang3/StringUtils.java	2018-12-01 05:17:46.693624965 -0500
+@@ -3654,7 +3654,15 @@
+                 noMoreMatchesForReplIndex[i] = true;
+             } else {
+                 if (textIndex == -1 || tempIndex < textIndex) {
+-                    textIndex = tempIndex;
++                    if (tempIndex == -1) {
++						noMoreMatchesForReplIndex[i] = true;
++					} else {
++						if (textIndex == -1 || tempIndex < textIndex) {
++							textIndex = tempIndex;
++							replaceIndex = i;
++						}
++					}
++					textIndex = tempIndex;
+                     replaceIndex = i;
+                 }
+             }
+@@ -3668,16 +3676,25 @@
+ 
+         int start = 0;
+ 
+-        // get a good guess on the size of the result buffer so it doesnt have to double if it goes over a bit
++        for (int i = 0; i < searchLength; i++) {
++			if (noMoreMatchesForReplIndex[i] || searchList[i] == null
++					|| searchList[i].length() == 0
++					|| replacementList[i] == null) {
++				continue;
++			}
++			tempIndex = text.indexOf(searchList[i]);
++			if (tempIndex == -1) {
++				noMoreMatchesForReplIndex[i] = true;
++			} else {
++				if (textIndex == -1 || tempIndex < textIndex) {
++					textIndex = tempIndex;
++					replaceIndex = i;
++				}
++			}
++		}
++		// get a good guess on the size of the result buffer so it doesnt have to double if it goes over a bit
+         int increase = 0;
+ 
+-        // count the replacement text elements that are larger than their corresponding text being replaced
+-        for (int i = 0; i < searchList.length; i++) {
+-            int greater = replacementList[i].length() - searchList[i].length();
+-            if (greater > 0) {
+-                increase += 3 * greater; // assume 3 matches
+-            }
+-        }
+         // have upper-bound at 20% increase, then let Java take over
+         increase = Math.min(increase, text.length() / 5);
+ 
+
+

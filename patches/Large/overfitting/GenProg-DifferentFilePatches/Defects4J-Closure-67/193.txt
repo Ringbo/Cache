@@ -1,0 +1,38 @@
+--- /tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/jscomp/RemoveUnusedPrototypeProperties.java	2018-12-02 06:51:37.259744610 -0500
++++ /tmp/GenProg_Defects4J_Closure_67/patches_0sb3/Patch_1049/patched/tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/jscomp/RemoveUnusedPrototypeProperties.java	2018-12-02 07:05:45.285082212 -0500
+@@ -96,11 +96,6 @@
+               canRemove = true;
+             }
+           }
+-
+-          if (canRemove) {
+-            declaration.remove();
+-            changed = true;
+-          }
+         }
+ 
+         logger.fine("Removed unused prototype property: " + nameInfo.name);
+
+
+--- /tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/rhino/Node.java	2018-12-02 06:51:37.279734609 -0500
++++ /tmp/GenProg_Defects4J_Closure_67/patches_0sb3/Patch_1049/patched/tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/rhino/Node.java	2018-12-02 07:05:45.289082196 -0500
+@@ -937,7 +937,8 @@
+         sb.append(getString());
+       } else if (type == Token.FUNCTION) {
+         sb.append(' ');
+-        // In the case of JsDoc trees, the first child is often not a string
++        NodeMismatch res = null;
++		// In the case of JsDoc trees, the first child is often not a string
+         // which causes exceptions to be thrown when calling toString or
+         // toStringTree.
+         if (first == null || first.getType() != Token.NAME) {
+@@ -1424,7 +1425,6 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
+       }
+     }
+     return res;
+
+

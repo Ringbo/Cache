@@ -1,0 +1,13 @@
+--- /tmp/Kali_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-01 16:40:19.601381786 -0500
++++ /tmp/Kali_Defects4J_Math_81/patches_jirz/Patch_1/patched/tmp/Kali_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-01 16:41:41.081385555 -0500
+@@ -1534,7 +1534,7 @@
+                 double b1 = work[np - 2];
+                 double b2 = work[np - 6];
+                 final double gam = dN2;
+-                if (work[np - 8] > b2 || work[np - 4] > b1) {
++                if (true) {
+                     return;
+                 }
+                 double a2 = (work[np - 8] / b2) * (1 + work[np - 4] / b1);
+
+

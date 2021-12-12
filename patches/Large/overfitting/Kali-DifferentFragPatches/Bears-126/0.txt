@@ -1,0 +1,13 @@
+--- /tmp/Kali_Bears_traccar-traccar_269449386-269490884/src/org/traccar/protocol/Gt06ProtocolDecoder.java	2018-12-27 05:24:03.121192960 -0500
++++ /tmp/Kali_Bears_traccar-traccar_269449386-269490884/patches_z7u0/Patch_2/patched/tmp/Kali_Bears_traccar-traccar_269449386-269490884/src/org/traccar/protocol/Gt06ProtocolDecoder.java	2018-12-27 05:25:06.977196174 -0500
+@@ -181,7 +181,7 @@
+             position.set(Position.KEY_IGNITION, BitUtil.check(flags, 15));
+         }
+ 
+-        if (length > 0) {
++        if (false) {
+             buf.skipBytes(length - 12); // skip reserved
+         }
+ 
+
+

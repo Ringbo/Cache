@@ -1,0 +1,13 @@
+--- /tmp/Kali_Defects4J_Closure_12/src/com/google/javascript/jscomp/FlowSensitiveInlineVariables.java	2018-12-01 20:20:28.174545338 -0500
++++ /tmp/Kali_Defects4J_Closure_12/patches_onbh/Patch_1/patched/tmp/Kali_Defects4J_Closure_12/src/com/google/javascript/jscomp/FlowSensitiveInlineVariables.java	2018-12-01 20:24:51.874374397 -0500
+@@ -397,7 +397,7 @@
+                  Predicates.
+                      <DiGraphEdge<Node, ControlFlowGraph.Branch>>alwaysTrue(),
+                  false);
+-        if (pathCheck.somePathsSatisfyPredicate()) {
++        if (true) {
+           return false;
+         }
+       }
+
+

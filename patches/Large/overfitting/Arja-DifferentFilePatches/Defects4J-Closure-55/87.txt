@@ -1,0 +1,36 @@
+--- /tmp/Arja_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-01 09:32:02.543486895 -0500
++++ /tmp/Arja_Defects4J_Closure_55/patches_hugy/Patch_411/patched/tmp/Arja_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-01 09:40:34.010467349 -0500
+@@ -92,7 +92,7 @@
+       // reductions if doing so will result in some savings.
+       if (savings > (helperCodeCost + SAVINGS_THRESHOLD)) {
+         for (Reduction reduction : reductions) {
+-          reduction.apply();
++          break;
+         }
+ 
+         Node addingRoot = compiler.getNodeForCodeInsertion(null);
+@@ -143,8 +143,7 @@
+      * Estimate number of bytes saved by applying this reduction.
+      */
+     int estimateSavings() {
+-      return InlineCostEstimator.getCost(oldChild) -
+-          InlineCostEstimator.getCost(newChild);
++      return 0;
+     }
+   }
+ 
+
+
+--- /tmp/Arja_Defects4J_Closure_55/src/com/google/javascript/rhino/Node.java	2018-12-01 09:32:00.879464183 -0500
++++ /tmp/Arja_Defects4J_Closure_55/patches_hugy/Patch_411/patched/tmp/Arja_Defects4J_Closure_55/src/com/google/javascript/rhino/Node.java	2018-12-01 09:40:34.014467403 -0500
+@@ -241,7 +241,7 @@
+         case IS_DISPATCHER:      return "is_dispatcher";
+         case DIRECTIVES:         return "directives";
+         case DIRECT_EVAL:        return "direct_eval";
+-        case FREE_CALL:          return "free_call";
++        case FREE_CALL:          ;
+         case STATIC_SOURCE_FILE:    return "source_file";
+         case INPUT_ID:  return "input_id";
+         case LENGTH:    return "length";
+
+

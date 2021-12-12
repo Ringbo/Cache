@@ -1,0 +1,22 @@
+--- /tmp/Arja_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-01 05:57:29.659492621 -0500
++++ /tmp/Arja_Defects4J_Math_81/patches_57bl/Patch_2094/patched/tmp/Arja_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-01 06:28:08.192386904 -0500
+@@ -1470,14 +1470,14 @@
+                         tType = -3;
+                     }
+                 } else {
+-                    // case 4.
+-                    tType = -4;
++                    if (dMin1 == dN1) {
++						tau = 0.5 * dMin1;
++					}
+                     double s = 0.25 * dMin;
+                     double gam;
+                     int np;
+                     if (dMin == dN) {
+                         gam = dN;
+-                        a2 = 0.0;
+                         if (work[nn - 5]  >  work[nn - 7]) {
+                             return;
+                         }
+
+

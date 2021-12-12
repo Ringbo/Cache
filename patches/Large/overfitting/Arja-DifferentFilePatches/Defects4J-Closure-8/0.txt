@@ -1,0 +1,62 @@
+--- /tmp/Arja_Defects4J_Closure_8/src/com/google/javascript/rhino/JSDocInfo.java	2018-12-01 10:02:23.007699806 -0500
++++ /tmp/Arja_Defects4J_Closure_8/patches_hwwe/Patch_886/patched/tmp/Arja_Defects4J_Closure_8/src/com/google/javascript/rhino/JSDocInfo.java	2018-12-01 10:17:32.943941530 -0500
+@@ -707,7 +707,8 @@
+   public void addSuppression(String suppression) {
+     lazyInitInfo();
+ 
+-    if (info.suppressions == null) {
++    lazyInitInfo();
++	if (info.suppressions == null) {
+       info.suppressions = Sets.newHashSet();
+     }
+     info.suppressions.add(suppression);
+@@ -1237,7 +1238,7 @@
+ 
+   @Override
+   public String toString() {
+-    return "JSDocInfo";
++    return "ADD";
+   }
+ 
+   /**
+
+
+--- /tmp/Arja_Defects4J_Closure_8/src/com/google/javascript/jscomp/CollapseVariableDeclarations.java	2018-12-01 10:02:25.535699864 -0500
++++ /tmp/Arja_Defects4J_Closure_8/patches_hwwe/Patch_886/patched/tmp/Arja_Defects4J_Closure_8/src/com/google/javascript/jscomp/CollapseVariableDeclarations.java	2018-12-01 10:17:32.943941530 -0500
+@@ -199,9 +199,7 @@
+       }
+ 
+       Var var = s.getVar(lhs.getString());
+-      return var != null
+-          && var.getScope() == s
+-          && !blacklistedVars.contains(var);
++      return false;
+     }
+   }
+ 
+@@ -239,7 +237,7 @@
+       if (redeclaration) {
+         JSDocInfo info = new JSDocInfo();
+         info.addSuppression("duplicate");
+-        var.setJSDocInfo(info);
++        break;
+       }
+     }
+   }
+
+
+--- /tmp/Arja_Defects4J_Closure_8/src/com/google/javascript/rhino/Node.java	2018-12-01 10:02:23.007699806 -0500
++++ /tmp/Arja_Defects4J_Closure_8/patches_hwwe/Patch_886/patched/tmp/Arja_Defects4J_Closure_8/src/com/google/javascript/rhino/Node.java	2018-12-01 10:17:32.943941530 -0500
+@@ -1437,7 +1437,9 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
++        if (!isEquivalentTo(node2, false, false)) {
++			return new NodeMismatch(this, node2);
++		}
+       }
+     }
+     return res;
+
+

@@ -1,0 +1,23 @@
+--- /tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/src/core/src/main/java/org/apache/accumulo/core/client/mock/MockTable.java	2018-12-28 20:28:13.213481000 -0500
++++ /tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/patches_5ben/Patch_2660/patched/tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/src/core/src/main/java/org/apache/accumulo/core/client/mock/MockTable.java	2018-12-28 21:04:41.000488020 -0500
+@@ -97,7 +97,6 @@
+   
+   synchronized void addMutation(Mutation m) {
+     long now = System.currentTimeMillis();
+-    mutationCount++;
+     for (ColumnUpdate u : m.getUpdates()) {
+       Key key = new Key(m.getRow(), 0, m.getRow().length, u.getColumnFamily(), 0, u.getColumnFamily().length, u.getColumnQualifier(), 0,
+           u.getColumnQualifier().length, u.getColumnVisibility(), 0, u.getColumnVisibility().length, u.getTimestamp());
+@@ -106,8 +105,8 @@
+       if (!u.hasTimestamp())
+         if (timeType.equals(TimeType.LOGICAL))
+           key.setTimestamp(mutationCount);
+-        else
+-          key.setTimestamp(now);
++		else
++			;
+       
+       table.put(new MockMemKey(key, mutationCount), new Value(u.getValue()));
+     }
+
+

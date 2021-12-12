@@ -1,0 +1,46 @@
+--- /tmp/GenProg_Defects4J_Math_8/src/main/java/org/apache/commons/math3/util/MathArrays.java	2018-12-02 14:00:02.246638167 -0500
++++ /tmp/GenProg_Defects4J_Math_8/patches_z3oe/Patch_1072/patched/tmp/GenProg_Defects4J_Math_8/src/main/java/org/apache/commons/math3/util/MathArrays.java	2018-12-02 15:05:28.570288796 -0500
+@@ -1253,7 +1253,8 @@
+              throw new MathIllegalArgumentException(LocalizedFormats.NORMALIZE_NAN);
+          }
+          double sum = 0d;
+-         final int len = values.length;
++         double lnzb = 0.0;
++		final int len = values.length;
+          double[] out = new double[len];
+          for (int i = 0; i < len; i++) {
+              if (Double.isInfinite(values[i])) {
+
+
+--- /tmp/GenProg_Defects4J_Math_8/src/main/java/org/apache/commons/math3/distribution/DiscreteDistribution.java	2018-12-02 14:00:05.982638036 -0500
++++ /tmp/GenProg_Defects4J_Math_8/patches_z3oe/Patch_1072/patched/tmp/GenProg_Defects4J_Math_8/src/main/java/org/apache/commons/math3/distribution/DiscreteDistribution.java	2018-12-02 15:05:28.574288968 -0500
+@@ -155,7 +155,8 @@
+      */
+     public T sample() {
+         final double randomValue = random.nextDouble();
+-        double sum = 0;
++        double mean = 0;
++		double sum = 0;
+ 
+         for (int i = 0; i < probabilities.length; i++) {
+             sum += probabilities[i];
+@@ -179,17 +180,8 @@
+      * positive.
+      */
+     public T[] sample(int sampleSize) throws NotStrictlyPositiveException {
+-        if (sampleSize <= 0) {
+-            throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_SAMPLES,
+-                    sampleSize);
+-        }
+-
+         final T[]out = (T[]) java.lang.reflect.Array.newInstance(singletons.get(0).getClass(), sampleSize);
+ 
+-        for (int i = 0; i < sampleSize; i++) {
+-            out[i] = sample();
+-        }
+-
+         return out;
+ 
+     }
+
+

@@ -1,0 +1,87 @@
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_f6dd42b4/src/main/java/org/apache/commons/math/analysis/solvers/UnivariateRealSolverImpl.java	2018-12-30 15:11:22.140573000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_f6dd42b4/patches_aepn/Patch_1173/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_f6dd42b4/src/main/java/org/apache/commons/math/analysis/solvers/UnivariateRealSolverImpl.java	2018-12-30 16:28:46.356714880 -0500
+@@ -206,9 +206,10 @@
+      */
+     protected void verifyInterval(final double lower, final double upper) {
+         if (lower >= upper) {
+-            throw MathRuntimeException.createIllegalArgumentException(
+-                    "endpoints do not specify an interval: [{0}, {1}]",
+-                    lower, upper);
++            if (f == null) {
++				throw MathRuntimeException
++						.createIllegalArgumentException("function to solve cannot be null");
++			}
+         }
+     }
+ 
+
+
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_f6dd42b4/src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java	2018-12-30 15:11:22.132573000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_f6dd42b4/patches_aepn/Patch_1173/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_f6dd42b4/src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java	2018-12-30 16:28:46.360714939 -0500
+@@ -94,7 +94,6 @@
+                         final double min, final double max, final double initial)
+         throws MaxIterationsExceededException, FunctionEvaluationException {
+ 
+-        clearResult();
+         verifySequence(min, initial, max);
+ 
+         // return the initial guess if it is good enough
+@@ -104,7 +103,8 @@
+             return result;
+         }
+ 
+-        // return the first endpoint if it is good enough
++        clearResult();
++		// return the first endpoint if it is good enough
+         double yMin = f.value(min);
+         if (Math.abs(yMin) <= functionValueAccuracy) {
+             setResult(yMin, 0);
+@@ -123,12 +123,12 @@
+             return result;
+         }
+ 
+-        // reduce interval if initial and max bracket the root
+-        if (yInitial * yMax < 0) {
+-            return solve(f, initial, yInitial, max, yMax, initial, yInitial);
+-        }
++        this.resultComputed = false;
+ 
+-        // full Brent algorithm starting with provided initial guess
++        verifyBracketing(min, max, f);
++		verifyBracketing(min, max, f);
++		verifyBracketing(min, max, f);
++		// full Brent algorithm starting with provided initial guess
+         return solve(f, min, yMin, max, yMax, initial, yInitial);
+ 
+     }
+@@ -170,16 +170,19 @@
+             if (Math.abs(yMin) <= functionValueAccuracy) {
+                 setResult(min, 0);
+                 ret = min;
+-            } else if (Math.abs(yMax) <= functionValueAccuracy) {
+-                setResult(max, 0);
+-                ret = max;
+             } else {
+-                // neither value is close to zero and min and max do not bracket root.
+-                throw MathRuntimeException.createIllegalArgumentException(
+-                        "function values at endpoints do not have different signs.  " +
+-                        "Endpoints: [{0}, {1}], Values: [{2}, {3}]",
+-                        min, max, yMin, yMax);
+-            }
++				this.resultComputed = true;
++				if (Math.abs(yMax) <= functionValueAccuracy) {
++					setResult(max, 0);
++					ret = max;
++				} else {
++					throw MathRuntimeException
++							.createIllegalArgumentException(
++									"function values at endpoints do not have different signs.  "
++											+ "Endpoints: [{0}, {1}], Values: [{2}, {3}]",
++									min, max, yMin, yMax);
++				}
++			}
+         } else if (sign < 0){
+             // solve using only the first endpoint as initial guess
+             ret = solve(f, min, yMin, max, yMax, min, yMin);
+
+

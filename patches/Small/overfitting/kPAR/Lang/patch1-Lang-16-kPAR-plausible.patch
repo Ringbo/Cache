@@ -1,0 +1,12 @@
+--- /src/main/java/org/apache/commons/lang3/math/NumberUtils.java
++++ /src/main/java/org/apache/commons/lang3/math/NumberUtils.java
+@@ -487,7 +487,7 @@
+             }
+             dec = null;
+         }
+-        if (!Character.isDigit(lastChar) && lastChar != '.') {
++        if ((!Character.isDigit(lastChar) && lastChar != '.') && (expPos < str.length() - 1)) {
+             if (expPos > -1 && expPos < str.length() - 1) {
+                 exp = str.substring(expPos + 1, str.length() - 1);
+             } else {
+

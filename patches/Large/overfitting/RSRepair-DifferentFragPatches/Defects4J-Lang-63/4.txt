@@ -1,0 +1,14 @@
+--- /tmp/RSRepair_Defects4J_Lang_63/src/java/org/apache/commons/lang/time/DurationFormatUtils.java	2018-12-02 02:41:55.555632237 -0500
++++ /tmp/RSRepair_Defects4J_Lang_63/patches_65rr/Patch_924/patched/tmp/RSRepair_Defects4J_Lang_63/src/java/org/apache/commons/lang/time/DurationFormatUtils.java	2018-12-02 02:55:53.483330582 -0500
+@@ -434,7 +434,8 @@
+         int endValue = end.get(field);
+         int startValue = start.get(field);
+         if (endValue < startValue) {
+-            int newdiff = startValue - endValue;
++            end.add(Calendar.DATE, -1);
++			int newdiff = startValue - endValue;
+             end.add( field, newdiff );
+             return newdiff;
+         } else {
+
+

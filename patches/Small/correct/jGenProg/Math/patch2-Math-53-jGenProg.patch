@@ -1,0 +1,34 @@
+--- /src/main/java/org/apache/commons/math/complex/Complex.java
++++ /src/main/java/org/apache/commons/math/complex/Complex.java
+@@ -150,8 +150,11 @@
+     public Complex add(Complex rhs)
+         throws NullArgumentException {
+         MathUtils.checkNotNull(rhs);
+-        return createComplex(real + rhs.getReal(),
+-            imaginary + rhs.getImaginary());
++	if ((isNaN) || (rhs.isNaN)) {
++            return NaN;
++        }
++        return createComplex((real) + (rhs.getReal()),
++            (imaginary) + (rhs.getImaginary()));
+     }
+ 
+     /**
+@@ -172,7 +175,7 @@
+         if (isNaN) {
+             return NaN;
+         }
+-        return createComplex(real, -imaginary);
++        return createComplex(real, (-(imaginary)));
+     }
+ 
+     /**
+@@ -213,7 +216,7 @@
+     public Complex divide(Complex rhs)
+         throws NullArgumentException {
+         MathUtils.checkNotNull(rhs);
+-        if (isNaN || rhs.isNaN) {
++        if ((isNaN) || (rhs.isNaN)) {
+             return NaN;
+         }
+

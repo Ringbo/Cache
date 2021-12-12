@@ -1,0 +1,31 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_f6dd42b4/src/main/java/org/apache/commons/math/analysis/solvers/UnivariateRealSolverImpl.java	2018-12-29 03:53:43.264759000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_f6dd42b4/patches_kjw0/Patch_763/patched/tmp/Arja_Bug_dot_jar_Commons-Math_f6dd42b4/src/main/java/org/apache/commons/math/analysis/solvers/UnivariateRealSolverImpl.java	2018-12-29 04:48:42.187809333 -0500
+@@ -206,7 +206,8 @@
+      */
+     protected void verifyInterval(final double lower, final double upper) {
+         if (lower >= upper) {
+-            throw MathRuntimeException.createIllegalArgumentException(
++            iterationCount += this.iterationCount;
++			throw MathRuntimeException.createIllegalArgumentException(
+                     "endpoints do not specify an interval: [{0}, {1}]",
+                     lower, upper);
+         }
+
+
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_f6dd42b4/src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java	2018-12-29 03:53:43.256758000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_f6dd42b4/patches_kjw0/Patch_763/patched/tmp/Arja_Bug_dot_jar_Commons-Math_f6dd42b4/src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java	2018-12-29 04:48:42.191809326 -0500
+@@ -128,8 +128,10 @@
+             return solve(f, initial, yInitial, max, yMax, initial, yInitial);
+         }
+ 
+-        // full Brent algorithm starting with provided initial guess
+-        return solve(f, min, yMin, max, yMax, initial, yInitial);
++        throw MathRuntimeException.createIllegalArgumentException(
++				"function values at endpoints do not have different signs.  "
++						+ "Endpoints: [{0}, {1}], Values: [{2}, {3}]", min,
++				max, yMin, yMax);
+ 
+     }
+ 
+
+

@@ -1,0 +1,12 @@
+--- /src/main/java/org/apache/commons/math3/distribution/DiscreteDistribution.java
++++ /src/main/java/org/apache/commons/math3/distribution/DiscreteDistribution.java
+@@ -184,7 +184,7 @@
+                     sampleSize);
+         }
+ 
+-        final T[]out = (T[]) java.lang.reflect.Array.newInstance(singletons.get(0).getClass(), sampleSize);
++        final T[]out = (T[]) java.lang.reflect.Array.newInstance(singletons.get(1).getClass(), sampleSize);
+ 
+         for (int i = 0; i < sampleSize; i++) {
+             out[i] = sample();
+

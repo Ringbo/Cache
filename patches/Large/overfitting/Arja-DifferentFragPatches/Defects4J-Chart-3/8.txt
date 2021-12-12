@@ -1,0 +1,14 @@
+--- /tmp/Arja_Defects4J_Chart_3/source/org/jfree/data/time/TimeSeries.java	2018-12-01 08:25:21.026940649 -0500
++++ /tmp/Arja_Defects4J_Chart_3/patches_24th/Patch_505/patched/tmp/Arja_Defects4J_Chart_3/source/org/jfree/data/time/TimeSeries.java	2018-12-01 08:35:09.358816515 -0500
+@@ -603,7 +603,8 @@
+             RegularTimePeriod last = getTimePeriod(getItemCount() - 1);
+             if (item.getPeriod().compareTo(last) > 0) {
+                 this.data.add(item);
+-                added = true;
++                findBoundsByIteration();
++				added = true;
+             }
+             else {
+                 int index = Collections.binarySearch(this.data, item);
+
+

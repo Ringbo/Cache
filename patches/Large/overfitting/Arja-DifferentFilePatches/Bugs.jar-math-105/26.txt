@@ -1,0 +1,48 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_69273dca/src/main/java/org/apache/commons/math3/util/FastMath.java	2018-12-29 06:15:23.019936000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_69273dca/patches_nwue/Patch_748/patched/tmp/Arja_Bug_dot_jar_Commons-Math_69273dca/src/main/java/org/apache/commons/math3/util/FastMath.java	2018-12-29 07:04:58.991405399 -0500
+@@ -3290,7 +3290,10 @@
+         // are handled just as normal numbers
+         // can use raw bits since already dealt with infinity and NaN
+         final long bits = Double.doubleToRawLongBits(d);
+-        final long sign = bits & 0x8000000000000000L;
++        if (Double.isNaN(d) || Double.isInfinite(d) || (d == 0)) {
++			return d;
++		}
++		final long sign = bits & 0x8000000000000000L;
+         if ((direction < d) ^ (sign == 0L)) {
+             return Double.longBitsToDouble(sign | ((bits & 0x7fffffffffffffffL) + 1));
+         } else {
+
+
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_69273dca/src/main/java/org/apache/commons/math3/ode/nonstiff/RungeKuttaIntegrator.java	2018-12-29 06:15:22.627928000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_69273dca/patches_nwue/Patch_748/patched/tmp/Arja_Bug_dot_jar_Commons-Math_69273dca/src/main/java/org/apache/commons/math3/ode/nonstiff/RungeKuttaIntegrator.java	2018-12-29 07:04:58.995405416 -0500
+@@ -108,7 +108,8 @@
+     for (int i = 0; i < stages; ++i) {
+       yDotK [i] = new double[y0.length];
+     }
+-    final double[] yTmp    = y0.clone();
++    equations.setCompleteState(y);
++	final double[] yTmp    = y0.clone();
+     final double[] yDotTmp = new double[y0.length];
+ 
+     // set up an interpolator sharing the integrator arrays
+@@ -122,7 +123,16 @@
+     stepSize  = forward ? step : -step;
+     initIntegration(equations.getTime(), y0, t);
+ 
+-    // main integration loop
++    if (forward) {
++		if (stepStart + stepSize >= t) {
++			stepSize = t - stepStart;
++		}
++	} else {
++		if (stepStart + stepSize <= t) {
++			stepSize = t - stepStart;
++		}
++	}
++	// main integration loop
+     isLastStep = false;
+     do {
+ 
+
+

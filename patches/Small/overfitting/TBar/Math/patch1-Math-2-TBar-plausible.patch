@@ -1,0 +1,13 @@
+--- /src/main/java/org/apache/commons/math3/distribution/HypergeometricDistribution.java
++++ /src/main/java/org/apache/commons/math3/distribution/HypergeometricDistribution.java
+@@ -290,8 +290,8 @@
+      */
+     protected double calculateNumericalVariance() {
+         final double N = getPopulationSize();
+-        final double m = getNumberOfSuccesses();
+-        final double n = getSampleSize();
++        final int m = getNumberOfSuccesses();
++        final int n = getSampleSize();
+         return (n * m * (N - n) * (N - m)) / (N * N * (N - 1));
+     }
+

@@ -1,0 +1,14 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_f6dd42b4/src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java	2018-12-29 03:53:43.256758000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_f6dd42b4/patches_kjw0/Patch_1239/patched/tmp/Arja_Bug_dot_jar_Commons-Math_f6dd42b4/src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java	2018-12-29 05:20:47.500439220 -0500
+@@ -128,8 +128,7 @@
+             return solve(f, initial, yInitial, max, yMax, initial, yInitial);
+         }
+ 
+-        // full Brent algorithm starting with provided initial guess
+-        return solve(f, min, yMin, max, yMax, initial, yInitial);
++        return solve(f, min, max);
+ 
+     }
+ 
+
+

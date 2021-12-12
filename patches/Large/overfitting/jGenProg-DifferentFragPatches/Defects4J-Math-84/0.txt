@@ -1,0 +1,13 @@
+/var/lib/oar/.batch_job_bashrc: line 5: /home/tdurieux/.bashrc: No such file or directory
+--- org/apache/commons/math/optimization/direct/MultiDirectional.java
++++ org/apache/commons/math/optimization/direct/MultiDirectional.java
+@@ -92,7 +92,7 @@
+ 
+ 
+ 				return;
+-			}
++			} 			return;
+ 
+ 		} 
+ 
+

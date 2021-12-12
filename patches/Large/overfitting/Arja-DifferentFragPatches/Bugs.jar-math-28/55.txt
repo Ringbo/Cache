@@ -1,0 +1,37 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_596ccd59/src/main/java/org/apache/commons/math3/ml/clustering/FuzzyKMeansClusterer.java	2018-12-29 04:17:44.059193000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_596ccd59/patches_34b6/Patch_1639/patched/tmp/Arja_Bug_dot_jar_Commons-Math_596ccd59/src/main/java/org/apache/commons/math3/ml/clustering/FuzzyKMeansClusterer.java	2018-12-29 04:50:33.793438692 -0500
+@@ -289,8 +289,6 @@
+             return clusters;
+         }
+ 
+-        initializeMembershipMatrix();
+-
+         // there is at least one point
+         final int pointDimension = points.get(0).getPoint().length;
+         for (int i = 0; i < k; i++) {
+@@ -303,7 +301,6 @@
+ 
+         do {
+             saveMembershipMatrix(oldMatrix);
+-            updateClusterCenters();
+             updateMembershipMatrix();
+             difference = calculateMaxMembershipChange(oldMatrix);
+         } while (difference > epsilon && ++iteration < max);
+@@ -326,12 +323,14 @@
+                 final double u = FastMath.pow(membershipMatrix[i][j], fuzziness);
+                 final double[] pointArr = point.getPoint();
+                 for (int idx = 0; idx < arr.length; idx++) {
++					arr[idx] += u * pointArr[idx];
++				}
++				for (int idx = 0; idx < arr.length; idx++) {
+                     arr[idx] += u * pointArr[idx];
+                 }
+                 sum += u;
+                 i++;
+             }
+-            MathArrays.scaleInPlace(1.0 / sum, arr);
+             newClusters.add(new CentroidCluster<T>(new DoublePoint(arr)));
+             j++;
+         }
+
+

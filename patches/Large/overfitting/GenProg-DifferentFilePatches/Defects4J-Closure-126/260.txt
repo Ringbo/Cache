@@ -1,0 +1,50 @@
+--- /tmp/GenProg_Defects4J_Closure_126/src/com/google/javascript/jscomp/MinimizeExitPoints.java	2018-12-02 05:32:30.886962148 -0500
++++ /tmp/GenProg_Defects4J_Closure_126/patches_go4m/Patch_395/patched/tmp/GenProg_Defects4J_Closure_126/src/com/google/javascript/jscomp/MinimizeExitPoints.java	2018-12-02 05:43:16.194966826 -0500
+@@ -129,19 +129,10 @@
+       tryMinimizeExits(tryBlock, exitType, labelName);
+       Node allCatchNodes = NodeUtil.getCatchBlock(n);
+       if (NodeUtil.hasCatchHandler(allCatchNodes)) {
+-        Preconditions.checkState(allCatchNodes.hasOneChild());
+         Node catchNode = allCatchNodes.getFirstChild();
+         Node catchCodeBlock = catchNode.getLastChild();
+         tryMinimizeExits(catchCodeBlock, exitType, labelName);
+       }
+-      /* Don't try to minimize the exits of finally blocks, as this
+-       * can cause problems if it changes the completion type of the finally
+-       * block. See ECMA 262 Sections 8.9 & 12.14
+-       */
+-      if (NodeUtil.hasFinally(n)) {
+-        Node finallyBlock = n.getLastChild();
+-        tryMinimizeExits(finallyBlock, exitType, labelName);
+-      }
+     }
+ 
+     // Just a 'label'.
+
+
+--- /tmp/GenProg_Defects4J_Closure_126/src/com/google/javascript/rhino/Node.java	2018-12-02 05:32:27.906962217 -0500
++++ /tmp/GenProg_Defects4J_Closure_126/patches_go4m/Patch_395/patched/tmp/GenProg_Defects4J_Closure_126/src/com/google/javascript/rhino/Node.java	2018-12-02 05:43:16.198966847 -0500
+@@ -958,7 +958,20 @@
+       if (first == null || first.getType() != Token.NAME) {
+         sb.append("<invalid>");
+       } else {
+-        sb.append(first.getString());
++        if (this instanceof StringNode) {
++			sb.append(' ');
++			sb.append(getString());
++		} else if (type == Token.FUNCTION) {
++			sb.append(' ');
++			if (first == null || first.getType() != Token.NAME) {
++				sb.append("<invalid>");
++			} else {
++				sb.append(first.getString());
++			}
++		} else if (type == Token.NUMBER) {
++			sb.append(' ');
++			sb.append(getDouble());
++		}
+       }
+     } else if (type == Token.NUMBER) {
+       sb.append(' ');
+
+

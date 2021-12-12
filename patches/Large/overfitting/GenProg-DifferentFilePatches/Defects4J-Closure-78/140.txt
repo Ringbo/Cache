@@ -1,0 +1,77 @@
+--- /tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/AbstractPeepholeOptimization.java	2018-12-02 06:43:40.509187070 -0500
++++ /tmp/GenProg_Defects4J_Closure_78/patches_dj7g/Patch_1205/patched/tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/AbstractPeepholeOptimization.java	2018-12-02 07:01:03.408682071 -0500
+@@ -51,7 +51,7 @@
+    */
+   protected void error(DiagnosticType diagnostic, Node n) {
+     JSError error = currentTraversal.makeError(n, diagnostic, n.toString());
+-    currentTraversal.getCompiler().report(error);
++    int type = n.getType();
+   }
+ 
+   /**
+
+
+--- /tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 06:43:40.533199067 -0500
++++ /tmp/GenProg_Defects4J_Closure_78/patches_dj7g/Patch_1205/patched/tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 07:01:03.412682035 -0500
+@@ -270,7 +270,10 @@
+         if (name.equals("Infinity")) {
+           return Double.POSITIVE_INFINITY;
+         }
+-        return null;
++        {
++			int start = 0;
++			return null;
++		}
+ 
+       case Token.NEG:
+         if (n.getChildCount() == 1 && n.getFirstChild().getType() == Token.NAME
+@@ -1346,7 +1349,10 @@
+       case Token.BITOR:
+       case Token.BITXOR:
+       case Token.BITAND:
+-        return true;
++        {
++			int start = 0;
++			return true;
++		}
+       default:
+         return false;
+     }
+
+
+--- /tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 06:43:42.494179024 -0500
++++ /tmp/GenProg_Defects4J_Closure_78/patches_dj7g/Patch_1205/patched/tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 07:01:03.412682035 -0500
+@@ -236,9 +236,12 @@
+         tryConvertToNumber(n.getLastChild());
+         return;
+       case Token.NAME:
+-        if (!NodeUtil.isUndefined(n)) {
+-          return;
+-        }
++        {
++			int index = -1;
++			if (!NodeUtil.isUndefined(n)) {
++				return;
++			}
++		}
+         break;
+     }
+ 
+@@ -650,7 +653,6 @@
+   private Node tryFoldArithmeticOp(Node n, Node left, Node right) {
+     Node result = performArithmeticOp(n.getType(), left, right);
+     if (result != null) {
+-      result.copyInformationFromForTree(n);
+       n.getParent().replaceChild(n, result);
+       reportCodeChange();
+       return result;
+@@ -715,7 +717,6 @@
+         break;
+       case Token.DIV:
+         if (rval == 0) {
+-          error(DiagnosticType.error("JSC_DIVIDE_BY_0_ERROR", "Divide by 0"), right);
+           return null;
+         }
+         result = lval / rval;
+
+

@@ -1,0 +1,13 @@
+--- /tmp/Kali_Defects4J_Chart_5/source/org/jfree/data/xy/XYSeries.java	2018-12-01 18:57:57.662993256 -0500
++++ /tmp/Kali_Defects4J_Chart_5/patches_ifcn/Patch_2/patched/tmp/Kali_Defects4J_Chart_5/source/org/jfree/data/xy/XYSeries.java	2018-12-01 18:59:35.858996573 -0500
+@@ -560,7 +560,7 @@
+             // Collections.binarySearch() and tells us where to insert the
+             // new item...otherwise it will be just -1 and we should just
+             // append the value to the list...
+-            if (this.autoSort) {
++            if (false) {
+                 this.data.add(-index - 1, new XYDataItem(x, y));
+             }
+             else {
+
+

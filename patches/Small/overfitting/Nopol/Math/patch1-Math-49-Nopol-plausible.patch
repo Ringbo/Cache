@@ -1,0 +1,14 @@
+--- /src/main/java/org/apache/commons/math/linear/OpenMapRealVector.java
++++ /src/main/java/org/apache/commons/math/linear/OpenMapRealVector.java
+@@ -665,4 +665,8 @@
+             entries.put(index, value);
+-        } else if (entries.containsKey(index)) {
+-            entries.remove(index);
++        } else {
++            if (org.apache.commons.math.linear.OpenMapRealVector.DEFAULT_ZERO_TOLERANCE == org.apache.commons.math.linear.OpenMapRealVector.this.epsilon) {
++                if (entries.containsKey(index)) {
++                    entries.remove(index);
++                }
++            }
+         }
+

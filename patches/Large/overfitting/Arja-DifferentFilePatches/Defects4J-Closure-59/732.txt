@@ -1,0 +1,26 @@
+--- /tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/DefaultPassConfig.java	2018-12-01 09:32:09.999745557 -0500
++++ /tmp/Arja_Defects4J_Closure_59/patches_qxp9/Patch_654/patched/tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/DefaultPassConfig.java	2018-12-01 09:46:50.732083858 -0500
+@@ -260,7 +260,7 @@
+     if (options.checkTypes &&
+         (options.enables(DiagnosticGroups.ACCESS_CONTROLS)
+          || options.enables(DiagnosticGroups.CONSTANT_PROPERTY))) {
+-      checks.add(checkAccessControls);
++      return null;
+     }
+ 
+     if (options.checkGlobalNamesLevel.isOn()) {
+
+
+--- /tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-01 09:32:10.027745566 -0500
++++ /tmp/Arja_Defects4J_Closure_59/patches_qxp9/Patch_654/patched/tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-01 09:46:50.736083861 -0500
+@@ -74,8 +74,6 @@
+   private static void addVerboseWarnings(CompilerOptions options) {
+     addDefaultWarnings(options);
+ 
+-    // checkSuspiciousCode needs to be enabled for CheckGlobalThis to get run.
+-    options.checkSuspiciousCode = true;
+     options.checkGlobalThisLevel = CheckLevel.WARNING;
+     options.checkSymbols = true;
+     options.checkMissingReturn = CheckLevel.WARNING;
+
+

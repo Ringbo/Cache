@@ -1,0 +1,23 @@
+--- /tmp/RSRepair_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-02 04:25:55.803109797 -0500
++++ /tmp/RSRepair_Defects4J_Chart_25/patches_l19u/Patch_239/patched/tmp/RSRepair_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-02 04:30:26.812145001 -0500
+@@ -203,15 +203,9 @@
+         }
+         StatisticalCategoryDataset statData = (StatisticalCategoryDataset) data;
+ 
+-        PlotOrientation orientation = plot.getOrientation();
+-        if (orientation == PlotOrientation.HORIZONTAL) {
+-            drawHorizontalItem(g2, state, dataArea, plot, domainAxis, 
+-                    rangeAxis, statData, row, column);
+-        }
+-        else if (orientation == PlotOrientation.VERTICAL) {
+-            drawVerticalItem(g2, state, dataArea, plot, domainAxis, rangeAxis, 
+-                    statData, row, column);
+-        }
++        if (plot == null) {
++			throw new IllegalArgumentException("Null 'plot' argument.");
++		}
+     }
+                 
+     /**
+
+

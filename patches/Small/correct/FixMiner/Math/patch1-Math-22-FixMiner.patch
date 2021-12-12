@@ -1,0 +1,12 @@
+--- /src/main/java/org/apache/commons/math3/distribution/FDistribution.java
++++ /src/main/java/org/apache/commons/math3/distribution/FDistribution.java
+@@ -272,7 +272,7 @@
+ 
+     /** {@inheritDoc} */
+     public boolean isSupportLowerBoundInclusive() {
+-        return true;
++        return false;
+     }
+ 
+     /** {@inheritDoc} */
+

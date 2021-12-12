@@ -1,0 +1,66 @@
+--- /tmp/Arja_Defects4J_Lang_43/src/java/org/apache/commons/lang/text/ExtendedMessageFormat.java	2018-12-01 05:13:04.265756743 -0500
++++ /tmp/Arja_Defects4J_Lang_43/patches_21ag/Patch_1398/patched/tmp/Arja_Defects4J_Lang_43/src/java/org/apache/commons/lang/text/ExtendedMessageFormat.java	2018-12-01 06:16:26.872260232 -0500
+@@ -156,7 +156,47 @@
+             switch (c[pos.getIndex()]) {
+             case QUOTE:
+                 appendQuotedString(pattern, pos, stripCustom, true);
+-                break;
++                {
++					while (pos.getIndex() < pattern.length()) {
++						switch (c[pos.getIndex()]) {
++						case QUOTE:
++							appendQuotedString(pattern, pos, stripCustom, true);
++							break;
++						case START_FE:
++							fmtCount++;
++							seekNonWs(pattern, pos);
++							int start = pos.getIndex();
++							int index = readArgumentIndex(pattern, next(pos));
++							stripCustom.append(START_FE).append(index);
++							seekNonWs(pattern, pos);
++							Format format = null;
++							String formatDescription = null;
++							if (c[pos.getIndex()] == START_FMT) {
++								formatDescription = parseFormatDescription(
++										pattern, next(pos));
++								format = getFormat(formatDescription);
++								if (format == null) {
++									stripCustom.append(START_FMT).append(
++											formatDescription);
++								}
++							}
++							foundFormats.add(format);
++							foundDescriptions.add(format == null ? null
++									: formatDescription);
++							Validate.isTrue(foundFormats.size() == fmtCount);
++							Validate.isTrue(foundDescriptions.size() == fmtCount);
++							if (c[pos.getIndex()] != END_FE) {
++								throw new IllegalArgumentException(
++										"Unreadable format element at position "
++												+ start);
++							}
++						default:
++							stripCustom.append(c[pos.getIndex()]);
++							next(pos);
++						}
++					}
++					break;
++				}
+             case START_FE:
+                 fmtCount++;
+                 seekNonWs(pattern, pos);
+@@ -417,10 +457,8 @@
+     private StringBuffer appendQuotedString(String pattern, ParsePosition pos,
+             StringBuffer appendTo, boolean escapingOn) {
+         int start = pos.getIndex();
+-        char[] c = pattern.toCharArray();
+-        if (escapingOn && c[start] == QUOTE) {
+-            return appendTo == null ? null : appendTo.append(QUOTE);
+-        }
++        pos.setIndex(pos.getIndex() + 1);
++		char[] c = pattern.toCharArray();
+         int lastHold = start;
+         for (int i = pos.getIndex(); i < pattern.length(); i++) {
+             if (escapingOn && pattern.substring(i).startsWith(ESCAPED_QUOTE)) {
+
+

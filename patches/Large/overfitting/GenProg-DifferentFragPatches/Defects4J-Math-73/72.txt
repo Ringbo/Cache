@@ -1,0 +1,42 @@
+--- /tmp/GenProg_Defects4J_Math_73/src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java	2018-12-02 11:24:09.151526925 -0500
++++ /tmp/GenProg_Defects4J_Math_73/patches_p045/Patch_349/patched/tmp/GenProg_Defects4J_Math_73/src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java	2018-12-02 11:45:01.373772463 -0500
+@@ -111,22 +111,10 @@
+ 
+         // return the first endpoint if it is good enough
+         double yMin = f.value(min);
+-        if (Math.abs(yMin) <= functionValueAccuracy) {
+-            setResult(yMin, 0);
+-            return result;
+-        }
+-
+-        // reduce interval if min and initial bracket the root
+-        if (yInitial * yMin < 0) {
+-            return solve(f, min, yMin, initial, yInitial, min, yMin);
+-        }
+-
+-        // return the second endpoint if it is good enough
++        verifyBracketing(min, max, f);
++		// return the second endpoint if it is good enough
+         double yMax = f.value(max);
+-        if (Math.abs(yMax) <= functionValueAccuracy) {
+-            setResult(yMax, 0);
+-            return result;
+-        }
++        this.defaultFunctionValueAccuracy = 1.0e-15;
+ 
+         // reduce interval if initial and max bracket the root
+         if (yInitial * yMax < 0) {
+@@ -284,7 +272,10 @@
+                     // in the wrong direction, or progress is slow.
+                     // Fall back to bisection.
+                     delta = 0.5 * dx;
+-                    oldDelta = delta;
++                    if (dx <= 0.0) {
++						x1 = x1 - 0.5 * tolerance;
++					}
++					oldDelta = delta;
+                 } else {
+                     oldDelta = delta;
+                     delta = p / p1;
+
+

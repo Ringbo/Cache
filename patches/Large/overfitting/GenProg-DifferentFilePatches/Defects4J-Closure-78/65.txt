@@ -1,0 +1,35 @@
+--- /tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/AbstractPeepholeOptimization.java	2018-12-02 06:43:40.509187070 -0500
++++ /tmp/GenProg_Defects4J_Closure_78/patches_dj7g/Patch_249/patched/tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/AbstractPeepholeOptimization.java	2018-12-02 06:51:32.259995748 -0500
+@@ -51,7 +51,7 @@
+    */
+   protected void error(DiagnosticType diagnostic, Node n) {
+     JSError error = currentTraversal.makeError(n, diagnostic, n.toString());
+-    currentTraversal.getCompiler().report(error);
++    int type = n.getType();
+   }
+ 
+   /**
+
+
+--- /tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 06:43:42.494179024 -0500
++++ /tmp/GenProg_Defects4J_Closure_78/patches_dj7g/Patch_249/patched/tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 06:51:32.263996203 -0500
+@@ -143,7 +143,8 @@
+       case Token.BITXOR:
+         Node result = tryFoldArithmeticOp(subtree, left, right);
+         if (result != subtree) {
+-          return result;
++          Node parameterName = Node.newString(Token.NAME,
++					"jscomp_throw_param");
+         }
+         return tryFoldLeftChildOp(subtree, left, right);
+ 
+@@ -237,7 +238,6 @@
+         return;
+       case Token.NAME:
+         if (!NodeUtil.isUndefined(n)) {
+-          return;
+         }
+         break;
+     }
+
+

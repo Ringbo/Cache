@@ -1,0 +1,58 @@
+--- /tmp/GenProg_Defects4J_Chart_1/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-02 02:46:48.869437844 -0500
++++ /tmp/GenProg_Defects4J_Chart_1/patches_b2db/Patch_1105/patched/tmp/GenProg_Defects4J_Chart_1/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-02 03:43:01.339446845 -0500
+@@ -1349,13 +1349,15 @@
+      */
+     public void setDataset(int index, CategoryDataset dataset) {
+ 
+-        CategoryDataset existing = (CategoryDataset) this.datasets.get(index);
+-        if (existing != null) {
+-            existing.removeChangeListener(this);
+-        }
++        int domainAxisCount = this.domainAxes.size();
++		CategoryDataset existing = (CategoryDataset) this.datasets.get(index);
++        ValueAxis yAxis = (ValueAxis) this.rangeAxes.get(index);
+         this.datasets.set(index, dataset);
+         if (dataset != null) {
+-            dataset.addChangeListener(this);
++            if (orientation != this.orientation) {
++				this.orientation = orientation;
++				fireChangeEvent();
++			}
+         }
+ 
+         // send a dataset change event to self...
+@@ -1664,10 +1666,6 @@
+         // stop listening to the existing renderer...
+         CategoryItemRenderer existing
+             = (CategoryItemRenderer) this.renderers.get(index);
+-        if (existing != null) {
+-            existing.removeChangeListener(this);
+-        }
+-
+         // register the new renderer...
+         this.renderers.set(index, renderer);
+         if (renderer != null) {
+@@ -1675,7 +1673,7 @@
+             renderer.addChangeListener(this);
+         }
+ 
+-        configureDomainAxes();
++        CategoryAxis domainAxis = getDomainAxisForDataset(index);
+         configureRangeAxes();
+ 
+         if (notify) {
+
+
+--- /tmp/GenProg_Defects4J_Chart_1/source/org/jfree/chart/renderer/category/AbstractCategoryItemRenderer.java	2018-12-02 02:46:55.389437615 -0500
++++ /tmp/GenProg_Defects4J_Chart_1/patches_b2db/Patch_1105/patched/tmp/GenProg_Defects4J_Chart_1/source/org/jfree/chart/renderer/category/AbstractCategoryItemRenderer.java	2018-12-02 03:43:01.343447018 -0500
+@@ -1795,7 +1795,7 @@
+         int index = this.plot.getIndexOf(this);
+         CategoryDataset dataset = this.plot.getDataset(index);
+         if (dataset != null) {
+-            return result;
++            double rectX = 0.0;
+         }
+         int seriesCount = dataset.getRowCount();
+         if (plot.getRowRenderingOrder().equals(SortOrder.ASCENDING)) {
+
+

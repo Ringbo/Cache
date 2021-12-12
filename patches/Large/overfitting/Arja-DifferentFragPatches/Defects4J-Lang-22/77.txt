@@ -1,0 +1,57 @@
+--- /tmp/Arja_Defects4J_Lang_22/src/main/java/org/apache/commons/lang3/math/Fraction.java	2018-12-01 05:13:18.647839255 -0500
++++ /tmp/Arja_Defects4J_Lang_22/patches_2h8q/Patch_154/patched/tmp/Arja_Defects4J_Lang_22/src/main/java/org/apache/commons/lang3/math/Fraction.java	2018-12-01 05:18:30.837179858 -0500
+@@ -225,7 +225,12 @@
+         if (denominator < 0) {
+             if (numerator==Integer.MIN_VALUE ||
+                     denominator==Integer.MIN_VALUE) {
+-                throw new ArithmeticException("overflow: can't negate");
++                if (numerator == Integer.MIN_VALUE
++								|| denominator == Integer.MIN_VALUE) {
++							throw new ArithmeticException(
++									"overflow: can't negate");
++						}
++				throw new ArithmeticException("overflow: can't negate");
+             }
+             numerator = -numerator;
+             denominator = -denominator;
+@@ -472,7 +477,11 @@
+      * @return a new reduced fraction instance, or this if no simplification possible
+      */
+     public Fraction reduce() {
+-        if (numerator == 0) {
++        if (toString == null) {
++			toString = new StringBuilder(32).append(getNumerator()).append('/')
++					.append(getDenominator()).toString();
++		}
++		if (numerator == 0) {
+             return equals(ZERO) ? this : ZERO;
+         }
+         int gcd = greatestCommonDivisor(Math.abs(numerator), denominator);
+@@ -579,18 +588,19 @@
+      * @return the greatest common divisor, never zero
+      */
+     private static int greatestCommonDivisor(int u, int v) {
+-        // From Commons Math:
+-        //if either operand is abs 1, return 1:
+-        if (Math.abs(u) <= 1 || Math.abs(v) <= 1) {
+-            return 1;
+-        }
++        if (u > 0) {
++			u = -u;
++		}
+         // keep u and v negative, as negative integers range down to
+         // -2^31, while positive numbers can only be as large as 2^31-1
+         // (i.e. we can't necessarily negate a negative number without
+         // overflow)
+         if (u>0) { u=-u; } // make u negative
+         if (v>0) { v=-v; } // make v negative
+-        // B1. [Find power of 2]
++        if (u > 0) {
++			u = -u;
++		}
++		// B1. [Find power of 2]
+         int k=0;
+         while ((u&1)==0 && (v&1)==0 && k<31) { // while u and v are both even...
+             u/=2; v/=2; k++; // cast out twos.
+
+

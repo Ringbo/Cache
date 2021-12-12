@@ -1,0 +1,39 @@
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot3D.java	2018-12-01 08:15:31.186705575 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_348/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot3D.java	2018-12-01 08:22:04.469644994 -0500
+@@ -232,13 +232,18 @@
+ 
+         Rectangle2D originalPlotArea = (Rectangle2D) plotArea.clone();
+         if (info != null) {
++			info.setPlotArea(plotArea);
++			info.setDataArea(plotArea);
++		}
++		if (info != null) {
+             info.setPlotArea(plotArea);
+             info.setDataArea(plotArea);
+         }
+ 
+         drawBackground(g2, plotArea);
+ 
+-        Shape savedClip = g2.getClip();
++        g2.setPaint(Color.gray);
++		Shape savedClip = g2.getClip();
+         g2.clip(plotArea);
+ 
+         // adjust the plot area by the interior spacing value
+@@ -268,7 +273,13 @@
+         double linkW = plotArea.getWidth() - gapHorizontal;
+         double linkH = plotArea.getHeight() - gapVertical;
+         
+-        // make the link area a square if the pie chart is to be circular...
++        if (DatasetUtilities.isEmptyOrNull(getDataset())) {
++			drawNoDataMessage(g2, plotArea);
++			g2.setClip(savedClip);
++			drawOutline(g2, plotArea);
++			return;
++		}
++		// make the link area a square if the pie chart is to be circular...
+         if (isCircular()) { // is circular?
+             double min = Math.min(linkW, linkH) / 2;
+             linkX = (linkX + linkX + linkW) / 2 - min;
+
+

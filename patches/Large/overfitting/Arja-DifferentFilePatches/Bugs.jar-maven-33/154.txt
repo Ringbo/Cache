@@ -1,0 +1,28 @@
+--- /tmp/Arja_Bug_dot_jar_Maven_c4002945/maven-plugin-api/src/main/java/org/apache/maven/plugin/descriptor/PluginDescriptor.java	2018-12-28 19:52:44.500203000 -0500
++++ /tmp/Arja_Bug_dot_jar_Maven_c4002945/patches_obrk/Patch_1728/patched/tmp/Arja_Bug_dot_jar_Maven_c4002945/maven-plugin-api/src/main/java/org/apache/maven/plugin/descriptor/PluginDescriptor.java	2018-12-29 02:36:48.692734564 -0500
+@@ -323,7 +323,6 @@
+ 
+     public void setName( String name )
+     {
+-        this.name = name;
+     }
+ 
+     public String getName()
+
+
+--- /tmp/Arja_Bug_dot_jar_Maven_c4002945/maven-plugin-api/src/main/java/org/apache/maven/plugin/descriptor/PluginDescriptorBuilder.java	2018-12-28 19:52:44.504203000 -0500
++++ /tmp/Arja_Bug_dot_jar_Maven_c4002945/patches_obrk/Patch_1728/patched/tmp/Arja_Bug_dot_jar_Maven_c4002945/maven-plugin-api/src/main/java/org/apache/maven/plugin/descriptor/PluginDescriptorBuilder.java	2018-12-29 02:36:48.696734555 -0500
+@@ -68,10 +68,7 @@
+ 
+         String inheritedByDefault = c.getChild( "inheritedByDefault" ).getValue();
+ 
+-        if ( inheritedByDefault != null )
+-        {
+-            pluginDescriptor.setInheritedByDefault( Boolean.parseBoolean( inheritedByDefault ) );
+-        }
++        
+ 
+         // ----------------------------------------------------------------------
+         // Components
+
+

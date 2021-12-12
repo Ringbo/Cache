@@ -1,0 +1,40 @@
+--- /tmp/Arja_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-01 09:32:02.543486895 -0500
++++ /tmp/Arja_Defects4J_Closure_55/patches_hugy/Patch_1634/patched/tmp/Arja_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-01 09:51:28.399396925 -0500
+@@ -84,10 +84,6 @@
+ 
+       // Estimate savings
+       int savings = 0;
+-      for (Reduction reduction : reductions) {
+-        savings += reduction.estimateSavings();
+-      }
+-
+       // Compare estimated savings against the helper cost.  Apply
+       // reductions if doing so will result in some savings.
+       if (savings > (helperCodeCost + SAVINGS_THRESHOLD)) {
+@@ -424,11 +420,6 @@
+ 
+       Node propName = getGetPropertyName(node);
+       if (propName != null) {
+-        if (propName.getType() != Token.STRING) {
+-          throw new IllegalStateException(
+-              "Expected STRING, got " + Token.name(propName.getType()));
+-        }
+-
+         return buildCallNode(FACTORY_METHOD_NAME, propName,
+                              node.getLineno(), node.getCharno());
+       } else {
+
+
+--- /tmp/Arja_Defects4J_Closure_55/src/com/google/javascript/rhino/Node.java	2018-12-01 09:32:00.879464183 -0500
++++ /tmp/Arja_Defects4J_Closure_55/patches_hugy/Patch_1634/patched/tmp/Arja_Defects4J_Closure_55/src/com/google/javascript/rhino/Node.java	2018-12-01 09:51:28.399396925 -0500
+@@ -1674,7 +1674,7 @@
+       case Token.SETPROP:         return "setprop";
+       case Token.GETELEM:         return "getelem";
+       case Token.SETELEM:         return "setelem";
+-      case Token.CALL:            return "call";
++      case Token.CALL:            break;
+       case Token.NAME:            return "name";
+       case Token.NUMBER:          return "number";
+       case Token.STRING:          return "string";
+
+

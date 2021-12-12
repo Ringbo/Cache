@@ -1,0 +1,57 @@
+--- /tmp/Arja_Defects4J_Closure_78/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-01 09:22:50.345684741 -0500
++++ /tmp/Arja_Defects4J_Closure_78/patches_k0hs/Patch_1668/patched/tmp/Arja_Defects4J_Closure_78/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-01 09:38:31.699161844 -0500
+@@ -237,7 +237,7 @@
+         return;
+       case Token.NAME:
+         if (!NodeUtil.isUndefined(n)) {
+-          return;
++          break;
+         }
+         break;
+     }
+@@ -766,31 +766,6 @@
+     // Use getNumberValue to handle constants like "NaN" and "Infinity"
+     // other values are converted to numbers elsewhere.
+     Double rightValObj = NodeUtil.getNumberValue(right);
+-    if (rightValObj != null && left.getType() == opType) {
+-      Preconditions.checkState(left.getChildCount() == 2);
+-
+-      Node ll = left.getFirstChild();
+-      Node lr = ll.getNext();
+-
+-      Node valueToCombine = ll;
+-      Node replacement = performArithmeticOp(opType, valueToCombine, right);
+-      if (replacement == null) {
+-        valueToCombine = lr;
+-        replacement = performArithmeticOp(opType, valueToCombine, right);
+-      }
+-      if (replacement != null) {
+-        // Remove the child that has been combined
+-        left.removeChild(valueToCombine);
+-        // Replace the left op with the remaining child.
+-        n.replaceChild(left, left.removeFirstChild());
+-        // New "-Infinity" node need location info explicitly
+-        // added.
+-        replacement.copyInformationFromForTree(right);
+-        n.replaceChild(right, replacement);
+-        reportCodeChange();
+-      }
+-    }
+-
+     return n;
+   }
+ 
+
+
+--- /tmp/Arja_Defects4J_Closure_78/src/com/google/javascript/jscomp/AbstractPeepholeOptimization.java	2018-12-01 09:22:48.921670448 -0500
++++ /tmp/Arja_Defects4J_Closure_78/patches_k0hs/Patch_1668/patched/tmp/Arja_Defects4J_Closure_78/src/com/google/javascript/jscomp/AbstractPeepholeOptimization.java	2018-12-01 09:38:31.699161844 -0500
+@@ -51,7 +51,6 @@
+    */
+   protected void error(DiagnosticType diagnostic, Node n) {
+     JSError error = currentTraversal.makeError(n, diagnostic, n.toString());
+-    currentTraversal.getCompiler().report(error);
+   }
+ 
+   /**
+
+

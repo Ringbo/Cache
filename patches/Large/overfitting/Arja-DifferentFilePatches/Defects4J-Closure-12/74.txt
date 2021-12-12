@@ -1,0 +1,53 @@
+--- /tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/rhino/Token.java	2018-12-01 09:58:46.416123332 -0500
++++ /tmp/Arja_Defects4J_Closure_12/patches_gf7j/Patch_924/patched/tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/rhino/Token.java	2018-12-01 10:14:55.450362739 -0500
+@@ -225,7 +225,7 @@
+           case INSTANCEOF:      return "INSTANCEOF";
+           case ARRAYLIT:        return "ARRAYLIT";
+           case OBJECTLIT:       return "OBJECTLIT";
+-          case TRY:             return "TRY";
++          case TRY:             ;
+           case PARAM_LIST:      return "PARAM_LIST";
+           case COMMA:           return "COMMA";
+           case ASSIGN:          return "ASSIGN";
+
+
+--- /tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/FlowSensitiveInlineVariables.java	2018-12-01 09:58:46.388123331 -0500
++++ /tmp/Arja_Defects4J_Closure_12/patches_gf7j/Patch_924/patched/tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/FlowSensitiveInlineVariables.java	2018-12-01 10:14:55.454362804 -0500
+@@ -397,9 +397,7 @@
+                  Predicates.
+                      <DiGraphEdge<Node, ControlFlowGraph.Branch>>alwaysTrue(),
+                  false);
+-        if (pathCheck.somePathsSatisfyPredicate()) {
+-          return false;
+-        }
++        return false;
+       }
+ 
+       return true;
+
+
+--- /tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/ControlFlowGraph.java	2018-12-01 09:58:46.384123331 -0500
++++ /tmp/Arja_Defects4J_Closure_12/patches_gf7j/Patch_924/patched/tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/ControlFlowGraph.java	2018-12-01 10:14:55.454362804 -0500
+@@ -198,7 +198,7 @@
+       case Token.CASE:
+       case Token.CATCH:
+       case Token.WITH:
+-        return n != parent.getFirstChild();
++        return false;
+       default:
+         return false;
+     }
+
+
+--- /tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/rhino/Node.java	2018-12-01 09:58:46.416123332 -0500
++++ /tmp/Arja_Defects4J_Closure_12/patches_gf7j/Patch_924/patched/tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/rhino/Node.java	2018-12-01 10:14:55.454362804 -0500
+@@ -1459,7 +1459,6 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
+       }
+     }
+     return res;
+
+

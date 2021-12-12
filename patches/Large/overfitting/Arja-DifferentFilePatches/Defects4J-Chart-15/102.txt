@@ -1,0 +1,41 @@
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot3D.java	2018-12-01 08:15:31.186705575 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_1008/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot3D.java	2018-12-01 08:27:55.417638192 -0500
+@@ -231,7 +231,8 @@
+         insets.trim(plotArea);
+ 
+         Rectangle2D originalPlotArea = (Rectangle2D) plotArea.clone();
+-        if (info != null) {
++        this.notifyListeners(new PlotChangeEvent(this));
++		if (info != null) {
+             info.setPlotArea(plotArea);
+             info.setDataArea(plotArea);
+         }
+@@ -265,17 +266,17 @@
+ 
+         double linkX = plotArea.getX() + gapHorizontal / 2;
+         double linkY = plotArea.getY() + gapVertical / 2;
+-        double linkW = plotArea.getWidth() - gapHorizontal;
++        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
++				1.0f));
++		double linkW = plotArea.getWidth() - gapHorizontal;
+         double linkH = plotArea.getHeight() - gapVertical;
+         
+-        // make the link area a square if the pie chart is to be circular...
+-        if (isCircular()) { // is circular?
+-            double min = Math.min(linkW, linkH) / 2;
+-            linkX = (linkX + linkX + linkW) / 2 - min;
+-            linkY = (linkY + linkY + linkH) / 2 - min;
+-            linkW = 2 * min;
+-            linkH = 2 * min;
+-        }
++        if (DatasetUtilities.isEmptyOrNull(getDataset())) {
++			drawNoDataMessage(g2, plotArea);
++			g2.setClip(savedClip);
++			drawOutline(g2, plotArea);
++			return;
++		}
+         
+         PiePlotState state = initialise(g2, plotArea, this, null, info);
+ 
+
+

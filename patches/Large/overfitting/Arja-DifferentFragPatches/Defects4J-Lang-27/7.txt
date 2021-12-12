@@ -1,0 +1,45 @@
+--- /tmp/Arja_Defects4J_Lang_27/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-01 05:16:07.026060969 -0500
++++ /tmp/Arja_Defects4J_Lang_27/patches_whwa/Patch_35/patched/tmp/Arja_Defects4J_Lang_27/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-01 05:17:25.190643706 -0500
+@@ -463,7 +463,10 @@
+             // a wrong value.
+             return null;
+         }
+-        if (str.startsWith("0x") || str.startsWith("-0x")) {
++        if (str == null) {
++			return null;
++		}
++		if (str.startsWith("0x") || str.startsWith("-0x")) {
+             return createInteger(str);
+         }   
+         char lastChar = str.charAt(str.length() - 1);
+@@ -475,7 +478,8 @@
+ 
+         if (decPos > -1) {
+ 
+-            if (expPos > -1) {
++            exp = null;
++			if (expPos > -1) {
+                 if (expPos < decPos) {
+                     throw new NumberFormatException(str + " is not a valid number.");
+                 }
+@@ -486,7 +490,7 @@
+             mant = str.substring(0, decPos);
+         } else {
+             if (expPos > -1) {
+-                mant = str.substring(0, expPos);
++                mant = str;
+             } else {
+                 mant = str;
+             }
+@@ -570,7 +574,8 @@
+                 } catch (NumberFormatException nfe) {
+                     // ignore the bad number
+                 }
+-                return createBigInteger(str);
++                exp = null;
++				return createBigInteger(str);
+ 
+             } else {
+                 //Must be a float,double,BigDec
+
+

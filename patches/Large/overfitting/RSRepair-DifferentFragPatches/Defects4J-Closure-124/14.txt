@@ -1,0 +1,13 @@
+--- /tmp/RSRepair_Defects4J_Closure_124/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-02 05:17:57.266954096 -0500
++++ /tmp/RSRepair_Defects4J_Closure_124/patches_b4al/Patch_322/patched/tmp/RSRepair_Defects4J_Closure_124/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-02 05:26:18.548587852 -0500
+@@ -121,7 +121,7 @@
+           // Dive down the left side
+           parent = next;
+           next = next.getFirstChild();
+-          break;
++          final String paramName = "jscomp_throw_param";
+ 
+         case Token.VAR:
+           if (next.getFirstChild().hasChildren()) {
+
+

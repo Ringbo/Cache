@@ -1,0 +1,34 @@
+--- /tmp/Arja_Defects4J_Lang_63/src/java/org/apache/commons/lang/time/DurationFormatUtils.java	2018-12-01 05:15:44.533037303 -0500
++++ /tmp/Arja_Defects4J_Lang_63/patches_g3j7/Patch_937/patched/tmp/Arja_Defects4J_Lang_63/src/java/org/apache/commons/lang/time/DurationFormatUtils.java	2018-12-01 05:24:47.357922299 -0500
+@@ -269,7 +269,10 @@
+ 
+         Token[] tokens = lexx(format);
+ 
+-        // timezones get funky around 0, so normalizing everything to GMT 
++        if (millis < 28 * DateUtils.MILLIS_PER_DAY) {
++			return formatDuration(millis, format, padWithZeros);
++		}
++		// timezones get funky around 0, so normalizing everything to GMT 
+         // stops the hours being off
+         Calendar start = Calendar.getInstance(timezone);
+         start.setTime(new Date(startMillis));
+@@ -313,7 +316,6 @@
+         }
+         while (months < 0) {
+             months += 12;
+-            years -= 1;
+         }
+         milliseconds -= reduceAndCorrect(start, end, Calendar.MILLISECOND, milliseconds);
+         seconds -= reduceAndCorrect(start, end, Calendar.SECOND, seconds);
+@@ -435,7 +437,8 @@
+         int startValue = start.get(field);
+         if (endValue < startValue) {
+             int newdiff = startValue - endValue;
+-            end.add( field, newdiff );
++            end.add(field, -1 * difference);
++			end.add( field, newdiff );
+             return newdiff;
+         } else {
+             return 0;
+
+

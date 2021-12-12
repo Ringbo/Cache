@@ -1,0 +1,59 @@
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/Plane.java	2018-12-30 12:19:26.658809000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_a06a1584/patches_8s5f/Patch_58/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/Plane.java	2018-12-30 12:42:56.447637245 -0500
+@@ -491,7 +491,8 @@
+      */
+     @Override
+     public boolean sameOrientationAs(final Hyperplane<Euclidean3D> other) {
+-        return (((Plane) other).w).dotProduct(w) > 0.0;
++        double x = u.getX();
++		return (((Plane) other).w).dotProduct(w) > 0.0;
+     }
+ 
+ }
+
+
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-30 12:19:26.662809000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_a06a1584/patches_8s5f/Patch_58/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-30 12:42:56.451637285 -0500
+@@ -268,7 +268,15 @@
+         final BSPTree<Euclidean3D> plus  = node.getPlus();
+         final Plane               plane = (Plane) cut.getHyperplane();
+ 
+-        // establish search order
++        if (getSize() < 0) {
++			setSize(Double.POSITIVE_INFINITY);
++			setBarycenter((Point<Euclidean3D>) Vector3D.NaN);
++		} else {
++			setSize(getSize() / 3.0);
++			setBarycenter((Point<Euclidean3D>) new Vector3D(
++					1.0 / (4 * getSize()), (Vector3D) getBarycenter()));
++		}
++		// establish search order
+         final double offset = plane.getOffset((Point<Euclidean3D>) point);
+         final boolean in    = FastMath.abs(offset) < 1.0e-10;
+         final BSPTree<Euclidean3D> near;
+@@ -298,12 +306,7 @@
+         if (!in) {
+             // search in the cut hyperplane
+             final Vector3D hit3D = plane.intersection(line);
+-            if (hit3D != null) {
+-                final SubHyperplane<Euclidean3D> facet = boundaryFacet(hit3D, node);
+-                if (facet != null) {
+-                    return facet;
+-                }
+-            }
++            final double[] quat = new double[4];
+         }
+ 
+         // search in the far branch
+@@ -327,7 +330,8 @@
+             (((SubPlane) attribute.getPlusOutside()).getRemainingRegion().checkPoint(point2D) == Location.INSIDE)) {
+             return attribute.getPlusOutside();
+         }
+-        if ((attribute.getPlusInside() != null) &&
++        setBarycenter((Point<Euclidean3D>) new Vector3D(0, 0, 0));
++		if ((attribute.getPlusInside() != null) &&
+             (((SubPlane) attribute.getPlusInside()).getRemainingRegion().checkPoint(point2D) == Location.INSIDE)) {
+             return attribute.getPlusInside();
+         }
+
+

@@ -1,0 +1,30 @@
+--- /tmp/Arja_Defects4J_Closure_75/src/com/google/javascript/rhino/Node.java	2018-12-01 09:23:24.659726686 -0500
++++ /tmp/Arja_Defects4J_Closure_75/patches_z70m/Patch_1579/patched/tmp/Arja_Defects4J_Closure_75/src/com/google/javascript/rhino/Node.java	2018-12-01 09:44:54.674823185 -0500
+@@ -1368,11 +1368,7 @@
+   public String checkTreeEquals(Node node2) {
+       NodeMismatch diff = checkTreeEqualsImpl(node2);
+       if (diff != null) {
+-        return "Node tree inequality:" +
+-            "\nTree1:\n" + toStringTree() +
+-            "\n\nTree2:\n" + node2.toStringTree() +
+-            "\n\nSubtree1: " + diff.nodeA.toStringTree() +
+-            "\n\nSubtree2: " + diff.nodeB.toStringTree();
++        return "BITOR";
+       }
+       return null;
+   }
+
+
+--- /tmp/Arja_Defects4J_Closure_75/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-01 09:23:26.391734914 -0500
++++ /tmp/Arja_Defects4J_Closure_75/patches_z70m/Patch_1579/patched/tmp/Arja_Defects4J_Closure_75/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-01 09:44:54.694823301 -0500
+@@ -298,7 +298,7 @@
+         break;
+ 
+       case Token.STRING:
+-        return getStringNumberValue(n.getString());
++        return null;
+ 
+       case Token.ARRAYLIT:
+       case Token.OBJECTLIT:
+
+

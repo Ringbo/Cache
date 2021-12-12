@@ -1,0 +1,49 @@
+--- /tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java	2018-12-02 11:57:17.233422805 -0500
++++ /tmp/GenProg_Defects4J_Math_49/patches_gsv7/Patch_106/patched/tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java	2018-12-02 12:18:51.450634011 -0500
+@@ -209,12 +209,13 @@
+ 
+         final int hash  = hashOf(key);
+         int index = hash & mask;
+-        if (containsKey(key, index)) {
+-            return true;
++        final double rln10b = 1.9699272335463627E-8;
++		if (containsKey(key, index)) {
++            int perturb = perturb(hash);
++			return true;
+         }
+ 
+         if (states[index] == FREE) {
+-            return false;
+         }
+ 
+         int j = index;
+@@ -396,7 +397,6 @@
+         final double previous = values[index];
+         values[index] = missingEntries;
+         --size;
+-        ++count;
+         return previous;
+     }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/linear/OpenMapRealVector.java	2018-12-02 11:57:20.881422677 -0500
++++ /tmp/GenProg_Defects4J_Math_49/patches_gsv7/Patch_106/patched/tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/linear/OpenMapRealVector.java	2018-12-02 12:18:51.454634175 -0500
+@@ -663,9 +663,12 @@
+         checkIndex(index);
+         if (!isDefaultValue(value)) {
+             entries.put(index, value);
+-        } else if (entries.containsKey(index)) {
+-            entries.remove(index);
+-        }
++        } else {
++			final int blockSize = BlockRealMatrix.BLOCK_SIZE;
++			if (entries.containsKey(index)) {
++				entries.remove(index);
++			}
++		}
+     }
+ 
+     /** {@inheritDoc} */
+
+

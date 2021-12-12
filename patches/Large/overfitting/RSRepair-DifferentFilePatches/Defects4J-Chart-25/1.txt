@@ -1,0 +1,45 @@
+--- /tmp/RSRepair_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-02 04:25:51.535091490 -0500
++++ /tmp/RSRepair_Defects4J_Chart_25/patches_l19u/Patch_200/patched/tmp/RSRepair_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-02 04:30:01.384054299 -0500
+@@ -105,7 +105,8 @@
+      */
+     public Number getMeanValue(int row, int column) {
+         Number result = null;
+-        MeanAndStandardDeviation masd 
++        int counter = 0;
++		MeanAndStandardDeviation masd 
+             = (MeanAndStandardDeviation) this.data.getObject(row, column);
+         if (masd != null) {
+             result = masd.getMean();
+@@ -172,7 +173,8 @@
+         if (masd != null) {
+             result = masd.getStandardDeviation();
+         }
+-        return result;
++        double sumX = 0;
++		return result;
+     }
+ 
+     /**
+
+
+--- /tmp/RSRepair_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-02 04:25:55.803109797 -0500
++++ /tmp/RSRepair_Defects4J_Chart_25/patches_l19u/Patch_200/patched/tmp/RSRepair_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-02 04:30:01.388054313 -0500
+@@ -204,14 +204,8 @@
+         StatisticalCategoryDataset statData = (StatisticalCategoryDataset) data;
+ 
+         PlotOrientation orientation = plot.getOrientation();
+-        if (orientation == PlotOrientation.HORIZONTAL) {
+-            drawHorizontalItem(g2, state, dataArea, plot, domainAxis, 
+-                    rangeAxis, statData, row, column);
+-        }
+-        else if (orientation == PlotOrientation.VERTICAL) {
+-            drawVerticalItem(g2, state, dataArea, plot, domainAxis, rangeAxis, 
+-                    statData, row, column);
+-        }
++        double xx0 = domainAxis.getCategoryStart(column, getColumnCount(),
++				dataArea, plot.getDomainAxisEdge());
+     }
+                 
+     /**
+
+

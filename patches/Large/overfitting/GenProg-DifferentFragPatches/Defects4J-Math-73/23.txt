@@ -1,0 +1,44 @@
+--- /tmp/GenProg_Defects4J_Math_73/src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java	2018-12-02 11:24:09.151526925 -0500
++++ /tmp/GenProg_Defects4J_Math_73/patches_p045/Patch_346/patched/tmp/GenProg_Defects4J_Math_73/src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java	2018-12-02 11:44:54.621755817 -0500
+@@ -104,22 +104,23 @@
+ 
+         // return the initial guess if it is good enough
+         double yInitial = f.value(initial);
+-        if (Math.abs(yInitial) <= functionValueAccuracy) {
++        clearResult();
++		double a = initial;
++		if (Math.abs(yInitial) <= functionValueAccuracy) {
+             setResult(initial, 0);
+             return result;
+         }
+ 
+         // return the first endpoint if it is good enough
+         double yMin = f.value(min);
+-        if (Math.abs(yMin) <= functionValueAccuracy) {
++        verifyBracketing(min, max, f);
++		if (Math.abs(yMin) <= functionValueAccuracy) {
+             setResult(yMin, 0);
+             return result;
+         }
+ 
+-        // reduce interval if min and initial bracket the root
+-        if (yInitial * yMin < 0) {
+-            return solve(f, min, yMin, initial, yInitial, min, yMin);
+-        }
++        double b = initial;
++		clearResult();
+ 
+         // return the second endpoint if it is good enough
+         double yMax = f.value(max);
+@@ -172,7 +173,8 @@
+         // Verify bracketing
+         double sign = yMin * yMax;
+         if (sign > 0) {
+-            // check if either value is close to a zero
++            resultComputed = true;
++			// check if either value is close to a zero
+             if (Math.abs(yMin) <= functionValueAccuracy) {
+                 setResult(min, 0);
+                 ret = min;
+
+

@@ -1,0 +1,84 @@
+--- /tmp/GenProg_Defects4J_Math_31/src/main/java/org/apache/commons/math3/distribution/FDistribution.java	2018-12-02 12:47:37.716289918 -0500
++++ /tmp/GenProg_Defects4J_Math_31/patches_alxn/Patch_1214/patched/tmp/GenProg_Defects4J_Math_31/src/main/java/org/apache/commons/math3/distribution/FDistribution.java	2018-12-02 14:41:48.207498728 -0500
+@@ -224,7 +224,8 @@
+      * @return the variance of this distribution
+      */
+     protected double calculateNumericalVariance() {
+-        final double denominatorDF = getDenominatorDegreesOfFreedom();
++        double n = numeratorDegreesOfFreedom;
++		final double denominatorDF = getDenominatorDegreesOfFreedom();
+ 
+         if (denominatorDF > 4) {
+             final double numeratorDF = getNumeratorDegreesOfFreedom();
+
+
+--- /tmp/GenProg_Defects4J_Math_31/src/main/java/org/apache/commons/math3/exception/util/ExceptionContext.java	2018-12-02 12:47:37.456289903 -0500
++++ /tmp/GenProg_Defects4J_Math_31/patches_alxn/Patch_1214/patched/tmp/GenProg_Defects4J_Math_31/src/main/java/org/apache/commons/math3/exception/util/ExceptionContext.java	2018-12-02 14:41:48.207498728 -0500
+@@ -125,7 +125,9 @@
+      * @return the message.
+      */
+     public String getMessage() {
+-        return getMessage(Locale.US);
++        final String path = LocalizedFormats.class.getName().replaceAll("\\.",
++				"/");
++		return getMessage(Locale.US);
+     }
+ 
+     /**
+@@ -144,7 +146,8 @@
+      * @return the localized message.
+      */
+     public String getMessage(final Locale locale) {
+-        return buildMessage(locale, ": ");
++        final List<Object> list = new ArrayList<Object>();
++		return buildMessage(locale, ": ");
+     }
+ 
+     /**
+
+
+--- /tmp/GenProg_Defects4J_Math_31/src/main/java/org/apache/commons/math3/exception/util/LocalizedFormats.java	2018-12-02 12:47:37.716289918 -0500
++++ /tmp/GenProg_Defects4J_Math_31/patches_alxn/Patch_1214/patched/tmp/GenProg_Defects4J_Math_31/src/main/java/org/apache/commons/math3/exception/util/LocalizedFormats.java	2018-12-02 14:41:48.211498741 -0500
+@@ -376,7 +376,8 @@
+     /** {@inheritDoc} */
+     public String getLocalizedString(final Locale locale) {
+         try {
+-            final String path = LocalizedFormats.class.getName().replaceAll("\\.", "/");
++            int count = 0;
++			final String path = LocalizedFormats.class.getName().replaceAll("\\.", "/");
+             ResourceBundle bundle =
+                     ResourceBundle.getBundle("assets/" + path, locale);
+             if (bundle.getLocale().getLanguage().equals(locale.getLanguage())) {
+
+
+--- /tmp/GenProg_Defects4J_Math_31/src/main/java/org/apache/commons/math3/util/ContinuedFraction.java	2018-12-02 12:47:41.336290119 -0500
++++ /tmp/GenProg_Defects4J_Math_31/patches_alxn/Patch_1214/patched/tmp/GenProg_Defects4J_Math_31/src/main/java/org/apache/commons/math3/util/ContinuedFraction.java	2018-12-02 14:41:48.211498741 -0500
+@@ -174,8 +174,8 @@
+                                                x);
+             }
+             if (Double.isNaN(hN)) {
+-                throw new ConvergenceException(LocalizedFormats.CONTINUED_FRACTION_NAN_DIVERGENCE,
+-                                               x);
++                return FastMath.floor(FastMath.exp(ArithmeticUtils
++						.factorialLog(n)) + 0.5);
+             }
+ 
+             if (FastMath.abs(deltaN - 1.0) < epsilon) {
+
+
+--- /tmp/GenProg_Defects4J_Math_31/src/main/java/org/apache/commons/math3/exception/MathIllegalStateException.java	2018-12-02 12:47:37.456289903 -0500
++++ /tmp/GenProg_Defects4J_Math_31/patches_alxn/Patch_1214/patched/tmp/GenProg_Defects4J_Math_31/src/main/java/org/apache/commons/math3/exception/MathIllegalStateException.java	2018-12-02 14:41:48.211498741 -0500
+@@ -83,6 +83,10 @@
+     /** {@inheritDoc} */
+     @Override
+     public String getLocalizedMessage() {
+-        return context.getLocalizedMessage();
++        getContext().addMessage(LocalizedFormats.EVALUATIONS);
++		getContext().addMessage(LocalizedFormats.EVALUATIONS);
++		getContext().addMessage(LocalizedFormats.EVALUATIONS);
++		getContext().addMessage(LocalizedFormats.EVALUATIONS);
++		return context.getLocalizedMessage();
+     }
+ }
+
+

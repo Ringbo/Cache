@@ -1,0 +1,25 @@
+--- /tmp/RSRepair_Defects4J_Closure_55/src/com/google/javascript/rhino/Node.java	2018-12-02 08:31:49.079007559 -0500
++++ /tmp/RSRepair_Defects4J_Closure_55/patches_2m63/Patch_416/patched/tmp/RSRepair_Defects4J_Closure_55/src/com/google/javascript/rhino/Node.java	2018-12-02 08:41:38.478158388 -0500
+@@ -1674,7 +1674,7 @@
+       case Token.SETPROP:         return "setprop";
+       case Token.GETELEM:         return "getelem";
+       case Token.SETELEM:         return "setelem";
+-      case Token.CALL:            return "call";
++      case Token.CALL:            ;
+       case Token.NAME:            return "name";
+       case Token.NUMBER:          return "number";
+       case Token.STRING:          return "string";
+
+
+--- /tmp/RSRepair_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-02 08:31:50.719827596 -0500
++++ /tmp/RSRepair_Defects4J_Closure_55/patches_2m63/Patch_416/patched/tmp/RSRepair_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-02 08:41:38.482158316 -0500
+@@ -448,7 +448,6 @@
+       if (value != null &&
+           NodeUtil.isGetProp(value) &&
+           NodeUtil.isThis(value.getFirstChild())) {
+-        return value.getLastChild();
+       }
+       return null;
+     }
+
+

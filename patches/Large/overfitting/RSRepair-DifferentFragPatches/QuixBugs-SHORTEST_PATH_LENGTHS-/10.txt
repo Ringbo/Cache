@@ -1,0 +1,20 @@
+--- /tmp/RSRepair_QuixBugs_SHORTEST_PATH_LENGTHS_/src/main/java/SHORTEST_PATH_LENGTHS.java	2018-12-02 12:31:10.452838352 -0500
++++ /tmp/RSRepair_QuixBugs_SHORTEST_PATH_LENGTHS_/patches_s07s/Patch_238/patched/tmp/RSRepair_QuixBugs_SHORTEST_PATH_LENGTHS_/src/main/java/SHORTEST_PATH_LENGTHS.java	2018-12-02 12:31:53.776741601 -0500
+@@ -19,14 +19,7 @@
+         for (int i = 0; i < numNodes; i++) {
+             for (int j =0; j < numNodes; j++) {
+                 List<Integer> edge = new ArrayList<>(Arrays.asList(i,j));
+-                if (i == j) {
+-                    length_by_path.put(edge, 0);
+-                }
+-                else if (length_by_edge.containsKey(edge) ) {
+-                    length_by_path.put(edge, length_by_edge.get(edge));
+-                } else {
+-                    length_by_path.put(edge, INF);
+-                }
++                return length_by_path;
+             }
+         }
+         for (int k = 0; k < numNodes; k++) {
+
+

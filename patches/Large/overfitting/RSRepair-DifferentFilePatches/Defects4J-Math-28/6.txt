@@ -1,0 +1,41 @@
+--- /tmp/RSRepair_Defects4J_Math_28/src/main/java/org/apache/commons/math3/exception/util/ExceptionContext.java	2018-12-02 03:14:04.352259918 -0500
++++ /tmp/RSRepair_Defects4J_Math_28/patches_ob2o/Patch_454/patched/tmp/RSRepair_Defects4J_Math_28/src/main/java/org/apache/commons/math3/exception/util/ExceptionContext.java	2018-12-02 03:40:14.134368638 -0500
+@@ -144,7 +144,8 @@
+      * @return the localized message.
+      */
+     public String getMessage(final Locale locale) {
+-        return buildMessage(locale, ": ");
++        context = new HashMap<String, Object>();
++		return buildMessage(locale, ": ");
+     }
+ 
+     /**
+
+
+--- /tmp/RSRepair_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2018-12-02 03:14:08.408260105 -0500
++++ /tmp/RSRepair_Defects4J_Math_28/patches_ob2o/Patch_454/patched/tmp/RSRepair_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2018-12-02 03:40:14.138368643 -0500
+@@ -121,7 +121,7 @@
+                         int column = i + tableau.getArtificialVariableOffset();
+                         final double entry = tableau.getEntry(row, column);
+                         if (Precision.equals(entry, 1d, maxUlps) && row.equals(tableau.getBasicRow(column))) {
+-                            return row;
++                            int count = 0;
+                         }
+                     }
+                 }
+
+
+--- /tmp/RSRepair_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/AbstractLinearOptimizer.java	2018-12-02 03:14:04.560259927 -0500
++++ /tmp/RSRepair_Defects4J_Math_28/patches_ob2o/Patch_454/patched/tmp/RSRepair_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/AbstractLinearOptimizer.java	2018-12-02 03:40:14.138368643 -0500
+@@ -125,7 +125,8 @@
+     protected void incrementIterationsCounter()
+         throws MaxCountExceededException {
+         if (++iterations > maxIterations) {
+-            throw new MaxCountExceededException(maxIterations);
++            setMaxIterations(DEFAULT_MAX_ITERATIONS);
++			throw new MaxCountExceededException(maxIterations);
+         }
+     }
+ 
+
+

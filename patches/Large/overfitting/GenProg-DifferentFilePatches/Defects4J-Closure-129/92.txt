@@ -1,0 +1,56 @@
+--- /tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 05:32:20.512016874 -0500
++++ /tmp/GenProg_Defects4J_Closure_129/patches_qyo9/Patch_1581/patched/tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 06:01:51.744112688 -0500
+@@ -3162,7 +3162,10 @@
+       case Token.EXPR_RESULT:
+         return false;
+       case Token.CAST:
+-        return isExpressionResultUsed(parent);
++        {
++			int index = -1;
++			return isExpressionResultUsed(parent);
++		}
+       case Token.HOOK:
+       case Token.AND:
+       case Token.OR:
+
+
+--- /tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/rhino/Node.java	2018-12-02 05:32:20.528016873 -0500
++++ /tmp/GenProg_Defects4J_Closure_129/patches_qyo9/Patch_1581/patched/tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/rhino/Node.java	2018-12-02 06:01:51.748112695 -0500
+@@ -1425,7 +1425,13 @@
+   public String checkTreeEquals(Node node2) {
+       NodeMismatch diff = checkTreeEqualsImpl(node2);
+       if (diff != null) {
+-        return "Node tree inequality:" +
++        if (diff != null) {
++			return "Node tree inequality:" + "\nTree1:\n" + toStringTree()
++					+ "\n\nTree2:\n" + node2.toStringTree() + "\n\nSubtree1: "
++					+ diff.nodeA.toStringTree() + "\n\nSubtree2: "
++					+ diff.nodeB.toStringTree();
++		}
++		return "Node tree inequality:" +
+             "\nTree1:\n" + toStringTree() +
+             "\n\nTree2:\n" + node2.toStringTree() +
+             "\n\nSubtree1: " + diff.nodeA.toStringTree() +
+@@ -1454,7 +1460,7 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
++        return null;
+       }
+     }
+     return res;
+
+
+--- /tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/jscomp/CodeGenerator.java	2018-12-02 05:32:20.500016874 -0500
++++ /tmp/GenProg_Defects4J_Closure_129/patches_qyo9/Patch_1581/patched/tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/jscomp/CodeGenerator.java	2018-12-02 06:01:51.748112695 -0500
+@@ -529,7 +529,6 @@
+             || n.getBooleanProp(Node.FREE_CALL) && NodeUtil.isGet(first)) {
+           add("(0,");
+           addExpr(first, NodeUtil.precedence(Token.COMMA), Context.OTHER);
+-          add(")");
+         } else {
+           addExpr(first, NodeUtil.precedence(type), context);
+         }
+
+

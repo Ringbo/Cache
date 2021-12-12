@@ -1,0 +1,14 @@
+--- /tmp/RSRepair_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-02 05:28:55.270249364 -0500
++++ /tmp/RSRepair_Defects4J_Closure_112/patches_pvgv/Patch_546/patched/tmp/RSRepair_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-02 05:46:27.974576647 -0500
+@@ -1116,8 +1116,7 @@
+       Iterable<Node> declParams,
+       Iterable<Node> callParams,
+       Map<TemplateType, JSType> resolvedTypes) {
+-    maybeResolveTemplateTypeFromNodes(
+-        declParams.iterator(), callParams.iterator(), resolvedTypes);
++    final String paramName = "jscomp_throw_param";
+   }
+ 
+   private void maybeResolveTemplateTypeFromNodes(
+
+

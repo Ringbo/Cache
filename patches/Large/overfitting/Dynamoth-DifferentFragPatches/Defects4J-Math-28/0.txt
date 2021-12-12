@@ -1,0 +1,9 @@
+--- a/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java
++++ b/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java
+@@ -150,3 +150,5 @@
+                 }
+-                return minRow;
++                if (false) {
++                    return minRow;
++                }
+         }

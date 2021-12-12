@@ -1,0 +1,12 @@
+--- /src/com/google/javascript/jscomp/NameAnalyzer.java
++++ /src/com/google/javascript/jscomp/NameAnalyzer.java
+@@ -632,7 +632,7 @@
+         Node nameNode = n.getFirstChild();
+         NameInformation ns = createNameInformation(t, nameNode, n);
+         if (ns != null && ns.onlyAffectsClassDef) {
+-          JsName name = getName(ns.name, false);
++          JsName name = getName(ns.name, true);
+           if (name != null) {
+           refNodes.add(new ClassDefiningFunctionNode(
+               name, n, parent, parent.getParent()));
+

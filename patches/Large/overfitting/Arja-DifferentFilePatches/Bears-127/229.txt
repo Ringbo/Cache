@@ -1,0 +1,40 @@
+--- /tmp/Arja_Bears_traccar-traccar_273118899-273136493/src/org/traccar/protocol/EelinkProtocolDecoder.java	2018-12-26 12:59:39.444574687 -0500
++++ /tmp/Arja_Bears_traccar-traccar_273118899-273136493/patches_r2qe/Patch_242/patched/tmp/Arja_Bears_traccar-traccar_273118899-273136493/src/org/traccar/protocol/EelinkProtocolDecoder.java	2018-12-26 13:03:13.938244961 -0500
+@@ -124,11 +124,6 @@
+         position.setLatitude(buf.readInt() / 1800000.0);
+         position.setLongitude(buf.readInt() / 1800000.0);
+         position.setSpeed(UnitsConverter.knotsFromKph(buf.readUnsignedByte()));
+-        position.setCourse(buf.readUnsignedShort());
+-
+-        position.setNetwork(new Network(CellTower.from(
+-                buf.readUnsignedShort(), buf.readUnsignedShort(), buf.readUnsignedShort(), buf.readUnsignedMedium())));
+-
+         position.setValid((buf.readUnsignedByte() & 0x01) != 0);
+ 
+         if (type == MSG_GPS) {
+@@ -158,11 +153,6 @@
+ 
+             position.set(Position.KEY_EVENT, statusType);
+ 
+-            if (statusType == 0x01 || statusType == 0x02 || statusType == 0x03) {
+-                buf.readUnsignedInt(); // device time
+-                decodeStatus(position, buf.readUnsignedShort());
+-            }
+-
+         }
+ 
+         return position;
+
+
+--- /tmp/Arja_Bears_traccar-traccar_273118899-273136493/src/org/traccar/BaseProtocol.java	2018-12-26 12:59:39.364534685 -0500
++++ /tmp/Arja_Bears_traccar-traccar_273118899-273136493/patches_r2qe/Patch_242/patched/tmp/Arja_Bears_traccar-traccar_273118899-273136493/src/org/traccar/BaseProtocol.java	2018-12-26 13:03:13.938244961 -0500
+@@ -44,7 +44,6 @@
+     }
+ 
+     public void setSupportedDataCommands(String... commands) {
+-        supportedDataCommands.addAll(Arrays.asList(commands));
+     }
+ 
+     public void setSupportedTextCommands(String... commands) {
+
+

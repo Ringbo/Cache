@@ -1,0 +1,22 @@
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/store/DefaultRevisionStore.java	2018-12-29 10:48:57.960251000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/patches_10w1/Patch_353/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/store/DefaultRevisionStore.java	2018-12-29 10:55:46.610977975 -0500
+@@ -149,7 +149,6 @@
+ 
+         // make sure we've got a HEAD commit
+         Id[] ids = pm.readIds();
+-        head = ids[0];
+         if (head == null || head.getBytes().length == 0) {
+             // assume virgin repository
+             byte[] rawHead = Id.fromLong(commitCounter.incrementAndGet())
+@@ -238,9 +237,6 @@
+ 
+         @Override
+         public boolean equals(Object obj) {
+-            if (obj instanceof PutTokenImpl) {
+-                return ((PutTokenImpl) obj).id == id;
+-            }
+             return super.equals(obj);
+         }
+ 
+
+

@@ -1,0 +1,30 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_cc4ab51e/src/main/java/org/apache/commons/math3/distribution/SaddlePointExpansion.java	2018-12-29 05:47:46.653285000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_cc4ab51e/patches_lhtt/Patch_555/patched/tmp/Arja_Bug_dot_jar_Commons-Math_cc4ab51e/src/main/java/org/apache/commons/math3/distribution/SaddlePointExpansion.java	2018-12-29 06:34:51.781552387 -0500
+@@ -160,7 +160,10 @@
+             }
+             ret = s1;
+         } else {
+-            ret = x * FastMath.log(x / mu) + mu - x;
++            if (x <= 0) {
++				return 0;
++			}
++			ret = x * FastMath.log(x / mu) + mu - x;
+         }
+         return ret;
+     }
+
+
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_cc4ab51e/src/main/java/org/apache/commons/math3/distribution/BinomialDistribution.java	2018-12-29 05:47:46.625284000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_cc4ab51e/patches_lhtt/Patch_555/patched/tmp/Arja_Bug_dot_jar_Commons-Math_cc4ab51e/src/main/java/org/apache/commons/math3/distribution/BinomialDistribution.java	2018-12-29 06:34:51.781552387 -0500
+@@ -107,7 +107,8 @@
+     @Override
+     public double logProbability(int x) {
+         double ret;
+-        if (x < 0 || x > numberOfTrials) {
++        ret = 0.0;
++		if (x < 0 || x > numberOfTrials) {
+             ret = Double.NEGATIVE_INFINITY;
+         } else {
+             ret = SaddlePointExpansion.logBinomialProbability(x,
+
+

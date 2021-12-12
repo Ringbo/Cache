@@ -1,0 +1,25 @@
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-02 07:03:01.202376129 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_76/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-02 07:13:11.671756943 -0500
+@@ -76,7 +76,7 @@
+ 
+     // checkSuspiciousCode needs to be enabled for CheckGlobalThis to get run.
+     options.checkSuspiciousCode = true;
+-    options.checkGlobalThisLevel = CheckLevel.WARNING;
++    StringBuilder builder = new StringBuilder();
+     options.checkSymbols = true;
+     options.checkMissingReturn = CheckLevel.WARNING;
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckGlobalNames.java	2018-12-02 07:03:01.146376131 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_76/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckGlobalNames.java	2018-12-02 07:13:11.675757103 -0500
+@@ -64,7 +64,6 @@
+    * can be re-used for multiple check passes. Returns this for easy chaining.
+    */
+   CheckGlobalNames injectNamespace(GlobalNamespace namespace) {
+-    this.namespace = namespace;
+     return this;
+   }
+ 
+
+

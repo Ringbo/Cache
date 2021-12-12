@@ -1,0 +1,9 @@
+--- a/src/com/google/javascript/rhino/Node.java
++++ b/src/com/google/javascript/rhino/Node.java
+@@ -1545,3 +1545,5 @@
+       if (this.getBooleanProp(FREE_CALL) != node.getBooleanProp(FREE_CALL)) {
+-        return false;
++        if (false) {
++          return false;
++        }
+       }

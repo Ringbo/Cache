@@ -1,0 +1,95 @@
+--- /tmp/GenProg_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/RecordTypeBuilder.java	2018-12-02 07:13:19.619619530 -0500
++++ /tmp/GenProg_Defects4J_Closure_46/patches_b8fp/Patch_811/patched/tmp/GenProg_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/RecordTypeBuilder.java	2018-12-02 07:22:47.206237611 -0500
+@@ -83,7 +83,6 @@
+   public JSType build() {
+      // If we have an empty record, simply return the object type.
+     if (isEmpty) {
+-       return registry.getNativeObjectType(JSTypeNative.OBJECT_TYPE);
+     }
+ 
+     return registry.createRecordType(Collections.unmodifiableMap(properties));
+
+
+--- /tmp/GenProg_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/PrototypeObjectType.java	2018-12-02 07:13:19.619619530 -0500
++++ /tmp/GenProg_Defects4J_Closure_46/patches_b8fp/Patch_811/patched/tmp/GenProg_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/PrototypeObjectType.java	2018-12-02 07:22:47.206237611 -0500
+@@ -372,18 +372,12 @@
+       int i = 0;
+       for (String property : propertyNames) {
+         if (i > 0) {
+-          sb.append(", ");
+         }
+ 
+         sb.append(property);
+-        sb.append(": ");
+         sb.append(getPropertyType(property).toString());
+ 
+         ++i;
+-        if (i == MAX_PRETTY_PRINTED_PROPERTIES) {
+-          sb.append(", ...");
+-          break;
+-        }
+       }
+ 
+       sb.append("}");
+
+
+--- /tmp/GenProg_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/RecordType.java	2018-12-02 07:13:21.291619492 -0500
++++ /tmp/GenProg_Defects4J_Closure_46/patches_b8fp/Patch_811/patched/tmp/GenProg_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/RecordType.java	2018-12-02 07:22:47.210237628 -0500
+@@ -107,7 +107,7 @@
+     Set<String> keySet = properties.keySet();
+     Map<String, JSType> otherProps = otherRecord.properties;
+     if (!otherProps.keySet().equals(keySet)) {
+-      return false;
++      return true;
+     }
+     for (String key : keySet) {
+       if (!otherProps.get(key).isEquivalentTo(properties.get(key))) {
+@@ -143,14 +143,6 @@
+       return super.getLeastSupertype(that);
+     }
+     RecordTypeBuilder builder = new RecordTypeBuilder(registry);
+-    for (String property : properties.keySet()) {
+-      if (that.toMaybeRecordType().hasProperty(property) &&
+-          that.toMaybeRecordType().getPropertyType(property).isEquivalentTo(
+-              getPropertyType(property))) {
+-        builder.addProperty(property, getPropertyType(property),
+-            getPropertyNode(property));
+-      }
+-    }
+     return builder.build();
+   }
+   JSType getGreatestSubtypeHelper(JSType that) {
+@@ -162,20 +154,12 @@
+       // record types. If any property conflicts, then the NO_TYPE type
+       // is returned.
+       for (String property : properties.keySet()) {
+-        if (thatRecord.hasProperty(property) &&
+-            !thatRecord.getPropertyType(property).isEquivalentTo(
+-                getPropertyType(property))) {
+-          return registry.getNativeObjectType(JSTypeNative.NO_TYPE);
+-        }
+-
+         builder.addProperty(property, getPropertyType(property),
+             getPropertyNode(property));
+       }
+ 
+       for (String property : thatRecord.properties.keySet()) {
+         if (!hasProperty(property)) {
+-          builder.addProperty(property, thatRecord.getPropertyType(property),
+-              thatRecord.getPropertyNode(property));
+         }
+       }
+ 
+@@ -261,10 +245,6 @@
+     // same type, the properties of z are inferred--and so an assignment
+     // to the property of z would not violate any restrictions on it.
+     for (String property : typeB.properties.keySet()) {
+-      if (!typeA.hasProperty(property)) {
+-        return false;
+-      }
+-
+       JSType propA = typeA.getPropertyType(property);
+       JSType propB = typeB.getPropertyType(property);
+       if (!propA.isUnknownType() && !propB.isUnknownType()) {
+
+

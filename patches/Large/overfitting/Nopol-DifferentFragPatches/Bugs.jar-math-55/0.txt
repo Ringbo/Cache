@@ -1,0 +1,9 @@
+--- a/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java
++++ b/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java
+@@ -1138,3 +1138,5 @@
+                     final double tmp = work[i + k];
+-                    work[i + k] = work[j - k];
++                    if (org.apache.commons.math.linear.EigenDecompositionImpl.this.cachedV!=null) {
++                        work[i + k] = work[j - k];
++                    }
+                     work[j - k] = tmp;

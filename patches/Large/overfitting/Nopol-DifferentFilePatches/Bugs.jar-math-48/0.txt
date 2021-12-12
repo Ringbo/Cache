@@ -1,0 +1,9 @@
+--- a/src/main/java/org/apache/commons/math/ode/nonstiff/GraggBulirschStoerIntegrator.java
++++ b/src/main/java/org/apache/commons/math/ode/nonstiff/GraggBulirschStoerIntegrator.java
+@@ -821,3 +821,5 @@
+               hNew = hInt;
+-              reject = true;
++              if ((!((org.apache.commons.math.ode.nonstiff.GraggBulirschStoerIntegrator.this.stepControl3 <= hInt) && (18 < interpError))) || (previousRejected)) {
++                reject = true;
++              }
+             }

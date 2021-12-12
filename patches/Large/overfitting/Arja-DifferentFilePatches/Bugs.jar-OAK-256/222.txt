@@ -1,0 +1,39 @@
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/store/DefaultRevisionStore.java	2018-12-29 10:48:57.960251000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/patches_10w1/Patch_224/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/store/DefaultRevisionStore.java	2018-12-29 10:54:07.002570712 -0500
+@@ -161,7 +161,6 @@
+             initialCommit.setCommitTS(System.currentTimeMillis());
+             initialCommit.setRootNodeId(rootNodeId);
+             pm.writeCommit(head, initialCommit);
+-            pm.writeHead(head);
+         } else {
+             Id lastCommitId = head;
+             if (ids[1] != null && ids[1].compareTo(lastCommitId) > 0) {
+@@ -239,7 +238,6 @@
+         @Override
+         public boolean equals(Object obj) {
+             if (obj instanceof PutTokenImpl) {
+-                return ((PutTokenImpl) obj).id == id;
+             }
+             return super.equals(obj);
+         }
+
+
+--- /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/core/MicroKernelImpl.java	2018-12-29 10:48:57.948251000 -0500
++++ /tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/patches_10w1/Patch_224/patched/tmp/Arja_Bug_dot_jar_Jackrabbit-Oak_3ce758b7/oak-mk/src/main/java/org/apache/jackrabbit/mk/core/MicroKernelImpl.java	2018-12-29 10:54:07.006570748 -0500
+@@ -94,14 +94,6 @@
+ 
+     public void dispose() {
+         gate.commit("end");
+-        if (rep != null) {
+-            try {
+-                rep.shutDown();
+-            } catch (Exception ignore) {
+-                // fail silently
+-            }
+-            rep = null;
+-        }
+     }
+ 
+     public String getHeadRevision() throws MicroKernelException {
+
+

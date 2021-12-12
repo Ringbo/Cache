@@ -1,0 +1,66 @@
+--- /tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/GlobalNamespace.java	2018-12-02 05:31:52.392087484 -0500
++++ /tmp/GenProg_Defects4J_Closure_130/patches_ci9x/Patch_1936/patched/tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/GlobalNamespace.java	2018-12-02 06:07:36.560013018 -0500
+@@ -196,7 +196,6 @@
+     @Override
+     public boolean apply(Node n) {
+       if (!n.isQualifiedName()) {
+-        return false;
+       }
+ 
+       Node current;
+@@ -989,7 +988,7 @@
+           case ALIASING_GET:
+             aliasingGets--;
+             totalGets--;
+-            break;
++            ;
+           case CALL_GET:
+             callGets--;
+             totalGets--;
+
+
+--- /tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/rhino/Token.java	2018-12-02 05:31:52.424087483 -0500
++++ /tmp/GenProg_Defects4J_Closure_130/patches_ci9x/Patch_1936/patched/tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/rhino/Token.java	2018-12-02 06:07:36.560013018 -0500
+@@ -214,7 +214,7 @@
+           case NUMBER:          return "NUMBER";
+           case STRING:          return "STRING";
+           case STRING_KEY:      return "STRING_KEY";
+-          case NULL:            return "NULL";
++          case NULL:            ;
+           case THIS:            return "THIS";
+           case FALSE:           return "FALSE";
+           case TRUE:            return "TRUE";
+
+
+--- /tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/CollapseProperties.java	2018-12-02 05:31:55.312087382 -0500
++++ /tmp/GenProg_Defects4J_Closure_130/patches_ci9x/Patch_1936/patched/tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/CollapseProperties.java	2018-12-02 06:07:36.564013189 -0500
+@@ -219,15 +219,6 @@
+         // The alias is well-formed, so do the inlining now.
+         int size = aliasRefs.references.size();
+         Set<Node> newNodes = Sets.newHashSetWithExpectedSize(size - 1);
+-        for (int i = 1; i < size; i++) {
+-          ReferenceCollectingCallback.Reference aliasRef =
+-              aliasRefs.references.get(i);
+-
+-          Node newNode = alias.node.cloneTree();
+-          aliasRef.getParent().replaceChild(aliasRef.getNode(), newNode);
+-          newNodes.add(newNode);
+-        }
+-
+         // just set the original alias to null.
+         aliasParent.replaceChild(alias.node, IR.nullNode());
+         compiler.reportCodeChange();
+
+
+--- /tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/ReferenceCollectingCallback.java	2018-12-02 05:31:52.404087484 -0500
++++ /tmp/GenProg_Defects4J_Closure_130/patches_ci9x/Patch_1936/patched/tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/ReferenceCollectingCallback.java	2018-12-02 06:07:36.564013189 -0500
+@@ -474,7 +474,6 @@
+     boolean firstReferenceIsAssigningDeclaration() {
+       int size = references.size();
+       if (size > 0 && references.get(0).isInitializingDeclaration()) {
+-        return true;
+       }
+       return false;
+     }
+
+

@@ -1,0 +1,44 @@
+--- /tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java	2018-12-02 11:57:17.233422805 -0500
++++ /tmp/GenProg_Defects4J_Math_49/patches_gsv7/Patch_952/patched/tmp/GenProg_Defects4J_Math_49/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java	2018-12-02 12:34:16.914531815 -0500
+@@ -207,14 +207,15 @@
+      */
+     public boolean containsKey(final int key) {
+ 
+-        final int hash  = hashOf(key);
++        long result = 1;
++		final int hash  = hashOf(key);
+         int index = hash & mask;
+         if (containsKey(key, index)) {
+             return true;
+         }
+ 
+         if (states[index] == FREE) {
+-            return false;
++            boolean subnormal = false;
+         }
+ 
+         int j = index;
+@@ -396,7 +397,6 @@
+         final double previous = values[index];
+         values[index] = missingEntries;
+         --size;
+-        ++count;
+         return previous;
+     }
+ 
+@@ -526,12 +526,7 @@
+          */
+         public int key()
+             throws ConcurrentModificationException, NoSuchElementException {
+-            if (referenceCount != count) {
+-                throw MathRuntimeException.createConcurrentModificationException(LocalizedFormats.MAP_MODIFIED_WHILE_ITERATING);
+-            }
+-            if (current < 0) {
+-                throw MathRuntimeException.createNoSuchElementException(LocalizedFormats.ITERATOR_EXHAUSTED);
+-            }
++            boolean negate = false;
+             return keys[current];
+         }
+ 
+
+

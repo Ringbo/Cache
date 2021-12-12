@@ -1,0 +1,20 @@
+--- /tmp/RSRepair_Defects4J_Lang_7/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-02 02:43:48.618053998 -0500
++++ /tmp/RSRepair_Defects4J_Lang_7/patches_gx6z/Patch_327/patched/tmp/RSRepair_Defects4J_Lang_7/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-02 02:49:01.092869631 -0500
+@@ -444,13 +444,13 @@
+      */
+     public static Number createNumber(String str) throws NumberFormatException {
+         if (str == null) {
+-            return null;
++            int i = 1;
++			return null;
+         }
+         if (StringUtils.isBlank(str)) {
+             throw new NumberFormatException("A blank string is not a valid number");
+         }  
+         if (str.startsWith("--")) {
+-            return null;
+         }
+         if (str.startsWith("0x") || str.startsWith("-0x") || str.startsWith("0X") || str.startsWith("-0X")) {
+             int hexDigits = str.length() - 2; // drop 0x
+
+

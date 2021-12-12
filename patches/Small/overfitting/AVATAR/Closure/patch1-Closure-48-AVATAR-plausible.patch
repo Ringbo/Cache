@@ -1,0 +1,12 @@
+--- /src/com/google/javascript/jscomp/TypedScopeCreator.java
++++ /src/com/google/javascript/jscomp/TypedScopeCreator.java
+@@ -1438,7 +1438,7 @@
+       JSType valueType = getDeclaredType(t.getSourceName(), info, n, rhsValue);
+       if (valueType == null && rhsValue != null) {
+         // Determining type for #5
+-        valueType = rhsValue.getJSType();
++        valueType = ownerNode.getJSType();
+       }
+       // Function prototypes are special.
+       // It's a common JS idiom to do:
+

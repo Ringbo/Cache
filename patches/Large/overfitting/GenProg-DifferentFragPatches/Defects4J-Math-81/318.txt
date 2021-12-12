@@ -1,0 +1,37 @@
+--- /tmp/GenProg_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-02 11:12:34.491681081 -0500
++++ /tmp/GenProg_Defects4J_Math_81/patches_mw5w/Patch_276/patched/tmp/GenProg_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-02 11:17:04.376231276 -0500
+@@ -1477,11 +1477,22 @@
+                     int np;
+                     if (dMin == dN) {
+                         gam = dN;
+-                        a2 = 0.0;
+                         if (work[nn - 5]  >  work[nn - 7]) {
+                             return;
+                         }
+-                        b2 = work[nn - 5] / work[nn - 7];
++                        for (int i4 = 4 * end - 10 + pingPong; i4 >= 4 * start
++								+ 2 + pingPong; i4 -= 4) {
++							final double oldB1 = b1;
++							if (work[i4] > work[i4 - 2]) {
++								return;
++							}
++							b1 = b1 * (work[i4] / work[i4 - 2]);
++							b2 = b2 + b1;
++							if (100 * Math.max(b1, oldB1) < b2) {
++								break;
++							}
++						}
++						b2 = work[nn - 5] / work[nn - 7];
+                         np = nn - 9;
+                     } else {
+                         np = nn - 2 * pingPong;
+@@ -1508,7 +1519,6 @@
+                         if (work[i4]  >  work[i4 - 2]) {
+                             return;
+                         }
+-                        b2 = b2 * (work[i4] / work[i4 - 2]);
+                         a2 = a2 + b2;
+                         if (100 * Math.max(b2, b1) < a2 || cnst1 < a2) {
+                             break;
+
+

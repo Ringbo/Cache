@@ -1,0 +1,13 @@
+/var/lib/oar/.batch_job_bashrc: line 5: /home/tdurieux/.bashrc: No such file or directory
+--- java_programs/Node.java
++++ java_programs/Node.java
+@@ -47,7 +47,7 @@
+ 	}
+ 
+ 	public void setSuccessors(java.util.ArrayList<java_programs.Node> successors) {
+-		this.successors = successors;
++
+ 	}
+ 
+ 	public void setPredecessors(java.util.ArrayList<java_programs.Node> predecessors) {
+

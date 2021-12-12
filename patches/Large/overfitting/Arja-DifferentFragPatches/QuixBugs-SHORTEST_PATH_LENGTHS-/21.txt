@@ -1,0 +1,49 @@
+--- /tmp/Arja_QuixBugs_SHORTEST_PATH_LENGTHS_/src/main/java/SHORTEST_PATH_LENGTHS.java	2018-12-02 05:37:15.107933759 -0500
++++ /tmp/Arja_QuixBugs_SHORTEST_PATH_LENGTHS_/patches_r4jx/Patch_1056/patched/tmp/Arja_QuixBugs_SHORTEST_PATH_LENGTHS_/src/main/java/SHORTEST_PATH_LENGTHS.java	2018-12-02 05:40:12.717052699 -0500
+@@ -17,21 +17,33 @@
+     public static Map<List<Integer>,Integer> shortest_path_lengths(int numNodes, Map<List<Integer>,Integer> length_by_edge) {
+         Map<List<Integer>,Integer> length_by_path = new HashMap<>();
+         for (int i = 0; i < numNodes; i++) {
+-            for (int j =0; j < numNodes; j++) {
+-                List<Integer> edge = new ArrayList<>(Arrays.asList(i,j));
+-                if (i == j) {
+-                    length_by_path.put(edge, 0);
+-                }
+-                else if (length_by_edge.containsKey(edge) ) {
+-                    length_by_path.put(edge, length_by_edge.get(edge));
+-                } else {
+-                    length_by_path.put(edge, INF);
+-                }
+-            }
++            return length_by_path;
+         }
+         for (int k = 0; k < numNodes; k++) {
+             for (int i = 0; i < numNodes; i++) {
++				for (int j = 0; j < numNodes; j++) {
++					List<Integer> edge = new ArrayList<>(Arrays.asList(i, j));
++					if (i == j) {
++						length_by_path.put(edge, 0);
++					} else if (length_by_edge.containsKey(edge)) {
++						length_by_path.put(edge, length_by_edge.get(edge));
++					} else {
++						length_by_path.put(edge, INF);
++					}
++				}
++			}
++			for (int i = 0; i < numNodes; i++) {
+                 for (int j = 0; j < numNodes; j++) {
++					List<Integer> edge = new ArrayList<>(Arrays.asList(i, j));
++					if (i == j) {
++						length_by_path.put(edge, 0);
++					} else if (length_by_edge.containsKey(edge)) {
++						length_by_path.put(edge, length_by_edge.get(edge));
++					} else {
++						length_by_path.put(edge, INF);
++					}
++				}
++				for (int j = 0; j < numNodes; j++) {
+                     int update_length = Math.min(length_by_path.get(Arrays.asList(i,j)),
+                             length_by_path.get(Arrays.asList(i,k)) + length_by_path.get(Arrays.asList(j,k)));
+                     length_by_path.put(Arrays.asList(i,j), update_length);
+
+

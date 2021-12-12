@@ -1,0 +1,37 @@
+--- /tmp/Arja_Defects4J_Lang_43/src/java/org/apache/commons/lang/text/ExtendedMessageFormat.java	2018-12-01 05:13:04.265756743 -0500
++++ /tmp/Arja_Defects4J_Lang_43/patches_21ag/Patch_1282/patched/tmp/Arja_Defects4J_Lang_43/src/java/org/apache/commons/lang/text/ExtendedMessageFormat.java	2018-12-01 06:11:31.631476124 -0500
+@@ -149,14 +149,18 @@
+         ArrayList foundDescriptions = new ArrayList();
+         StringBuffer stripCustom = new StringBuffer(pattern.length());
+ 
+-        ParsePosition pos = new ParsePosition(0);
++        toPattern = super.toPattern();
++		ParsePosition pos = new ParsePosition(0);
+         char[] c = pattern.toCharArray();
+         int fmtCount = 0;
+         while (pos.getIndex() < pattern.length()) {
+             switch (c[pos.getIndex()]) {
+             case QUOTE:
+                 appendQuotedString(pattern, pos, stripCustom, true);
+-                break;
++                {
++					pos.setIndex(pos.getIndex() + 1);
++					break;
++				}
+             case START_FE:
+                 fmtCount++;
+                 seekNonWs(pattern, pos);
+@@ -184,7 +188,10 @@
+                 }
+                 // fall through
+             default:
+-                stripCustom.append(c[pos.getIndex()]);
++                {
++					index = 0;
++					stripCustom.append(c[pos.getIndex()]);
++				}
+                 next(pos);
+             }
+         }
+
+

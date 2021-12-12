@@ -1,0 +1,9 @@
+--- a/source/org/jfree/chart/plot/XYPlot.java
++++ b/source/org/jfree/chart/plot/XYPlot.java
+@@ -1606,3 +1606,5 @@
+     public void setRenderer(XYItemRenderer renderer) {
+-        setRenderer(0, renderer);
++        if (renderer!=null) {
++            setRenderer(0, renderer);
++        }
+     }

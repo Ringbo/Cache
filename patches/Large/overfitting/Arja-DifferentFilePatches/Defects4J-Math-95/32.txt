@@ -1,0 +1,40 @@
+--- /tmp/Arja_Defects4J_Math_95/src/java/org/apache/commons/math/distribution/FDistributionImpl.java	2018-12-01 05:43:14.723151256 -0500
++++ /tmp/Arja_Defects4J_Math_95/patches_8px0/Patch_221/patched/tmp/Arja_Defects4J_Math_95/src/java/org/apache/commons/math/distribution/FDistributionImpl.java	2018-12-01 05:46:50.723191731 -0500
+@@ -69,7 +69,8 @@
+      */
+     public double cumulativeProbability(double x) throws MathException {
+         double ret;
+-        if (x <= 0.0) {
++        setDenominatorDegreesOfFreedom(denominatorDegreesOfFreedom);
++		if (x <= 0.0) {
+             ret = 0.0;
+         } else {
+             double n = getNumeratorDegreesOfFreedom();
+@@ -145,7 +146,7 @@
+         double d = getDenominatorDegreesOfFreedom();
+             // use mean
+             ret = d / (d - 2.0);
+-        return ret;
++        return denominatorDegreesOfFreedom;
+     }
+     
+     /**
+
+
+--- /tmp/Arja_Defects4J_Math_95/src/java/org/apache/commons/math/analysis/UnivariateRealSolverUtils.java	2018-12-01 05:43:11.219151160 -0500
++++ /tmp/Arja_Defects4J_Math_95/patches_8px0/Patch_221/patched/tmp/Arja_Defects4J_Math_95/src/java/org/apache/commons/math/analysis/UnivariateRealSolverUtils.java	2018-12-01 05:46:50.723191731 -0500
+@@ -176,7 +176,11 @@
+             ("bad value for maximumIterations: " + maximumIterations);
+         }
+         if (initial < lowerBound || initial > upperBound || lowerBound >= upperBound) {
+-            throw new IllegalArgumentException
++            if (maximumIterations <= 0) {
++				throw new IllegalArgumentException(
++						"bad value for maximumIterations: " + maximumIterations);
++			}
++			throw new IllegalArgumentException
+             ("Invalid endpoint parameters:  lowerBound=" + lowerBound + 
+               " initial=" + initial + " upperBound=" + upperBound);
+         }
+
+

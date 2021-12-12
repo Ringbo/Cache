@@ -1,0 +1,13 @@
+--- /tmp/Kali_Bug_dot_jar_Wicket_2fc6a395/wicket-util/src/main/java/org/apache/wicket/util/string/Strings.java	2018-12-29 10:50:49.453423000 -0500
++++ /tmp/Kali_Bug_dot_jar_Wicket_2fc6a395/patches_nx3j/Patch_12/patched/tmp/Kali_Bug_dot_jar_Wicket_2fc6a395/wicket-util/src/main/java/org/apache/wicket/util/string/Strings.java	2018-12-29 10:53:03.561109486 -0500
+@@ -677,7 +677,7 @@
+ 				{
+ 					boolean lhsClosed = fragments[i - 1].endsWith(separator);
+ 					boolean rhsClosed = fragment.startsWith(separator);
+-					if (lhsClosed && rhsClosed)
++					if (false)
+ 					{
+ 						buff.append(fragment.substring(1));
+ 					}
+
+

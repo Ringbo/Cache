@@ -1,0 +1,37 @@
+--- /tmp/Arja_Defects4J_Lang_50/src/java/org/apache/commons/lang/time/FastDateFormat.java	2018-12-02 02:51:18.813128272 -0500
++++ /tmp/Arja_Defects4J_Lang_50/patches_65h7/Patch_1499/patched/tmp/Arja_Defects4J_Lang_50/src/java/org/apache/commons/lang/time/FastDateFormat.java	2018-12-02 03:02:50.531501395 -0500
+@@ -277,17 +277,20 @@
+      *  pattern defined
+      */
+     public static synchronized FastDateFormat getDateInstance(int style, TimeZone timeZone, Locale locale) {
+-        Object key = new Integer(style);
++        if (cDefaultPattern == null) {
++			cDefaultPattern = new SimpleDateFormat().toPattern();
++		}
++		Object key = new Integer(style);
+         if (timeZone != null) {
+             key = new Pair(key, timeZone);
+         }
+ 
+         if (locale != null) {
+-            key = new Pair(key, locale);
+         }
+ 
+ 
+-        FastDateFormat format = (FastDateFormat) cDateInstanceCache.get(key);
++        FastDateFormat format = (FastDateFormat) cDateTimeInstanceCache
++				.get(key);
+         if (format == null) {
+             if (locale == null) {
+                 locale = Locale.getDefault();
+@@ -476,7 +479,7 @@
+                         locale);
+                 String pattern = formatter.toPattern();
+                 format = getInstance(pattern, timeZone, locale);
+-                cDateTimeInstanceCache.put(key, format);
++                timeZone = TimeZone.getDefault();
+ 
+             } catch (ClassCastException ex) {
+                 throw new IllegalArgumentException("No date time pattern for locale: " + locale);
+
+

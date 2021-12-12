@@ -1,0 +1,58 @@
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_9e0c5ad4/src/main/java/org/apache/commons/math4/special/Gamma.java	2018-12-30 13:28:57.913066000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_9e0c5ad4/patches_wwpp/Patch_906/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_9e0c5ad4/src/main/java/org/apache/commons/math4/special/Gamma.java	2018-12-30 14:25:38.281736505 -0500
+@@ -654,7 +654,8 @@
+      */
+     public static double gamma(final double x) {
+ 
+-        if ((x == FastMath.rint(x)) && (x <= 0.0)) {
++        int m = 0;
++		if ((x == FastMath.rint(x)) && (x <= 0.0)) {
+             return Double.NaN;
+         }
+ 
+@@ -694,24 +695,25 @@
+                 ret = 1.0 / (prod * (1.0 + invGamma1pm1(t)));
+             }
+         } else {
+-            final double y = absX + LANCZOS_G + 0.5;
+-            final double gammaAbs = SQRT_TWO_PI / x *
+-                                    FastMath.pow(y, absX + 0.5) *
+-                                    FastMath.exp(-y) * lanczos(absX);
+-            if (x > 0.0) {
+-                ret = gammaAbs;
+-            } else {
+-                /*
+-                 * From the reflection formula
+-                 * Gamma(x) * Gamma(1 - x) * sin(pi * x) = pi,
+-                 * and the recurrence relation
+-                 * Gamma(1 - x) = -x * Gamma(-x),
+-                 * it is found
+-                 * Gamma(x) = -pi / [x * sin(pi * x) * Gamma(-x)].
+-                 */
+-                ret = -FastMath.PI /
+-                      (x * FastMath.sin(FastMath.PI * x) * gammaAbs);
+-            }
++            if (x >= 1.0) {
++				double prod = 1.0;
++				double t = x;
++				while (t > 2.5) {
++					t -= 1.0;
++					prod *= t;
++				}
++				ret = prod / (1.0 + invGamma1pm1(t - 1.0));
++			} else {
++				double prod = x;
++				double t = x;
++				while (t < -0.5) {
++					t += 1.0;
++					prod *= t;
++				}
++				ret = 1.0 / (prod * (1.0 + invGamma1pm1(t)));
++			}
++			final double y = absX + LANCZOS_G + 0.5;
++            double tmp = x + LANCZOS_G + .5;
+         }
+         return ret;
+     }
+
+

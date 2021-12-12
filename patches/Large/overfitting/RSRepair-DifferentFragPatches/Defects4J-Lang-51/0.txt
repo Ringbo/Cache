@@ -1,0 +1,28 @@
+--- /tmp/RSRepair_Defects4J_Lang_51/src/java/org/apache/commons/lang/BooleanUtils.java	2018-12-02 02:36:01.593845651 -0500
++++ /tmp/RSRepair_Defects4J_Lang_51/patches_u76w/Patch_894/patched/tmp/RSRepair_Defects4J_Lang_51/src/java/org/apache/commons/lang/BooleanUtils.java	2018-12-02 02:42:27.770694383 -0500
+@@ -683,10 +683,19 @@
+             case 4: {
+                 char ch = str.charAt(0);
+                 if (ch == 't') {
+-                    return 
+-                        (str.charAt(1) == 'r' || str.charAt(1) == 'R') &&
+-                        (str.charAt(2) == 'u' || str.charAt(2) == 'U') &&
+-                        (str.charAt(3) == 'e' || str.charAt(3) == 'E');
++                    if ("true".equalsIgnoreCase(str)) {
++						return Boolean.TRUE;
++					} else if ("false".equalsIgnoreCase(str)) {
++						return Boolean.FALSE;
++					} else if ("on".equalsIgnoreCase(str)) {
++						return Boolean.TRUE;
++					} else if ("off".equalsIgnoreCase(str)) {
++						return Boolean.FALSE;
++					} else if ("yes".equalsIgnoreCase(str)) {
++						return Boolean.TRUE;
++					} else if ("no".equalsIgnoreCase(str)) {
++						return Boolean.FALSE;
++					}
+                 }
+                 if (ch == 'T') {
+                     return 
+
+

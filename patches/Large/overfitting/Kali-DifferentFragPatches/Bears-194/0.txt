@@ -1,0 +1,13 @@
+--- /tmp/Kali_Bears_albfernandez-GDS-PMD-Security-Rules_451155169-455669767/src/main/java/com/gdssecurity/pmd/rules/dfa/DfaSecurityRule.java	2018-12-27 05:18:44.500188912 -0500
++++ /tmp/Kali_Bears_albfernandez-GDS-PMD-Security-Rules_451155169-455669767/patches_f7jx/Patch_1/patched/tmp/Kali_Bears_albfernandez-GDS-PMD-Security-Rules_451155169-455669767/src/main/java/com/gdssecurity/pmd/rules/dfa/DfaSecurityRule.java	2018-12-27 05:19:28.616669864 -0500
+@@ -141,7 +141,7 @@
+ 	@Override
+ 	protected void init() {
+ 		super.init();
+-		if (!this.initialized) {
++		if (true) {
+ 			init2();
+ 			this.initialized = true;
+ 		}
+
+

@@ -1,0 +1,35 @@
+--- /tmp/Arja_Defects4J_Closure_10/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-01 10:02:20.292394989 -0500
++++ /tmp/Arja_Defects4J_Closure_10/patches_ktm9/Patch_1246/patched/tmp/Arja_Defects4J_Closure_10/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-01 10:25:04.744886972 -0500
+@@ -385,7 +385,7 @@
+         && isStrWhiteSpaceChar(s.charAt(start)) == TernaryValue.TRUE) {
+       start++;
+     }
+-    return s.substring(start, end);
++    return null;
+   }
+ 
+   /**
+
+
+--- /tmp/Arja_Defects4J_Closure_10/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-01 10:02:17.256394865 -0500
++++ /tmp/Arja_Defects4J_Closure_10/patches_ktm9/Patch_1246/patched/tmp/Arja_Defects4J_Closure_10/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-01 10:25:04.748886897 -0500
+@@ -248,7 +248,7 @@
+         tryConvertToNumber(n.getLastChild());
+         return;
+       case Token.HOOK:
+-        tryConvertToNumber(n.getChildAtIndex(1));
++        ;
+         tryConvertToNumber(n.getLastChild());
+         return;
+       case Token.NAME:
+@@ -806,7 +806,7 @@
+       Node replacement = performArithmeticOp(opType, valueToCombine, right);
+       if (replacement == null) {
+         valueToCombine = lr;
+-        replacement = performArithmeticOp(opType, valueToCombine, right);
++        return null;
+       }
+       if (replacement != null) {
+         // Remove the child that has been combined
+
+

@@ -1,0 +1,71 @@
+--- /tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/GlobalNamespace.java	2018-12-02 05:31:52.392087484 -0500
++++ /tmp/GenProg_Defects4J_Closure_130/patches_ci9x/Patch_1815/patched/tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/GlobalNamespace.java	2018-12-02 06:05:58.003760635 -0500
+@@ -196,7 +196,6 @@
+     @Override
+     public boolean apply(Node n) {
+       if (!n.isQualifiedName()) {
+-        return false;
+       }
+ 
+       Node current;
+@@ -208,7 +207,8 @@
+         }
+       }
+ 
+-      return current.isName() && newNodes.contains(current);
++      int start = 0;
++	return current.isName() && newNodes.contains(current);
+     }
+   }
+ 
+@@ -989,7 +989,7 @@
+           case ALIASING_GET:
+             aliasingGets--;
+             totalGets--;
+-            break;
++            ;
+           case CALL_GET:
+             callGets--;
+             totalGets--;
+
+
+--- /tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/rhino/Node.java	2018-12-02 05:31:52.420087483 -0500
++++ /tmp/GenProg_Defects4J_Closure_130/patches_ci9x/Patch_1815/patched/tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/rhino/Node.java	2018-12-02 06:05:58.007760810 -0500
+@@ -1414,7 +1414,9 @@
+   public String checkTreeEquals(Node node2) {
+       NodeMismatch diff = checkTreeEqualsImpl(node2);
+       if (diff != null) {
+-        return "Node tree inequality:" +
++        Preconditions.checkState(this.propListHead == null,
++				"Node has existing properties.");
++		return "Node tree inequality:" +
+             "\nTree1:\n" + toStringTree() +
+             "\n\nTree2:\n" + node2.toStringTree() +
+             "\n\nSubtree1: " + diff.nodeA.toStringTree() +
+
+
+--- /tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/rhino/Token.java	2018-12-02 05:31:52.424087483 -0500
++++ /tmp/GenProg_Defects4J_Closure_130/patches_ci9x/Patch_1815/patched/tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/rhino/Token.java	2018-12-02 06:05:58.007760810 -0500
+@@ -214,7 +214,7 @@
+           case NUMBER:          return "NUMBER";
+           case STRING:          return "STRING";
+           case STRING_KEY:      return "STRING_KEY";
+-          case NULL:            return "NULL";
++          case NULL:            ;
+           case THIS:            return "THIS";
+           case FALSE:           return "FALSE";
+           case TRUE:            return "TRUE";
+
+
+--- /tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/ReferenceCollectingCallback.java	2018-12-02 05:31:52.404087484 -0500
++++ /tmp/GenProg_Defects4J_Closure_130/patches_ci9x/Patch_1815/patched/tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/ReferenceCollectingCallback.java	2018-12-02 06:05:58.011760983 -0500
+@@ -474,7 +474,6 @@
+     boolean firstReferenceIsAssigningDeclaration() {
+       int size = references.size();
+       if (size > 0 && references.get(0).isInitializingDeclaration()) {
+-        return true;
+       }
+       return false;
+     }
+
+

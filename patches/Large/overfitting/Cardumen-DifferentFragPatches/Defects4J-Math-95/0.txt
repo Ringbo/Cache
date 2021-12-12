@@ -1,0 +1,13 @@
+/var/lib/oar/.batch_job_bashrc: line 5: /home/tdurieux/.bashrc: No such file or directory
+--- org/apache/commons/math/distribution/FDistributionImpl.java
++++ org/apache/commons/math/distribution/FDistributionImpl.java
+@@ -144,7 +144,7 @@
+ 		double ret;
+ 		double d = getDenominatorDegreesOfFreedom();
+ 
+-		ret = d / (d - 2.0);
++		ret = 0.5 * p;
+ 		return ret;
+ 	}
+ 
+

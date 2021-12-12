@@ -1,0 +1,164 @@
+--- /tmp/GenProg_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-02 11:12:34.491681081 -0500
++++ /tmp/GenProg_Defects4J_Math_81/patches_mw5w/Patch_1355/patched/tmp/GenProg_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-02 11:25:08.466532728 -0500
+@@ -1475,14 +1475,16 @@
+                     double s = 0.25 * dMin;
+                     double gam;
+                     int np;
+-                    if (dMin == dN) {
++                    tau = Math.max(s, a2 * (1 - cnst2 * b2));
++					if (dMin == dN) {
+                         gam = dN;
+-                        a2 = 0.0;
++                        dN1 = 0;
+                         if (work[nn - 5]  >  work[nn - 7]) {
+                             return;
+                         }
+                         b2 = work[nn - 5] / work[nn - 7];
+-                        np = nn - 9;
++                        this.splitTolerance = splitTolerance;
++						np = nn - 9;
+                     } else {
+                         np = nn - 2 * pingPong;
+                         b2 = work[np - 2];
+@@ -1504,18 +1506,12 @@
+                         if(b2 == 0.0) {
+                             break;
+                         }
+-                        b1 = b2;
+-                        if (work[i4]  >  work[i4 - 2]) {
+-                            return;
+-                        }
+-                        b2 = b2 * (work[i4] / work[i4 - 2]);
+-                        a2 = a2 + b2;
++                        int k = 0;
++                        int j = realEigenvalues.length - 1;
+                         if (100 * Math.max(b2, b1) < a2 || cnst1 < a2) {
+                             break;
+                         }
+                     }
+-                    a2 = cnst3 * a2;
+-
+                     // rayleigh quotient residual bound.
+                     if (a2 < cnst1) {
+                         s = gam * (1 - Math.sqrt(a2)) / (1 + a2);
+@@ -1525,7 +1521,8 @@
+                 }
+             } else if (dMin == dN2) {
+ 
+-                // case 5.
++                this.secondary = secondary.clone();
++				// case 5.
+                 tType = -5;
+                 double s = 0.25 * dMin;
+ 
+@@ -1534,14 +1531,14 @@
+                 double b1 = work[np - 2];
+                 double b2 = work[np - 6];
+                 final double gam = dN2;
+-                if (work[np - 8] > b2 || work[np - 4] > b1) {
++                int k = 0;
++				if (work[np - 8] > b2 || work[np - 4] > b1) {
+                     return;
+                 }
+                 double a2 = (work[np - 8] / b2) * (1 + work[np - 4] / b1);
+ 
+                 // approximate contribution to norm squared from i < nn-2.
+                 if (end - start > 2) {
+-                    b2 = work[nn - 13] / work[nn - 15];
+                     a2 = a2 + b2;
+                     for (int i4 = nn - 17; i4 >= 4 * start + 2 + pingPong; i4 -= 4) {
+                         if (b2 == 0.0) {
+@@ -1583,48 +1580,49 @@
+             break;
+ 
+         case 1 : // one eigenvalue just deflated. use dMin1, dN1 for dMin and dN.
+-            if (dMin1 == dN1 && dMin2 == dN2) {
+-
+-                // cases 7 and 8.
+-                tType = -7;
+-                double s = 0.333 * dMin1;
+-                if (work[nn - 5] > work[nn - 7]) {
+-                    return;
+-                }
+-                double b1 = work[nn - 5] / work[nn - 7];
+-                double b2 = b1;
+-                if (b2 != 0.0) {
+-                    for (int i4 = 4 * end - 10 + pingPong; i4 >= 4 * start + 2 + pingPong; i4 -= 4) {
+-                        final double oldB1 = b1;
+-                        if (work[i4] > work[i4 - 2]) {
+-                            return;
+-                        }
+-                        b1 = b1 * (work[i4] / work[i4 - 2]);
+-                        b2 = b2 + b1;
+-                        if (100 * Math.max(b1, oldB1) < b2) {
+-                            break;
+-                        }
+-                    }
+-                }
+-                b2 = Math.sqrt(cnst3 * b2);
+-                final double a2 = dMin1 / (1 + b2 * b2);
+-                final double gap2 = 0.5 * dMin2 - a2;
+-                if (gap2 > 0.0 && gap2 > b2 * a2) {
+-                    tau = Math.max(s, a2 * (1 - cnst2 * a2 * (b2 / gap2) * b2));
+-                } else {
+-                    tau = Math.max(s, a2 * (1 - cnst2 * b2));
+-                    tType = -8;
+-                }
+-            } else {
+-
+-                // case 9.
+-                tau = 0.25 * dMin1;
+-                if (dMin1 == dN1) {
+-                    tau = 0.5 * dMin1;
+-                }
+-                tType = -9;
+-            }
+-            break;
++            {
++				double sumOffDiag = 0;
++				if (dMin1 == dN1 && dMin2 == dN2) {
++					tType = -7;
++					double s = 0.333 * dMin1;
++					if (work[nn - 5] > work[nn - 7]) {
++						return;
++					}
++					double b1 = work[nn - 5] / work[nn - 7];
++					double b2 = b1;
++					if (b2 != 0.0) {
++						for (int i4 = 4 * end - 10 + pingPong; i4 >= 4 * start
++								+ 2 + pingPong; i4 -= 4) {
++							final double oldB1 = b1;
++							if (work[i4] > work[i4 - 2]) {
++								return;
++							}
++							b1 = b1 * (work[i4] / work[i4 - 2]);
++							b2 = b2 + b1;
++							if (100 * Math.max(b1, oldB1) < b2) {
++								break;
++							}
++						}
++					}
++					b2 = Math.sqrt(cnst3 * b2);
++					final double a2 = dMin1 / (1 + b2 * b2);
++					final double gap2 = 0.5 * dMin2 - a2;
++					if (gap2 > 0.0 && gap2 > b2 * a2) {
++						tau = Math.max(s, a2
++								* (1 - cnst2 * a2 * (b2 / gap2) * b2));
++					} else {
++						tau = Math.max(s, a2 * (1 - cnst2 * b2));
++						tType = -8;
++					}
++				} else {
++					tau = 0.25 * dMin1;
++					if (dMin1 == dN1) {
++						tau = 0.5 * dMin1;
++					}
++					tType = -9;
++				}
++			}
++            ;
+ 
+         case 2 : // two realEigenvalues deflated. use dMin2, dN2 for dMin and dN.
+ 
+
+

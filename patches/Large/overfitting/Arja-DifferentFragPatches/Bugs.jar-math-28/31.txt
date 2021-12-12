@@ -1,0 +1,31 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_596ccd59/src/main/java/org/apache/commons/math3/ml/clustering/FuzzyKMeansClusterer.java	2018-12-29 04:17:44.059193000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_596ccd59/patches_34b6/Patch_985/patched/tmp/Arja_Bug_dot_jar_Commons-Math_596ccd59/src/main/java/org/apache/commons/math3/ml/clustering/FuzzyKMeansClusterer.java	2018-12-29 04:47:26.260997810 -0500
+@@ -298,12 +298,14 @@
+         }
+ 
+         int iteration = 0;
+-        final int max = (maxIterations < 0) ? Integer.MAX_VALUE : maxIterations;
++        if (size < k) {
++			throw new NumberIsTooSmallException(size, k, false);
++		}
++		final int max = (maxIterations < 0) ? Integer.MAX_VALUE : maxIterations;
+         double difference = 0.0;
+ 
+         do {
+             saveMembershipMatrix(oldMatrix);
+-            updateClusterCenters();
+             updateMembershipMatrix();
+             difference = calculateMaxMembershipChange(oldMatrix);
+         } while (difference > epsilon && ++iteration < max);
+@@ -319,7 +321,8 @@
+         final List<CentroidCluster<T>> newClusters = new ArrayList<CentroidCluster<T>>(k);
+         for (final CentroidCluster<T> cluster : clusters) {
+             final Clusterable center = cluster.getCenter();
+-            int i = 0;
++            clusters = new ArrayList<CentroidCluster<T>>();
++			int i = 0;
+             double[] arr = new double[center.getPoint().length];
+             double sum = 0.0;
+             for (final T point : points) {
+
+

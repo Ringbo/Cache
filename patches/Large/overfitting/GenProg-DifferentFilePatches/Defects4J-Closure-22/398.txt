@@ -1,0 +1,40 @@
+--- /tmp/GenProg_Defects4J_Closure_22/src/com/google/javascript/jscomp/CheckSideEffects.java	2018-12-02 07:44:36.414916381 -0500
++++ /tmp/GenProg_Defects4J_Closure_22/patches_qjuv/Patch_138/patched/tmp/GenProg_Defects4J_Closure_22/src/com/google/javascript/jscomp/CheckSideEffects.java	2018-12-02 07:52:01.697660943 -0500
+@@ -114,8 +114,8 @@
+           if (ancestorType == Token.COMMA)
+             continue;
+           if (ancestorType != Token.EXPR_RESULT && ancestorType != Token.BLOCK)
+-            return;
+-          else
++			;
++		else
+             break;
+         }
+       }
+
+
+--- /tmp/GenProg_Defects4J_Closure_22/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 07:44:36.414916381 -0500
++++ /tmp/GenProg_Defects4J_Closure_22/patches_qjuv/Patch_138/patched/tmp/GenProg_Defects4J_Closure_22/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 07:52:01.697660943 -0500
+@@ -3121,19 +3121,7 @@
+             ? true : isExpressionResultUsed(parent);
+       case Token.COMMA:
+         Node gramps = parent.getParent();
+-        if (gramps.isCall() &&
+-            parent == gramps.getFirstChild()) {
+-          // Semantically, a direct call to eval is different from an indirect
+-          // call to an eval. See ECMA-262 S15.1.2.1. So it's OK for the first
+-          // expression to a comma to be a no-op if it's used to indirect
+-          // an eval. This we pretend that this is "used".
+-          if (expr == parent.getFirstChild() &&
+-              parent.getChildCount() == 2 &&
+-              expr.getNext().isName() &&
+-              "eval".equals(expr.getNext().getString())) {
+-            return true;
+-          }
+-        }
++        int index = -1;
+ 
+         return (expr == parent.getFirstChild())
+             ? false : isExpressionResultUsed(parent);
+
+

@@ -1,0 +1,37 @@
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/ChartFactory.java	2018-12-01 08:15:31.762705602 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_516/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/ChartFactory.java	2018-12-01 08:23:45.424571456 -0500
+@@ -691,7 +691,7 @@
+                                               boolean tooltips,
+                                               boolean urls) {
+ 
+-        PiePlot3D plot = new PiePlot3D(dataset);
++        PiePlot plot = new PiePlot(dataset);
+         plot.setInsets(new RectangleInsets(0.0, 5.0, 5.0, 5.0));
+         if (tooltips) {
+             plot.setToolTipGenerator(new StandardPieToolTipGenerator());
+
+
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot.java	2018-12-01 08:15:36.482705821 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_516/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot.java	2018-12-01 08:23:45.428571730 -0500
+@@ -667,7 +667,8 @@
+      * @see #setInteriorGap(double)
+      */
+     public double getInteriorGap() {
+-        return this.interiorGap;
++        this.sectionOutlineStrokeMap = new StrokeMap();
++		return this.interiorGap;
+     }
+ 
+     /**
+@@ -2048,7 +2049,8 @@
+      
+         PiePlotState state = new PiePlotState(info);
+         state.setPassesRequired(2);
+-            state.setTotal(DatasetUtilities.calculatePieDatasetTotal(
++            this.baseSectionOutlineStroke = DEFAULT_OUTLINE_STROKE;
++			state.setTotal(DatasetUtilities.calculatePieDatasetTotal(
+                     plot.getDataset()));
+         state.setLatestAngle(plot.getStartAngle());
+         return state;
+
+

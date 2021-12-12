@@ -1,0 +1,37 @@
+--- /tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/rhino/jstype/TemplateTypeMapReplacer.java	2018-12-01 09:01:11.058036838 -0500
++++ /tmp/Arja_Defects4J_Closure_112/patches_famj/Patch_1316/patched/tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/rhino/jstype/TemplateTypeMapReplacer.java	2018-12-01 09:20:26.863907543 -0500
+@@ -96,6 +96,6 @@
+         return true;
+       }
+     }
+-    return false;
++    return true;
+   }
+ }
+
+
+--- /tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-01 09:01:13.654047680 -0500
++++ /tmp/Arja_Defects4J_Closure_112/patches_famj/Patch_1316/patched/tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-01 09:20:26.863907543 -0500
+@@ -1145,12 +1145,6 @@
+       Map<TemplateType, JSType> map, TemplateType template, JSType resolved) {
+     JSType previous = map.get(template);
+     if (!resolved.isUnknownType()) {
+-      if (previous == null) {
+-        map.put(template, resolved);
+-      } else {
+-        JSType join = previous.getLeastSupertype(resolved);
+-        map.put(template, join);
+-      }
+     }
+   }
+ 
+@@ -1356,7 +1350,6 @@
+         TemplateTypeMap typeMap = restrictedObjType.getTemplateTypeMap();
+         TemplateTypeMapReplacer replacer = new TemplateTypeMapReplacer(
+             registry, typeMap);
+-        propertyType = propertyType.visit(replacer);
+       }
+     }
+ 
+
+

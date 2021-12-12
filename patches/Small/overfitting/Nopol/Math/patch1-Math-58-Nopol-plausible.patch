@@ -1,0 +1,14 @@
+--- /src/main/java/org/apache/commons/math/optimization/general/LevenbergMarquardtOptimizer.java
++++ /src/main/java/org/apache/commons/math/optimization/general/LevenbergMarquardtOptimizer.java
+@@ -592,5 +592,7 @@
+             // compute the Newton correction
+-            for (int j = 0; j < solvedCols; ++j) {
+-                int pj = permutation[j];
+-                work1[pj] = work3[pj] * diag[pj] / dxNorm;
++            if (org.apache.commons.math.optimization.general.LevenbergMarquardtOptimizer.this.orthoTolerance < gNorm) {
++                for (int j = 0; j < solvedCols; ++j) {
++                    int pj = permutation[j];
++                    work1[pj] = work3[pj] * diag[pj] / dxNorm;
++                }
+             }
+

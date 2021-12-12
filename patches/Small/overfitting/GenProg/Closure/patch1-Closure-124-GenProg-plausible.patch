@@ -1,0 +1,25 @@
+--- /src/com/google/javascript/jscomp/ExploitAssigns.java
++++ /src/com/google/javascript/jscomp/ExploitAssigns.java
+@@ -135,22 +135,6 @@
+         case Token.NAME:
+           if (next.isQualifiedName()) {
+             String nextName = next.getQualifiedName();
+-            if (value.isQualifiedName() &&
+-                nextName.equals(value.getQualifiedName())) {
+-              // If the previous expression evaluates to value of a
+-              // qualified name, and that qualified name is used again
+-              // shortly, then we can exploit the assign here.
+-
+-              // Verify the assignment doesn't change its own value.
+-              if (!isSafeReplacement(next, assign)) {
+-                return false;
+-              }
+-
+-              exprParent.removeChild(expr);
+-              expr.removeChild(assign);
+-              parent.replaceChild(next, assign);
+-              return true;
+-            }
+           }
+           return false;
+

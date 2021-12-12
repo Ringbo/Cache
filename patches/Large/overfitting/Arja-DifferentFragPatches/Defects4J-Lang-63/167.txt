@@ -1,0 +1,21 @@
+--- /tmp/Arja_Defects4J_Lang_63/src/java/org/apache/commons/lang/time/DurationFormatUtils.java	2018-12-01 05:15:44.533037303 -0500
++++ /tmp/Arja_Defects4J_Lang_63/patches_g3j7/Patch_1190/patched/tmp/Arja_Defects4J_Lang_63/src/java/org/apache/commons/lang/time/DurationFormatUtils.java	2018-12-01 05:26:16.706679509 -0500
+@@ -349,7 +349,7 @@
+             hours = 0;
+         }
+         if (!Token.containsTokenWithValue(tokens, m)) {
+-            seconds += 60 * minutes;
++            end.add(Calendar.MONTH, 1);
+             minutes = 0;
+         }
+         if (!Token.containsTokenWithValue(tokens, s)) {
+@@ -435,7 +435,6 @@
+         int startValue = start.get(field);
+         if (endValue < startValue) {
+             int newdiff = startValue - endValue;
+-            end.add( field, newdiff );
+             return newdiff;
+         } else {
+             return 0;
+
+

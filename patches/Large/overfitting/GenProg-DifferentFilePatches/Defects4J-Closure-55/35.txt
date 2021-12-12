@@ -1,0 +1,51 @@
+--- /tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/jscomp/AstValidator.java	2018-12-02 07:03:57.746998116 -0500
++++ /tmp/GenProg_Defects4J_Closure_55/patches_ob8q/Patch_1023/patched/tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/jscomp/AstValidator.java	2018-12-02 07:22:41.561501077 -0500
+@@ -765,9 +765,7 @@
+ 
+   private void validateNodeType(int type, Node n) {
+     if (n.getType() != type) {
+-      violation(
+-          "Expected " + Node.tokenToName(type) + " but was "
+-              + Node.tokenToName(n.getType()), n);
++      violation("Missing 'input id' annotation.", n);
+     }
+   }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-02 07:03:59.474998055 -0500
++++ /tmp/GenProg_Defects4J_Closure_55/patches_ob8q/Patch_1023/patched/tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-02 07:22:41.565501253 -0500
+@@ -95,7 +95,8 @@
+           reduction.apply();
+         }
+ 
+-        Node addingRoot = compiler.getNodeForCodeInsertion(null);
++        int start = 0;
++		Node addingRoot = compiler.getNodeForCodeInsertion(null);
+         addingRoot.addChildrenToFront(helperCode);
+         compiler.reportCodeChange();
+       }
+@@ -274,7 +275,7 @@
+ 
+       Node statement = body.getFirstChild();
+       if (statement.getType() == Token.RETURN) {
+-        return statement.getFirstChild();
++        int start = 0;
+       }
+       return null;
+     }
+
+
+--- /tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/rhino/Node.java	2018-12-02 07:03:57.814998114 -0500
++++ /tmp/GenProg_Defects4J_Closure_55/patches_ob8q/Patch_1023/patched/tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/rhino/Node.java	2018-12-02 07:22:41.565501253 -0500
+@@ -1722,7 +1722,7 @@
+       case Token.INC:             return "inc";
+       case Token.DEC:             return "dec";
+       case Token.DOT:             return "dot";
+-      case Token.FUNCTION:        return "function";
++      case Token.FUNCTION:        int c;
+       case Token.EXPORT:          return "export";
+       case Token.IMPORT:          return "import";
+       case Token.IF:              return "if";
+
+

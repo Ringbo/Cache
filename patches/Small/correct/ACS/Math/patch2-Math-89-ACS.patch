@@ -1,0 +1,12 @@
+--- /src/java/org/apache/commons/math/stat/Frequency.java
++++ /src/java/org/apache/commons/math/stat/Frequency.java
+@@ -107,7 +107,7 @@
+      */
+     @Deprecated
+     public void addValue(Object v) {
+-            addValue((Comparable<?>) v);            
++if (!(v instanceof Comparable<?>)){throw new IllegalArgumentException();}            addValue((Comparable<?>) v);            
+     }
+     
+     /**
+

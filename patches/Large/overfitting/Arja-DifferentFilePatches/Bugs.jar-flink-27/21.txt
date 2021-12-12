@@ -1,0 +1,20 @@
+--- /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/api/graph/StreamingJobGraphGenerator.java	2018-12-29 12:37:22.120564000 -0500
++++ /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/patches_stp5/Patch_342/patched/tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/api/graph/StreamingJobGraphGenerator.java	2018-12-29 12:56:22.021058373 -0500
+@@ -147,7 +147,6 @@
+ 
+ 			for (StreamEdge outEdge : streamGraph.getStreamNode(current).getOutEdges()) {
+ 				if (isChainable(outEdge)) {
+-					chainableOutputs.add(outEdge);
+ 				} else {
+ 					nonChainableOutputs.add(outEdge);
+ 				}
+@@ -188,7 +187,6 @@
+ 				if (chainedConfs == null) {
+ 					chainedConfigs.put(startNode, new HashMap<Integer, StreamConfig>());
+ 				}
+-				chainedConfigs.get(startNode).put(current, config);
+ 			}
+ 
+ 			return transitiveOutEdges;
+
+

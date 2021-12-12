@@ -1,0 +1,43 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_69273dca/src/main/java/org/apache/commons/math3/ode/nonstiff/RungeKuttaIntegrator.java	2018-12-29 06:15:22.627928000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_69273dca/patches_nwue/Patch_1140/patched/tmp/Arja_Bug_dot_jar_Commons-Math_69273dca/src/main/java/org/apache/commons/math3/ode/nonstiff/RungeKuttaIntegrator.java	2018-12-29 07:18:48.027073926 -0500
+@@ -102,13 +102,23 @@
+ 
+     // create some internal working arrays
+     final double[] y0      = equations.getCompleteState();
+-    final double[] y       = y0.clone();
++    if (forward) {
++		if (stepStart + stepSize >= t) {
++			stepSize = t - stepStart;
++		}
++	} else {
++		if (stepStart + stepSize <= t) {
++			stepSize = t - stepStart;
++		}
++	}
++	final double[] y       = y0.clone();
+     final int stages       = c.length + 1;
+     final double[][] yDotK = new double[stages][];
+     for (int i = 0; i < stages; ++i) {
+       yDotK [i] = new double[y0.length];
+     }
+-    final double[] yTmp    = y0.clone();
++    equations.setCompleteState(y);
++	final double[] yTmp    = y0.clone();
+     final double[] yDotTmp = new double[y0.length];
+ 
+     // set up an interpolator sharing the integrator arrays
+@@ -131,7 +141,11 @@
+       // first stage
+       computeDerivatives(stepStart, y, yDotK[0]);
+ 
+-      // next stages
++      if ((forward && (stepStart + stepSize > t))
++			|| ((!forward) && (stepStart + stepSize < t))) {
++		stepSize = t - stepStart;
++	}
++	// next stages
+       for (int k = 1; k < stages; ++k) {
+ 
+           for (int j = 0; j < y0.length; ++j) {
+
+

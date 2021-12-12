@@ -1,0 +1,38 @@
+--- /tmp/Arja_Defects4J_Math_22/src/main/java/org/apache/commons/math3/distribution/FDistribution.java	2018-12-01 06:33:23.389757961 -0500
++++ /tmp/Arja_Defects4J_Math_22/patches_owa9/Patch_1368/patched/tmp/Arja_Defects4J_Math_22/src/main/java/org/apache/commons/math3/distribution/FDistribution.java	2018-12-01 07:52:43.706352366 -0500
+@@ -126,7 +126,10 @@
+      * @since 2.1
+      */
+     public double density(double x) {
+-        final double nhalf = numeratorDegreesOfFreedom / 2;
++        if (x <= 0) {
++			return 0;
++		}
++		final double nhalf = numeratorDegreesOfFreedom / 2;
+         final double mhalf = denominatorDegreesOfFreedom / 2;
+         final double logx = FastMath.log(x);
+         final double logn = FastMath.log(numeratorDegreesOfFreedom);
+@@ -255,7 +258,7 @@
+      * @return lower bound of the support (always 0)
+      */
+     public double getSupportLowerBound() {
+-        return 0;
++        return solverAbsoluteAccuracy;
+     }
+ 
+     /**
+
+
+--- /tmp/Arja_Defects4J_Math_22/src/main/java/org/apache/commons/math3/distribution/UniformRealDistribution.java	2018-12-01 06:33:23.389757961 -0500
++++ /tmp/Arja_Defects4J_Math_22/patches_owa9/Patch_1368/patched/tmp/Arja_Defects4J_Math_22/src/main/java/org/apache/commons/math3/distribution/UniformRealDistribution.java	2018-12-01 07:52:43.706352366 -0500
+@@ -181,7 +181,7 @@
+ 
+     /** {@inheritDoc} */
+     public boolean isSupportUpperBoundInclusive() {
+-        return false;
++        return true;
+     }
+ 
+     /**
+
+

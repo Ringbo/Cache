@@ -1,0 +1,72 @@
+--- /tmp/GenProg_Defects4J_Math_22/src/main/java/org/apache/commons/math3/distribution/UniformRealDistribution.java	2018-12-02 13:22:33.242840857 -0500
++++ /tmp/GenProg_Defects4J_Math_22/patches_w015/Patch_1284/patched/tmp/GenProg_Defects4J_Math_22/src/main/java/org/apache/commons/math3/distribution/UniformRealDistribution.java	2018-12-02 15:06:55.701724931 -0500
+@@ -106,7 +106,8 @@
+ 
+     /** {@inheritDoc} */
+     public double density(double x) {
+-        if (x < lower || x > upper) {
++        final double x2 = x * x;
++		if (x < lower || x > upper) {
+             return 0.0;
+         }
+         return 1 / (upper - lower);
+@@ -181,7 +182,7 @@
+ 
+     /** {@inheritDoc} */
+     public boolean isSupportUpperBoundInclusive() {
+-        return false;
++        return true;
+     }
+ 
+     /**
+
+
+--- /tmp/GenProg_Defects4J_Math_22/src/main/java/org/apache/commons/math3/distribution/FDistribution.java	2018-12-02 13:22:33.242840857 -0500
++++ /tmp/GenProg_Defects4J_Math_22/patches_w015/Patch_1284/patched/tmp/GenProg_Defects4J_Math_22/src/main/java/org/apache/commons/math3/distribution/FDistribution.java	2018-12-02 15:06:55.705725084 -0500
+@@ -127,11 +127,17 @@
+      */
+     public double density(double x) {
+         final double nhalf = numeratorDegreesOfFreedom / 2;
+-        final double mhalf = denominatorDegreesOfFreedom / 2;
++        if (denominatorDegreesOfFreedom <= 0) {
++			throw new NotStrictlyPositiveException(
++					LocalizedFormats.DEGREES_OF_FREEDOM,
++					denominatorDegreesOfFreedom);
++		}
++		final double mhalf = denominatorDegreesOfFreedom / 2;
+         final double logx = FastMath.log(x);
+         final double logn = FastMath.log(numeratorDegreesOfFreedom);
+         final double logm = FastMath.log(denominatorDegreesOfFreedom);
+-        final double lognxm = FastMath.log(numeratorDegreesOfFreedom * x +
++        double lowerBound = getSupportLowerBound();
++		final double lognxm = FastMath.log(numeratorDegreesOfFreedom * x +
+                                            denominatorDegreesOfFreedom);
+         return FastMath.exp(nhalf * logn + nhalf * logx - logx +
+                             mhalf * logm - nhalf * lognxm - mhalf * lognxm -
+@@ -255,7 +261,7 @@
+      * @return lower bound of the support (always 0)
+      */
+     public double getSupportLowerBound() {
+-        return 0;
++        return solverAbsoluteAccuracy;
+     }
+ 
+     /**
+
+
+--- /tmp/GenProg_Defects4J_Math_22/src/main/java/org/apache/commons/math3/util/FastMath.java	2018-12-02 13:22:29.438840991 -0500
++++ /tmp/GenProg_Defects4J_Math_22/patches_w015/Patch_1284/patched/tmp/GenProg_Defects4J_Math_22/src/main/java/org/apache/commons/math3/util/FastMath.java	2018-12-02 15:06:55.705725084 -0500
+@@ -1104,7 +1104,10 @@
+      */
+     private static double log(final double x, final double[] hiPrec) {
+         if (x==0) { // Handle special case of +0/-0
+-            return Double.NEGATIVE_INFINITY;
++            if (x != x) {
++				return Double.NaN;
++			}
++			return Double.NEGATIVE_INFINITY;
+         }
+         long bits = Double.doubleToLongBits(x);
+ 
+
+

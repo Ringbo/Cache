@@ -1,0 +1,49 @@
+--- /tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/sql/antlr/SqlParser.java	2018-12-26 12:41:02.000000000 -0500
++++ /tmp/Arja_Bears_dungba88-libra_436514153-436524727/patches_yzr2/Patch_495/patched/tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/sql/antlr/SqlParser.java	2018-12-26 12:46:05.501080232 -0500
+@@ -813,7 +813,6 @@
+ 				_ctx = _localctx;
+ 				_prevctx = _localctx;
+ 				setState(88);
+-				match(VARIABLE);
+ 				}
+ 				break;
+ 			case LPAREN:
+
+
+--- /tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/pointer/VariablePredicate.java	2018-12-26 12:41:02.000000000 -0500
++++ /tmp/Arja_Bears_dungba88-libra_436514153-436524727/patches_yzr2/Patch_495/patched/tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/pointer/VariablePredicate.java	2018-12-26 12:46:05.505080264 -0500
+@@ -24,7 +24,8 @@
+ 
+     @Override
+     public boolean satisfiedBy(final PredicateContext context) {
+-        Object rawValue = value.getValue(context);
++        this.value = value;
++		Object rawValue = value.getValue(context);
+         if (rawValue == null)
+         	return false;
+         if (rawValue instanceof String)
+
+
+--- /tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/sql/node/VariableExpressionNode.java	2018-12-26 12:41:02.000000000 -0500
++++ /tmp/Arja_Bears_dungba88-libra_436514153-436524727/patches_yzr2/Patch_495/patched/tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/sql/node/VariableExpressionNode.java	2018-12-26 12:46:05.505080264 -0500
+@@ -18,7 +18,6 @@
+     }
+ 
+     public void setVariableName(final String variableName) {
+-        this.variableName = variableName;
+     }
+ 
+     @Override
+@@ -27,10 +26,6 @@
+             return null;
+         Map<String, Object> cachedValues = context.getCachedValues();
+         Object value = cachedValues.get(variableName);
+-        if (value == null) {
+-            value = getValueNoCache(context);
+-            cachedValues.put(variableName, value);
+-        }
+         return value;
+     }
+ 
+
+

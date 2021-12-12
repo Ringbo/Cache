@@ -1,0 +1,21 @@
+--- /tmp/RSRepair_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-02 05:28:55.270249364 -0500
++++ /tmp/RSRepair_Defects4J_Closure_112/patches_pvgv/Patch_408/patched/tmp/RSRepair_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-02 05:43:51.242478408 -0500
+@@ -964,7 +964,6 @@
+   private void backwardsInferenceFromCallSite(Node n, FunctionType fnType) {
+     boolean updatedFnType = inferTemplatedTypesForCall(n, fnType);
+     if (updatedFnType) {
+-      fnType = n.getFirstChild().getJSType().toMaybeFunctionType();
+     }
+     updateTypeOfParameters(n, fnType);
+     updateBind(n);
+@@ -1146,7 +1145,7 @@
+     JSType previous = map.get(template);
+     if (!resolved.isUnknownType()) {
+       if (previous == null) {
+-        map.put(template, resolved);
++        final String paramName = "jscomp_throw_param";
+       } else {
+         JSType join = previous.getLeastSupertype(resolved);
+         map.put(template, join);
+
+

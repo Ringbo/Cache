@@ -1,0 +1,122 @@
+--- /src/main/java/org/apache/commons/math3/complex/Complex.java
++++ /src/main/java/org/apache/commons/math3/complex/Complex.java
+@@ -302,23 +302,6 @@
+         }
+ 
+         if (real == 0.0 && imaginary == 0.0) {
+-            return NaN;
+-        }
+-
+-        if (isInfinite) {
+-            return ZERO;
+-        }
+-
+-        if (FastMath.abs(real) < FastMath.abs(imaginary)) {
+-            double q = real / imaginary;
+-            double scale = 1. / (real * q + imaginary);
+-            return createComplex(scale * q, -scale);
+-        } else {
+-            double q = imaginary / real;
+-            double scale = 1. / (imaginary * q + real);
+-            return createComplex(scale, -scale * q);
+-        }
+-    }
+ 
+     /**
+      * Test for the equality of two Complex objects.
+@@ -335,21 +318,6 @@
+      * {@code null}, not an instance of Complex, or not equal to this Complex
+      * instance.
+      */
+-    @Override
+-    public boolean equals(Object other) {
+-        if (this == other) {
+-            return true;
+-        }
+-        if (other instanceof Complex){
+-            Complex c = (Complex)other;
+-            if (c.isNaN) {
+-                return isNaN;
+-            } else {
+-                return (real == c.real) && (imaginary == c.imaginary);
+-            }
+-        }
+-        return false;
+-    }
+ 
+     /**
+      * Get a hashCode for the complex number.
+@@ -358,32 +326,18 @@
+      *
+      * @return a hash code value for this object.
+      */
+-    @Override
+-    public int hashCode() {
+-        if (isNaN) {
+-            return 7;
+-        }
+-        return 37 * (17 * MathUtils.hash(imaginary) +
+-            MathUtils.hash(real));
+-    }
+ 
+     /**
+      * Access the imaginary part.
+      *
+      * @return the imaginary part.
+      */
+-    public double getImaginary() {
+-        return imaginary;
+-    }
+ 
+     /**
+      * Access the real part.
+      *
+      * @return the real part.
+      */
+-    public double getReal() {
+-        return real;
+-    }
+ 
+     /**
+      * Checks whether either or both parts of this complex number is
+@@ -392,9 +346,6 @@
+      * @return true if either or both parts of this complex number is
+      * {@code NaN}; false otherwise.
+      */
+-    public boolean isNaN() {
+-        return isNaN;
+-    }
+ 
+     /**
+      * Checks whether either the real or imaginary part of this complex number
+@@ -405,9 +356,6 @@
+      * @return true if one or both parts of this complex number are infinite
+      * and neither part is {@code NaN}.
+      */
+-    public boolean isInfinite() {
+-        return isInfinite;
+-    }
+ 
+     /**
+      * Returns a {@code Complex} whose value is {@code this * factor}.
+@@ -433,18 +381,8 @@
+      * @return {@code this * factor}.
+      * @throws NullArgumentException if {@code factor} is {@code null}.
+      */
+-    public Complex multiply(Complex factor)
+-        throws NullArgumentException {
+-        MathUtils.checkNotNull(factor);
+-        if (isNaN || factor.isNaN) {
+-            return NaN;
+-        }
+-        if (Double.isInfinite(real) ||
+-            Double.isInfinite(imaginary) ||
+-            Double.isInfinite(factor.real) ||
+-            Double.isInfinite(factor.imaginary)) {
+             // we don't use isInfinite() to avoid testing for NaN again
+-            return INF;
++            return org.apache.commons.math3.complex.Complex.INF;}     if (isInfinite) {             return org.apache.commons.math3.complex.Complex.ZERO;}         if ((org.apache.commons.math3.util.FastMath.abs(real)) < (org.apache.commons.math3.util.FastMath.abs(imaginary))) {             double q = (real) / (imaginary);             double scale = 1.0 / (((real) * q) + (imaginary));             return createComplex((scale * q), (-scale));}else {             double q = (imaginary) / (real);     double scale = 1.0 / (((imaginary) * q) + (real));             return createComplex(scale, ((-scale) * q));}}     @java.lang.Override     public boolean equals(java.lang.Object other) {         if ((this) == other) {         return true;}         if (other instanceof org.apache.commons.math3.complex.Complex) {             org.apache.commons.math3.complex.Complex c = ((org.apache.commons.math3.complex.Complex) (other));             if (c.isNaN) {                 return isNaN;}else {                 return ((real) == (c.real)) && ((imaginary) == (c.imaginary));}}         return false;}     @java.lang.Override     public int hashCode() {         if (isNaN) {             return 7;}         return 37 * ((17 * (org.apache.commons.math3.util.MathUtils.hash(imaginary))) + (org.apache.commons.math3.util.MathUtils.hash(real)));}     public double getImaginary() {         return imaginary;}     public double getReal() {         return real;}     public boolean isNaN() {         return isNaN;}     public boolean isInfinite() {         return isInfinite;}     public org.apache.commons.math3.complex.Complex multiply(org.apache.commons.math3.complex.Complex factor) throws org.apache.commons.math3.exception.NullArgumentException {         org.apache.commons.math3.util.MathUtils.checkNotNull(factor);         if ((isNaN) || (factor.isNaN)) {             return org.apache.commons.math3.complex.Complex.NaN;}         if ((((java.lang.Double.isInfinite(real)) || (java.lang.Double.isInfinite(imaginary))) || (java.lang.Double.isInfinite(factor.real))) || (java.lang.Double.isInfinite(factor.imaginary))) {             return org.apache.commons.math3.complex.Complex.INF;
+         }
+         return createComplex(real * factor.real - imaginary * factor.imaginary,
+                              real * factor.imaginary + imaginary * factor.real);
+

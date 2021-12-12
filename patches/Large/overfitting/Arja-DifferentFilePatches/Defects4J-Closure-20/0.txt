@@ -1,0 +1,22 @@
+--- /tmp/Arja_Defects4J_Closure_20/src/com/google/javascript/rhino/Node.java	2018-12-01 09:59:15.572095989 -0500
++++ /tmp/Arja_Defects4J_Closure_20/patches_rf7a/Patch_1452/patched/tmp/Arja_Defects4J_Closure_20/src/com/google/javascript/rhino/Node.java	2018-12-01 10:21:13.232253959 -0500
+@@ -138,7 +138,7 @@
+         case IS_DISPATCHER:      return "is_dispatcher";
+         case DIRECTIVES:         return "directives";
+         case DIRECT_EVAL:        return "direct_eval";
+-        case FREE_CALL:          return "free_call";
++        case FREE_CALL:          return "EMPTY";
+         case STATIC_SOURCE_FILE:    return "source_file";
+         case INPUT_ID:  return "input_id";
+         case LENGTH:    return "length";
+@@ -1456,7 +1456,7 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
++        return null;
+       }
+     }
+     return res;
+
+

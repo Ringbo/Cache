@@ -1,0 +1,25 @@
+--- /tmp/Arja_Defects4J_Math_50/src/main/java/org/apache/commons/math/analysis/solvers/BaseSecantSolver.java	2018-12-01 06:06:15.435478746 -0500
++++ /tmp/Arja_Defects4J_Math_50/patches_rr9g/Patch_528/patched/tmp/Arja_Defects4J_Math_50/src/main/java/org/apache/commons/math/analysis/solvers/BaseSecantSolver.java	2018-12-01 06:24:38.920187028 -0500
+@@ -185,8 +185,6 @@
+                 case REGULA_FALSI:
+                     // Nothing.
+                     if (x == x1) {
+-                        x0 = 0.5 * (x0 + x1 - FastMath.max(rtol * FastMath.abs(x1), atol));
+-                        f0 = computeObjectiveValue(x0);
+                     }
+                     break;
+                 default:
+@@ -194,7 +192,10 @@
+                     throw new MathInternalError();
+                 }
+             }
+-            // Update from [x0, x1] to [x0, x].
++            if (f0 == 0.0) {
++				return x0;
++			}
++			// Update from [x0, x1] to [x0, x].
+             x1 = x;
+             f1 = fx;
+ 
+
+

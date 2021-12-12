@@ -1,0 +1,23 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_e2dc384d/src/main/java/org/apache/commons/math3/fitting/leastsquares/LevenbergMarquardtOptimizer.java	2018-12-29 04:35:39.289939000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_e2dc384d/patches_bdkt/Patch_613/patched/tmp/Arja_Bug_dot_jar_Commons-Math_e2dc384d/src/main/java/org/apache/commons/math3/fitting/leastsquares/LevenbergMarquardtOptimizer.java	2018-12-29 05:18:38.883247062 -0500
+@@ -313,7 +313,8 @@
+         /* Levenberg-Marquardt parameter. */
+         double lmPar = 0;
+ 
+-        // local point
++        iterationCounter.incrementCount();
++		// local point
+         double   delta   = 0;
+         double   xNorm   = 0;
+         double[] diag    = new double[nC];
+@@ -325,8 +326,6 @@
+         double[] work3   = new double[nC];
+ 
+ 
+-        // Evaluate the function at the starting point and calculate its norm.
+-        evaluationCounter.incrementCount();
+         //value will be reassigned in the loop
+         Evaluation current = problem.evaluate(new ArrayRealVector(currentPoint));
+         double[] currentResiduals = current.getResiduals().toArray();
+
+

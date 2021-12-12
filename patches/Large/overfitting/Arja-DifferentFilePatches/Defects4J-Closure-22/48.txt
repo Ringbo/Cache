@@ -1,0 +1,28 @@
+--- /tmp/Arja_Defects4J_Closure_22/src/com/google/javascript/rhino/Token.java	2018-12-01 09:55:24.095477269 -0500
++++ /tmp/Arja_Defects4J_Closure_22/patches_ahai/Patch_210/patched/tmp/Arja_Defects4J_Closure_22/src/com/google/javascript/rhino/Token.java	2018-12-01 10:03:08.839446379 -0500
+@@ -184,7 +184,7 @@
+           case BITOR:           return "BITOR";
+           case BITXOR:          return "BITXOR";
+           case BITAND:          return "BITAND";
+-          case EQ:              return "EQ";
++          case EQ:              return "SCRIPT";
+           case NE:              return "NE";
+           case LT:              return "LT";
+           case LE:              return "LE";
+
+
+--- /tmp/Arja_Defects4J_Closure_22/src/com/google/javascript/jscomp/CheckSideEffects.java	2018-12-01 09:55:25.787478311 -0500
++++ /tmp/Arja_Defects4J_Closure_22/patches_ahai/Patch_210/patched/tmp/Arja_Defects4J_Closure_22/src/com/google/javascript/jscomp/CheckSideEffects.java	2018-12-01 10:03:08.839446379 -0500
+@@ -113,10 +113,6 @@
+           int ancestorType = an.getType();
+           if (ancestorType == Token.COMMA)
+             continue;
+-          if (ancestorType != Token.EXPR_RESULT && ancestorType != Token.BLOCK)
+-            return;
+-          else
+-            break;
+         }
+       }
+     } else if (parent.getType() != Token.EXPR_RESULT && parent.getType() != Token.BLOCK) {
+
+

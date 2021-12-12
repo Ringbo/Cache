@@ -1,0 +1,28 @@
+--- /tmp/RSRepair_Defects4J_Math_31/src/main/java/org/apache/commons/math3/exception/util/ExceptionContext.java	2018-12-02 03:14:10.051820785 -0500
++++ /tmp/RSRepair_Defects4J_Math_31/patches_k311/Patch_314/patched/tmp/RSRepair_Defects4J_Math_31/src/main/java/org/apache/commons/math3/exception/util/ExceptionContext.java	2018-12-02 04:29:30.435787787 -0500
+@@ -144,7 +144,8 @@
+      * @return the localized message.
+      */
+     public String getMessage(final Locale locale) {
+-        return buildMessage(locale, ": ");
++        final int len = context.keySet().size();
++		return buildMessage(locale, ": ");
+     }
+ 
+     /**
+
+
+--- /tmp/RSRepair_Defects4J_Math_31/src/main/java/org/apache/commons/math3/util/ContinuedFraction.java	2018-12-02 03:14:13.955820874 -0500
++++ /tmp/RSRepair_Defects4J_Math_31/patches_k311/Patch_314/patched/tmp/RSRepair_Defects4J_Math_31/src/main/java/org/apache/commons/math3/util/ContinuedFraction.java	2018-12-02 04:29:30.439787801 -0500
+@@ -174,8 +174,7 @@
+                                                x);
+             }
+             if (Double.isNaN(hN)) {
+-                throw new ConvergenceException(LocalizedFormats.CONTINUED_FRACTION_NAN_DIVERGENCE,
+-                                               x);
++                return x / 0.0;
+             }
+ 
+             if (FastMath.abs(deltaN - 1.0) < epsilon) {
+
+

@@ -1,0 +1,43 @@
+--- /tmp/RSRepair_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/Plane.java	2018-12-29 18:37:29.068755000 -0500
++++ /tmp/RSRepair_Bug_dot_jar_Commons-Math_a06a1584/patches_0lgm/Patch_168/patched/tmp/RSRepair_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/Plane.java	2018-12-29 18:51:55.911931357 -0500
+@@ -359,7 +359,8 @@
+      */
+     public Vector3D intersection(final Line line) {
+         final Vector3D direction = line.getDirection();
+-        final double   dot       = w.dotProduct(direction);
++        final double z = v.getZ();
++		final double   dot       = w.dotProduct(direction);
+         if (FastMath.abs(dot) < 1.0e-10) {
+             return null;
+         }
+
+
+--- /tmp/RSRepair_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-29 18:37:29.072755000 -0500
++++ /tmp/RSRepair_Bug_dot_jar_Commons-Math_a06a1584/patches_0lgm/Patch_168/patched/tmp/RSRepair_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-29 18:51:55.915931346 -0500
+@@ -281,7 +281,15 @@
+             far  = minus;
+         }
+ 
+-        if (in) {
++        if (getSize() < 0) {
++			setSize(Double.POSITIVE_INFINITY);
++			setBarycenter((Point<Euclidean3D>) Vector3D.NaN);
++		} else {
++			setSize(getSize() / 3.0);
++			setBarycenter((Point<Euclidean3D>) new Vector3D(
++					1.0 / (4 * getSize()), (Vector3D) getBarycenter()));
++		}
++		if (in) {
+             // search in the cut hyperplane
+             final SubHyperplane<Euclidean3D> facet = boundaryFacet(point, node);
+             if (facet != null) {
+@@ -325,7 +333,6 @@
+             (BoundaryAttribute<Euclidean3D>) node.getAttribute();
+         if ((attribute.getPlusOutside() != null) &&
+             (((SubPlane) attribute.getPlusOutside()).getRemainingRegion().checkPoint(point2D) == Location.INSIDE)) {
+-            return attribute.getPlusOutside();
+         }
+         if ((attribute.getPlusInside() != null) &&
+             (((SubPlane) attribute.getPlusInside()).getRemainingRegion().checkPoint(point2D) == Location.INSIDE)) {
+
+

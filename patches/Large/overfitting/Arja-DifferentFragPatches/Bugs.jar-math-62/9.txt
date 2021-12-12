@@ -1,0 +1,47 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_f6dd42b4/src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java	2018-12-29 03:53:43.256758000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_f6dd42b4/patches_kjw0/Patch_886/patched/tmp/Arja_Bug_dot_jar_Commons-Math_f6dd42b4/src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java	2018-12-29 04:56:57.974938992 -0500
+@@ -118,18 +118,15 @@
+ 
+         // return the second endpoint if it is good enough
+         double yMax = f.value(max);
+-        if (Math.abs(yMax) <= functionValueAccuracy) {
+-            setResult(yMax, 0);
+-            return result;
+-        }
+-
+         // reduce interval if initial and max bracket the root
+         if (yInitial * yMax < 0) {
+             return solve(f, initial, yInitial, max, yMax, initial, yInitial);
+         }
+ 
+-        // full Brent algorithm starting with provided initial guess
+-        return solve(f, min, yMin, max, yMax, initial, yInitial);
++        throw MathRuntimeException.createIllegalArgumentException(
++				"function values at endpoints do not have different signs.  "
++						+ "Endpoints: [{0}, {1}], Values: [{2}, {3}]", min,
++				max, yMin, yMax);
+ 
+     }
+ 
+@@ -292,11 +289,14 @@
+             // Compute new X1, Y1
+             if (Math.abs(delta) > tolerance) {
+                 x1 = x1 + delta;
+-            } else if (dx > 0.0) {
+-                x1 = x1 + 0.5 * tolerance;
+-            } else if (dx <= 0.0) {
+-                x1 = x1 - 0.5 * tolerance;
+-            }
++            } else {
++				iterationCount = i;
++				if (dx > 0.0) {
++					x1 = x1 + 0.5 * tolerance;
++				} else if (dx <= 0.0) {
++					x1 = x1 - 0.5 * tolerance;
++				}
++			}
+             y1 = f.value(x1);
+             if ((y1 > 0) == (y2 > 0)) {
+                 x2 = x0;
+
+

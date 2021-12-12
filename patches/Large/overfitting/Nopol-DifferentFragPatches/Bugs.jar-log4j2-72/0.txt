@@ -1,0 +1,7 @@
+--- a/log4j-api/src/main/java/org/apache/logging/log4j/simple/SimpleLogger.java
++++ b/log4j-api/src/main/java/org/apache/logging/log4j/simple/SimpleLogger.java
+@@ -156,3 +156,3 @@
+         Throwable t;
+-        if (throwable == null && params != null && params[params.length - 1] instanceof Throwable) {
++        if (org.apache.logging.log4j.simple.SimpleLogger.this.dateFormatter!=null) {
+             t = (Throwable) params[params.length - 1];

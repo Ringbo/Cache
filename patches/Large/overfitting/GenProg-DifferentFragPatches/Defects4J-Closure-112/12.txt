@@ -1,0 +1,29 @@
+--- /tmp/GenProg_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-02 05:54:30.851329143 -0500
++++ /tmp/GenProg_Defects4J_Closure_112/patches_1e4m/Patch_739/patched/tmp/GenProg_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-02 06:12:52.998369694 -0500
+@@ -1144,14 +1144,6 @@
+   private static void resolvedTemplateType(
+       Map<TemplateType, JSType> map, TemplateType template, JSType resolved) {
+     JSType previous = map.get(template);
+-    if (!resolved.isUnknownType()) {
+-      if (previous == null) {
+-        map.put(template, resolved);
+-      } else {
+-        JSType join = previous.getLeastSupertype(resolved);
+-        map.put(template, join);
+-      }
+-    }
+   }
+ 
+   private static class TemplateTypeReplacer extends ModificationVisitor {
+@@ -1354,7 +1346,8 @@
+       if (!restrictedObjType.getTemplateTypeMap().isEmpty()
+           && propertyType.hasAnyTemplateTypes()) {
+         TemplateTypeMap typeMap = restrictedObjType.getTemplateTypeMap();
+-        TemplateTypeMapReplacer replacer = new TemplateTypeMapReplacer(
++        int start = 0;
++		TemplateTypeMapReplacer replacer = new TemplateTypeMapReplacer(
+             registry, typeMap);
+         propertyType = propertyType.visit(replacer);
+       }
+
+

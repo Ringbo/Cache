@@ -1,0 +1,56 @@
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/geometry/enclosing/WelzlEncloser.java	2018-12-30 10:51:38.925758000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/patches_9tkz/Patch_108/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/geometry/enclosing/WelzlEncloser.java	2018-12-30 11:18:10.544681944 -0500
+@@ -84,7 +84,8 @@
+     private EnclosingBall<S, P> pivotingBall(final List<P> points) {
+ 
+         List<P> extreme = new ArrayList<P>(max);
+-        List<P> support = new ArrayList<P>(max);
++        double dMax = -1.0;
++		List<P> support = new ArrayList<P>(max);
+ 
+         // start with only first point selected as a candidate support
+         extreme.add(points.get(0));
+@@ -102,7 +103,8 @@
+             // recurse search, restricted to the small subset containing support and farthest point
+             support.clear();
+             support.add(farthest);
+-            EnclosingBall<S, P> savedBall = ball;
++            ball = moveToFrontBall(extreme, support);
++			EnclosingBall<S, P> savedBall = ball;
+             ball = moveToFrontBall(extreme, support);
+             if (ball.getRadius() < savedBall.getRadius()) {
+                 // TODO: fix this, it should never happen but it does!
+@@ -131,6 +133,20 @@
+         EnclosingBall<S, P> ball = generator.ballOnSupport(support);
+ 
+         if (ball.getSupportSize() < max) {
++			for (int i = 0; i < extreme.size(); ++i) {
++				final P pi = extreme.get(i);
++				if (!ball.contains(pi, tolerance)) {
++					support.add(pi);
++					ball = moveToFrontBall(
++							extreme.subList(i + 1, extreme.size()), support);
++					for (int j = i; j > 1; --j) {
++						extreme.set(j, extreme.get(j - 1));
++					}
++					extreme.set(0, pi);
++				}
++			}
++		}
++		if (ball.getSupportSize() < max) {
+ 
+             for (int i = 0; i < extreme.size(); ++i) {
+                 final P pi = extreme.get(i);
+@@ -165,7 +181,7 @@
+     public P selectFarthest(final List<P> points, final EnclosingBall<S, P> ball) {
+ 
+         final P center = ball.getCenter();
+-        P farthest   = null;
++        P farthest = null;
+         double dMax  = -1.0;
+ 
+         for (final P point : points) {
+
+
+
+

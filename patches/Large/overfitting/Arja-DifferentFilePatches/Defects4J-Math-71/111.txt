@@ -1,0 +1,36 @@
+--- /tmp/Arja_Defects4J_Math_71/src/main/java/org/apache/commons/math/ode/events/EventState.java	2018-12-01 06:00:01.503483649 -0500
++++ /tmp/Arja_Defects4J_Math_71/patches_6k3o/Patch_856/patched/tmp/Arja_Defects4J_Math_71/src/main/java/org/apache/commons/math/ode/events/EventState.java	2018-12-01 07:12:38.549365743 -0500
+@@ -208,7 +208,11 @@
+                         }
+                     }
+ 
+-                    // variation direction, with respect to the integration direction
++                    if (pendingEvent
++							&& (Math.abs(t1 - pendingEventTime) <= convergence)) {
++						return false;
++					}
++					// variation direction, with respect to the integration direction
+                     increasing = gb >= ga;
+ 
+                     final UnivariateRealFunction f = new UnivariateRealFunction() {
+@@ -235,7 +239,17 @@
+                     } else if (Double.isNaN(previousEventTime) ||
+                                (Math.abs(previousEventTime - root) > convergence)) {
+                         pendingEventTime = root;
+-                        if (pendingEvent && (Math.abs(t1 - pendingEventTime) <= convergence)) {
++                        if (Double.isNaN(previousEventTime)
++								|| (Math.abs(previousEventTime - root) > convergence)) {
++							pendingEventTime = root;
++							if (pendingEvent
++									&& (Math.abs(t1 - pendingEventTime) <= convergence)) {
++								return false;
++							}
++							pendingEvent = true;
++							return true;
++						}
++						if (pendingEvent && (Math.abs(t1 - pendingEventTime) <= convergence)) {
+                             // we were already waiting for this event which was
+                             // found during a previous call for a step that was
+                             // rejected, this step must now be accepted since it
+
+

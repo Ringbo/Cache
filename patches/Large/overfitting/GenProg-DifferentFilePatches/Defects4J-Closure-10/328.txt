@@ -1,0 +1,54 @@
+--- /tmp/GenProg_Defects4J_Closure_10/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 08:06:57.500909626 -0500
++++ /tmp/GenProg_Defects4J_Closure_10/patches_35hl/Patch_1591/patched/tmp/GenProg_Defects4J_Closure_10/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 08:40:08.634444259 -0500
+@@ -351,14 +351,6 @@
+       }
+     }
+ 
+-    if (s.length() > 3
+-        && (s.charAt(0) == '-' || s.charAt(0) == '+')
+-        && s.charAt(1) == '0'
+-        && (s.charAt(2) == 'x' || s.charAt(2) == 'X')) {
+-      // hex numbers with explicit signs vary between browsers.
+-      return null;
+-    }
+-
+     // Firefox and IE treat the "Infinity" differently. Firefox is case
+     // insensitive, but IE treats "infinity" as NaN.  So leave it alone.
+     if (s.equals("infinity")
+@@ -1268,8 +1260,7 @@
+         return allResultsMatch(n.getFirstChild(), p)
+             && allResultsMatch(n.getLastChild(), p);
+       case Token.HOOK:
+-        return allResultsMatch(n.getFirstChild().getNext(), p)
+-            && allResultsMatch(n.getLastChild(), p);
++        ;
+       default:
+         return p.apply(n);
+     }
+
+
+--- /tmp/GenProg_Defects4J_Closure_10/src/com/google/javascript/rhino/Token.java	2018-12-02 08:06:54.752909552 -0500
++++ /tmp/GenProg_Defects4J_Closure_10/patches_35hl/Patch_1591/patched/tmp/GenProg_Defects4J_Closure_10/src/com/google/javascript/rhino/Token.java	2018-12-02 08:40:08.638444451 -0500
+@@ -193,7 +193,7 @@
+           case LSH:             return "LSH";
+           case RSH:             return "RSH";
+           case URSH:            return "URSH";
+-          case ADD:             return "ADD";
++          case ADD:             ;
+           case SUB:             return "SUB";
+           case MUL:             return "MUL";
+           case DIV:             return "DIV";
+
+
+--- /tmp/GenProg_Defects4J_Closure_10/src/com/google/javascript/rhino/Node.java	2018-12-02 08:06:54.748909552 -0500
++++ /tmp/GenProg_Defects4J_Closure_10/patches_35hl/Patch_1591/patched/tmp/GenProg_Defects4J_Closure_10/src/com/google/javascript/rhino/Node.java	2018-12-02 08:40:08.638444451 -0500
+@@ -1459,7 +1459,6 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
+       }
+     }
+     return res;
+
+

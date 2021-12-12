@@ -1,0 +1,40 @@
+--- /tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/src/core/src/main/java/org/apache/accumulo/core/client/mock/MockTable.java	2018-12-28 20:28:13.213481000 -0500
++++ /tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/patches_5ben/Patch_2636/patched/tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/src/core/src/main/java/org/apache/accumulo/core/client/mock/MockTable.java	2018-12-28 21:04:25.932558339 -0500
+@@ -70,8 +70,6 @@
+         MockMemKey other = (MockMemKey) o;
+         if (count < other.count)
+           return -1;
+-        if (count > other.count)
+-          return 1;
+       } else {
+         return 1;
+       }
+
+
+--- /tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/src/core/src/main/java/org/apache/accumulo/core/client/mock/MockScanner.java	2018-12-28 20:28:13.209481000 -0500
++++ /tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/patches_5ben/Patch_2636/patched/tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/src/core/src/main/java/org/apache/accumulo/core/client/mock/MockScanner.java	2018-12-28 21:04:25.932558339 -0500
+@@ -93,7 +93,6 @@
+   public Iterator<Entry<Key,Value>> iterator() {
+     SortedKeyValueIterator<Key,Value> i = new SortedMapIterator(table.table);
+     try {
+-      i = new RangeFilter(createFilter(i), range);
+       i.seek(range, createColumnBSS(fetchedColumns), !fetchedColumns.isEmpty());
+       return new IteratorAdapter(i);
+     } catch (IOException e) {
+
+
+--- /tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/src/core/src/main/java/org/apache/accumulo/core/iterators/system/VisibilityFilter.java	2018-12-28 20:28:13.385485000 -0500
++++ /tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/patches_5ben/Patch_2636/patched/tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/src/core/src/main/java/org/apache/accumulo/core/iterators/system/VisibilityFilter.java	2018-12-28 21:04:25.936558320 -0500
+@@ -58,8 +58,8 @@
+     Text testVis = k.getColumnVisibility(tmpVis);
+     
+     if (testVis.getLength() == 0 && defaultVisibility.getLength() == 0)
+-      return true;
+-    else if (testVis.getLength() == 0)
++		;
++	else if (testVis.getLength() == 0)
+       testVis = defaultVisibility;
+     
+     Boolean b = (Boolean) cache.get(testVis);
+
+

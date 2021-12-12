@@ -1,0 +1,15 @@
+--- /tmp/Kali_Defects4J_Closure_129/src/com/google/javascript/rhino/Node.java	2018-12-01 19:24:37.402587181 -0500
++++ /tmp/Kali_Defects4J_Closure_129/patches_f5gl/Patch_7/patched/tmp/Kali_Defects4J_Closure_129/src/com/google/javascript/rhino/Node.java	2018-12-01 19:32:02.958496272 -0500
+@@ -1543,7 +1543,9 @@
+       }
+     } else if (type == Token.CALL) {
+       if (this.getBooleanProp(FREE_CALL) != node.getBooleanProp(FREE_CALL)) {
+-        return false;
++        if (true)
++			return true;
++		return false;
+       }
+     }
+ 
+
+

@@ -1,0 +1,103 @@
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_f6dd42b4/src/main/java/org/apache/commons/math/analysis/solvers/UnivariateRealSolverImpl.java	2018-12-30 15:11:22.140573000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_f6dd42b4/patches_aepn/Patch_1387/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_f6dd42b4/src/main/java/org/apache/commons/math/analysis/solvers/UnivariateRealSolverImpl.java	2018-12-30 16:42:28.164801770 -0500
+@@ -206,9 +206,10 @@
+      */
+     protected void verifyInterval(final double lower, final double upper) {
+         if (lower >= upper) {
+-            throw MathRuntimeException.createIllegalArgumentException(
+-                    "endpoints do not specify an interval: [{0}, {1}]",
+-                    lower, upper);
++            if (f == null) {
++				throw MathRuntimeException
++						.createIllegalArgumentException("function to solve cannot be null");
++			}
+         }
+     }
+ 
+
+
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_f6dd42b4/src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java	2018-12-30 15:11:22.132573000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_f6dd42b4/patches_aepn/Patch_1387/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_f6dd42b4/src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java	2018-12-30 16:42:28.168801829 -0500
+@@ -95,9 +95,12 @@
+         throws MaxIterationsExceededException, FunctionEvaluationException {
+ 
+         clearResult();
+-        verifySequence(min, initial, max);
++        int i = 0;
++		verifySequence(min, initial, max);
+ 
+-        // return the initial guess if it is good enough
++        setResult(initial, 0);
++		setResult(initial, 0);
++		// return the initial guess if it is good enough
+         double yInitial = f.value(initial);
+         if (Math.abs(yInitial) <= functionValueAccuracy) {
+             setResult(initial, 0);
+@@ -106,7 +109,10 @@
+ 
+         // return the first endpoint if it is good enough
+         double yMin = f.value(min);
+-        if (Math.abs(yMin) <= functionValueAccuracy) {
++        verifyBracketing(min, max, f);
++		verifyBracketing(min, max, f);
++		double x0 = min;
++		if (Math.abs(yMin) <= functionValueAccuracy) {
+             setResult(yMin, 0);
+             return result;
+         }
+@@ -118,17 +124,18 @@
+ 
+         // return the second endpoint if it is good enough
+         double yMax = f.value(max);
+-        if (Math.abs(yMax) <= functionValueAccuracy) {
+-            setResult(yMax, 0);
+-            return result;
+-        }
+-
+-        // reduce interval if initial and max bracket the root
++        double sign = yMin * yMax;
++		double x1 = min;
++		// reduce interval if initial and max bracket the root
+         if (yInitial * yMax < 0) {
+             return solve(f, initial, yInitial, max, yMax, initial, yInitial);
+         }
+ 
+-        // full Brent algorithm starting with provided initial guess
++        verifyBracketing(min, max, f);
++		verifyBracketing(min, max, f);
++		verifyBracketing(min, max, f);
++		verifyBracketing(min, max, f);
++		// full Brent algorithm starting with provided initial guess
+         return solve(f, min, yMin, max, yMax, initial, yInitial);
+ 
+     }
+@@ -174,7 +181,17 @@
+                 setResult(max, 0);
+                 ret = max;
+             } else {
+-                // neither value is close to zero and min and max do not bracket root.
++                if (sign < 0) {
++					ret = solve(f, min, yMin, max, yMax, min, yMin);
++				} else {
++					if (yMin == 0.0) {
++						ret = min;
++					} else {
++						ret = max;
++					}
++				}
++				double x0 = min;
++				// neither value is close to zero and min and max do not bracket root.
+                 throw MathRuntimeException.createIllegalArgumentException(
+                         "function values at endpoints do not have different signs.  " +
+                         "Endpoints: [{0}, {1}], Values: [{2}, {3}]",
+@@ -280,7 +297,7 @@
+                     // in the wrong direction, or progress is slow.
+                     // Fall back to bisection.
+                     delta = 0.5 * dx;
+-                    oldDelta = delta;
++                    this.iterationCount = 0;
+                 } else {
+                     oldDelta = delta;
+                     delta = p / p1;
+
+

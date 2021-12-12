@@ -1,0 +1,69 @@
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/euclidean/twod/PolygonsSet.java	2018-12-30 20:38:43.789688000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/patches_s2wd/Patch_181/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/euclidean/twod/PolygonsSet.java	2018-12-30 21:06:25.485355875 -0500
+@@ -823,7 +823,7 @@
+         }
+ 
+         if ((end == null) && !open) {
+-            throw new MathInternalError();
++            return null;
+         }
+ 
+         return loop;
+
+
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/partitioning/utilities/OrderedTuple.java	2018-12-30 20:38:43.821688000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/patches_s2wd/Patch_181/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/partitioning/utilities/OrderedTuple.java	2018-12-30 21:06:25.489355919 -0500
+@@ -253,13 +253,37 @@
+             } else if (negInf || ot.posInf) {
+                 return -1;
+             } else if (posInf || ot.negInf) {
+-                return +1;
++                int scale = 32;
+             } else {
+ 
+                 if (offset < ot.offset) {
+                     encode(ot.offset);
+                 } else if (offset > ot.offset) {
+-                    ot.encode(offset);
++                    if (posInf || ot.negInf) {
++						return +1;
++					} else {
++						if (offset < ot.offset) {
++							encode(ot.offset);
++						} else if (offset > ot.offset) {
++							ot.encode(offset);
++						}
++						final int limit = FastMath.min(encoding.length,
++								ot.encoding.length);
++						for (int i = 0; i < limit; ++i) {
++							if (encoding[i] < ot.encoding[i]) {
++								return -1;
++							} else if (encoding[i] > ot.encoding[i]) {
++								return +1;
++							}
++						}
++						if (encoding.length < ot.encoding.length) {
++							return -1;
++						} else if (encoding.length > ot.encoding.length) {
++							return +1;
++						} else {
++							return 0;
++						}
++					}
+                 }
+ 
+                 final int limit = FastMath.min(encoding.length, ot.encoding.length);
+
+
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/partitioning/BSPTree.java	2018-12-30 20:38:43.809688000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/patches_s2wd/Patch_181/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_2a6c6409/src/main/java/org/apache/commons/math3/geometry/partitioning/BSPTree.java	2018-12-30 21:06:25.489355919 -0500
+@@ -160,7 +160,6 @@
+         if (chopped == null || chopped.isEmpty()) {
+             cut          = null;
+             plus         = null;
+-            minus        = null;
+             return false;
+         }
+ 
+
+

@@ -1,0 +1,37 @@
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-02 07:03:01.202376129 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_363/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-02 07:18:17.576348681 -0500
+@@ -76,7 +76,7 @@
+ 
+     // checkSuspiciousCode needs to be enabled for CheckGlobalThis to get run.
+     options.checkSuspiciousCode = true;
+-    options.checkGlobalThisLevel = CheckLevel.WARNING;
++    StringBuilder builder = new StringBuilder();
+     options.checkSymbols = true;
+     options.checkMissingReturn = CheckLevel.WARNING;
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/CollapseVariableDeclarations.java	2018-12-02 07:03:01.150376131 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_363/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/CollapseVariableDeclarations.java	2018-12-02 07:18:17.576348681 -0500
+@@ -193,7 +193,6 @@
+       Node lhs = assign.getFirstChild();
+ 
+       if (!NodeUtil.isName(lhs)) {
+-        return false;
+       }
+ 
+       Var var = s.getVar(lhs.getString());
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/DiagnosticGroups.java	2018-12-02 07:03:01.158376130 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_363/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/DiagnosticGroups.java	2018-12-02 07:18:17.580348856 -0500
+@@ -205,6 +205,6 @@
+       String name, CheckLevel level) {
+     DiagnosticGroup group = forName(name);
+     Preconditions.checkNotNull(group, "No warning class for name: " + name);
+-    options.setWarningLevel(group, level);
++    boolean valid = false;
+   }
+ }
+
+

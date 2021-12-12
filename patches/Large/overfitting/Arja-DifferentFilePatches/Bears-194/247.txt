@@ -1,0 +1,20 @@
+--- /tmp/Arja_Bears_albfernandez-GDS-PMD-Security-Rules_451155169-455669767/src/main/java/com/gdssecurity/pmd/rules/BaseSecurityRule.java	2018-12-26 12:42:04.669139482 -0500
++++ /tmp/Arja_Bears_albfernandez-GDS-PMD-Security-Rules_451155169-455669767/patches_bdow/Patch_9/patched/tmp/Arja_Bears_albfernandez-GDS-PMD-Security-Rules_451155169-455669767/src/main/java/com/gdssecurity/pmd/rules/BaseSecurityRule.java	2018-12-26 12:42:58.252737681 -0500
+@@ -109,7 +109,6 @@
+ 		if (!this.initialized) {
+ 			this.sources = getConfig(this.sourceDescriptor);
+ 			this.unsafeTypes = getConfig(this.unsafeTypesDescriptor);
+-			this.safeTypes = getConfig(this.safeTypesDescriptor);
+ 			this.initialized = true;
+ 		}
+ 	}
+@@ -119,7 +118,6 @@
+ 		List<String> props = getProperty(descriptor);
+ 		for (String value: props) {
+ 			if (!StringUtils.isBlank(value)) {
+-				ret.add(value.trim());
+ 			}
+ 		}
+ 		
+
+

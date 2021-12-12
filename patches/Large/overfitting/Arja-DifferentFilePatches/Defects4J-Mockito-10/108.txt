@@ -1,0 +1,44 @@
+--- /tmp/Arja_Defects4J_Mockito_10/src/org/mockito/internal/util/reflection/GenericMetadataSupport.java	2018-12-01 08:41:42.641290161 -0500
++++ /tmp/Arja_Defects4J_Mockito_10/patches_jed8/Patch_2303/patched/tmp/Arja_Defects4J_Mockito_10/src/org/mockito/internal/util/reflection/GenericMetadataSupport.java	2018-12-01 08:58:33.586373133 -0500
+@@ -76,7 +76,10 @@
+ 
+     protected void registerTypeVariablesOn(Type classType) {
+         if (!(classType instanceof ParameterizedType)) {
+-            return;
++            if (!(classType instanceof ParameterizedType)) {
++				return;
++			}
++			return;
+         }
+         ParameterizedType parameterizedType = (ParameterizedType) classType;
+         TypeVariable[] typeParameters = ((Class<?>) parameterizedType.getRawType()).getTypeParameters();
+
+
+--- /tmp/Arja_Defects4J_Mockito_10/src/org/mockito/internal/util/MockCreationValidator.java	2018-12-01 08:41:42.641290161 -0500
++++ /tmp/Arja_Defects4J_Mockito_10/patches_jed8/Patch_2303/patched/tmp/Arja_Defects4J_Mockito_10/src/org/mockito/internal/util/MockCreationValidator.java	2018-12-01 08:58:33.586373133 -0500
+@@ -60,7 +60,6 @@
+                 && !(Serializable.class.isAssignableFrom(classToMock))
+                 && Constructors.noArgConstructorOf(classToMock) == null
+                 ) {
+-            new Reporter().serializableWontWorkForObjectsThatDontImplementSerializable(classToMock);
+         }
+     }
+ }
+\ No newline at end of file
+
+
+--- /tmp/Arja_Defects4J_Mockito_10/src/org/mockito/internal/stubbing/defaultanswers/ReturnsDeepStubs.java	2018-12-01 08:41:46.327132261 -0500
++++ /tmp/Arja_Defects4J_Mockito_10/patches_jed8/Patch_2303/patched/tmp/Arja_Defects4J_Mockito_10/src/org/mockito/internal/stubbing/defaultanswers/ReturnsDeepStubs.java	2018-12-01 08:58:33.590373122 -0500
+@@ -48,10 +48,6 @@
+                 actualParameterizedType(invocation.getMock()).resolveGenericReturnType(invocation.getMethod());
+ 
+         Class<?> rawType = returnTypeGenericMetadata.rawType();
+-        if (!mockitoCore().isTypeMockable(rawType)) {
+-            return delegate().returnValueFor(rawType);
+-        }
+-
+         return deepStub(invocation, returnTypeGenericMetadata);
+     }
+ 
+
+

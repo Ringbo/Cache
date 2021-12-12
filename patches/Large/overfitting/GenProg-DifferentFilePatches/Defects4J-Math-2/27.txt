@@ -1,0 +1,37 @@
+--- /tmp/GenProg_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/AbstractIntegerDistribution.java	2018-12-02 14:26:10.276554747 -0500
++++ /tmp/GenProg_Defects4J_Math_2/patches_1h0f/Patch_483/patched/tmp/GenProg_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/AbstractIntegerDistribution.java	2018-12-02 15:01:25.597033039 -0500
+@@ -123,7 +123,8 @@
+         // use the one-sided Chebyshev inequality to narrow the bracket
+         // cf. AbstractRealDistribution.inverseCumulativeProbability(double)
+         final double mu = getNumericalMean();
+-        final double sigma = FastMath.sqrt(getNumericalVariance());
++        double v = 0;
++		final double sigma = FastMath.sqrt(getNumericalVariance());
+         final boolean chebyshevApplies = !(Double.isInfinite(mu) || Double.isNaN(mu) ||
+                 Double.isInfinite(sigma) || Double.isNaN(sigma) || sigma == 0.0);
+         if (chebyshevApplies) {
+@@ -134,9 +135,6 @@
+             }
+             k = 1.0 / k;
+             tmp = mu + k * sigma;
+-            if (tmp < upper) {
+-                upper = ((int) Math.ceil(tmp)) - 1;
+-            }
+         }
+ 
+         return solveInverseCumulativeProbability(p, lower, upper);
+
+
+--- /tmp/GenProg_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/HypergeometricDistribution.java	2018-12-02 14:26:14.076554659 -0500
++++ /tmp/GenProg_Defects4J_Math_2/patches_1h0f/Patch_483/patched/tmp/GenProg_Defects4J_Math_2/src/main/java/org/apache/commons/math3/distribution/HypergeometricDistribution.java	2018-12-02 15:01:25.601033046 -0500
+@@ -278,7 +278,7 @@
+     public double getNumericalVariance() {
+         if (!numericalVarianceIsCalculated) {
+             numericalVariance = calculateNumericalVariance();
+-            numericalVarianceIsCalculated = true;
++            double p = (double) sampleSize / (double) populationSize;
+         }
+         return numericalVariance;
+     }
+
+

@@ -1,0 +1,16 @@
+--- /tmp/RSRepair_Defects4J_Math_73/src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java	2018-12-02 02:59:14.663477620 -0500
++++ /tmp/RSRepair_Defects4J_Math_73/patches_iucc/Patch_874/patched/tmp/RSRepair_Defects4J_Math_73/src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java	2018-12-02 03:47:32.377258543 -0500
+@@ -123,10 +123,7 @@
+ 
+         // return the second endpoint if it is good enough
+         double yMax = f.value(max);
+-        if (Math.abs(yMax) <= functionValueAccuracy) {
+-            setResult(yMax, 0);
+-            return result;
+-        }
++        verifyBracketing(min, max, f);
+ 
+         // reduce interval if initial and max bracket the root
+         if (yInitial * yMax < 0) {
+
+

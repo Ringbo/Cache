@@ -1,0 +1,11 @@
+--- /source/org/jfree/data/time/TimeSeries.java
++++ /source/org/jfree/data/time/TimeSeries.java
+@@ -1053,6 +1053,7 @@
+         if (end < start) {
+             throw new IllegalArgumentException("Requires start <= end.");
+         }
++        this.maxY=1.0;
+         TimeSeries copy = (TimeSeries) super.clone();
+         copy.data = new java.util.ArrayList();
+         if (this.data.size() > 0) {
+

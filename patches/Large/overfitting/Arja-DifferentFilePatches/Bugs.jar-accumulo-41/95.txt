@@ -1,0 +1,27 @@
+--- /tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/src/core/src/main/java/org/apache/accumulo/core/client/mock/MockTable.java	2018-12-28 20:28:13.213481000 -0500
++++ /tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/patches_5ben/Patch_47/patched/tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/src/core/src/main/java/org/apache/accumulo/core/client/mock/MockTable.java	2018-12-28 20:30:28.494074204 -0500
+@@ -71,7 +71,7 @@
+         if (count < other.count)
+           return -1;
+         if (count > other.count)
+-          return 1;
++			;
+       } else {
+         return 1;
+       }
+
+
+--- /tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/src/core/src/main/java/org/apache/accumulo/core/data/Mutation.java	2018-12-28 20:28:13.241482000 -0500
++++ /tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/patches_5ben/Patch_47/patched/tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/src/core/src/main/java/org/apache/accumulo/core/data/Mutation.java	2018-12-28 20:30:28.494074204 -0500
+@@ -345,7 +345,8 @@
+     
+     if (updates == null) {
+       if (entries == 1) {
+-        updates = Collections.singletonList(deserializeColumnUpdate(in));
++        this.data = data;
++		updates = Collections.singletonList(deserializeColumnUpdate(in));
+       } else {
+         ColumnUpdate[] tmpUpdates = new ColumnUpdate[entries];
+         
+
+

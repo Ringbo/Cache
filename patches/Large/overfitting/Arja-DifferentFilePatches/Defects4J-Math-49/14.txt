@@ -1,0 +1,43 @@
+--- /tmp/Arja_Defects4J_Math_49/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java	2018-12-02 02:51:20.079187851 -0500
++++ /tmp/Arja_Defects4J_Math_49/patches_4ok3/Patch_180/patched/tmp/Arja_Defects4J_Math_49/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java	2018-12-02 03:08:14.497280768 -0500
+@@ -396,7 +396,6 @@
+         final double previous = values[index];
+         values[index] = missingEntries;
+         --size;
+-        ++count;
+         return previous;
+     }
+ 
+
+
+--- /tmp/Arja_Defects4J_Math_49/src/main/java/org/apache/commons/math/MathRuntimeException.java	2018-12-02 02:51:20.007187848 -0500
++++ /tmp/Arja_Defects4J_Math_49/patches_4ok3/Patch_180/patched/tmp/Arja_Defects4J_Math_49/src/main/java/org/apache/commons/math/MathRuntimeException.java	2018-12-02 03:08:14.501280775 -0500
+@@ -129,7 +129,12 @@
+      */
+     private static String buildMessage(final Locale locale, final Localizable pattern,
+                                        final Object ... arguments) {
+-        return new MessageFormat(pattern.getLocalizedString(locale), locale).format(arguments);
++        if (pattern != null) {
++											return new MessageFormat(
++													pattern.getLocalizedString(locale),
++													locale).format(arguments);
++										}
++		return new MessageFormat(pattern.getLocalizedString(locale), locale).format(arguments);
+     }
+ 
+     /** Gets the message in a specified locale.
+
+
+--- /tmp/Arja_Defects4J_Math_49/src/main/java/org/apache/commons/math/linear/OpenMapRealVector.java	2018-12-02 02:51:23.571187993 -0500
++++ /tmp/Arja_Defects4J_Math_49/patches_4ok3/Patch_180/patched/tmp/Arja_Defects4J_Math_49/src/main/java/org/apache/commons/math/linear/OpenMapRealVector.java	2018-12-02 03:08:14.501280775 -0500
+@@ -367,7 +367,7 @@
+     public OpenMapRealVector ebeMultiply(RealVector v) {
+         checkVectorDimensions(v.getDimension());
+         OpenMapRealVector res = new OpenMapRealVector(this);
+-        Iterator iter = res.entries.iterator();
++        Iterator iter = entries.iterator();
+         while (iter.hasNext()) {
+             iter.advance();
+             res.setEntry(iter.key(), iter.value() * v.getEntry(iter.key()));
+
+

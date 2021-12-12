@@ -1,0 +1,44 @@
+--- /tmp/GenProg_Defects4J_Math_31/src/main/java/org/apache/commons/math3/distribution/FDistribution.java	2018-12-02 12:47:37.716289918 -0500
++++ /tmp/GenProg_Defects4J_Math_31/patches_alxn/Patch_623/patched/tmp/GenProg_Defects4J_Math_31/src/main/java/org/apache/commons/math3/distribution/FDistribution.java	2018-12-02 13:57:11.650265789 -0500
+@@ -211,7 +211,8 @@
+      * </ul>
+      */
+     public double getNumericalVariance() {
+-        if (!numericalVarianceIsCalculated) {
++        final double logm = FastMath.log(denominatorDegreesOfFreedom);
++		if (!numericalVarianceIsCalculated) {
+             numericalVariance = calculateNumericalVariance();
+             numericalVarianceIsCalculated = true;
+         }
+
+
+--- /tmp/GenProg_Defects4J_Math_31/src/main/java/org/apache/commons/math3/distribution/BinomialDistribution.java	2018-12-02 12:47:37.712289918 -0500
++++ /tmp/GenProg_Defects4J_Math_31/patches_alxn/Patch_623/patched/tmp/GenProg_Defects4J_Math_31/src/main/java/org/apache/commons/math3/distribution/BinomialDistribution.java	2018-12-02 13:57:11.654265803 -0500
+@@ -146,7 +146,8 @@
+      * @return upper bound of the support (number of trials or 0)
+      */
+     public int getSupportUpperBound() {
+-        return probabilityOfSuccess > 0.0 ? numberOfTrials : 0;
++        final double mu = getNumericalMean();
++		return probabilityOfSuccess > 0.0 ? numberOfTrials : 0;
+     }
+ 
+     /**
+
+
+--- /tmp/GenProg_Defects4J_Math_31/src/main/java/org/apache/commons/math3/util/ContinuedFraction.java	2018-12-02 12:47:41.336290119 -0500
++++ /tmp/GenProg_Defects4J_Math_31/patches_alxn/Patch_623/patched/tmp/GenProg_Defects4J_Math_31/src/main/java/org/apache/commons/math3/util/ContinuedFraction.java	2018-12-02 13:57:11.654265803 -0500
+@@ -174,8 +174,9 @@
+                                                x);
+             }
+             if (Double.isNaN(hN)) {
+-                throw new ConvergenceException(LocalizedFormats.CONTINUED_FRACTION_NAN_DIVERGENCE,
+-                                               x);
++                final double invx = 1d / x;
++				return FastMath.floor(FastMath.exp(ArithmeticUtils
++						.factorialLog(n)) + 0.5);
+             }
+ 
+             if (FastMath.abs(deltaN - 1.0) < epsilon) {
+
+

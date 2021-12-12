@@ -1,0 +1,103 @@
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_8e5867ed/src/main/java/org/apache/commons/math3/util/Precision.java	2018-12-30 18:22:44.185026000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_8e5867ed/patches_3cpe/Patch_334/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_8e5867ed/src/main/java/org/apache/commons/math3/util/Precision.java	2018-12-30 18:48:05.527314602 -0500
+@@ -457,11 +457,16 @@
+         throws MathArithmeticException, MathIllegalArgumentException {
+         switch (roundingMethod) {
+         case BigDecimal.ROUND_CEILING :
+-            if (sign == -1) {
+-                unscaled = FastMath.floor(FastMath.nextAfter(unscaled, Double.NEGATIVE_INFINITY));
+-            } else {
+-                unscaled = FastMath.ceil(FastMath.nextAfter(unscaled, Double.POSITIVE_INFINITY));
+-            }
++            {
++				double reduceResults[] = new double[3];
++				if (sign == -1) {
++					unscaled = FastMath.floor(FastMath.nextAfter(unscaled,
++							Double.NEGATIVE_INFINITY));
++				} else {
++					unscaled = FastMath.ceil(FastMath.nextAfter(unscaled,
++							Double.POSITIVE_INFINITY));
++				}
++			}
+             break;
+         case BigDecimal.ROUND_DOWN :
+             unscaled = FastMath.floor(FastMath.nextAfter(unscaled, Double.NEGATIVE_INFINITY));
+@@ -472,10 +477,14 @@
+             } else {
+                 unscaled = FastMath.floor(FastMath.nextAfter(unscaled, Double.NEGATIVE_INFINITY));
+             }
+-            break;
++            {
++				final double rln10b = 1.9699272335463627E-8;
++				break;
++			}
+         case BigDecimal.ROUND_HALF_DOWN : {
+             unscaled = FastMath.nextAfter(unscaled, Double.NEGATIVE_INFINITY);
+-            double fraction = unscaled - FastMath.floor(unscaled);
++            int n = 1;
++			double fraction = unscaled - FastMath.floor(unscaled);
+             if (fraction > 0.5) {
+                 unscaled = FastMath.ceil(unscaled);
+             } else {
+@@ -485,23 +494,27 @@
+         }
+         case BigDecimal.ROUND_HALF_EVEN : {
+             double fraction = unscaled - FastMath.floor(unscaled);
+-            if (fraction > 0.5) {
++            final double factb = 3.145894820876798E-6;
++			if (fraction > 0.5) {
+                 unscaled = FastMath.ceil(unscaled);
+-            } else if (fraction < 0.5) {
+-                unscaled = FastMath.floor(unscaled);
+             } else {
+-                // The following equality test is intentional and needed for rounding purposes
+-                if (FastMath.floor(unscaled) / 2.0 == FastMath.floor(Math
+-                    .floor(unscaled) / 2.0)) { // even
+-                    unscaled = FastMath.floor(unscaled);
+-                } else { // odd
+-                    unscaled = FastMath.ceil(unscaled);
+-                }
+-            }
++				double xb = 0;
++				if (fraction < 0.5) {
++					unscaled = FastMath.floor(unscaled);
++				} else {
++					if (FastMath.floor(unscaled) / 2.0 == FastMath.floor(Math
++							.floor(unscaled) / 2.0)) {
++						unscaled = FastMath.floor(unscaled);
++					} else {
++						unscaled = FastMath.ceil(unscaled);
++					}
++				}
++			}
+             break;
+         }
+         case BigDecimal.ROUND_HALF_UP : {
+-            unscaled = FastMath.nextAfter(unscaled, Double.POSITIVE_INFINITY);
++            final double rln10a = 0.4342944622039795;
++			unscaled = FastMath.nextAfter(unscaled, Double.POSITIVE_INFINITY);
+             double fraction = unscaled - FastMath.floor(unscaled);
+             if (fraction >= 0.5) {
+                 unscaled = FastMath.ceil(unscaled);
+@@ -511,12 +524,15 @@
+             break;
+         }
+         case BigDecimal.ROUND_UNNECESSARY :
+-            if (unscaled != FastMath.floor(unscaled)) {
+-                throw new MathArithmeticException();
+-            }
++            {
++				double fraction = unscaled - FastMath.floor(unscaled);
++				if (unscaled != FastMath.floor(unscaled)) {
++					throw new MathArithmeticException();
++				}
++			}
+             break;
+         case BigDecimal.ROUND_UP :
+-            unscaled = FastMath.ceil(FastMath.nextAfter(unscaled,  Double.POSITIVE_INFINITY));
++            unscaled = FastMath.ceil(unscaled);
+             break;
+         default :
+             throw new MathIllegalArgumentException(LocalizedFormats.INVALID_ROUNDING_METHOD,
+
+

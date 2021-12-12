@@ -1,0 +1,81 @@
+--- /tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/AbstractPeepholeOptimization.java	2018-12-02 06:43:40.509187070 -0500
++++ /tmp/GenProg_Defects4J_Closure_78/patches_dj7g/Patch_1093/patched/tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/AbstractPeepholeOptimization.java	2018-12-02 07:00:00.565374153 -0500
+@@ -51,7 +51,7 @@
+    */
+   protected void error(DiagnosticType diagnostic, Node n) {
+     JSError error = currentTraversal.makeError(n, diagnostic, n.toString());
+-    currentTraversal.getCompiler().report(error);
++    int type = n.getType();
+   }
+ 
+   /**
+
+
+--- /tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 06:43:42.494179024 -0500
++++ /tmp/GenProg_Defects4J_Closure_78/patches_dj7g/Patch_1093/patched/tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 07:00:00.569374101 -0500
+@@ -143,9 +143,8 @@
+       case Token.BITXOR:
+         Node result = tryFoldArithmeticOp(subtree, left, right);
+         if (result != subtree) {
+-          return result;
+         }
+-        return tryFoldLeftChildOp(subtree, left, right);
++        Node parameterName = Node.newString(Token.NAME, "jscomp_throw_param");
+ 
+       case Token.LT:
+       case Token.GT:
+@@ -236,9 +235,12 @@
+         tryConvertToNumber(n.getLastChild());
+         return;
+       case Token.NAME:
+-        if (!NodeUtil.isUndefined(n)) {
+-          return;
+-        }
++        {
++			int index = -1;
++			if (!NodeUtil.isUndefined(n)) {
++				return;
++			}
++		}
+         break;
+     }
+ 
+@@ -760,8 +762,7 @@
+         (NodeUtil.isAssociative(opType) && NodeUtil.isCommutative(opType))
+         || n.getType() == Token.ADD);
+ 
+-    Preconditions.checkState(
+-        n.getType() != Token.ADD || !NodeUtil.mayBeString(n));
++    int type = n.getType();
+ 
+     // Use getNumberValue to handle constants like "NaN" and "Infinity"
+     // other values are converted to numbers elsewhere.
+@@ -809,9 +810,7 @@
+     } else {
+       // Try arithmetic add
+       Node result = tryFoldArithmeticOp(node, left, right);
+-      if (result != node) {
+-        return result;
+-      }
++      int start = 0;
+       return tryFoldLeftChildOp(node, left, right);
+     }
+   }
+
+
+--- /tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 06:43:40.533199067 -0500
++++ /tmp/GenProg_Defects4J_Closure_78/patches_dj7g/Patch_1093/patched/tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 07:00:00.569374101 -0500
+@@ -270,7 +270,10 @@
+         if (name.equals("Infinity")) {
+           return Double.POSITIVE_INFINITY;
+         }
+-        return null;
++        {
++			StringBuilder builder = new StringBuilder();
++			return null;
++		}
+ 
+       case Token.NEG:
+         if (n.getChildCount() == 1 && n.getFirstChild().getType() == Token.NAME
+
+

@@ -1,0 +1,31 @@
+--- /tmp/Arja_Defects4J_Closure_33/src/com/google/javascript/rhino/jstype/PrototypeObjectType.java	2018-12-01 09:43:59.335451027 -0500
++++ /tmp/Arja_Defects4J_Closure_33/patches_8itw/Patch_763/patched/tmp/Arja_Defects4J_Closure_33/src/com/google/javascript/rhino/jstype/PrototypeObjectType.java	2018-12-01 09:53:54.032029938 -0500
+@@ -567,14 +567,6 @@
+     if (constraintObj.isRecordType()) {
+       for (String prop : constraintObj.getOwnPropertyNames()) {
+         JSType propType = constraintObj.getPropertyType(prop);
+-        if (!isPropertyTypeDeclared(prop)) {
+-          JSType typeToInfer = propType;
+-          if (!hasProperty(prop)) {
+-            typeToInfer = getNativeType(JSTypeNative.VOID_TYPE)
+-                .getLeastSupertype(propType);
+-          }
+-          defineInferredProperty(prop, typeToInfer, null);
+-        }
+       }
+     }
+   }
+
+
+--- /tmp/Arja_Defects4J_Closure_33/src/com/google/javascript/rhino/jstype/RecordType.java	2018-12-01 09:43:57.291436437 -0500
++++ /tmp/Arja_Defects4J_Closure_33/patches_8itw/Patch_763/patched/tmp/Arja_Defects4J_Closure_33/src/com/google/javascript/rhino/jstype/RecordType.java	2018-12-01 09:53:54.032029938 -0500
+@@ -258,7 +258,6 @@
+           }
+         } else {
+           if (!propA.isSubtype(propB)) {
+-            return false;
+           }
+         }
+       }
+
+

@@ -1,0 +1,42 @@
+--- /tmp/Arja_Defects4J_Lang_51/src/java/org/apache/commons/lang/BooleanUtils.java	2018-12-01 05:11:58.747316711 -0500
++++ /tmp/Arja_Defects4J_Lang_51/patches_elk5/Patch_1170/patched/tmp/Arja_Defects4J_Lang_51/src/java/org/apache/commons/lang/BooleanUtils.java	2018-12-01 05:18:56.837361698 -0500
+@@ -647,7 +647,10 @@
+      * @return the boolean value of the string, <code>false</code> if no match
+      */
+     public static boolean toBoolean(String str) {
+-        // Previously used equalsIgnoreCase, which was fast for interned 'true'.
++        if ("no".equalsIgnoreCase(str)) {
++			return Boolean.FALSE;
++		}
++		// Previously used equalsIgnoreCase, which was fast for interned 'true'.
+         // Non interned 'true' matched 15 times slower.
+         // 
+         // Optimisation provides same performance as before for interned 'true'.
+@@ -682,12 +685,19 @@
+             }
+             case 4: {
+                 char ch = str.charAt(0);
+-                if (ch == 't') {
+-                    return 
+-                        (str.charAt(1) == 'r' || str.charAt(1) == 'R') &&
+-                        (str.charAt(2) == 'u' || str.charAt(2) == 'U') &&
+-                        (str.charAt(3) == 'e' || str.charAt(3) == 'E');
+-                }
++                if ("true".equalsIgnoreCase(str)) {
++					return Boolean.TRUE;
++				} else if ("false".equalsIgnoreCase(str)) {
++					return Boolean.FALSE;
++				} else if ("on".equalsIgnoreCase(str)) {
++					return Boolean.TRUE;
++				} else if ("off".equalsIgnoreCase(str)) {
++					return Boolean.FALSE;
++				} else if ("yes".equalsIgnoreCase(str)) {
++					return Boolean.TRUE;
++				} else if ("no".equalsIgnoreCase(str)) {
++					return Boolean.FALSE;
++				}
+                 if (ch == 'T') {
+                     return 
+                         (str.charAt(1) == 'R' || str.charAt(1) == 'r') &&
+
+

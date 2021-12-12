@@ -1,0 +1,52 @@
+--- /tmp/Arja_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-01 05:57:29.659492621 -0500
++++ /tmp/Arja_Defects4J_Math_81/patches_57bl/Patch_455/patched/tmp/Arja_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-01 06:06:12.233234952 -0500
+@@ -1472,7 +1472,7 @@
+                 } else {
+                     // case 4.
+                     tType = -4;
+-                    double s = 0.25 * dMin;
++                    double s = 0;
+                     double gam;
+                     int np;
+                     if (dMin == dN) {
+@@ -1481,7 +1481,8 @@
+                         if (work[nn - 5]  >  work[nn - 7]) {
+                             return;
+                         }
+-                        b2 = work[nn - 5] / work[nn - 7];
++                        tau = s;
++						b2 = work[nn - 5] / work[nn - 7];
+                         np = nn - 9;
+                     } else {
+                         np = nn - 2 * pingPong;
+@@ -1508,7 +1509,8 @@
+                         if (work[i4]  >  work[i4 - 2]) {
+                             return;
+                         }
+-                        b2 = b2 * (work[i4] / work[i4 - 2]);
++                        this.splitTolerance = splitTolerance;
++						b2 = b2 * (work[i4] / work[i4 - 2]);
+                         a2 = a2 + b2;
+                         if (100 * Math.max(b2, b1) < a2 || cnst1 < a2) {
+                             break;
+@@ -1516,10 +1518,6 @@
+                     }
+                     a2 = cnst3 * a2;
+ 
+-                    // rayleigh quotient residual bound.
+-                    if (a2 < cnst1) {
+-                        s = gam * (1 - Math.sqrt(a2)) / (1 + a2);
+-                    }
+                     tau = s;
+ 
+                 }
+@@ -1622,7 +1620,6 @@
+                 if (dMin1 == dN1) {
+                     tau = 0.5 * dMin1;
+                 }
+-                tType = -9;
+             }
+             break;
+ 
+
+

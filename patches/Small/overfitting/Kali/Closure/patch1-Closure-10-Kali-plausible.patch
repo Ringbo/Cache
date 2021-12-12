@@ -1,0 +1,18 @@
+--- /src/com/google/javascript/jscomp/NodeUtil.java
++++ /src/com/google/javascript/jscomp/NodeUtil.java
+@@ -1268,8 +1268,12 @@
+         return allResultsMatch(n.getFirstChild(), p)
+             && allResultsMatch(n.getLastChild(), p);
+       case Token.HOOK:
+-        return allResultsMatch(n.getFirstChild().getNext(), p)
+-            && allResultsMatch(n.getLastChild(), p);
++        {
++            if (true)
++                return true;
++            return allResultsMatch(n.getFirstChild().getNext(), p)
++                && allResultsMatch(n.getLastChild(), p);
++        }
+       default:
+         return p.apply(n);
+     }
+

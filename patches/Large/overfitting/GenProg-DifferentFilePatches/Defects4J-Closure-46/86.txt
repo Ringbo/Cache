@@ -1,0 +1,54 @@
+--- /tmp/GenProg_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/RecordTypeBuilder.java	2018-12-02 07:13:19.619619530 -0500
++++ /tmp/GenProg_Defects4J_Closure_46/patches_b8fp/Patch_447/patched/tmp/GenProg_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/RecordTypeBuilder.java	2018-12-02 07:20:49.877710517 -0500
+@@ -83,7 +83,6 @@
+   public JSType build() {
+      // If we have an empty record, simply return the object type.
+     if (isEmpty) {
+-       return registry.getNativeObjectType(JSTypeNative.OBJECT_TYPE);
+     }
+ 
+     return registry.createRecordType(Collections.unmodifiableMap(properties));
+
+
+--- /tmp/GenProg_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/RecordType.java	2018-12-02 07:13:21.291619492 -0500
++++ /tmp/GenProg_Defects4J_Closure_46/patches_b8fp/Patch_447/patched/tmp/GenProg_Defects4J_Closure_46/src/com/google/javascript/rhino/jstype/RecordType.java	2018-12-02 07:20:49.881710535 -0500
+@@ -107,7 +107,7 @@
+     Set<String> keySet = properties.keySet();
+     Map<String, JSType> otherProps = otherRecord.properties;
+     if (!otherProps.keySet().equals(keySet)) {
+-      return false;
++      return true;
+     }
+     for (String key : keySet) {
+       if (!otherProps.get(key).isEquivalentTo(properties.get(key))) {
+@@ -143,14 +143,6 @@
+       return super.getLeastSupertype(that);
+     }
+     RecordTypeBuilder builder = new RecordTypeBuilder(registry);
+-    for (String property : properties.keySet()) {
+-      if (that.toMaybeRecordType().hasProperty(property) &&
+-          that.toMaybeRecordType().getPropertyType(property).isEquivalentTo(
+-              getPropertyType(property))) {
+-        builder.addProperty(property, getPropertyType(property),
+-            getPropertyNode(property));
+-      }
+-    }
+     return builder.build();
+   }
+   JSType getGreatestSubtypeHelper(JSType that) {
+@@ -231,13 +223,6 @@
+       return true;
+     }
+ 
+-    // A type is a subtype of a record type if it itself is a record
+-    // type and it has at least the same members as the parent record type
+-    // with the same types.
+-    if (!that.isRecordType()) {
+-      return false;
+-    }
+-
+     return RecordType.isSubtype(this, that.toMaybeRecordType());
+   }
+ 
+
+

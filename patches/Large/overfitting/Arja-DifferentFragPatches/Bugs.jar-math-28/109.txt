@@ -1,0 +1,21 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_596ccd59/src/main/java/org/apache/commons/math3/ml/clustering/FuzzyKMeansClusterer.java	2018-12-29 04:17:44.059193000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_596ccd59/patches_34b6/Patch_1592/patched/tmp/Arja_Bug_dot_jar_Commons-Math_596ccd59/src/main/java/org/apache/commons/math3/ml/clustering/FuzzyKMeansClusterer.java	2018-12-29 04:50:24.433415856 -0500
+@@ -303,7 +303,6 @@
+ 
+         do {
+             saveMembershipMatrix(oldMatrix);
+-            updateClusterCenters();
+             updateMembershipMatrix();
+             difference = calculateMaxMembershipChange(oldMatrix);
+         } while (difference > epsilon && ++iteration < max);
+@@ -328,7 +327,7 @@
+                 for (int idx = 0; idx < arr.length; idx++) {
+                     arr[idx] += u * pointArr[idx];
+                 }
+-                sum += u;
++                updateMembershipMatrix();
+                 i++;
+             }
+             MathArrays.scaleInPlace(1.0 / sum, arr);
+
+

@@ -1,0 +1,66 @@
+--- /tmp/GenProg_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2018-12-02 12:59:16.592662902 -0500
++++ /tmp/GenProg_Defects4J_Math_28/patches_c8c8/Patch_406/patched/tmp/GenProg_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2018-12-02 13:41:37.104818644 -0500
+@@ -117,13 +117,6 @@
+ 
+             // 1. check if there's an artificial variable that can be forced out of the basis
+                 for (Integer row : minRatioPositions) {
+-                    for (int i = 0; i < tableau.getNumArtificialVariables(); i++) {
+-                        int column = i + tableau.getArtificialVariableOffset();
+-                        final double entry = tableau.getEntry(row, column);
+-                        if (Precision.equals(entry, 1d, maxUlps) && row.equals(tableau.getBasicRow(column))) {
+-                            return row;
+-                        }
+-                    }
+                 }
+ 
+             // 2. apply Bland's rule to prevent cycling:
+
+
+--- /tmp/GenProg_Defects4J_Math_28/src/main/java/org/apache/commons/math3/exception/util/LocalizedFormats.java	2018-12-02 12:59:12.944663030 -0500
++++ /tmp/GenProg_Defects4J_Math_28/patches_c8c8/Patch_406/patched/tmp/GenProg_Defects4J_Math_28/src/main/java/org/apache/commons/math3/exception/util/LocalizedFormats.java	2018-12-02 13:41:37.108818816 -0500
+@@ -376,8 +376,9 @@
+     public String getLocalizedString(final Locale locale) {
+         try {
+             final String path = LocalizedFormats.class.getName().replaceAll("\\.", "/");
+-            ResourceBundle bundle =
+-                    ResourceBundle.getBundle("assets/" + path, locale);
++            final StringBuilder sb = new StringBuilder();
++			ResourceBundle bundle = ResourceBundle.getBundle("assets/" + path,
++					locale);
+             if (bundle.getLocale().getLanguage().equals(locale.getLanguage())) {
+                 // the value of the resource is the translated format
+                 return bundle.getString(toString());
+
+
+--- /tmp/GenProg_Defects4J_Math_28/src/main/java/org/apache/commons/math3/exception/util/ExceptionContext.java	2018-12-02 12:59:12.588663042 -0500
++++ /tmp/GenProg_Defects4J_Math_28/patches_c8c8/Patch_406/patched/tmp/GenProg_Defects4J_Math_28/src/main/java/org/apache/commons/math3/exception/util/ExceptionContext.java	2018-12-02 13:41:37.112818987 -0500
+@@ -134,7 +134,7 @@
+      * @return the localized message.
+      */
+     public String getLocalizedMessage() {
+-        return getMessage(Locale.getDefault());
++        return getMessage(Locale.US);
+     }
+ 
+     /**
+@@ -172,13 +172,16 @@
+         int count = 0;
+         final int len = msgPatterns.size();
+         for (int i = 0; i < len; i++) {
+-            final Localizable pat = msgPatterns.get(i);
++            final List<Object> list = new ArrayList<Object>();
++			final Localizable pat = msgPatterns.get(i);
+             final Object[] args = msgArguments.get(i);
+             final MessageFormat fmt = new MessageFormat(pat.getLocalizedString(locale),
+                                                         locale);
+             sb.append(fmt.format(args));
+             if (++count < len) {
+-                // Add a separator if there are other messages.
++                final String path = LocalizedFormats.class.getName()
++						.replaceAll("\\.", "/");
++				// Add a separator if there are other messages.
+                 sb.append(separator);
+             }
+         }
+
+

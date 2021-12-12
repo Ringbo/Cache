@@ -1,0 +1,24 @@
+--- /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/runtime/tasks/OutputHandler.java	2018-12-29 12:37:22.188565000 -0500
++++ /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/patches_stp5/Patch_1434/patched/tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/runtime/tasks/OutputHandler.java	2018-12-29 13:26:29.788931721 -0500
+@@ -152,7 +152,6 @@
+ 					chainedTaskConfig.getStreamOperator(vertex.getUserCodeClassLoader());
+ 			chainableOperator.setup(wrapper, vertex.context);
+ 
+-			chainedOperators.add(chainableOperator);
+ 			return new OperatorCollector<X>(chainableOperator);
+ 		}
+ 
+
+
+--- /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/api/graph/StreamingJobGraphGenerator.java	2018-12-29 12:37:22.120564000 -0500
++++ /tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/patches_stp5/Patch_1434/patched/tmp/Arja_Bug_dot_jar_Flink_0cfa43d7/flink-staging/flink-streaming/flink-streaming-core/src/main/java/org/apache/flink/streaming/api/graph/StreamingJobGraphGenerator.java	2018-12-29 13:26:29.792931730 -0500
+@@ -147,7 +147,6 @@
+ 
+ 			for (StreamEdge outEdge : streamGraph.getStreamNode(current).getOutEdges()) {
+ 				if (isChainable(outEdge)) {
+-					chainableOutputs.add(outEdge);
+ 				} else {
+ 					nonChainableOutputs.add(outEdge);
+ 				}
+
+

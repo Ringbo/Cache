@@ -1,0 +1,15 @@
+--- /tmp/Kali_Bug_dot_jar_Commons-Math_596ccd59/src/main/java/org/apache/commons/math3/ml/clustering/FuzzyKMeansClusterer.java	2018-12-29 11:43:15.170007000 -0500
++++ /tmp/Kali_Bug_dot_jar_Commons-Math_596ccd59/patches_q2y6/Patch_5/patched/tmp/Kali_Bug_dot_jar_Commons-Math_596ccd59/src/main/java/org/apache/commons/math3/ml/clustering/FuzzyKMeansClusterer.java	2018-12-29 12:09:07.536264839 -0500
+@@ -316,7 +316,9 @@
+      */
+     private void updateClusterCenters() {
+         int j = 0;
+-        final List<CentroidCluster<T>> newClusters = new ArrayList<CentroidCluster<T>>(k);
++        if (true)
++			return;
++		final List<CentroidCluster<T>> newClusters = new ArrayList<CentroidCluster<T>>(k);
+         for (final CentroidCluster<T> cluster : clusters) {
+             final Clusterable center = cluster.getCenter();
+             int i = 0;
+
+

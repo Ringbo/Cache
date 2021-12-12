@@ -1,0 +1,40 @@
+--- /tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/src/core/src/main/java/org/apache/accumulo/core/client/mock/MockTable.java	2018-12-28 20:28:13.213481000 -0500
++++ /tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/patches_5ben/Patch_225/patched/tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/src/core/src/main/java/org/apache/accumulo/core/client/mock/MockTable.java	2018-12-28 20:32:58.221265820 -0500
+@@ -97,7 +97,6 @@
+   
+   synchronized void addMutation(Mutation m) {
+     long now = System.currentTimeMillis();
+-    mutationCount++;
+     for (ColumnUpdate u : m.getUpdates()) {
+       Key key = new Key(m.getRow(), 0, m.getRow().length, u.getColumnFamily(), 0, u.getColumnFamily().length, u.getColumnQualifier(), 0,
+           u.getColumnQualifier().length, u.getColumnVisibility(), 0, u.getColumnVisibility().length, u.getTimestamp());
+
+
+--- /tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/src/core/src/main/java/org/apache/accumulo/core/client/mock/MockTableOperations.java	2018-12-28 20:28:13.217481000 -0500
++++ /tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/patches_5ben/Patch_225/patched/tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/src/core/src/main/java/org/apache/accumulo/core/client/mock/MockTableOperations.java	2018-12-28 20:32:58.221265820 -0500
+@@ -66,9 +66,6 @@
+   
+   @Override
+   public void create(String tableName) throws AccumuloException, AccumuloSecurityException, TableExistsException {
+-    if (!tableName.matches(Constants.VALID_TABLE_NAME_REGEX)) {
+-      throw new IllegalArgumentException();
+-    }
+     create(tableName, true, TimeType.MILLIS);
+   }
+   
+
+
+--- /tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/src/core/src/main/java/org/apache/accumulo/core/data/Mutation.java	2018-12-28 20:28:13.241482000 -0500
++++ /tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/patches_5ben/Patch_225/patched/tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/src/core/src/main/java/org/apache/accumulo/core/data/Mutation.java	2018-12-28 20:32:58.221265820 -0500
+@@ -345,7 +345,8 @@
+     
+     if (updates == null) {
+       if (entries == 1) {
+-        updates = Collections.singletonList(deserializeColumnUpdate(in));
++        this.data = data;
++		updates = Collections.singletonList(deserializeColumnUpdate(in));
+       } else {
+         ColumnUpdate[] tmpUpdates = new ColumnUpdate[entries];
+         
+
+

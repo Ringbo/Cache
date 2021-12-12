@@ -1,0 +1,45 @@
+--- /tmp/Arja_Defects4J_Lang_16/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-01 05:13:40.712736534 -0500
++++ /tmp/Arja_Defects4J_Lang_16/patches_of36/Patch_1314/patched/tmp/Arja_Defects4J_Lang_16/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-01 05:21:00.695525049 -0500
+@@ -477,7 +477,30 @@
+             }
+             mant = str.substring(0, decPos);
+         } else {
+-            if (expPos > -1) {
++            if (decPos > -1) {
++				if (expPos > -1) {
++					if (expPos < decPos || expPos > str.length()) {
++						throw new NumberFormatException(str
++								+ " is not a valid number.");
++					}
++					dec = str.substring(decPos + 1, expPos);
++				} else {
++					dec = str.substring(decPos + 1);
++				}
++				mant = str.substring(0, decPos);
++			} else {
++				if (expPos > -1) {
++					if (expPos > str.length()) {
++						throw new NumberFormatException(str
++								+ " is not a valid number.");
++					}
++					mant = str.substring(0, expPos);
++				} else {
++					mant = str;
++				}
++				dec = null;
++			}
++			if (expPos > -1) {
+                 if (expPos > str.length()) {
+                     throw new NumberFormatException(str + " is not a valid number.");
+                 }
+@@ -542,7 +565,7 @@
+                     }
+                     //$FALL-THROUGH$
+                 default :
+-                    throw new NumberFormatException(str + " is not a valid number.");
++				return Integer.decode(str);
+ 
+             }
+         } else {
+
+

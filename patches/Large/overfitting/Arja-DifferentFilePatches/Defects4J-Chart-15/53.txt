@@ -1,0 +1,56 @@
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot3D.java	2018-12-01 08:15:31.186705575 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_427/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot3D.java	2018-12-01 08:22:52.388936240 -0500
+@@ -231,10 +231,8 @@
+         insets.trim(plotArea);
+ 
+         Rectangle2D originalPlotArea = (Rectangle2D) plotArea.clone();
+-        if (info != null) {
+-            info.setPlotArea(plotArea);
+-            info.setDataArea(plotArea);
+-        }
++        g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,
++				0.1f));
+ 
+         drawBackground(g2, plotArea);
+ 
+@@ -244,7 +242,8 @@
+         // adjust the plot area by the interior spacing value
+         double gapPercent = getInteriorGap();
+         double labelPercent = 0.0;
+-        if (getLabelGenerator() != null) {
++        g2.setFont(getLabelFont());
++		if (getLabelGenerator() != null) {
+             labelPercent = getLabelGap() + getMaximumLabelWidth();   
+         }
+         double gapHorizontal = plotArea.getWidth() * (gapPercent 
+@@ -268,7 +267,13 @@
+         double linkW = plotArea.getWidth() - gapHorizontal;
+         double linkH = plotArea.getHeight() - gapVertical;
+         
+-        // make the link area a square if the pie chart is to be circular...
++        if (DatasetUtilities.isEmptyOrNull(getDataset())) {
++			drawNoDataMessage(g2, plotArea);
++			g2.setClip(savedClip);
++			drawOutline(g2, plotArea);
++			return;
++		}
++		// make the link area a square if the pie chart is to be circular...
+         if (isCircular()) { // is circular?
+             double min = Math.min(linkW, linkH) / 2;
+             linkX = (linkX + linkX + linkW) / 2 - min;
+
+
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlotState.java	2018-12-01 08:15:31.190705575 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_427/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlotState.java	2018-12-01 08:22:52.392936515 -0500
+@@ -105,8 +105,7 @@
+      * 
+      * @param passes  the passes.
+      */
+-    public void setPassesRequired(int passes) {
+-        this.passesRequired = passes;   
++    public void setPassesRequired(int passes) {   
+     }
+     
+     /**
+
+

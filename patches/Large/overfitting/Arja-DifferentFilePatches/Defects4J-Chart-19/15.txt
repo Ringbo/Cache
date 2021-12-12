@@ -1,0 +1,38 @@
+--- /tmp/Arja_Defects4J_Chart_19/source/org/jfree/chart/util/AbstractObjectList.java	2018-12-01 08:14:04.945381176 -0500
++++ /tmp/Arja_Defects4J_Chart_19/patches_pitz/Patch_1549/patched/tmp/Arja_Defects4J_Chart_19/source/org/jfree/chart/util/AbstractObjectList.java	2018-12-01 09:07:36.687547822 -0500
+@@ -161,7 +161,10 @@
+                 return (index);
+             }
+         }
+-        return -1;
++        if (object == null) {
++			throw new IllegalArgumentException("Null 'object' argument.");
++		}
++		return -1;
+     }
+ 
+     /**
+
+
+--- /tmp/Arja_Defects4J_Chart_19/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-01 08:14:09.741381399 -0500
++++ /tmp/Arja_Defects4J_Chart_19/patches_pitz/Patch_1549/patched/tmp/Arja_Defects4J_Chart_19/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-01 09:07:36.691548100 -0500
+@@ -637,7 +637,8 @@
+      * @see #getDomainAxis(int)
+      */
+     public void setDomainAxis(int index, CategoryAxis axis) {
+-        setDomainAxis(index, axis, true);
++        setDomainAxisLocation(AxisLocation.BOTTOM_OR_LEFT, false);
++		setDomainAxis(index, axis, true);
+     }
+  
+     /**
+@@ -936,7 +937,6 @@
+             axis.addChangeListener(this);
+         }
+         if (notify) {
+-            notifyListeners(new PlotChangeEvent(this));
+         }
+     }
+ 
+
+

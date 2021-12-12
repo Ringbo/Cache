@@ -1,0 +1,36 @@
+--- /tmp/Arja_Defects4J_Closure_31/src/com/google/javascript/rhino/Node.java	2018-12-01 09:46:57.523791036 -0500
++++ /tmp/Arja_Defects4J_Closure_31/patches_4aem/Patch_715/patched/tmp/Arja_Defects4J_Closure_31/src/com/google/javascript/rhino/Node.java	2018-12-01 10:02:43.089277141 -0500
+@@ -1443,7 +1443,9 @@
+    */
+   NodeMismatch checkTreeEqualsImpl(Node node2) {
+     if (!isEquivalentTo(node2, false, false)) {
+-      return new NodeMismatch(this, node2);
++      if (!isEquivalentTo(node2, false, false)) {
++		return new NodeMismatch(this, node2);
++	}
+     }
+ 
+     NodeMismatch res = null;
+@@ -1456,7 +1458,7 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
++        return null;
+       }
+     }
+     return res;
+
+
+--- /tmp/Arja_Defects4J_Closure_31/src/com/google/javascript/jscomp/CompilerOptions.java	2018-12-01 09:46:57.483790804 -0500
++++ /tmp/Arja_Defects4J_Closure_31/patches_4aem/Patch_715/patched/tmp/Arja_Defects4J_Closure_31/src/com/google/javascript/jscomp/CompilerOptions.java	2018-12-01 10:02:43.089277141 -0500
+@@ -1276,7 +1276,6 @@
+    */
+   public void setDependencyOptions(DependencyOptions options) {
+     Preconditions.checkNotNull(options);
+-    this.dependencyOptions = options;
+   }
+ 
+   /**
+
+

@@ -1,0 +1,36 @@
+--- /tmp/Arja_Defects4J_Math_58/src/main/java/org/apache/commons/math/optimization/fitting/GaussianFitter.java	2018-12-02 02:51:56.625461664 -0500
++++ /tmp/Arja_Defects4J_Math_58/patches_hsi6/Patch_1303/patched/tmp/Arja_Defects4J_Math_58/src/main/java/org/apache/commons/math/optimization/fitting/GaussianFitter.java	2018-12-02 03:13:00.656726381 -0500
+@@ -118,7 +118,7 @@
+      */
+     public double[] fit() {
+         final double[] guess = (new ParameterGuesser(getObservations())).guess();
+-        return fit(new Gaussian.Parametric(), guess);
++        return fit((new ParameterGuesser(getObservations())).guess());
+     }
+ 
+     /**
+@@ -154,7 +154,10 @@
+          */
+         public double[] guess() {
+             if (parameters == null) {
+-                parameters = basicGuess(observations);
++                if (parameters == null) {
++					parameters = basicGuess(observations);
++				}
++				parameters = basicGuess(observations);
+             }
+             return parameters.clone();
+         }
+@@ -270,10 +273,6 @@
+ 
+             double minY = Double.POSITIVE_INFINITY;
+             double maxY = Double.NEGATIVE_INFINITY;
+-            for (final WeightedObservedPoint point : points) {
+-                minY = Math.min(minY, point.getY());
+-                maxY = Math.max(maxY, point.getY());
+-            }
+             throw new OutOfRangeException(y, minY, maxY);
+         }
+ 
+
+

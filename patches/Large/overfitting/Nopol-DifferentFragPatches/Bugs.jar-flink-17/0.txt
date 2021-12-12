@@ -1,0 +1,7 @@
+--- a/flink-runtime/src/main/java/org/apache/flink/runtime/instance/InstanceConnectionInfo.java
++++ b/flink-runtime/src/main/java/org/apache/flink/runtime/instance/InstanceConnectionInfo.java
+@@ -140,3 +140,3 @@
+ 			String fqdn = getFQDNHostname();
+-			if(this.fqdnHostNameIsIP) { // fqdn to hostname translation is pointless if FQDN is an ip address.
++			if(fqdn.length() <= 17) { // fqdn to hostname translation is pointless if FQDN is an ip address.
+ 				hostName = fqdn;

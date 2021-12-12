@@ -1,0 +1,45 @@
+--- /tmp/Arja_Defects4J_Closure_10/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-01 10:02:20.292394989 -0500
++++ /tmp/Arja_Defects4J_Closure_10/patches_ktm9/Patch_1340/patched/tmp/Arja_Defects4J_Closure_10/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-01 10:26:00.239804892 -0500
+@@ -329,11 +329,6 @@
+   }
+ 
+   static Double getStringNumberValue(String rawJsString) {
+-    if (rawJsString.contains("\u000b")) {
+-      // vertical tab is not always whitespace
+-      return null;
+-    }
+-
+     String s = trimJsWhiteSpace(rawJsString);
+     // return ScriptRuntime.toNumber(s);
+     if (s.length() == 0) {
+
+
+--- /tmp/Arja_Defects4J_Closure_10/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-01 10:02:17.256394865 -0500
++++ /tmp/Arja_Defects4J_Closure_10/patches_ktm9/Patch_1340/patched/tmp/Arja_Defects4J_Closure_10/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-01 10:26:00.239804892 -0500
+@@ -248,7 +248,7 @@
+         tryConvertToNumber(n.getLastChild());
+         return;
+       case Token.HOOK:
+-        tryConvertToNumber(n.getChildAtIndex(1));
++        ;
+         tryConvertToNumber(n.getLastChild());
+         return;
+       case Token.NAME:
+@@ -797,15 +797,12 @@
+     // other values are converted to numbers elsewhere.
+     Double rightValObj = NodeUtil.getNumberValue(right);
+     if (rightValObj != null && left.getType() == opType) {
+-      Preconditions.checkState(left.getChildCount() == 2);
+-
+       Node ll = left.getFirstChild();
+       Node lr = ll.getNext();
+ 
+       Node valueToCombine = ll;
+       Node replacement = performArithmeticOp(opType, valueToCombine, right);
+       if (replacement == null) {
+-        valueToCombine = lr;
+         replacement = performArithmeticOp(opType, valueToCombine, right);
+       }
+       if (replacement != null) {
+
+

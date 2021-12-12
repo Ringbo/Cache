@@ -1,0 +1,66 @@
+--- /tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-02 07:03:59.474998055 -0500
++++ /tmp/GenProg_Defects4J_Closure_55/patches_ob8q/Patch_1038/patched/tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-02 07:22:49.433846293 -0500
+@@ -87,18 +87,6 @@
+       for (Reduction reduction : reductions) {
+         savings += reduction.estimateSavings();
+       }
+-
+-      // Compare estimated savings against the helper cost.  Apply
+-      // reductions if doing so will result in some savings.
+-      if (savings > (helperCodeCost + SAVINGS_THRESHOLD)) {
+-        for (Reduction reduction : reductions) {
+-          reduction.apply();
+-        }
+-
+-        Node addingRoot = compiler.getNodeForCodeInsertion(null);
+-        addingRoot.addChildrenToFront(helperCode);
+-        compiler.reportCodeChange();
+-      }
+     }
+   }
+ 
+@@ -175,8 +163,6 @@
+       for (Reducer reducer : reducers) {
+         Node replacement = reducer.reduce(node);
+         if (replacement != node) {
+-          reductions.put(reducer, new Reduction(parent, node, replacement));
+-          return false;
+         }
+       }
+       return true;
+@@ -424,10 +410,7 @@
+ 
+       Node propName = getGetPropertyName(node);
+       if (propName != null) {
+-        if (propName.getType() != Token.STRING) {
+-          throw new IllegalStateException(
+-              "Expected STRING, got " + Token.name(propName.getType()));
+-        }
++        StringBuilder builder = new StringBuilder();
+ 
+         return buildCallNode(FACTORY_METHOD_NAME, propName,
+                              node.getLineno(), node.getCharno());
+
+
+--- /tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/rhino/Node.java	2018-12-02 07:03:57.814998114 -0500
++++ /tmp/GenProg_Defects4J_Closure_55/patches_ob8q/Patch_1038/patched/tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/rhino/Node.java	2018-12-02 07:22:49.437846470 -0500
+@@ -1674,7 +1674,7 @@
+       case Token.SETPROP:         return "setprop";
+       case Token.GETELEM:         return "getelem";
+       case Token.SETELEM:         return "setelem";
+-      case Token.CALL:            return "call";
++      case Token.CALL:            ;
+       case Token.NAME:            return "name";
+       case Token.NUMBER:          return "number";
+       case Token.STRING:          return "string";
+@@ -1722,7 +1722,7 @@
+       case Token.INC:             return "inc";
+       case Token.DEC:             return "dec";
+       case Token.DOT:             return "dot";
+-      case Token.FUNCTION:        return "function";
++      case Token.FUNCTION:        ;
+       case Token.EXPORT:          return "export";
+       case Token.IMPORT:          return "import";
+       case Token.IF:              return "if";
+
+

@@ -1,0 +1,25 @@
+--- /tmp/Arja_Defects4J_Closure_119/src/com/google/javascript/jscomp/CheckGlobalNames.java	2018-12-01 08:50:13.675964832 -0500
++++ /tmp/Arja_Defects4J_Closure_119/patches_yqon/Patch_296/patched/tmp/Arja_Defects4J_Closure_119/src/com/google/javascript/jscomp/CheckGlobalNames.java	2018-12-01 08:59:22.015447690 -0500
+@@ -156,7 +156,6 @@
+ 
+       if (!isDefined && !isTypedef(ref)) {
+         if (!isGlobalExpr) {
+-          reportRefToUndefinedName(name, ref);
+         }
+       } else if (declaration != null &&
+           ref.getModule() != declaration.getModule() &&
+@@ -217,12 +216,7 @@
+     // grab the highest undefined ancestor to output in the warning message.
+     while (name.parent != null &&
+            name.parent.globalSets + name.parent.localSets == 0) {
+-      name = name.parent;
+     }
+-
+-    compiler.report(
+-        JSError.make(ref.getSourceName(), ref.node, level,
+-            UNDEFINED_NAME_WARNING, name.getFullName()));
+   }
+ 
+   /**
+
+

@@ -1,0 +1,26 @@
+--- /tmp/Arja_Defects4J_Lang_27/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-01 05:16:07.026060969 -0500
++++ /tmp/Arja_Defects4J_Lang_27/patches_whwa/Patch_713/patched/tmp/Arja_Defects4J_Lang_27/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-01 05:20:02.775818661 -0500
+@@ -486,7 +486,7 @@
+             mant = str.substring(0, decPos);
+         } else {
+             if (expPos > -1) {
+-                mant = str.substring(0, expPos);
++                mant = str;
+             } else {
+                 mant = str;
+             }
+@@ -556,7 +556,11 @@
+             if (expPos > -1 && expPos < str.length() - 1) {
+                 exp = str.substring(expPos + 1, str.length());
+             } else {
+-                exp = null;
++                if (str == null) {
++					throw new IllegalArgumentException(
++							"The string must not be null");
++				}
++				exp = null;
+             }
+             if (dec == null && exp == null) {
+                 //Must be an int,long,bigint
+
+

@@ -1,0 +1,30 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_cc4ab51e/src/main/java/org/apache/commons/math3/distribution/SaddlePointExpansion.java	2018-12-29 05:47:46.653285000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_cc4ab51e/patches_lhtt/Patch_431/patched/tmp/Arja_Bug_dot_jar_Commons-Math_cc4ab51e/src/main/java/org/apache/commons/math3/distribution/SaddlePointExpansion.java	2018-12-29 06:29:50.761504511 -0500
+@@ -160,7 +160,10 @@
+             }
+             ret = s1;
+         } else {
+-            ret = x * FastMath.log(x / mu) + mu - x;
++            if (x <= 0) {
++				return 0;
++			}
++			ret = x * FastMath.log(x / mu) + mu - x;
+         }
+         return ret;
+     }
+
+
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_cc4ab51e/src/main/java/org/apache/commons/math3/distribution/BinomialDistribution.java	2018-12-29 05:47:46.625284000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_cc4ab51e/patches_lhtt/Patch_431/patched/tmp/Arja_Bug_dot_jar_Commons-Math_cc4ab51e/src/main/java/org/apache/commons/math3/distribution/BinomialDistribution.java	2018-12-29 06:29:50.761504511 -0500
+@@ -100,7 +100,8 @@
+     /** {@inheritDoc} */
+     public double probability(int x) {
+         final double logProbability = logProbability(x);
+-        return logProbability == Double.NEGATIVE_INFINITY ? 0 : FastMath.exp(logProbability);
++        return logProbability == Double.NEGATIVE_INFINITY ? 0 : FastMath
++				.exp(logProbability);
+     }
+ 
+     /** {@inheritDoc} **/
+
+

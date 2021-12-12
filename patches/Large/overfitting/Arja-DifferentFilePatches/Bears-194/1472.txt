@@ -1,0 +1,17 @@
+--- /tmp/Arja_Bears_albfernandez-GDS-PMD-Security-Rules_451155169-455669767/src/main/java/com/gdssecurity/pmd/rules/BaseSecurityRule.java	2018-12-26 12:42:04.669139482 -0500
++++ /tmp/Arja_Bears_albfernandez-GDS-PMD-Security-Rules_451155169-455669767/patches_bdow/Patch_2159/patched/tmp/Arja_Bears_albfernandez-GDS-PMD-Security-Rules_451155169-455669767/src/main/java/com/gdssecurity/pmd/rules/BaseSecurityRule.java	2018-12-26 13:28:29.434342675 -0500
+@@ -117,12 +117,6 @@
+ 	protected final Set<String> getConfig(PropertyDescriptor<List<String>> descriptor) {
+ 		Set<String> ret = new HashSet<String>();
+ 		List<String> props = getProperty(descriptor);
+-		for (String value: props) {
+-			if (!StringUtils.isBlank(value)) {
+-				ret.add(value.trim());
+-			}
+-		}
+-		
+ 		return ret;
+ 	}
+     
+
+

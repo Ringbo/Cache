@@ -1,0 +1,12 @@
+--- /tmp/Arja_Bug_dot_jar_Maven_c4002945/maven-plugin-api/src/main/java/org/apache/maven/plugin/descriptor/PluginDescriptorBuilder.java	2018-12-28 19:52:44.504203000 -0500
++++ /tmp/Arja_Bug_dot_jar_Maven_c4002945/patches_obrk/Patch_619/patched/tmp/Arja_Bug_dot_jar_Maven_c4002945/maven-plugin-api/src/main/java/org/apache/maven/plugin/descriptor/PluginDescriptorBuilder.java	2018-12-29 02:33:08.293175769 -0500
+@@ -50,7 +50,6 @@
+ 
+         PluginDescriptor pluginDescriptor = new PluginDescriptor();
+ 
+-        pluginDescriptor.setSource( source );
+         pluginDescriptor.setGroupId( c.getChild( "groupId" ).getValue() );
+         pluginDescriptor.setArtifactId( c.getChild( "artifactId" ).getValue() );
+         pluginDescriptor.setVersion( c.getChild( "version" ).getValue() );
+
+

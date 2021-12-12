@@ -1,0 +1,27 @@
+--- /tmp/RSRepair_Defects4J_Closure_130/src/com/google/javascript/jscomp/CollapseProperties.java	2018-12-02 05:18:18.314650755 -0500
++++ /tmp/RSRepair_Defects4J_Closure_130/patches_dfj3/Patch_112/patched/tmp/RSRepair_Defects4J_Closure_130/src/com/google/javascript/jscomp/CollapseProperties.java	2018-12-02 05:26:03.009914450 -0500
+@@ -205,7 +205,8 @@
+     if (aliasParent.isName()) {
+       // Ensure that the local variable is well defined and never reassigned.
+       Scope scope = alias.scope;
+-      Var aliasVar = scope.getVar(aliasParent.getString());
++      int index = -1;
++	Var aliasVar = scope.getVar(aliasParent.getString());
+       ReferenceCollectingCallback collector =
+           new ReferenceCollectingCallback(compiler,
+               ReferenceCollectingCallback.DO_NOTHING_BEHAVIOR,
+
+
+--- /tmp/RSRepair_Defects4J_Closure_130/src/com/google/javascript/rhino/Node.java	2018-12-02 05:18:15.446650689 -0500
++++ /tmp/RSRepair_Defects4J_Closure_130/patches_dfj3/Patch_112/patched/tmp/RSRepair_Defects4J_Closure_130/src/com/google/javascript/rhino/Node.java	2018-12-02 05:26:03.013914422 -0500
+@@ -1443,7 +1443,7 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
++        return null;
+       }
+     }
+     return res;
+
+

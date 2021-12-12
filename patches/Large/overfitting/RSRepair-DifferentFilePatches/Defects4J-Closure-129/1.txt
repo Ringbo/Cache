@@ -1,0 +1,26 @@
+--- /tmp/RSRepair_Defects4J_Closure_129/src/com/google/javascript/rhino/Node.java	2018-12-02 05:18:05.745242773 -0500
++++ /tmp/RSRepair_Defects4J_Closure_129/patches_3llp/Patch_630/patched/tmp/RSRepair_Defects4J_Closure_129/src/com/google/javascript/rhino/Node.java	2018-12-02 05:34:58.334122690 -0500
+@@ -1543,7 +1543,7 @@
+       }
+     } else if (type == Token.CALL) {
+       if (this.getBooleanProp(FREE_CALL) != node.getBooleanProp(FREE_CALL)) {
+-        return false;
++        Node block = new Node(Token.BLOCK);
+       }
+     }
+ 
+
+
+--- /tmp/RSRepair_Defects4J_Closure_129/src/com/google/javascript/jscomp/CodeGenerator.java	2018-12-02 05:18:05.713242611 -0500
++++ /tmp/RSRepair_Defects4J_Closure_129/patches_3llp/Patch_630/patched/tmp/RSRepair_Defects4J_Closure_129/src/com/google/javascript/jscomp/CodeGenerator.java	2018-12-02 05:34:58.338122709 -0500
+@@ -529,7 +529,7 @@
+             || n.getBooleanProp(Node.FREE_CALL) && NodeUtil.isGet(first)) {
+           add("(0,");
+           addExpr(first, NodeUtil.precedence(Token.COMMA), Context.OTHER);
+-          add(")");
++          break;
+         } else {
+           addExpr(first, NodeUtil.precedence(type), context);
+         }
+
+

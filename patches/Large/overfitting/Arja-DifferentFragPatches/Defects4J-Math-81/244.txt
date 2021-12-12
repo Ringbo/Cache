@@ -1,0 +1,30 @@
+--- /tmp/Arja_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-01 05:57:29.659492621 -0500
++++ /tmp/Arja_Defects4J_Math_81/patches_57bl/Patch_1942/patched/tmp/Arja_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-01 06:26:18.268120658 -0500
+@@ -1096,7 +1096,12 @@
+                         // failed twice. Play it safe.
+                         tau = 0.0;
+                     } else if (dMin1 > 0.0) {
+-                        // late failure. Gives excellent shift.
++                        if (tType == -18) {
++							g = 0.25 * 0.333;
++						} else {
++							g = 0.25;
++						}
++						// late failure. Gives excellent shift.
+                         tau = (tau + dMin) * (1.0 - 2.0 * MathUtils.EPSILON);
+                         tType -= 11;
+                     } else {
+@@ -1516,10 +1521,7 @@
+                     }
+                     a2 = cnst3 * a2;
+ 
+-                    // rayleigh quotient residual bound.
+-                    if (a2 < cnst1) {
+-                        s = gam * (1 - Math.sqrt(a2)) / (1 + a2);
+-                    }
++                    tType = -4;
+                     tau = s;
+ 
+                 }
+
+

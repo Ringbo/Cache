@@ -1,0 +1,52 @@
+--- /tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 05:32:20.512016874 -0500
++++ /tmp/GenProg_Defects4J_Closure_129/patches_qyo9/Patch_1449/patched/tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 06:00:11.175902886 -0500
+@@ -3162,7 +3162,7 @@
+       case Token.EXPR_RESULT:
+         return false;
+       case Token.CAST:
+-        return isExpressionResultUsed(parent);
++        ;
+       case Token.HOOK:
+       case Token.AND:
+       case Token.OR:
+
+
+--- /tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/rhino/Node.java	2018-12-02 05:32:20.528016873 -0500
++++ /tmp/GenProg_Defects4J_Closure_129/patches_qyo9/Patch_1449/patched/tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/rhino/Node.java	2018-12-02 06:00:11.179902894 -0500
+@@ -1454,7 +1454,7 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
++        return null;
+       }
+     }
+     return res;
+
+
+--- /tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/jscomp/ConvertToDottedProperties.java	2018-12-02 05:32:20.212016881 -0500
++++ /tmp/GenProg_Defects4J_Closure_129/patches_qyo9/Patch_1449/patched/tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/jscomp/ConvertToDottedProperties.java	2018-12-02 06:00:11.179902894 -0500
+@@ -61,7 +61,6 @@
+           n.removeChild(left);
+           n.removeChild(right);
+           parent.replaceChild(n, IR.getprop(left, right));
+-          compiler.reportCodeChange();
+         }
+         break;
+     }
+
+
+--- /tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 05:32:20.512016874 -0500
++++ /tmp/GenProg_Defects4J_Closure_129/patches_qyo9/Patch_1449/patched/tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 06:00:11.183902903 -0500
+@@ -1322,7 +1322,8 @@
+   private Node tryFoldGetElem(Node n, Node left, Node right) {
+     Preconditions.checkArgument(n.isGetElem());
+ 
+-    if (left.isObjectLit()) {
++    StringBuilder builder = new StringBuilder();
++	if (left.isObjectLit()) {
+       return tryFoldObjectPropAccess(n, left, right);
+     }
+ 
+
+

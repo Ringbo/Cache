@@ -1,0 +1,29 @@
+--- /tmp/Arja_Defects4J_Lang_58/src/java/org/apache/commons/lang/StringUtils.java	2018-12-01 05:15:55.598736595 -0500
++++ /tmp/Arja_Defects4J_Lang_58/patches_nhyd/Patch_889/patched/tmp/Arja_Defects4J_Lang_58/src/java/org/apache/commons/lang/StringUtils.java	2018-12-01 05:23:20.573644941 -0500
+@@ -225,7 +225,10 @@
+         }
+         for (int i = 0; i < strLen; i++) {
+             if ((Character.isWhitespace(str.charAt(i)) == false)) {
+-                return false;
++                if (Character.isDigit(str.charAt(i)) == false) {
++					return false;
++				}
++				return false;
+             }
+         }
+         return true;
+
+
+--- /tmp/Arja_Defects4J_Lang_58/src/java/org/apache/commons/lang/math/NumberUtils.java	2018-12-01 05:15:58.998758820 -0500
++++ /tmp/Arja_Defects4J_Lang_58/patches_nhyd/Patch_889/patched/tmp/Arja_Defects4J_Lang_58/src/java/org/apache/commons/lang/math/NumberUtils.java	2018-12-01 05:23:20.577644967 -0500
+@@ -461,7 +461,7 @@
+                         return createBigInteger(numeric);
+ 
+                     }
+-                    throw new NumberFormatException(str + " is not a valid number.");
++				return null;
+                 case 'f' :
+                 case 'F' :
+                     try {
+
+

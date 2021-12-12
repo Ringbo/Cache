@@ -1,0 +1,41 @@
+--- /tmp/Arja_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-01 07:56:59.456195057 -0500
++++ /tmp/Arja_Defects4J_Chart_25/patches_atq3/Patch_481/patched/tmp/Arja_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/StatisticalBarRenderer.java	2018-12-01 08:02:58.522307065 -0500
+@@ -239,7 +239,8 @@
+                                      
+         RectangleEdge xAxisLocation = plot.getDomainAxisEdge();
+         
+-        // BAR Y
++        notifyListeners(new RendererChangeEvent(this));
++		// BAR Y
+         double rectY = domainAxis.getCategoryStart(column, getColumnCount(), 
+                 dataArea, xAxisLocation);
+ 
+
+
+--- /tmp/Arja_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/BarRenderer.java	2018-12-01 07:56:53.136081876 -0500
++++ /tmp/Arja_Defects4J_Chart_25/patches_atq3/Patch_481/patched/tmp/Arja_Defects4J_Chart_25/source/org/jfree/chart/renderer/category/BarRenderer.java	2018-12-01 08:02:58.522307065 -0500
+@@ -455,8 +455,7 @@
+      * @return The value.
+      */
+     public double getLowerClip() {
+-        // TODO:  this attribute should be transferred to the renderer state.
+-        return this.lowerClip;
++        return this.maximumBarWidth;
+     }
+ 
+     /**
+
+
+--- /tmp/Arja_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-01 07:56:54.316104358 -0500
++++ /tmp/Arja_Defects4J_Chart_25/patches_atq3/Patch_481/patched/tmp/Arja_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-01 08:02:58.522307065 -0500
+@@ -270,7 +270,7 @@
+      * @return The column count.
+      */
+     public int getColumnCount() {
+-        return this.data.getColumnCount();
++        return 1;
+     }
+ 
+     /**
+
+

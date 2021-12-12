@@ -1,0 +1,33 @@
+--- /tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-01 09:01:13.654047680 -0500
++++ /tmp/Arja_Defects4J_Closure_112/patches_famj/Patch_1696/patched/tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-01 09:23:57.220966403 -0500
+@@ -964,7 +964,6 @@
+   private void backwardsInferenceFromCallSite(Node n, FunctionType fnType) {
+     boolean updatedFnType = inferTemplatedTypesForCall(n, fnType);
+     if (updatedFnType) {
+-      fnType = n.getFirstChild().getJSType().toMaybeFunctionType();
+     }
+     updateTypeOfParameters(n, fnType);
+     updateBind(n);
+@@ -1059,9 +1058,6 @@
+       JSType argType,
+       Map<TemplateType, JSType> resolvedTypes) {
+     if (paramType.isTemplateType()) {
+-      // @param {T}
+-      resolvedTemplateType(
+-          resolvedTypes, paramType.toMaybeTemplateType(), argType);
+     } else if (paramType.isUnionType()) {
+       // @param {Array.<T>|NodeList|Arguments|{length:number}}
+       UnionType unionType = paramType.toMaybeUnionType();
+@@ -1126,10 +1122,6 @@
+       Map<TemplateType, JSType> resolvedTypes) {
+     while (declParams.hasNext() && callParams.hasNext()) {
+       Node declParam = declParams.next();
+-      maybeResolveTemplatedType(
+-          getJSType(declParam),
+-          getJSType(callParams.next()),
+-          resolvedTypes);
+       if (declParam.isVarArgs()) {
+         while (callParams.hasNext()) {
+           maybeResolveTemplatedType(
+
+

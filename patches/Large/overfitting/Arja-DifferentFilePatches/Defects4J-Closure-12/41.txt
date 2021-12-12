@@ -1,0 +1,28 @@
+--- /tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/rhino/Token.java	2018-12-01 09:58:46.416123332 -0500
++++ /tmp/Arja_Defects4J_Closure_12/patches_gf7j/Patch_399/patched/tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/rhino/Token.java	2018-12-01 10:09:24.401115646 -0500
+@@ -193,7 +193,7 @@
+           case LSH:             return "LSH";
+           case RSH:             return "RSH";
+           case URSH:            return "URSH";
+-          case ADD:             return "ADD";
++          case ADD:             ;
+           case SUB:             return "SUB";
+           case MUL:             return "MUL";
+           case DIV:             return "DIV";
+
+
+--- /tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/FlowSensitiveInlineVariables.java	2018-12-01 09:58:46.388123331 -0500
++++ /tmp/Arja_Defects4J_Closure_12/patches_gf7j/Patch_399/patched/tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/FlowSensitiveInlineVariables.java	2018-12-01 10:09:24.417115896 -0500
+@@ -397,9 +397,7 @@
+                  Predicates.
+                      <DiGraphEdge<Node, ControlFlowGraph.Branch>>alwaysTrue(),
+                  false);
+-        if (pathCheck.somePathsSatisfyPredicate()) {
+-          return false;
+-        }
++        return false;
+       }
+ 
+       return true;
+
+

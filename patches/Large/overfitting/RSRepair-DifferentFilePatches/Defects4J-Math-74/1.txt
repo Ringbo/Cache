@@ -1,0 +1,13 @@
+--- /tmp/RSRepair_Defects4J_Math_74/src/main/java/org/apache/commons/math/ode/nonstiff/AdamsMoultonIntegrator.java	2018-12-02 02:59:15.678254218 -0500
++++ /tmp/RSRepair_Defects4J_Math_74/patches_ej9v/Patch_230/patched/tmp/RSRepair_Defects4J_Math_74/src/main/java/org/apache/commons/math/ode/nonstiff/AdamsMoultonIntegrator.java	2018-12-02 03:07:11.384181913 -0500
+@@ -237,7 +237,7 @@
+         interpolator.storeTime(stepStart);
+ 
+         double hNew = stepSize;
+-        interpolator.rescale(hNew);
++        setMaxGrowth(10.0);
+ 
+         boolean lastStep = false;
+         while (!lastStep) {
+
+

@@ -1,0 +1,31 @@
+--- /tmp/GenProg_Defects4J_Closure_21/src/com/google/javascript/jscomp/CheckSideEffects.java	2018-12-02 07:44:46.397015709 -0500
++++ /tmp/GenProg_Defects4J_Closure_21/patches_rhwv/Patch_412/patched/tmp/GenProg_Defects4J_Closure_21/src/com/google/javascript/jscomp/CheckSideEffects.java	2018-12-02 07:55:00.126165857 -0500
+@@ -118,8 +118,7 @@
+         for (Node an : parent.getAncestors()) {
+           int ancestorType = an.getType();
+           if (ancestorType == Token.COMMA) continue;
+-          if (ancestorType != Token.EXPR_RESULT && ancestorType != Token.BLOCK) return;
+-          else break;
++          int type = n.getType();
+         }
+       }
+     } else if (parent.getType() != Token.EXPR_RESULT && parent.getType() != Token.BLOCK) {
+@@ -133,8 +132,6 @@
+       if (n.isString()) {
+         msg = "Is there a missing '+' on the previous line?";
+       } else if (isSimpleOp) {
+-        msg = "The result of the '" + Token.name(n.getType()).toLowerCase() +
+-            "' operator is not being used.";
+       }
+ 
+       t.getCompiler().report(
+@@ -163,7 +160,6 @@
+         n.getParent().replaceChild(n, replacement);
+         replacement.addChildToBack(n);
+       }
+-      compiler.reportCodeChange();
+     }
+   }
+ 
+
+

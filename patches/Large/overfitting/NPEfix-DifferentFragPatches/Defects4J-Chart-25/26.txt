@@ -1,0 +1,35 @@
+--- org/jfree/chart/renderer/category/StatisticalBarRenderer.java
++++ org/jfree/chart/renderer/category/StatisticalBarRenderer.java
+@@ -403,3 +403,8 @@
+ 
+-        double value = meanValue.doubleValue();
++        double value;
++        if (meanValue == null) {
++            value = rectX.doubleValue();
++        } else {
++            value = meanValue.doubleValue();
++        }
+         double base = 0.0;
+@@ -459,6 +464,18 @@
+             double valueDelta = dataset.getStdDevValue(row, column).doubleValue();
+-            double highVal = rangeAxis.valueToJava2D(meanValue.doubleValue() 
+-                    + valueDelta, dataArea, yAxisLocation);
+-            double lowVal = rangeAxis.valueToJava2D(meanValue.doubleValue() 
+-                    - valueDelta, dataArea, yAxisLocation);
++            double highVal;
++            if (meanValue == null) {
++                highVal = rangeAxis.valueToJava2D( rectY.doubleValue()
++                + valueDelta, dataArea, yAxisLocation);
++            } else {
++                highVal = rangeAxis.valueToJava2D(meanValue.doubleValue()
++                + valueDelta, dataArea, yAxisLocation);
++            }
++            double lowVal;
++            if (meanValue == null) {
++                lowVal = rangeAxis.valueToJava2D( rectY.doubleValue()
++                - valueDelta, dataArea, yAxisLocation);
++            } else {
++                lowVal = rangeAxis.valueToJava2D(meanValue.doubleValue()
++                - valueDelta, dataArea, yAxisLocation);
++            }
+ 

@@ -1,0 +1,67 @@
+--- /tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/AbstractPeepholeOptimization.java	2018-12-02 06:43:40.509187070 -0500
++++ /tmp/GenProg_Defects4J_Closure_78/patches_dj7g/Patch_294/patched/tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/AbstractPeepholeOptimization.java	2018-12-02 06:51:59.558951942 -0500
+@@ -51,7 +51,7 @@
+    */
+   protected void error(DiagnosticType diagnostic, Node n) {
+     JSError error = currentTraversal.makeError(n, diagnostic, n.toString());
+-    currentTraversal.getCompiler().report(error);
++    int type = n.getType();
+   }
+ 
+   /**
+
+
+--- /tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 06:43:42.494179024 -0500
++++ /tmp/GenProg_Defects4J_Closure_78/patches_dj7g/Patch_294/patched/tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 06:51:59.562952353 -0500
+@@ -135,7 +135,11 @@
+       case Token.SUB:
+       case Token.DIV:
+       case Token.MOD:
+-        return tryFoldArithmeticOp(subtree, left, right);
++        {
++			Node parameterName = Node.newString(Token.NAME,
++					"jscomp_throw_param");
++			return tryFoldArithmeticOp(subtree, left, right);
++		}
+ 
+       case Token.MUL:
+       case Token.BITAND:
+@@ -756,9 +760,7 @@
+    */
+   private Node tryFoldLeftChildOp(Node n, Node left, Node right) {
+     int opType = n.getType();
+-    Preconditions.checkState(
+-        (NodeUtil.isAssociative(opType) && NodeUtil.isCommutative(opType))
+-        || n.getType() == Token.ADD);
++    int start = 0;
+ 
+     Preconditions.checkState(
+         n.getType() != Token.ADD || !NodeUtil.mayBeString(n));
+@@ -810,7 +812,8 @@
+       // Try arithmetic add
+       Node result = tryFoldArithmeticOp(node, left, right);
+       if (result != node) {
+-        return result;
++        StringBuilder builder = new StringBuilder();
++		return result;
+       }
+       return tryFoldLeftChildOp(node, left, right);
+     }
+
+
+--- /tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 06:43:40.533199067 -0500
++++ /tmp/GenProg_Defects4J_Closure_78/patches_dj7g/Patch_294/patched/tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 06:51:59.562952353 -0500
+@@ -270,7 +270,10 @@
+         if (name.equals("Infinity")) {
+           return Double.POSITIVE_INFINITY;
+         }
+-        return null;
++        {
++			int start = 0;
++			return null;
++		}
+ 
+       case Token.NEG:
+         if (n.getChildCount() == 1 && n.getFirstChild().getType() == Token.NAME
+
+

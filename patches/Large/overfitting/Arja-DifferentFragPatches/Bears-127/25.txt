@@ -1,0 +1,21 @@
+--- /tmp/Arja_Bears_traccar-traccar_273118899-273136493/src/org/traccar/protocol/EelinkProtocolDecoder.java	2018-12-26 12:59:39.444574687 -0500
++++ /tmp/Arja_Bears_traccar-traccar_273118899-273136493/patches_r2qe/Patch_1747/patched/tmp/Arja_Bears_traccar-traccar_273118899-273136493/src/org/traccar/protocol/EelinkProtocolDecoder.java	2018-12-26 13:17:02.228175653 -0500
+@@ -118,8 +118,6 @@
+         position.setDeviceId(deviceSession.getDeviceId());
+         position.setProtocol(getProtocolName());
+ 
+-        position.set(Position.KEY_INDEX, index);
+-
+         position.setTime(new Date(buf.readUnsignedInt() * 1000));
+         position.setLatitude(buf.readInt() / 1800000.0);
+         position.setLongitude(buf.readInt() / 1800000.0);
+@@ -159,7 +157,6 @@
+             position.set(Position.KEY_EVENT, statusType);
+ 
+             if (statusType == 0x01 || statusType == 0x02 || statusType == 0x03) {
+-                buf.readUnsignedInt(); // device time
+                 decodeStatus(position, buf.readUnsignedShort());
+             }
+ 
+
+

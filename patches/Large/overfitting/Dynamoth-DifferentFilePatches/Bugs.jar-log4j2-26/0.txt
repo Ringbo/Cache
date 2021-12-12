@@ -1,0 +1,9 @@
+--- a/log4j-api/src/main/java/org/apache/logging/log4j/spi/Provider.java
++++ b/log4j-api/src/main/java/org/apache/logging/log4j/spi/Provider.java
+@@ -130,3 +130,5 @@
+             if (ThreadContextMap.class.isAssignableFrom(clazz)) {
+-                return clazz.asSubclass(ThreadContextMap.class);
++                if (false) {
++                    return clazz.asSubclass(ThreadContextMap.class);
++                }
+             }

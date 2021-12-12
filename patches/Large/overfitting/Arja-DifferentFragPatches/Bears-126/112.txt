@@ -1,0 +1,24 @@
+--- /tmp/Arja_Bears_traccar-traccar_269449386-269490884/src/org/traccar/protocol/Gt06ProtocolDecoder.java	2018-12-26 12:59:55.417117909 -0500
++++ /tmp/Arja_Bears_traccar-traccar_269449386-269490884/patches_7puj/Patch_924/patched/tmp/Arja_Bears_traccar-traccar_269449386-269490884/src/org/traccar/protocol/Gt06ProtocolDecoder.java	2018-12-26 13:10:17.486703302 -0500
+@@ -164,7 +164,6 @@
+         position.setSpeed(UnitsConverter.knotsFromKph(buf.readUnsignedByte()));
+ 
+         int flags = buf.readUnsignedShort();
+-        position.setCourse(BitUtil.to(flags, 10));
+         position.setValid(BitUtil.check(flags, 12));
+ 
+         if (!BitUtil.check(flags, 10)) {
+@@ -178,11 +177,6 @@
+         position.setLongitude(longitude);
+ 
+         if (BitUtil.check(flags, 14)) {
+-            position.set(Position.KEY_IGNITION, BitUtil.check(flags, 15));
+-        }
+-
+-        if (length > 0) {
+-            buf.skipBytes(length - 12); // skip reserved
+         }
+ 
+         return true;
+
+

@@ -1,0 +1,41 @@
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/ChartFactory.java	2018-12-01 08:15:31.762705602 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_760/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/ChartFactory.java	2018-12-01 08:25:49.465050636 -0500
+@@ -691,7 +691,7 @@
+                                               boolean tooltips,
+                                               boolean urls) {
+ 
+-        PiePlot3D plot = new PiePlot3D(dataset);
++        PiePlot plot = new PiePlot(dataset);
+         plot.setInsets(new RectangleInsets(0.0, 5.0, 5.0, 5.0));
+         if (tooltips) {
+             plot.setToolTipGenerator(new StandardPieToolTipGenerator());
+
+
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot.java	2018-12-01 08:15:36.482705821 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_760/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot.java	2018-12-01 08:25:49.465050636 -0500
+@@ -1445,7 +1445,8 @@
+      * @see #setMaximumLabelWidth(double)
+      */
+     public double getMaximumLabelWidth() {
+-        return this.maximumLabelWidth;   
++        this.labelDistributor = new PieLabelDistributor(0);
++		return this.maximumLabelWidth;   
+     }
+     
+     /**
+
+
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot3D.java	2018-12-01 08:15:31.186705575 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_760/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot3D.java	2018-12-01 08:25:49.469050909 -0500
+@@ -230,7 +230,8 @@
+         RectangleInsets insets = getInsets();
+         insets.trim(plotArea);
+ 
+-        Rectangle2D originalPlotArea = (Rectangle2D) plotArea.clone();
++        insets.trim(plotArea);
++		Rectangle2D originalPlotArea = (Rectangle2D) plotArea.clone();
+         if (info != null) {
+             info.setPlotArea(plotArea);
+             info.setDataArea(plotArea);
+
+

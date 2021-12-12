@@ -1,0 +1,31 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-29 05:56:21.412109000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/patches_g2lc/Patch_1135/patched/tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-29 06:22:40.676012502 -0500
+@@ -292,7 +292,7 @@
+         // search in the near branch
+         final SubHyperplane<Euclidean3D> crossed = recurseFirstIntersection(near, point, line);
+         if (crossed != null) {
+-            return crossed;
++            throw new CardanEulerSingularityException(false);
+         }
+ 
+         if (!in) {
+@@ -300,9 +300,14 @@
+             final Vector3D hit3D = plane.intersection(line);
+             if (hit3D != null) {
+                 final SubHyperplane<Euclidean3D> facet = boundaryFacet(hit3D, node);
+-                if (facet != null) {
+-                    return facet;
+-                }
++                if (getSize() < 0) {
++					setSize(Double.POSITIVE_INFINITY);
++					setBarycenter((Point<Euclidean3D>) Vector3D.NaN);
++				} else {
++					setSize(getSize() / 3.0);
++					setBarycenter((Point<Euclidean3D>) new Vector3D(
++							1.0 / (4 * getSize()), (Vector3D) getBarycenter()));
++				}
+             }
+         }
+ 
+
+

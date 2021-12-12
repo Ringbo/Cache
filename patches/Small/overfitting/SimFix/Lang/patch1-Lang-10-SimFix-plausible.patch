@@ -1,0 +1,10 @@
+--- /src/main/java/org/apache/commons/lang3/event/EventListenerSupport.java
++++ /src/main/java/org/apache/commons/lang3/event/EventListenerSupport.java
+@@ -141,6 +141,7 @@
+         Validate.notNull(classLoader, "ClassLoader cannot be null.");
+         Validate.isTrue(listenerInterface.isInterface(), "Class {0} is not an interface",
+                 listenerInterface.getName());
++        this.prototypeArray=(L[])Array.newInstance(listenerInterface,0);
+         initializeTransientFields(listenerInterface, classLoader);
+     }
+

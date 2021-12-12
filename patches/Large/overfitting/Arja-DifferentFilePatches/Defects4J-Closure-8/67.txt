@@ -1,0 +1,36 @@
+--- /tmp/Arja_Defects4J_Closure_8/src/com/google/javascript/jscomp/CollapseVariableDeclarations.java	2018-12-01 10:02:25.535699864 -0500
++++ /tmp/Arja_Defects4J_Closure_8/patches_hwwe/Patch_1176/patched/tmp/Arja_Defects4J_Closure_8/src/com/google/javascript/jscomp/CollapseVariableDeclarations.java	2018-12-01 10:20:45.720666791 -0500
+@@ -199,9 +199,7 @@
+       }
+ 
+       Var var = s.getVar(lhs.getString());
+-      return var != null
+-          && var.getScope() == s
+-          && !blacklistedVars.contains(var);
++      return false;
+     }
+   }
+ 
+@@ -238,7 +236,6 @@
+ 
+       if (redeclaration) {
+         JSDocInfo info = new JSDocInfo();
+-        info.addSuppression("duplicate");
+         var.setJSDocInfo(info);
+       }
+     }
+
+
+--- /tmp/Arja_Defects4J_Closure_8/src/com/google/javascript/rhino/Node.java	2018-12-01 10:02:23.007699806 -0500
++++ /tmp/Arja_Defects4J_Closure_8/patches_hwwe/Patch_1176/patched/tmp/Arja_Defects4J_Closure_8/src/com/google/javascript/rhino/Node.java	2018-12-01 10:20:45.720666791 -0500
+@@ -1437,7 +1437,7 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
++        parent = null;
+       }
+     }
+     return res;
+
+

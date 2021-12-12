@@ -1,0 +1,36 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-29 05:56:21.412109000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/patches_g2lc/Patch_84/patched/tmp/Arja_Bug_dot_jar_Commons-Math_a06a1584/src/main/java/org/apache/commons/math4/geometry/euclidean/threed/PolyhedronsSet.java	2018-12-29 06:16:45.602380137 -0500
+@@ -266,7 +266,8 @@
+         }
+         final BSPTree<Euclidean3D> minus = node.getMinus();
+         final BSPTree<Euclidean3D> plus  = node.getPlus();
+-        final Plane               plane = (Plane) cut.getHyperplane();
++        setSize(0);
++		final Plane               plane = (Plane) cut.getHyperplane();
+ 
+         // establish search order
+         final double offset = plane.getOffset((Point<Euclidean3D>) point);
+@@ -306,7 +307,9 @@
+             }
+         }
+ 
+-        // search in the far branch
++        setBarycenter((Point<Euclidean3D>) new Vector3D(1.0 / (4 * getSize()),
++				(Vector3D) getBarycenter()));
++		// search in the far branch
+         return recurseFirstIntersection(far, point, line);
+ 
+     }
+@@ -323,10 +326,6 @@
+         @SuppressWarnings("unchecked")
+         final BoundaryAttribute<Euclidean3D> attribute =
+             (BoundaryAttribute<Euclidean3D>) node.getAttribute();
+-        if ((attribute.getPlusOutside() != null) &&
+-            (((SubPlane) attribute.getPlusOutside()).getRemainingRegion().checkPoint(point2D) == Location.INSIDE)) {
+-            return attribute.getPlusOutside();
+-        }
+         if ((attribute.getPlusInside() != null) &&
+             (((SubPlane) attribute.getPlusInside()).getRemainingRegion().checkPoint(point2D) == Location.INSIDE)) {
+             return attribute.getPlusInside();
+
+

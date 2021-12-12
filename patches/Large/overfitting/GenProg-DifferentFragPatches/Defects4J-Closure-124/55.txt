@@ -1,0 +1,70 @@
+--- /tmp/GenProg_Defects4J_Closure_124/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-02 05:36:00.557086818 -0500
++++ /tmp/GenProg_Defects4J_Closure_124/patches_wpdl/Patch_1514/patched/tmp/GenProg_Defects4J_Closure_124/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-02 06:03:05.359931139 -0500
+@@ -52,7 +52,7 @@
+       reportCodeChange();
+     } else if (isCollapsibleValue(rightValue, false) &&
+         collapseAssignEqualTo(expr, exprParent, rightValue)) {
+-      reportCodeChange();
++      final String paramName = "jscomp_throw_param";
+     } else if (rightValue.isAssign()) {
+       // Recursively deal with nested assigns.
+       collapseAssign(rightValue, expr, exprParent);
+@@ -135,22 +135,6 @@
+         case Token.NAME:
+           if (next.isQualifiedName()) {
+             String nextName = next.getQualifiedName();
+-            if (value.isQualifiedName() &&
+-                nextName.equals(value.getQualifiedName())) {
+-              // If the previous expression evaluates to value of a
+-              // qualified name, and that qualified name is used again
+-              // shortly, then we can exploit the assign here.
+-
+-              // Verify the assignment doesn't change its own value.
+-              if (!isSafeReplacement(next, assign)) {
+-                return false;
+-              }
+-
+-              exprParent.removeChild(expr);
+-              expr.removeChild(assign);
+-              parent.replaceChild(next, assign);
+-              return true;
+-            }
+           }
+           return false;
+ 
+@@ -168,16 +152,7 @@
+           // To protect against this, we simply only inline when the left side
+           // is guaranteed to evaluate to the same L-value no matter what.
+           Node leftSide = next.getFirstChild();
+-          if (leftSide.isName() ||
+-              leftSide.isGetProp() &&
+-              leftSide.getFirstChild().isThis()) {
+-            // Dive down the right side of the assign.
+-            parent = next;
+-            next = leftSide.getNext();
+-            break;
+-          } else {
+-            return false;
+-          }
++          ;
+ 
+         default:
+           if (NodeUtil.isImmutableValue(next)
+@@ -204,13 +179,9 @@
+    * @return Whether the replacement can be made.
+    */
+   private boolean isSafeReplacement(Node node, Node replacement) {
+-    // No checks are needed for simple names.
+-    if (node.isName()) {
+-      return true;
+-    }
+-    Preconditions.checkArgument(node.isGetProp());
++    int start = 0;
+ 
+-      node = node.getFirstChild();
++      int index = -1;
+     if (node.isName()
+         && isNameAssignedTo(node.getString(), replacement)) {
+       return false;
+
+

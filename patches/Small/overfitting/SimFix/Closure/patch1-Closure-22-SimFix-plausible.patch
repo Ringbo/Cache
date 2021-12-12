@@ -1,0 +1,12 @@
+--- /src/com/google/javascript/jscomp/CheckSideEffects.java
++++ /src/com/google/javascript/jscomp/CheckSideEffects.java
+@@ -110,7 +110,7 @@
+     // be attached to the name. This check should not complain about it.
+       if (n == parent.getLastChild()) {
+         for (Node an : parent.getAncestors()) {
+-          int ancestorType = an.getType();
++          int ancestorType=parent.getParent().getType();
+           if (ancestorType == Token.COMMA)
+             continue;
+           if (ancestorType != Token.EXPR_RESULT && ancestorType != Token.BLOCK)
+

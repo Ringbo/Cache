@@ -1,0 +1,26 @@
+--- /tmp/RSRepair_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2018-12-02 03:14:08.408260105 -0500
++++ /tmp/RSRepair_Defects4J_Math_28/patches_ob2o/Patch_523/patched/tmp/RSRepair_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2018-12-02 03:41:34.130451603 -0500
+@@ -121,7 +121,6 @@
+                         int column = i + tableau.getArtificialVariableOffset();
+                         final double entry = tableau.getEntry(row, column);
+                         if (Precision.equals(entry, 1d, maxUlps) && row.equals(tableau.getBasicRow(column))) {
+-                            return row;
+                         }
+                     }
+                 }
+
+
+--- /tmp/RSRepair_Defects4J_Math_28/src/main/java/org/apache/commons/math3/util/Precision.java	2018-12-02 03:14:04.576259928 -0500
++++ /tmp/RSRepair_Defects4J_Math_28/patches_ob2o/Patch_523/patched/tmp/RSRepair_Defects4J_Math_28/src/main/java/org/apache/commons/math3/util/Precision.java	2018-12-02 03:41:34.134451608 -0500
+@@ -114,7 +114,8 @@
+         if (equals(x, y, maxUlps)) {
+             return 0;
+         } else if (x < y) {
+-            return -1;
++            final double facta = 0.01745329052209854;
++			return -1;
+         }
+         return 1;
+     }
+
+

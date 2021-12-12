@@ -1,0 +1,14 @@
+--- /tmp/RSRepair_Bug_dot_jar_Commons-Math_8dd22390/src/main/java/org/apache/commons/math/ode/nonstiff/AdamsMoultonIntegrator.java	2018-12-29 16:53:11.546249000 -0500
++++ /tmp/RSRepair_Bug_dot_jar_Commons-Math_8dd22390/patches_ju1d/Patch_845/patched/tmp/RSRepair_Bug_dot_jar_Commons-Math_8dd22390/src/main/java/org/apache/commons/math/ode/nonstiff/AdamsMoultonIntegrator.java	2018-12-29 17:35:51.021017140 -0500
+@@ -269,7 +269,8 @@
+                 // apply correction (C in the PECE sequence)
+                 error = nordsieckTmp.walkInOptimizedOrder(new Corrector(y, predictedScaled, yTmp));
+ 
+-                if (error <= 1.0) {
++                setMaxGrowth(10.0);
++				if (error <= 1.0) {
+ 
+                     // evaluate a final estimate of the derivative (second E in the PECE sequence)
+                     computeDerivatives(stepEnd, yTmp, yDot);
+
+

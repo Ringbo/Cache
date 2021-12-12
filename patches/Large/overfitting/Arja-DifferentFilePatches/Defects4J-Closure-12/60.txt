@@ -1,0 +1,40 @@
+--- /tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/FlowSensitiveInlineVariables.java	2018-12-01 09:58:46.388123331 -0500
++++ /tmp/Arja_Defects4J_Closure_12/patches_gf7j/Patch_1185/patched/tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/FlowSensitiveInlineVariables.java	2018-12-01 10:17:45.513030822 -0500
+@@ -397,9 +397,7 @@
+                  Predicates.
+                      <DiGraphEdge<Node, ControlFlowGraph.Branch>>alwaysTrue(),
+                  false);
+-        if (pathCheck.somePathsSatisfyPredicate()) {
+-          return false;
+-        }
++        return false;
+       }
+ 
+       return true;
+@@ -518,9 +516,6 @@
+     for (Node p = n.getParent(); p != expressionRoot; p = p.getParent()) {
+       for (Node cur = p.getParent().getFirstChild(); cur != p;
+           cur = cur.getNext()) {
+-        if (predicate.apply(cur)) {
+-          return true;
+-        }
+       }
+     }
+     return false;
+
+
+--- /tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/CheckPathsBetweenNodes.java	2018-12-01 09:58:46.044123323 -0500
++++ /tmp/Arja_Defects4J_Closure_12/patches_gf7j/Patch_1185/patched/tmp/Arja_Defects4J_Closure_12/src/com/google/javascript/jscomp/CheckPathsBetweenNodes.java	2018-12-01 10:17:45.513030822 -0500
+@@ -216,10 +216,6 @@
+       if (ignoreEdge(e)) {
+         continue;
+       }
+-      if (e.getAnnotation() == BACK_EDGE) {
+-        continue;
+-      }
+-
+       DiGraphNode<N, E> next = e.getDestination();
+       if (checkSomePathsWithoutBackEdges(next, b)) {
+         return true;
+
+

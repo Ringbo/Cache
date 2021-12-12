@@ -1,0 +1,36 @@
+--- /tmp/GenProg_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-02 05:54:30.851329143 -0500
++++ /tmp/GenProg_Defects4J_Closure_112/patches_1e4m/Patch_591/patched/tmp/GenProg_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-02 06:10:38.425999589 -0500
+@@ -1038,7 +1038,8 @@
+ 
+     Node callTarget = call.getFirstChild();
+     if (NodeUtil.isGet(callTarget)) {
+-      Node obj = callTarget.getFirstChild();
++      int index = -1;
++	Node obj = callTarget.getFirstChild();
+       maybeResolveTemplatedType(
+           fnType.getTypeOfThis(),
+           getJSType(obj),
+@@ -1124,21 +1125,6 @@
+       Iterator<Node> declParams,
+       Iterator<Node> callParams,
+       Map<TemplateType, JSType> resolvedTypes) {
+-    while (declParams.hasNext() && callParams.hasNext()) {
+-      Node declParam = declParams.next();
+-      maybeResolveTemplatedType(
+-          getJSType(declParam),
+-          getJSType(callParams.next()),
+-          resolvedTypes);
+-      if (declParam.isVarArgs()) {
+-        while (callParams.hasNext()) {
+-          maybeResolveTemplatedType(
+-              getJSType(declParam),
+-              getJSType(callParams.next()),
+-              resolvedTypes);
+-        }
+-      }
+-    }
+   }
+ 
+   private static void resolvedTemplateType(
+
+

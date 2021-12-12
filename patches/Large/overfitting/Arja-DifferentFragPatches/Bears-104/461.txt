@@ -1,0 +1,21 @@
+--- /tmp/Arja_Bears_traccar-traccar_212058933-212061222/src/org/traccar/protocol/SuntechProtocolDecoder.java	2018-12-26 13:24:02.202494680 -0500
++++ /tmp/Arja_Bears_traccar-traccar_212058933-212061222/patches_7b3l/Patch_539/patched/tmp/Arja_Bears_traccar-traccar_212058933-212061222/src/org/traccar/protocol/SuntechProtocolDecoder.java	2018-12-26 13:30:34.942224012 -0500
+@@ -110,8 +110,6 @@
+         if (deviceSession == null) {
+             return null;
+         }
+-        position.setDeviceId(deviceSession.getDeviceId());
+-
+         if (protocol.equals("ST300")) {
+             index += 1; // model
+         }
+@@ -145,7 +143,6 @@
+         }
+ 
+         if (index < values.length) {
+-            position.set(Position.KEY_HOURS, Integer.parseInt(values[index++]));
+         }
+ 
+         if (index < values.length) {
+
+

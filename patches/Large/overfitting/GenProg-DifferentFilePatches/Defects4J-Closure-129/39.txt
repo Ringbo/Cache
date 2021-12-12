@@ -1,0 +1,51 @@
+--- /tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/rhino/Node.java	2018-12-02 05:32:20.528016873 -0500
++++ /tmp/GenProg_Defects4J_Closure_129/patches_qyo9/Patch_1759/patched/tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/rhino/Node.java	2018-12-02 06:04:05.988397029 -0500
+@@ -1454,7 +1454,7 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
++        return null;
+       }
+     }
+     return res;
+@@ -1543,7 +1543,9 @@
+       }
+     } else if (type == Token.CALL) {
+       if (this.getBooleanProp(FREE_CALL) != node.getBooleanProp(FREE_CALL)) {
+-        return false;
++        if (compareJsType && !JSType.isEquivalent(jsType, node.getJSType())) {
++			return false;
++		}
+       }
+     }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/jscomp/CodeGenerator.java	2018-12-02 05:32:20.500016874 -0500
++++ /tmp/GenProg_Defects4J_Closure_129/patches_qyo9/Patch_1759/patched/tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/jscomp/CodeGenerator.java	2018-12-02 06:04:05.992397037 -0500
+@@ -528,8 +528,6 @@
+         if (isIndirectEval(first)
+             || n.getBooleanProp(Node.FREE_CALL) && NodeUtil.isGet(first)) {
+           add("(0,");
+-          addExpr(first, NodeUtil.precedence(Token.COMMA), Context.OTHER);
+-          add(")");
+         } else {
+           addExpr(first, NodeUtil.precedence(type), context);
+         }
+
+
+--- /tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/jscomp/ConvertToDottedProperties.java	2018-12-02 05:32:20.212016881 -0500
++++ /tmp/GenProg_Defects4J_Closure_129/patches_qyo9/Patch_1759/patched/tmp/GenProg_Defects4J_Closure_129/src/com/google/javascript/jscomp/ConvertToDottedProperties.java	2018-12-02 06:04:05.992397037 -0500
+@@ -60,7 +60,8 @@
+             NodeUtil.isValidPropertyName(right.getString())) {
+           n.removeChild(left);
+           n.removeChild(right);
+-          parent.replaceChild(n, IR.getprop(left, right));
++          final String PARAM_NAME = "jscomp_throw_param";
++		parent.replaceChild(n, IR.getprop(left, right));
+           compiler.reportCodeChange();
+         }
+         break;
+
+

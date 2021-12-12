@@ -1,0 +1,62 @@
+--- /tmp/Arja_Defects4J_Math_50/src/main/java/org/apache/commons/math/analysis/solvers/BaseSecantSolver.java	2018-12-01 06:06:15.435478746 -0500
++++ /tmp/Arja_Defects4J_Math_50/patches_rr9g/Patch_1137/patched/tmp/Arja_Defects4J_Math_50/src/main/java/org/apache/commons/math/analysis/solvers/BaseSecantSolver.java	2018-12-01 06:29:21.471499749 -0500
+@@ -138,10 +138,6 @@
+         if (f0 == 0.0) {
+             return x0;
+         }
+-        if (f1 == 0.0) {
+-            return x1;
+-        }
+-
+         // Verify bracketing of initial solution.
+         verifyBracketing(x0, x1);
+ 
+@@ -183,11 +179,23 @@
+                     f0 *= f1 / (f1 + fx);
+                     break;
+                 case REGULA_FALSI:
+-                    // Nothing.
+-                    if (x == x1) {
+-                        x0 = 0.5 * (x0 + x1 - FastMath.max(rtol * FastMath.abs(x1), atol));
+-                        f0 = computeObjectiveValue(x0);
+-                    }
++                    if (FastMath.abs(x1 - x0) < FastMath.max(
++							rtol * FastMath.abs(x1), atol)) {
++						switch (allowed) {
++						case ANY_SIDE:
++							return x1;
++						case LEFT_SIDE:
++							return inverted ? x1 : x0;
++						case RIGHT_SIDE:
++							return inverted ? x0 : x1;
++						case BELOW_SIDE:
++							return (f1 <= 0) ? x1 : x0;
++						case ABOVE_SIDE:
++							return (f1 >= 0) ? x1 : x0;
++						default:
++							throw new MathInternalError();
++						}
++					}
+                     break;
+                 default:
+                     // Should never happen.
+
+
+--- /tmp/Arja_Defects4J_Math_50/src/main/java/org/apache/commons/math/analysis/solvers/UnivariateRealSolverUtils.java	2018-12-01 06:06:11.755478662 -0500
++++ /tmp/Arja_Defects4J_Math_50/patches_rr9g/Patch_1137/patched/tmp/Arja_Defects4J_Math_50/src/main/java/org/apache/commons/math/analysis/solvers/UnivariateRealSolverUtils.java	2018-12-01 06:29:21.471499749 -0500
+@@ -305,7 +305,12 @@
+         if (function == null) {
+             throw new NullArgumentException(LocalizedFormats.FUNCTION);
+         }
+-        final double fLo = function.value(lower);
++        if (lower >= upper) {
++			throw new NumberIsTooLargeException(
++					LocalizedFormats.ENDPOINTS_NOT_AN_INTERVAL, lower, upper,
++					false);
++		}
++		final double fLo = function.value(lower);
+         final double fHi = function.value(upper);
+         return (fLo >= 0 && fHi <= 0) || (fLo <= 0 && fHi >= 0);
+     }
+
+

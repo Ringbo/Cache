@@ -1,0 +1,12 @@
+--- /tmp/Arja_Bug_dot_jar_Maven_c4002945/maven-plugin-api/src/main/java/org/apache/maven/plugin/descriptor/PluginDescriptor.java	2018-12-28 19:52:44.500203000 -0500
++++ /tmp/Arja_Bug_dot_jar_Maven_c4002945/patches_obrk/Patch_1746/patched/tmp/Arja_Bug_dot_jar_Maven_c4002945/maven-plugin-api/src/main/java/org/apache/maven/plugin/descriptor/PluginDescriptor.java	2018-12-29 02:36:53.808722069 -0500
+@@ -323,7 +323,6 @@
+ 
+     public void setName( String name )
+     {
+-        this.name = name;
+     }
+ 
+     public String getName()
+
+

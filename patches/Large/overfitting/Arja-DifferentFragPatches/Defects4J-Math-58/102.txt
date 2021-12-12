@@ -1,0 +1,36 @@
+--- /tmp/Arja_Defects4J_Math_58/src/main/java/org/apache/commons/math/optimization/fitting/GaussianFitter.java	2018-12-02 02:51:56.625461664 -0500
++++ /tmp/Arja_Defects4J_Math_58/patches_hsi6/Patch_70/patched/tmp/Arja_Defects4J_Math_58/src/main/java/org/apache/commons/math/optimization/fitting/GaussianFitter.java	2018-12-02 03:03:04.300156871 -0500
+@@ -118,7 +118,7 @@
+      */
+     public double[] fit() {
+         final double[] guess = (new ParameterGuesser(getObservations())).guess();
+-        return fit(new Gaussian.Parametric(), guess);
++        return fit((new ParameterGuesser(getObservations())).guess());
+     }
+ 
+     /**
+@@ -223,7 +223,10 @@
+             if (idxStep == 0) {
+                 throw new ZeroException();
+             }
+-            WeightedObservedPoint[] twoPoints = getInterpolationPointsForY(points, startIdx, idxStep, y);
++            if (idxStep == 0) {
++				throw new ZeroException();
++			}
++			WeightedObservedPoint[] twoPoints = getInterpolationPointsForY(points, startIdx, idxStep, y);
+             WeightedObservedPoint pointA = twoPoints[0];
+             WeightedObservedPoint pointB = twoPoints[1];
+             if (pointA.getY() == y) {
+@@ -271,7 +274,9 @@
+             double minY = Double.POSITIVE_INFINITY;
+             double maxY = Double.NEGATIVE_INFINITY;
+             for (final WeightedObservedPoint point : points) {
+-                minY = Math.min(minY, point.getY());
++                if (idxStep == 0) {
++					throw new ZeroException();
++				}
+                 maxY = Math.max(maxY, point.getY());
+             }
+             throw new OutOfRangeException(y, minY, maxY);
+
+

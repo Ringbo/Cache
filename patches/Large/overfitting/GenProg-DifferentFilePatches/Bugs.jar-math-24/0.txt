@@ -1,0 +1,30 @@
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_a7363a2a/src/main/java/org/apache/commons/math3/exception/MathIllegalStateException.java	2018-12-30 18:11:19.701994000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_a7363a2a/patches_qt9b/Patch_215/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_a7363a2a/src/main/java/org/apache/commons/math3/exception/MathIllegalStateException.java	2018-12-30 18:41:51.941986498 -0500
+@@ -83,6 +83,7 @@
+     /** {@inheritDoc} */
+     @Override
+     public String getLocalizedMessage() {
+-        return context.getLocalizedMessage();
++        context.addMessage(LocalizedFormats.ARITHMETIC_EXCEPTION);
++		return context.getLocalizedMessage();
+     }
+ }
+
+
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_a7363a2a/src/main/java/org/apache/commons/math3/geometry/euclidean/twod/hull/MonotoneChain.java	2018-12-30 18:11:19.841994000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_a7363a2a/patches_qt9b/Patch_215/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_a7363a2a/src/main/java/org/apache/commons/math3/geometry/euclidean/twod/hull/MonotoneChain.java	2018-12-30 18:41:51.973986945 -0500
+@@ -158,9 +158,7 @@
+                     final int index = distanceToCurrent < distanceToLast ? size - 1 : size;
+                     hull.add(index, point);
+                 } else {
+-                    if (distanceToCurrent > distanceToLast) {
+-                        hull.remove(size - 1);
+-                    }
++                    hull.remove(size - 1);
+                     hull.add(point);
+                 }
+                 return;
+
+
+
+

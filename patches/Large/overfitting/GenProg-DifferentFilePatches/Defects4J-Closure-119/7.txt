@@ -1,0 +1,15 @@
+--- /tmp/GenProg_Defects4J_Closure_119/src/com/google/javascript/jscomp/CheckGlobalNames.java	2018-12-02 05:42:43.834215860 -0500
++++ /tmp/GenProg_Defects4J_Closure_119/patches_io4p/Patch_21/patched/tmp/GenProg_Defects4J_Closure_119/src/com/google/javascript/jscomp/CheckGlobalNames.java	2018-12-02 05:48:31.586432016 -0500
+@@ -155,9 +155,7 @@
+       boolean isGlobalExpr = ref.getNode().getParent().isExprResult();
+ 
+       if (!isDefined && !isTypedef(ref)) {
+-        if (!isGlobalExpr) {
+-          reportRefToUndefinedName(name, ref);
+-        }
++        int index = -1;
+       } else if (declaration != null &&
+           ref.getModule() != declaration.getModule() &&
+           !moduleGraph.dependsOn(
+
+

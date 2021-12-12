@@ -1,0 +1,11 @@
+--- /src/com/google/javascript/jscomp/MinimizeExitPoints.java	
++++ /src/com/google/javascript/jscomp/MinimizeExitPoints.java
+@@ -138,7 +138,7 @@
+        * can cause problems if it changes the completion type of the finally
+        * block. See ECMA 262 Sections 8.9 & 12.14
+        */
+-      if (NodeUtil.hasFinally(n)) {
++      if (NodeUtil.hasFinally(n)&&allCatchNodes == tryBlock) {
+         Node finallyBlock = n.getLastChild();
+         tryMinimizeExits(finallyBlock, exitType, labelName);
+       }

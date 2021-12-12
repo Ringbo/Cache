@@ -1,0 +1,13 @@
+/var/lib/oar/.batch_job_bashrc: line 5: /home/tdurieux/.bashrc: No such file or directory
+--- org/traccar/protocol/Gt06ProtocolDecoder.java
++++ org/traccar/protocol/Gt06ProtocolDecoder.java
+@@ -181,7 +181,7 @@
+ 			position.set(org.traccar.model.Position.KEY_IGNITION, org.traccar.helper.BitUtil.check(flags, 15));
+ 		}
+ 
+-		if (length > 0) {
++		if (length < 0) {
+ 			buf.skipBytes((length - 12));
+ 		}
+ 
+

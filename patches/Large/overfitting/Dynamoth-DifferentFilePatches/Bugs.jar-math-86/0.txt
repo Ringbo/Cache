@@ -1,0 +1,9 @@
+--- a/src/main/java/org/apache/commons/math/optimization/direct/BOBYQAOptimizer.java
++++ b/src/main/java/org/apache/commons/math/optimization/direct/BOBYQAOptimizer.java
+@@ -931,3 +931,5 @@
+                     d__1 = HALF * delta;
+-                    delta = Math.max(d__1,dnorm);
++                    if (false) {
++                        delta = Math.max(d__1,dnorm);
++                    }
+                 } else {

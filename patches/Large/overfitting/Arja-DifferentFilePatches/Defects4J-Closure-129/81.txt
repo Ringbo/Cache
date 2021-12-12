@@ -1,0 +1,38 @@
+--- /tmp/Arja_Defects4J_Closure_129/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-01 08:46:01.972601364 -0500
++++ /tmp/Arja_Defects4J_Closure_129/patches_ulrg/Patch_783/patched/tmp/Arja_Defects4J_Closure_129/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-01 08:59:07.380720852 -0500
+@@ -1320,8 +1320,6 @@
+    * Try to fold array-element. e.g [1, 2, 3][10];
+    */
+   private Node tryFoldGetElem(Node n, Node left, Node right) {
+-    Preconditions.checkArgument(n.isGetElem());
+-
+     if (left.isObjectLit()) {
+       return tryFoldObjectPropAccess(n, left, right);
+     }
+
+
+--- /tmp/Arja_Defects4J_Closure_129/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-01 08:46:01.968601359 -0500
++++ /tmp/Arja_Defects4J_Closure_129/patches_ulrg/Patch_783/patched/tmp/Arja_Defects4J_Closure_129/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-01 08:59:07.380720852 -0500
+@@ -3162,7 +3162,7 @@
+       case Token.EXPR_RESULT:
+         return false;
+       case Token.CAST:
+-        return isExpressionResultUsed(parent);
++        break;
+       case Token.HOOK:
+       case Token.AND:
+       case Token.OR:
+
+
+--- /tmp/Arja_Defects4J_Closure_129/src/com/google/javascript/rhino/Node.java	2018-12-01 08:46:01.984601380 -0500
++++ /tmp/Arja_Defects4J_Closure_129/patches_ulrg/Patch_783/patched/tmp/Arja_Defects4J_Closure_129/src/com/google/javascript/rhino/Node.java	2018-12-01 08:59:07.380720852 -0500
+@@ -1543,7 +1543,6 @@
+       }
+     } else if (type == Token.CALL) {
+       if (this.getBooleanProp(FREE_CALL) != node.getBooleanProp(FREE_CALL)) {
+-        return false;
+       }
+     }
+ 
+
+

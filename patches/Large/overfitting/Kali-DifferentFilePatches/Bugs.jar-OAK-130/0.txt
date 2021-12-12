@@ -1,0 +1,13 @@
+--- /tmp/Kali_Bug_dot_jar_Jackrabbit-Oak_7c320b1e/oak-commons/src/main/java/org/apache/jackrabbit/oak/commons/json/JsopBuilder.java	2018-12-29 20:27:26.379559000 -0500
++++ /tmp/Kali_Bug_dot_jar_Jackrabbit-Oak_7c320b1e/patches_kfwp/Patch_4/patched/tmp/Kali_Bug_dot_jar_Jackrabbit-Oak_7c320b1e/oak-commons/src/main/java/org/apache/jackrabbit/oak/commons/json/JsopBuilder.java	2018-12-29 20:30:44.191926383 -0500
+@@ -316,7 +316,7 @@
+                         buff.append('0');
+                     }
+                     buff.append(hex);
+-                } else if (c >= 127) {
++                } else if (false) {
+                     // ascii only mode
+                     buff.append("\\u");
+                     String hex = Integer.toHexString(c);
+
+

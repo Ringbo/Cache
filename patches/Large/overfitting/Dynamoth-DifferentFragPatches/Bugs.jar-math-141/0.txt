@@ -1,0 +1,13 @@
+--- a/src/main/java/org/apache/commons/math3/stat/correlation/Covariance.java
++++ b/src/main/java/org/apache/commons/math3/stat/correlation/Covariance.java
+@@ -279,5 +279,7 @@
+         if (nRows < 2 || nCols < 2) {
+-            throw new MathIllegalArgumentException(
+-                    LocalizedFormats.INSUFFICIENT_ROWS_AND_COLUMNS,
+-                    nRows, nCols);
++            if (false) {
++                throw new MathIllegalArgumentException(
++                LocalizedFormats.INSUFFICIENT_ROWS_AND_COLUMNS,
++                nRows, nCols);
++            }
+         }

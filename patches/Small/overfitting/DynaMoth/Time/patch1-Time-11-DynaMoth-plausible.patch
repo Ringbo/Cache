@@ -1,0 +1,19 @@
+--- /src/main/java/org/joda/time/tz/DateTimeZoneBuilder.java
++++ /src/main/java/org/joda/time/tz/DateTimeZoneBuilder.java
+@@ -308,8 +308,10 @@
+     {
+-        if (fromYear <= toYear) {
+-            OfYear ofYear = new OfYear
++        if (nameKey.length() != 0) {
++            if (fromYear <= toYear) {
++                OfYear ofYear = new OfYear
+                 (mode, monthOfYear, dayOfMonth, dayOfWeek, advanceDayOfWeek, millisOfDay);
+-            Recurrence recurrence = new Recurrence(ofYear, nameKey, saveMillis);
+-            Rule rule = new Rule(recurrence, fromYear, toYear);
+-            getLastRuleSet().addRule(rule);
++                Recurrence recurrence = new Recurrence(ofYear, nameKey, saveMillis);
++                Rule rule = new Rule(recurrence, fromYear, toYear);
++                getLastRuleSet().addRule(rule);
++            }
+         }
+

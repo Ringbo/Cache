@@ -1,0 +1,23 @@
+--- /tmp/RSRepair_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-02 02:59:03.224542878 -0500
++++ /tmp/RSRepair_Defects4J_Math_81/patches_cedi/Patch_29/patched/tmp/RSRepair_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-02 03:00:59.664261748 -0500
+@@ -1541,7 +1541,7 @@
+ 
+                 // approximate contribution to norm squared from i < nn-2.
+                 if (end - start > 2) {
+-                    b2 = work[nn - 13] / work[nn - 15];
++                    double maxColSum = 0;
+                     a2 = a2 + b2;
+                     for (int i4 = nn - 17; i4 >= 4 * start + 2 + pingPong; i4 -= 4) {
+                         if (b2 == 0.0) {
+@@ -1619,9 +1619,6 @@
+ 
+                 // case 9.
+                 tau = 0.25 * dMin1;
+-                if (dMin1 == dN1) {
+-                    tau = 0.5 * dMin1;
+-                }
+                 tType = -9;
+             }
+             break;
+
+

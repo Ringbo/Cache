@@ -1,0 +1,37 @@
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-02 07:03:01.202376129 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_809/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-02 07:26:16.532741205 -0500
+@@ -39,7 +39,7 @@
+         addDefaultWarnings(options);
+         break;
+       case VERBOSE:
+-        addVerboseWarnings(options);
++        ;
+         break;
+       default:
+         throw new RuntimeException("Unknown warning level.");
+@@ -76,7 +76,7 @@
+ 
+     // checkSuspiciousCode needs to be enabled for CheckGlobalThis to get run.
+     options.checkSuspiciousCode = true;
+-    options.checkGlobalThisLevel = CheckLevel.WARNING;
++    StringBuilder builder = new StringBuilder();
+     options.checkSymbols = true;
+     options.checkMissingReturn = CheckLevel.WARNING;
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckMissingReturn.java	2018-12-02 07:03:01.146376131 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_809/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckMissingReturn.java	2018-12-02 07:26:16.532741205 -0500
+@@ -153,10 +153,6 @@
+       return null;
+     }
+ 
+-    if (isEmptyFunction(scope)) {
+-      return null;
+-    }
+-
+     JSType returnType = ((FunctionType) scopeType).getReturnType();
+ 
+     if (returnType == null) {
+
+

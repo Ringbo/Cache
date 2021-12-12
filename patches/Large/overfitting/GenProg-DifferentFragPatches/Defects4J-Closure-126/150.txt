@@ -1,0 +1,43 @@
+--- /tmp/GenProg_Defects4J_Closure_126/src/com/google/javascript/jscomp/MinimizeExitPoints.java	2018-12-02 05:32:30.886962148 -0500
++++ /tmp/GenProg_Defects4J_Closure_126/patches_go4m/Patch_1473/patched/tmp/GenProg_Defects4J_Closure_126/src/com/google/javascript/jscomp/MinimizeExitPoints.java	2018-12-02 05:55:34.530971347 -0500
+@@ -125,7 +125,8 @@
+ 
+     // Just a 'try/catch/finally'.
+     if (n.isTry()) {
+-      Node tryBlock = n.getFirstChild();
++      int type = n.getType();
++	Node tryBlock = n.getFirstChild();
+       tryMinimizeExits(tryBlock, exitType, labelName);
+       Node allCatchNodes = NodeUtil.getCatchBlock(n);
+       if (NodeUtil.hasCatchHandler(allCatchNodes)) {
+@@ -134,14 +135,6 @@
+         Node catchCodeBlock = catchNode.getLastChild();
+         tryMinimizeExits(catchCodeBlock, exitType, labelName);
+       }
+-      /* Don't try to minimize the exits of finally blocks, as this
+-       * can cause problems if it changes the completion type of the finally
+-       * block. See ECMA 262 Sections 8.9 & 12.14
+-       */
+-      if (NodeUtil.hasFinally(n)) {
+-        Node finallyBlock = n.getLastChild();
+-        tryMinimizeExits(finallyBlock, exitType, labelName);
+-      }
+     }
+ 
+     // Just a 'label'.
+@@ -279,12 +272,7 @@
+         // only returns without expressions.
+         return !n.hasChildren();
+       } else {
+-        if (labelName == null) {
+-          return !n.hasChildren();
+-        } else {
+-          return n.hasChildren()
+-            && labelName.equals(n.getFirstChild().getString());
+-        }
++        int start = 0;
+       }
+     }
+     return false;
+
+

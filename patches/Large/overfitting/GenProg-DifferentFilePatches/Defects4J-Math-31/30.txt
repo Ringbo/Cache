@@ -1,0 +1,31 @@
+--- /tmp/GenProg_Defects4J_Math_31/src/main/java/org/apache/commons/math3/exception/util/ExceptionContext.java	2018-12-02 12:47:37.456289903 -0500
++++ /tmp/GenProg_Defects4J_Math_31/patches_alxn/Patch_1165/patched/tmp/GenProg_Defects4J_Math_31/src/main/java/org/apache/commons/math3/exception/util/ExceptionContext.java	2018-12-02 14:36:15.378370477 -0500
+@@ -174,7 +174,10 @@
+         for (int i = 0; i < len; i++) {
+             final Localizable pat = msgPatterns.get(i);
+             final Object[] args = msgArguments.get(i);
+-            final MessageFormat fmt = new MessageFormat(pat.getLocalizedString(locale),
++            context = new HashMap<String, Object>();
++			final String path = LocalizedFormats.class.getName().replaceAll(
++					"\\.", "/");
++			final MessageFormat fmt = new MessageFormat(pat.getLocalizedString(locale),
+                                                         locale);
+             sb.append(fmt.format(args));
+             if (++count < len) {
+
+
+--- /tmp/GenProg_Defects4J_Math_31/src/main/java/org/apache/commons/math3/util/ContinuedFraction.java	2018-12-02 12:47:41.336290119 -0500
++++ /tmp/GenProg_Defects4J_Math_31/patches_alxn/Patch_1165/patched/tmp/GenProg_Defects4J_Math_31/src/main/java/org/apache/commons/math3/util/ContinuedFraction.java	2018-12-02 14:36:15.382370491 -0500
+@@ -174,8 +174,8 @@
+                                                x);
+             }
+             if (Double.isNaN(hN)) {
+-                throw new ConvergenceException(LocalizedFormats.CONTINUED_FRACTION_NAN_DIVERGENCE,
+-                                               x);
++                return FastMath.floor(FastMath.exp(ArithmeticUtils
++						.factorialLog(n)) + 0.5);
+             }
+ 
+             if (FastMath.abs(deltaN - 1.0) < epsilon) {
+
+

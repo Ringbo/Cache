@@ -1,0 +1,9 @@
+--- a/src/main/java/org/apache/commons/math3/util/ResizableDoubleArray.java
++++ b/src/main/java/org/apache/commons/math3/util/ResizableDoubleArray.java
+@@ -457,3 +457,5 @@
+         System.arraycopy(values, 0, tempArray, numElements, values.length);
+-        internalArray = tempArray;
++        if (values.length <= 5) {
++            internalArray = tempArray;
++        }
+         startIndex = 0;

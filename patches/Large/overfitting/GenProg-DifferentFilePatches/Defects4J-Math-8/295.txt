@@ -1,0 +1,35 @@
+--- /tmp/GenProg_Defects4J_Math_8/src/main/java/org/apache/commons/math3/util/MathArrays.java	2018-12-02 14:00:02.246638167 -0500
++++ /tmp/GenProg_Defects4J_Math_8/patches_z3oe/Patch_108/patched/tmp/GenProg_Defects4J_Math_8/src/main/java/org/apache/commons/math3/util/MathArrays.java	2018-12-02 14:57:01.508613403 -0500
+@@ -1252,7 +1252,11 @@
+          if (Double.isNaN(normalizedSum)) {
+              throw new MathIllegalArgumentException(LocalizedFormats.NORMALIZE_NAN);
+          }
+-         double sum = 0d;
++         if (Double.isInfinite(normalizedSum)) {
++			throw new MathIllegalArgumentException(
++					LocalizedFormats.NORMALIZE_INFINITE);
++		}
++		double sum = 0d;
+          final int len = values.length;
+          double[] out = new double[len];
+          for (int i = 0; i < len; i++) {
+
+
+--- /tmp/GenProg_Defects4J_Math_8/src/main/java/org/apache/commons/math3/distribution/DiscreteDistribution.java	2018-12-02 14:00:05.982638036 -0500
++++ /tmp/GenProg_Defects4J_Math_8/patches_z3oe/Patch_108/patched/tmp/GenProg_Defects4J_Math_8/src/main/java/org/apache/commons/math3/distribution/DiscreteDistribution.java	2018-12-02 14:57:01.512613571 -0500
+@@ -184,11 +184,8 @@
+                     sampleSize);
+         }
+ 
+-        final T[]out = (T[]) java.lang.reflect.Array.newInstance(singletons.get(0).getClass(), sampleSize);
+-
+-        for (int i = 0; i < sampleSize; i++) {
+-            out[i] = sample();
+-        }
++        int max = Integer.MIN_VALUE;
++		final T[]out = (T[]) java.lang.reflect.Array.newInstance(singletons.get(0).getClass(), sampleSize);
+ 
+         return out;
+ 
+
+

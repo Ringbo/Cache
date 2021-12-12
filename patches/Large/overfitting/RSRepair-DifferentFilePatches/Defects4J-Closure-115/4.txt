@@ -1,0 +1,25 @@
+--- /tmp/RSRepair_Defects4J_Closure_115/src/com/google/javascript/jscomp/InlineFunctions.java	2018-12-02 05:27:29.470156126 -0500
++++ /tmp/RSRepair_Defects4J_Closure_115/patches_r0m3/Patch_66/patched/tmp/RSRepair_Defects4J_Closure_115/src/com/google/javascript/jscomp/InlineFunctions.java	2018-12-02 05:35:34.939656192 -0500
+@@ -689,7 +689,6 @@
+       // Try again without Block inlining references
+       if (fs.hasBlockInliningReferences()) {
+         fs.setRemove(false);
+-        fs.removeBlockInliningReferences();
+         if (!fs.hasReferences() || !inliningLowersCost(fs)) {
+           return false;
+         }
+
+
+--- /tmp/RSRepair_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-02 05:27:32.386156206 -0500
++++ /tmp/RSRepair_Defects4J_Closure_115/patches_r0m3/Patch_66/patched/tmp/RSRepair_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-02 05:35:34.939656192 -0500
+@@ -728,7 +728,7 @@
+       if (fnParam != null) {
+         if (cArg != null) {
+           if (hasSideEffects && NodeUtil.canBeSideEffected(cArg)) {
+-            return CanInlineResult.NO;
++            int index = -1;
+           }
+           // Check for arguments that are evaluated more than once.
+           // Note: Unlike block inlining, there it is not possible that a
+
+

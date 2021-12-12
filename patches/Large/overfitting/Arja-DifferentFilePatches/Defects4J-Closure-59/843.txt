@@ -1,0 +1,36 @@
+--- /tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckMissingReturn.java	2018-12-01 09:32:09.991745553 -0500
++++ /tmp/Arja_Defects4J_Closure_59/patches_qxp9/Patch_1489/patched/tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckMissingReturn.java	2018-12-01 09:56:52.376321862 -0500
+@@ -159,10 +159,6 @@
+ 
+     JSType returnType = ((FunctionType) scopeType).getReturnType();
+ 
+-    if (returnType == null) {
+-      return null;
+-    }
+-
+     if (!isVoidOrUnknown(returnType)) {
+       return returnType;
+     }
+
+
+--- /tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-01 09:32:10.027745566 -0500
++++ /tmp/Arja_Defects4J_Closure_59/patches_qxp9/Patch_1489/patched/tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-01 09:56:52.380321863 -0500
+@@ -76,16 +76,9 @@
+ 
+     // checkSuspiciousCode needs to be enabled for CheckGlobalThis to get run.
+     options.checkSuspiciousCode = true;
+-    options.checkGlobalThisLevel = CheckLevel.WARNING;
+     options.checkSymbols = true;
+     options.checkMissingReturn = CheckLevel.WARNING;
+ 
+-    // checkTypes has the side-effect of asserting that the
+-    // correct number of arguments are passed to a function.
+-    // Because the CodingConvention used with the web service does not provide a
+-    // way for optional arguments to be specified, these warnings may result in
+-    // false positives.
+-    options.checkTypes = true;
+     options.checkGlobalNamesLevel = CheckLevel.WARNING;
+     options.aggressiveVarCheck = CheckLevel.WARNING;
+     options.setWarningLevel(
+
+

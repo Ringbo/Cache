@@ -1,0 +1,12 @@
+--- /src/main/java/org/apache/commons/math/stat/clustering/EuclideanIntegerPoint.java
++++ /src/main/java/org/apache/commons/math/stat/clustering/EuclideanIntegerPoint.java
+@@ -82,7 +82,7 @@
+             return false;
+         }
+         for (int i = 0; i < point.length; i++) {
+-            if (point[i] != otherPoint[i]) {
++            if (this.point[i] != otherPoint[i]) {
+                 return false;
+             }
+         }
+

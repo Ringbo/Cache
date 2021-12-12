@@ -1,0 +1,36 @@
+--- /tmp/Arja_Defects4J_Closure_124/src/com/google/javascript/rhino/Node.java	2018-12-01 08:47:06.743841353 -0500
++++ /tmp/Arja_Defects4J_Closure_124/patches_uw31/Patch_1855/patched/tmp/Arja_Defects4J_Closure_124/src/com/google/javascript/rhino/Node.java	2018-12-01 09:10:46.782416261 -0500
+@@ -1454,7 +1454,6 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
+       }
+     }
+     return res;
+
+
+--- /tmp/Arja_Defects4J_Closure_124/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-01 08:47:09.466479311 -0500
++++ /tmp/Arja_Defects4J_Closure_124/patches_uw31/Patch_1855/patched/tmp/Arja_Defects4J_Closure_124/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-01 09:10:46.782416261 -0500
+@@ -204,10 +204,6 @@
+    * @return Whether the replacement can be made.
+    */
+   private boolean isSafeReplacement(Node node, Node replacement) {
+-    // No checks are needed for simple names.
+-    if (node.isName()) {
+-      return true;
+-    }
+     Preconditions.checkArgument(node.isGetProp());
+ 
+       node = node.getFirstChild();
+@@ -216,7 +212,7 @@
+       return false;
+     }
+ 
+-    return true;
++    return false;
+   }
+ 
+   /**
+
+

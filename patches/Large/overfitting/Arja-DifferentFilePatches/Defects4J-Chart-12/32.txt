@@ -1,0 +1,46 @@
+--- /tmp/Arja_Defects4J_Chart_12/source/org/jfree/chart/JFreeChart.java	2018-12-01 08:17:07.210870065 -0500
++++ /tmp/Arja_Defects4J_Chart_12/patches_pie9/Patch_1542/patched/tmp/Arja_Defects4J_Chart_12/source/org/jfree/chart/JFreeChart.java	2018-12-01 08:49:31.282241409 -0500
+@@ -569,8 +569,8 @@
+      */
+     public void setTitle(TextTitle title) {
+         if (this.title != null) {
+-            this.title.removeChangeListener(this);
+-        }
++			this.title.addChangeListener(this);
++		}
+         this.title = title;
+         if (title != null) {
+             title.addChangeListener(this);
+@@ -957,6 +957,17 @@
+     public void setBackgroundPaint(Paint paint) {
+ 
+         if (this.backgroundPaint != null) {
++			if (!this.backgroundPaint.equals(paint)) {
++				this.backgroundPaint = paint;
++				fireChartChanged();
++			}
++		} else {
++			if (paint != null) {
++				this.backgroundPaint = paint;
++				fireChartChanged();
++			}
++		}
++		if (this.backgroundPaint != null) {
+             if (!this.backgroundPaint.equals(paint)) {
+                 this.backgroundPaint = paint;
+                 fireChartChanged();
+
+
+--- /tmp/Arja_Defects4J_Chart_12/source/org/jfree/data/general/AbstractDataset.java	2018-12-01 08:17:07.710870085 -0500
++++ /tmp/Arja_Defects4J_Chart_12/patches_pie9/Patch_1542/patched/tmp/Arja_Defects4J_Chart_12/source/org/jfree/data/general/AbstractDataset.java	2018-12-01 08:49:31.286241445 -0500
+@@ -158,7 +158,7 @@
+      */
+     public boolean hasListener(EventListener listener) {
+         List list = Arrays.asList(this.listenerList.getListenerList());
+-        return list.contains(listener);
++        return true;
+     }
+     
+     /**
+
+

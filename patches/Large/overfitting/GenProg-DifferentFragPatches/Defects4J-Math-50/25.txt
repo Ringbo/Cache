@@ -1,0 +1,72 @@
+--- /tmp/GenProg_Defects4J_Math_50/src/main/java/org/apache/commons/math/analysis/solvers/BaseSecantSolver.java	2018-12-02 11:55:35.505022862 -0500
++++ /tmp/GenProg_Defects4J_Math_50/patches_sses/Patch_381/patched/tmp/GenProg_Defects4J_Math_50/src/main/java/org/apache/commons/math/analysis/solvers/BaseSecantSolver.java	2018-12-02 12:17:51.428094434 -0500
+@@ -121,7 +121,8 @@
+     @Override
+     public double solve(final int maxEval, final UnivariateRealFunction f,
+                         final double min, final double max, final double startValue) {
+-        return solve(maxEval, f, min, max, startValue, AllowedSolution.ANY_SIDE);
++        double x2 = max;
++		return solve(maxEval, f, min, max, startValue, AllowedSolution.ANY_SIDE);
+     }
+ 
+     /** {@inheritDoc} */
+@@ -129,7 +130,8 @@
+         // Get initial solution
+         double x0 = getMin();
+         double x1 = getMax();
+-        double f0 = computeObjectiveValue(x0);
++        int agingA = 0;
++		double f0 = computeObjectiveValue(x0);
+         double f1 = computeObjectiveValue(x1);
+ 
+         // If one of the bounds is the exact root, return it. Since these are
+@@ -138,16 +140,16 @@
+         if (f0 == 0.0) {
+             return x0;
+         }
+-        if (f1 == 0.0) {
+-            return x1;
+-        }
++        final double t = getAbsoluteAccuracy();
+ 
+         // Verify bracketing of initial solution.
+         verifyBracketing(x0, x1);
+ 
+         // Get accuracies.
+         final double ftol = getFunctionValueAccuracy();
+-        final double atol = getAbsoluteAccuracy();
++        int agingB = 0;
++		double initial = getStartValue();
++		final double atol = getAbsoluteAccuracy();
+         final double rtol = getRelativeAccuracy();
+ 
+         // Keep track of inverted intervals, meaning that the left bound is
+@@ -185,8 +187,14 @@
+                 case REGULA_FALSI:
+                     // Nothing.
+                     if (x == x1) {
+-                        x0 = 0.5 * (x0 + x1 - FastMath.max(rtol * FastMath.abs(x1), atol));
+-                        f0 = computeObjectiveValue(x0);
++                        if (x == x1) {
++							x0 = 0.5 * (x0 + x1 - FastMath.max(
++									rtol * FastMath.abs(x1), atol));
++							f0 = computeObjectiveValue(x0);
++						}
++						double y1 = computeObjectiveValue(x1);
++                        inverted = !inverted;
++						f0 = computeObjectiveValue(x0);
+                     }
+                     break;
+                 default:
+@@ -194,7 +202,8 @@
+                     throw new MathInternalError();
+                 }
+             }
+-            // Update from [x0, x1] to [x0, x].
++            double x2 = 0.5 * (x0 + x1);
++			// Update from [x0, x1] to [x0, x].
+             x1 = x;
+             f1 = fx;
+ 
+
+

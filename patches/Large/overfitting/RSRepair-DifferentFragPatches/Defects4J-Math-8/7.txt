@@ -1,0 +1,20 @@
+--- /tmp/RSRepair_Defects4J_Math_8/src/main/java/org/apache/commons/math3/distribution/DiscreteDistribution.java	2018-12-02 03:42:44.399092147 -0500
++++ /tmp/RSRepair_Defects4J_Math_8/patches_i1q6/Patch_244/patched/tmp/RSRepair_Defects4J_Math_8/src/main/java/org/apache/commons/math3/distribution/DiscreteDistribution.java	2018-12-02 04:23:40.420754954 -0500
+@@ -184,10 +184,13 @@
+                     sampleSize);
+         }
+ 
+-        final T[]out = (T[]) java.lang.reflect.Array.newInstance(singletons.get(0).getClass(), sampleSize);
++        if (sampleSize < 0) {
++			throw new NotPositiveException(LocalizedFormats.NUMBER_OF_SAMPLES,
++					sampleSize);
++		}
++		final T[]out = (T[]) java.lang.reflect.Array.newInstance(singletons.get(0).getClass(), sampleSize);
+ 
+         for (int i = 0; i < sampleSize; i++) {
+-            out[i] = sample();
+         }
+ 
+         return out;
+
+

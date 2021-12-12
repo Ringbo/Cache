@@ -1,0 +1,37 @@
+--- /tmp/Arja_Defects4J_Lang_16/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-01 05:13:40.712736534 -0500
++++ /tmp/Arja_Defects4J_Lang_16/patches_of36/Patch_1196/patched/tmp/Arja_Defects4J_Lang_16/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-01 05:20:27.251616543 -0500
+@@ -488,7 +488,10 @@
+             dec = null;
+         }
+         if (!Character.isDigit(lastChar) && lastChar != '.') {
+-            if (expPos > -1 && expPos < str.length() - 1) {
++            if (str.startsWith("0x") || str.startsWith("-0x")) {
++				return createInteger(str);
++			}
++			if (expPos > -1 && expPos < str.length() - 1) {
+                 exp = str.substring(expPos + 1, str.length() - 1);
+             } else {
+                 exp = null;
+@@ -516,7 +519,10 @@
+                     try {
+                         Float f = NumberUtils.createFloat(numeric);
+                         if (!(f.isInfinite() || (f.floatValue() == 0.0F && !allZeros))) {
+-                            //If it's too big for a float or the float value = 0 and the string
++                            if (!(f.isInfinite() || (f.floatValue() == 0.0F && !allZeros))) {
++								return f;
++							}
++							//If it's too big for a float or the float value = 0 and the string
+                             //has non-zeros in it, then float does not have the precision we want
+                             return f;
+                         }
+@@ -542,7 +548,7 @@
+                     }
+                     //$FALL-THROUGH$
+                 default :
+-                    throw new NumberFormatException(str + " is not a valid number.");
++				return Integer.decode(str);
+ 
+             }
+         } else {
+
+

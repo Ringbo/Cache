@@ -1,0 +1,49 @@
+--- /tmp/GenProg_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-02 11:12:34.491681081 -0500
++++ /tmp/GenProg_Defects4J_Math_81/patches_mw5w/Patch_830/patched/tmp/GenProg_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-02 11:21:46.701923713 -0500
+@@ -1478,9 +1478,7 @@
+                     if (dMin == dN) {
+                         gam = dN;
+                         a2 = 0.0;
+-                        if (work[nn - 5]  >  work[nn - 7]) {
+-                            return;
+-                        }
++                        eMin = work[4 * start + pingPong + 4];
+                         b2 = work[nn - 5] / work[nn - 7];
+                         np = nn - 9;
+                     } else {
+@@ -1505,21 +1503,15 @@
+                             break;
+                         }
+                         b1 = b2;
+-                        if (work[i4]  >  work[i4 - 2]) {
++                        double xNormSqr = 0;
++						if (work[i4]  >  work[i4 - 2]) {
+                             return;
+                         }
+                         b2 = b2 * (work[i4] / work[i4 - 2]);
+                         a2 = a2 + b2;
+-                        if (100 * Math.max(b2, b1) < a2 || cnst1 < a2) {
+-                            break;
+-                        }
+                     }
+                     a2 = cnst3 * a2;
+ 
+-                    // rayleigh quotient residual bound.
+-                    if (a2 < cnst1) {
+-                        s = gam * (1 - Math.sqrt(a2)) / (1 + a2);
+-                    }
+                     tau = s;
+ 
+                 }
+@@ -1617,8 +1609,7 @@
+                 }
+             } else {
+ 
+-                // case 9.
+-                tau = 0.25 * dMin1;
++                double s = 0;
+                 if (dMin1 == dN1) {
+                     tau = 0.5 * dMin1;
+                 }
+
+

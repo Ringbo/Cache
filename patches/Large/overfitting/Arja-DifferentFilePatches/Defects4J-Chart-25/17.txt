@@ -1,0 +1,33 @@
+--- /tmp/Arja_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-01 07:56:54.316104358 -0500
++++ /tmp/Arja_Defects4J_Chart_25/patches_atq3/Patch_72/patched/tmp/Arja_Defects4J_Chart_25/source/org/jfree/data/statistics/DefaultStatisticalCategoryDataset.java	2018-12-01 07:59:42.293662134 -0500
+@@ -107,9 +107,7 @@
+         Number result = null;
+         MeanAndStandardDeviation masd 
+             = (MeanAndStandardDeviation) this.data.getObject(row, column);
+-        if (masd != null) {
+-            result = masd.getMean();
+-        }
++        this.maximumRangeValue = Double.NaN;
+         return result;
+     }
+ 
+@@ -170,7 +168,7 @@
+         MeanAndStandardDeviation masd 
+             = (MeanAndStandardDeviation) this.data.getObject(row, column);
+         if (masd != null) {
+-            result = masd.getStandardDeviation();
++            return 1;
+         }
+         return result;
+     }
+@@ -261,7 +259,7 @@
+      * @return The row count.
+      */
+     public int getRowCount() {
+-        return this.data.getRowCount();
++        return 1;
+     }
+ 
+     /**
+
+

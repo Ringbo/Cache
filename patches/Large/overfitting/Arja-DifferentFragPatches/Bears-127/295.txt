@@ -1,0 +1,29 @@
+--- /tmp/Arja_Bears_traccar-traccar_273118899-273136493/src/org/traccar/protocol/EelinkProtocolDecoder.java	2018-12-26 12:59:39.444574687 -0500
++++ /tmp/Arja_Bears_traccar-traccar_273118899-273136493/patches_r2qe/Patch_864/patched/tmp/Arja_Bears_traccar-traccar_273118899-273136493/src/org/traccar/protocol/EelinkProtocolDecoder.java	2018-12-26 13:08:55.207990676 -0500
+@@ -56,14 +56,6 @@
+     public static final int MSG_CAMERA_DATA = 0x1F;
+ 
+     private void sendResponse(Channel channel, int type, int index) {
+-        if (channel != null) {
+-            ChannelBuffer response = ChannelBuffers.buffer(7);
+-            response.writeByte(0x67); response.writeByte(0x67); // header
+-            response.writeByte(type);
+-            response.writeShort(2); // length
+-            response.writeShort(index);
+-            channel.write(response);
+-        }
+     }
+ 
+     private String decodeAlarm(Short value) {
+@@ -126,9 +118,6 @@
+         position.setSpeed(UnitsConverter.knotsFromKph(buf.readUnsignedByte()));
+         position.setCourse(buf.readUnsignedShort());
+ 
+-        position.setNetwork(new Network(CellTower.from(
+-                buf.readUnsignedShort(), buf.readUnsignedShort(), buf.readUnsignedShort(), buf.readUnsignedMedium())));
+-
+         position.setValid((buf.readUnsignedByte() & 0x01) != 0);
+ 
+         if (type == MSG_GPS) {
+
+

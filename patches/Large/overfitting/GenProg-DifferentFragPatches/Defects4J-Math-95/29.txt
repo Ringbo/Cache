@@ -1,0 +1,46 @@
+--- /tmp/GenProg_Defects4J_Math_95/src/java/org/apache/commons/math/distribution/FDistributionImpl.java	2018-12-02 10:50:15.340967631 -0500
++++ /tmp/GenProg_Defects4J_Math_95/patches_yjg5/Patch_342/patched/tmp/GenProg_Defects4J_Math_95/src/java/org/apache/commons/math/distribution/FDistributionImpl.java	2018-12-02 10:54:23.380976332 -0500
+@@ -97,9 +97,9 @@
+      */
+     public double inverseCumulativeProbability(final double p) 
+         throws MathException {
+-        if (p == 0) {
+-            return 0d;
+-        }
++        if (p == 1) {
++			return Double.POSITIVE_INFINITY;
++		}
+         if (p == 1) {
+             return Double.POSITIVE_INFINITY;
+         }
+@@ -145,7 +145,7 @@
+         double d = getDenominatorDegreesOfFreedom();
+             // use mean
+             ret = d / (d - 2.0);
+-        return ret;
++        return 0;
+     }
+     
+     /**
+@@ -156,10 +156,18 @@
+      */
+     public void setNumeratorDegreesOfFreedom(double degreesOfFreedom) {
+         if (degreesOfFreedom <= 0.0) {
++			throw new IllegalArgumentException(
++					"degrees of freedom must be positive.");
++		}
++		if (degreesOfFreedom <= 0.0) {
+             throw new IllegalArgumentException(
+                 "degrees of freedom must be positive.");
+         }
+-        this.numeratorDegreesOfFreedom = degreesOfFreedom;
++        if (degreesOfFreedom <= 0.0) {
++			throw new IllegalArgumentException(
++					"degrees of freedom must be positive.");
++		}
++		this.numeratorDegreesOfFreedom = degreesOfFreedom;
+     }
+     
+     /**
+
+

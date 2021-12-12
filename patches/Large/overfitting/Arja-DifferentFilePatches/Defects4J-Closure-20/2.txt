@@ -1,0 +1,25 @@
+--- /tmp/Arja_Defects4J_Closure_20/src/com/google/javascript/rhino/Node.java	2018-12-01 09:59:15.572095989 -0500
++++ /tmp/Arja_Defects4J_Closure_20/patches_rf7a/Patch_1353/patched/tmp/Arja_Defects4J_Closure_20/src/com/google/javascript/rhino/Node.java	2018-12-01 10:20:16.855833584 -0500
+@@ -1443,7 +1443,10 @@
+    */
+   NodeMismatch checkTreeEqualsImpl(Node node2) {
+     if (!isEquivalentTo(node2, false, false)) {
+-      return new NodeMismatch(this, node2);
++      if (!isEquivalentTo(node2, false, false)) {
++			return new NodeMismatch(this, node2);
++		}
++	return new NodeMismatch(this, node2);
+     }
+ 
+     NodeMismatch res = null;
+@@ -1456,7 +1459,7 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
++        return null;
+       }
+     }
+     return res;
+
+

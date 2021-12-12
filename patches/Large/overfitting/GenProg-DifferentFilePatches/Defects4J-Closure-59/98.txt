@@ -1,0 +1,43 @@
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-02 07:03:01.202376129 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_1820/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-02 07:43:30.074964970 -0500
+@@ -72,11 +72,7 @@
+    * @param options The CompilerOptions object to set the options on.
+    */
+   private static void addVerboseWarnings(CompilerOptions options) {
+-    addDefaultWarnings(options);
+-
+-    // checkSuspiciousCode needs to be enabled for CheckGlobalThis to get run.
+-    options.checkSuspiciousCode = true;
+-    options.checkGlobalThisLevel = CheckLevel.WARNING;
++    StringBuilder builder = new StringBuilder();
+     options.checkSymbols = true;
+     options.checkMissingReturn = CheckLevel.WARNING;
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/CollapseVariableDeclarations.java	2018-12-02 07:03:01.150376131 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_1820/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/CollapseVariableDeclarations.java	2018-12-02 07:43:30.078965145 -0500
+@@ -192,7 +192,8 @@
+       Node assign = n.getFirstChild();
+       Node lhs = assign.getFirstChild();
+ 
+-      if (!NodeUtil.isName(lhs)) {
++      int type = n.getType();
++	if (!NodeUtil.isName(lhs)) {
+         return false;
+       }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/DefaultPassConfig.java	2018-12-02 07:03:01.158376130 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_1820/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/DefaultPassConfig.java	2018-12-02 07:43:30.078965145 -0500
+@@ -264,7 +264,6 @@
+     }
+ 
+     if (options.checkGlobalNamesLevel.isOn()) {
+-      checks.add(checkGlobalNames);
+     }
+ 
+     checks.add(checkStrictMode);
+
+

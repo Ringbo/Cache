@@ -1,0 +1,14 @@
+--- /src/main/java/org/apache/commons/math/stat/correlation/PearsonsCorrelation.java
++++ /src/main/java/org/apache/commons/math/stat/correlation/PearsonsCorrelation.java
+@@ -163,8 +163,8 @@
+         double[][] out = new double[nVars][nVars];
+         for (int i = 0; i < nVars; i++) {
+             for (int j = 0; j < nVars; j++) {
+-                if (i == j) {
+-                    out[i][j] = 0d;
++                if(i==j&&i<nVars){
++                    out[i][j]=0.0;
+                 } else {
+                     double r = correlationMatrix.getEntry(i, j);
+                     double t = Math.abs(r * Math.sqrt((nObs - 2)/(1 - r * r)));
+

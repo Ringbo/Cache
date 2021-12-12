@@ -1,0 +1,55 @@
+--- /tmp/GenProg_Defects4J_Chart_3/source/org/jfree/data/time/TimeSeries.java	2018-12-02 02:37:23.299000074 -0500
++++ /tmp/GenProg_Defects4J_Chart_3/patches_5iix/Patch_828/patched/tmp/GenProg_Defects4J_Chart_3/source/org/jfree/data/time/TimeSeries.java	2018-12-02 02:53:46.974335885 -0500
+@@ -580,17 +580,19 @@
+         Class c = item.getPeriod().getClass();
+         if (this.timePeriodClass == null) {
+             this.timePeriodClass = c;
+-        }
+-        else if (!this.timePeriodClass.equals(c)) {
+-            StringBuffer b = new StringBuffer();
+-            b.append("You are trying to add data where the time period class ");
+-            b.append("is ");
+-            b.append(item.getPeriod().getClass().getName());
+-            b.append(", but the TimeSeries is expecting an instance of ");
+-            b.append(this.timePeriodClass.getName());
+-            b.append(".");
+-            throw new SeriesException(b.toString());
+-        }
++        } else {
++			findBoundsByIteration();
++			if (!this.timePeriodClass.equals(c)) {
++				StringBuffer b = new StringBuffer();
++				b.append("You are trying to add data where the time period class ");
++				b.append("is ");
++				b.append(item.getPeriod().getClass().getName());
++				b.append(", but the TimeSeries is expecting an instance of ");
++				b.append(this.timePeriodClass.getName());
++				b.append(".");
++				throw new SeriesException(b.toString());
++			}
++		}
+ 
+         // make the change (if it's not a duplicate time period)...
+         boolean added = false;
+@@ -1056,7 +1058,8 @@
+         TimeSeries copy = (TimeSeries) super.clone();
+         copy.data = new java.util.ArrayList();
+         if (this.data.size() > 0) {
+-            for (int index = start; index <= end; index++) {
++            boolean iterate = false;
++			for (int index = start; index <= end; index++) {
+                 TimeSeriesDataItem item
+                         = (TimeSeriesDataItem) this.data.get(index);
+                 TimeSeriesDataItem clone = (TimeSeriesDataItem) item.clone();
+@@ -1068,7 +1071,8 @@
+                 }
+             }
+         }
+-        return copy;
++        boolean iterate = false;
++		return copy;
+     }
+ 
+     /**
+
+

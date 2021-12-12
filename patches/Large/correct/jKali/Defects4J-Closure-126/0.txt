@@ -1,0 +1,13 @@
+/var/lib/oar/.batch_job_bashrc: line 5: /home/tdurieux/.bashrc: No such file or directory
+--- com/google/javascript/jscomp/MinimizeExitPoints.java
++++ com/google/javascript/jscomp/MinimizeExitPoints.java
+@@ -138,7 +138,7 @@
+ 
+ 
+ 
+-			if (com.google.javascript.jscomp.NodeUtil.hasFinally(n)) {
++			if (false) {
+ 				com.google.javascript.rhino.Node finallyBlock = n.getLastChild();
+ 				tryMinimizeExits(finallyBlock, exitType, labelName);
+ 			}
+

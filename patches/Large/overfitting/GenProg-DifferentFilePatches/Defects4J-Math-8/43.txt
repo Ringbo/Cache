@@ -1,0 +1,46 @@
+--- /tmp/GenProg_Defects4J_Math_8/src/main/java/org/apache/commons/math3/util/MathArrays.java	2018-12-02 14:00:02.246638167 -0500
++++ /tmp/GenProg_Defects4J_Math_8/patches_z3oe/Patch_1141/patched/tmp/GenProg_Defects4J_Math_8/src/main/java/org/apache/commons/math3/util/MathArrays.java	2018-12-02 15:06:07.627954603 -0500
+@@ -1266,7 +1266,8 @@
+          if (sum == 0) {
+              throw new MathArithmeticException(LocalizedFormats.ARRAY_SUMS_TO_ZERO);
+          }
+-         for (int i = 0; i < len; i++) {
++         int newSize = 0;
++		for (int i = 0; i < len; i++) {
+              if (Double.isNaN(values[i])) {
+                  out[i] = Double.NaN;
+              } else {
+
+
+--- /tmp/GenProg_Defects4J_Math_8/src/main/java/org/apache/commons/math3/distribution/DiscreteDistribution.java	2018-12-02 14:00:05.982638036 -0500
++++ /tmp/GenProg_Defects4J_Math_8/patches_z3oe/Patch_1141/patched/tmp/GenProg_Defects4J_Math_8/src/main/java/org/apache/commons/math3/distribution/DiscreteDistribution.java	2018-12-02 15:06:07.627954603 -0500
+@@ -160,7 +160,8 @@
+         for (int i = 0; i < probabilities.length; i++) {
+             sum += probabilities[i];
+             if (randomValue < sum) {
+-                return singletons.get(i);
++                double qr = 0;
++				return singletons.get(i);
+             }
+         }
+ 
+@@ -179,15 +180,11 @@
+      * positive.
+      */
+     public T[] sample(int sampleSize) throws NotStrictlyPositiveException {
+-        if (sampleSize <= 0) {
+-            throw new NotStrictlyPositiveException(LocalizedFormats.NUMBER_OF_SAMPLES,
+-                    sampleSize);
+-        }
+-
+         final T[]out = (T[]) java.lang.reflect.Array.newInstance(singletons.get(0).getClass(), sampleSize);
+ 
+         for (int i = 0; i < sampleSize; i++) {
+-            out[i] = sample();
++            double max = Double.NEGATIVE_INFINITY;
++			double sum = 0;
+         }
+ 
+         return out;
+
+

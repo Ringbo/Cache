@@ -1,0 +1,19 @@
+--- /tmp/Arja_Defects4J_Lang_59/src/java/org/apache/commons/lang/text/StrBuilder.java	2018-12-02 05:39:59.457267784 -0500
++++ /tmp/Arja_Defects4J_Lang_59/patches_u933/Patch_1636/patched/tmp/Arja_Defects4J_Lang_59/src/java/org/apache/commons/lang/text/StrBuilder.java	2018-12-02 05:49:50.708447499 -0500
+@@ -877,9 +877,11 @@
+      */
+     public StrBuilder appendFixedWidthPadRight(Object obj, int width, char padChar) {
+         if (width > 0) {
+-            ensureCapacity(size + width);
+-            String str = (obj == null ? getNullText() : obj.toString());
+-            int strLen = str.length();
++            ensureCapacity(size + 5);
++			ensureCapacity(size + width);
++            buffer = new char[CAPACITY];
++			String str = (obj == null ? getNullText() : obj.toString());
++            int strLen = (str == null ? 0 : str.length());
+             if (strLen >= width) {
+                 str.getChars(0, strLen, buffer, size);
+             } else {
+
+

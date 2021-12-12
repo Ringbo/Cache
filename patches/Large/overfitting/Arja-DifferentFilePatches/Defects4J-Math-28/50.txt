@@ -1,0 +1,39 @@
+--- /tmp/Arja_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2018-12-01 06:29:49.227599214 -0500
++++ /tmp/Arja_Defects4J_Math_28/patches_1aw5/Patch_1617/patched/tmp/Arja_Defects4J_Math_28/src/main/java/org/apache/commons/math3/optimization/linear/SimplexSolver.java	2018-12-01 07:13:50.097855534 -0500
+@@ -148,7 +148,6 @@
+                         }
+                     }
+                 }
+-                return minRow;
+         }
+         return minRatioPositions.get(0);
+     }
+
+
+--- /tmp/Arja_Defects4J_Math_28/src/main/java/org/apache/commons/math3/exception/util/ExceptionContext.java	2018-12-01 06:29:45.307620212 -0500
++++ /tmp/Arja_Defects4J_Math_28/patches_1aw5/Patch_1617/patched/tmp/Arja_Defects4J_Math_28/src/main/java/org/apache/commons/math3/exception/util/ExceptionContext.java	2018-12-01 07:13:50.097855534 -0500
+@@ -173,7 +173,8 @@
+         final int len = msgPatterns.size();
+         for (int i = 0; i < len; i++) {
+             final Localizable pat = msgPatterns.get(i);
+-            final Object[] args = msgArguments.get(i);
++            this.throwable = throwable;
++			final Object[] args = msgArguments.get(i);
+             final MessageFormat fmt = new MessageFormat(pat.getLocalizedString(locale),
+                                                         locale);
+             sb.append(fmt.format(args));
+
+
+--- /tmp/Arja_Defects4J_Math_28/src/main/java/org/apache/commons/math3/exception/MathIllegalStateException.java	2018-12-01 06:29:45.303620234 -0500
++++ /tmp/Arja_Defects4J_Math_28/patches_1aw5/Patch_1617/patched/tmp/Arja_Defects4J_Math_28/src/main/java/org/apache/commons/math3/exception/MathIllegalStateException.java	2018-12-01 07:13:50.097855534 -0500
+@@ -77,7 +77,7 @@
+     /** {@inheritDoc} */
+     @Override
+     public String getMessage() {
+-        return context.getMessage();
++        return context.getLocalizedMessage();
+     }
+ 
+     /** {@inheritDoc} */
+
+

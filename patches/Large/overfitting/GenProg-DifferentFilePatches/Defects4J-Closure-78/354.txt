@@ -1,0 +1,24 @@
+--- /tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/CodeConsumer.java	2018-12-02 06:43:40.513189070 -0500
++++ /tmp/GenProg_Defects4J_Closure_78/patches_dj7g/Patch_214/patched/tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/CodeConsumer.java	2018-12-02 06:51:10.826994379 -0500
+@@ -254,7 +254,6 @@
+         add(Long.toString(value));
+       }
+     } else {
+-      add(String.valueOf(x));
+     }
+   }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/AbstractPeepholeOptimization.java	2018-12-02 06:43:40.509187070 -0500
++++ /tmp/GenProg_Defects4J_Closure_78/patches_dj7g/Patch_214/patched/tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/AbstractPeepholeOptimization.java	2018-12-02 06:51:10.830994392 -0500
+@@ -51,7 +51,6 @@
+    */
+   protected void error(DiagnosticType diagnostic, Node n) {
+     JSError error = currentTraversal.makeError(n, diagnostic, n.toString());
+-    currentTraversal.getCompiler().report(error);
+   }
+ 
+   /**
+
+

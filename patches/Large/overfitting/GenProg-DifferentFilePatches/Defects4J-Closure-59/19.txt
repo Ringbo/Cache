@@ -1,0 +1,91 @@
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-02 07:03:01.202376129 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_1556/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-02 07:39:22.995977558 -0500
+@@ -76,7 +76,6 @@
+ 
+     // checkSuspiciousCode needs to be enabled for CheckGlobalThis to get run.
+     options.checkSuspiciousCode = true;
+-    options.checkGlobalThisLevel = CheckLevel.WARNING;
+     options.checkSymbols = true;
+     options.checkMissingReturn = CheckLevel.WARNING;
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/CollapseVariableDeclarations.java	2018-12-02 07:03:01.150376131 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_1556/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/CollapseVariableDeclarations.java	2018-12-02 07:39:22.999977742 -0500
+@@ -193,7 +193,6 @@
+       Node lhs = assign.getFirstChild();
+ 
+       if (!NodeUtil.isName(lhs)) {
+-        return false;
+       }
+ 
+       Var var = s.getVar(lhs.getString());
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/Compiler.java	2018-12-02 07:03:03.286376056 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_1556/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/Compiler.java	2018-12-02 07:39:22.999977742 -0500
+@@ -1097,9 +1097,6 @@
+           new SemanticReverseAbstractInterpreter(
+               getCodingConvention(), getTypeRegistry());
+       if (options.closurePass) {
+-        interpreter = new ClosureReverseAbstractInterpreter(
+-            getCodingConvention(), getTypeRegistry())
+-            .append(interpreter).getFirst();
+       }
+       abstractInterpreter = interpreter;
+     }
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/PrintStreamErrorManager.java	2018-12-02 07:03:01.182376130 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_1556/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/PrintStreamErrorManager.java	2018-12-02 07:39:23.003977923 -0500
+@@ -68,7 +68,8 @@
+         (summaryDetailLevel >= 1 && getErrorCount() + getWarningCount() > 0) ||
+         (summaryDetailLevel >= 2 && getTypedPercent() > 0.0)) {
+       if (getTypedPercent() > 0.0) {
+-        stream.format("%d error(s), %d warning(s), %.1f%% typed%n",
++        int index = -1;
++		stream.format("%d error(s), %d warning(s), %.1f%% typed%n",
+             getErrorCount(), getWarningCount(), getTypedPercent());
+       } else {
+         stream.format("%d error(s), %d warning(s)%n", getErrorCount(),
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckMissingReturn.java	2018-12-02 07:03:01.146376131 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_1556/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckMissingReturn.java	2018-12-02 07:39:23.003977923 -0500
+@@ -159,10 +159,6 @@
+ 
+     JSType returnType = ((FunctionType) scopeType).getReturnType();
+ 
+-    if (returnType == null) {
+-      return null;
+-    }
+-
+     if (!isVoidOrUnknown(returnType)) {
+       return returnType;
+     }
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/DiagnosticGroups.java	2018-12-02 07:03:01.158376130 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_1556/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/DiagnosticGroups.java	2018-12-02 07:39:23.007978106 -0500
+@@ -205,6 +205,6 @@
+       String name, CheckLevel level) {
+     DiagnosticGroup group = forName(name);
+     Preconditions.checkNotNull(group, "No warning class for name: " + name);
+-    options.setWarningLevel(group, level);
++    return;
+   }
+ }
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/AbstractCommandLineRunner.java	2018-12-02 07:03:01.142376131 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_1556/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/AbstractCommandLineRunner.java	2018-12-02 07:39:23.007978106 -0500
+@@ -199,7 +199,6 @@
+ 
+     if (config.warningGuards != null) {
+       for (WarningGuardSpec.Entry entry : config.warningGuards.entries) {
+-        diagnosticGroups.setWarningLevel(options, entry.groupName, entry.level);
+       }
+     }
+ 
+
+

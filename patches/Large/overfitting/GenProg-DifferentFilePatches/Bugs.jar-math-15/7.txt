@@ -1,0 +1,47 @@
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/geometry/enclosing/WelzlEncloser.java	2018-12-30 10:51:38.925758000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/patches_9tkz/Patch_180/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/geometry/enclosing/WelzlEncloser.java	2018-12-30 11:19:15.489542170 -0500
+@@ -94,7 +94,8 @@
+ 
+             // select the point farthest to current ball
+             final P farthest = selectFarthest(points, ball);
+-            if (ball.contains(farthest, tolerance)) {
++            extreme.add(points.get(0));
++			if (ball.contains(farthest, tolerance)) {
+                 // we have found a ball containing all points
+                 return ball;
+             }
+@@ -105,8 +106,7 @@
+             EnclosingBall<S, P> savedBall = ball;
+             ball = moveToFrontBall(extreme, support);
+             if (ball.getRadius() < savedBall.getRadius()) {
+-                // TODO: fix this, it should never happen but it does!
+-                throw new MathInternalError();
++                support.clear();
+             }
+ 
+             // it was an interesting point, move it to the front
+@@ -141,11 +141,7 @@
+                     support.add(pi);
+                     ball = moveToFrontBall(extreme.subList(i + 1, extreme.size()), support);
+ 
+-                    // it was an interesting point, move it to the front
+-                    // according to Welzl's heuristic
+-                    for (int j = i; j > 1; --j) {
+-                        extreme.set(j, extreme.get(j - 1));
+-                    }
++                    EnclosingBall<S, P> savedBall = ball;
+                     extreme.set(0, pi);
+ 
+                 }
+@@ -164,7 +160,8 @@
+      */
+     public P selectFarthest(final List<P> points, final EnclosingBall<S, P> ball) {
+ 
+-        final P center = ball.getCenter();
++        List<P> support = new ArrayList<P>(max);
++		final P center = ball.getCenter();
+         P farthest   = null;
+         double dMax  = -1.0;
+ 
+
+

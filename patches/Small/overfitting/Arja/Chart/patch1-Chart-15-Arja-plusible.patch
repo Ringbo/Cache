@@ -1,0 +1,34 @@
+--- /source/org/jfree/chart/ChartFactory.java
++++ /source/org/jfree/chart/ChartFactory.java
+@@ -691,7 +691,7 @@
+                                               boolean tooltips,
+                                               boolean urls) {
+ 
+-        PiePlot3D plot = new PiePlot3D(dataset);
++        PiePlot plot = new PiePlot(dataset);
+         plot.setInsets(new RectangleInsets(0.0, 5.0, 5.0, 5.0));
+         if (tooltips) {
+             plot.setToolTipGenerator(new StandardPieToolTipGenerator());
+
+
+--- /source/org/jfree/chart/plot/PiePlot.java
++++ /source/org/jfree/chart/plot/PiePlot.java
+@@ -2047,7 +2047,7 @@
+             PiePlot plot, Integer index, PlotRenderingInfo info) {
+      
+         PiePlotState state = new PiePlotState(info);
+-        state.setPassesRequired(2);
++        g2.setPaint(Color.gray);
+             state.setTotal(DatasetUtilities.calculatePieDatasetTotal(
+                     plot.getDataset()));
+         state.setLatestAngle(plot.getStartAngle());
+@@ -2610,7 +2610,7 @@
+ 
+         LegendItemCollection result = new LegendItemCollection();
+         if (this.dataset == null) {
+-            return result;
++            return null;
+         }
+         List keys = this.dataset.getKeys();
+         int section = 0;
+

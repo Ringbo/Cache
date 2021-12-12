@@ -1,0 +1,30 @@
+--- /src/java/org/apache/commons/math/analysis/solvers/UnivariateRealSolverUtils.java
++++ /src/java/org/apache/commons/math/analysis/solvers/UnivariateRealSolverUtils.java
+@@ -196,12 +196,6 @@
+                 ((a > lowerBound) || (b < upperBound)));
+    
+         if (fa * fb >= 0.0 ) {
+-            throw new ConvergenceException(
+-                      "number of iterations={0}, maximum iterations={1}, " +
+-                      "initial={2}, lower bound={3}, upper bound={4}, final a value={5}, " +
+-                      "final b value={6}, f(a)={7}, f(b)={8}",
+-                      numIterations, maximumIterations, initial,
+-                      lowerBound, upperBound, a, b, fa, fb);
+         }
+         
+         return new double[]{a, b};
+
+
+--- /src/java/org/apache/commons/math/distribution/AbstractContinuousDistribution.java
++++ /src/java/org/apache/commons/math/distribution/AbstractContinuousDistribution.java
+@@ -97,9 +97,6 @@
+             if (Math.abs(rootFindingFunction.value(lowerBound)) < 1E-6) {
+                 return lowerBound;
+             }
+-            if (Math.abs(rootFindingFunction.value(upperBound)) < 1E-6) {
+-                return upperBound;
+-            }     
+             // Failed bracket convergence was not because of corner solution
+             throw new MathException(ex);
+         }
+

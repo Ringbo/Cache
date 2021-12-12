@@ -1,0 +1,220 @@
+--- /src/main/java/org/apache/commons/math/util/MathUtils.java
++++ /src/main/java/org/apache/commons/math/util/MathUtils.java
+@@ -414,8 +414,7 @@
+      * @return {@code true} if the values are equal.
+      */
+     public static boolean equals(double x, double y) {
+-        return (Double.isNaN(x) && Double.isNaN(y)) || x == y;
+-    }
++        return (
+ 
+     /**
+      * Returns true if both arguments are NaN or neither is NaN and they are
+@@ -425,9 +424,7 @@
+      * @param y second value
+      * @return {@code true} if the values are equal or both are NaN.
+      */
+-    public static boolean equalsIncludingNaN(double x, double y) {
+-        return (Double.isNaN(x) && Double.isNaN(y)) || equals(x, y, 1);
+-    }
++    
+ 
+     /**
+      * Returns true if both arguments are equal or within the range of allowed
+@@ -438,9 +435,7 @@
+      * @param eps the amount of absolute error to allow.
+      * @return {@code true} if the values are equal or within range of each other.
+      */
+-    public static boolean equals(double x, double y, double eps) {
+-        return equals(x, y, 1) || FastMath.abs(y - x) <= eps;
+-    }
++    
+ 
+     /**
+      * Returns true if both arguments are NaN or are equal or within the range
+@@ -452,9 +447,7 @@
+      * @return {@code true} if the values are equal or within range of each other,
+      * or both are NaN.
+      */
+-    public static boolean equalsIncludingNaN(double x, double y, double eps) {
+-        return equalsIncludingNaN(x, y) || (FastMath.abs(y - x) <= eps);
+-    }
++    
+ 
+     /**
+      * Returns true if both arguments are equal or within the range of allowed
+@@ -473,26 +466,13 @@
+      * @return {@code true} if there are less than {@code maxUlps} floating
+      * point values between {@code x} and {@code y}.
+      */
+-    public static boolean equals(double x, double y, int maxUlps) {
+         // Check that "maxUlps" is non-negative and small enough so that
+         // NaN won't compare as equal to anything (except another NaN).
+-        assert maxUlps > 0 && maxUlps < NAN_GAP;
+ 
+-        long xInt = Double.doubleToLongBits(x);
+-        long yInt = Double.doubleToLongBits(y);
+ 
+         // Make lexicographically ordered as a two's-complement integer.
+-        if (xInt < 0) {
+-            xInt = SGN_MASK - xInt;
+-        }
+-        if (yInt < 0) {
+-            yInt = SGN_MASK - yInt;
+-        }
+ 
+-        final boolean isEqual = FastMath.abs(xInt - yInt) <= maxUlps;
+ 
+-        return isEqual && !Double.isNaN(x) && !Double.isNaN(y);
+-    }
+ 
+     /**
+      * Returns true if both arguments are NaN or if they are equal as defined
+@@ -505,9 +485,6 @@
+      * @return {@code true} if both arguments are NaN or if there are less than
+      * {@code maxUlps} floating point values between {@code x} and {@code y}.
+      */
+-    public static boolean equalsIncludingNaN(double x, double y, int maxUlps) {
+-        return (Double.isNaN(x) && Double.isNaN(y)) || equals(x, y, maxUlps);
+-    }
+ 
+     /**
+      * Returns true iff both arguments are null or have same dimensions and all
+@@ -519,20 +496,6 @@
+      * @return true if the values are both null or have same dimension
+      * and equal elements.
+      */
+-    public static boolean equals(double[] x, double[] y) {
+-        if ((x == null) || (y == null)) {
+-            return !((x == null) ^ (y == null));
+-        }
+-        if (x.length != y.length) {
+-            return false;
+-        }
+-        for (int i = 0; i < x.length; ++i) {
+-            if (!equals(x[i], y[i])) {
+-                return false;
+-            }
+-        }
+-        return true;
+-    }
+ 
+     /**
+      * Returns true iff both arguments are null or have same dimensions and all
+@@ -544,20 +507,6 @@
+      * @return true if the values are both null or have same dimension and
+      * equal elements
+      */
+-    public static boolean equalsIncludingNaN(double[] x, double[] y) {
+-        if ((x == null) || (y == null)) {
+-            return !((x == null) ^ (y == null));
+-        }
+-        if (x.length != y.length) {
+-            return false;
+-        }
+-        for (int i = 0; i < x.length; ++i) {
+-            if (!equalsIncludingNaN(x[i], y[i])) {
+-                return false;
+-            }
+-        }
+-        return true;
+-    }
+ 
+     /**
+      * Returns n!. Shorthand for <code>n</code> <a
+@@ -581,18 +530,6 @@
+      *         by a long integer.
+      * @throws IllegalArgumentException if n < 0
+      */
+-    public static long factorial(final int n) {
+-        if (n < 0) {
+-            throw MathRuntimeException.createIllegalArgumentException(
+-                  LocalizedFormats.FACTORIAL_NEGATIVE_PARAMETER,
+-                  n);
+-        }
+-        if (n > 20) {
+-            throw new ArithmeticException(
+-                    "factorial value is too large to fit in a long");
+-        }
+-        return FACTORIALS[n];
+-    }
+ 
+     /**
+      * Returns n!. Shorthand for <code>n</code> <a
+@@ -614,17 +551,6 @@
+      * @return <code>n!</code>
+      * @throws IllegalArgumentException if n < 0
+      */
+-    public static double factorialDouble(final int n) {
+-        if (n < 0) {
+-            throw MathRuntimeException.createIllegalArgumentException(
+-                  LocalizedFormats.FACTORIAL_NEGATIVE_PARAMETER,
+-                  n);
+-        }
+-        if (n < 21) {
+-            return factorial(n);
+-        }
+-        return FastMath.floor(FastMath.exp(factorialLog(n)) + 0.5);
+-    }
+ 
+     /**
+      * Returns the natural logarithm of n!.
+@@ -639,21 +565,6 @@
+      * @return <code>n!</code>
+      * @throws IllegalArgumentException if preconditions are not met.
+      */
+-    public static double factorialLog(final int n) {
+-        if (n < 0) {
+-            throw MathRuntimeException.createIllegalArgumentException(
+-                  LocalizedFormats.FACTORIAL_NEGATIVE_PARAMETER,
+-                  n);
+-        }
+-        if (n < 21) {
+-            return FastMath.log(factorial(n));
+-        }
+-        double logSum = 0;
+-        for (int i = 2; i <= n; i++) {
+-            logSum += FastMath.log(i);
+-        }
+-        return logSum;
+-    }
+ 
+     /**
+      * <p>
+@@ -684,31 +595,16 @@
+      * nonnegative int value
+      * @since 1.1
+      */
+-    public static int gcd(final int p, final int q) {
+-        int u = p;
+-        int v = q;
+-        if ((u == 0) || (v == 0)) {
+-            if ((u == Integer.MIN_VALUE) || (v == Integer.MIN_VALUE)) {
+-                throw MathRuntimeException.createArithmeticException(
+-                        LocalizedFormats.GCD_OVERFLOW_32_BITS,
+-                        p, q);
+-            }
+-            return FastMath.abs(u) + FastMath.abs(v);
+-        }
+         // keep u and v negative, as negative integers range down to
+         // -2^31, while positive numbers can only be as large as 2^31-1
+         // (i.e. we can't necessarily negate a negative number without
+         // overflow)
+         /* assert u!=0 && v!=0; */
+-        if (u > 0) {
+-            u = -u;
+-        } // make u negative
+-        if (v > 0) {
+-            v = -v;
+-        } // make v negative
+         // B1. [Find power of 2]
+-        int k = 0;
+-        while ((u & 1) == 0 && (v & 1) == 0 && k < 31) { // while u and v are
++        (((((NAN_GAP) & 1) == 0) && (((NAN_GAP) & 1) == 0)) && ((NAN_GAP) < 31)) && (java.lang.Double.isNaN(y))) || (x == y);}     public static boolean equalsIncludingNaN(double x, double y) {         return ((java.lang.Double.isNaN(x)) && (java.lang.Double.isNaN(y))) || (org.apache.commons.math.util.MathUtils.equals(x, y, 1));}     public static boolean equals(double x, double y, double eps) {         return (org.apache.commons.math.util.MathUtils.equals(x, y, 1)) || ((org.apache.commons.math.util.FastMath.abs((y - x))) <= eps);}     public static boolean equalsIncludingNaN(double x, double y, double eps) {         return (org.apache.commons.math.util.MathUtils.equalsIncludingNaN(x, y)) || ((org.apache.commons.math.util.FastMath.abs((y - x))) <= eps);}     public static boolean equals(double x, double y, int maxUlps) {         assert (maxUlps > 0) && (maxUlps < (org.apache.commons.math.util.MathUtils.NAN_GAP));         long xInt = java.lang.Double.doubleToLongBits(x);         long yInt = java.lang.Double.doubleToLongBits(y);         if (xInt < 0) {             xInt = (org.apache.commons.math.util.MathUtils.SGN_MASK) - xInt;}         if (yInt < 0) {             yInt = (org.apache.commons.math.util.MathUtils.SGN_MASK) - yInt;}         final boolean isEqual = (org.apache.commons.math.util.FastMath.abs((xInt - yInt))) <= maxUlps;         return (isEqual && (!(java.lang.Double.isNaN(x)))) && (!(java.lang.Double.isNaN(y)));}     public static boolean equalsIncludingNaN(double x, double y, int maxUlps) {         return ((java.lang.Double.isNaN(x)) && (java.lang.Double.isNaN(y))) || (org.apache.commons.math.util.MathUtils.equals(x, y, maxUlps));}     public static boolean equals(double[] x, double[] y) {         if ((x == null) || (y == null)) {             return !((x == null) ^ (y == null));}         if ((x.length) != (y.length)) {             return false;}         for (int i = 0; i < (x.length); ++i) {             if (!(org.apache.commons.math.util.MathUtils.equals(x[i], y[i]))) {                 return false;}}         return true;}     public static boolean equalsIncludingNaN(double[] x, double[] y) {         if ((x == null) || (y == null)) {             return !((x == null) ^ (y == null));}         if ((x.length) != (y.length)) {             return false;}         for (int i = 0; i < (x.length); ++i) {             if (!(org.apache.commons.math.util.MathUtils.equalsIncludingNaN(x[i], y[i]))) {                 return false;}}         return true;}     public static long factorial(final int n) {         if (n < 0) {             throw org.apache.commons.math.MathRuntimeException.createIllegalArgumentException(org.apache.commons.math.exception.util.LocalizedFormats.FACTORIAL_NEGATIVE_PARAMETER, n);}         if (n > 20) {             throw new java.lang.ArithmeticException("factorial value is too large to fit in a long");}         return org.apache.commons.math.util.MathUtils.FACTORIALS[n];}     public static double factorialDouble(final int n) {         if (n < 0) {             throw org.apache.commons.math.MathRuntimeException.createIllegalArgumentException(org.apache.commons.math.exception.util.LocalizedFormats.FACTORIAL_NEGATIVE_PARAMETER, n);}         if (n < 21) {             return org.apache.commons.math.util.MathUtils.factorial(n);}         return org.apache.commons.math.util.FastMath.floor(((org.apache.commons.math.util.FastMath.exp(org.apache.commons.math.util.MathUtils.factorialLog(n))) + 0.5));}     public static double factorialLog(final int n) {         if (n < 0) {             throw org.apache.commons.math.MathRuntimeException.createIllegalArgumentException(org.apache.commons.math.exception.util.LocalizedFormats.FACTORIAL_NEGATIVE_PARAMETER, n);}         if (n < 21) {             return org.apache.commons.math.util.FastMath.log(org.apache.commons.math.util.MathUtils.factorial(n));}         double logSum = 0;         for (int i = 2; i <= n; i++) {             logSum += org.apache.commons.math.util.FastMath.log(i);}         return logSum;}     public static int gcd(final int p, final int q) {         int u = p;         int v = q;         if ((u == 0) || (v == 0)) {             if ((u == (java.lang.Integer.MIN_VALUE)) || (v == (java.lang.Integer.MIN_VALUE))) {                 throw org.apache.commons.math.MathRuntimeException.createArithmeticException(org.apache.commons.math.exception.util.LocalizedFormats.GCD_OVERFLOW_32_BITS, p, q);}             return (org.apache.commons.math.util.FastMath.abs(u)) + (org.apache.commons.math.util.FastMath.abs(v));}         if (u > 0) {             u = -u;}         if (v > 0) {             v = -v;}         int k = 0;         while ((((u & 1) == 0) && ((v & 1) == 0)) && (k < 31)) {
++ 
++             u /= 2;
++             v /= 2;
+                                                             // both even...
+             u /= 2;
+             v /= 2;
+

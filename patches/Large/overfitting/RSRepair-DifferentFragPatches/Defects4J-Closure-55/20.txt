@@ -1,0 +1,13 @@
+--- /tmp/RSRepair_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-02 08:31:50.719827596 -0500
++++ /tmp/RSRepair_Defects4J_Closure_55/patches_2m63/Patch_215/patched/tmp/RSRepair_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-02 08:39:18.843184928 -0500
+@@ -274,7 +274,7 @@
+ 
+       Node statement = body.getFirstChild();
+       if (statement.getType() == Token.RETURN) {
+-        return statement.getFirstChild();
++        StringBuilder builder = new StringBuilder();
+       }
+       return null;
+     }
+
+

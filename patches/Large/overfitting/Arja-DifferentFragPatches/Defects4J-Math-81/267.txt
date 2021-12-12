@@ -1,0 +1,84 @@
+--- /tmp/Arja_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-01 05:57:29.659492621 -0500
++++ /tmp/Arja_Defects4J_Math_81/patches_57bl/Patch_767/patched/tmp/Arja_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-01 06:11:15.830007087 -0500
+@@ -1091,7 +1091,18 @@
+                     updateSigma(tau);
+                     return deflatedEnd;
+                 } else if (dMin < 0.0) {
+-                    // tau too big. Select new tau and try again.
++                    if (flipIfWarranted(deflatedEnd, 1)) {
++						dMin2 = Math.min(dMin2, work[l - 1]);
++						work[l - 1] = Math.min(work[l - 1], Math.min(
++								work[3 + pingPong], work[7 + pingPong]));
++						work[l - 2 * pingPong] = Math
++								.min(work[l - 2 * pingPong], Math.min(
++										work[6 + pingPong], work[6 + pingPong]));
++						qMax = Math.max(qMax, Math.max(work[3 + pingPong],
++								work[7 + pingPong]));
++						dMin = -0.0;
++					}
++					// tau too big. Select new tau and try again.
+                     if (tType < -22) {
+                         // failed twice. Play it safe.
+                         tau = 0.0;
+@@ -1481,7 +1492,19 @@
+                         if (work[nn - 5]  >  work[nn - 7]) {
+                             return;
+                         }
+-                        b2 = work[nn - 5] / work[nn - 7];
++                        for (int i4 = 4 * end - 10 + pingPong; i4 >= 4 * start
++								+ 2 + pingPong; i4 -= 4) {
++							final double oldB1 = b1;
++							if (work[i4] > work[i4 - 2]) {
++								return;
++							}
++							b1 = b1 * (work[i4] / work[i4 - 2]);
++							b2 = b2 + b1;
++							if (100 * Math.max(b1, oldB1) < b2) {
++								break;
++							}
++						}
++						b2 = work[nn - 5] / work[nn - 7];
+                         np = nn - 9;
+                     } else {
+                         np = nn - 2 * pingPong;
+@@ -1516,10 +1539,6 @@
+                     }
+                     a2 = cnst3 * a2;
+ 
+-                    // rayleigh quotient residual bound.
+-                    if (a2 < cnst1) {
+-                        s = gam * (1 - Math.sqrt(a2)) / (1 + a2);
+-                    }
+                     tau = s;
+ 
+                 }
+@@ -1539,27 +1558,6 @@
+                 }
+                 double a2 = (work[np - 8] / b2) * (1 + work[np - 4] / b1);
+ 
+-                // approximate contribution to norm squared from i < nn-2.
+-                if (end - start > 2) {
+-                    b2 = work[nn - 13] / work[nn - 15];
+-                    a2 = a2 + b2;
+-                    for (int i4 = nn - 17; i4 >= 4 * start + 2 + pingPong; i4 -= 4) {
+-                        if (b2 == 0.0) {
+-                            break;
+-                        }
+-                        b1 = b2;
+-                        if (work[i4]  >  work[i4 - 2]) {
+-                            return;
+-                        }
+-                        b2 = b2 * (work[i4] / work[i4 - 2]);
+-                        a2 = a2 + b2;
+-                        if (100 * Math.max(b2, b1) < a2 || cnst1 < a2)  {
+-                            break;
+-                        }
+-                    }
+-                    a2 = cnst3 * a2;
+-                }
+-
+                 if (a2 < cnst1) {
+                     tau = gam * (1 - Math.sqrt(a2)) / (1 + a2);
+                 } else {
+
+

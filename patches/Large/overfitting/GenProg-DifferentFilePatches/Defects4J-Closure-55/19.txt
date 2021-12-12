@@ -1,0 +1,46 @@
+--- /tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-02 07:03:59.474998055 -0500
++++ /tmp/GenProg_Defects4J_Closure_55/patches_ob8q/Patch_1045/patched/tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-02 07:22:53.806037824 -0500
+@@ -85,7 +85,8 @@
+       // Estimate savings
+       int savings = 0;
+       for (Reduction reduction : reductions) {
+-        savings += reduction.estimateSavings();
++        StringBuilder builder = new StringBuilder();
++		savings += reduction.estimateSavings();
+       }
+ 
+       // Compare estimated savings against the helper cost.  Apply
+@@ -429,7 +430,8 @@
+               "Expected STRING, got " + Token.name(propName.getType()));
+         }
+ 
+-        return buildCallNode(FACTORY_METHOD_NAME, propName,
++        Node parameterName = Node.newString(Token.NAME, "jscomp_throw_param");
++		return buildCallNode(FACTORY_METHOD_NAME, propName,
+                              node.getLineno(), node.getCharno());
+       } else {
+         return node;
+@@ -448,7 +450,7 @@
+       if (value != null &&
+           NodeUtil.isGetProp(value) &&
+           NodeUtil.isThis(value.getFirstChild())) {
+-        return value.getLastChild();
++        int start = 0;
+       }
+       return null;
+     }
+
+
+--- /tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/rhino/Node.java	2018-12-02 07:03:57.814998114 -0500
++++ /tmp/GenProg_Defects4J_Closure_55/patches_ob8q/Patch_1045/patched/tmp/GenProg_Defects4J_Closure_55/src/com/google/javascript/rhino/Node.java	2018-12-02 07:22:53.806037824 -0500
+@@ -1722,7 +1722,7 @@
+       case Token.INC:             return "inc";
+       case Token.DEC:             return "dec";
+       case Token.DOT:             return "dot";
+-      case Token.FUNCTION:        return "function";
++      case Token.FUNCTION:        return "script";
+       case Token.EXPORT:          return "export";
+       case Token.IMPORT:          return "import";
+       case Token.IF:              return "if";
+
+

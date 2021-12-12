@@ -1,0 +1,76 @@
+--- /tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/jscomp/FunctionTypeBuilder.java	2018-12-01 09:01:10.906036203 -0500
++++ /tmp/Arja_Defects4J_Closure_112/patches_famj/Patch_1821/patched/tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/jscomp/FunctionTypeBuilder.java	2018-12-01 09:25:07.177378792 -0500
+@@ -355,7 +355,6 @@
+             builder.add(typeRegistry.createTemplateType(typeParameter));
+           }
+           classTemplateTypeNames = builder.build();
+-          typeRegistry.setTemplateTypeNames(classTemplateTypeNames);
+         }
+       }
+ 
+
+
+--- /tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-01 09:01:13.654047680 -0500
++++ /tmp/Arja_Defects4J_Closure_112/patches_famj/Patch_1821/patched/tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-01 09:25:07.177378792 -0500
+@@ -1059,57 +1059,8 @@
+       JSType argType,
+       Map<TemplateType, JSType> resolvedTypes) {
+     if (paramType.isTemplateType()) {
+-      // @param {T}
+-      resolvedTemplateType(
+-          resolvedTypes, paramType.toMaybeTemplateType(), argType);
+-    } else if (paramType.isUnionType()) {
+-      // @param {Array.<T>|NodeList|Arguments|{length:number}}
+-      UnionType unionType = paramType.toMaybeUnionType();
+-      for (JSType alernative : unionType.getAlternates()) {
+-        maybeResolveTemplatedType(alernative, argType, resolvedTypes);
+-      }
+-    } else if (paramType.isFunctionType()) {
+-      FunctionType paramFunctionType = paramType.toMaybeFunctionType();
+-      FunctionType argFunctionType = argType
+-          .restrictByNotNullOrUndefined()
+-          .collapseUnion()
+-          .toMaybeFunctionType();
+-      if (argFunctionType != null && argFunctionType.isSubtype(paramType)) {
+-        // infer from return type of the function type
+-        maybeResolveTemplatedType(
+-            paramFunctionType.getTypeOfThis(),
+-            argFunctionType.getTypeOfThis(), resolvedTypes);
+-        // infer from return type of the function type
+-        maybeResolveTemplatedType(
+-            paramFunctionType.getReturnType(),
+-            argFunctionType.getReturnType(), resolvedTypes);
+-        // infer from parameter types of the function type
+-        maybeResolveTemplateTypeFromNodes(
+-            paramFunctionType.getParameters(),
+-            argFunctionType.getParameters(), resolvedTypes);
+-      }
+-    } else if (paramType.isTemplatizedType()) {
+-      // @param {Array.<T>}
+-      ObjectType referencedParamType = paramType
+-          .toMaybeTemplatizedType()
+-          .getReferencedType();
+-      JSType argObjectType = argType
+-          .restrictByNotNullOrUndefined()
+-          .collapseUnion();
+-
+-      if (argObjectType.isSubtype(referencedParamType)) {
+-        // If the argument type is a subtype of the parameter type, resolve any
+-        // template types amongst their templatized types.
+-        TemplateTypeMap paramTypeMap = paramType.getTemplateTypeMap();
+-        TemplateTypeMap argTypeMap = argObjectType.getTemplateTypeMap();
+-        for (TemplateType key : paramTypeMap.getTemplateKeys()) {
+-          maybeResolveTemplatedType(
+-              paramTypeMap.getTemplateType(key),
+-              argTypeMap.getTemplateType(key),
+-              resolvedTypes);
+-        }
+-      }
+-    }
++    } else
++		;
+   }
+ 
+   private void maybeResolveTemplateTypeFromNodes(
+
+

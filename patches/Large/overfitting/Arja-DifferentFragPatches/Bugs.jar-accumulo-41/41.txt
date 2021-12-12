@@ -1,0 +1,27 @@
+--- /tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/src/core/src/main/java/org/apache/accumulo/core/client/mock/MockTable.java	2018-12-28 20:28:13.213481000 -0500
++++ /tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/patches_5ben/Patch_1522/patched/tmp/Arja_Bug_dot_jar_Accumulo_15476a0d/src/core/src/main/java/org/apache/accumulo/core/client/mock/MockTable.java	2018-12-28 20:50:08.140494272 -0500
+@@ -64,14 +64,10 @@
+     @Override
+     public int compareTo(Key o) {
+       int compare = super.compareTo(o);
+-      if (compare != 0)
+-        return compare;
+       if (o instanceof MockMemKey) {
+         MockMemKey other = (MockMemKey) o;
+         if (count < other.count)
+           return -1;
+-        if (count > other.count)
+-          return 1;
+       } else {
+         return 1;
+       }
+@@ -97,7 +93,6 @@
+   
+   synchronized void addMutation(Mutation m) {
+     long now = System.currentTimeMillis();
+-    mutationCount++;
+     for (ColumnUpdate u : m.getUpdates()) {
+       Key key = new Key(m.getRow(), 0, m.getRow().length, u.getColumnFamily(), 0, u.getColumnFamily().length, u.getColumnQualifier(), 0,
+           u.getColumnQualifier().length, u.getColumnVisibility(), 0, u.getColumnVisibility().length, u.getTimestamp());
+
+

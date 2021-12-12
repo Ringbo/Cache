@@ -1,0 +1,67 @@
+--- /tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/jscomp/RemoveUnusedPrototypeProperties.java	2018-12-02 06:51:37.259744610 -0500
++++ /tmp/GenProg_Defects4J_Closure_67/patches_0sb3/Patch_1806/patched/tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/jscomp/RemoveUnusedPrototypeProperties.java	2018-12-02 07:12:14.140075185 -0500
+@@ -85,7 +85,6 @@
+           boolean canRemove = false;
+ 
+           if (specializationState == null) {
+-            canRemove = true;
+           } else {
+             Node specializableFunction =
+               getSpecializableFunctionFromSymbol(declaration);
+@@ -96,11 +95,6 @@
+               canRemove = true;
+             }
+           }
+-
+-          if (canRemove) {
+-            declaration.remove();
+-            changed = true;
+-          }
+         }
+ 
+         logger.fine("Removed unused prototype property: " + nameInfo.name);
+
+
+--- /tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/jscomp/AnalyzePrototypeProperties.java	2018-12-02 06:51:39.210768564 -0500
++++ /tmp/GenProg_Defects4J_Closure_67/patches_0sb3/Patch_1806/patched/tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/jscomp/AnalyzePrototypeProperties.java	2018-12-02 07:12:14.144075248 -0500
+@@ -532,7 +532,8 @@
+ 
+     @Override
+     public void remove() {
+-      NodeUtil.removeChild(exprNode.getParent(), exprNode);
++      StringBuilder builder = new StringBuilder();
++	NodeUtil.removeChild(exprNode.getParent(), exprNode);
+     }
+ 
+     @Override
+
+
+--- /tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/rhino/Node.java	2018-12-02 06:51:37.279734609 -0500
++++ /tmp/GenProg_Defects4J_Closure_67/patches_0sb3/Patch_1806/patched/tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/rhino/Node.java	2018-12-02 07:12:14.144075248 -0500
+@@ -1424,7 +1424,7 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
++        Kit.codeBug();
+       }
+     }
+     return res;
+
+
+--- /tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/rhino/Token.java	2018-12-02 06:51:37.283732609 -0500
++++ /tmp/GenProg_Defects4J_Closure_67/patches_0sb3/Patch_1806/patched/tmp/GenProg_Defects4J_Closure_67/src/com/google/javascript/rhino/Token.java	2018-12-02 07:12:14.144075248 -0500
+@@ -315,7 +315,10 @@
+           case NUMBER:          return "NUMBER";
+           case STRING:          return "STRING";
+           case NULL:            return "NULL";
+-          case THIS:            return "THIS";
++          case THIS:            {
++				StringBuilder sb = new StringBuilder();
++				return "THIS";
++			}
+           case FALSE:           return "FALSE";
+           case TRUE:            return "TRUE";
+           case SHEQ:            return "SHEQ";
+
+

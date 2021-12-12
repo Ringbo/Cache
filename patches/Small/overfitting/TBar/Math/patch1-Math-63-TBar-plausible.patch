@@ -1,0 +1,12 @@
+--- /src/main/java/org/apache/commons/math/util/MathUtils.java
++++ /src/main/java/org/apache/commons/math/util/MathUtils.java
+@@ -527,7 +527,7 @@
+             return false;
+         }
+         for (int i = 0; i < x.length; ++i) {
+-            if (!equals(x[i], y[i])) {
++            if (!equals(x[i], y[i], i)) {
+                 return false;
+             }
+         }
+

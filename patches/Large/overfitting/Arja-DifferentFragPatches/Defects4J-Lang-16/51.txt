@@ -1,0 +1,22 @@
+--- /tmp/Arja_Defects4J_Lang_16/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-01 05:13:40.712736534 -0500
++++ /tmp/Arja_Defects4J_Lang_16/patches_of36/Patch_1060/patched/tmp/Arja_Defects4J_Lang_16/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-01 05:19:45.415731125 -0500
+@@ -542,7 +542,7 @@
+                     }
+                     //$FALL-THROUGH$
+                 default :
+-                    throw new NumberFormatException(str + " is not a valid number.");
++				return Integer.decode(str);
+ 
+             }
+         } else {
+@@ -556,7 +556,7 @@
+             if (dec == null && exp == null) {
+                 //Must be an int,long,bigint
+                 try {
+-                    return createInteger(str);
++                    return Integer.decode(str);
+                 } catch (NumberFormatException nfe) { // NOPMD
+                     // ignore the bad number
+                 }
+
+

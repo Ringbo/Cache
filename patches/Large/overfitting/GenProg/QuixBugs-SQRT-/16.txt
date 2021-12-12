@@ -1,0 +1,25 @@
+--- /tmp/GenProg_QuixBugs_SQRT_/src/main/java/SQRT.java	2018-12-02 14:59:58.999350896 -0500
++++ /tmp/GenProg_QuixBugs_SQRT_/patches_p6et/Patch_1541/patched/tmp/GenProg_QuixBugs_SQRT_/src/main/java/SQRT.java	2018-12-02 15:10:55.461758930 -0500
+@@ -13,9 +13,17 @@
+ public class SQRT {
+     public static double sqrt(double x, double epsilon) {
+         double approx = x / 2f;
+-        while (Math.abs(x-approx) > epsilon) {
+-            approx = 0.5f * (approx + x / approx);
+-        }
++        approx = 0.5f * (approx + x / approx);
++		approx = 0.5f * (approx + x / approx);
++		approx = 0.5f * (approx + x / approx);
++		approx = 0.5f * (approx + x / approx);
++		approx = 0.5f * (approx + x / approx);
++		approx = 0.5f * (approx + x / approx);
++		approx = 0.5f * (approx + x / approx);
++		approx = 0.5f * (approx + x / approx);
++		approx = 0.5f * (approx + x / approx);
++		approx = 0.5f * (approx + x / approx);
++		approx = 0.5f * (approx + x / approx);
+         return approx;
+     }
+ }
+
+

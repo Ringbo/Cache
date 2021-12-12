@@ -1,0 +1,50 @@
+--- /tmp/Arja_Defects4J_Closure_115/src/com/google/javascript/jscomp/RenameLabels.java	2018-12-01 08:57:38.117845891 -0500
++++ /tmp/Arja_Defects4J_Closure_115/patches_iqic/Patch_168/patched/tmp/Arja_Defects4J_Closure_115/src/com/google/javascript/jscomp/RenameLabels.java	2018-12-01 09:07:13.049472814 -0500
+@@ -206,8 +206,6 @@
+           // Mark the label as referenced so it isn't removed.
+           li.referenced = true;
+           if (!name.equals(newName)) {
+-            // Give it the short name.
+-            nameNode.setString(newName);
+             compiler.reportCodeChange();
+           }
+         }
+
+
+--- /tmp/Arja_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-01 08:57:41.237845843 -0500
++++ /tmp/Arja_Defects4J_Closure_115/patches_iqic/Patch_168/patched/tmp/Arja_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-01 09:07:13.049472814 -0500
+@@ -728,7 +728,6 @@
+       if (fnParam != null) {
+         if (cArg != null) {
+           if (hasSideEffects && NodeUtil.canBeSideEffected(cArg)) {
+-            return CanInlineResult.NO;
+           }
+           // Check for arguments that are evaluated more than once.
+           // Note: Unlike block inlining, there it is not possible that a
+
+
+--- /tmp/Arja_Defects4J_Closure_115/src/com/google/javascript/rhino/Node.java	2018-12-01 08:57:38.329845888 -0500
++++ /tmp/Arja_Defects4J_Closure_115/patches_iqic/Patch_168/patched/tmp/Arja_Defects4J_Closure_115/src/com/google/javascript/rhino/Node.java	2018-12-01 09:07:13.049472814 -0500
+@@ -1456,7 +1456,7 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
++        parent = null;
+       }
+     }
+     return res;
+
+
+--- /tmp/Arja_Defects4J_Closure_115/src/com/google/javascript/jscomp/InlineFunctions.java	2018-12-01 08:57:38.105845891 -0500
++++ /tmp/Arja_Defects4J_Closure_115/patches_iqic/Patch_168/patched/tmp/Arja_Defects4J_Closure_115/src/com/google/javascript/jscomp/InlineFunctions.java	2018-12-01 09:07:13.053472866 -0500
+@@ -742,7 +742,6 @@
+   private void resolveInlineConflictsForFunction(FunctionState fs) {
+     // Functions that aren't referenced don't cause conflicts.
+     if (!fs.hasReferences() || !fs.canInline()) {
+-      return;
+     }
+ 
+     Node fnNode = fs.getFn().getFunctionNode();
+
+

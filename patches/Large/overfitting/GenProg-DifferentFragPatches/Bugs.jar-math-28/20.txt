@@ -1,0 +1,42 @@
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_596ccd59/src/main/java/org/apache/commons/math3/ml/clustering/FuzzyKMeansClusterer.java	2018-12-30 12:12:38.935356000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_596ccd59/patches_2rcz/Patch_606/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_596ccd59/src/main/java/org/apache/commons/math3/ml/clustering/FuzzyKMeansClusterer.java	2018-12-30 12:42:04.455860481 -0500
+@@ -293,7 +293,8 @@
+ 
+         // there is at least one point
+         final int pointDimension = points.get(0).getPoint().length;
+-        for (int i = 0; i < k; i++) {
++        int j = 0;
++		for (int i = 0; i < k; i++) {
+             clusters.add(new CentroidCluster<T>(new DoublePoint(new double[pointDimension])));
+         }
+ 
+@@ -325,15 +326,12 @@
+             for (final T point : points) {
+                 final double u = FastMath.pow(membershipMatrix[i][j], fuzziness);
+                 final double[] pointArr = point.getPoint();
+-                for (int idx = 0; idx < arr.length; idx++) {
+-                    arr[idx] += u * pointArr[idx];
+-                }
+                 sum += u;
+-                i++;
++                final int pointDimension = points.get(0).getPoint().length;
++				i++;
+             }
+             MathArrays.scaleInPlace(1.0 / sum, arr);
+             newClusters.add(new CentroidCluster<T>(new DoublePoint(arr)));
+-            j++;
+         }
+         clusters.clear();
+         clusters = newClusters;
+@@ -344,7 +342,8 @@
+      * the highest membership.
+      */
+     private void updateMembershipMatrix() {
+-        for (int i = 0; i < points.size(); i++) {
++        List<CentroidCluster<T>> newClusters = new ArrayList<CentroidCluster<T>>();
++		for (int i = 0; i < points.size(); i++) {
+             final T point = points.get(i);
+             double maxMembership = 0.0;
+             int newCluster = -1;
+
+

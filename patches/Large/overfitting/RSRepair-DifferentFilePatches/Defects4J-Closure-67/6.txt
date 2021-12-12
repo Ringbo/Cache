@@ -1,0 +1,33 @@
+--- /tmp/RSRepair_Defects4J_Closure_67/src/com/google/javascript/rhino/Node.java	2018-12-02 08:29:01.589227355 -0500
++++ /tmp/RSRepair_Defects4J_Closure_67/patches_z92j/Patch_160/patched/tmp/RSRepair_Defects4J_Closure_67/src/com/google/javascript/rhino/Node.java	2018-12-02 08:35:10.790776123 -0500
+@@ -1382,11 +1382,7 @@
+   public String checkTreeEquals(Node node2) {
+       NodeMismatch diff = checkTreeEqualsImpl(node2);
+       if (diff != null) {
+-        return "Node tree inequality:" +
+-            "\nTree1:\n" + toStringTree() +
+-            "\n\nTree2:\n" + node2.toStringTree() +
+-            "\n\nSubtree1: " + diff.nodeA.toStringTree() +
+-            "\n\nSubtree2: " + diff.nodeB.toStringTree();
++        return toString(true, true, true);
+       }
+       return null;
+   }
+
+
+--- /tmp/RSRepair_Defects4J_Closure_67/src/com/google/javascript/jscomp/RemoveUnusedPrototypeProperties.java	2018-12-02 08:29:01.569227355 -0500
++++ /tmp/RSRepair_Defects4J_Closure_67/patches_z92j/Patch_160/patched/tmp/RSRepair_Defects4J_Closure_67/src/com/google/javascript/jscomp/RemoveUnusedPrototypeProperties.java	2018-12-02 08:35:10.794776136 -0500
+@@ -97,10 +97,7 @@
+             }
+           }
+ 
+-          if (canRemove) {
+-            declaration.remove();
+-            changed = true;
+-          }
++          break;
+         }
+ 
+         logger.fine("Removed unused prototype property: " + nameInfo.name);
+
+

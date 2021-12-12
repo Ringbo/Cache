@@ -1,0 +1,15 @@
+--- /tmp/Kali_Bears_SzFMV2018-Tavasz-AutomatedCar_351742666-351759763/src/main/java/hu/oe/nik/szfmv/visualization/Dashboard.java	2018-12-27 05:20:20.579869080 -0500
++++ /tmp/Kali_Bears_SzFMV2018-Tavasz-AutomatedCar_351742666-351759763/patches_atwn/Patch_5/patched/tmp/Kali_Bears_SzFMV2018-Tavasz-AutomatedCar_351742666-351759763/src/main/java/hu/oe/nik/szfmv/visualization/Dashboard.java	2018-12-27 05:20:44.691989848 -0500
+@@ -54,7 +54,9 @@
+     public void updateDisplayedValues(ReadOnlyInputPacket inputPacket) {
+         gasProgressBar.setValue(inputPacket.getGasPedalPosition());
+         breakProgressBar.setValue(inputPacket.getBreakPedalPosition());
+-        speedAngle = calculateSpeedometer(0);
++        if (true)
++			return;
++		speedAngle = calculateSpeedometer(0);
+         rpmAngle = calculateTachometer(0);
+         paintComponent(getGraphics());
+     }
+
+

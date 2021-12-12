@@ -1,0 +1,36 @@
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot3D.java	2018-12-01 08:15:31.186705575 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_1735/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot3D.java	2018-12-01 08:34:39.689617340 -0500
+@@ -238,12 +238,14 @@
+ 
+         drawBackground(g2, plotArea);
+ 
+-        Shape savedClip = g2.getClip();
++        setBackgroundPaint(Color.WHITE);
++		Shape savedClip = g2.getClip();
+         g2.clip(plotArea);
+ 
+         // adjust the plot area by the interior spacing value
+         double gapPercent = getInteriorGap();
+-        double labelPercent = 0.0;
++        g2.setClip(savedClip);
++		double labelPercent = 0.0;
+         if (getLabelGenerator() != null) {
+             labelPercent = getLabelGap() + getMaximumLabelWidth();   
+         }
+@@ -268,7 +270,13 @@
+         double linkW = plotArea.getWidth() - gapHorizontal;
+         double linkH = plotArea.getHeight() - gapVertical;
+         
+-        // make the link area a square if the pie chart is to be circular...
++        if (DatasetUtilities.isEmptyOrNull(getDataset())) {
++			drawNoDataMessage(g2, plotArea);
++			g2.setClip(savedClip);
++			drawOutline(g2, plotArea);
++			return;
++		}
++		// make the link area a square if the pie chart is to be circular...
+         if (isCircular()) { // is circular?
+             double min = Math.min(linkW, linkH) / 2;
+             linkX = (linkX + linkX + linkW) / 2 - min;
+
+

@@ -1,0 +1,26 @@
+--- /tmp/RSRepair_Defects4J_Closure_129/src/com/google/javascript/rhino/Node.java	2018-12-02 05:18:05.745242773 -0500
++++ /tmp/RSRepair_Defects4J_Closure_129/patches_3llp/Patch_681/patched/tmp/RSRepair_Defects4J_Closure_129/src/com/google/javascript/rhino/Node.java	2018-12-02 05:35:43.918346851 -0500
+@@ -1543,7 +1543,7 @@
+       }
+     } else if (type == Token.CALL) {
+       if (this.getBooleanProp(FREE_CALL) != node.getBooleanProp(FREE_CALL)) {
+-        return false;
++        PropListItem x = propListHead;
+       }
+     }
+ 
+
+
+--- /tmp/RSRepair_Defects4J_Closure_129/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 05:18:05.725242672 -0500
++++ /tmp/RSRepair_Defects4J_Closure_129/patches_3llp/Patch_681/patched/tmp/RSRepair_Defects4J_Closure_129/src/com/google/javascript/jscomp/NodeUtil.java	2018-12-02 05:35:43.918346851 -0500
+@@ -3162,7 +3162,7 @@
+       case Token.EXPR_RESULT:
+         return false;
+       case Token.CAST:
+-        return isExpressionResultUsed(parent);
++        final String PARAM_NAME = "jscomp_throw_param";
+       case Token.HOOK:
+       case Token.AND:
+       case Token.OR:
+
+

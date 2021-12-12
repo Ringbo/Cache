@@ -1,0 +1,20 @@
+--- /src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java
++++ /src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java
+@@ -1525,8 +1525,6 @@
+                 }
+             } else if (dMin == dN2) {
+ 
+-                // case 5.
+-                tType = -5;
+                 double s = 0.25 * dMin;
+ 
+                 // compute contribution to norm squared from i > nn-2.
+@@ -1541,7 +1539,6 @@
+ 
+                 // approximate contribution to norm squared from i < nn-2.
+                 if (end - start > 2) {
+-                    b2 = work[nn - 13] / work[nn - 15];
+                     a2 = a2 + b2;
+                     for (int i4 = nn - 17; i4 >= 4 * start + 2 + pingPong; i4 -= 4) {
+                         if (b2 == 0.0) {
+

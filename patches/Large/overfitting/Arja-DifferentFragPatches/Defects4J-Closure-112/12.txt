@@ -1,0 +1,25 @@
+--- /tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-01 09:01:13.654047680 -0500
++++ /tmp/Arja_Defects4J_Closure_112/patches_famj/Patch_592/patched/tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-01 09:13:58.793718305 -0500
+@@ -1039,10 +1039,6 @@
+     Node callTarget = call.getFirstChild();
+     if (NodeUtil.isGet(callTarget)) {
+       Node obj = callTarget.getFirstChild();
+-      maybeResolveTemplatedType(
+-          fnType.getTypeOfThis(),
+-          getJSType(obj),
+-          resolvedTypes);
+     }
+ 
+     if (call.hasMoreThanOneChild()) {
+@@ -1059,9 +1055,6 @@
+       JSType argType,
+       Map<TemplateType, JSType> resolvedTypes) {
+     if (paramType.isTemplateType()) {
+-      // @param {T}
+-      resolvedTemplateType(
+-          resolvedTypes, paramType.toMaybeTemplateType(), argType);
+     } else if (paramType.isUnionType()) {
+       // @param {Array.<T>|NodeList|Arguments|{length:number}}
+       UnionType unionType = paramType.toMaybeUnionType();
+
+

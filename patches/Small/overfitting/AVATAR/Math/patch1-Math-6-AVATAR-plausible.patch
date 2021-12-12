@@ -1,0 +1,12 @@
+--- /src/main/java/org/apache/commons/math3/optim/BaseOptimizer.java
++++ /src/main/java/org/apache/commons/math3/optim/BaseOptimizer.java
+@@ -90,7 +90,7 @@
+      * @return the number of evaluations of the objective function.
+      */
+     public int getIterations() {
+-        return iterations.getCount();
++        return this.evaluations.getCount();
+     }
+ 
+     /**
+

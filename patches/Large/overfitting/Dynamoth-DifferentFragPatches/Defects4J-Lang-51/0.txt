@@ -1,0 +1,13 @@
+--- a/src/java/org/apache/commons/lang/BooleanUtils.java
++++ b/src/java/org/apache/commons/lang/BooleanUtils.java
+@@ -676,6 +676,6 @@
+                 }
+-                if (ch == 'Y') {
+-                    return 
+-                        (str.charAt(1) == 'E' || str.charAt(1) == 'e') &&
+-                        (str.charAt(2) == 'S' || str.charAt(2) == 's');
++                if (true) {
++                    return
++                    (str.charAt(1) == 'E' || str.charAt(1) == 'e') &&
++                    (str.charAt(2) == 'S' || str.charAt(2) == 's');
+                 }

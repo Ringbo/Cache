@@ -1,0 +1,18 @@
+/var/lib/oar/.batch_job_bashrc: line 5: /home/tdurieux/.bashrc: No such file or directory
+--- org/apache/commons/math/analysis/solvers/BaseSecantSolver.java
++++ org/apache/commons/math/analysis/solvers/BaseSecantSolver.java
+@@ -184,10 +184,10 @@
+ 						break;
+ 					case REGULA_FALSI :
+ 
+-						if (x == x1) {
+-							x0 = 0.5 * ((x0 + x1) - (org.apache.commons.math.util.FastMath.max((rtol * (org.apache.commons.math.util.FastMath.abs(x1))), atol)));
++						if (x == x1)
++
+ 							f0 = computeObjectiveValue(x0);
+-						}
++
+ 						break;
+ 					default :
+ 
+

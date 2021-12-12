@@ -1,0 +1,33 @@
+--- /tmp/RSRepair_Defects4J_Closure_67/src/com/google/javascript/jscomp/RemoveUnusedPrototypeProperties.java	2018-12-02 08:29:01.569227355 -0500
++++ /tmp/RSRepair_Defects4J_Closure_67/patches_z92j/Patch_66/patched/tmp/RSRepair_Defects4J_Closure_67/src/com/google/javascript/jscomp/RemoveUnusedPrototypeProperties.java	2018-12-02 08:34:13.378573494 -0500
+@@ -81,27 +81,7 @@
+     boolean changed = false;
+     for (NameInfo nameInfo : allNameInfo) {
+       if (!nameInfo.isReferenced()) {
+-        for (Symbol declaration : nameInfo.getDeclarations()) {
+-          boolean canRemove = false;
+-
+-          if (specializationState == null) {
+-            canRemove = true;
+-          } else {
+-            Node specializableFunction =
+-              getSpecializableFunctionFromSymbol(declaration);
+-
+-            if (specializableFunction != null) {
+-              specializationState.reportRemovedFunction(
+-                  specializableFunction, null);
+-              canRemove = true;
+-            }
+-          }
+-
+-          if (canRemove) {
+-            declaration.remove();
+-            changed = true;
+-          }
+-        }
++        boolean valid = false;
+ 
+         logger.fine("Removed unused prototype property: " + nameInfo.name);
+       }
+
+

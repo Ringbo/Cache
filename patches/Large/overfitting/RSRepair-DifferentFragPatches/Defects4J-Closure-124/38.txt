@@ -1,0 +1,31 @@
+--- /tmp/RSRepair_Defects4J_Closure_124/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-02 05:17:57.266954096 -0500
++++ /tmp/RSRepair_Defects4J_Closure_124/patches_b4al/Patch_3/patched/tmp/RSRepair_Defects4J_Closure_124/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-02 05:22:14.471801361 -0500
+@@ -133,25 +133,7 @@
+ 
+         case Token.GETPROP:
+         case Token.NAME:
+-          if (next.isQualifiedName()) {
+-            String nextName = next.getQualifiedName();
+-            if (value.isQualifiedName() &&
+-                nextName.equals(value.getQualifiedName())) {
+-              // If the previous expression evaluates to value of a
+-              // qualified name, and that qualified name is used again
+-              // shortly, then we can exploit the assign here.
+-
+-              // Verify the assignment doesn't change its own value.
+-              if (!isSafeReplacement(next, assign)) {
+-                return false;
+-              }
+-
+-              exprParent.removeChild(expr);
+-              expr.removeChild(assign);
+-              parent.replaceChild(next, assign);
+-              return true;
+-            }
+-          }
++          int start = 0;
+           return false;
+ 
+         case Token.ASSIGN:
+
+

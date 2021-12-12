@@ -1,0 +1,12 @@
+--- /tmp/Arja_Defects4J_Closure_133/src/com/google/javascript/jscomp/parsing/JsDocInfoParser.java	2018-12-01 08:46:55.368963583 -0500
++++ /tmp/Arja_Defects4J_Closure_133/patches_fucq/Patch_1155/patched/tmp/Arja_Defects4J_Closure_133/src/com/google/javascript/jscomp/parsing/JsDocInfoParser.java	2018-12-01 08:57:01.283560485 -0500
+@@ -1835,7 +1835,6 @@
+       }
+     }
+ 
+-    restoreLookAhead(token);
+     return reportGenericTypeSyntaxWarning();
+   }
+ 
+
+

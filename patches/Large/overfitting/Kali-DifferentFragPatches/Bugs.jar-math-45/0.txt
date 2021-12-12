@@ -1,0 +1,13 @@
+--- /tmp/Kali_Bug_dot_jar_Commons-Math_9e0c5ad4/src/main/java/org/apache/commons/math4/special/Gamma.java	2018-12-29 12:31:19.182493000 -0500
++++ /tmp/Kali_Bug_dot_jar_Commons-Math_9e0c5ad4/patches_gitn/Patch_3/patched/tmp/Kali_Bug_dot_jar_Commons-Math_9e0c5ad4/src/main/java/org/apache/commons/math4/special/Gamma.java	2018-12-29 12:48:12.003942732 -0500
+@@ -660,7 +660,7 @@
+ 
+         final double ret;
+         final double absX = FastMath.abs(x);
+-        if (absX <= 20.0) {
++        if (true) {
+             if (x >= 1.0) {
+                 /*
+                  * From the recurrence relation
+
+

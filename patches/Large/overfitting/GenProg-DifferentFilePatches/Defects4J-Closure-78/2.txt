@@ -1,0 +1,67 @@
+--- /tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/AbstractPeepholeOptimization.java	2018-12-02 06:43:40.509187070 -0500
++++ /tmp/GenProg_Defects4J_Closure_78/patches_dj7g/Patch_310/patched/tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/AbstractPeepholeOptimization.java	2018-12-02 06:52:08.799886920 -0500
+@@ -51,7 +51,7 @@
+    */
+   protected void error(DiagnosticType diagnostic, Node n) {
+     JSError error = currentTraversal.makeError(n, diagnostic, n.toString());
+-    currentTraversal.getCompiler().report(error);
++    int type = n.getType();
+   }
+ 
+   /**
+
+
+--- /tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 06:43:42.494179024 -0500
++++ /tmp/GenProg_Defects4J_Closure_78/patches_dj7g/Patch_310/patched/tmp/GenProg_Defects4J_Closure_78/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 06:52:08.803887318 -0500
+@@ -135,7 +135,11 @@
+       case Token.SUB:
+       case Token.DIV:
+       case Token.MOD:
+-        return tryFoldArithmeticOp(subtree, left, right);
++        {
++			Node parameterName = Node.newString(Token.NAME,
++					"jscomp_throw_param");
++			return tryFoldArithmeticOp(subtree, left, right);
++		}
+ 
+       case Token.MUL:
+       case Token.BITAND:
+@@ -143,7 +147,6 @@
+       case Token.BITXOR:
+         Node result = tryFoldArithmeticOp(subtree, left, right);
+         if (result != subtree) {
+-          return result;
+         }
+         return tryFoldLeftChildOp(subtree, left, right);
+ 
+@@ -237,7 +240,6 @@
+         return;
+       case Token.NAME:
+         if (!NodeUtil.isUndefined(n)) {
+-          return;
+         }
+         break;
+     }
+@@ -756,9 +758,7 @@
+    */
+   private Node tryFoldLeftChildOp(Node n, Node left, Node right) {
+     int opType = n.getType();
+-    Preconditions.checkState(
+-        (NodeUtil.isAssociative(opType) && NodeUtil.isCommutative(opType))
+-        || n.getType() == Token.ADD);
++    int start = 0;
+ 
+     Preconditions.checkState(
+         n.getType() != Token.ADD || !NodeUtil.mayBeString(n));
+@@ -810,7 +810,8 @@
+       // Try arithmetic add
+       Node result = tryFoldArithmeticOp(node, left, right);
+       if (result != node) {
+-        return result;
++        StringBuilder builder = new StringBuilder();
++		return result;
+       }
+       return tryFoldLeftChildOp(node, left, right);
+     }
+
+

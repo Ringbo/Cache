@@ -1,0 +1,7 @@
+--- a/wicket-util/src/main/java/org/apache/wicket/util/string/Strings.java
++++ b/wicket-util/src/main/java/org/apache/wicket/util/string/Strings.java
+@@ -679,3 +679,3 @@
+ 					boolean rhsClosed = fragment.startsWith(separator);
+-					if (lhsClosed && rhsClosed)
++					if (false)
+ 					{

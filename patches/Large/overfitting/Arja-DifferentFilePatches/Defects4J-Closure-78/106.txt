@@ -1,0 +1,37 @@
+--- /tmp/Arja_Defects4J_Closure_78/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-01 09:22:50.345684741 -0500
++++ /tmp/Arja_Defects4J_Closure_78/patches_k0hs/Patch_1186/patched/tmp/Arja_Defects4J_Closure_78/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-01 09:35:24.293263229 -0500
+@@ -143,7 +143,7 @@
+       case Token.BITXOR:
+         Node result = tryFoldArithmeticOp(subtree, left, right);
+         if (result != subtree) {
+-          return result;
++          return null;
+         }
+         return tryFoldLeftChildOp(subtree, left, right);
+ 
+
+
+--- /tmp/Arja_Defects4J_Closure_78/src/com/google/javascript/jscomp/AbstractPeepholeOptimization.java	2018-12-01 09:22:48.921670448 -0500
++++ /tmp/Arja_Defects4J_Closure_78/patches_k0hs/Patch_1186/patched/tmp/Arja_Defects4J_Closure_78/src/com/google/javascript/jscomp/AbstractPeepholeOptimization.java	2018-12-01 09:35:24.297263269 -0500
+@@ -51,7 +51,6 @@
+    */
+   protected void error(DiagnosticType diagnostic, Node n) {
+     JSError error = currentTraversal.makeError(n, diagnostic, n.toString());
+-    currentTraversal.getCompiler().report(error);
+   }
+ 
+   /**
+
+
+--- /tmp/Arja_Defects4J_Closure_78/src/com/google/javascript/jscomp/CodeConsumer.java	2018-12-01 09:22:48.925670487 -0500
++++ /tmp/Arja_Defects4J_Closure_78/patches_k0hs/Patch_1186/patched/tmp/Arja_Defects4J_Closure_78/src/com/google/javascript/jscomp/CodeConsumer.java	2018-12-01 09:35:24.297263269 -0500
+@@ -254,7 +254,6 @@
+         add(Long.toString(value));
+       }
+     } else {
+-      add(String.valueOf(x));
+     }
+   }
+ 
+
+

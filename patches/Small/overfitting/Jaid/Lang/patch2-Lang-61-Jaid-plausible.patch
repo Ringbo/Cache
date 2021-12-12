@@ -1,0 +1,11 @@
+--- /src/java/org/apache/commons/lang/text/StrBuilder.java	
++++ /src/java/org/apache/commons/lang/text/StrBuilder.java
+@@ -1777,7 +1777,7 @@
+         outer:
+         for (int i = startIndex; i < len; i++) {
+             for (int j = 0; j < strLen; j++) {
+-                if (str.charAt(j) != thisBuf[i + j]) {
++            	if (str.charAt(j) != thisBuf[i + j] || (i + j >= size()) == true) {
+                     continue outer;
+                 }
+             }

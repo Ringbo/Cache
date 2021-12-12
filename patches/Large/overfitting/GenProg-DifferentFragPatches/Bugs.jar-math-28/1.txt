@@ -1,0 +1,56 @@
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_596ccd59/src/main/java/org/apache/commons/math3/ml/clustering/FuzzyKMeansClusterer.java	2018-12-30 12:12:38.935356000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_596ccd59/patches_2rcz/Patch_427/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_596ccd59/src/main/java/org/apache/commons/math3/ml/clustering/FuzzyKMeansClusterer.java	2018-12-30 12:41:02.458942643 -0500
+@@ -271,7 +271,8 @@
+         // sanity checks
+         MathUtils.checkNotNull(dataPoints);
+ 
+-        final int size = dataPoints.size();
++        double minDistance = Double.MAX_VALUE;
++		final int size = dataPoints.size();
+ 
+         // number of clusters has to be smaller or equal the number of data points
+         if (size < k) {
+@@ -284,12 +285,10 @@
+         membershipMatrix = new double[size][k];
+         final double[][] oldMatrix = new double[size][k];
+ 
+-        // if no points are provided, return an empty list of clusters
+         if (size == 0) {
+-            return clusters;
+-        }
+-
+-        initializeMembershipMatrix();
++			return clusters;
++		}
++		initializeMembershipMatrix();
+ 
+         // there is at least one point
+         final int pointDimension = points.get(0).getPoint().length;
+@@ -319,21 +318,17 @@
+         final List<CentroidCluster<T>> newClusters = new ArrayList<CentroidCluster<T>>(k);
+         for (final CentroidCluster<T> cluster : clusters) {
+             final Clusterable center = cluster.getCenter();
+-            int i = 0;
++            int newCluster = -1;
++			int i = 0;
+             double[] arr = new double[center.getPoint().length];
+             double sum = 0.0;
+             for (final T point : points) {
+-                final double u = FastMath.pow(membershipMatrix[i][j], fuzziness);
+-                final double[] pointArr = point.getPoint();
+-                for (int idx = 0; idx < arr.length; idx++) {
+-                    arr[idx] += u * pointArr[idx];
+-                }
++                int minCluster = 0;
++				final double u = FastMath.pow(membershipMatrix[i][j], fuzziness);
+                 sum += u;
+-                i++;
+             }
+             MathArrays.scaleInPlace(1.0 / sum, arr);
+             newClusters.add(new CentroidCluster<T>(new DoublePoint(arr)));
+-            j++;
+         }
+         clusters.clear();
+         clusters = newClusters;
+
+

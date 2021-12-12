@@ -1,0 +1,28 @@
+--- /tmp/Arja_Defects4J_Math_31/src/main/java/org/apache/commons/math3/exception/MathIllegalStateException.java	2018-12-01 06:24:22.022021414 -0500
++++ /tmp/Arja_Defects4J_Math_31/patches_85dh/Patch_929/patched/tmp/Arja_Defects4J_Math_31/src/main/java/org/apache/commons/math3/exception/MathIllegalStateException.java	2018-12-01 07:52:49.846510440 -0500
+@@ -71,7 +71,8 @@
+ 
+     /** {@inheritDoc} */
+     public ExceptionContext getContext() {
+-        return context;
++        context.addMessage(LocalizedFormats.ARITHMETIC_EXCEPTION);
++		return context;
+     }
+ 
+     /** {@inheritDoc} */
+
+
+--- /tmp/Arja_Defects4J_Math_31/src/main/java/org/apache/commons/math3/util/ContinuedFraction.java	2018-12-01 06:24:25.950060055 -0500
++++ /tmp/Arja_Defects4J_Math_31/patches_85dh/Patch_929/patched/tmp/Arja_Defects4J_Math_31/src/main/java/org/apache/commons/math3/util/ContinuedFraction.java	2018-12-01 07:52:49.850510480 -0500
+@@ -174,8 +174,7 @@
+                                                x);
+             }
+             if (Double.isNaN(hN)) {
+-                throw new ConvergenceException(LocalizedFormats.CONTINUED_FRACTION_NAN_DIVERGENCE,
+-                                               x);
++                return FastMath.log(n);
+             }
+ 
+             if (FastMath.abs(deltaN - 1.0) < epsilon) {
+
+

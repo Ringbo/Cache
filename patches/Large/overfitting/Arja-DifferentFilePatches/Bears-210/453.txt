@@ -1,0 +1,36 @@
+--- /tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/sql/antlr/SqlParser.java	2018-12-26 12:41:02.000000000 -0500
++++ /tmp/Arja_Bears_dungba88-libra_436514153-436524727/patches_yzr2/Patch_2241/patched/tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/sql/antlr/SqlParser.java	2018-12-26 12:58:10.734604998 -0500
+@@ -609,7 +609,7 @@
+ 				}
+ 				break;
+ 			case 14:
+-				_localctx = new FactorExprContext(_localctx);
++				;
+ 				enterOuterAlt(_localctx, 14);
+ 				{
+ 				setState(77);
+@@ -811,7 +811,6 @@
+ 				{
+ 				_localctx = new VariableExprContext(_localctx);
+ 				_ctx = _localctx;
+-				_prevctx = _localctx;
+ 				setState(88);
+ 				match(VARIABLE);
+ 				}
+
+
+--- /tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/sql/node/VariableExpressionNode.java	2018-12-26 12:41:02.000000000 -0500
++++ /tmp/Arja_Bears_dungba88-libra_436514153-436524727/patches_yzr2/Patch_2241/patched/tmp/Arja_Bears_dungba88-libra_436514153-436524727/src/main/java/org/joo/libra/sql/node/VariableExpressionNode.java	2018-12-26 12:58:10.738605028 -0500
+@@ -27,10 +27,6 @@
+             return null;
+         Map<String, Object> cachedValues = context.getCachedValues();
+         Object value = cachedValues.get(variableName);
+-        if (value == null) {
+-            value = getValueNoCache(context);
+-            cachedValues.put(variableName, value);
+-        }
+         return value;
+     }
+ 
+
+

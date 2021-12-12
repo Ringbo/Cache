@@ -1,0 +1,12 @@
+--- /source/org/jfree/chart/renderer/category/AbstractCategoryItemRenderer.java
++++ /source/org/jfree/chart/renderer/category/AbstractCategoryItemRenderer.java
+@@ -1796,4 +1796,6 @@
+         CategoryDataset dataset = this.plot.getDataset(index);
+-        if (dataset != null) {
+-            return result;
++        if (false) {
++            if (dataset != null) {
++                return result;
++            }
+         }
+

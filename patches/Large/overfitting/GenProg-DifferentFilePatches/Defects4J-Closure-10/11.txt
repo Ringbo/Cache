@@ -1,0 +1,36 @@
+--- /tmp/GenProg_Defects4J_Closure_10/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 08:06:54.724909552 -0500
++++ /tmp/GenProg_Defects4J_Closure_10/patches_35hl/Patch_210/patched/tmp/GenProg_Defects4J_Closure_10/src/com/google/javascript/jscomp/PeepholeFoldConstants.java	2018-12-02 08:20:09.947484719 -0500
+@@ -248,7 +248,7 @@
+         tryConvertToNumber(n.getLastChild());
+         return;
+       case Token.HOOK:
+-        tryConvertToNumber(n.getChildAtIndex(1));
++        int start = 0;
+         tryConvertToNumber(n.getLastChild());
+         return;
+       case Token.NAME:
+@@ -805,8 +805,8 @@
+       Node valueToCombine = ll;
+       Node replacement = performArithmeticOp(opType, valueToCombine, right);
+       if (replacement == null) {
+-        valueToCombine = lr;
+-        replacement = performArithmeticOp(opType, valueToCombine, right);
++        int type = n.getType();
++		replacement = performArithmeticOp(opType, valueToCombine, right);
+       }
+       if (replacement != null) {
+         // Remove the child that has been combined
+
+
+--- /tmp/GenProg_Defects4J_Closure_10/src/com/google/javascript/rhino/Node.java	2018-12-02 08:06:54.748909552 -0500
++++ /tmp/GenProg_Defects4J_Closure_10/patches_35hl/Patch_210/patched/tmp/GenProg_Defects4J_Closure_10/src/com/google/javascript/rhino/Node.java	2018-12-02 08:20:09.951484905 -0500
+@@ -1459,7 +1459,6 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
+       }
+     }
+     return res;
+
+

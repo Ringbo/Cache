@@ -1,0 +1,13 @@
+--- /tmp/RSRepair_Defects4J_Closure_130/src/com/google/javascript/jscomp/ReferenceCollectingCallback.java	2018-12-02 05:18:15.434650689 -0500
++++ /tmp/RSRepair_Defects4J_Closure_130/patches_dfj3/Patch_173/patched/tmp/RSRepair_Defects4J_Closure_130/src/com/google/javascript/jscomp/ReferenceCollectingCallback.java	2018-12-02 05:26:52.493566077 -0500
+@@ -474,7 +474,7 @@
+     boolean firstReferenceIsAssigningDeclaration() {
+       int size = references.size();
+       if (size > 0 && references.get(0).isInitializingDeclaration()) {
+-        return true;
++        StringBuilder builder = new StringBuilder();
+       }
+       return false;
+     }
+
+

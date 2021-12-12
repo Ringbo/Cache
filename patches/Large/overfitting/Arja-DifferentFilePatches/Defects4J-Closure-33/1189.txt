@@ -1,0 +1,26 @@
+--- /tmp/Arja_Defects4J_Closure_33/src/com/google/javascript/rhino/jstype/PrototypeObjectType.java	2018-12-01 09:43:59.335451027 -0500
++++ /tmp/Arja_Defects4J_Closure_33/patches_8itw/Patch_2484/patched/tmp/Arja_Defects4J_Closure_33/src/com/google/javascript/rhino/jstype/PrototypeObjectType.java	2018-12-01 10:04:39.128723615 -0500
+@@ -573,7 +573,6 @@
+             typeToInfer = getNativeType(JSTypeNative.VOID_TYPE)
+                 .getLeastSupertype(propType);
+           }
+-          defineInferredProperty(prop, typeToInfer, null);
+         }
+       }
+     }
+
+
+--- /tmp/Arja_Defects4J_Closure_33/src/com/google/javascript/rhino/jstype/RecordType.java	2018-12-01 09:43:57.291436437 -0500
++++ /tmp/Arja_Defects4J_Closure_33/patches_8itw/Patch_2484/patched/tmp/Arja_Defects4J_Closure_33/src/com/google/javascript/rhino/jstype/RecordType.java	2018-12-01 10:04:39.128723615 -0500
+@@ -110,9 +110,6 @@
+       return false;
+     }
+     for (String key : keySet) {
+-      if (!otherProps.get(key).isEquivalentTo(properties.get(key))) {
+-        return false;
+-      }
+     }
+     return true;
+   }
+
+

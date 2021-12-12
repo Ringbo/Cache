@@ -1,0 +1,14 @@
+--- /HANOI.java
++++ /HANOI.java
+@@ -24,3 +24,10 @@
+             crap_set.remove(end);
+-            int helper = crap_set.poll();
++            } else {
++                int helper;
++                if (crap_set.poll() == null) {
++                    helper = end;
++                } else {
++                    helper = crap_set.poll();
++                }
++            }
+             steps.addAll(hanoi(height-1, start, helper));

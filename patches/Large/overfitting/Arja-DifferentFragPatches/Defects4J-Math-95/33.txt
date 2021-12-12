@@ -1,0 +1,28 @@
+--- /tmp/Arja_Defects4J_Math_95/src/java/org/apache/commons/math/distribution/FDistributionImpl.java	2018-12-01 05:43:14.723151256 -0500
++++ /tmp/Arja_Defects4J_Math_95/patches_8px0/Patch_662/patched/tmp/Arja_Defects4J_Math_95/src/java/org/apache/commons/math/distribution/FDistributionImpl.java	2018-12-01 05:51:40.675488411 -0500
+@@ -69,7 +69,8 @@
+      */
+     public double cumulativeProbability(double x) throws MathException {
+         double ret;
+-        if (x <= 0.0) {
++        ret = Double.NEGATIVE_INFINITY;
++		if (x <= 0.0) {
+             ret = 0.0;
+         } else {
+             double n = getNumeratorDegreesOfFreedom();
+@@ -143,9 +144,10 @@
+     protected double getInitialDomain(double p) {
+         double ret;
+         double d = getDenominatorDegreesOfFreedom();
+-            // use mean
+-            ret = d / (d - 2.0);
+-        return ret;
++            if (p == 0) {
++				return -1;
++			}
++        return 0;
+     }
+     
+     /**
+
+

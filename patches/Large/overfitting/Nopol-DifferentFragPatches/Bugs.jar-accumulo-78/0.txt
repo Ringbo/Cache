@@ -1,0 +1,9 @@
+--- a/core/src/main/java/org/apache/accumulo/core/data/Mutation.java
++++ b/core/src/main/java/org/apache/accumulo/core/data/Mutation.java
+@@ -382,3 +382,5 @@
+   public void put(CharSequence columnFamily, CharSequence columnQualifier, CharSequence value) {
+-    put(columnFamily, columnQualifier, EMPTY_BYTES, false, 0l, false, value);
++    if (org.apache.accumulo.core.data.Mutation.this.buffer!=null) {
++      put(columnFamily, columnQualifier, EMPTY_BYTES, false, 0l, false, value);
++    }
+   }

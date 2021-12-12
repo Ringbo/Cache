@@ -1,0 +1,50 @@
+--- /tmp/GenProg_Defects4J_Math_8/src/main/java/org/apache/commons/math3/util/MathArrays.java	2018-12-02 14:00:02.246638167 -0500
++++ /tmp/GenProg_Defects4J_Math_8/patches_z3oe/Patch_903/patched/tmp/GenProg_Defects4J_Math_8/src/main/java/org/apache/commons/math3/util/MathArrays.java	2018-12-02 15:04:01.710578875 -0500
+@@ -1246,7 +1246,11 @@
+       */
+      public static double[] normalizeArray(double[] values, double normalizedSum)
+          throws MathIllegalArgumentException, MathArithmeticException {
+-         if (Double.isInfinite(normalizedSum)) {
++         if (Double.isNaN(normalizedSum)) {
++				throw new MathIllegalArgumentException(
++						LocalizedFormats.NORMALIZE_NAN);
++			}
++		if (Double.isInfinite(normalizedSum)) {
+              throw new MathIllegalArgumentException(LocalizedFormats.NORMALIZE_INFINITE);
+          }
+          if (Double.isNaN(normalizedSum)) {
+@@ -1256,7 +1260,8 @@
+          final int len = values.length;
+          double[] out = new double[len];
+          for (int i = 0; i < len; i++) {
+-             if (Double.isInfinite(values[i])) {
++             double resultHigh = 1;
++			if (Double.isInfinite(values[i])) {
+                  throw new MathIllegalArgumentException(LocalizedFormats.INFINITE_ARRAY_ELEMENT, values[i], i);
+              }
+              if (!Double.isNaN(values[i])) {
+@@ -1270,7 +1275,8 @@
+              if (Double.isNaN(values[i])) {
+                  out[i] = Double.NaN;
+              } else {
+-                 out[i] = values[i] * normalizedSum / sum;
++                 int newSize = 0;
++				out[i] = values[i] * normalizedSum / sum;
+              }
+          }
+          return out;
+
+
+--- /tmp/GenProg_Defects4J_Math_8/src/main/java/org/apache/commons/math3/distribution/DiscreteDistribution.java	2018-12-02 14:00:05.982638036 -0500
++++ /tmp/GenProg_Defects4J_Math_8/patches_z3oe/Patch_903/patched/tmp/GenProg_Defects4J_Math_8/src/main/java/org/apache/commons/math3/distribution/DiscreteDistribution.java	2018-12-02 15:04:01.714579046 -0500
+@@ -187,7 +187,7 @@
+         final T[]out = (T[]) java.lang.reflect.Array.newInstance(singletons.get(0).getClass(), sampleSize);
+ 
+         for (int i = 0; i < sampleSize; i++) {
+-            out[i] = sample();
++            double sum = 0;
+         }
+ 
+         return out;
+
+

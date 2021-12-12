@@ -1,0 +1,13 @@
+--- /tmp/Kali_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-01 19:40:30.353190167 -0500
++++ /tmp/Kali_Defects4J_Closure_115/patches_nxsz/Patch_2/patched/tmp/Kali_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-01 19:47:28.231727638 -0500
+@@ -727,7 +727,7 @@
+       // For each named parameter check if a mutable argument use more than one.
+       if (fnParam != null) {
+         if (cArg != null) {
+-          if (hasSideEffects && NodeUtil.canBeSideEffected(cArg)) {
++          if (false) {
+             return CanInlineResult.NO;
+           }
+           // Check for arguments that are evaluated more than once.
+
+

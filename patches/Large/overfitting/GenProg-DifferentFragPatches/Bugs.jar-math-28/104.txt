@@ -1,0 +1,62 @@
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_596ccd59/src/main/java/org/apache/commons/math3/ml/clustering/FuzzyKMeansClusterer.java	2018-12-30 12:12:38.935356000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_596ccd59/patches_2rcz/Patch_295/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_596ccd59/src/main/java/org/apache/commons/math3/ml/clustering/FuzzyKMeansClusterer.java	2018-12-30 12:40:29.054438472 -0500
+@@ -297,7 +297,28 @@
+             clusters.add(new CentroidCluster<T>(new DoublePoint(new double[pointDimension])));
+         }
+ 
+-        int iteration = 0;
++        for (int i = 0; i < points.size(); i++) {
++			final T point = points.get(i);
++			double maxMembership = 0.0;
++			int newCluster = -1;
++			for (int j = 0; j < clusters.size(); j++) {
++				double sum = 0.0;
++				final double distA = FastMath.abs(distance(point,
++						clusters.get(j).getCenter()));
++				for (final CentroidCluster<T> c : clusters) {
++					final double distB = FastMath.abs(distance(point,
++							c.getCenter()));
++					sum += FastMath.pow(distA / distB, 2.0 / (fuzziness - 1.0));
++				}
++				membershipMatrix[i][j] = 1.0 / sum;
++				if (membershipMatrix[i][j] > maxMembership) {
++					maxMembership = membershipMatrix[i][j];
++					newCluster = j;
++				}
++			}
++			clusters.get(newCluster).addPoint(point);
++		}
++		int iteration = 0;
+         final int max = (maxIterations < 0) ? Integer.MAX_VALUE : maxIterations;
+         double difference = 0.0;
+ 
+@@ -325,15 +346,12 @@
+             for (final T point : points) {
+                 final double u = FastMath.pow(membershipMatrix[i][j], fuzziness);
+                 final double[] pointArr = point.getPoint();
+-                for (int idx = 0; idx < arr.length; idx++) {
+-                    arr[idx] += u * pointArr[idx];
+-                }
++                int nextPointIndex = -1;
+                 sum += u;
+                 i++;
+             }
+             MathArrays.scaleInPlace(1.0 / sum, arr);
+             newClusters.add(new CentroidCluster<T>(new DoublePoint(arr)));
+-            j++;
+         }
+         clusters.clear();
+         clusters = newClusters;
+@@ -347,7 +365,9 @@
+         for (int i = 0; i < points.size(); i++) {
+             final T point = points.get(i);
+             double maxMembership = 0.0;
+-            int newCluster = -1;
++            membershipMatrix[i] = MathArrays.normalizeArray(
++					membershipMatrix[i], 1.0);
++			int newCluster = -1;
+             for (int j = 0; j < clusters.size(); j++) {
+                 double sum = 0.0;
+                 final double distA = FastMath.abs(distance(point, clusters.get(j).getCenter()));
+
+

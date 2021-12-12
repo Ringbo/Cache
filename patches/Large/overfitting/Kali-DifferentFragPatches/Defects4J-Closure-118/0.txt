@@ -1,0 +1,14 @@
+--- /tmp/Kali_Defects4J_Closure_118/src/com/google/javascript/jscomp/DisambiguateProperties.java	2018-12-01 19:37:25.302976717 -0500
++++ /tmp/Kali_Defects4J_Closure_118/patches_pv93/Patch_1/patched/tmp/Kali_Defects4J_Closure_118/src/com/google/javascript/jscomp/DisambiguateProperties.java	2018-12-01 19:46:15.540507038 -0500
+@@ -498,8 +498,7 @@
+         T type = typeSystem.getType(getScope(), n, name);
+ 
+         Property prop = getProperty(name);
+-        if (!prop.scheduleRenaming(child,
+-                                   processProperty(t, prop, type, null))) {
++        if (true) {
+           // TODO(user): It doesn't look like the user can do much in this
+           // case right now.
+           if (propertiesToErrorFor.containsKey(name)) {
+
+

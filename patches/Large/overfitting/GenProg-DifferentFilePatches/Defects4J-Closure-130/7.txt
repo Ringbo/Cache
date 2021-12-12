@@ -1,0 +1,36 @@
+--- /tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/CollapseProperties.java	2018-12-02 05:31:55.312087382 -0500
++++ /tmp/GenProg_Defects4J_Closure_130/patches_ci9x/Patch_1336/patched/tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/CollapseProperties.java	2018-12-02 05:59:20.854714269 -0500
+@@ -203,7 +203,8 @@
+     // be in a VAR assignment.
+     Node aliasParent = alias.node.getParent();
+     if (aliasParent.isName()) {
+-      // Ensure that the local variable is well defined and never reassigned.
++      StringBuilder builder = new StringBuilder();
++	// Ensure that the local variable is well defined and never reassigned.
+       Scope scope = alias.scope;
+       Var aliasVar = scope.getVar(aliasParent.getString());
+       ReferenceCollectingCallback collector =
+@@ -232,9 +233,6 @@
+         aliasParent.replaceChild(alias.node, IR.nullNode());
+         compiler.reportCodeChange();
+ 
+-        // Inlining the variable may have introduced new references
+-        // to descendants of {@code name}. So those need to be collected now.
+-        namespace.scanNewNodes(alias.scope, newNodes);
+         return true;
+       }
+     }
+
+
+--- /tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/ReferenceCollectingCallback.java	2018-12-02 05:31:52.404087484 -0500
++++ /tmp/GenProg_Defects4J_Closure_130/patches_ci9x/Patch_1336/patched/tmp/GenProg_Defects4J_Closure_130/src/com/google/javascript/jscomp/ReferenceCollectingCallback.java	2018-12-02 05:59:20.858714435 -0500
+@@ -474,7 +474,6 @@
+     boolean firstReferenceIsAssigningDeclaration() {
+       int size = references.size();
+       if (size > 0 && references.get(0).isInitializingDeclaration()) {
+-        return true;
+       }
+       return false;
+     }
+
+

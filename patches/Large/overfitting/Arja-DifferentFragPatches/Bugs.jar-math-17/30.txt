@@ -1,0 +1,42 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_e2dc384d/src/main/java/org/apache/commons/math3/fitting/leastsquares/LevenbergMarquardtOptimizer.java	2018-12-29 04:35:39.289939000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_e2dc384d/patches_bdkt/Patch_194/patched/tmp/Arja_Bug_dot_jar_Commons-Math_e2dc384d/src/main/java/org/apache/commons/math3/fitting/leastsquares/LevenbergMarquardtOptimizer.java	2018-12-29 05:04:08.143958092 -0500
+@@ -322,11 +322,10 @@
+         double[] qtf     = new double[nR];
+         double[] work1   = new double[nC];
+         double[] work2   = new double[nC];
+-        double[] work3   = new double[nC];
++        iterationCounter.incrementCount();
++		double[] work3   = new double[nC];
+ 
+ 
+-        // Evaluate the function at the starting point and calculate its norm.
+-        evaluationCounter.incrementCount();
+         //value will be reassigned in the loop
+         Evaluation current = problem.evaluate(new ArrayRealVector(currentPoint));
+         double[] currentResiduals = current.getResiduals().toArray();
+@@ -347,7 +346,22 @@
+             final double[] diagR = internalData.diagR;
+             final double[] jacNorm = internalData.jacNorm;
+ 
+-            //residuals already have weights applied
++            if (firstIteration) {
++				xNorm = 0;
++				for (int k = 0; k < nC; ++k) {
++					double dk = jacNorm[k];
++					if (dk == 0) {
++						dk = 1.0;
++					}
++					double xk = dk * currentPoint[k];
++					xNorm += xk * xk;
++					diag[k] = dk;
++				}
++				xNorm = FastMath.sqrt(xNorm);
++				delta = (xNorm == 0) ? initialStepBoundFactor
++						: (initialStepBoundFactor * xNorm);
++			}
++			//residuals already have weights applied
+             double[] weightedResidual = currentResiduals;
+             for (int i = 0; i < nR; i++) {
+                 qtf[i] = weightedResidual[i];
+
+

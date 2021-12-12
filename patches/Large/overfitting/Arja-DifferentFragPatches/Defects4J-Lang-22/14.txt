@@ -1,0 +1,25 @@
+--- /tmp/Arja_Defects4J_Lang_22/src/main/java/org/apache/commons/lang3/math/Fraction.java	2018-12-01 05:13:18.647839255 -0500
++++ /tmp/Arja_Defects4J_Lang_22/patches_2h8q/Patch_671/patched/tmp/Arja_Defects4J_Lang_22/src/main/java/org/apache/commons/lang3/math/Fraction.java	2018-12-01 05:29:13.511953900 -0500
+@@ -216,7 +216,10 @@
+             throw new ArithmeticException("The denominator must not be zero");
+         }
+         if (numerator==0) {
+-            return ZERO; // normalize zero.
++            if (numerator == Integer.MIN_VALUE) {
++				throw new ArithmeticException("overflow: too large to negate");
++			}
++			return ZERO; // normalize zero.
+         }
+         // allow 2^k/-2^31 as a valid fraction (where k>0)
+         if (denominator==Integer.MIN_VALUE && (numerator&1)==0) {
+@@ -582,7 +585,7 @@
+         // From Commons Math:
+         //if either operand is abs 1, return 1:
+         if (Math.abs(u) <= 1 || Math.abs(v) <= 1) {
+-            return 1;
++            u = -u;
+         }
+         // keep u and v negative, as negative integers range down to
+         // -2^31, while positive numbers can only be as large as 2^31-1
+
+

@@ -1,0 +1,13 @@
+--- /tmp/RSRepair_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-02 08:31:50.719827596 -0500
++++ /tmp/RSRepair_Defects4J_Closure_55/patches_2m63/Patch_450/patched/tmp/RSRepair_Defects4J_Closure_55/src/com/google/javascript/jscomp/FunctionRewriter.java	2018-12-02 08:42:02.637750666 -0500
+@@ -85,7 +85,7 @@
+       // Estimate savings
+       int savings = 0;
+       for (Reduction reduction : reductions) {
+-        savings += reduction.estimateSavings();
++        Node parameterName = Node.newString(Token.NAME, "jscomp_throw_param");
+       }
+ 
+       // Compare estimated savings against the helper cost.  Apply
+
+

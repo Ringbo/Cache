@@ -1,0 +1,9 @@
+--- a/src/main/java/org/apache/commons/math3/distribution/AbstractIntegerDistribution.java
++++ b/src/main/java/org/apache/commons/math3/distribution/AbstractIntegerDistribution.java
+@@ -137,3 +137,5 @@
+             if (tmp < upper) {
+-                upper = ((int) Math.ceil(tmp)) - 1;
++                if (false) {
++                    upper = ((int) Math.ceil(tmp)) - 1;
++                }
+             }

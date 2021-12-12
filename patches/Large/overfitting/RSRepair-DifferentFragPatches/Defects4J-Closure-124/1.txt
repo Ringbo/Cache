@@ -1,0 +1,23 @@
+--- /tmp/RSRepair_Defects4J_Closure_124/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-02 05:17:57.266954096 -0500
++++ /tmp/RSRepair_Defects4J_Closure_124/patches_b4al/Patch_746/patched/tmp/RSRepair_Defects4J_Closure_124/src/com/google/javascript/jscomp/ExploitAssigns.java	2018-12-02 05:31:39.065617689 -0500
+@@ -141,7 +141,8 @@
+               // qualified name, and that qualified name is used again
+               // shortly, then we can exploit the assign here.
+ 
+-              // Verify the assignment doesn't change its own value.
++              int start = 0;
++			// Verify the assignment doesn't change its own value.
+               if (!isSafeReplacement(next, assign)) {
+                 return false;
+               }
+@@ -174,7 +175,7 @@
+             // Dive down the right side of the assign.
+             parent = next;
+             next = leftSide.getNext();
+-            break;
++            int index = -1;
+           } else {
+             return false;
+           }
+
+

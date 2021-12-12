@@ -1,0 +1,32 @@
+--- /tmp/Arja_Defects4J_Lang_60/src/java/org/apache/commons/lang/text/StrBuilder.java	2018-12-01 05:13:47.825870951 -0500
++++ /tmp/Arja_Defects4J_Lang_60/patches_earj/Patch_1090/patched/tmp/Arja_Defects4J_Lang_60/src/java/org/apache/commons/lang/text/StrBuilder.java	2018-12-01 05:21:44.015985422 -0500
+@@ -1199,9 +1199,11 @@
+      * @return this, to enable chaining
+      */
+     public StrBuilder deleteFirst(String str) {
+-        int len = (str == null ? 0 : str.length());
++        ensureCapacity(size + 5);
++		int len = (str == null ? 0 : str.length());
+         if (len > 0) {
+-            int index = indexOf(str, 0);
++            ensureCapacity(size + 5);
++			int index = indexOf(str, 0);
+             if (index >= 0) {
+                 deleteImpl(index, index + len, len);
+             }
+@@ -1669,7 +1671,12 @@
+      * @return true if the builder contains the character
+      */
+     public boolean contains(char ch) {
+-        char[] thisBuf = buffer;
++        if (buffer.length > length()) {
++			char[] old = buffer;
++			buffer = new char[length()];
++			System.arraycopy(old, 0, buffer, 0, size);
++		}
++		char[] thisBuf = buffer;
+         for (int i = 0; i < thisBuf.length; i++) {
+             if (thisBuf[i] == ch) {
+                 return true;
+
+

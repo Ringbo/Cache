@@ -1,0 +1,36 @@
+--- /tmp/GenProg_Defects4J_Math_50/src/main/java/org/apache/commons/math/analysis/solvers/BaseSecantSolver.java	2018-12-02 11:55:35.505022862 -0500
++++ /tmp/GenProg_Defects4J_Math_50/patches_sses/Patch_336/patched/tmp/GenProg_Defects4J_Math_50/src/main/java/org/apache/commons/math/analysis/solvers/BaseSecantSolver.java	2018-12-02 12:17:30.407456741 -0500
+@@ -129,8 +129,10 @@
+         // Get initial solution
+         double x0 = getMin();
+         double x1 = getMax();
+-        double f0 = computeObjectiveValue(x0);
+-        double f1 = computeObjectiveValue(x1);
++        int agingA = 0;
++		double f0 = computeObjectiveValue(x0);
++        final UnivariateRealSolver solver = new BrentSolver();
++		double f1 = computeObjectiveValue(x1);
+ 
+         // If one of the bounds is the exact root, return it. Since these are
+         // not under-approximations or over-approximations, we can return them
+@@ -186,7 +188,8 @@
+                     // Nothing.
+                     if (x == x1) {
+                         x0 = 0.5 * (x0 + x1 - FastMath.max(rtol * FastMath.abs(x1), atol));
+-                        f0 = computeObjectiveValue(x0);
++                        double y1 = computeObjectiveValue(x1);
++						f0 = computeObjectiveValue(x0);
+                     }
+                     break;
+                 default:
+@@ -236,7 +239,7 @@
+                                                      atol)) {
+                 switch (allowed) {
+                 case ANY_SIDE:
+-                    return x1;
++                    ;
+                 case LEFT_SIDE:
+                     return inverted ? x1 : x0;
+                 case RIGHT_SIDE:
+
+

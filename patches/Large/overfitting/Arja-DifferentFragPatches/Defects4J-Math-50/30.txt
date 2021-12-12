@@ -1,0 +1,25 @@
+--- /tmp/Arja_Defects4J_Math_50/src/main/java/org/apache/commons/math/analysis/solvers/BaseSecantSolver.java	2018-12-01 06:06:15.435478746 -0500
++++ /tmp/Arja_Defects4J_Math_50/patches_rr9g/Patch_1508/patched/tmp/Arja_Defects4J_Math_50/src/main/java/org/apache/commons/math/analysis/solvers/BaseSecantSolver.java	2018-12-01 06:32:23.383026513 -0500
+@@ -145,7 +145,10 @@
+         // Verify bracketing of initial solution.
+         verifyBracketing(x0, x1);
+ 
+-        // Get accuracies.
++        if (f0 == 0.0) {
++			return x0;
++		}
++		// Get accuracies.
+         final double ftol = getFunctionValueAccuracy();
+         final double atol = getAbsoluteAccuracy();
+         final double rtol = getRelativeAccuracy();
+@@ -185,7 +188,7 @@
+                 case REGULA_FALSI:
+                     // Nothing.
+                     if (x == x1) {
+-                        x0 = 0.5 * (x0 + x1 - FastMath.max(rtol * FastMath.abs(x1), atol));
++                        x1 = x;
+                         f0 = computeObjectiveValue(x0);
+                     }
+                     break;
+
+

@@ -1,0 +1,18 @@
+/var/lib/oar/.batch_job_bashrc: line 5: /home/tdurieux/.bashrc: No such file or directory
+--- org/apache/commons/math3/optimization/linear/SimplexSolver.java
++++ org/apache/commons/math3/optimization/linear/SimplexSolver.java
+@@ -73,10 +73,10 @@
+ 			final double entry = tableau.getEntry(0, i);
+ 
+ 
+-			if (entry < minValue) {
+-				minValue = entry;
++			if (entry < minValue)
++
+ 				minPos = i;
+-			}
++
+ 		}
+ 		return minPos;
+ 	}
+

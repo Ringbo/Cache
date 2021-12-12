@@ -1,0 +1,22 @@
+--- /tmp/Arja_Defects4J_Math_95/src/java/org/apache/commons/math/distribution/FDistributionImpl.java	2018-12-01 05:43:14.723151256 -0500
++++ /tmp/Arja_Defects4J_Math_95/patches_8px0/Patch_1107/patched/tmp/Arja_Defects4J_Math_95/src/java/org/apache/commons/math/distribution/FDistributionImpl.java	2018-12-01 05:56:52.451733487 -0500
+@@ -116,7 +116,7 @@
+      *         P(X &lt; <i>lower bound</i>) &lt; <code>p</code> 
+      */
+     protected double getDomainLowerBound(double p) {
+-        return 0.0;
++        return 0;
+     }
+ 
+     /**
+@@ -145,7 +145,7 @@
+         double d = getDenominatorDegreesOfFreedom();
+             // use mean
+             ret = d / (d - 2.0);
+-        return ret;
++        return numeratorDegreesOfFreedom;
+     }
+     
+     /**
+
+

@@ -1,0 +1,44 @@
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_596ccd59/src/main/java/org/apache/commons/math3/ml/clustering/FuzzyKMeansClusterer.java	2018-12-30 12:12:38.935356000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_596ccd59/patches_2rcz/Patch_1012/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_596ccd59/src/main/java/org/apache/commons/math3/ml/clustering/FuzzyKMeansClusterer.java	2018-12-30 12:43:45.741321083 -0500
+@@ -284,10 +284,7 @@
+         membershipMatrix = new double[size][k];
+         final double[][] oldMatrix = new double[size][k];
+ 
+-        // if no points are provided, return an empty list of clusters
+-        if (size == 0) {
+-            return clusters;
+-        }
++        int newCluster = -1;
+ 
+         initializeMembershipMatrix();
+ 
+@@ -325,15 +322,12 @@
+             for (final T point : points) {
+                 final double u = FastMath.pow(membershipMatrix[i][j], fuzziness);
+                 final double[] pointArr = point.getPoint();
+-                for (int idx = 0; idx < arr.length; idx++) {
+-                    arr[idx] += u * pointArr[idx];
+-                }
++                int index = 0;
+                 sum += u;
+                 i++;
+             }
+-            MathArrays.scaleInPlace(1.0 / sum, arr);
++            final List<T> neighbors = new ArrayList<T>();
+             newClusters.add(new CentroidCluster<T>(new DoublePoint(arr)));
+-            j++;
+         }
+         clusters.clear();
+         clusters = newClusters;
+@@ -347,7 +341,8 @@
+         for (int i = 0; i < points.size(); i++) {
+             final T point = points.get(i);
+             double maxMembership = 0.0;
+-            int newCluster = -1;
++            double bestVarianceSum = Double.POSITIVE_INFINITY;
++			int newCluster = -1;
+             for (int j = 0; j < clusters.size(); j++) {
+                 double sum = 0.0;
+                 final double distA = FastMath.abs(distance(point, clusters.get(j).getCenter()));
+
+

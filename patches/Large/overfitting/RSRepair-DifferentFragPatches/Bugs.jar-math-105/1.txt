@@ -1,0 +1,22 @@
+--- /tmp/RSRepair_Bug_dot_jar_Commons-Math_69273dca/src/main/java/org/apache/commons/math3/ode/nonstiff/RungeKuttaIntegrator.java	2018-12-29 22:39:07.379252000 -0500
++++ /tmp/RSRepair_Bug_dot_jar_Commons-Math_69273dca/patches_r00r/Patch_378/patched/tmp/RSRepair_Bug_dot_jar_Commons-Math_69273dca/src/main/java/org/apache/commons/math3/ode/nonstiff/RungeKuttaIntegrator.java	2018-12-29 23:04:40.209866537 -0500
+@@ -128,7 +128,16 @@
+ 
+       interpolator.shift();
+ 
+-      // first stage
++      if (forward) {
++		if (stepStart + stepSize >= t) {
++			stepSize = t - stepStart;
++		}
++	} else {
++		if (stepStart + stepSize <= t) {
++			stepSize = t - stepStart;
++		}
++	}
++	// first stage
+       computeDerivatives(stepStart, y, yDotK[0]);
+ 
+       // next stages
+
+

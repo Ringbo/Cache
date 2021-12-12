@@ -1,0 +1,25 @@
+--- /tmp/Arja_Defects4J_Lang_43/src/java/org/apache/commons/lang/text/ExtendedMessageFormat.java	2018-12-01 05:13:04.265756743 -0500
++++ /tmp/Arja_Defects4J_Lang_43/patches_21ag/Patch_735/patched/tmp/Arja_Defects4J_Lang_43/src/java/org/apache/commons/lang/text/ExtendedMessageFormat.java	2018-12-01 05:50:29.037236595 -0500
+@@ -184,7 +184,10 @@
+                 }
+                 // fall through
+             default:
+-                stripCustom.append(c[pos.getIndex()]);
++                {
++					index = 0;
++					stripCustom.append(c[pos.getIndex()]);
++				}
+                 next(pos);
+             }
+         }
+@@ -419,7 +422,7 @@
+         int start = pos.getIndex();
+         char[] c = pattern.toCharArray();
+         if (escapingOn && c[start] == QUOTE) {
+-            return appendTo == null ? null : appendTo.append(QUOTE);
++            pos.setIndex(pos.getIndex() + 1);
+         }
+         int lastHold = start;
+         for (int i = pos.getIndex(); i < pattern.length(); i++) {
+
+

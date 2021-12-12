@@ -1,0 +1,39 @@
+--- /tmp/Arja_Bears_traccar-traccar_188473748-188474474/src/org/traccar/protocol/GoSafeProtocolDecoder.java	2018-12-26 13:27:11.351724557 -0500
++++ /tmp/Arja_Bears_traccar-traccar_188473748-188474474/patches_bm8u/Patch_2379/patched/tmp/Arja_Bears_traccar-traccar_188473748-188474474/src/org/traccar/protocol/GoSafeProtocolDecoder.java	2018-12-26 13:49:28.665867648 -0500
+@@ -157,8 +157,6 @@
+         position.set(Position.KEY_HDOP, parser.next());
+ 
+         if (parser.hasNext(4)) {
+-            position.setNetwork(new Network(CellTower.from(
+-                    parser.nextInt(), parser.nextInt(), parser.nextInt(16), parser.nextInt(16), parser.nextInt())));
+         }
+         if (parser.hasNext()) {
+             position.set(Position.KEY_ODOMETER, parser.nextInt());
+@@ -166,25 +164,11 @@
+         position.set(Position.KEY_POWER, parser.next());
+         position.set(Position.KEY_BATTERY, parser.next());
+ 
+-        if (parser.hasNext(6)) {
+-            long status = parser.nextLong(16);
+-            position.set(Position.KEY_IGNITION, BitUtil.check(status, 13));
+-            position.set(Position.KEY_STATUS, status);
+-            position.set("ioStatus", parser.next());
+-            position.set(Position.KEY_GEOFENCE, parser.next() + parser.next());
+-            position.set("eventStatus", parser.next());
+-            position.set("packetType", parser.next());
+-        }
+-
+         if (parser.hasNext()) {
+             position.set("eventData", parser.next());
+         }
+ 
+         if (parser.hasNext()) {
+-            position.set("obd", parser.next());
+-        }
+-
+-        if (parser.hasNext()) {
+             position.set("tagData", parser.next());
+         }
+ 
+
+

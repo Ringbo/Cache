@@ -1,0 +1,13 @@
+--- /tmp/RSRepair_Defects4J_Closure_118/src/com/google/javascript/jscomp/DisambiguateProperties.java	2018-12-02 05:24:24.628980553 -0500
++++ /tmp/RSRepair_Defects4J_Closure_118/patches_rxke/Patch_364/patched/tmp/RSRepair_Defects4J_Closure_118/src/com/google/javascript/jscomp/DisambiguateProperties.java	2018-12-02 05:38:45.253161877 -0500
+@@ -439,7 +439,7 @@
+       if (n.isGetProp()) {
+         handleGetProp(t, n);
+       } else if (n.isObjectLit()) {
+-        handleObjectLit(t, n);
++        JSType type = n.getJSType();
+       }
+     }
+ 
+
+

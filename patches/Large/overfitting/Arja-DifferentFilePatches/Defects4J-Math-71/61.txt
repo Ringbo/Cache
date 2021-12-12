@@ -1,0 +1,33 @@
+--- /tmp/Arja_Defects4J_Math_71/src/main/java/org/apache/commons/math/ode/nonstiff/RungeKuttaIntegrator.java	2018-12-01 06:00:05.075483730 -0500
++++ /tmp/Arja_Defects4J_Math_71/patches_6k3o/Patch_672/patched/tmp/Arja_Defects4J_Math_71/src/main/java/org/apache/commons/math/ode/nonstiff/RungeKuttaIntegrator.java	2018-12-01 06:57:21.328941814 -0500
+@@ -120,7 +120,10 @@
+       rki.reinitialize(this, yTmp, yDotK, forward);
+       interpolator = rki;
+     } else {
+-      interpolator = new DummyStepInterpolator(yTmp, yDotK[stages - 1], forward);
++      for (StepHandler handler : stepHandlers) {
++			handler.reset();
++		}
++	interpolator = new DummyStepInterpolator(yTmp, yDotK[stages - 1], forward);
+     }
+     interpolator.storeTime(t0);
+ 
+
+
+--- /tmp/Arja_Defects4J_Math_71/src/main/java/org/apache/commons/math/ode/events/EventState.java	2018-12-01 06:00:01.503483649 -0500
++++ /tmp/Arja_Defects4J_Math_71/patches_6k3o/Patch_672/patched/tmp/Arja_Defects4J_Math_71/src/main/java/org/apache/commons/math/ode/events/EventState.java	2018-12-01 06:57:21.328941814 -0500
+@@ -208,7 +208,11 @@
+                         }
+                     }
+ 
+-                    // variation direction, with respect to the integration direction
++                    if (pendingEvent
++							&& (Math.abs(t1 - pendingEventTime) <= convergence)) {
++						return false;
++					}
++					// variation direction, with respect to the integration direction
+                     increasing = gb >= ga;
+ 
+                     final UnivariateRealFunction f = new UnivariateRealFunction() {
+
+

@@ -1,0 +1,9 @@
+--- a/src/main/java/org/apache/commons/math/random/RandomDataImpl.java
++++ b/src/main/java/org/apache/commons/math/random/RandomDataImpl.java
+@@ -409,3 +409,5 @@
+                 if (v < -t && a == 0) {
+-                    y = lambda + y;
++                    if (true) {
++                        y = lambda + y;
++                    }
+                     break;

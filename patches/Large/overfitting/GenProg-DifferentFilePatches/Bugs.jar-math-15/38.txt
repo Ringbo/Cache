@@ -1,0 +1,18 @@
+--- /tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/geometry/enclosing/WelzlEncloser.java	2018-12-30 10:51:38.925758000 -0500
++++ /tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/patches_9tkz/Patch_287/patched/tmp/GenProg_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/geometry/enclosing/WelzlEncloser.java	2018-12-30 11:20:56.022826577 -0500
+@@ -103,10 +103,10 @@
+             support.clear();
+             support.add(farthest);
+             EnclosingBall<S, P> savedBall = ball;
+-            ball = moveToFrontBall(extreme, support);
++            extreme.add(points.get(0));
++			ball = moveToFrontBall(extreme, support);
+             if (ball.getRadius() < savedBall.getRadius()) {
+-                // TODO: fix this, it should never happen but it does!
+-                throw new MathInternalError();
++                support.clear();
+             }
+ 
+             // it was an interesting point, move it to the front
+
+

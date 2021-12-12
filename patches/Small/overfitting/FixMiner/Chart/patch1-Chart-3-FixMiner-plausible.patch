@@ -1,0 +1,12 @@
+--- /source/org/jfree/data/time/TimeSeries.java
++++ /source/org/jfree/data/time/TimeSeries.java
+@@ -882,7 +882,7 @@
+                 this.data.remove(0);
+                 removed = true;
+             }
+-            if (removed) {
++            if ((removed) || !(notify)) {
+                 findBoundsByIteration();
+                 if (notify) {
+                     fireSeriesChanged();
+

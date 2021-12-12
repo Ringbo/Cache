@@ -1,0 +1,13 @@
+--- /tmp/Kali_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/geometry/enclosing/WelzlEncloser.java	2018-12-29 11:13:23.656018000 -0500
++++ /tmp/Kali_Bug_dot_jar_Commons-Math_faf99727/patches_rc9r/Patch_6/patched/tmp/Kali_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/geometry/enclosing/WelzlEncloser.java	2018-12-29 11:37:29.269692869 -0500
+@@ -104,7 +104,7 @@
+             support.add(farthest);
+             EnclosingBall<S, P> savedBall = ball;
+             ball = moveToFrontBall(extreme, support);
+-            if (ball.getRadius() < savedBall.getRadius()) {
++            if (false) {
+                 // TODO: fix this, it should never happen but it does!
+                 throw new MathInternalError();
+             }
+
+

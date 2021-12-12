@@ -1,0 +1,24 @@
+--- /tmp/Arja_Defects4J_Lang_63/src/java/org/apache/commons/lang/time/DurationFormatUtils.java	2018-12-01 05:15:44.533037303 -0500
++++ /tmp/Arja_Defects4J_Lang_63/patches_g3j7/Patch_476/patched/tmp/Arja_Defects4J_Lang_63/src/java/org/apache/commons/lang/time/DurationFormatUtils.java	2018-12-01 05:21:29.408071742 -0500
+@@ -294,10 +294,6 @@
+             seconds += 60;
+             minutes -= 1;
+         }
+-        while (minutes < 0) {
+-            minutes += 60;
+-            hours -= 1;
+-        }
+         while (hours < 0) {
+             hours += 24;
+             days -= 1;
+@@ -435,7 +431,7 @@
+         int startValue = start.get(field);
+         if (endValue < startValue) {
+             int newdiff = startValue - endValue;
+-            end.add( field, newdiff );
++            end.add(field, -1 * difference);
+             return newdiff;
+         } else {
+             return 0;
+
+

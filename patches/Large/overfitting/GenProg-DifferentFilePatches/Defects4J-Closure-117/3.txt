@@ -1,0 +1,13 @@
+--- /tmp/GenProg_Defects4J_Closure_117/src/com/google/javascript/jscomp/TypedScopeCreator.java	2018-12-02 05:45:45.919523247 -0500
++++ /tmp/GenProg_Defects4J_Closure_117/patches_396n/Patch_28/patched/tmp/GenProg_Defects4J_Closure_117/src/com/google/javascript/jscomp/TypedScopeCreator.java	2018-12-02 05:54:58.190803962 -0500
+@@ -1802,7 +1802,7 @@
+                   child.getLastChild());
+               break;
+             case Token.GETPROP:
+-              maybeCollectMember(child, child, null);
++              int index = -1;
+               break;
+           }
+         }
+
+

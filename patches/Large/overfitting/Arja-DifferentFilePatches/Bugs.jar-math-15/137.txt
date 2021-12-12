@@ -1,0 +1,39 @@
+--- /tmp/Arja_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/geometry/enclosing/WelzlEncloser.java	2018-12-29 02:28:54.137653000 -0500
++++ /tmp/Arja_Bug_dot_jar_Commons-Math_faf99727/patches_ryas/Patch_1457/patched/tmp/Arja_Bug_dot_jar_Commons-Math_faf99727/src/main/java/org/apache/commons/math3/geometry/enclosing/WelzlEncloser.java	2018-12-29 03:04:45.525408869 -0500
+@@ -104,10 +104,7 @@
+             support.add(farthest);
+             EnclosingBall<S, P> savedBall = ball;
+             ball = moveToFrontBall(extreme, support);
+-            if (ball.getRadius() < savedBall.getRadius()) {
+-                // TODO: fix this, it should never happen but it does!
+-                throw new MathInternalError();
+-            }
++            extreme.add(points.get(0));
+ 
+             // it was an interesting point, move it to the front
+             // according to Gärtner's heuristic
+@@ -132,7 +129,21 @@
+ 
+         if (ball.getSupportSize() < max) {
+ 
+-            for (int i = 0; i < extreme.size(); ++i) {
++            if (ball.getSupportSize() < max) {
++				for (int i = 0; i < extreme.size(); ++i) {
++					final P pi = extreme.get(i);
++					if (!ball.contains(pi, tolerance)) {
++						support.add(pi);
++						ball = moveToFrontBall(
++								extreme.subList(i + 1, extreme.size()), support);
++						for (int j = i; j > 1; --j) {
++							extreme.set(j, extreme.get(j - 1));
++						}
++						extreme.set(0, pi);
++					}
++				}
++			}
++			for (int i = 0; i < extreme.size(); ++i) {
+                 final P pi = extreme.get(i);
+                 if (!ball.contains(pi, tolerance)) {
+ 
+
+

@@ -1,0 +1,37 @@
+--- /tmp/Arja_Defects4J_Math_85/src/java/org/apache/commons/math/distribution/NormalDistributionImpl.java	2018-12-01 05:44:02.636110136 -0500
++++ /tmp/Arja_Defects4J_Math_85/patches_4w3i/Patch_961/patched/tmp/Arja_Defects4J_Math_85/src/java/org/apache/commons/math/distribution/NormalDistributionImpl.java	2018-12-01 05:59:41.812846226 -0500
+@@ -197,7 +197,10 @@
+     protected double getDomainUpperBound(double p) {
+         double ret;
+ 
+-        if (p < .5) {
++        if (p == 1) {
++			return Integer.MAX_VALUE;
++		}
++		if (p < .5) {
+             ret = getMean();
+         } else {
+             ret = Double.MAX_VALUE;
+
+
+--- /tmp/Arja_Defects4J_Math_85/src/java/org/apache/commons/math/analysis/solvers/UnivariateRealSolverUtils.java	2018-12-01 05:44:06.180110217 -0500
++++ /tmp/Arja_Defects4J_Math_85/patches_4w3i/Patch_961/patched/tmp/Arja_Defects4J_Math_85/src/java/org/apache/commons/math/analysis/solvers/UnivariateRealSolverUtils.java	2018-12-01 05:59:41.812846226 -0500
+@@ -196,12 +196,10 @@
+                 ((a > lowerBound) || (b < upperBound)));
+    
+         if (fa * fb >= 0.0 ) {
+-            throw new ConvergenceException(
+-                      "number of iterations={0}, maximum iterations={1}, " +
+-                      "initial={2}, lower bound={3}, upper bound={4}, final a value={5}, " +
+-                      "final b value={6}, f(a)={7}, f(b)={8}",
+-                      numIterations, maximumIterations, initial,
+-                      lowerBound, upperBound, a, b, fa, fb);
++            if (function == null) {
++				throw MathRuntimeException
++						.createIllegalArgumentException("function is null");
++			}
+         }
+         
+         return new double[]{a, b};
+
+

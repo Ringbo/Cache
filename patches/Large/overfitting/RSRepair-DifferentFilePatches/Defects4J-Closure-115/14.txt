@@ -1,0 +1,25 @@
+--- /tmp/RSRepair_Defects4J_Closure_115/src/com/google/javascript/jscomp/RenameLabels.java	2018-12-02 05:27:29.486156127 -0500
++++ /tmp/RSRepair_Defects4J_Closure_115/patches_r0m3/Patch_495/patched/tmp/RSRepair_Defects4J_Closure_115/src/com/google/javascript/jscomp/RenameLabels.java	2018-12-02 05:43:53.336796946 -0500
+@@ -206,8 +206,6 @@
+           // Mark the label as referenced so it isn't removed.
+           li.referenced = true;
+           if (!name.equals(newName)) {
+-            // Give it the short name.
+-            nameNode.setString(newName);
+             compiler.reportCodeChange();
+           }
+         }
+
+
+--- /tmp/RSRepair_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-02 05:27:32.386156206 -0500
++++ /tmp/RSRepair_Defects4J_Closure_115/patches_r0m3/Patch_495/patched/tmp/RSRepair_Defects4J_Closure_115/src/com/google/javascript/jscomp/FunctionInjector.java	2018-12-02 05:43:53.336796946 -0500
+@@ -728,7 +728,6 @@
+       if (fnParam != null) {
+         if (cArg != null) {
+           if (hasSideEffects && NodeUtil.canBeSideEffected(cArg)) {
+-            return CanInlineResult.NO;
+           }
+           // Check for arguments that are evaluated more than once.
+           // Note: Unlike block inlining, there it is not possible that a
+
+

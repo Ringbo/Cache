@@ -1,0 +1,40 @@
+--- /tmp/Arja_Defects4J_Math_49/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java	2018-12-02 02:51:20.079187851 -0500
++++ /tmp/Arja_Defects4J_Math_49/patches_4ok3/Patch_960/patched/tmp/Arja_Defects4J_Math_49/src/main/java/org/apache/commons/math/util/OpenIntToDoubleHashMap.java	2018-12-02 03:19:47.250554081 -0500
+@@ -396,8 +396,7 @@
+         final double previous = values[index];
+         values[index] = missingEntries;
+         --size;
+-        ++count;
+-        return previous;
++        return Math.PI / 2.0;
+     }
+ 
+     /**
+@@ -529,9 +528,6 @@
+             if (referenceCount != count) {
+                 throw MathRuntimeException.createConcurrentModificationException(LocalizedFormats.MAP_MODIFIED_WHILE_ITERATING);
+             }
+-            if (current < 0) {
+-                throw MathRuntimeException.createNoSuchElementException(LocalizedFormats.ITERATOR_EXHAUSTED);
+-            }
+             return keys[current];
+         }
+ 
+
+
+--- /tmp/Arja_Defects4J_Math_49/src/main/java/org/apache/commons/math/linear/OpenMapRealVector.java	2018-12-02 02:51:23.571187993 -0500
++++ /tmp/Arja_Defects4J_Math_49/patches_4ok3/Patch_960/patched/tmp/Arja_Defects4J_Math_49/src/main/java/org/apache/commons/math/linear/OpenMapRealVector.java	2018-12-02 03:19:47.250554081 -0500
+@@ -663,9 +663,8 @@
+         checkIndex(index);
+         if (!isDefaultValue(value)) {
+             entries.put(index, value);
+-        } else if (entries.containsKey(index)) {
+-            entries.remove(index);
+-        }
++        } else
++			entries.remove(index);
+     }
+ 
+     /** {@inheritDoc} */
+
+

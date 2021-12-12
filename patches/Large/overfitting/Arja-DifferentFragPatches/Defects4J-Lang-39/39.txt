@@ -1,0 +1,28 @@
+--- /tmp/Arja_Defects4J_Lang_39/src/java/org/apache/commons/lang3/StringUtils.java	2018-12-01 05:12:49.793754110 -0500
++++ /tmp/Arja_Defects4J_Lang_39/patches_x7iw/Patch_1760/patched/tmp/Arja_Defects4J_Lang_39/src/java/org/apache/commons/lang3/StringUtils.java	2018-12-01 05:23:23.837480279 -0500
+@@ -3671,13 +3671,6 @@
+         // get a good guess on the size of the result buffer so it doesnt have to double if it goes over a bit
+         int increase = 0;
+ 
+-        // count the replacement text elements that are larger than their corresponding text being replaced
+-        for (int i = 0; i < searchList.length; i++) {
+-            int greater = replacementList[i].length() - searchList[i].length();
+-            if (greater > 0) {
+-                increase += 3 * greater; // assume 3 matches
+-            }
+-        }
+         // have upper-bound at 20% increase, then let Java take over
+         increase = Math.min(increase, text.length() / 5);
+ 
+@@ -3688,7 +3681,8 @@
+             for (int i = start; i < textIndex; i++) {
+                 buf.append(text.charAt(i));
+             }
+-            buf.append(replacementList[replaceIndex]);
++            start = textIndex + searchList[replaceIndex].length();
++			buf.append(replacementList[replaceIndex]);
+ 
+             start = textIndex + searchList[replaceIndex].length();
+ 
+
+

@@ -1,0 +1,33 @@
+--- /tmp/Arja_Defects4J_Math_73/src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java	2018-12-01 06:00:09.289104123 -0500
++++ /tmp/Arja_Defects4J_Math_73/patches_pxsy/Patch_235/patched/tmp/Arja_Defects4J_Math_73/src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java	2018-12-01 06:13:09.224293830 -0500
+@@ -128,10 +128,7 @@
+             return result;
+         }
+ 
+-        // reduce interval if initial and max bracket the root
+-        if (yInitial * yMax < 0) {
+-            return solve(f, initial, yInitial, max, yMax, initial, yInitial);
+-        }
++        verifyBracketing(min, max, f);
+ 
+ 
+         // full Brent algorithm starting with provided initial guess
+@@ -297,7 +294,15 @@
+             if (Math.abs(delta) > tolerance) {
+                 x1 = x1 + delta;
+             } else if (dx > 0.0) {
+-                x1 = x1 + 0.5 * tolerance;
++                if (Math.abs(y1) > Math.abs(y0)) {
++					delta = 0.5 * oldDelta;
++				} else {
++					delta = (x0 - x1) / (1 - y0 / y1);
++					if (delta / oldDelta > 1) {
++						delta = 0.5 * oldDelta;
++					}
++				}
++				x1 = x1 + 0.5 * tolerance;
+             } else if (dx <= 0.0) {
+                 x1 = x1 - 0.5 * tolerance;
+             }
+
+

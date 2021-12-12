@@ -1,0 +1,35 @@
+--- /tmp/Arja_Defects4J_Closure_3/src/com/google/javascript/jscomp/FlowSensitiveInlineVariables.java	2018-12-01 10:04:42.028213916 -0500
++++ /tmp/Arja_Defects4J_Closure_3/patches_ft34/Patch_843/patched/tmp/Arja_Defects4J_Closure_3/src/com/google/javascript/jscomp/FlowSensitiveInlineVariables.java	2018-12-01 10:20:43.073419513 -0500
+@@ -402,9 +402,7 @@
+                  Predicates.
+                      <DiGraphEdge<Node, ControlFlowGraph.Branch>>alwaysTrue(),
+                  false);
+-        if (pathCheck.somePathsSatisfyPredicate()) {
+-          return false;
+-        }
++        return false;
+       }
+ 
+       return true;
+
+
+--- /tmp/Arja_Defects4J_Closure_3/src/com/google/javascript/jscomp/CheckPathsBetweenNodes.java	2018-12-01 10:04:38.760213842 -0500
++++ /tmp/Arja_Defects4J_Closure_3/patches_ft34/Patch_843/patched/tmp/Arja_Defects4J_Closure_3/src/com/google/javascript/jscomp/CheckPathsBetweenNodes.java	2018-12-01 10:20:43.073419513 -0500
+@@ -202,15 +202,7 @@
+         (inclusive || (a != start && a != end))) {
+       return true;
+     }
+-    if (a == b) {
+-      return false;
+-    }
+     for (DiGraphEdge<N, E> e : a.getOutEdges()) {
+-      // Once we visited that edge once, we no longer need to
+-      // re-visit it again.
+-      if (e.getAnnotation() == VISITED_EDGE) {
+-        continue;
+-      }
+       e.setAnnotation(VISITED_EDGE);
+ 
+       if (ignoreEdge(e)) {
+
+

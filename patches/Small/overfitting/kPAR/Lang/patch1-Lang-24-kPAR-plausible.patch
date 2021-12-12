@@ -1,0 +1,13 @@
+--- /src/main/java/org/apache/commons/lang3/math/NumberUtils.java
++++ /src/main/java/org/apache/commons/lang3/math/NumberUtils.java
+@@ -1392,7 +1392,8 @@
+                 // can't have an E at the last byte
+                 return false;
+             }
+-            if (chars[i] == '.') {
++            if ((chars[i] == '.') || (chars[i] == 'l'
++                || chars[i] == 'L')) {
+                 if (hasDecPoint || hasExp) {
+                     // two decimal points or dec in exponent
+                     return false;
+

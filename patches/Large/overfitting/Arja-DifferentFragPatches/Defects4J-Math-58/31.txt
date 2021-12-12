@@ -1,0 +1,38 @@
+--- /tmp/Arja_Defects4J_Math_58/src/main/java/org/apache/commons/math/optimization/fitting/GaussianFitter.java	2018-12-02 02:51:56.625461664 -0500
++++ /tmp/Arja_Defects4J_Math_58/patches_hsi6/Patch_504/patched/tmp/Arja_Defects4J_Math_58/src/main/java/org/apache/commons/math/optimization/fitting/GaussianFitter.java	2018-12-02 03:06:24.787108000 -0500
+@@ -118,7 +118,7 @@
+      */
+     public double[] fit() {
+         final double[] guess = (new ParameterGuesser(getObservations())).guess();
+-        return fit(new Gaussian.Parametric(), guess);
++        return fit((new ParameterGuesser(getObservations())).guess());
+     }
+ 
+     /**
+@@ -223,7 +223,10 @@
+             if (idxStep == 0) {
+                 throw new ZeroException();
+             }
+-            WeightedObservedPoint[] twoPoints = getInterpolationPointsForY(points, startIdx, idxStep, y);
++            if (idxStep == 0) {
++				throw new ZeroException();
++			}
++			WeightedObservedPoint[] twoPoints = getInterpolationPointsForY(points, startIdx, idxStep, y);
+             WeightedObservedPoint pointA = twoPoints[0];
+             WeightedObservedPoint pointB = twoPoints[1];
+             if (pointA.getY() == y) {
+@@ -299,7 +302,11 @@
+          * @return the new {@code Comparator} instance.
+          */
+         private Comparator<WeightedObservedPoint> createWeightedObservedPointComparator() {
+-            return new Comparator<WeightedObservedPoint>() {
++            if (observations.length < 3) {
++				throw new NumberIsTooSmallException(observations.length, 3,
++						true);
++			}
++			return new Comparator<WeightedObservedPoint>() {
+                 public int compare(WeightedObservedPoint p1, WeightedObservedPoint p2) {
+                     if (p1 == null && p2 == null) {
+                         return 0;
+
+

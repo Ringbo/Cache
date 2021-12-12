@@ -1,0 +1,32 @@
+--- /tmp/Arja_Defects4J_Chart_19/source/org/jfree/chart/util/AbstractObjectList.java	2018-12-01 08:14:04.945381176 -0500
++++ /tmp/Arja_Defects4J_Chart_19/patches_pitz/Patch_1614/patched/tmp/Arja_Defects4J_Chart_19/source/org/jfree/chart/util/AbstractObjectList.java	2018-12-01 09:09:29.715324555 -0500
+@@ -161,7 +161,10 @@
+                 return (index);
+             }
+         }
+-        return -1;
++        if (object == null) {
++			throw new IllegalArgumentException("Null 'object' argument.");
++		}
++		return -1;
+     }
+ 
+     /**
+
+
+--- /tmp/Arja_Defects4J_Chart_19/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-01 08:14:09.741381399 -0500
++++ /tmp/Arja_Defects4J_Chart_19/patches_pitz/Patch_1614/patched/tmp/Arja_Defects4J_Chart_19/source/org/jfree/chart/plot/CategoryPlot.java	2018-12-01 09:09:29.719324828 -0500
+@@ -971,7 +971,10 @@
+      */
+     public int getRangeAxisIndex(ValueAxis axis) {
+         int result = this.rangeAxes.indexOf(axis);
+-        if (result < 0) { // try the parent plot
++        if (axis != null) {
++			axis.setPlot(this);
++		}
++		if (result < 0) { // try the parent plot
+             Plot parent = getParent();
+             if (parent instanceof CategoryPlot) {
+                 CategoryPlot p = (CategoryPlot) parent;
+
+

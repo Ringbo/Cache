@@ -1,0 +1,18 @@
+--- /tmp/Arja_Defects4J_Closure_127/src/com/google/javascript/jscomp/UnreachableCodeElimination.java	2018-12-01 08:46:10.460999129 -0500
++++ /tmp/Arja_Defects4J_Closure_127/patches_rmbn/Patch_222/patched/tmp/Arja_Defects4J_Closure_127/src/com/google/javascript/jscomp/UnreachableCodeElimination.java	2018-12-01 08:52:29.899459867 -0500
+@@ -163,13 +163,8 @@
+               // If there is a next node, this jump is not useless.
+               (n.getNext() == null || n.getNext().isFunction())) {
+ 
+-            Preconditions.checkState(
+-                outEdges.get(0).getValue() == Branch.UNCOND);
+             Node fallThrough = computeFollowing(n);
+             Node nextCfgNode = outEdges.get(0).getDestination().getValue();
+-            if (nextCfgNode == fallThrough) {
+-              removeNode(n);
+-            }
+           }
+       }
+     }
+
+

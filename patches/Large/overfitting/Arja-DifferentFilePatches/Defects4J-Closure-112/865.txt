@@ -1,0 +1,31 @@
+--- /tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/rhino/jstype/TemplateTypeMapReplacer.java	2018-12-01 09:01:11.058036838 -0500
++++ /tmp/Arja_Defects4J_Closure_112/patches_famj/Patch_1243/patched/tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/rhino/jstype/TemplateTypeMapReplacer.java	2018-12-01 09:19:47.039716488 -0500
+@@ -91,11 +91,6 @@
+    * traversal of a JSType.
+    */
+   private boolean hasVisitedType(TemplateType type) {
+-    for (TemplateType visitedType : visitedTypes) {
+-      if (visitedType == type) {
+-        return true;
+-      }
+-    }
+     return false;
+   }
+ }
+
+
+--- /tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-01 09:01:13.654047680 -0500
++++ /tmp/Arja_Defects4J_Closure_112/patches_famj/Patch_1243/patched/tmp/Arja_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-01 09:19:47.043716507 -0500
+@@ -1046,10 +1046,6 @@
+     }
+ 
+     if (call.hasMoreThanOneChild()) {
+-      maybeResolveTemplateTypeFromNodes(
+-          fnType.getParameters(),
+-          call.getChildAtIndex(1).siblings(),
+-          resolvedTypes);
+     }
+     return resolvedTypes;
+   }
+
+

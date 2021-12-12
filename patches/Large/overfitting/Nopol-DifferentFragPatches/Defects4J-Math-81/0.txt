@@ -1,0 +1,14 @@
+--- a/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java
++++ b/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java
+@@ -1585,4 +1585,4 @@
+         case 1 : // one eigenvalue just deflated. use dMin1, dN1 for dMin and dN.
+-            if (dMin1 == dN1 && dMin2 == dN2) {
+-
++            if (org.apache.commons.math.linear.EigenDecompositionImpl.this.main!=null) {
++                
+                 // cases 7 and 8.
+@@ -1618,3 +1618,3 @@
+             } else {
+-
++                
+                 // case 9.

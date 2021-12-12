@@ -1,0 +1,17 @@
+--- /tmp/Arja_Bears_traccar-traccar_212058933-212061222/src/org/traccar/protocol/SuntechProtocolDecoder.java	2018-12-26 13:24:02.202494680 -0500
++++ /tmp/Arja_Bears_traccar-traccar_212058933-212061222/patches_7b3l/Patch_1507/patched/tmp/Arja_Bears_traccar-traccar_212058933-212061222/src/org/traccar/protocol/SuntechProtocolDecoder.java	2018-12-26 13:39:18.073887515 -0500
+@@ -134,12 +134,8 @@
+         position.setValid(values[index++].equals("1"));
+ 
+         position.set(Position.KEY_ODOMETER, Integer.parseInt(values[index++]));
+-        position.set(Position.KEY_POWER, Double.parseDouble(values[index++]));
+-
+         position.set(Position.PREFIX_IO + 1, values[index++]);
+ 
+-        index += 1; // mode
+-
+         if (type.equals("STT")) {
+             position.set(Position.KEY_INDEX, Integer.parseInt(values[index++]));
+         }
+
+

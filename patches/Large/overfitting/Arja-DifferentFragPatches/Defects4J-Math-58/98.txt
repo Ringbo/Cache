@@ -1,0 +1,26 @@
+--- /tmp/Arja_Defects4J_Math_58/src/main/java/org/apache/commons/math/optimization/fitting/GaussianFitter.java	2018-12-02 02:51:56.625461664 -0500
++++ /tmp/Arja_Defects4J_Math_58/patches_hsi6/Patch_1376/patched/tmp/Arja_Defects4J_Math_58/src/main/java/org/apache/commons/math/optimization/fitting/GaussianFitter.java	2018-12-02 03:13:40.856488845 -0500
+@@ -118,7 +118,7 @@
+      */
+     public double[] fit() {
+         final double[] guess = (new ParameterGuesser(getObservations())).guess();
+-        return fit(new Gaussian.Parametric(), guess);
++        return fit((new ParameterGuesser(getObservations())).guess());
+     }
+ 
+     /**
+@@ -200,7 +200,11 @@
+                     maxYIdx = i;
+                 }
+             }
+-            return maxYIdx;
++            if (observations.length < 3) {
++				throw new NumberIsTooSmallException(observations.length, 3,
++						true);
++			}
++			return maxYIdx;
+         }
+ 
+         /**
+
+

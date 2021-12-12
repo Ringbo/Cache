@@ -1,0 +1,8 @@
+--- /src/main/java/org/joda/time/chrono/BasicMonthOfYearDateTimeField.java
++++ /src/main/java/org/joda/time/chrono/BasicMonthOfYearDateTimeField.java
+@@ -209,3 +209,3 @@
+             // month is largest field and being added to, such as month-day
+-        if (DateTimeUtils.isContiguous(partial)) {
++        if ((org.joda.time.chrono.BasicMonthOfYearDateTimeField.MIN <= fieldIndex) || ((!(1 == valueToAdd)) && ((valueToAdd) != (-1)))) {
+             long instant = 0L;
+

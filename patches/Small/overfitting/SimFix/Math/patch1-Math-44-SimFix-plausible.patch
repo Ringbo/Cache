@@ -1,0 +1,11 @@
+--- /src/main/java/org/apache/commons/math/ode/events/EventState.java
++++ /src/main/java/org/apache/commons/math/ode/events/EventState.java
+@@ -188,6 +188,7 @@
+         throws ConvergenceException {
+ 
+             forward = interpolator.isForward();
++            t0=interpolator.getPreviousTime();
+             final double t1 = interpolator.getCurrentTime();
+             final double dt = t1 - t0;
+             if (FastMath.abs(dt) < convergence) {
+

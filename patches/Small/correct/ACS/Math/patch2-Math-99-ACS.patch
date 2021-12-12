@@ -1,0 +1,21 @@
+--- /src/java/org/apache/commons/math/util/MathUtils.java
++++ /src/java/org/apache/commons/math/util/MathUtils.java
+@@ -540,7 +540,7 @@
+         int u = p;
+         int v = q;
+         if ((u == 0) || (v == 0)) {
+-            return (Math.abs(u) + Math.abs(v));
++if (u==Integer.MIN_VALUE){throw new ArithmeticException();}if (v==Integer.MIN_VALUE){throw new ArithmeticException();}            return (Math.abs(u) + Math.abs(v));
+         }
+         // keep u and v negative, as negative integers range down to
+         // -2^31, while positive numbers can only be as large as 2^31-1
+@@ -711,7 +711,7 @@
+             return 0;
+         }
+         int lcm = Math.abs(mulAndCheck(a / gcd(a, b), b));
+-        return lcm;
++if (lcm==Integer.MIN_VALUE){throw new ArithmeticException();}        return lcm;
+     }
+ 
+     /**
+

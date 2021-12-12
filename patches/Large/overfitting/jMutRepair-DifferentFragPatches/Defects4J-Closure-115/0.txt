@@ -1,0 +1,13 @@
+/var/lib/oar/.batch_job_bashrc: line 5: /home/tdurieux/.bashrc: No such file or directory
+--- com/google/javascript/jscomp/FunctionInjector.java
++++ com/google/javascript/jscomp/FunctionInjector.java
+@@ -698,7 +698,7 @@
+ 		if (block.hasChildren()) {
+ 			com.google.common.base.Preconditions.checkState(block.hasOneChild());
+ 			com.google.javascript.rhino.Node stmt = block.getFirstChild();
+-			if (stmt.isReturn()) {
++			if (!(stmt.isReturn())) {
+ 				hasSideEffects = com.google.javascript.jscomp.NodeUtil.mayHaveSideEffects(stmt.getFirstChild(), compiler);
+ 			}
+ 		}
+

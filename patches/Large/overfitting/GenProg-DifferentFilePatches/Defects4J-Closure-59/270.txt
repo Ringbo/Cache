@@ -1,0 +1,32 @@
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/MustBeReachingVariableDef.java	2018-12-02 07:03:01.174376130 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_748/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/MustBeReachingVariableDef.java	2018-12-02 07:25:12.786039300 -0500
+@@ -282,15 +282,6 @@
+               n.getLastChild(), output);
+             return;
+           } else if (NodeUtil.isGet(n.getFirstChild())) {
+-            // Treat all assignments to arguments as redefining the
+-            // parameters itself.
+-            Node obj = n.getFirstChild().getFirstChild();
+-            if (NodeUtil.isName(obj) && "arguments".equals(obj.getString())) {
+-              // TODO(user): More accuracy can be introduced
+-              // ie: We know exactly what arguments[x] is if x is a constant
+-              // number.
+-              escapeParameters(output);
+-            }
+           }
+         }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-02 07:03:01.202376129 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_748/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-02 07:25:12.786039300 -0500
+@@ -76,7 +76,6 @@
+ 
+     // checkSuspiciousCode needs to be enabled for CheckGlobalThis to get run.
+     options.checkSuspiciousCode = true;
+-    options.checkGlobalThisLevel = CheckLevel.WARNING;
+     options.checkSymbols = true;
+     options.checkMissingReturn = CheckLevel.WARNING;
+ 
+
+

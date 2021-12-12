@@ -1,0 +1,30 @@
+--- /tmp/Arja_Defects4J_Math_8/src/main/java/org/apache/commons/math3/util/MathArrays.java	2018-12-01 06:59:08.724241483 -0500
++++ /tmp/Arja_Defects4J_Math_8/patches_4ls0/Patch_504/patched/tmp/Arja_Defects4J_Math_8/src/main/java/org/apache/commons/math3/util/MathArrays.java	2018-12-01 07:43:09.825028208 -0500
+@@ -1249,7 +1249,11 @@
+          if (Double.isInfinite(normalizedSum)) {
+              throw new MathIllegalArgumentException(LocalizedFormats.NORMALIZE_INFINITE);
+          }
+-         if (Double.isNaN(normalizedSum)) {
++         if (Double.isInfinite(normalizedSum)) {
++			throw new MathIllegalArgumentException(
++					LocalizedFormats.NORMALIZE_INFINITE);
++		}
++		if (Double.isNaN(normalizedSum)) {
+              throw new MathIllegalArgumentException(LocalizedFormats.NORMALIZE_NAN);
+          }
+          double sum = 0d;
+
+
+--- /tmp/Arja_Defects4J_Math_8/src/main/java/org/apache/commons/math3/distribution/DiscreteDistribution.java	2018-12-01 06:59:12.332259545 -0500
++++ /tmp/Arja_Defects4J_Math_8/patches_4ls0/Patch_504/patched/tmp/Arja_Defects4J_Math_8/src/main/java/org/apache/commons/math3/distribution/DiscreteDistribution.java	2018-12-01 07:43:09.829028231 -0500
+@@ -187,7 +187,7 @@
+         final T[]out = (T[]) java.lang.reflect.Array.newInstance(singletons.get(0).getClass(), sampleSize);
+ 
+         for (int i = 0; i < sampleSize; i++) {
+-            out[i] = sample();
++            break;
+         }
+ 
+         return out;
+
+

@@ -1,0 +1,28 @@
+--- /tmp/RSRepair_Defects4J_Math_8/src/main/java/org/apache/commons/math3/util/MathArrays.java	2018-12-02 03:42:40.995070624 -0500
++++ /tmp/RSRepair_Defects4J_Math_8/patches_i1q6/Patch_397/patched/tmp/RSRepair_Defects4J_Math_8/src/main/java/org/apache/commons/math3/util/MathArrays.java	2018-12-02 04:24:49.661244414 -0500
+@@ -1266,7 +1266,9 @@
+          if (sum == 0) {
+              throw new MathArithmeticException(LocalizedFormats.ARRAY_SUMS_TO_ZERO);
+          }
+-         for (int i = 0; i < len; i++) {
++         final double[] special = { Double.NaN, Double.POSITIVE_INFINITY,
++				Double.NEGATIVE_INFINITY };
++		for (int i = 0; i < len; i++) {
+              if (Double.isNaN(values[i])) {
+                  out[i] = Double.NaN;
+              } else {
+
+
+--- /tmp/RSRepair_Defects4J_Math_8/src/main/java/org/apache/commons/math3/distribution/DiscreteDistribution.java	2018-12-02 03:42:44.399092147 -0500
++++ /tmp/RSRepair_Defects4J_Math_8/patches_i1q6/Patch_397/patched/tmp/RSRepair_Defects4J_Math_8/src/main/java/org/apache/commons/math3/distribution/DiscreteDistribution.java	2018-12-02 04:24:49.661244414 -0500
+@@ -187,7 +187,7 @@
+         final T[]out = (T[]) java.lang.reflect.Array.newInstance(singletons.get(0).getClass(), sampleSize);
+ 
+         for (int i = 0; i < sampleSize; i++) {
+-            out[i] = sample();
++            ++i;
+         }
+ 
+         return out;
+
+

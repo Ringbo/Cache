@@ -1,0 +1,74 @@
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/MustBeReachingVariableDef.java	2018-12-02 07:03:01.174376130 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_1335/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/MustBeReachingVariableDef.java	2018-12-02 07:35:30.173497196 -0500
+@@ -285,12 +285,6 @@
+             // Treat all assignments to arguments as redefining the
+             // parameters itself.
+             Node obj = n.getFirstChild().getFirstChild();
+-            if (NodeUtil.isName(obj) && "arguments".equals(obj.getString())) {
+-              // TODO(user): More accuracy can be introduced
+-              // ie: We know exactly what arguments[x] is if x is a constant
+-              // number.
+-              escapeParameters(output);
+-            }
+           }
+         }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-02 07:03:01.202376129 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_1335/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-02 07:35:30.177497379 -0500
+@@ -72,11 +72,8 @@
+    * @param options The CompilerOptions object to set the options on.
+    */
+   private static void addVerboseWarnings(CompilerOptions options) {
+-    addDefaultWarnings(options);
+-
+     // checkSuspiciousCode needs to be enabled for CheckGlobalThis to get run.
+     options.checkSuspiciousCode = true;
+-    options.checkGlobalThisLevel = CheckLevel.WARNING;
+     options.checkSymbols = true;
+     options.checkMissingReturn = CheckLevel.WARNING;
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckMissingReturn.java	2018-12-02 07:03:01.146376131 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_1335/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckMissingReturn.java	2018-12-02 07:35:30.177497379 -0500
+@@ -153,10 +153,6 @@
+       return null;
+     }
+ 
+-    if (isEmptyFunction(scope)) {
+-      return null;
+-    }
+-
+     JSType returnType = ((FunctionType) scopeType).getReturnType();
+ 
+     if (returnType == null) {
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/AbstractCommandLineRunner.java	2018-12-02 07:03:01.142376131 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_1335/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/AbstractCommandLineRunner.java	2018-12-02 07:35:30.181497561 -0500
+@@ -199,7 +199,6 @@
+ 
+     if (config.warningGuards != null) {
+       for (WarningGuardSpec.Entry entry : config.warningGuards.entries) {
+-        diagnosticGroups.setWarningLevel(options, entry.groupName, entry.level);
+       }
+     }
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/DefaultPassConfig.java	2018-12-02 07:03:01.158376130 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_1335/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/DefaultPassConfig.java	2018-12-02 07:35:30.181497561 -0500
+@@ -260,7 +260,8 @@
+     if (options.checkTypes &&
+         (options.enables(DiagnosticGroups.ACCESS_CONTROLS)
+          || options.enables(DiagnosticGroups.CONSTANT_PROPERTY))) {
+-      checks.add(checkAccessControls);
++      boolean valid = false;
++	checks.add(checkAccessControls);
+     }
+ 
+     if (options.checkGlobalNamesLevel.isOn()) {
+
+

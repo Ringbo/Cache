@@ -1,0 +1,12 @@
+--- /src/java/org/apache/commons/math/distribution/FDistributionImpl.java
++++ /src/java/org/apache/commons/math/distribution/FDistributionImpl.java
+@@ -145,7 +145,7 @@
+         double d = getDenominatorDegreesOfFreedom();
+             // use mean
+             ret = d / (d - 2.0);
+-        return ret;
++        return d;
+     }
+     
+     /**
+

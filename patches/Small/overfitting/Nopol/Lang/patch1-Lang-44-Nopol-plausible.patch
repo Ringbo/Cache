@@ -1,0 +1,25 @@
+--- /src/java/org/apache/commons/lang/NumberUtils.java
++++ /src/java/org/apache/commons/lang/NumberUtils.java
+@@ -192,12 +192,14 @@
+                 case 'L' :
+-                    if (dec == null
++                    if ((1) != (val.length())) {
++                        if (dec == null
+                         && exp == null
+                         && (numeric.charAt(0) == '-' && isDigits(numeric.substring(1)) || isDigits(numeric))) {
+-                        try {
+-                            return createLong(numeric);
+-                        } catch (NumberFormatException nfe) {
+-                            //Too big for a long
++                            try {
++                                return createLong(numeric);
++                            } catch (NumberFormatException nfe) {
++                                //Too big for a long
++                            }
++                            return createBigInteger(numeric);
++                            
+                         }
+-                        return createBigInteger(numeric);
+-
+                     }
+

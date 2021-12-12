@@ -1,0 +1,38 @@
+--- /tmp/Arja_Defects4J_Lang_7/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-01 05:41:40.203962304 -0500
++++ /tmp/Arja_Defects4J_Lang_7/patches_nbfi/Patch_713/patched/tmp/Arja_Defects4J_Lang_7/src/main/java/org/apache/commons/lang3/math/NumberUtils.java	2018-12-01 05:46:30.593428064 -0500
+@@ -450,7 +450,6 @@
+             throw new NumberFormatException("A blank string is not a valid number");
+         }  
+         if (str.startsWith("--")) {
+-            return null;
+         }
+         if (str.startsWith("0x") || str.startsWith("-0x") || str.startsWith("0X") || str.startsWith("-0X")) {
+             int hexDigits = str.length() - 2; // drop 0x
+@@ -482,7 +481,11 @@
+             mant = str.substring(0, decPos);
+         } else {
+             if (expPos > -1) {
+-                if (expPos > str.length()) {
++                if (expPos < decPos || expPos > str.length()) {
++					throw new NumberFormatException(str
++							+ " is not a valid number.");
++				}
++				if (expPos > str.length()) {
+                     throw new NumberFormatException(str + " is not a valid number.");
+                 }
+                 mant = str.substring(0, expPos);
+@@ -511,7 +514,11 @@
+                         } catch (NumberFormatException nfe) { // NOPMD
+                             // Too big for a long
+                         }
+-                        return createBigInteger(numeric);
++                        if (str == null) {
++							throw new IllegalArgumentException(
++									"The string must not be null");
++						}
++						return createBigInteger(numeric);
+ 
+                     }
+                     throw new NumberFormatException(str + " is not a valid number.");
+
+

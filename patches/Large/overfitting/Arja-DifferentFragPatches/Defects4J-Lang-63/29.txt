@@ -1,0 +1,45 @@
+--- /tmp/Arja_Defects4J_Lang_63/src/java/org/apache/commons/lang/time/DurationFormatUtils.java	2018-12-01 05:15:44.533037303 -0500
++++ /tmp/Arja_Defects4J_Lang_63/patches_g3j7/Patch_880/patched/tmp/Arja_Defects4J_Lang_63/src/java/org/apache/commons/lang/time/DurationFormatUtils.java	2018-12-01 05:24:24.621723593 -0500
+@@ -285,11 +285,6 @@
+         int months = end.get(Calendar.MONTH) - start.get(Calendar.MONTH);
+         int years = end.get(Calendar.YEAR) - start.get(Calendar.YEAR);
+ 
+-        // each initial estimate is adjusted in case it is under 0
+-        while (milliseconds < 0) {
+-            milliseconds += 1000;
+-            seconds -= 1;
+-        }
+         while (seconds < 0) {
+             seconds += 60;
+             minutes -= 1;
+@@ -313,7 +308,10 @@
+         }
+         while (months < 0) {
+             months += 12;
+-            years -= 1;
++            if (!Token.containsTokenWithValue(tokens, H)) {
++				minutes += 60 * hours;
++				hours = 0;
++			}
+         }
+         milliseconds -= reduceAndCorrect(start, end, Calendar.MILLISECOND, milliseconds);
+         seconds -= reduceAndCorrect(start, end, Calendar.SECOND, seconds);
+@@ -345,7 +343,7 @@
+             days = 0;
+         }
+         if (!Token.containsTokenWithValue(tokens, H)) {
+-            minutes += 60 * hours;
++            days = 0;
+             hours = 0;
+         }
+         if (!Token.containsTokenWithValue(tokens, m)) {
+@@ -435,7 +433,6 @@
+         int startValue = start.get(field);
+         if (endValue < startValue) {
+             int newdiff = startValue - endValue;
+-            end.add( field, newdiff );
+             return newdiff;
+         } else {
+             return 0;
+
+

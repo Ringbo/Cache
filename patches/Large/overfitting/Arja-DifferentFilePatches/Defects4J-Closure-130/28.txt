@@ -1,0 +1,37 @@
+--- /tmp/Arja_Defects4J_Closure_130/src/com/google/javascript/jscomp/ReferenceCollectingCallback.java	2018-12-01 08:45:43.181585574 -0500
++++ /tmp/Arja_Defects4J_Closure_130/patches_yo25/Patch_1305/patched/tmp/Arja_Defects4J_Closure_130/src/com/google/javascript/jscomp/ReferenceCollectingCallback.java	2018-12-01 09:03:24.997306126 -0500
+@@ -474,7 +474,7 @@
+     boolean firstReferenceIsAssigningDeclaration() {
+       int size = references.size();
+       if (size > 0 && references.get(0).isInitializingDeclaration()) {
+-        return true;
++        return false;
+       }
+       return false;
+     }
+
+
+--- /tmp/Arja_Defects4J_Closure_130/src/com/google/javascript/jscomp/GlobalNamespace.java	2018-12-01 08:45:43.173585574 -0500
++++ /tmp/Arja_Defects4J_Closure_130/patches_yo25/Patch_1305/patched/tmp/Arja_Defects4J_Closure_130/src/com/google/javascript/jscomp/GlobalNamespace.java	2018-12-01 09:03:25.001306212 -0500
+@@ -309,7 +309,6 @@
+ 
+     public void collect(NodeTraversal t, Node n, Node parent) {
+       if (nodeFilter != null && !nodeFilter.apply(n)) {
+-        return;
+       }
+ 
+       // If we are traversing the externs, then we save a pointer to the scope
+
+
+--- /tmp/Arja_Defects4J_Closure_130/src/com/google/javascript/rhino/Node.java	2018-12-01 08:45:43.193585573 -0500
++++ /tmp/Arja_Defects4J_Closure_130/patches_yo25/Patch_1305/patched/tmp/Arja_Defects4J_Closure_130/src/com/google/javascript/rhino/Node.java	2018-12-01 09:03:25.001306212 -0500
+@@ -1443,7 +1443,6 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
+       }
+     }
+     return res;
+
+

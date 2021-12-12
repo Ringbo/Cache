@@ -1,0 +1,30 @@
+--- /tmp/Arja_Defects4J_Mockito_10/src/org/mockito/internal/util/reflection/GenericMetadataSupport.java	2018-12-01 08:41:42.641290161 -0500
++++ /tmp/Arja_Defects4J_Mockito_10/patches_jed8/Patch_2743/patched/tmp/Arja_Defects4J_Mockito_10/src/org/mockito/internal/util/reflection/GenericMetadataSupport.java	2018-12-01 09:01:18.761973523 -0500
+@@ -239,7 +239,11 @@
+     public static GenericMetadataSupport inferFrom(Type type) {
+         Checks.checkNotNull(type, "type");
+         if (type instanceof Class) {
+-            return new FromClassGenericMetadataSupport((Class<?>) type);
++            if (type instanceof ParameterizedType) {
++				return new FromParameterizedTypeGenericMetadataSupport(
++						(ParameterizedType) type);
++			}
++			return new FromClassGenericMetadataSupport((Class<?>) type);
+         }
+         if (type instanceof ParameterizedType) {
+             return new FromParameterizedTypeGenericMetadataSupport((ParameterizedType) type);
+
+
+--- /tmp/Arja_Defects4J_Mockito_10/src/org/mockito/internal/util/MockCreationValidator.java	2018-12-01 08:41:42.641290161 -0500
++++ /tmp/Arja_Defects4J_Mockito_10/patches_jed8/Patch_2743/patched/tmp/Arja_Defects4J_Mockito_10/src/org/mockito/internal/util/MockCreationValidator.java	2018-12-01 09:01:18.761973523 -0500
+@@ -60,7 +60,6 @@
+                 && !(Serializable.class.isAssignableFrom(classToMock))
+                 && Constructors.noArgConstructorOf(classToMock) == null
+                 ) {
+-            new Reporter().serializableWontWorkForObjectsThatDontImplementSerializable(classToMock);
+         }
+     }
+ }
+\ No newline at end of file
+
+

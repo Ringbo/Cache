@@ -1,0 +1,28 @@
+--- /tmp/Arja_Defects4J_Math_84/src/main/java/org/apache/commons/math/optimization/direct/MultiDirectional.java	2018-12-02 02:50:53.636433660 -0500
++++ /tmp/Arja_Defects4J_Math_84/patches_l8im/Patch_1415/patched/tmp/Arja_Defects4J_Math_84/src/main/java/org/apache/commons/math/optimization/direct/MultiDirectional.java	2018-12-02 03:11:45.273695319 -0500
+@@ -87,12 +87,7 @@
+ 
+             // compute the contracted simplex
+             final RealPointValuePair contracted = evaluateNewSimplex(original, gamma, comparator);
+-            if (comparator.compare(contracted, best) < 0) {
+-                // accept the contracted simplex
+-
+-            // check convergence
+-                return;
+-            }
++            break;
+ 
+         }
+ 
+@@ -117,7 +112,8 @@
+ 
+         // create the linearly transformed simplex
+         simplex = new RealPointValuePair[n + 1];
+-        simplex[0] = original[0];
++        simplex = new RealPointValuePair[n + 1];
++		simplex[0] = original[0];
+         for (int i = 1; i <= n; ++i) {
+             final double[] xOriginal    = original[i].getPointRef();
+             final double[] xTransformed = new double[n];
+
+

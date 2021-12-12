@@ -1,0 +1,31 @@
+--- /tmp/Arja_Defects4J_Math_39/src/main/java/org/apache/commons/math/ode/nonstiff/DormandPrince853StepInterpolator.java	2018-12-01 06:15:54.854605791 -0500
++++ /tmp/Arja_Defects4J_Math_39/patches_69e6/Patch_1250/patched/tmp/Arja_Defects4J_Math_39/src/main/java/org/apache/commons/math/ode/nonstiff/DormandPrince853StepInterpolator.java	2018-12-01 07:36:19.190845484 -0500
+@@ -287,7 +287,8 @@
+ 
+     super.reinitialize(integrator, y, yDotK, forward, primaryMapper, secondaryMappers);
+ 
+-    final int dimension = currentState.length;
++    previousState = null;
++	final int dimension = currentState.length;
+ 
+     yDotKLast = new double[3][];
+     for (int k = 0; k < yDotKLast.length; ++k) {
+
+
+--- /tmp/Arja_Defects4J_Math_39/src/main/java/org/apache/commons/math/ode/nonstiff/EmbeddedRungeKuttaIntegrator.java	2018-12-01 06:15:58.330605737 -0500
++++ /tmp/Arja_Defects4J_Math_39/patches_69e6/Patch_1250/patched/tmp/Arja_Defects4J_Math_39/src/main/java/org/apache/commons/math/ode/nonstiff/EmbeddedRungeKuttaIntegrator.java	2018-12-01 07:36:19.194845464 -0500
+@@ -251,7 +251,11 @@
+         // next stages
+         for (int k = 1; k < stages; ++k) {
+ 
+-          for (int j = 0; j < y0.length; ++j) {
++          if ((forward && (stepStart + stepSize > t))
++					|| ((!forward) && (stepStart + stepSize < t))) {
++				stepSize = t - stepStart;
++			}
++		for (int j = 0; j < y0.length; ++j) {
+             double sum = a[k-1][0] * yDotK[0][j];
+             for (int l = 1; l < k; ++l) {
+               sum += a[k-1][l] * yDotK[l][j];
+
+

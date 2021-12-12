@@ -1,0 +1,28 @@
+--- /tmp/RSRepair_Defects4J_Closure_127/src/com/google/javascript/jscomp/UnreachableCodeElimination.java	2018-12-02 05:17:45.386676090 -0500
++++ /tmp/RSRepair_Defects4J_Closure_127/patches_25dy/Patch_90/patched/tmp/RSRepair_Defects4J_Closure_127/src/com/google/javascript/jscomp/UnreachableCodeElimination.java	2018-12-02 05:23:01.142418242 -0500
+@@ -168,7 +168,6 @@
+             Node fallThrough = computeFollowing(n);
+             Node nextCfgNode = outEdges.get(0).getDestination().getValue();
+             if (nextCfgNode == fallThrough) {
+-              removeNode(n);
+             }
+           }
+       }
+
+
+--- /tmp/RSRepair_Defects4J_Closure_127/src/com/google/javascript/rhino/Token.java	2018-12-02 05:17:42.954647832 -0500
++++ /tmp/RSRepair_Defects4J_Closure_127/patches_25dy/Patch_90/patched/tmp/RSRepair_Defects4J_Closure_127/src/com/google/javascript/rhino/Token.java	2018-12-02 05:23:01.146418290 -0500
+@@ -261,7 +261,10 @@
+           case CATCH:           return "CATCH";
+           case EMPTY:           return "EMPTY";
+           case BLOCK:           return "BLOCK";
+-          case LABEL:           return "LABEL";
++          case LABEL:           {
++				StringBuilder s = new StringBuilder();
++				return "LABEL";
++			}
+           case EXPR_RESULT:     return "EXPR_RESULT";
+           case SCRIPT:          return "SCRIPT";
+           case GETTER_DEF:      return "GETTER_DEF";
+
+

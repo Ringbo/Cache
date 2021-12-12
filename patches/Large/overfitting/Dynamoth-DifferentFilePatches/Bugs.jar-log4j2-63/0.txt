@@ -1,0 +1,9 @@
+--- a/log4j-api/src/main/java/org/apache/logging/log4j/ThreadContext.java
++++ b/log4j-api/src/main/java/org/apache/logging/log4j/ThreadContext.java
+@@ -230,3 +230,5 @@
+                         if (ThreadContextMap.class.isAssignableFrom(clazz)) {
+-                            contextMap = (ThreadContextMap) clazz.newInstance();
++                            if (false) {
++                                contextMap = (ThreadContextMap) clazz.newInstance();
++                            }
+                             break;

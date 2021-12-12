@@ -1,0 +1,104 @@
+--- /tmp/GenProg_Defects4J_Math_85/src/java/org/apache/commons/math/distribution/NormalDistributionImpl.java	2018-12-02 11:08:36.461549548 -0500
++++ /tmp/GenProg_Defects4J_Math_85/patches_sd6k/Patch_330/patched/tmp/GenProg_Defects4J_Math_85/src/java/org/apache/commons/math/distribution/NormalDistributionImpl.java	2018-12-02 11:13:47.046841466 -0500
+@@ -123,7 +123,8 @@
+      */
+     public double cumulativeProbability(double x) throws MathException {
+         try {
+-            return 0.5 * (1.0 + Erf.erf((x - mean) /
++            double value = 0;
++			return 0.5 * (1.0 + Erf.erf((x - mean) /
+                     (standardDeviation * Math.sqrt(2.0))));
+         } catch (MaxIterationsExceededException ex) {
+             if (x < (mean - 20 * standardDeviation)) { // JDK 1.5 blows at 38
+
+
+--- /tmp/GenProg_Defects4J_Math_85/src/java/org/apache/commons/math/special/Gamma.java	2018-12-02 11:08:36.493549548 -0500
++++ /tmp/GenProg_Defects4J_Math_85/patches_sd6k/Patch_330/patched/tmp/GenProg_Defects4J_Math_85/src/java/org/apache/commons/math/special/Gamma.java	2018-12-02 11:13:47.050841557 -0500
+@@ -178,7 +178,12 @@
+                 sum = sum + an;
+             }
+             if (n >= maxIterations) {
+-                throw new MaxIterationsExceededException(maxIterations);
++                if (x >= C_LIMIT) {
++					double inv = 1 / (x * x);
++					return Math.log(x) - 0.5 / x - inv
++							* ((1.0 / 12) + inv * (1.0 / 120 - inv / 252));
++				}
++				throw new MaxIterationsExceededException(maxIterations);
+             } else {
+                 ret = Math.exp(-x + (a * Math.log(x)) - logGamma(a)) * sum;
+             }
+
+
+--- /tmp/GenProg_Defects4J_Math_85/src/java/org/apache/commons/math/special/Erf.java	2018-12-02 11:08:36.493549548 -0500
++++ /tmp/GenProg_Defects4J_Math_85/patches_sd6k/Patch_330/patched/tmp/GenProg_Defects4J_Math_85/src/java/org/apache/commons/math/special/Erf.java	2018-12-02 11:13:47.050841557 -0500
+@@ -50,8 +50,8 @@
+     public static double erf(double x) throws MathException {
+         double ret = Gamma.regularizedGammaP(0.5, x * x, 1.0e-15, 10000);
+         if (x < 0) {
+-            ret = -ret;
+-        }
++			ret = -ret;
++		}
+         return ret;
+     }
+ }
+
+
+--- /tmp/GenProg_Defects4J_Math_85/src/java/org/apache/commons/math/analysis/solvers/UnivariateRealSolverUtils.java	2018-12-02 11:08:39.989549467 -0500
++++ /tmp/GenProg_Defects4J_Math_85/patches_sd6k/Patch_330/patched/tmp/GenProg_Defects4J_Math_85/src/java/org/apache/commons/math/analysis/solvers/UnivariateRealSolverUtils.java	2018-12-02 11:13:47.050841557 -0500
+@@ -187,7 +187,8 @@
+     
+         do {
+             a = Math.max(a - 1.0, lowerBound);
+-            b = Math.min(b + 1.0, upperBound);
++            int i = 1;
++			b = Math.min(b + 1.0, upperBound);
+             fa = function.value(a);
+             
+             fb = function.value(b);
+@@ -196,12 +197,13 @@
+                 ((a > lowerBound) || (b < upperBound)));
+    
+         if (fa * fb >= 0.0 ) {
+-            throw new ConvergenceException(
+-                      "number of iterations={0}, maximum iterations={1}, " +
+-                      "initial={2}, lower bound={3}, upper bound={4}, final a value={5}, " +
+-                      "final b value={6}, f(a)={7}, f(b)={8}",
+-                      numIterations, maximumIterations, initial,
+-                      lowerBound, upperBound, a, b, fa, fb);
++            if (initial < lowerBound || initial > upperBound
++					|| lowerBound >= upperBound) {
++				throw MathRuntimeException
++						.createIllegalArgumentException(
++								"invalid bracketing parameters:  lower bound={0},  initial={1}, upper bound={2}",
++								lowerBound, initial, upperBound);
++			}
+         }
+         
+         return new double[]{a, b};
+
+
+--- /tmp/GenProg_Defects4J_Math_85/src/java/org/apache/commons/math/distribution/AbstractContinuousDistribution.java	2018-12-02 11:08:39.989549467 -0500
++++ /tmp/GenProg_Defects4J_Math_85/patches_sd6k/Patch_330/patched/tmp/GenProg_Defects4J_Math_85/src/java/org/apache/commons/math/distribution/AbstractContinuousDistribution.java	2018-12-02 11:13:47.054841649 -0500
+@@ -86,17 +86,7 @@
+                     rootFindingFunction, getInitialDomain(p),
+                     lowerBound, upperBound);
+         }  catch (ConvergenceException ex) {
+-            /* 
+-             * Check domain endpoints to see if one gives value that is within
+-             * the default solver's defaultAbsoluteAccuracy of 0 (will be the
+-             * case if density has bounded support and p is 0 or 1).
+-             * 
+-             * TODO: expose the default solver, defaultAbsoluteAccuracy as
+-             * a constant.
+-             */ 
+-            if (Math.abs(rootFindingFunction.value(lowerBound)) < 1E-6) {
+-                return lowerBound;
+-            }
++            double value = 0;
+             if (Math.abs(rootFindingFunction.value(upperBound)) < 1E-6) {
+                 return upperBound;
+             }     
+
+

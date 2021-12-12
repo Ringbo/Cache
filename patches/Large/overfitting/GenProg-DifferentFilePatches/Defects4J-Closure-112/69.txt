@@ -1,0 +1,60 @@
+--- /tmp/GenProg_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-02 05:54:30.851329143 -0500
++++ /tmp/GenProg_Defects4J_Closure_112/patches_1e4m/Patch_1081/patched/tmp/GenProg_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeInference.java	2018-12-02 06:18:36.823347592 -0500
+@@ -1124,34 +1124,11 @@
+       Iterator<Node> declParams,
+       Iterator<Node> callParams,
+       Map<TemplateType, JSType> resolvedTypes) {
+-    while (declParams.hasNext() && callParams.hasNext()) {
+-      Node declParam = declParams.next();
+-      maybeResolveTemplatedType(
+-          getJSType(declParam),
+-          getJSType(callParams.next()),
+-          resolvedTypes);
+-      if (declParam.isVarArgs()) {
+-        while (callParams.hasNext()) {
+-          maybeResolveTemplatedType(
+-              getJSType(declParam),
+-              getJSType(callParams.next()),
+-              resolvedTypes);
+-        }
+-      }
+-    }
+   }
+ 
+   private static void resolvedTemplateType(
+       Map<TemplateType, JSType> map, TemplateType template, JSType resolved) {
+     JSType previous = map.get(template);
+-    if (!resolved.isUnknownType()) {
+-      if (previous == null) {
+-        map.put(template, resolved);
+-      } else {
+-        JSType join = previous.getLeastSupertype(resolved);
+-        map.put(template, join);
+-      }
+-    }
+   }
+ 
+   private static class TemplateTypeReplacer extends ModificationVisitor {
+@@ -1168,7 +1145,6 @@
+ 
+     @Override
+     public JSType caseTemplateType(TemplateType type) {
+-      madeChanges = true;
+       JSType replacement = replacements.get(type);
+       return replacement != null ?
+           replacement : registry.getNativeType(UNKNOWN_TYPE);
+
+
+--- /tmp/GenProg_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeValidator.java	2018-12-02 05:54:28.179329267 -0500
++++ /tmp/GenProg_Defects4J_Closure_112/patches_1e4m/Patch_1081/patched/tmp/GenProg_Defects4J_Closure_112/src/com/google/javascript/jscomp/TypeValidator.java	2018-12-02 06:18:36.827347605 -0500
+@@ -685,8 +685,6 @@
+       Iterator<Node> paramItA = fnTypeA.getParameters().iterator();
+       Iterator<Node> paramItB = fnTypeB.getParameters().iterator();
+       while (paramItA.hasNext() && paramItB.hasNext()) {
+-        registerIfMismatch(paramItA.next().getJSType(),
+-            paramItB.next().getJSType(), error);
+       }
+ 
+       registerIfMismatch(
+
+

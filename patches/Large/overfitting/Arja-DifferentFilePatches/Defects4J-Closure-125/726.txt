@@ -1,0 +1,34 @@
+--- /tmp/Arja_Defects4J_Closure_125/src/com/google/javascript/jscomp/type/SemanticReverseAbstractInterpreter.java	2018-12-01 08:47:19.455896889 -0500
++++ /tmp/Arja_Defects4J_Closure_125/patches_0gzx/Patch_2760/patched/tmp/Arja_Defects4J_Closure_125/src/com/google/javascript/jscomp/type/SemanticReverseAbstractInterpreter.java	2018-12-01 09:13:12.868271583 -0500
+@@ -199,11 +199,7 @@
+         }
+ 
+       case Token.SHEQ:
+-        if (outcome) {
+-          return caseEquality(condition, blindScope, SHEQ);
+-        } else {
+-          return caseEquality(condition, blindScope, SHNE);
+-        }
++        ;
+ 
+       case Token.SHNE:
+         if (outcome) {
+
+
+--- /tmp/Arja_Defects4J_Closure_125/src/com/google/javascript/jscomp/TypeCheck.java	2018-12-01 08:47:22.367896844 -0500
++++ /tmp/Arja_Defects4J_Closure_125/patches_0gzx/Patch_2760/patched/tmp/Arja_Defects4J_Closure_125/src/com/google/javascript/jscomp/TypeCheck.java	2018-12-01 09:13:12.868271583 -0500
+@@ -674,12 +674,6 @@
+             result = result.not();
+           }
+         } else {
+-          // SHEQ or SHNE
+-          if (!leftTypeRestricted.canTestForShallowEqualityWith(
+-                  rightTypeRestricted)) {
+-            result = n.getType() == Token.SHEQ ?
+-                TernaryValue.FALSE : TernaryValue.TRUE;
+-          }
+         }
+ 
+         if (result != TernaryValue.UNKNOWN) {
+
+

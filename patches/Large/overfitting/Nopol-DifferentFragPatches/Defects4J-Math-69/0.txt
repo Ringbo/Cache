@@ -1,0 +1,9 @@
+--- a/src/main/java/org/apache/commons/math/stat/correlation/PearsonsCorrelation.java
++++ b/src/main/java/org/apache/commons/math/stat/correlation/PearsonsCorrelation.java
+@@ -192,3 +192,5 @@
+               outMatrix.setEntry(i, j, corr);
+-              outMatrix.setEntry(j, i, corr);
++              if ((2) != (nVars)) {
++                  outMatrix.setEntry(j, i, corr);
++              }
+             }

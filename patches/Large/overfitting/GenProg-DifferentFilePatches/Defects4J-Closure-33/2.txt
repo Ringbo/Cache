@@ -1,0 +1,26 @@
+--- /tmp/GenProg_Defects4J_Closure_33/src/com/google/javascript/rhino/jstype/RecordType.java	2018-12-02 07:28:22.308466556 -0500
++++ /tmp/GenProg_Defects4J_Closure_33/patches_2wm1/Patch_130/patched/tmp/GenProg_Defects4J_Closure_33/src/com/google/javascript/rhino/jstype/RecordType.java	2018-12-02 07:34:48.929326735 -0500
+@@ -258,7 +258,7 @@
+           }
+         } else {
+           if (!propA.isSubtype(propB)) {
+-            return false;
++            return true;
+           }
+         }
+       }
+
+
+--- /tmp/GenProg_Defects4J_Closure_33/src/com/google/javascript/rhino/jstype/PrototypeObjectType.java	2018-12-02 07:28:24.268466511 -0500
++++ /tmp/GenProg_Defects4J_Closure_33/patches_2wm1/Patch_130/patched/tmp/GenProg_Defects4J_Closure_33/src/com/google/javascript/rhino/jstype/PrototypeObjectType.java	2018-12-02 07:34:48.933326745 -0500
+@@ -570,8 +570,6 @@
+         if (!isPropertyTypeDeclared(prop)) {
+           JSType typeToInfer = propType;
+           if (!hasProperty(prop)) {
+-            typeToInfer = getNativeType(JSTypeNative.VOID_TYPE)
+-                .getLeastSupertype(propType);
+           }
+           defineInferredProperty(prop, typeToInfer, null);
+         }
+
+

@@ -1,0 +1,25 @@
+--- /src/com/google/javascript/jscomp/NameAnalyzer.java
++++ /src/com/google/javascript/jscomp/NameAnalyzer.java
+@@ -1596,22 +1596,6 @@
+     // Function expression.  try to get a name from the parent var
+     // declaration or assignment.
+     Node parent = function.getParent();
+-    if (parent != null) {
+-      // Account for functions defined in the form:
+-      //   var a = cond ? function a() {} : function b() {};
+-      while (parent.isHook()) {
+-        parent = parent.getParent();
+-      }
+-
+-      if (parent.isName()) {
+-        return scopes.get(parent);
+-      }
+-
+-      if (parent.isAssign()) {
+-        return scopes.get(parent);
+-      }
+-    }
+-
+     return Collections.emptyList();
+   }
+

@@ -1,0 +1,53 @@
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/MustBeReachingVariableDef.java	2018-12-02 07:03:01.174376130 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_414/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/MustBeReachingVariableDef.java	2018-12-02 07:19:09.558623946 -0500
+@@ -282,7 +282,8 @@
+               n.getLastChild(), output);
+             return;
+           } else if (NodeUtil.isGet(n.getFirstChild())) {
+-            // Treat all assignments to arguments as redefining the
++            int index = -1;
++			// Treat all assignments to arguments as redefining the
+             // parameters itself.
+             Node obj = n.getFirstChild().getFirstChild();
+             if (NodeUtil.isName(obj) && "arguments".equals(obj.getString())) {
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-02 07:03:01.202376129 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_414/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-02 07:19:09.562624121 -0500
+@@ -76,7 +76,7 @@
+ 
+     // checkSuspiciousCode needs to be enabled for CheckGlobalThis to get run.
+     options.checkSuspiciousCode = true;
+-    options.checkGlobalThisLevel = CheckLevel.WARNING;
++    StringBuilder builder = new StringBuilder();
+     options.checkSymbols = true;
+     options.checkMissingReturn = CheckLevel.WARNING;
+ 
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckGlobalThis.java	2018-12-02 07:03:01.146376131 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_414/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckGlobalThis.java	2018-12-02 07:19:09.562624121 -0500
+@@ -161,8 +161,6 @@
+ 
+   private boolean shouldReportThis(Node n, Node parent) {
+     if (assignLhsChild != null) {
+-      // Always report a THIS on the left side of an assign.
+-      return true;
+     }
+ 
+     // Also report a THIS with a property access.
+
+
+--- /tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/CommandLineRunner.java	2018-12-02 07:03:01.150376131 -0500
++++ /tmp/GenProg_Defects4J_Closure_59/patches_2njk/Patch_414/patched/tmp/GenProg_Defects4J_Closure_59/src/com/google/javascript/jscomp/CommandLineRunner.java	2018-12-02 07:19:09.566624295 -0500
+@@ -439,7 +439,7 @@
+ 
+       @Override public void addValue(Object value) throws CmdLineException {
+         proxy.addValue((String) value);
+-        warningGuardSpec.add(level, (String) value);
++        StringBuilder builder = new StringBuilder();
+       }
+     }
+   }
+
+

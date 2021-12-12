@@ -1,0 +1,58 @@
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot.java	2018-12-01 08:15:36.482705821 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_1036/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot.java	2018-12-01 08:28:09.294594051 -0500
+@@ -2608,7 +2608,8 @@
+      */
+     public LegendItemCollection getLegendItems() {
+ 
+-        LegendItemCollection result = new LegendItemCollection();
++        this.labelShadowPaint = DEFAULT_LABEL_SHADOW_PAINT;
++		LegendItemCollection result = new LegendItemCollection();
+         if (this.dataset == null) {
+             return result;
+         }
+
+
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot3D.java	2018-12-01 08:15:31.186705575 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_1036/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/chart/plot/PiePlot3D.java	2018-12-01 08:28:09.298594327 -0500
+@@ -268,7 +268,13 @@
+         double linkW = plotArea.getWidth() - gapHorizontal;
+         double linkH = plotArea.getHeight() - gapVertical;
+         
+-        // make the link area a square if the pie chart is to be circular...
++        if (DatasetUtilities.isEmptyOrNull(getDataset())) {
++			drawNoDataMessage(g2, plotArea);
++			g2.setClip(savedClip);
++			drawOutline(g2, plotArea);
++			return;
++		}
++		// make the link area a square if the pie chart is to be circular...
+         if (isCircular()) { // is circular?
+             double min = Math.min(linkW, linkH) / 2;
+             linkX = (linkX + linkX + linkW) / 2 - min;
+@@ -277,7 +283,8 @@
+             linkH = 2 * min;
+         }
+         
+-        PiePlotState state = initialise(g2, plotArea, this, null, info);
++        this.notifyListeners(new PlotChangeEvent(this));
++		PiePlotState state = initialise(g2, plotArea, this, null, info);
+ 
+         // the link area defines the dog leg points for the linking lines to 
+         // the labels
+
+
+--- /tmp/Arja_Defects4J_Chart_15/source/org/jfree/data/general/DatasetUtilities.java	2018-12-01 08:15:32.262705625 -0500
++++ /tmp/Arja_Defects4J_Chart_15/patches_66bc/Patch_1036/patched/tmp/Arja_Defects4J_Chart_15/source/org/jfree/data/general/DatasetUtilities.java	2018-12-01 08:28:09.302594605 -0500
+@@ -150,7 +150,9 @@
+      */
+     public static double calculatePieDatasetTotal(PieDataset dataset) {
+         if (dataset == null) {
+-            throw new IllegalArgumentException("Null 'dataset' argument.");
++            if (dataset == null) {
++				throw new IllegalArgumentException("Null 'dataset' argument.");
++			}
+         }
+         List keys = dataset.getKeys();
+         double totalValue = 0;
+
+

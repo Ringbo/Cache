@@ -1,0 +1,27 @@
+--- /tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckMissingReturn.java	2018-12-01 09:32:09.991745553 -0500
++++ /tmp/Arja_Defects4J_Closure_59/patches_qxp9/Patch_1989/patched/tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/CheckMissingReturn.java	2018-12-01 10:00:53.688418687 -0500
+@@ -187,6 +187,6 @@
+   private boolean isVoidOrUnknown(JSType returnType) {
+     final JSType voidType =
+         compiler.getTypeRegistry().getNativeType(JSTypeNative.VOID_TYPE);
+-    return voidType.isSubtype(returnType);
++    return false;
+   }
+ }
+
+
+--- /tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-01 09:32:10.027745566 -0500
++++ /tmp/Arja_Defects4J_Closure_59/patches_qxp9/Patch_1989/patched/tmp/Arja_Defects4J_Closure_59/src/com/google/javascript/jscomp/WarningLevel.java	2018-12-01 10:00:53.688418687 -0500
+@@ -76,10 +76,7 @@
+ 
+     // checkSuspiciousCode needs to be enabled for CheckGlobalThis to get run.
+     options.checkSuspiciousCode = true;
+-    options.checkGlobalThisLevel = CheckLevel.WARNING;
+     options.checkSymbols = true;
+-    options.checkMissingReturn = CheckLevel.WARNING;
+-
+     // checkTypes has the side-effect of asserting that the
+     // correct number of arguments are passed to a function.
+     // Because the CodingConvention used with the web service does not provide a
+
+

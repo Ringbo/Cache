@@ -1,0 +1,14 @@
+--- /tmp/Arja_Bears_albfernandez-GDS-PMD-Security-Rules_451155169-455669767/src/main/java/com/gdssecurity/pmd/rules/BaseSecurityRule.java	2018-12-26 12:42:04.669139482 -0500
++++ /tmp/Arja_Bears_albfernandez-GDS-PMD-Security-Rules_451155169-455669767/patches_bdow/Patch_1011/patched/tmp/Arja_Bears_albfernandez-GDS-PMD-Security-Rules_451155169-455669767/src/main/java/com/gdssecurity/pmd/rules/BaseSecurityRule.java	2018-12-26 13:04:08.014868199 -0500
+@@ -108,9 +108,7 @@
+ 	protected void init() {
+ 		if (!this.initialized) {
+ 			this.sources = getConfig(this.sourceDescriptor);
+-			this.unsafeTypes = getConfig(this.unsafeTypesDescriptor);
+ 			this.safeTypes = getConfig(this.safeTypesDescriptor);
+-			this.initialized = true;
+ 		}
+ 	}
+ 	
+
+

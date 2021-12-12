@@ -1,0 +1,25 @@
+--- /tmp/Arja_Defects4J_Closure_31/src/com/google/javascript/rhino/Node.java	2018-12-01 09:46:57.523791036 -0500
++++ /tmp/Arja_Defects4J_Closure_31/patches_4aem/Patch_1085/patched/tmp/Arja_Defects4J_Closure_31/src/com/google/javascript/rhino/Node.java	2018-12-01 10:11:15.552249386 -0500
+@@ -1456,7 +1456,7 @@
+       }
+       res = n.checkTreeEqualsImpl(n2);
+       if (res != null) {
+-        return res;
++        return null;
+       }
+     }
+     return res;
+
+
+--- /tmp/Arja_Defects4J_Closure_31/src/com/google/javascript/jscomp/CommandLineRunner.java	2018-12-01 09:46:57.479790781 -0500
++++ /tmp/Arja_Defects4J_Closure_31/patches_4aem/Patch_1085/patched/tmp/Arja_Defects4J_Closure_31/src/com/google/javascript/jscomp/CommandLineRunner.java	2018-12-01 10:11:15.552249386 -0500
+@@ -458,7 +458,6 @@
+             setter.addValue(false);
+           } else {
+             setter.addValue(true);
+-            return 0;
+           }
+           return 1;
+         }
+
+

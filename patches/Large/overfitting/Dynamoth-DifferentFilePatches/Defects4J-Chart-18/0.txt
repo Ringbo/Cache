@@ -1,0 +1,9 @@
+--- a/source/org/jfree/data/category/DefaultCategoryDataset.java
++++ b/source/org/jfree/data/category/DefaultCategoryDataset.java
+@@ -349,3 +349,5 @@
+     public void removeColumn(Comparable columnKey) {
+-        this.data.removeColumn(columnKey);
++        if (false) {
++            this.data.removeColumn(columnKey);
++        }
+         fireDatasetChanged();

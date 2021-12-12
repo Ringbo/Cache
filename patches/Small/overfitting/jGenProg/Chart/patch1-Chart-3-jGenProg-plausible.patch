@@ -1,0 +1,10 @@
+--- /source/org/jfree/data/time/TimeSeries.java
++++ /source/org/jfree/data/time/TimeSeries.java
+@@ -561,6 +561,7 @@
+      *              permitted).
+      */
+     public void add(TimeSeriesDataItem item) {
++        updateBoundsForRemovedItem(item);
+         add(item, true);
+     }
+ 

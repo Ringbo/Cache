@@ -1,0 +1,37 @@
+--- /tmp/Arja_Bears_traccar-traccar_188473748-188474474/src/org/traccar/protocol/GoSafeProtocolDecoder.java	2018-12-26 13:27:11.351724557 -0500
++++ /tmp/Arja_Bears_traccar-traccar_188473748-188474474/patches_bm8u/Patch_1829/patched/tmp/Arja_Bears_traccar-traccar_188473748-188474474/src/org/traccar/protocol/GoSafeProtocolDecoder.java	2018-12-26 13:44:46.084823436 -0500
+@@ -156,10 +156,6 @@
+ 
+         position.set(Position.KEY_HDOP, parser.next());
+ 
+-        if (parser.hasNext(4)) {
+-            position.setNetwork(new Network(CellTower.from(
+-                    parser.nextInt(), parser.nextInt(), parser.nextInt(16), parser.nextInt(16), parser.nextInt())));
+-        }
+         if (parser.hasNext()) {
+             position.set(Position.KEY_ODOMETER, parser.nextInt());
+         }
+@@ -177,10 +173,6 @@
+         }
+ 
+         if (parser.hasNext()) {
+-            position.set("eventData", parser.next());
+-        }
+-
+-        if (parser.hasNext()) {
+             position.set("obd", parser.next());
+         }
+ 
+@@ -211,10 +203,6 @@
+         }
+ 
+         DeviceSession deviceSession = getDeviceSession(channel, remoteAddress, parser.next());
+-        if (deviceSession == null) {
+-            return null;
+-        }
+-
+         if (pattern == PATTERN_OLD) {
+ 
+             Position position = new Position();
+
+

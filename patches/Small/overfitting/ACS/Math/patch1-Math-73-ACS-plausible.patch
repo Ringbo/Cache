@@ -1,0 +1,12 @@
+--- /src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java
++++ /src/main/java/org/apache/commons/math/analysis/solvers/BrentSolver.java
+@@ -134,7 +134,7 @@
+         }
+ 
+ 
+-        // full Brent algorithm starting with provided initial guess
++if (initial>(double)0.0){throw new IllegalArgumentException();}        // full Brent algorithm starting with provided initial guess
+         return solve(f, min, yMin, max, yMax, initial, yInitial);
+ 
+     }
+

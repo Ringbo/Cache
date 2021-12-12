@@ -1,0 +1,25 @@
+--- /tmp/RSRepair_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-02 02:59:03.224542878 -0500
++++ /tmp/RSRepair_Defects4J_Math_81/patches_cedi/Patch_43/patched/tmp/RSRepair_Defects4J_Math_81/src/main/java/org/apache/commons/math/linear/EigenDecompositionImpl.java	2018-12-02 03:01:16.879742114 -0500
+@@ -1533,7 +1533,19 @@
+                 final int np = nn - 2 * pingPong;
+                 double b1 = work[np - 2];
+                 double b2 = work[np - 6];
+-                final double gam = dN2;
++                for (int i4 = 4 * end - 10 + pingPong; i4 >= 4 * start + 2
++						+ pingPong; i4 -= 4) {
++					final double oldB1 = b1;
++					if (work[i4] > work[i4 - 2]) {
++						return;
++					}
++					b1 = b1 * (work[i4] / work[i4 - 2]);
++					b2 = b2 + b1;
++					if (100 * Math.max(b1, oldB1) < b2) {
++						break;
++					}
++				}
++				final double gam = dN2;
+                 if (work[np - 8] > b2 || work[np - 4] > b1) {
+                     return;
+                 }
+
+

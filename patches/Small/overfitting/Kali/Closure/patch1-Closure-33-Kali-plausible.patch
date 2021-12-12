@@ -1,0 +1,12 @@
+--- /src/com/google/javascript/rhino/jstype/PrototypeObjectType.java
++++ /src/com/google/javascript/rhino/jstype/PrototypeObjectType.java
+@@ -567,7 +567,7 @@
+     if (constraintObj.isRecordType()) {
+       for (String prop : constraintObj.getOwnPropertyNames()) {
+         JSType propType = constraintObj.getPropertyType(prop);
+-        if (!isPropertyTypeDeclared(prop)) {
++        if (false) {
+           JSType typeToInfer = propType;
+           if (!hasProperty(prop)) {
+             typeToInfer = getNativeType(JSTypeNative.VOID_TYPE)
+

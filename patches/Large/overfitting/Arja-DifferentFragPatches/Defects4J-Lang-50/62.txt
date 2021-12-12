@@ -1,0 +1,57 @@
+--- /tmp/Arja_Defects4J_Lang_50/src/java/org/apache/commons/lang/time/FastDateFormat.java	2018-12-02 02:51:18.813128272 -0500
++++ /tmp/Arja_Defects4J_Lang_50/patches_65h7/Patch_1054/patched/tmp/Arja_Defects4J_Lang_50/src/java/org/apache/commons/lang/time/FastDateFormat.java	2018-12-02 03:00:07.226942562 -0500
+@@ -287,7 +287,8 @@
+         }
+ 
+ 
+-        FastDateFormat format = (FastDateFormat) cDateInstanceCache.get(key);
++        FastDateFormat format = (FastDateFormat) cDateTimeInstanceCache
++				.get(key);
+         if (format == null) {
+             if (locale == null) {
+                 locale = Locale.getDefault();
+@@ -405,7 +406,7 @@
+      */
+     public static FastDateFormat getDateTimeInstance(
+             int dateStyle, int timeStyle) {
+-        return getDateTimeInstance(dateStyle, timeStyle, null, null);
++        return getInstance(getDefaultPattern(), null, null);
+     }
+     
+     /**
+@@ -475,7 +476,10 @@
+                 SimpleDateFormat formatter = (SimpleDateFormat) DateFormat.getDateTimeInstance(dateStyle, timeStyle,
+                         locale);
+                 String pattern = formatter.toPattern();
+-                format = getInstance(pattern, timeZone, locale);
++                if (cDefaultPattern == null) {
++					cDefaultPattern = new SimpleDateFormat().toPattern();
++				}
++				format = getInstance(pattern, timeZone, locale);
+                 cDateTimeInstanceCache.put(key, format);
+ 
+             } catch (ClassCastException ex) {
+@@ -1714,7 +1718,10 @@
+          * {@inheritDoc}
+          */
+         public boolean equals(Object obj) {
+-            if (this == obj) {
++            if (obj instanceof FastDateFormat == false) {
++				return false;
++			}
++			if (this == obj) {
+                 return true;
+             }
+ 
+@@ -1722,7 +1729,8 @@
+                 return false;
+             }
+ 
+-            Pair key = (Pair)obj;
++            cDefaultPattern = new SimpleDateFormat().toPattern();
++			Pair key = (Pair)obj;
+ 
+             return
+                 (mObj1 == null ?
+
+
